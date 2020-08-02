@@ -98,3 +98,4 @@ mix.then(() => {
 //     mix.setResourceRoot("/materialize-material-design-admin-template/laravel/demtechnical/");
 // }
 mix.version();
+mix.js('resources/assets/js/scripts.js', 'public/app');

@@ -46,7 +46,7 @@ License: You must have a valid license purchased only from themeforest(the above
     <!-- END: Header-->
     
     <!-- BEGIN: Content-->
-   <div class="app-content content">
+   <div class="app-content content" id="app">
     {{-- Application page structure --}}
     @if($configData['isContentSidebar'] === true)
       <div class="content-area-wrapper">

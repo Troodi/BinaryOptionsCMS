@@ -1,10 +1,9 @@
-(function(window, undefined) {
-  'use strict';
+import Vue from 'vue';
+window.io = require('socket.io-client');
 
-  /*
-  NOTE:
-  ------
-  PLACE HERE YOUR OWN JAVASCRIPT CODE IF NEEDED
-  WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR JAVASCRIPT CODE PLEASE CONSIDER WRITING YOUR SCRIPT HERE.  */
+const app = new Vue({ el: '#app' });
+// (function(window, undefined) {
+//   'use strict';
 
-})(window);
+//
+// })(window);
