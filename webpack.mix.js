@@ -100,3 +100,4 @@ mix.then(() => {
 //     mix.setResourceRoot("/materialize-material-design-admin-template/laravel/demo-1/");
 // }
 mix.version();
+mix.js('resources/assets/js/scripts.js', 'public/app');
