@@ -1,5 +1,6 @@
 {
-    "/app/scripts.js": "/app/scripts.js?id=6aef9e4d041c42672457",
+    "/app/app.js": "/app/app.js?id=e76edcd4216dbcb7c21c",
+    "/app/scripts.js": "/app/scripts.js?id=8e4d9eb3763b4cdf2e6b",
     "/css/core/colors/palette-noui.css": "/css/core/colors/palette-noui.css?id=c47022317e8a0afa2c6e",
     "/css/core/menu/menu-types/horizontal-menu.css": "/css/core/menu/menu-types/horizontal-menu.css?id=3638df14f15281a4e2aa",
     "/css/core/menu/menu-types/vertical-menu.css": "/css/core/menu/menu-types/vertical-menu.css?id=d282438b7e2365a1553a",
@@ -78,5 +79,5 @@
     "/js/scripts/pickers/dateTime/pick-a-datetime.js": "/js/scripts/pickers/dateTime/pick-a-datetime.js?id=e894264e108c0471485e",
     "/js/scripts/popover/popover.js": "/js/scripts/popover/popover.js?id=d89ae2372ccf7d8dd63e",
     "/js/scripts/tooltip/tooltip.js": "/js/scripts/tooltip/tooltip.js?id=da8b728d7c8d88f12b64",
-    "/assets/js/scripts.js": "/assets/js/scripts.js?id=9ac029b06dd435afcc49"
+    "/assets/js/scripts.js": "/assets/js/scripts.js?id=a1ce13bfbc68bafdae38"
 }

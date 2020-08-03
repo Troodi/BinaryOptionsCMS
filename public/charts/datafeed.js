@@ -64,7 +64,7 @@ async function getAllSymbols() {
 
 export default {
 	onReady: (callback) => {
-		console.log('[onReady]: Method call');
+		//console.log('[onReady]: Method call');
 		setTimeout(() => callback(configurationData));
 	},
 
@@ -91,13 +91,13 @@ export default {
 		onSymbolResolvedCallback,
 		onResolveErrorCallback,
 	) => {
-		console.log('[resolveSymbol]: Method call', symbolName);
+		//console.log('[resolveSymbol]: Method call', symbolName);
 		const symbols = await getAllSymbols();
 		const symbolItem = symbols.find(({
 			full_name,
 		}) => full_name === symbolName);
 		if (!symbolItem) {
-			console.log('[resolveSymbol]: Cannot resolve symbol', symbolName);
+			//console.log('[resolveSymbol]: Cannot resolve symbol', symbolName);
 			onResolveErrorCallback('cannot resolve symbol');
 			return;
 		}
@@ -118,14 +118,14 @@ export default {
 			data_status: 'streaming',
 		};
 		
-		console.log('[resolveSymbol]: Symbol resolved', symbolName);
+		//console.log('[resolveSymbol]: Symbol resolved', symbolName);
 		onSymbolResolvedCallback(symbolInfo);
 	},
 
 	getBars: async (symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) => {
-		console.log('[getBars]: Method call', symbolInfo, resolution, from, to);
+		//console.log('[getBars]: Method call', symbolInfo, resolution, from, to);
 		const parsedSymbol = parseFullSymbol(symbolInfo.full_name);
-		console.log(resolution);
+		//console.log(resolution);
 		let urlParameters = {
 			e: parsedSymbol.exchange,
 			fsym: parsedSymbol.fromSymbol,
@@ -165,12 +165,12 @@ export default {
 					...bars[bars.length - 1],
 				});
 			}
-			console.log(`[getBars]: returned ${bars.length} bar(s)`);
+			//console.log(`[getBars]: returned ${bars.length} bar(s)`);
 			onHistoryCallback(bars, {
 				noData: false,
 			});
 		} catch (error) {
-			console.log('[getBars]: Get error', error);
+			//console.log('[getBars]: Get error', error);
 			onErrorCallback(error);
 		}
 	},
@@ -182,7 +182,7 @@ export default {
 		subscribeUID,
 		onResetCacheNeededCallback,
 	) => {
-		console.log('[subscribeBars]: Method call with subscribeUID:', subscribeUID);
+		//console.log('[subscribeBars]: Method call with subscribeUID:', subscribeUID);
 		subscribeOnStream(
 			symbolInfo,
 			resolution,
@@ -194,7 +194,7 @@ export default {
 	},
 
 	unsubscribeBars: (subscriberUID) => {
-		console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
+		//console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
 		unsubscribeFromStream(subscriberUID);
 	},
 };

@@ -40,13 +40,13 @@ License: You must have a valid license purchased only from themeforest(the above
   <!-- BEGIN: Body-->
   <body class="vertical-layout vertical-menu-modern 1-column navbar-sticky {{$configData['bodyCustomClass']}} footer-static
   @if($configData['theme'] === 'dark'){{'dark-layout'}} @elseif($configData['theme'] === 'semi-dark'){{'semi-dark-layout'}} @else {{'light-layout'}} @endif" data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
-    
+
     <!-- BEGIN: Header-->
     @include('panels.navbar')
     <!-- END: Header-->
-    
+
     <!-- BEGIN: Content-->
-   <div class="app-content content" id="app">
+   <div class="app-content content">
     {{-- Application page structure --}}
     @if($configData['isContentSidebar'] === true)
       <div class="content-area-wrapper">
