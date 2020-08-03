@@ -26,7 +26,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 			<div class="sidebar-left">
 				<div class="sidebar">
           <menu></menu>
-{{--					@yield('sidebar-content')--}}
+{{--			@yield('sidebar-content')--}}
 				</div>
 			</div>
 			<div class="content-right">
@@ -51,7 +51,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 			</div>
 			<div class="content-body">
         <app></app>
-{{--				@yield('content')--}}
+{{--		@yield('content')--}}
 			</div>
 		</div>
 	@endif

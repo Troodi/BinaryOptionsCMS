@@ -17,7 +17,7 @@
 <script src="{{asset('vendors/js/ui/prism.min.js')}}"></script>
 @endsection
 
-@section('page-scripts')
+@section('above-vendor-scripts')
   <script type="text/javascript" src="/charts/charting_library/charting_library.min.js"></script>
   <script type="module" src="/charts/main.js"></script>
 @endsection

@@ -3,11 +3,12 @@
     <script>
       var assetBaseUrl = "{{ asset('') }}";
     </script>
-    <script src="{{asset('app/app.js')}}"></script>
+    @yield('above-vendor-scripts')
     <script src="{{asset('vendors/js/vendors.min.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.tools.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.defaults.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.min.js')}}"></script>
+    <script src="{{asset('app/app.js')}}"></script>
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->

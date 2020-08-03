@@ -14,6 +14,6 @@ class SpaController extends Controller
    */
   public function index()
   {
-    return view('pages.sk-layout-2-columns');
+    return view('pages.main');
   }
 }
