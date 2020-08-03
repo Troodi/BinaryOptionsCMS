@@ -13,12 +13,6 @@ use App\Http\Controllers\LanguageController;
 // dashboard Routes
 Route::get('/','StarterKitController@index');
 
-// locale Route
-Route::get('lang/{locale}',[LanguageController::class,'swap']);
-
-// acess controller
-Route::get('/access-control', 'AccessController@index');
-Route::get('/access-control/{roles}', 'AccessController@roles');
-Route::get('/ecommerce', 'AccessController@home')->middleware('role:Admin');
-
 Auth::routes();
+
+Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');

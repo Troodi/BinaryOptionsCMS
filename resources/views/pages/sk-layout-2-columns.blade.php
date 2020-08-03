@@ -9,17 +9,7 @@
 @endsection
 
 @section('content')
-<section id="trading" class="card">
-  <div class="card-content">
-    <div class="card-body p-0">
-      <div class="card-text">
-        <div id="tv_chart_container">
-          <!-- This div will contain the Charting Library widget. -->
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
 @endsection
 
 {{-- vendor scripts --}}
