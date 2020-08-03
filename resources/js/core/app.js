@@ -88,12 +88,12 @@
     })
 
     function updateLivicon(el) {
-      el.updateLiviconEvo({
-        strokeColor: menuActiveIconColorsObj.iconStrokeColor,
-        solidColor: menuActiveIconColorsObj.iconSolidColor,
-        fillColor: menuActiveIconColorsObj.iconFillColor,
-        strokeColorAlt: menuActiveIconColorsObj.iconStrokeColorAlt
-      })
+      // el.updateLiviconEvo({
+      //   strokeColor: menuActiveIconColorsObj.iconStrokeColor,
+      //   solidColor: menuActiveIconColorsObj.iconSolidColor,
+      //   fillColor: menuActiveIconColorsObj.iconFillColor,
+      //   strokeColorAlt: menuActiveIconColorsObj.iconStrokeColorAlt
+      // })
     }
 
     // Navigation configurations

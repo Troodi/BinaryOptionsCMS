@@ -23,18 +23,15 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="lines">
-                <li class="nav-item" v-for="route in this.$router.options.routes">
-<!--                    <a href="/">-->
-<!--                        <i class="menu-livicon" data-icon="desktop"></i>-->
-<!--                        <span class="menu-title">Title</span>-->
-<!--                        <span class="badge badge-light-danger badge-pill badge-round float-right mr-2">tag</span>-->
-<!--                    </a>-->
-                    <router-link :to="route.path">
-                        <i class="menu-livicon" data-icon="desktop"></i>
-                        <span class="menu-title">{{ route.name }}</span>
-                        <span class="badge badge-light-danger badge-pill badge-round float-right mr-2">1</span>
-                    </router-link>
-                </li>
+                <router-link v-for="(route,index) in this.$router.options.routes" :key="index" :to="route.path" v-slot="{ href, route, navigate, isActive, isExactActive }">
+                    <li class="nav-item" :class="[isExactActive && 'active']">
+                        <a :href="href" @click="navigate">
+                            <i class="menu-livicon" :data-icon="route.meta.icon"></i>
+                            <span class="menu-title">{{ route.name }}</span>
+                            <span class="badge badge-light-danger badge-pill badge-round float-right mr-2">1</span>
+                        </a>
+                    </li>
+                </router-link>
             </ul>
         </div>
     </div>
@@ -42,10 +39,7 @@
 
 <script>
     export default {
-        name: "Menu",
-        created() {
-            console.log(this.$router);
-        }
+        name: "Menu"
     }
 </script>
 

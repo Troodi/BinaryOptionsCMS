@@ -613,12 +613,12 @@
       $(".main-menu-content").find('li.active').parents('li').addClass('sidebar-group-active');
 
       function updateLivicon(el) {
-        el.updateLiviconEvo({
-          strokeColor: menuActiveIconColorsObj.iconStrokeColor,
-          solidColor: menuActiveIconColorsObj.iconSolidColor,
-          fillColor: menuActiveIconColorsObj.iconFillColor,
-          strokeColorAlt: menuActiveIconColorsObj.iconStrokeColorAlt
-        })
+        // el.updateLiviconEvo({
+        //   strokeColor: menuActiveIconColorsObj.iconStrokeColor,
+        //   solidColor: menuActiveIconColorsObj.iconSolidColor,
+        //   fillColor: menuActiveIconColorsObj.iconFillColor,
+        //   strokeColorAlt: menuActiveIconColorsObj.iconStrokeColorAlt
+        // })
       }
 
       // Update Active Menu item Icon with active color

@@ -92,12 +92,12 @@
 
     // Update livicon colors
     function updateLivicon(el){
-      el.updateLiviconEvo({
-        strokeColor: selectedTextColor,
-        solidColor: selectedTextColor,
-        fillColor: selectedTextColor,
-        strokeColorAlt: selectedTextColor
-        })
+      // el.updateLiviconEvo({
+      //   strokeColor: selectedTextColor,
+      //   solidColor: selectedTextColor,
+      //   fillColor: selectedTextColor,
+      //   strokeColorAlt: selectedTextColor
+      //   })
     }
 
     // main-menu

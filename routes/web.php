@@ -11,8 +11,6 @@ use App\Http\Controllers\LanguageController;
 |
 */
 // dashboard Routes
-Route::get('/','StarterKitController@index');
-
 Auth::routes();
 
 Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
