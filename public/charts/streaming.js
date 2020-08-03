@@ -4,19 +4,19 @@ const socket = io('wss://streamer.cryptocompare.com');
 const channelToSubscription = new Map();
 
 socket.on('connect', () => {
-	console.log('[socket] Connected');
+	//console.log('[socket] Connected');
 });
 
 socket.on('disconnect', (reason) => {
-	console.log('[socket] Disconnected:', reason);
+	//console.log('[socket] Disconnected:', reason);
 });
 
 socket.on('error', (error) => {
-	console.log('[socket] Error:', error);
+	//console.log('[socket] Error:', error);
 });
 
 socket.on('m', data => {
-	console.log('[socket] Message:', data);
+	//console.log('[socket] Message:', data);
 	const [
 		eventTypeStr,
 		exchange,
@@ -29,7 +29,7 @@ socket.on('m', data => {
 		tradePriceStr,
 	] = data.split('~');
 
-	console.log(eventTypeStr);
+	//console.log(eventTypeStr);
 
 	if (parseInt(eventTypeStr) !== 0) {
 		// skip all non-TRADE events
@@ -63,7 +63,7 @@ socket.on('m', data => {
 			low: Math.min(lastDailyBar.low, tradePrice),
 			close: tradePrice,
 		};
-		console.log('[socket] Update the latest bar by price', tradePrice);
+		//console.log('[socket] Update the latest bar by price', tradePrice);
 	}
 	subscriptionItem.lastDailyBar = bar;
 
@@ -106,7 +106,7 @@ export function subscribeOnStream(
 		handlers: [handler],
 	};
 	channelToSubscription.set(channelString, subscriptionItem);
-	console.log('[subscribeBars]: Subscribe to streaming. Channel:', channelString);
+	//console.log('[subscribeBars]: Subscribe to streaming. Channel:', channelString);
 	socket.emit('SubAdd', { subs: [channelString] });
 }
 

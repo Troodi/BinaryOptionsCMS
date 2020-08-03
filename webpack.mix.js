@@ -99,3 +99,4 @@ mix.then(() => {
 // }
 mix.version();
 mix.js('resources/assets/js/scripts.js', 'public/app');
+mix.js('resources/vuejs/app.js', 'public/app');
