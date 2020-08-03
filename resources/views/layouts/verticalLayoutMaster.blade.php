@@ -8,23 +8,25 @@
 @if($configData['mainLayoutType'] === 'vertical-menu-boxicons'){{'boxicon-layout'}}@endif
 @if($configData['isCardShadow'] === false){{'no-card-shadow'}}@endif"
 data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
-
+<div id="app">
   <!-- BEGIN: Header-->
   @include('panels.navbar')
   <!-- END: Header-->
 
   <!-- BEGIN: Main Menu-->
-  @include('panels.sidebar')
+  <menu-component></menu-component>
+{{--  @include('panels.sidebar')--}}
   <!-- END: Main Menu-->
 
   <!-- BEGIN: Content-->
-  <div class="app-content content" id="app">
+  <div class="app-content content">
   {{-- Application page structure --}}
 	@if($configData['isContentSidebar'] === true)
 		<div class="content-area-wrapper">
 			<div class="sidebar-left">
 				<div class="sidebar">
-					@yield('sidebar-content')
+          <menu></menu>
+{{--					@yield('sidebar-content')--}}
 				</div>
 			</div>
 			<div class="content-right">
@@ -33,7 +35,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
           <div class="content-header row">
           </div>
           <div class="content-body">
-            @yield('content')
+{{--            @yield('content')--}}
           </div>
         </div>
 			</div>
@@ -48,7 +50,8 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
         @endif
 			</div>
 			<div class="content-body">
-				@yield('content')
+        <app></app>
+{{--				@yield('content')--}}
 			</div>
 		</div>
 	@endif
@@ -61,7 +64,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
   <!-- BEGIN: Footer-->
     @include('panels.footer')
   <!-- END: Footer-->
-
+</div>
   @include('panels.scripts')
 </body>
 <!-- END: Body-->

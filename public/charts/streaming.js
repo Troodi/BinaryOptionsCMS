@@ -55,7 +55,7 @@ socket.on('m', data => {
 			low: tradePrice,
 			close: tradePrice,
 		};
-		console.log('[socket] Generate new bar', bar);
+		//console.log('[socket] Generate new bar', bar);
 	} else {
 		bar = {
 			...lastDailyBar,
@@ -123,7 +123,7 @@ export function unsubscribeFromStream(subscriberUID) {
 
 			if (subscriptionItem.handlers.length === 0) {
 				// unsubscribe from the channel, if it was the last handler
-				console.log('[unsubscribeBars]: Unsubscribe from streaming. Channel:', channelString);
+				//console.log('[unsubscribeBars]: Unsubscribe from streaming. Channel:', channelString);
 				socket.emit('SubRemove', { subs: [channelString] });
 				channelToSubscription.delete(channelString);
 				break;
