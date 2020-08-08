@@ -43,17 +43,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 	@else
     {{-- others page structures --}}
     <div class="content-overlay"></div>
-		<div class="content-wrapper">
-			<div class="content-header row">
-        @if($configData['pageHeader']=== true && isset($breadcrumbs))
-          @include('panels.breadcrumbs')
-        @endif
-			</div>
-			<div class="content-body">
-        <app></app>
-{{--		@yield('content')--}}
-			</div>
-		</div>
+    <app></app>
 	@endif
   </div>
   <!-- END: Content-->
@@ -62,7 +52,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
   <div class="drag-target"></div>
 
   <!-- BEGIN: Footer-->
-    @include('panels.footer')
+  <footer-component></footer-component>
   <!-- END: Footer-->
 </div>
   @include('panels.scripts')

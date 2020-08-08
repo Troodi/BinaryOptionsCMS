@@ -12,7 +12,7 @@ return [
         'isMenuCollapsed' => false, // options:true or false(default)  Warning:this option is not applicable for horizontal-menu template
         'footerType' => 'static', //options:fixed,static,hidden
         'templateTitle' => 'GetOption', //template Title can be changed, default(Frest)
-        'isCardShadow' => true, // Option: true(default) and false ( remove card shadow)
+        'isCardShadow' => false, // Option: true(default) and false ( remove card shadow)
         'isScrollTop' => true, // Option: true and false (Hide Scroll To Top)
         'defaultLanguage'=>'en', //set your default language Options: en(default),pt,fr,de
         'direction' => env('MIX_CONTENT_DIRECTION', 'ltr'), // Page direction
