@@ -471,7 +471,7 @@ body {
     // ----
     .card {
       background-color: $theme-dark-card-color;
-      box-shadow: -8px 12px 20px 0 rgba($theme-dark-card-shadow, 0.63) !important;
+      box-shadow: -8px 12px 20px 0 rgba($theme-dark-card-shadow, 0.63);
       .card-header,
       .card-footer {
         color: $theme-dark-text-color;

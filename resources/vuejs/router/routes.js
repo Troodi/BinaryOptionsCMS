@@ -16,7 +16,7 @@ import Profile from "../views/user/Profile";
 //  */
 export const routes = [
     //Students
-    { path: '/', name: 'Trading', component: Trading, meta: { icon: 'desktop' } },
+    { path: '/', name: 'Trading', component: Trading, meta: { icon: 'desktop', hideFooter: true } },
     { path: '/profile', name: 'Profile', component: Profile, meta: { icon: 'gear' } },
 ];
 

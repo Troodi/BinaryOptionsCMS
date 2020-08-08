@@ -14,19 +14,9 @@ const configurationData = {
 	supported_resolutions: ['1s', '3s', '5s', '10s', '15s', '30s', '1', '3', '5', '10', '15', '30'],
 	exchanges: [{
 		value: 'Bitfinex',
-		name: 'Bitfinex',
-		desc: 'Bitfinex',
-	},
-	{
-		// `exchange` argument for the `searchSymbols` method, if a user selects this exchange
-		value: 'Kraken',
-
-		// filter name
-		name: 'Kraken',
-
-		// full exchange name displayed in the filter popup
-		desc: 'Kraken bitcoin exchange',
-	},
+		name: 'Binary Option',
+		desc: 'Binary Option',
+	}
 	],
 	symbols_types: [{
 		name: 'crypto',
@@ -51,7 +41,7 @@ async function getAllSymbols() {
 				return {
 					symbol: symbol.short,
 					full_name: symbol.full,
-					description: symbol.short,
+					description: "75%",
 					exchange: exchange.value,
 					type: 'crypto',
 				};
@@ -117,8 +107,10 @@ export default {
 			volume_precision: 2,
 			data_status: 'streaming',
 		};
-		
-		//console.log('[resolveSymbol]: Symbol resolved', symbolName);
+		if(typeof window.button !== 'undefined') {
+			window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">' + symbolItem.symbol + '</strong>';
+		}
+		console.log('[resolveSymbol]: Symbol resolved', symbolInfo);
 		onSymbolResolvedCallback(symbolInfo);
 	},
 
