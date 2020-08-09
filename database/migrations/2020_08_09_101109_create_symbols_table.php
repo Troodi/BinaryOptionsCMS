@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEurUsd15STable extends Migration
+class CreateSymbolsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateEurUsd15STable extends Migration
      */
     public function up()
     {
-        Schema::create('eur_usd15_s', function (Blueprint $table) {
+        Schema::create('symbols', function (Blueprint $table) {
             $table->id();
-            $table->decimal('high', 10, 5);
-            $table->decimal('low', 10, 5);
-            $table->decimal('open', 10, 5);
-            $table->decimal('close', 10, 5);
+            $table->string('symbol');
+            $table->integer('order');
+            $table->integer('status')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateEurUsd15STable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('eur_usd15_s');
+        Schema::dropIfExists('symbols');
     }
 }
