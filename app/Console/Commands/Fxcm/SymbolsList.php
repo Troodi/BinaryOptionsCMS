@@ -8,6 +8,7 @@ use FxcmRest\FxcmRest;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use React\EventLoop\Factory;
 use Illuminate\Database\Schema\Blueprint;
 
@@ -25,7 +26,7 @@ class SymbolsList extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Fill symbols DB and create symbols tables';
 
     /**
      * Create a new command instance.
@@ -52,13 +53,26 @@ class SymbolsList extends Command
       ]);
 
       $rest = new FxcmRest($loop, $config);
-      $rest->on('connected', function() use ($rest) {
+      $rest->on('connected', function() use ($rest, $loop) {
+        $loop->addPeriodicTimer(1, function () use ($rest) {
+          $rest->socketIO->wssend("5");
+          $rest->socketIO->startPinging();
+        });
         $rest->request('GET', '/trading/get_instruments',
           [],
           function ($code, $data) use ($rest) {
             foreach(json_decode($data)->data->instrument as $symbol){
               $model = new Symbol;
               $model->symbol = $symbol->symbol;
+              if(Str::contains($symbol->symbol, '/')){
+                $exploded = explode('/', $symbol->symbol);
+                $model->first = $exploded[0];
+                $model->second = $exploded[1];
+                $model->type = 1;
+              } else {
+                $model->first = $symbol->symbol;
+                $model->type = 2;
+              }
               $model->order = $symbol->order;
               if(preg_match('/[A-z]{3}\/[A-z]{3}/', $symbol->symbol)){
                 //TODO Понять как лучше

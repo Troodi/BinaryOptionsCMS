@@ -13,7 +13,7 @@ const lastBarsCache = new Map();
 const configurationData = {
 	supported_resolutions: ['1s', '3s', '5s', '10s', '15s', '30s', '1', '3', '5', '10', '15', '30'],
 	exchanges: [{
-		value: 'Bitfinex',
+		value: 'Binary',
 		name: 'Binary Option',
 		desc: 'Binary Option',
 	}
@@ -29,26 +29,44 @@ const configurationData = {
 };
 
 async function getAllSymbols() {
-	const data = await makeApiRequest('data/v3/all/exchanges');
+	// const data = await makeApiRequest('data/v3/all/exchanges');
+	// let allSymbols = [];
+	//
+	// for (const exchange of configurationData.exchanges) {
+	// 	const pairs = data.Data[exchange.value].pairs;
+	// 	for (const leftPairPart of Object.keys(pairs)) {
+	// 		const symbols = pairs[leftPairPart].map(rightPairPart => {
+	// 			const symbol = generateSymbol(exchange.value, leftPairPart, rightPairPart);
+	// 			return {
+	// 				symbol: symbol.short,
+	// 				full_name: symbol.full,
+	// 				description: "75%",
+	// 				exchange: exchange.value,
+	// 				type: 'crypto',
+	// 			};
+	// 		});
+	// 		allSymbols = [...allSymbols, ...symbols];
+	// 	}
+	// }
+	// return allSymbols;
+
+	const data = await makeApiRequest('data/symbols');
 	let allSymbols = [];
 
 	for (const exchange of configurationData.exchanges) {
-		const pairs = data.Data[exchange.value].pairs;
-
-		for (const leftPairPart of Object.keys(pairs)) {
-			const symbols = pairs[leftPairPart].map(rightPairPart => {
-				const symbol = generateSymbol(exchange.value, leftPairPart, rightPairPart);
-				return {
-					symbol: symbol.short,
-					full_name: symbol.full,
-					description: "75%",
-					exchange: exchange.value,
-					type: 'crypto',
-				};
-			});
-			allSymbols = [...allSymbols, ...symbols];
+		const pairs = data;
+		for(const symbol of pairs){
+			let current = {
+				symbol: symbol.symbol,
+				full_name: "Binary:" + symbol.symbol,
+				description: "75%",
+				exchange: exchange.value,
+				type: 'crypto',
+			};
+			allSymbols.push(current);
 		}
 	}
+	console.log(allSymbols);
 	return allSymbols;
 }
 

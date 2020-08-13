@@ -10,5 +10,5 @@
 |
 */
 Auth::routes();
-Route::get("/test", 'Main\TradingController@selectDB');
+Route::get("/data/symbols", 'Main\SymbolsHistoryController@getExchanges');
 Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
