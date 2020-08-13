@@ -9,7 +9,6 @@ import {
 } from './streaming.js';
 
 const lastBarsCache = new Map();
-
 const configurationData = {
 	supported_resolutions: ['1s', '3s', '5s', '10s', '15s', '30s', '1', '3', '5', '10', '15', '30'],
 	exchanges: [{
@@ -19,10 +18,10 @@ const configurationData = {
 	}
 	],
 	symbols_types: [{
-		name: 'crypto',
+		name: 'forex',
 
 		// `symbolType` argument for the `searchSymbols` method, if a user selects this symbol type
-		value: 'crypto',
+		value: 'forex',
 	},
 		// ...
 	],
@@ -61,12 +60,11 @@ async function getAllSymbols() {
 				full_name: "Binary:" + symbol.symbol,
 				description: "75%",
 				exchange: exchange.value,
-				type: 'crypto',
+				type: 'forex',
 			};
 			allSymbols.push(current);
 		}
 	}
-	console.log(allSymbols);
 	return allSymbols;
 }
 
@@ -82,7 +80,6 @@ export default {
 		symbolType,
 		onResultReadyCallback,
 	) => {
-		console.log('[searchSymbols]: Method call');
 		const symbols = await getAllSymbols();
 		const newSymbols = symbols.filter(symbol => {
 			const isExchangeValid = exchange === '' || symbol.exchange === exchange;
@@ -117,7 +114,7 @@ export default {
 			timezone: 'Etc/UTC',
 			exchange: symbolItem.exchange,
 			minmov: 1,
-			pricescale: 100,
+			pricescale: 100000,
 			has_intraday: true,
 			has_no_volume: true,
 			has_weekly_and_monthly: true,
@@ -151,7 +148,7 @@ export default {
 			.join('&');
 		try {
 			const data = await makeApiRequest(`data/histominute?${query}`);
-			if (data.Response && data.Response === 'Error' || data.Data.length === 0) {
+			if (data.Response && data.Response === 'Error' || data.length === 0) {
 				// "noData" should be set if there is no data in the requested period.
 				onHistoryCallback([], {
 					noData: true,
@@ -159,7 +156,7 @@ export default {
 				return;
 			}
 			let bars = [];
-			data.Data.forEach(bar => {
+			data.forEach(bar => {
 				if (bar.time >= from && bar.time < to) {
 					bars = [...bars, {
 						time: bar.time * 1000,

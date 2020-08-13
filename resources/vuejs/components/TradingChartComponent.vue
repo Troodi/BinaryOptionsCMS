@@ -45,7 +45,7 @@
                                 window.button.classList.add('apply-common-tooltip');
                                 window.button.classList.add('button-symbol-get');
                                 window.button.addEventListener('click', () => window.tvWidget.chart().executeActionById('symbolSearch'));
-                                window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">BTC/USD</strong>';
+                                window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">EUR/USD</strong>';
                                 $('#' + window.tvWidget._iFrame.name).contents().find('#header-toolbar-symbol-search').replaceWith($('#' + window.tvWidget._iFrame.name).contents().find('.button-symbol-get'))
                                 // window.tvWidget.chart().onSymbolChanged ().subscribe(null, function(symbol) {
                                 //     console.log(symbol)

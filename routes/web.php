@@ -11,4 +11,5 @@
 */
 Auth::routes();
 Route::get("/data/symbols", 'Main\SymbolsHistoryController@getExchanges');
+Route::get("/data/histominute", 'Main\SymbolsHistoryController@historyMinute');
 Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
