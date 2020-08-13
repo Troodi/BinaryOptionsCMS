@@ -23,10 +23,13 @@
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
+        "laravel-echo": "^1.8.1",
+        "laravel-echo-server": "^1.6.2",
         "requirejs": "^2.3.6",
         "rtlcss": "^2.5.0",
         "socket.io-client": "^2.3.0",
         "vue": "^2.6.11",
+        "vue-echo-laravel": "0.0.6",
         "vue-router": "^3.3.4"
     }
 }

@@ -125,7 +125,7 @@ export default {
 		if(typeof window.button !== 'undefined') {
 			window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">' + symbolItem.symbol + '</strong>';
 		}
-		console.log('[resolveSymbol]: Symbol resolved', symbolInfo);
+		//console.log('[resolveSymbol]: Symbol resolved', symbolInfo);
 		onSymbolResolvedCallback(symbolInfo);
 	},
 
