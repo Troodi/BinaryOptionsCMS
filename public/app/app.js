@@ -1926,7 +1926,7 @@ __webpack_require__.r(__webpack_exports__);
           clearInterval(interval);
           window.tvWidget = new window.TradingView.widget({
             locale: "ru",
-            symbol: 'Bitfinex:BTC/USD',
+            symbol: 'Binary:EUR/USD',
             // default symbol
             interval: '1',
             // default interval

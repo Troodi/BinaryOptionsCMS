@@ -16,6 +16,9 @@ class CreateSymbolsTable extends Migration
         Schema::create('symbols', function (Blueprint $table) {
             $table->id();
             $table->string('symbol');
+            $table->string('first')->nullable();
+            $table->string('second')->nullable();
+            $table->integer('type')->nullable();
             $table->integer('order');
             $table->integer('status')->nullable();
             $table->timestamps();
