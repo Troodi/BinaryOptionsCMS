@@ -60,6 +60,23 @@
         name: "Trading",
         components : {
             TradingChartComponent
+        },
+        mounted() {
+            this.$echo.channel('quotes').listen('Trading.NewQuoteEvent', (e) => {
+                console.log(e);
+            });
+
+            this.$echo.connector.socket.on('connect', () => {
+                console.log('connected', this.$echo.connector.socket.id);
+            });
+
+            this.$echo.connector.socket.on('disconnect', () => {
+                console.log('disconnected');
+            });
+
+            this.$echo.connector.socket.on('reconnecting', (attemptNumber) => {
+                console.log('reconnecting', attemptNumber);
+            });
         }
     }
 </script>

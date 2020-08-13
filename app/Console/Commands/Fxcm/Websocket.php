@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands\Fxcm;
 
+use App\Events\Trading\NewQuoteEvent;
+use App\Models\Symbols\Options\Symbol;
 use FxcmRest\FxcmRest;
 use Illuminate\Console\Command;
 use \React\EventLoop\Factory;
@@ -48,7 +50,12 @@ class Websocket extends Command
 
       $rest = new FxcmRest($loop, $config);
       $rest->on('connected', function() use ($rest) {
-        $pairs = ['EUR/USD', 'XAU/USD', 'USD/CHF', 'GBP/USD', 'EUR/GBP', 'NZD/USD', 'USD/CAD', 'USD/JPY'];
+        $pairs = [];
+        foreach (Symbol::all()->take(20) as $symbol){
+          $pairs[] = $symbol->symbol;
+          echo '.';
+        }
+        //$pairs = ['EUR/USD', 'XAU/USD', 'USD/CHF', 'GBP/USD', 'EUR/GBP', 'NZD/USD', 'USD/CAD', 'USD/JPY'];
         foreach($pairs as $pair) {
           $rest->request('POST', '/subscribe',
             ['pairs' => $pair],
@@ -56,6 +63,7 @@ class Websocket extends Command
               if ($code === 200) {
                 $rest->on($pair, function ($data) use ($rest) {
                   $decoded = json_decode($data);
+                  event(new NewQuoteEvent($decoded->Symbol, number_format(($decoded->Rates[0]+$decoded->Rates[1])/2, 5, '.', '')));
                   echo date("H:i:s") . " - " . $decoded->Symbol . " " . number_format(($decoded->Rates[0]+$decoded->Rates[1])/2, 5, '.', '') . PHP_EOL;
                 });
               }
