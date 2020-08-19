@@ -1,42 +1,19 @@
 import { parseFullSymbol } from './helpers.js';
-
-const socket = io('wss://streamer.cryptocompare.com');
+import Echo from "laravel-echo"
+window.io = require('socket.io-client');
+window.Echo = new Echo({
+	broadcaster: 'socket.io',
+	host: window.location.hostname + ':6001',
+});
 const channelToSubscription = new Map();
 
-socket.on('connect', () => {
-	//console.log('[socket] Connected');
-});
-
-socket.on('disconnect', (reason) => {
-	//console.log('[socket] Disconnected:', reason);
-});
-
-socket.on('error', (error) => {
-	//console.log('[socket] Error:', error);
-});
-
-socket.on('m', data => {
+window.Echo.channel('quotes').listen('Trading.NewQuoteEvent', (data) => {
 	//console.log('[socket] Message:', data);
-	const [
-		eventTypeStr,
-		exchange,
-		fromSymbol,
-		toSymbol,
-		,
-		,
-		tradeTimeStr,
-		,
-		tradePriceStr,
-	] = data.split('~');
-
-	//console.log(eventTypeStr);
-
-	if (parseInt(eventTypeStr) !== 0) {
-		// skip all non-TRADE events
-		return;
-	}
-	const tradePrice = parseFloat(tradePriceStr);
-	const tradeTime = parseInt(tradeTimeStr);
+	let fromSymbol = data.from;
+	let toSymbol = data.to;
+	const exchange = 'Binary';
+	const tradePrice = data.price;
+	const tradeTime = data.time;
 	const channelString = `0~${exchange}~${fromSymbol}~${toSymbol}`;
 	const subscriptionItem = channelToSubscription.get(channelString);
 	if (subscriptionItem === undefined) {
@@ -46,11 +23,10 @@ socket.on('m', data => {
 	const nextDailyBarTime = getNextDailyBarTime(lastDailyBar.time, subscriptionItem.resolution);
 
 	let bar;
-
-	if (tradeTime >= nextDailyBarTime / 1000) {
+	if (tradeTime >= nextDailyBarTime) {
 		bar = {
-			time: nextDailyBarTime,
-			open: tradePrice,
+			time: tradeTime,
+			open: lastDailyBar.close,
 			high: tradePrice,
 			low: tradePrice,
 			close: tradePrice,
@@ -71,10 +47,23 @@ socket.on('m', data => {
 	subscriptionItem.handlers.forEach(handler => handler.callback(bar));
 });
 
+window.Echo.connector.socket.on('connect', () => {
+	console.log('connected', window.Echo.socketId());
+});
+
+window.Echo.connector.socket.on('disconnect', () => {
+	console.log('disconnected');
+});
+
+window.Echo.connector.socket.on('reconnecting', (attemptNumber) => {
+	console.log('reconnecting', attemptNumber);
+});
+
 function getNextDailyBarTime(barTime, resolution) {
 	if(resolution === '1' || resolution === '3' || resolution === '5' || resolution === '10' || resolution === '15' || resolution === '30') {
 		const date = new Date(barTime);
 		date.setMinutes(date.getMinutes() + parseInt(resolution));
+		date.setSeconds(0);
 		return date.getTime();
 	}
 }
@@ -107,7 +96,7 @@ export function subscribeOnStream(
 	};
 	channelToSubscription.set(channelString, subscriptionItem);
 	//console.log('[subscribeBars]: Subscribe to streaming. Channel:', channelString);
-	socket.emit('SubAdd', { subs: [channelString] });
+	//socket.emit('SubAdd', { subs: [channelString] });
 }
 
 export function unsubscribeFromStream(subscriberUID) {
@@ -124,7 +113,7 @@ export function unsubscribeFromStream(subscriberUID) {
 			if (subscriptionItem.handlers.length === 0) {
 				// unsubscribe from the channel, if it was the last handler
 				//console.log('[unsubscribeBars]: Unsubscribe from streaming. Channel:', channelString);
-				socket.emit('SubRemove', { subs: [channelString] });
+				//socket.emit('SubRemove', { subs: [channelString] });
 				channelToSubscription.delete(channelString);
 				break;
 			}

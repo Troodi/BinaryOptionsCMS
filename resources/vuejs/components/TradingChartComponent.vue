@@ -5,6 +5,9 @@
 </template>
 
 <script>
+    import Datafeed from "../../assets/js/datafeed";
+    window.Datafeed = Datafeed;
+
     export default {
         name: "Trading",
         created() {

@@ -49,13 +49,17 @@ class Websocket extends Command
       ]);
 
       $rest = new FxcmRest($loop, $config);
-      $rest->on('connected', function() use ($rest) {
+      $rest->on('connected', function() use ($rest, $loop) {
+        $loop->addPeriodicTimer(1, function () use ($rest) {
+          $rest->socketIO->wssend("5");
+          $rest->socketIO->startPinging();
+        });
         $pairs = [];
         foreach (Symbol::all()->take(20) as $symbol){
           $pairs[] = $symbol->symbol;
-          echo '.';
+          echo $symbol->symbol.PHP_EOL;
         }
-        //$pairs = ['EUR/USD', 'XAU/USD', 'USD/CHF', 'GBP/USD', 'EUR/GBP', 'NZD/USD', 'USD/CAD', 'USD/JPY'];
+        //$pairs = ['EUR/USD'];
         foreach($pairs as $pair) {
           $rest->request('POST', '/subscribe',
             ['pairs' => $pair],
@@ -63,8 +67,8 @@ class Websocket extends Command
               if ($code === 200) {
                 $rest->on($pair, function ($data) use ($rest) {
                   $decoded = json_decode($data);
-                  event(new NewQuoteEvent($decoded->Symbol, number_format(($decoded->Rates[0]+$decoded->Rates[1])/2, 5, '.', '')));
-                  echo date("H:i:s") . " - " . $decoded->Symbol . " " . number_format(($decoded->Rates[0]+$decoded->Rates[1])/2, 5, '.', '') . PHP_EOL;
+                  event(new NewQuoteEvent($decoded->Symbol, number_format(($decoded->Rates[0]+$decoded->Rates[1])/2, 5, '.', ''), $decoded->Updated));
+                  echo $decoded->Updated . " - " . $decoded->Symbol . " " . number_format(($decoded->Rates[0]+$decoded->Rates[1])/2, 5, '.', '') . PHP_EOL;
                 });
               }
             }
