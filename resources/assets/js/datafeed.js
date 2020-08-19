@@ -28,27 +28,6 @@ const configurationData = {
 };
 
 async function getAllSymbols() {
-	// const data = await makeApiRequest('data/v3/all/exchanges');
-	// let allSymbols = [];
-	//
-	// for (const exchange of configurationData.exchanges) {
-	// 	const pairs = data.Data[exchange.value].pairs;
-	// 	for (const leftPairPart of Object.keys(pairs)) {
-	// 		const symbols = pairs[leftPairPart].map(rightPairPart => {
-	// 			const symbol = generateSymbol(exchange.value, leftPairPart, rightPairPart);
-	// 			return {
-	// 				symbol: symbol.short,
-	// 				full_name: symbol.full,
-	// 				description: "75%",
-	// 				exchange: exchange.value,
-	// 				type: 'crypto',
-	// 			};
-	// 		});
-	// 		allSymbols = [...allSymbols, ...symbols];
-	// 	}
-	// }
-	// return allSymbols;
-
 	const data = await makeApiRequest('data/symbols');
 	let allSymbols = [];
 
@@ -157,7 +136,7 @@ export default {
 			}
 			let bars = [];
 			data.forEach(bar => {
-				if (bar.time >= from && bar.time < to) {
+				//if (bar.time >= from && bar.time < to) {
 					bars = [...bars, {
 						time: bar.time * 1000,
 						low: bar.low,
@@ -165,7 +144,7 @@ export default {
 						open: bar.open,
 						close: bar.close,
 					}];
-				}
+				//}
 			});
 			if (firstDataRequest) {
 				lastBarsCache.set(symbolInfo.full_name, {
@@ -198,6 +177,7 @@ export default {
 			onResetCacheNeededCallback,
 			lastBarsCache.get(symbolInfo.full_name),
 		);
+		//console.log(lastBarsCache);
 	},
 
 	unsubscribeBars: (subscriberUID) => {

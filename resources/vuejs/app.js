@@ -1,4 +1,5 @@
 require('./bootstrap');
+require('./js/tv');
 import Vue from 'vue';
 import router from './router/routes';
 import App from './views/layouts/App';
@@ -17,3 +18,4 @@ const app = new Vue({
     components: { App },
     router
 });
+
