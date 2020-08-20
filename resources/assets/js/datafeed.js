@@ -8,7 +8,19 @@ import {
 	unsubscribeFromStream,
 } from './streaming.js';
 
+import {
+	barsCallback,
+	getMoreData
+} from '../../vuejs/js/tv'
+
 const lastBarsCache = new Map();
+
+export function setLastBarsCache(symbolInfo, bars){
+	lastBarsCache.set(symbolInfo.full_name, {
+		...bars[bars.length - 1],
+	});
+}
+
 const configurationData = {
 	supported_resolutions: ['1s', '3s', '5s', '10s', '15s', '30s', '1', '3', '5', '10', '15', '30'],
 	exchanges: [{
@@ -109,56 +121,8 @@ export default {
 	},
 
 	getBars: async (symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) => {
-		//console.log('[getBars]: Method call', symbolInfo, resolution, from, to);
-		const parsedSymbol = parseFullSymbol(symbolInfo.full_name);
-		//console.log(resolution);
-		let urlParameters = {
-			e: parsedSymbol.exchange,
-			fsym: parsedSymbol.fromSymbol,
-			tsym: parsedSymbol.toSymbol,
-			toTs: to,
-			limit: 2000,
-		};
-		if(resolution === '1' || resolution === '3' || resolution === '5' || resolution === '10' || resolution === '15' || resolution === '30') {
-			urlParameters = Object.assign({"aggregate": parseInt(resolution)}, urlParameters);
-		}
-		const query = Object.keys(urlParameters)
-			.map(name => `${name}=${encodeURIComponent(urlParameters[name])}`)
-			.join('&');
-		try {
-			const data = await makeApiRequest(`data/histominute?${query}`);
-			if (data.Response && data.Response === 'Error' || data.length === 0) {
-				// "noData" should be set if there is no data in the requested period.
-				onHistoryCallback([], {
-					noData: true,
-				});
-				return;
-			}
-			let bars = [];
-			data.forEach(bar => {
-				//if (bar.time >= from && bar.time < to) {
-					bars = [...bars, {
-						time: bar.time * 1000,
-						low: bar.low,
-						high: bar.high,
-						open: bar.open,
-						close: bar.close,
-					}];
-				//}
-			});
-			if (firstDataRequest) {
-				lastBarsCache.set(symbolInfo.full_name, {
-					...bars[bars.length - 1],
-				});
-			}
-			//console.log(`[getBars]: returned ${bars.length} bar(s)`);
-			onHistoryCallback(bars, {
-				noData: false,
-			});
-		} catch (error) {
-			//console.log('[getBars]: Get error', error);
-			onErrorCallback(error);
-		}
+		barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest);
+		getMoreData();
 	},
 
 	subscribeBars: (

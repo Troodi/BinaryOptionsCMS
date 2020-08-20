@@ -48301,34 +48301,22 @@ module.exports = yeast;
 /*!*****************************************!*\
   !*** ./resources/assets/js/datafeed.js ***!
   \*****************************************/
-/*! exports provided: default */
+/*! exports provided: setLastBarsCache, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setLastBarsCache", function() { return setLastBarsCache; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./helpers.js */ "./resources/assets/js/helpers.js");
 /* harmony import */ var _streaming_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./streaming.js */ "./resources/assets/js/streaming.js");
+/* harmony import */ var _vuejs_js_tv__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../vuejs/js/tv */ "./resources/vuejs/js/tv.js");
 
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
@@ -48336,9 +48324,19 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 var lastBarsCache = new Map();
+function setLastBarsCache(symbolInfo, bars) {
+  lastBarsCache.set(symbolInfo.full_name, _objectSpread({}, bars[bars.length - 1]));
+}
 var configurationData = {
   supported_resolutions: ['1s', '3s', '5s', '10s', '15s', '30s', '1', '3', '5', '10', '15', '30'],
   exchanges: [{
@@ -48523,85 +48521,19 @@ function _getAllSymbols() {
   }(),
   getBars: function () {
     var _getBars = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
-      var parsedSymbol, urlParameters, query, data, bars;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              //console.log('[getBars]: Method call', symbolInfo, resolution, from, to);
-              parsedSymbol = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_1__["parseFullSymbol"])(symbolInfo.full_name); //console.log(resolution);
+              Object(_vuejs_js_tv__WEBPACK_IMPORTED_MODULE_3__["barsCallback"])(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest);
+              Object(_vuejs_js_tv__WEBPACK_IMPORTED_MODULE_3__["getMoreData"])();
 
-              urlParameters = {
-                e: parsedSymbol.exchange,
-                fsym: parsedSymbol.fromSymbol,
-                tsym: parsedSymbol.toSymbol,
-                toTs: to,
-                limit: 2000
-              };
-
-              if (resolution === '1' || resolution === '3' || resolution === '5' || resolution === '10' || resolution === '15' || resolution === '30') {
-                urlParameters = Object.assign({
-                  "aggregate": parseInt(resolution)
-                }, urlParameters);
-              }
-
-              query = Object.keys(urlParameters).map(function (name) {
-                return "".concat(name, "=").concat(encodeURIComponent(urlParameters[name]));
-              }).join('&');
-              _context3.prev = 4;
-              _context3.next = 7;
-              return Object(_helpers_js__WEBPACK_IMPORTED_MODULE_1__["makeApiRequest"])("data/histominute?".concat(query));
-
-            case 7:
-              data = _context3.sent;
-
-              if (!(data.Response && data.Response === 'Error' || data.length === 0)) {
-                _context3.next = 11;
-                break;
-              }
-
-              // "noData" should be set if there is no data in the requested period.
-              onHistoryCallback([], {
-                noData: true
-              });
-              return _context3.abrupt("return");
-
-            case 11:
-              bars = [];
-              data.forEach(function (bar) {
-                //if (bar.time >= from && bar.time < to) {
-                bars = [].concat(_toConsumableArray(bars), [{
-                  time: bar.time * 1000,
-                  low: bar.low,
-                  high: bar.high,
-                  open: bar.open,
-                  close: bar.close
-                }]); //}
-              });
-
-              if (firstDataRequest) {
-                lastBarsCache.set(symbolInfo.full_name, _objectSpread({}, bars[bars.length - 1]));
-              } //console.log(`[getBars]: returned ${bars.length} bar(s)`);
-
-
-              onHistoryCallback(bars, {
-                noData: false
-              });
-              _context3.next = 20;
-              break;
-
-            case 17:
-              _context3.prev = 17;
-              _context3.t0 = _context3["catch"](4);
-              //console.log('[getBars]: Get error', error);
-              onErrorCallback(_context3.t0);
-
-            case 20:
+            case 2:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, null, [[4, 17]]);
+      }, _callee3);
     }));
 
     function getBars(_x8, _x9, _x10, _x11, _x12, _x13, _x14) {
@@ -48705,11 +48637,12 @@ function parseFullSymbol(fullSymbol) {
 /*!******************************************!*\
   !*** ./resources/assets/js/streaming.js ***!
   \******************************************/
-/*! exports provided: subscribeOnStream, unsubscribeFromStream */
+/*! exports provided: barsFromWebSocket, subscribeOnStream, unsubscribeFromStream */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "barsFromWebSocket", function() { return barsFromWebSocket; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribeOnStream", function() { return subscribeOnStream; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unsubscribeFromStream", function() { return unsubscribeFromStream; });
 /* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers.js */ "./resources/assets/js/helpers.js");
@@ -48729,19 +48662,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
-window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  broadcaster: 'socket.io',
-  host: window.location.hostname + ':6001'
-});
 var channelToSubscription = new Map();
-window.Echo.channel('quotes').listen('Trading.NewQuoteEvent', function (data) {
-  //console.log('[socket] Message:', data);
-  var fromSymbol = data.from;
-  var toSymbol = data.to;
+function barsFromWebSocket(data) {
+  //let fromSymbol = data.from;
+  //let toSymbol = data.to;
+  var key = Object.keys(data);
+  var shortName = data[key].short_name;
   var exchange = 'Binary';
-  var tradePrice = data.price;
-  var tradeTime = data.time;
-  var channelString = "0~".concat(exchange, "~").concat(fromSymbol, "~").concat(toSymbol);
+  var tradePrice = data[key].lp;
+  var tradeTime = Date.parse(data[key].last_update);
+  var channelString = "0~".concat(exchange, "~").concat(shortName);
   var subscriptionItem = channelToSubscription.get(channelString);
 
   if (subscriptionItem === undefined) {
@@ -48773,16 +48703,7 @@ window.Echo.channel('quotes').listen('Trading.NewQuoteEvent', function (data) {
   subscriptionItem.handlers.forEach(function (handler) {
     return handler.callback(bar);
   });
-});
-window.Echo.connector.socket.on('connect', function () {
-  console.log('connected', window.Echo.socketId());
-});
-window.Echo.connector.socket.on('disconnect', function () {
-  console.log('disconnected');
-});
-window.Echo.connector.socket.on('reconnecting', function (attemptNumber) {
-  console.log('reconnecting', attemptNumber);
-});
+}
 
 function getNextDailyBarTime(barTime, resolution) {
   if (resolution === '1' || resolution === '3' || resolution === '5' || resolution === '10' || resolution === '15' || resolution === '30') {
@@ -48795,7 +48716,7 @@ function getNextDailyBarTime(barTime, resolution) {
 
 function subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback, lastDailyBar) {
   var parsedSymbol = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_0__["parseFullSymbol"])(symbolInfo.full_name);
-  var channelString = "0~".concat(parsedSymbol.exchange, "~").concat(parsedSymbol.fromSymbol, "~").concat(parsedSymbol.toSymbol);
+  var channelString = "0~".concat(parsedSymbol.exchange, "~").concat(parsedSymbol.fromSymbol).concat(parsedSymbol.toSymbol);
   var handler = {
     id: subscribeUID,
     callback: onRealtimeCallback
@@ -48981,10 +48902,30 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************!*\
   !*** ./resources/vuejs/js/tv.js ***!
   \**********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: barsCallback, getMoreData */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "barsCallback", function() { return barsCallback; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getMoreData", function() { return getMoreData; });
+/* harmony import */ var _assets_js_streaming__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../assets/js/streaming */ "./resources/assets/js/streaming.js");
+/* harmony import */ var _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../assets/js/datafeed */ "./resources/assets/js/datafeed.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
 
 window.socket = new WebSocket("ws://chart.getoption.pro:80");
 var session = generateSession();
@@ -48992,7 +48933,19 @@ var chartSession = generateChartSession();
 var sessionRegistered = false;
 var subscriptions = [];
 var tickerData = {};
-getTicker("BINANCE:BTCUSDT");
+var symbol = '';
+var symbolInfoLocal, resolutionLocal, fromLocal, toLocal, onHistoryCallbackLocal, onErrorCallbackLocal, firstDataRequestLocal;
+var checkBarsGot = false;
+getTicker("FX:EURUSD");
+function barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
+  symbolInfoLocal = symbolInfo;
+  resolutionLocal = resolution;
+  fromLocal = from;
+  toLocal = to;
+  onHistoryCallbackLocal = onHistoryCallback;
+  onErrorCallbackLocal = onErrorCallback;
+  firstDataRequestLocal = firstDataRequest;
+}
 
 window.socket.onopen = function () {
   console.log("Соединение установлено.");
@@ -49018,6 +48971,7 @@ window.socket.onmessage = function (data) {
       sendMessage("quote_create_session", [session]);
       sendMessage("quote_set_fields", [session, "ch", "chp", "current_session", "description", "local_description", "language", "exchange", "fractional", "is_tradable", "lp", "minmov", "minmove2", "original_name", "pricescale", "pro_name", "short_name", "type", "update_mode", "volume", "ask", "bid", "fundamentals", "high_price", "is_tradable", "low_price", "open_price", "prev_close_price", "rch", "rchp", "rtc", "status", "basic_eps_net_income", "beta_1_year", "earnings_per_share_basic_ttm", "industry", "market_cap_basic", "price_earnings_ttm", "sector", "volume", "dividends_yield"]);
       sessionRegistered = true;
+      getHistoryTicker(symbol); // Loading history (create chart session)
     } else if (packet.m && packet.m === "qsd" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === session) {
       var tticker = packet.p[1];
       var tickerName = tticker.n;
@@ -49032,15 +48986,68 @@ window.socket.onmessage = function (data) {
         last_update: new Date()
       });
       tickerData[tickerName].last_retrieved = new Date();
+      Object(_assets_js_streaming__WEBPACK_IMPORTED_MODULE_0__["barsFromWebSocket"])(tickerData);
 
       if (Date.now() - Date.parse(tickerData[tickerName].last_retrieved) > 1000 * 60) {
-        console.log("Истекло время!");
-
         _deleteTicker(tickerName);
       }
+    } else if (packet.m && packet.m === "symbol_resolved") {
+      firstLoadHistoryData(); // Get history bars
+      //barsFromWebSocket();
+    } else if (packet.m && packet.m === "timescale_update") {
+      var bars = [];
+      packet.p[1].s1.s.forEach(function (bar) {
+        //if (bar.time >= from && bar.time < to) {
+        bars = [].concat(_toConsumableArray(bars), [{
+          time: bar.v[0] * 1000,
+          low: bar.v[3],
+          high: bar.v[2],
+          open: bar.v[1],
+          close: bar.v[4]
+        }]); //}
+      });
+      var each = 10; // how much ms between runs
+
+      var runs = 3000 / each; // time in ms divided by above
+
+      var interval = setInterval(function () {
+        --runs;
+
+        if (typeof onHistoryCallbackLocal !== 'undefined') {
+          if (firstDataRequestLocal) {
+            Object(_assets_js_datafeed__WEBPACK_IMPORTED_MODULE_1__["setLastBarsCache"])(symbolInfoLocal, bars);
+          }
+
+          onHistoryCallbackLocal(bars, {
+            noData: false
+          });
+          checkBarsGot = true;
+          clearInterval(interval);
+        }
+      }, each); //barsFromWebSocket();
+    } else if (packet.m && packet.m === "series_completed") {
+      var _each = 10; // how much ms between runs
+
+      var _runs = 3000 / _each; // time in ms divided by above
+
+
+      var _interval = setInterval(function () {
+        --_runs;
+
+        if (typeof onHistoryCallbackLocal !== 'undefined') {
+          if (!checkBarsGot) {
+            onHistoryCallbackLocal([], {
+              noData: true
+            });
+          }
+
+          clearInterval(_interval);
+        }
+      }, _each);
+
+      checkBarsGot = false;
     }
-  });
-  console.log("Получены данные " + data.data);
+  }); //console.log("Получены данные " + data.data);
 };
 
 window.socket.onerror = function (error) {
@@ -49127,6 +49134,7 @@ function unregisterTicker(ticker) {
 }
 
 function getTicker(tickerName) {
+  symbol = tickerName;
   var each = 10;
   var runs = 3000 / each; // time in ms divided by above
 
@@ -49146,8 +49154,20 @@ function getTicker(tickerName) {
       clearInterval(interval);
     }
   }, each);
-} // IO functions
+}
 
+function getHistoryTicker(tickerName) {
+  window.socket.send(createMessage("chart_create_session", [chartSession, ""]));
+  window.socket.send(createMessage("resolve_symbol", [chartSession, "symbol_1", '={"symbol":"' + tickerName + '","adjustment":"splits"}']));
+}
+
+function firstLoadHistoryData() {
+  window.socket.send(createMessage("create_series", [chartSession, "s1", "s1", "symbol_1", "1", 5000]));
+}
+
+function getMoreData() {
+  window.socket.send(createMessage("request_more_data", [chartSession, "s1", 5000]));
+} // IO functions
 
 function parseMessages(str) {
   var packets = [];

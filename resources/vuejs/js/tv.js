@@ -1,10 +1,32 @@
+import {
+    barsFromWebSocket
+} from '../../assets/js/streaming';
+
+import {
+    setLastBarsCache
+} from '../../assets/js/datafeed';
 window.socket = new WebSocket("ws://chart.getoption.pro:80");
 let session = generateSession();
 let chartSession = generateChartSession();
 let sessionRegistered = false;
 let subscriptions = [];
 let tickerData = {};
-getTicker("BINANCE:BTCUSDT");
+let symbol = '';
+let symbolInfoLocal, resolutionLocal, fromLocal, toLocal, onHistoryCallbackLocal, onErrorCallbackLocal, firstDataRequestLocal;
+let checkBarsGot = false;
+
+getTicker("FX:EURUSD");
+
+export function barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest){
+    symbolInfoLocal = symbolInfo;
+    resolutionLocal = resolution;
+    fromLocal = from;
+    toLocal = to;
+    onHistoryCallbackLocal = onHistoryCallback;
+    onErrorCallbackLocal = onErrorCallback;
+    firstDataRequestLocal = firstDataRequest;
+}
+
 
 window.socket.onopen = function() {
     console.log("Соединение установлено.");
@@ -71,6 +93,7 @@ window.socket.onmessage = function(data) {
                 "dividends_yield"
             ]);
             sessionRegistered = true;
+            getHistoryTicker(symbol); // Loading history (create chart session)
         } else if (packet.m && packet.m === "qsd" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === session){
             const tticker = packet.p[1];
             const tickerName = tticker.n;
@@ -85,13 +108,62 @@ window.socket.onmessage = function(data) {
                 { last_update: new Date() }
             );
             tickerData[tickerName].last_retrieved = new Date();
+            barsFromWebSocket(tickerData);
             if (Date.now() - Date.parse(tickerData[tickerName].last_retrieved) > 1000 * 60) {
-                console.log("Истекло время!");
                 _deleteTicker(tickerName);
             }
+        } else if (packet.m && packet.m === "symbol_resolved"){
+            firstLoadHistoryData(); // Get history bars
+            //barsFromWebSocket();
+        } else if (packet.m && packet.m === "timescale_update"){
+            let bars = [];
+            packet.p[1].s1.s.forEach(bar => {
+                //if (bar.time >= from && bar.time < to) {
+                bars = [...bars, {
+                    time: bar.v[0] * 1000,
+                    low: bar.v[3],
+                    high: bar.v[2],
+                    open: bar.v[1],
+                    close: bar.v[4],
+                }];
+                //}
+            });
+            const each = 10; // how much ms between runs
+            let runs = 3000 / each; // time in ms divided by above
+            const interval = setInterval(() => {
+                --runs;
+                if(typeof onHistoryCallbackLocal !== 'undefined')
+                {
+                    if (firstDataRequestLocal) {
+                        setLastBarsCache(symbolInfoLocal, bars);
+                    }
+                    onHistoryCallbackLocal(bars, {
+                        noData: false,
+                    });
+                    checkBarsGot = true;
+                    clearInterval(interval);
+                }
+            }, each);
+            //barsFromWebSocket();
+        } else if (packet.m && packet.m === "series_completed"){
+            const each = 10; // how much ms between runs
+            let runs = 3000 / each; // time in ms divided by above
+            const interval = setInterval(() => {
+                --runs;
+                if(typeof onHistoryCallbackLocal !== 'undefined')
+                {
+                    if(!checkBarsGot) {
+                        onHistoryCallbackLocal([], {
+                            noData: true,
+                        });
+                    }
+                    clearInterval(interval);
+                }
+            }, each);
+            checkBarsGot = false;
         }
     });
-    console.log("Получены данные " + data.data);
+    //console.log("Получены данные " + data.data);
 };
 
 window.socket.onerror = function(error) {
@@ -179,6 +251,7 @@ function unregisterTicker(ticker) {
 }
 
 function getTicker(tickerName) {
+    symbol = tickerName;
     const each = 10;
     const runs = 3000 / each; // time in ms divided by above
     if (window.socket.readyState === 3) { //CLOSED
@@ -194,6 +267,42 @@ function getTicker(tickerName) {
             clearInterval(interval);
         }
     }, each);
+}
+
+function getHistoryTicker(tickerName){
+    window.socket.send(
+        createMessage("chart_create_session", [chartSession, ""])
+    );
+    window.socket.send(
+        createMessage("resolve_symbol", [
+            chartSession,
+            "symbol_1",
+            '={"symbol":"'+tickerName+'","adjustment":"splits"}'
+        ])
+    );
+}
+
+function firstLoadHistoryData(){
+    window.socket.send(
+        createMessage("create_series", [
+            chartSession,
+            "s1",
+            "s1",
+            "symbol_1",
+            "1",
+            5000
+        ])
+    );
+}
+
+export function getMoreData() {
+    window.socket.send(
+        createMessage("request_more_data", [
+            chartSession,
+            "s1",
+            5000
+        ])
+    );
 }
 
 // IO functions

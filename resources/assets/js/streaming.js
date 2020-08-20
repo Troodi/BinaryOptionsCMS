@@ -1,20 +1,18 @@
 import { parseFullSymbol } from './helpers.js';
 import Echo from "laravel-echo"
 window.io = require('socket.io-client');
-window.Echo = new Echo({
-	broadcaster: 'socket.io',
-	host: window.location.hostname + ':6001',
-});
+
 const channelToSubscription = new Map();
 
-window.Echo.channel('quotes').listen('Trading.NewQuoteEvent', (data) => {
-	//console.log('[socket] Message:', data);
-	let fromSymbol = data.from;
-	let toSymbol = data.to;
+export function barsFromWebSocket(data){
+	//let fromSymbol = data.from;
+	//let toSymbol = data.to;
+	let key = Object.keys(data);
+	let shortName = data[key].short_name;
 	const exchange = 'Binary';
-	const tradePrice = data.price;
-	const tradeTime = data.time;
-	const channelString = `0~${exchange}~${fromSymbol}~${toSymbol}`;
+	const tradePrice = data[key].lp;
+	const tradeTime = Date.parse(data[key].last_update);
+	const channelString = `0~${exchange}~${shortName}`;
 	const subscriptionItem = channelToSubscription.get(channelString);
 	if (subscriptionItem === undefined) {
 		return;
@@ -45,19 +43,7 @@ window.Echo.channel('quotes').listen('Trading.NewQuoteEvent', (data) => {
 
 	// send data to every subscriber of that symbol
 	subscriptionItem.handlers.forEach(handler => handler.callback(bar));
-});
-
-window.Echo.connector.socket.on('connect', () => {
-	console.log('connected', window.Echo.socketId());
-});
-
-window.Echo.connector.socket.on('disconnect', () => {
-	console.log('disconnected');
-});
-
-window.Echo.connector.socket.on('reconnecting', (attemptNumber) => {
-	console.log('reconnecting', attemptNumber);
-});
+}
 
 function getNextDailyBarTime(barTime, resolution) {
 	if(resolution === '1' || resolution === '3' || resolution === '5' || resolution === '10' || resolution === '15' || resolution === '30') {
@@ -77,7 +63,7 @@ export function subscribeOnStream(
 	lastDailyBar,
 ) {
 	const parsedSymbol = parseFullSymbol(symbolInfo.full_name);
-	const channelString = `0~${parsedSymbol.exchange}~${parsedSymbol.fromSymbol}~${parsedSymbol.toSymbol}`;
+	const channelString = `0~${parsedSymbol.exchange}~${parsedSymbol.fromSymbol}${parsedSymbol.toSymbol}`;
 	const handler = {
 		id: subscribeUID,
 		callback: onRealtimeCallback,
