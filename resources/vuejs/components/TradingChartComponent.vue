@@ -32,7 +32,7 @@
                             // "header_symbol_search",
                             disabled_features: ["widget_logo", "header_compare", 'compare_symbol', 'timeframes_toolbar', 'display_market_status', 'header_screenshot'],
                             favorites: {
-                                intervals: ['1s', '3s', '5s', '10s', '15s', '30s', '1', '3', '5', '10', '15', '30'],
+                                intervals: ['1s', '3s', '5s', '10s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H', '1D'],
                                 chartTypes: ["Candles", "Area", "Line", "Bars", "Hollow Candles", "Baseline"]
                             },
                             overrides: {
