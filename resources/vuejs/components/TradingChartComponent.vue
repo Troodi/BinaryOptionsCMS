@@ -15,13 +15,15 @@
         },
         methods:{
             initChart(){
+                let symbol = 'Binary:BTC/USDT';
+                let tabSymbol = 'BTC/USDT';
                 var interval = setInterval(function() {
                     if(typeof window.Datafeed !== 'undefined'){
                         clearInterval(interval);
                         window.tvWidget = new window.TradingView.widget({
                             locale: "ru",
-                            symbol: 'Binary:EUR/USD', // default symbol
-                            interval: '1', // default interval
+                            symbol: symbol, // default symbol
+                            interval: '5s', // default interval
                             autosize: true,
                             container_id: 'tv_chart_container',
                             datafeed: window.Datafeed,
@@ -32,7 +34,7 @@
                             // "header_symbol_search",
                             disabled_features: ["widget_logo", "header_compare", 'compare_symbol', 'timeframes_toolbar', 'display_market_status', 'header_screenshot'],
                             favorites: {
-                                intervals: ['1s', '3s', '5s', '10s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H', '1D'],
+                                intervals: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H', '1D'],
                                 chartTypes: ["Candles", "Area", "Line", "Bars", "Hollow Candles", "Baseline"]
                             },
                             overrides: {
@@ -48,7 +50,7 @@
                                 window.button.classList.add('apply-common-tooltip');
                                 window.button.classList.add('button-symbol-get');
                                 window.button.addEventListener('click', () => window.tvWidget.chart().executeActionById('symbolSearch'));
-                                window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">EUR/USD</strong>';
+                                window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">'+tabSymbol+'</strong>';
                                 $('#' + window.tvWidget._iFrame.name).contents().find('#header-toolbar-symbol-search').replaceWith($('#' + window.tvWidget._iFrame.name).contents().find('.button-symbol-get'))
                                 // window.tvWidget.chart().onSymbolChanged ().subscribe(null, function(symbol) {
                                 //     console.log(symbol)

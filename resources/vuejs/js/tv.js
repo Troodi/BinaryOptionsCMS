@@ -5,6 +5,7 @@ import {
 import {
     setLastBarsCache
 } from '../../assets/js/datafeed';
+import $ from 'jquery';
 
 export class TradingViewWebsocket {
     constructor() {
@@ -14,8 +15,11 @@ export class TradingViewWebsocket {
         this.subscriptions = [];
         this.tickerData = {};
         this.symbol = '';
+        this.symbolIndex = 0;
         this.checkBarsGot = false;
         this.symbolNumber = 1;
+        this.symbolResolved = false;
+
 
         this.socketTV = new WebSocket("ws://chart.getoption.pro:80");
         this.socketTV.onmessage = (data) => { this.onmessage(data) };
@@ -57,52 +61,62 @@ export class TradingViewWebsocket {
             if (packet["~protocol~keepalive~"]) {
                 this.sendRawMessage("~h~" + packet["~protocol~keepalive~"]);
             } else if (packet.session_id) {
-                this.sendMessage("set_auth_token", ["unauthorized_user_token"]);
-                this.sendMessage("quote_create_session", [this.session]);
-                this.sendMessage("quote_set_fields", [
-                    this.session,
-                    "ch",
-                    "chp",
-                    "current_session",
-                    "description",
-                    "local_description",
-                    "language",
-                    "exchange",
-                    "fractional",
-                    "is_tradable",
-                    "lp",
-                    "minmov",
-                    "minmove2",
-                    "original_name",
-                    "pricescale",
-                    "pro_name",
-                    "short_name",
-                    "type",
-                    "update_mode",
-                    "volume",
-                    "ask",
-                    "bid",
-                    "fundamentals",
-                    "high_price",
-                    "is_tradable",
-                    "low_price",
-                    "open_price",
-                    "prev_close_price",
-                    "rch",
-                    "rchp",
-                    "rtc",
-                    "status",
-                    "basic_eps_net_income",
-                    "beta_1_year",
-                    "earnings_per_share_basic_ttm",
-                    "industry",
-                    "market_cap_basic",
-                    "price_earnings_ttm",
-                    "sector",
-                    "volume",
-                    "dividends_yield"
-                ]);
-                this.sessionRegistered = true;
+                let token = '';
+                $.get("/data/getAuthToken", function(data) {
+                    token = data;
+                    console.log('Got token ', token);
+                });
+                const interval = setInterval(() => {
+                    if (token !== '') { // OPEN
+                        clearInterval(interval);
+                        this.sendMessage("set_auth_token", [token]);
+                        this.sendMessage("quote_create_session", [this.session]);
+                        this.sendMessage("quote_set_fields", [
+                            this.session,
+                            "ch",
+                            "chp",
+                            "current_session",
+                            "description",
+                            "local_description",
+                            "language",
+                            "exchange",
+                            "fractional",
+                            "is_tradable",
+                            "lp",
+                            "minmov",
+                            "minmove2",
+                            "original_name",
+                            "pricescale",
+                            "pro_name",
+                            "short_name",
+                            "type",
+                            "update_mode",
+                            "volume",
+                            "ask",
+                            "bid",
+                            "fundamentals",
+                            "high_price",
+                            "is_tradable",
+                            "low_price",
+                            "open_price",
+                            "prev_close_price",
+                            "rch",
+                            "rchp",
+                            "rtc",
+                            "status",
+                            "basic_eps_net_income",
+                            "beta_1_year",
+                            "earnings_per_share_basic_ttm",
+                            "industry",
+                            "market_cap_basic",
+                            "price_earnings_ttm",
+                            "sector",
+                            "volume",
+                            "dividends_yield"
+                        ]);
+                        this.sessionRegistered = true;
+                    }
+                }, 200);
             } else if (packet.m && packet.m === "qsd" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.session) {
                 const tticker = packet.p[1];
                 const tickerName = tticker.n;
@@ -123,6 +137,7 @@ export class TradingViewWebsocket {
                 }
             } else if (packet.m && packet.m === "symbol_resolved") {
                 this.firstLoadHistoryData(); // Get history bars
+                this.symbolResolved = true;
                 //barsFromWebSocket();
             } else if (packet.m && packet.m === "timescale_update") {
                 let bars = [];
@@ -168,6 +183,11 @@ export class TradingViewWebsocket {
                     }
                 }, each);
                 this.checkBarsGot = false;
+            } else if(packet.m && packet.m === "du"){
+                if(packet.p[1].s1.s[0].i > this.symbolIndex){
+                    this.symbolIndex = packet.p[1].s1.s[0].i;
+                    //console.log(packet.p[1].s1.s[0].i, new Date());
+                }
             }
         });
         //console.log("Получены данные " + data.data);
@@ -274,9 +294,9 @@ export class TradingViewWebsocket {
     }
 
     getHistoryTicker(tickerName = this.symbol) {
+        this.symbolResolved = false;
         this.chartSession = this.generateChartSession();
         const interval = setInterval(() => {
-            console.log(this.sessionRegistered);
             if (this.sessionRegistered) {
                 clearInterval(interval);
                 this.socketTV.send(
@@ -293,6 +313,7 @@ export class TradingViewWebsocket {
         }, 200);
     }
 
+
     firstLoadHistoryData() {
         this.socketTV.send(
             this.createMessage("create_series", [
@@ -307,13 +328,18 @@ export class TradingViewWebsocket {
     }
 
     getMoreData() {
-        this.socketTV.send(
-            this.createMessage("request_more_data", [
-                this.chartSession,
-                "s1",
-                2000
-            ])
-        );
+        const interval = setInterval(() => {
+            if (this.symbolResolved) {
+                clearInterval(interval);
+                this.socketTV.send(
+                    this.createMessage("request_more_data", [
+                        this.chartSession,
+                        "s1",
+                        2000
+                    ])
+                );
+            }
+        }, 200);
     }
 
 // IO functions

@@ -10,22 +10,56 @@ use Illuminate\Support\Facades\DB;
 
 class TradingController extends Controller
 {
-    public function selectDB(){
-      $start = microtime(true);
-      $toTimestamp = '2020-08-01 10:07:58';
-      $timeframe = "second";
-      $allValues = 2000;
-      $current = EurUsdTicks::where('created_at', '<=', $toTimestamp)->whereNotNull('bar')->latest()->first();
-      $from = EurUsdTicks::where('bar', $current->bar-$allValues)->first();
-      $all = EurUsdTicks::where('created_at', '>', Carbon::parse($from->created_at)->format('Y-m-d H:i:s'))
-        ->where('created_at', '<=', Carbon::parse($current->created_at)->format('Y-m-d H:i:s'))
-        ->select(DB::raw('MAX(price) as high_price, MIN(price) as low_price, (ARRAY_AGG(price ORDER BY created_at ASC))[1] AS open_price, (ARRAY_AGG(price ORDER BY created_at DESC))[1] as close_price, (ARRAY_AGG(created_at ORDER BY created_at DESC))[1] as bar_time, (ARRAY_AGG(bar ORDER BY created_at ASC))[1] as bar_number, date_trunc(\''.$timeframe.'\', created_at) as secondVal'))
-        ->groupBy(DB::raw('secondVal'))
-        ->orderBy('bar_time', 'desc')
-        ->get()
-        ->count();
-      dump($all);
-      echo '<br>';
-      echo number_format((microtime(true)-$start), 10);
+    public function getAuthToken(Request $request){
+      $login = env('TRADINGVIEW_LOGIN');
+      $password = env('TRADINGVIEW_PASSWORD');
+
+      if(file_exists(__DIR__ . '/cookie.txt')){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/quote_token/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
+        curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_ENCODING, "gzip");
+        $auth_token = curl_exec($ch);
+        $auth_token = ltrim($auth_token, '"');
+        $auth_token = rtrim($auth_token, '"');
+        return $auth_token;
+      } else {
+        $request_headers = [
+          "accept: */*",
+          "accept-encoding: gzip, deflate, br",
+          "accept-language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,lt;q=0.6",
+          "cache-control: no-cache",
+          "content-type: application/x-www-form-urlencoded",
+          "origin: https://www.tradingview.com",
+          "pragma: no-cache",
+          "referer: no-cache",
+          "sec-fetch-dest: empty",
+          "sec-fetch-mode: cors",
+          "sec-fetch-site: same-origin",
+          "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36",
+          "x-language: en",
+          "x-requested-with: XMLHttpRequest"
+        ];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/accounts/signin/");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
+        curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
+        curl_setopt($ch, CURLOPT_ENCODING, "gzip");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "feature_source=Header&username=$login&password=$password&remember=on");
+        $curl_exec = curl_exec($ch);
+        curl_close($ch);
+        $json = json_decode($curl_exec);
+        $auth_token = $json->user->auth_token;
+        return $auth_token;
+      }
     }
 }
