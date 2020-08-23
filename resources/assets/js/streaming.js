@@ -4,10 +4,15 @@ window.io = require('socket.io-client');
 
 const channelToSubscription = new Map();
 
-export function barsFromWebSocket(data){
-	//let fromSymbol = data.from;
-	//let toSymbol = data.to;
-	let key = Object.keys(data);
+let latestBar = {};
+let date = new Date();
+export function clearLatestBar(){
+
+}
+
+export function barsFromWebSocket(data, setNewBar = false){
+	latestBar = data;
+	let key = Object.keys(data)[0];
 	let shortName = data[key].short_name;
 	const exchange = 'Binary';
 	const tradePrice = data[key].lp;
@@ -39,17 +44,34 @@ export function barsFromWebSocket(data){
 		};
 		//console.log('[socket] Update the latest bar by price', tradePrice);
 	}
+
 	subscriptionItem.lastDailyBar = bar;
 
 	// send data to every subscriber of that symbol
 	subscriptionItem.handlers.forEach(handler => handler.callback(bar));
 }
 
+setInterval(() => {
+	if(!_.isEmpty(latestBar)){
+		const dateLocal = new Date();
+		if(dateLocal.getSeconds() !== date.getSeconds()){
+			date = new Date();
+			console.log('New second!', dateLocal.getSeconds())
+			//barsFromWebSocket(latestBar);
+		}
+	}
+}, 0);
+
 function getNextDailyBarTime(barTime, resolution) {
 	if(resolution === '1' || resolution === '3' || resolution === '5' || resolution === '10' || resolution === '15' || resolution === '30') {
 		const date = new Date(barTime);
 		date.setMinutes(date.getMinutes() + parseInt(resolution));
 		date.setSeconds(0);
+		return date.getTime();
+	}
+	else if(resolution === '1S' || resolution === '5S' || resolution === '15S' || resolution === '30S') {
+		const date = new Date(barTime);
+		date.setSeconds(date.getSeconds() + parseInt(resolution.replace('S', '')));
 		return date.getTime();
 	}
 }

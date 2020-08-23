@@ -11,6 +11,7 @@ import {
 import {
 	TradingViewWebsocket
 } from '../../vuejs/js/tv'
+import { clearLatestBar } from "./streaming";
 
 const lastBarsCache = new Map();
 
@@ -21,7 +22,7 @@ export function setLastBarsCache(symbolInfo, bars){
 }
 
 const configurationData = {
-	supported_resolutions: ['1s', '3s', '5s', '10s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H', '1D'],
+	supported_resolutions: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H', '1D'],
 	exchanges: [{
 		value: 'Binary',
 		name: 'Binary Option',
@@ -65,7 +66,7 @@ export default {
 		//console.log('[onReady]: Method call');
 		setTimeout(() => callback(configurationData));
 		tvObj = new TradingViewWebsocket();
-		tvObj.getTicker("FX:EURUSD");
+		tvObj.getTicker("BINANCE:BTCUSDT");
 	},
 
 	searchSymbols: async (
@@ -124,9 +125,9 @@ export default {
 	},
 
 	getBars: async (symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) => {
-		console.log(resolution);
 		tvObj.barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest);
 		if(firstDataRequest){
+			clearLatestBar();
 			tvObj.getHistoryTicker();
 		} else {
 			tvObj.getMoreData();
