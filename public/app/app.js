@@ -2000,12 +2000,14 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../assets/js/datafeed */ "./resources/assets/js/datafeed.js");
+/* harmony import */ var _js_tv__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../js/tv */ "./resources/vuejs/js/tv.js");
 //
 //
 //
 //
 //
 //
+
 
 window.Datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__["default"];
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2015,8 +2017,8 @@ window.Datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__["default"];
   },
   methods: {
     initChart: function initChart() {
-      var symbol = 'Binary:BTC/USDT';
-      var tabSymbol = 'BTC/USDT';
+      var symbol = 'Binary:EUR/USD';
+      var tabSymbol = 'EUR/USD';
       var interval = setInterval(function () {
         if (typeof window.Datafeed !== 'undefined') {
           clearInterval(interval);
@@ -59183,6 +59185,268 @@ module.exports = yeast;
 
 /***/ }),
 
+/***/ "./public/assets/js/helpers.js":
+/*!*************************************!*\
+  !*** ./public/assets/js/helpers.js ***!
+  \*************************************/
+/*! exports provided: makeApiRequest, generateSymbol, parseFullSymbol */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "makeApiRequest", function() { return makeApiRequest; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generateSymbol", function() { return generateSymbol; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseFullSymbol", function() { return parseFullSymbol; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+// Make requests to CryptoCompare API
+function makeApiRequest(_x) {
+  return _makeApiRequest.apply(this, arguments);
+} // Generate a symbol ID from a pair of the coins
+
+function _makeApiRequest() {
+  _makeApiRequest = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(path) {
+    var response;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.prev = 0;
+            _context.next = 3;
+            return fetch("http://getoption.pro/".concat(path));
+
+          case 3:
+            response = _context.sent;
+            return _context.abrupt("return", response.json());
+
+          case 7:
+            _context.prev = 7;
+            _context.t0 = _context["catch"](0);
+            throw new Error("CryptoCompare request error: ".concat(_context.t0.status));
+
+          case 10:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[0, 7]]);
+  }));
+  return _makeApiRequest.apply(this, arguments);
+}
+
+function generateSymbol(exchange, fromSymbol, toSymbol) {
+  var _short = "".concat(fromSymbol, "/").concat(toSymbol);
+
+  return {
+    "short": _short,
+    full: "".concat(exchange, ":").concat(_short)
+  };
+}
+function parseFullSymbol(fullSymbol) {
+  var match = fullSymbol.match(/^(\w+):(\w+)\/(\w+)$/);
+
+  if (!match) {
+    return null;
+  }
+
+  return {
+    exchange: match[1],
+    fromSymbol: match[2],
+    toSymbol: match[3]
+  };
+}
+
+/***/ }),
+
+/***/ "./public/assets/js/streaming.js":
+/*!***************************************!*\
+  !*** ./public/assets/js/streaming.js ***!
+  \***************************************/
+/*! exports provided: barsFromWebSocket, createNewBar, subscribeOnStream, unsubscribeFromStream */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "barsFromWebSocket", function() { return barsFromWebSocket; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNewBar", function() { return createNewBar; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribeOnStream", function() { return subscribeOnStream; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unsubscribeFromStream", function() { return unsubscribeFromStream; });
+/* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers.js */ "./public/assets/js/helpers.js");
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+var channelToSubscription = new Map();
+var latestBar = {};
+function barsFromWebSocket(data) {
+  latestBar = data;
+  var key = Object.keys(data)[0];
+  var shortName = data[key].short_name;
+  var exchange = 'Binary';
+  var tradePrice = data[key].lp;
+  var tradeTime = Date.parse(data[key].last_update);
+  var channelString = "0~".concat(exchange, "~").concat(shortName);
+  var subscriptionItem = channelToSubscription.get(channelString);
+
+  if (subscriptionItem === undefined) {
+    return;
+  }
+
+  var lastDailyBar = subscriptionItem.lastDailyBar;
+  var nextDailyBarTime = getNextDailyBarTime(lastDailyBar.time, subscriptionItem.resolution);
+  var bar; // if (tradeTime >= nextDailyBarTime) {
+  // 	bar = {
+  // 		time: tradeTime,
+  // 		open: lastDailyBar.close,
+  // 		high: tradePrice,
+  // 		low: tradePrice,
+  // 		close: tradePrice,
+  // 	};
+  // 	//console.log('[socket] Generate new bar', bar);
+  // } else {
+  //
+  // 	//console.log('[socket] Update the latest bar by price', tradePrice);
+  // }
+
+  bar = _objectSpread(_objectSpread({}, lastDailyBar), {}, {
+    high: Math.max(lastDailyBar.high, tradePrice),
+    low: Math.min(lastDailyBar.low, tradePrice),
+    close: tradePrice
+  });
+  subscriptionItem.lastDailyBar = bar; // send data to every subscriber of that symbol
+
+  subscriptionItem.handlers.forEach(function (handler) {
+    return handler.callback(bar);
+  });
+}
+setInterval(function () {
+  console.log(latestBar);
+  console.log('----');
+}, 1000);
+function createNewBar(barData) {
+  if (_.isEmpty(latestBar)) {
+    return;
+  }
+
+  var key = Object.keys(latestBar)[0];
+  var shortName = latestBar[key].short_name;
+  var exchange = 'Binary';
+  var tradePrice = latestBar[key].lp;
+  var tradeTime = Date.parse(latestBar[key].last_update);
+  var channelString = "0~".concat(exchange, "~").concat(shortName);
+  var subscriptionItem = channelToSubscription.get(channelString);
+
+  if (subscriptionItem === undefined) {
+    return;
+  }
+
+  var lastDailyBar = subscriptionItem.lastDailyBar;
+  var nextDailyBarTime = getNextDailyBarTime(lastDailyBar.time, subscriptionItem.resolution);
+  var bar = {
+    time: barData.time,
+    open: barData.close,
+    high: barData.high,
+    low: barData.low,
+    close: barData.close
+  };
+  subscriptionItem.lastDailyBar = bar;
+  subscriptionItem.handlers.forEach(function (handler) {
+    return handler.callback(bar);
+  });
+}
+
+function getNextDailyBarTime(barTime, resolution) {
+  if (resolution === '1' || resolution === '3' || resolution === '5' || resolution === '10' || resolution === '15' || resolution === '30') {
+    var date = new Date(barTime);
+    date.setMinutes(date.getMinutes() + parseInt(resolution));
+    date.setSeconds(0);
+    return date.getTime();
+  } else if (resolution === '1S' || resolution === '5S' || resolution === '15S' || resolution === '30S') {
+    var _date = new Date(barTime);
+
+    _date.setSeconds(_date.getSeconds() + parseInt(resolution.replace('S', '')));
+
+    return _date.getTime();
+  }
+}
+
+function subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback, lastDailyBar) {
+  var parsedSymbol = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_0__["parseFullSymbol"])(symbolInfo.full_name);
+  var channelString = "0~".concat(parsedSymbol.exchange, "~").concat(parsedSymbol.fromSymbol).concat(parsedSymbol.toSymbol);
+  var handler = {
+    id: subscribeUID,
+    callback: onRealtimeCallback
+  };
+  var subscriptionItem = channelToSubscription.get(channelString);
+
+  if (subscriptionItem) {
+    // already subscribed to the channel, use the existing subscription
+    subscriptionItem.handlers.push(handler);
+    return;
+  }
+
+  subscriptionItem = {
+    subscribeUID: subscribeUID,
+    resolution: resolution,
+    lastDailyBar: lastDailyBar,
+    handlers: [handler]
+  };
+  channelToSubscription.set(channelString, subscriptionItem); //console.log('[subscribeBars]: Subscribe to streaming. Channel:', channelString);
+  //socket.emit('SubAdd', { subs: [channelString] });
+}
+function unsubscribeFromStream(subscriberUID) {
+  // find a subscription with id === subscriberUID
+  var _iterator = _createForOfIteratorHelper(channelToSubscription.keys()),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var channelString = _step.value;
+      var subscriptionItem = channelToSubscription.get(channelString);
+      var handlerIndex = subscriptionItem.handlers.findIndex(function (handler) {
+        return handler.id === subscriberUID;
+      });
+
+      if (handlerIndex !== -1) {
+        // remove from handlers
+        subscriptionItem.handlers.splice(handlerIndex, 1);
+
+        if (subscriptionItem.handlers.length === 0) {
+          // unsubscribe from the channel, if it was the last handler
+          //console.log('[unsubscribeBars]: Unsubscribe from streaming. Channel:', channelString);
+          //socket.emit('SubRemove', { subs: [channelString] });
+          channelToSubscription["delete"](channelString);
+          break;
+        }
+      }
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+}
+
+/***/ }),
+
 /***/ "./resources/assets/js/datafeed.js":
 /*!*****************************************!*\
   !*** ./resources/assets/js/datafeed.js ***!
@@ -59301,15 +59565,13 @@ function _getAllSymbols() {
   return _getAllSymbols.apply(this, arguments);
 }
 
-var tvObj;
 /* harmony default export */ __webpack_exports__["default"] = ({
   onReady: function onReady(callback) {
     //console.log('[onReady]: Method call');
     setTimeout(function () {
       return callback(configurationData);
     });
-    tvObj = new _vuejs_js_tv__WEBPACK_IMPORTED_MODULE_3__["TradingViewWebsocket"]();
-    tvObj.getTicker("BINANCE:BTCUSDT");
+    window.tvObj = new _vuejs_js_tv__WEBPACK_IMPORTED_MODULE_3__["TradingViewWebsocket"](); //tvObj.getTicker("BINANCE:BTCUSDT");
   },
   searchSymbols: function () {
     var _searchSymbols = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(userInput, exchange, symbolType, onResultReadyCallback) {
@@ -59418,7 +59680,7 @@ var tvObj;
               tvObj.barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest);
 
               if (firstDataRequest) {
-                Object(_streaming_js__WEBPACK_IMPORTED_MODULE_2__["clearLatestBar"])();
+                tvObj.getTicker('FX:' + symbolInfo.name.replace('/', ''));
                 tvObj.getHistoryTicker();
               } else {
                 tvObj.getMoreData();
@@ -59533,13 +59795,13 @@ function parseFullSymbol(fullSymbol) {
 /*!******************************************!*\
   !*** ./resources/assets/js/streaming.js ***!
   \******************************************/
-/*! exports provided: clearLatestBar, barsFromWebSocket, subscribeOnStream, unsubscribeFromStream */
+/*! exports provided: barsFromWebSocket, createNewBar, subscribeOnStream, unsubscribeFromStream */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearLatestBar", function() { return clearLatestBar; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "barsFromWebSocket", function() { return barsFromWebSocket; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNewBar", function() { return createNewBar; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "subscribeOnStream", function() { return subscribeOnStream; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unsubscribeFromStream", function() { return unsubscribeFromStream; });
 /* harmony import */ var _helpers_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers.js */ "./resources/assets/js/helpers.js");
@@ -59561,10 +59823,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 var channelToSubscription = new Map();
 var latestBar = {};
-var date = new Date();
-function clearLatestBar() {}
 function barsFromWebSocket(data) {
-  var setNewBar = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   latestBar = data;
   var key = Object.keys(data)[0];
   var shortName = data[key].short_name;
@@ -59580,24 +59839,25 @@ function barsFromWebSocket(data) {
 
   var lastDailyBar = subscriptionItem.lastDailyBar;
   var nextDailyBarTime = getNextDailyBarTime(lastDailyBar.time, subscriptionItem.resolution);
-  var bar;
+  var bar; // if (tradeTime >= nextDailyBarTime) {
+  // 	bar = {
+  // 		time: tradeTime,
+  // 		open: lastDailyBar.close,
+  // 		high: tradePrice,
+  // 		low: tradePrice,
+  // 		close: tradePrice,
+  // 	};
+  // 	//console.log('[socket] Generate new bar', bar);
+  // } else {
+  //
+  // 	//console.log('[socket] Update the latest bar by price', tradePrice);
+  // }
 
-  if (tradeTime >= nextDailyBarTime) {
-    bar = {
-      time: tradeTime,
-      open: lastDailyBar.close,
-      high: tradePrice,
-      low: tradePrice,
-      close: tradePrice
-    }; //console.log('[socket] Generate new bar', bar);
-  } else {
-    bar = _objectSpread(_objectSpread({}, lastDailyBar), {}, {
-      high: Math.max(lastDailyBar.high, tradePrice),
-      low: Math.min(lastDailyBar.low, tradePrice),
-      close: tradePrice
-    }); //console.log('[socket] Update the latest bar by price', tradePrice);
-  }
-
+  bar = _objectSpread(_objectSpread({}, lastDailyBar), {}, {
+    high: Math.max(lastDailyBar.high, tradePrice),
+    low: Math.min(lastDailyBar.low, tradePrice),
+    close: tradePrice
+  });
   subscriptionItem.lastDailyBar = bar; // send data to every subscriber of that symbol
 
   subscriptionItem.handlers.forEach(function (handler) {
@@ -59605,31 +59865,53 @@ function barsFromWebSocket(data) {
   });
 }
 setInterval(function () {
-  if (!_.isEmpty(latestBar)) {
-    var dateLocal = new Date();
-
-    if (dateLocal.getSeconds() !== date.getSeconds()) {
-      date = new Date();
-      console.log('New second!', dateLocal.getSeconds()); //barsFromWebSocket(latestBar);
-    }
+  console.log(latestBar);
+  console.log('----');
+}, 1000);
+function createNewBar(barData) {
+  if (_.isEmpty(latestBar)) {
+    return;
   }
-}, 0);
+
+  var key = Object.keys(latestBar)[0];
+  var shortName = latestBar[key].short_name;
+  var exchange = 'Binary';
+  var tradePrice = latestBar[key].lp;
+  var tradeTime = Date.parse(latestBar[key].last_update);
+  var channelString = "0~".concat(exchange, "~").concat(shortName);
+  var subscriptionItem = channelToSubscription.get(channelString);
+
+  if (subscriptionItem === undefined) {
+    return;
+  }
+
+  var lastDailyBar = subscriptionItem.lastDailyBar;
+  var nextDailyBarTime = getNextDailyBarTime(lastDailyBar.time, subscriptionItem.resolution);
+  var bar = {
+    time: barData.time,
+    open: barData.close,
+    high: barData.high,
+    low: barData.low,
+    close: barData.close
+  };
+  subscriptionItem.lastDailyBar = bar;
+  subscriptionItem.handlers.forEach(function (handler) {
+    return handler.callback(bar);
+  });
+}
 
 function getNextDailyBarTime(barTime, resolution) {
   if (resolution === '1' || resolution === '3' || resolution === '5' || resolution === '10' || resolution === '15' || resolution === '30') {
+    var date = new Date(barTime);
+    date.setMinutes(date.getMinutes() + parseInt(resolution));
+    date.setSeconds(0);
+    return date.getTime();
+  } else if (resolution === '1S' || resolution === '5S' || resolution === '15S' || resolution === '30S') {
     var _date = new Date(barTime);
 
-    _date.setMinutes(_date.getMinutes() + parseInt(resolution));
-
-    _date.setSeconds(0);
+    _date.setSeconds(_date.getSeconds() + parseInt(resolution.replace('S', '')));
 
     return _date.getTime();
-  } else if (resolution === '1S' || resolution === '5S' || resolution === '15S' || resolution === '30S') {
-    var _date2 = new Date(barTime);
-
-    _date2.setSeconds(_date2.getSeconds() + parseInt(resolution.replace('S', '')));
-
-    return _date2.getTime();
   }
 }
 
@@ -59831,6 +60113,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../assets/js/datafeed */ "./resources/assets/js/datafeed.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _public_assets_js_streaming__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../public/assets/js/streaming */ "./public/assets/js/streaming.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -59850,6 +60133,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -59994,6 +60278,10 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             --runs;
 
             if (typeof _this2.onHistoryCallbackLocal !== 'undefined') {
+              if (bars.length === 1) {
+                Object(_public_assets_js_streaming__WEBPACK_IMPORTED_MODULE_3__["createNewBar"])(bars[0]);
+              }
+
               if (_this2.firstDataRequestLocal) {
                 Object(_assets_js_datafeed__WEBPACK_IMPORTED_MODULE_1__["setLastBarsCache"])(_this2.symbolInfoLocal, bars);
               }

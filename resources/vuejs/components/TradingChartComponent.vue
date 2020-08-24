@@ -6,6 +6,7 @@
 
 <script>
     import Datafeed from "../../assets/js/datafeed";
+    import {TradingViewWebsocket} from "../js/tv";
     window.Datafeed = Datafeed;
 
     export default {
@@ -15,8 +16,8 @@
         },
         methods:{
             initChart(){
-                let symbol = 'Binary:BTC/USDT';
-                let tabSymbol = 'BTC/USDT';
+                let symbol = 'Binary:EUR/USD';
+                let tabSymbol = 'EUR/USD';
                 var interval = setInterval(function() {
                     if(typeof window.Datafeed !== 'undefined'){
                         clearInterval(interval);
