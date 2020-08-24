@@ -11,7 +11,6 @@ import {
 import {
 	TradingViewWebsocket
 } from '../../vuejs/js/tv'
-import { clearLatestBar } from "./streaming";
 
 const lastBarsCache = new Map();
 

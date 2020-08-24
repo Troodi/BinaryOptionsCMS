@@ -1,5 +1,4 @@
 import { parseFullSymbol } from './helpers.js';
-import Echo from "laravel-echo"
 window.io = require('socket.io-client');
 
 const channelToSubscription = new Map();
