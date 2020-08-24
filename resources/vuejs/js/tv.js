@@ -6,7 +6,7 @@ import {
     setLastBarsCache
 } from '../../assets/js/datafeed';
 import $ from 'jquery';
-import {createNewBar} from "../../../public/assets/js/streaming";
+import { createNewBar } from "../../../public/assets/js/streaming";
 
 export class TradingViewWebsocket {
     constructor() {
