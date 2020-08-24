@@ -59,14 +59,12 @@ async function getAllSymbols() {
 	return allSymbols;
 }
 
-let tvObj;
-
 export default {
 	onReady: (callback) => {
 		//console.log('[onReady]: Method call');
 		setTimeout(() => callback(configurationData));
-		tvObj = new TradingViewWebsocket();
-		tvObj.getTicker("BINANCE:BTCUSDT");
+		window.tvObj = new TradingViewWebsocket();
+		//tvObj.getTicker("BINANCE:BTCUSDT");
 	},
 
 	searchSymbols: async (
@@ -127,7 +125,7 @@ export default {
 	getBars: async (symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) => {
 		tvObj.barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest);
 		if(firstDataRequest){
-			clearLatestBar();
+			tvObj.getTicker('FX:'+symbolInfo.name.replace('/', ''));
 			tvObj.getHistoryTicker();
 		} else {
 			tvObj.getMoreData();

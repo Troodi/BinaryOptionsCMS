@@ -6,6 +6,7 @@ import {
     setLastBarsCache
 } from '../../assets/js/datafeed';
 import $ from 'jquery';
+import {createNewBar} from "../../../public/assets/js/streaming";
 
 export class TradingViewWebsocket {
     constructor() {
@@ -157,6 +158,9 @@ export class TradingViewWebsocket {
                 const interval = setInterval(() => {
                     --runs;
                     if (typeof this.onHistoryCallbackLocal !== 'undefined') {
+                        if(bars.length === 1){
+                            createNewBar(bars[0]);
+                        }
                         if (this.firstDataRequestLocal) {
                             setLastBarsCache(this.symbolInfoLocal, bars);
                         }
