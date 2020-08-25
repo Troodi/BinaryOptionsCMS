@@ -35986,7 +35986,7 @@
                     }, e.prototype._purgeCacheDelayed = function() {
                         this._logMessage("Reset cache"), this._needPurgeCache = !0, this._clearResetCacheTimeout()
                     }, e.prototype._logMessage = function(e, t) {
-                        (l.enabled("charting_library_debug_mode") || t) && console.log("FEED [{0}|{1}]: {2}".format(this._symbolInfo.name, this._resolution, e))
+                        (l.enabled("charting_library_debug_mode") || t) && ''//console.log("FEED [{0}|{1}]: {2}".format(this._symbolInfo.name, this._resolution, e))
                     }, e.prototype._clearResetCacheTimeout = function() {
                         null !== this._resetCacheTimeout && (clearTimeout(this._resetCacheTimeout), this._resetCacheTimeout = null)
                     }, e.prototype._purgeCache = function() {
@@ -36122,7 +36122,7 @@
                         var t = this._cache.bars.length,
                             i = e.time,
                             r = 0 === t ? NaN : this._cache.bars[t - 1].time;
-                        0 === t || r < i ? this._cache.bars.push(e) : r === i ? this._cache.bars[t - 1] = e : console.error("putToCacheNewBar: time violation, previous bar time: " + u(r) + " should be less or equal to new time: " + u(i))
+                        0 === t || r < i ? this._cache.bars.push(e) : r === i ? this._cache.bars[t - 1] = e : ''//console.error("putToCacheNewBar: time violation, previous bar time: " + u(r) + " should be less or equal to new time: " + u(i))
                     }, e.prototype._alignBarsTime = function(e) {
                         if (this._dwmAligner)
                             for (var t = 0; t < e.length; t++) e[t].time = this._dwmAligner.tradingDayToSessionStart(e[t].time)
