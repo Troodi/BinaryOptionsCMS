@@ -63,6 +63,7 @@ mixAssetsDir('assets/js/**/*.js', (src, dest) => mix.scripts(src, dest));
  | Application assets
  |--------------------------------------------------------------------------
  */
+
 mix.copyDirectory('resources/images', 'public/images');
 mix.copyDirectory('resources/vendors', 'public/vendors');
 mix.copyDirectory('resources/fonts', 'public/fonts');

@@ -1,17 +1,19 @@
 import { parseFullSymbol } from './helpers.js';
+import Echo from "laravel-echo"
 window.io = require('socket.io-client');
 
 const channelToSubscription = new Map();
 
 let latestBar = {};
+let date = new Date();
+const exchange = 'Binary';
 
-export function barsFromWebSocket(data){
+export function barsFromWebSocket(data, newBar = false){
 	latestBar = data;
 	let key = Object.keys(data)[0];
 	let shortName = data[key].short_name;
-	const exchange = 'Binary';
 	const tradePrice = data[key].lp;
-	const tradeTime = Date.parse(data[key].last_update);
+	let tradeTime = Date.parse(data[key].last_update);
 	const channelString = `0~${exchange}~${shortName}`;
 	const subscriptionItem = channelToSubscription.get(channelString);
 	if (subscriptionItem === undefined) {
@@ -21,25 +23,23 @@ export function barsFromWebSocket(data){
 	const nextDailyBarTime = getNextDailyBarTime(lastDailyBar.time, subscriptionItem.resolution);
 
 	let bar;
-	// if (tradeTime >= nextDailyBarTime) {
-	// 	bar = {
-	// 		time: tradeTime,
-	// 		open: lastDailyBar.close,
-	// 		high: tradePrice,
-	// 		low: tradePrice,
-	// 		close: tradePrice,
-	// 	};
-	// 	//console.log('[socket] Generate new bar', bar);
-	// } else {
-	//
-	// 	//console.log('[socket] Update the latest bar by price', tradePrice);
-	// }
-	bar = {
-		...lastDailyBar,
-		high: Math.max(lastDailyBar.high, tradePrice),
-		low: Math.min(lastDailyBar.low, tradePrice),
-		close: tradePrice,
-	};
+	if(newBar){
+		bar = {
+			time: tradeTime,
+			open: lastDailyBar.close,
+			high: tradePrice,
+			low: tradePrice,
+			close: tradePrice,
+		};
+	} else {
+		bar = {
+			...lastDailyBar,
+			high: Math.max(lastDailyBar.high, tradePrice),
+			low: Math.min(lastDailyBar.low, tradePrice),
+			close: tradePrice,
+		};
+		//console.log('[socket] Update the latest bar by price', tradePrice);
+	}
 	subscriptionItem.lastDailyBar = bar;
 
 	// send data to every subscriber of that symbol
@@ -47,39 +47,42 @@ export function barsFromWebSocket(data){
 }
 
 setInterval(() => {
-	console.log(latestBar)
-	console.log('----')
-}, 1000);
+	if(!_.isEmpty(latestBar)){
+		const dateLocal = new Date();
+		let key = Object.keys(latestBar)[0];
+		let shortName = latestBar[key].short_name;
+		const channelString = `0~${exchange}~${shortName}`;
+		const subscriptionItem = channelToSubscription.get(channelString);
+		if (subscriptionItem !== undefined) {
+			let resolution = subscriptionItem.resolution;
 
-export function createNewBar(barData) {
-	if(_.isEmpty(latestBar)){
-		return;
+			if(dateLocal.getMinutes() !== date.getMinutes()){
+				if (resolution === '1' || resolution === '5' || resolution === '15' || resolution === '30') {
+					let parsed = parseInt(resolution);
+					if (dateLocal.getMinutes() % parsed === 0) {
+						latestBar[key].last_update = new Date();
+						barsFromWebSocket(latestBar, true);
+						console.log('New fucking minute!', dateLocal.getMinutes());
+					}
+				}
+			}
+
+			if(dateLocal.getSeconds() !== date.getSeconds()){
+				date = new Date();
+				if(resolution === '1S' || resolution === '5S' || resolution === '15S' || resolution === '30S') {
+					let parsed = parseInt(resolution.replace('S', ''));
+					if (dateLocal.getSeconds() % parsed === 0) {
+						latestBar[key].last_update = new Date();
+						barsFromWebSocket(latestBar, true);
+					}
+				}
+			}
+		}
 	}
-	let key = Object.keys(latestBar)[0];
-	let shortName = latestBar[key].short_name;
-	const exchange = 'Binary';
-	const tradePrice = latestBar[key].lp;
-	const tradeTime = Date.parse(latestBar[key].last_update);
-	const channelString = `0~${exchange}~${shortName}`;
-	const subscriptionItem = channelToSubscription.get(channelString);
-	if (subscriptionItem === undefined) {
-		return;
-	}
-	const lastDailyBar = subscriptionItem.lastDailyBar;
-	const nextDailyBarTime = getNextDailyBarTime(lastDailyBar.time, subscriptionItem.resolution);
-	let bar = {
-		time: barData.time,
-		open: barData.close,
-		high: barData.high,
-		low: barData.low,
-		close: barData.close,
-	};
-	subscriptionItem.lastDailyBar = bar;
-	subscriptionItem.handlers.forEach(handler => handler.callback(bar));
-}
+});
 
 function getNextDailyBarTime(barTime, resolution) {
-	if(resolution === '1' || resolution === '3' || resolution === '5' || resolution === '10' || resolution === '15' || resolution === '30') {
+	if(resolution === '1' || resolution === '5' || resolution === '15' || resolution === '30') {
 		const date = new Date(barTime);
 		date.setMinutes(date.getMinutes() + parseInt(resolution));
 		date.setSeconds(0);
@@ -87,7 +90,8 @@ function getNextDailyBarTime(barTime, resolution) {
 	}
 	else if(resolution === '1S' || resolution === '5S' || resolution === '15S' || resolution === '30S') {
 		const date = new Date(barTime);
-		date.setSeconds(date.getSeconds() + parseInt(resolution.replace('S', '')));
+		let parsed = parseInt(resolution.replace('S', ''));
+		date.setSeconds(date.getSeconds() + parsed);
 		return date.getTime();
 	}
 }

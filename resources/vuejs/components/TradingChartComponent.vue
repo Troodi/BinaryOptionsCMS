@@ -6,6 +6,7 @@
 
 <script>
     import Datafeed from "../../assets/js/datafeed";
+    import {TradingViewWebsocket} from "../js/tv";
     window.Datafeed = Datafeed;
 
     export default {
@@ -23,7 +24,7 @@
                         window.tvWidget = new window.TradingView.widget({
                             locale: "ru",
                             symbol: symbol, // default symbol
-                            interval: '5s', // default interval
+                            interval: '1', // default interval
                             autosize: true,
                             container_id: 'tv_chart_container',
                             datafeed: window.Datafeed,
@@ -52,6 +53,9 @@
                                 window.button.addEventListener('click', () => window.tvWidget.chart().executeActionById('symbolSearch'));
                                 window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">'+tabSymbol+'</strong>';
                                 $('#' + window.tvWidget._iFrame.name).contents().find('#header-toolbar-symbol-search').replaceWith($('#' + window.tvWidget._iFrame.name).contents().find('.button-symbol-get'))
+                                // window.tvWidget.chart().onSymbolChanged ().subscribe(null, function(symbol) {
+                                //     console.log(symbol)
+                                // });
                             });
                         });
                     }
