@@ -131,10 +131,13 @@ export default {
 		} catch(e){
 
 		}
-		tvObj.barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest);
-		if(latestSymbol !== symbolInfo.name+resolution){//if(firstDataRequest){
+		let first = false;
+		if(latestSymbol !== symbolInfo.name+resolution) {
 			latestSymbol = symbolInfo.name+resolution;
-			console.log('First');
+			first = true;
+		}
+		tvObj.barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, first);
+		if(first){//if(firstDataRequest){
 			tvObj.getTicker('FX:'+symbolInfo.name.replace('/', ''));
 			tvObj.getHistoryTicker();
 		} else {

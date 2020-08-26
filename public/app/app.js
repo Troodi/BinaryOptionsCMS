@@ -59286,6 +59286,7 @@ function _getAllSymbols() {
   }(),
   getBars: function () {
     var _getBars = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
+      var first;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
@@ -59297,19 +59298,24 @@ function _getAllSymbols() {
                 localStorage.setItem('resolution', resolution);
               } catch (e) {}
 
-              tvObj.barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest);
+              first = false;
 
               if (latestSymbol !== symbolInfo.name + resolution) {
-                //if(firstDataRequest){
                 latestSymbol = symbolInfo.name + resolution;
-                console.log('First');
+                first = true;
+              }
+
+              tvObj.barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, first);
+
+              if (first) {
+                //if(firstDataRequest){
                 tvObj.getTicker('FX:' + symbolInfo.name.replace('/', ''));
                 tvObj.getHistoryTicker();
               } else {
                 tvObj.getMoreData();
               }
 
-            case 3:
+            case 5:
             case "end":
               return _context3.stop();
           }
@@ -59434,6 +59440,12 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 var channelToSubscription = new Map();
 var latestBar = {};
@@ -59455,24 +59467,24 @@ function barsFromWebSocket(data) {
 
   var lastDailyBar = subscriptionItem.lastDailyBar;
   var nextDailyBarTime = getNextDailyBarTime(lastDailyBar.time, subscriptionItem.resolution);
-  var bar; // if (tradeTime >= nextDailyBarTime) {
-  // //if(newBar){
-  // 	bar = {
-  // 		time: tradeTime,
-  // 		open: lastDailyBar.close,
-  // 		high: tradePrice,
-  // 		low: tradePrice,
-  // 		close: tradePrice,
-  // 	};
-  // } else {
-  // 	bar = {
-  // 		...lastDailyBar,
-  // 		high: Math.max(lastDailyBar.high, tradePrice),
-  // 		low: Math.min(lastDailyBar.low, tradePrice),
-  // 		close: tradePrice,
-  // 	};
-  // 	//console.log('[socket] Update the latest bar by price', tradePrice);
-  // }
+  var bar;
+
+  if (tradeTime >= nextDailyBarTime) {
+    //if(newBar){
+    bar = {
+      time: tradeTime,
+      open: lastDailyBar.close,
+      high: tradePrice,
+      low: tradePrice,
+      close: tradePrice
+    };
+  } else {
+    bar = _objectSpread(_objectSpread({}, lastDailyBar), {}, {
+      high: Math.max(lastDailyBar.high, tradePrice),
+      low: Math.min(lastDailyBar.low, tradePrice),
+      close: tradePrice
+    }); //console.log('[socket] Update the latest bar by price', tradePrice);
+  }
 
   subscriptionItem.lastDailyBar = bar; // send data to every subscriber of that symbol
 

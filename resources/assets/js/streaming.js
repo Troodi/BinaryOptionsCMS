@@ -24,24 +24,24 @@ export function barsFromWebSocket(data, newBar = false){
 
 	let bar;
 
-	// if (tradeTime >= nextDailyBarTime) {
-	// //if(newBar){
-	// 	bar = {
-	// 		time: tradeTime,
-	// 		open: lastDailyBar.close,
-	// 		high: tradePrice,
-	// 		low: tradePrice,
-	// 		close: tradePrice,
-	// 	};
-	// } else {
-	// 	bar = {
-	// 		...lastDailyBar,
-	// 		high: Math.max(lastDailyBar.high, tradePrice),
-	// 		low: Math.min(lastDailyBar.low, tradePrice),
-	// 		close: tradePrice,
-	// 	};
-	// 	//console.log('[socket] Update the latest bar by price', tradePrice);
-	// }
+	if (tradeTime >= nextDailyBarTime) {
+	//if(newBar){
+		bar = {
+			time: tradeTime,
+			open: lastDailyBar.close,
+			high: tradePrice,
+			low: tradePrice,
+			close: tradePrice,
+		};
+	} else {
+		bar = {
+			...lastDailyBar,
+			high: Math.max(lastDailyBar.high, tradePrice),
+			low: Math.min(lastDailyBar.low, tradePrice),
+			close: tradePrice,
+		};
+		//console.log('[socket] Update the latest bar by price', tradePrice);
+	}
 	subscriptionItem.lastDailyBar = bar;
 
 	// send data to every subscriber of that symbol
