@@ -63,6 +63,8 @@ export default {
 	onReady: (callback) => {
 		//console.log('[onReady]: Method call');
 		setTimeout(() => callback(configurationData));
+		latestSymbol = ''
+		lastBarsCache.clear();
 		window.tvObj = new TradingViewWebsocket();
 		//tvObj.getTicker("BINANCE:BTCUSDT");
 	},

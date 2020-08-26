@@ -7,6 +7,7 @@ const channelToSubscription = new Map();
 let latestBar = {};
 let date = new Date();
 const exchange = 'Binary';
+let latestchannelString = '';
 
 export function barsFromWebSocket(data, newBar = false){
 	latestBar = data;
@@ -15,6 +16,7 @@ export function barsFromWebSocket(data, newBar = false){
 	const tradePrice = data[key].lp;
 	let tradeTime = Date.parse(data[key].last_update);
 	const channelString = `0~${exchange}~${shortName}`;
+	latestchannelString = channelString;
 	const subscriptionItem = channelToSubscription.get(channelString);
 	if (subscriptionItem === undefined) {
 		return;
@@ -133,8 +135,8 @@ export function unsubscribeFromStream(subscriberUID, tvObj) {
 	for (const channelString of channelToSubscription.keys()) {
 		const subscriptionItem = channelToSubscription.get(channelString);
 		let parsedSymbol = parseFullSymbol(subscriptionItem.info.full_name);
-		tvObj._deleteTicker('FX:'+parsedSymbol.fromSymbol + parsedSymbol.toSymbol)
-		tvObj.removeSymbols('FX:'+parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
+		tvObj._deleteTicker('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol)
+		//tvObj.removeSymbols('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
 		const handlerIndex = subscriptionItem.handlers
 			.findIndex(handler => handler.id === subscriberUID);
 

@@ -2078,6 +2078,9 @@ window.Datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__["default"];
         }
       }, 100);
     }
+  },
+  destroyed: function destroyed() {
+    window.tvObj.closeWebsocket();
   }
 });
 
@@ -2296,7 +2299,14 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     TradingChartComponent: _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {},
+  methods: {
+    buy: function buy(event) {
+      console.log('BUY');
+      var order = window.tvWidget.chart().createOrderLine().setText("Покупка").setLineLength(1).setLineStyle(0).setQuantity("100$");
+      order.setPrice(1.18302);
+    }
+  }
 });
 
 /***/ }),
@@ -43752,9 +43762,23 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(2),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success glow w-100 btn-lg",
+                          attrs: { type: "button" },
+                          on: { click: _vm.buy }
+                        },
+                        [
+                          _c("i", { staticClass: "bx bx-trending-up" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "align-middle ml-25" }, [
+                            _vm._v("+ 75%")
+                          ])
+                        ]
+                      ),
                       _vm._v(" "),
-                      _vm._m(3),
+                      _vm._m(2),
                       _vm._v(" "),
                       _c("hr", { staticClass: "mt-2" })
                     ])
@@ -43784,23 +43808,6 @@ var staticRenderFns = [
     return _c("small", { staticClass: "text-muted" }, [
       _c("i", [_vm._v("Сумма сделки")])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-success glow w-100 btn-lg",
-        attrs: { type: "button" }
-      },
-      [
-        _c("i", { staticClass: "bx bx-trending-up" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "align-middle ml-25" }, [_vm._v("+ 75%")])
-      ]
-    )
   },
   function() {
     var _vm = this
@@ -59184,6 +59191,8 @@ function _getAllSymbols() {
     setTimeout(function () {
       return callback(configurationData);
     });
+    latestSymbol = '';
+    lastBarsCache.clear();
     window.tvObj = new _vuejs_js_tv__WEBPACK_IMPORTED_MODULE_3__["TradingViewWebsocket"](); //tvObj.getTicker("BINANCE:BTCUSDT");
   },
   searchSymbols: function () {
@@ -59451,6 +59460,7 @@ var channelToSubscription = new Map();
 var latestBar = {};
 var date = new Date();
 var exchange = 'Binary';
+var latestchannelString = '';
 function barsFromWebSocket(data) {
   var newBar = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
   latestBar = data;
@@ -59459,6 +59469,7 @@ function barsFromWebSocket(data) {
   var tradePrice = data[key].lp;
   var tradeTime = Date.parse(data[key].last_update);
   var channelString = "0~".concat(exchange, "~").concat(shortName);
+  latestchannelString = channelString;
   var subscriptionItem = channelToSubscription.get(channelString);
 
   if (subscriptionItem === undefined) {
@@ -59580,9 +59591,9 @@ function unsubscribeFromStream(subscriberUID, tvObj) {
       var subscriptionItem = channelToSubscription.get(channelString);
       var parsedSymbol = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_0__["parseFullSymbol"])(subscriptionItem.info.full_name);
 
-      tvObj._deleteTicker('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
+      tvObj._deleteTicker('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol); //tvObj.removeSymbols('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
 
-      tvObj.removeSymbols('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
+
       var handlerIndex = subscriptionItem.handlers.findIndex(function (handler) {
         return handler.id === subscriberUID;
       });
@@ -59795,6 +59806,12 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
   }
 
   _createClass(TradingViewWebsocket, [{
+    key: "closeWebsocket",
+    value: function closeWebsocket() {
+      console.log('Closed!');
+      this.socketTV.close();
+    }
+  }, {
     key: "barsCallback",
     value: function barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
       this.symbolInfoLocal = symbolInfo;
@@ -59907,8 +59924,6 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
                   _this2.firstDataRequestLocal = false;
                   Object(_assets_js_datafeed__WEBPACK_IMPORTED_MODULE_1__["setLastBarsCache"])(_this2.symbolInfoLocal, bars);
                 }
-
-                console.log('onHistoryCallbackLocal');
 
                 _this2.onHistoryCallbackLocal(bars, {
                   noData: false

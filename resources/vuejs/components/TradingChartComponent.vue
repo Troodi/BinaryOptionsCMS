@@ -69,6 +69,9 @@
                     }
                 }, 100);
             }
+        },
+        destroyed() {
+            window.tvObj.closeWebsocket();
         }
     }
 </script>

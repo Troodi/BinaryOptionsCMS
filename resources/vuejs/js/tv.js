@@ -20,12 +20,16 @@ export class TradingViewWebsocket {
         this.symbolNumber = 1;
         this.symbolResolved = false;
         this.seriesCompleted = false;
-
         this.socketTV = new WebSocket("ws://chart.getoption.pro:80");
         this.socketTV.onmessage = (data) => { this.onmessage(data) };
         this.socketTV.onopen = () => { this.onopen() };
         this.socketTV.onclose = (data) => { this.onclose(data) };
         this.socketTV.onerror = (data) => { this.onerror(data) };
+    }
+
+    closeWebsocket(){
+        console.log('Closed!');
+        this.socketTV.close();
     }
 
     barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
@@ -62,10 +66,11 @@ export class TradingViewWebsocket {
                 this.sendRawMessage("~h~" + packet["~protocol~keepalive~"]);
             } else if (packet.session_id) {
                 let token = '';
-                $.get("/data/getAuthToken", function(data) {
+                $.get("/data/getAuthToken", function (data) {
                     token = data;
                     console.log('Got token ', token);
                 });
+
                 const interval = setInterval(() => {
                     if (token !== '') { // OPEN
                         clearInterval(interval);
@@ -163,7 +168,6 @@ export class TradingViewWebsocket {
                                 setLastBarsCache(this.symbolInfoLocal, bars);
 
                             }
-                            console.log('onHistoryCallbackLocal')
                             this.onHistoryCallbackLocal(bars, {
                                 noData: false,
                             });
