@@ -19,7 +19,7 @@ export class TradingViewWebsocket {
         this.checkBarsGot = false;
         this.symbolNumber = 1;
         this.symbolResolved = false;
-
+        this.seriesCompleted = false;
 
         this.socketTV = new WebSocket("ws://chart.getoption.pro:80");
         this.socketTV.onmessage = (data) => { this.onmessage(data) };
@@ -140,39 +140,45 @@ export class TradingViewWebsocket {
                 //barsFromWebSocket();
             } else if (packet.m && packet.m === "timescale_update" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.chartSession) {
                 let bars = [];
-                packet.p[1].s1.s.forEach(bar => {
-                    //if (bar.time >= from && bar.time < to) {
-                    bars = [...bars, {
-                        time: bar.v[0] * 1000,
-                        low: bar.v[3],
-                        high: bar.v[2],
-                        open: bar.v[1],
-                        close: bar.v[4],
-                    }];
-                    //}
-                });
-                const each = 10; // how much ms between runs
-                let runs = 3000 / each; // time in ms divided by above
-                const interval = setInterval(() => {
-                    --runs;
-                    if (typeof this.onHistoryCallbackLocal !== 'undefined') {
-                        if (this.firstDataRequestLocal) {
-                            setLastBarsCache(this.symbolInfoLocal, bars);
+                if(packet.p[1].s1.s.length > 1) {
+                    packet.p[1].s1.s.forEach(bar => {
+                        //if (bar.time >= from && bar.time < to) {
+                        bars = [...bars, {
+                            time: bar.v[0] * 1000,
+                            low: bar.v[3],
+                            high: bar.v[2],
+                            open: bar.v[1],
+                            close: bar.v[4],
+                        }];
+                        //}
+                    });
+                    const each = 10; // how much ms between runs
+                    let runs = 3000 / each; // time in ms divided by above
+                    const interval = setInterval(() => {
+                        --runs;
+                        if (typeof this.onHistoryCallbackLocal !== 'undefined') {
+                            clearInterval(interval);
+                            if (this.firstDataRequestLocal) {
+                                this.firstDataRequestLocal = false;
+                                setLastBarsCache(this.symbolInfoLocal, bars);
+
+                            }
+                            console.log('onHistoryCallbackLocal')
+                            this.onHistoryCallbackLocal(bars, {
+                                noData: false,
+                            });
+                            this.checkBarsGot = true;
                         }
-                        this.onHistoryCallbackLocal(bars, {
-                            noData: false,
-                        });
-                        this.checkBarsGot = true;
-                        clearInterval(interval);
-                    }
-                }, each);
-                //barsFromWebSocket();
+                    }, each);
+                    //barsFromWebSocket();
+                }
             } else if (packet.m && packet.m === "series_completed" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.chartSession) {
                 const each = 10; // how much ms between runs
                 let runs = 3000 / each; // time in ms divided by above
                 const interval = setInterval(() => {
                     --runs;
                     if (typeof this.onHistoryCallbackLocal !== 'undefined') {
+                        this.seriesCompleted = true;
                         if (!this.checkBarsGot) {
                             this.onHistoryCallbackLocal([], {
                                 noData: true,
@@ -342,7 +348,8 @@ export class TradingViewWebsocket {
 
     getMoreData() {
         const interval = setInterval(() => {
-            if (this.symbolResolved) {
+            if (this.symbolResolved && this.seriesCompleted) {
+                this.seriesCompleted = false;
                 clearInterval(interval);
                 this.socketTV.send(
                     this.createMessage("request_more_data", [
