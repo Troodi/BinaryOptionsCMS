@@ -122,7 +122,6 @@ export class TradingViewWebsocket {
                 const tickerName = tticker.n;
                 const tickerStatus = tticker.s;
                 const tickerUpdate = tticker.v;
-
                 // set ticker data, adding all object parameters together
                 this.tickerData[tickerName] = Object.assign(
                     this.tickerData[tickerName] || {last_retrieved: new Date()},
@@ -135,11 +134,11 @@ export class TradingViewWebsocket {
                 if (Date.now() - Date.parse(this.tickerData[tickerName].last_retrieved) > 1000 * 60) {
                     this._deleteTicker(tickerName);
                 }
-            } else if (packet.m && packet.m === "symbol_resolved") {
+            } else if (packet.m && packet.m === "symbol_resolved" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.chartSession) {
                 this.firstLoadHistoryData(); // Get history bars
                 this.symbolResolved = true;
                 //barsFromWebSocket();
-            } else if (packet.m && packet.m === "timescale_update") {
+            } else if (packet.m && packet.m === "timescale_update" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.chartSession) {
                 let bars = [];
                 packet.p[1].s1.s.forEach(bar => {
                     //if (bar.time >= from && bar.time < to) {
@@ -168,7 +167,7 @@ export class TradingViewWebsocket {
                     }
                 }, each);
                 //barsFromWebSocket();
-            } else if (packet.m && packet.m === "series_completed") {
+            } else if (packet.m && packet.m === "series_completed" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.chartSession) {
                 const each = 10; // how much ms between runs
                 let runs = 3000 / each; // time in ms divided by above
                 const interval = setInterval(() => {
@@ -271,6 +270,20 @@ export class TradingViewWebsocket {
         this.socketTV.send(
             this.createMessage("quote_remove_symbols", [this.session, ticker])
         );
+    }
+
+    removeSymbols(tickerName){
+        const interval = setInterval(() => {
+            if (this.sessionRegistered) {
+                clearInterval(interval);
+                this.socketTV.send(
+                    this.createMessage("quote_remove_symbols", [
+                        this.session,
+                        tickerName
+                    ])
+                );
+            }
+        }, 200);
     }
 
     getTicker(tickerName) {

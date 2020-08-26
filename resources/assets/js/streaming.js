@@ -23,66 +23,66 @@ export function barsFromWebSocket(data, newBar = false){
 	const nextDailyBarTime = getNextDailyBarTime(lastDailyBar.time, subscriptionItem.resolution);
 
 	let bar;
-	if(newBar){
-		bar = {
-			time: tradeTime,
-			open: lastDailyBar.close,
-			high: tradePrice,
-			low: tradePrice,
-			close: tradePrice,
-		};
-	} else {
-		bar = {
-			...lastDailyBar,
-			high: Math.max(lastDailyBar.high, tradePrice),
-			low: Math.min(lastDailyBar.low, tradePrice),
-			close: tradePrice,
-		};
-		//console.log('[socket] Update the latest bar by price', tradePrice);
-	}
+
+	// if (tradeTime >= nextDailyBarTime) {
+	// //if(newBar){
+	// 	bar = {
+	// 		time: tradeTime,
+	// 		open: lastDailyBar.close,
+	// 		high: tradePrice,
+	// 		low: tradePrice,
+	// 		close: tradePrice,
+	// 	};
+	// } else {
+	// 	bar = {
+	// 		...lastDailyBar,
+	// 		high: Math.max(lastDailyBar.high, tradePrice),
+	// 		low: Math.min(lastDailyBar.low, tradePrice),
+	// 		close: tradePrice,
+	// 	};
+	// 	//console.log('[socket] Update the latest bar by price', tradePrice);
+	// }
 	subscriptionItem.lastDailyBar = bar;
 
 	// send data to every subscriber of that symbol
 	subscriptionItem.handlers.forEach(handler => handler.callback(bar));
 }
 
-setInterval(() => {
-	if(!_.isEmpty(latestBar)){
-		const dateLocal = new Date();
-		let key = Object.keys(latestBar)[0];
-		let shortName = latestBar[key].short_name;
-		const channelString = `0~${exchange}~${shortName}`;
-		const subscriptionItem = channelToSubscription.get(channelString);
-		if (subscriptionItem !== undefined) {
-			let resolution = subscriptionItem.resolution;
-
-			if(dateLocal.getMinutes() !== date.getMinutes()){
-				if (resolution === '1' || resolution === '5' || resolution === '15' || resolution === '30') {
-					let parsed = parseInt(resolution);
-					if (dateLocal.getMinutes() % parsed === 0) {
-						latestBar[key].last_update = new Date();
-						barsFromWebSocket(latestBar, true);
-						console.log('New fucking minute!', dateLocal.getMinutes());
-					}
-				}
-			}
-
-			if(dateLocal.getSeconds() !== date.getSeconds()){
-				date = new Date();
-				if(resolution === '1S' || resolution === '5S' || resolution === '15S' || resolution === '30S') {
-					let parsed = parseInt(resolution.replace('S', ''));
-					if (dateLocal.getSeconds() % parsed === 0) {
-						latestBar[key].last_update = new Date();
-						barsFromWebSocket(latestBar, true);
-					}
-				}
-			}
-		}
-	}
-});
+// setInterval(() => {
+// 	if(!_.isEmpty(latestBar)){
+// 		const dateLocal = new Date();
+// 		let key = Object.keys(latestBar)[0];
+// 		let shortName = latestBar[key].short_name;
+// 		const channelString = `0~${exchange}~${shortName}`;
+// 		const subscriptionItem = channelToSubscription.get(channelString);
+// 		if (subscriptionItem !== undefined) {
+// 			let resolution = subscriptionItem.resolution;
+// 			if(dateLocal.getMinutes() !== date.getMinutes()){
+// 				if (resolution === '1' || resolution === '5' || resolution === '15' || resolution === '30' || resolution === '60' || resolution === '240') {
+// 					let parsed = parseInt(resolution);
+// 					if (dateLocal.getMinutes() % parsed === 0) {
+// 						latestBar[key].last_update = new Date();
+// 						barsFromWebSocket(latestBar, true);
+// 					}
+// 				}
+// 			}
+//
+// 			if(dateLocal.getSeconds() !== date.getSeconds()){
+// 				date = new Date();
+// 				if(resolution === '1S' || resolution === '5S' || resolution === '15S' || resolution === '30S') {
+// 					let parsed = parseInt(resolution.replace('S', ''));
+// 					if (dateLocal.getSeconds() % parsed === 0) {
+// 						latestBar[key].last_update = new Date();
+// 						barsFromWebSocket(latestBar, true);
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// });
 
 function getNextDailyBarTime(barTime, resolution) {
-	if(resolution === '1' || resolution === '5' || resolution === '15' || resolution === '30') {
+	if(resolution === '1' || resolution === '5' || resolution === '15' || resolution === '30' || resolution === '60' || resolution === '240') {
 		const date = new Date(barTime);
 		date.setMinutes(date.getMinutes() + parseInt(resolution));
 		date.setSeconds(0);
@@ -121,16 +121,20 @@ export function subscribeOnStream(
 		resolution,
 		lastDailyBar,
 		handlers: [handler],
+		info: symbolInfo,
 	};
 	channelToSubscription.set(channelString, subscriptionItem);
 	//console.log('[subscribeBars]: Subscribe to streaming. Channel:', channelString);
 	//socket.emit('SubAdd', { subs: [channelString] });
 }
 
-export function unsubscribeFromStream(subscriberUID) {
+export function unsubscribeFromStream(subscriberUID, tvObj) {
 	// find a subscription with id === subscriberUID
 	for (const channelString of channelToSubscription.keys()) {
 		const subscriptionItem = channelToSubscription.get(channelString);
+		let parsedSymbol = parseFullSymbol(subscriptionItem.info.full_name);
+		tvObj._deleteTicker('FX:'+parsedSymbol.fromSymbol + parsedSymbol.toSymbol)
+		tvObj.removeSymbols('FX:'+parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
 		const handlerIndex = subscriptionItem.handlers
 			.findIndex(handler => handler.id === subscriberUID);
 
