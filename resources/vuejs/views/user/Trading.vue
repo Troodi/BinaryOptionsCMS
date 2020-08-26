@@ -34,7 +34,7 @@
                                         </div>
                                     </fieldset>
 
-                                    <button type="button" class="btn btn-success glow w-100 btn-lg">
+                                    <button type="button" @click="buy" class="btn btn-success glow w-100 btn-lg">
                                         <i class="bx bx-trending-up"></i>
                                         <span class="align-middle ml-25">+ 75%</span>
                                     </button>
@@ -63,6 +63,17 @@
         },
         mounted() {
 
+        },
+        methods: {
+            buy: function (event) {
+                console.log('BUY')
+                let order = window.tvWidget.chart().createOrderLine()
+                    .setText("Покупка")
+                    .setLineLength(1)
+                    .setLineStyle(0)
+                    .setQuantity("100$")
+                order.setPrice(1.18302);
+            }
         }
     }
 </script>
