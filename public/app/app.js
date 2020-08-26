@@ -2017,8 +2017,24 @@ window.Datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__["default"];
   },
   methods: {
     initChart: function initChart() {
-      var symbol = 'Binary:EUR/USD';
-      var tabSymbol = 'EUR/USD';
+      var symbol = '',
+          tabSymbol = '',
+          resolution = '';
+
+      if (localStorage.getItem('symbol_full') && localStorage.getItem('symbol_short')) {
+        symbol = localStorage.getItem('symbol_full');
+        tabSymbol = localStorage.getItem('symbol_short');
+      } else {
+        symbol = 'Binary:EUR/USD';
+        tabSymbol = 'EUR/USD';
+      }
+
+      if (localStorage.getItem('resolution')) {
+        resolution = localStorage.getItem('resolution');
+      } else {
+        resolution = '1';
+      }
+
       var interval = setInterval(function () {
         if (typeof window.Datafeed !== 'undefined') {
           clearInterval(interval);
@@ -2026,7 +2042,7 @@ window.Datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__["default"];
             locale: "ru",
             symbol: symbol,
             // default symbol
-            interval: '1',
+            interval: resolution,
             // default interval
             autosize: true,
             container_id: 'tv_chart_container',
@@ -2038,7 +2054,7 @@ window.Datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__["default"];
             // "header_symbol_search",
             disabled_features: ["widget_logo", "header_compare", 'compare_symbol', 'timeframes_toolbar', 'display_market_status', 'header_screenshot'],
             favorites: {
-              intervals: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H', '1D'],
+              intervals: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H'],
               chartTypes: ["Candles", "Area", "Line", "Bars", "Hollow Candles", "Baseline"]
             },
             overrides: {
@@ -2056,9 +2072,7 @@ window.Datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__["default"];
                 return window.tvWidget.chart().executeActionById('symbolSearch');
               });
               window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">' + tabSymbol + '</strong>';
-              $('#' + window.tvWidget._iFrame.name).contents().find('#header-toolbar-symbol-search').replaceWith($('#' + window.tvWidget._iFrame.name).contents().find('.button-symbol-get')); // window.tvWidget.chart().onSymbolChanged ().subscribe(null, function(symbol) {
-              //     console.log(symbol)
-              // });
+              $('#' + window.tvWidget._iFrame.name).contents().find('#header-toolbar-symbol-search').replaceWith($('#' + window.tvWidget._iFrame.name).contents().find('.button-symbol-get'));
             });
           });
         }
@@ -59222,11 +59236,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var lastBarsCache = new Map();
+var latestSymbol = '';
 function setLastBarsCache(symbolInfo, bars) {
   lastBarsCache.set(symbolInfo.full_name, _objectSpread({}, bars[bars.length - 1]));
 }
 var configurationData = {
-  supported_resolutions: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H', '1D'],
+  supported_resolutions: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H'],
   exchanges: [{
     value: 'Binary',
     name: 'Binary Option',
@@ -59414,16 +59429,26 @@ function _getAllSymbols() {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
+              try {
+                window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">' + symbolInfo.ticker + '</strong>';
+                localStorage.setItem('symbol_full', symbolInfo.pro_name);
+                localStorage.setItem('symbol_short', symbolInfo.ticker);
+                localStorage.setItem('resolution', resolution);
+              } catch (e) {}
+
               tvObj.barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest);
 
-              if (firstDataRequest) {
+              if (latestSymbol !== symbolInfo.name + resolution) {
+                //if(firstDataRequest){
+                latestSymbol = symbolInfo.name + resolution;
+                console.log('First');
                 tvObj.getTicker('FX:' + symbolInfo.name.replace('/', ''));
                 tvObj.getHistoryTicker();
               } else {
                 tvObj.getMoreData();
               }
 
-            case 2:
+            case 3:
             case "end":
               return _context3.stop();
           }
@@ -59443,7 +59468,7 @@ function _getAllSymbols() {
   },
   unsubscribeBars: function unsubscribeBars(subscriberUID) {
     //console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-    Object(_streaming_js__WEBPACK_IMPORTED_MODULE_2__["unsubscribeFromStream"])(subscriberUID);
+    Object(_streaming_js__WEBPACK_IMPORTED_MODULE_2__["unsubscribeFromStream"])(subscriberUID, tvObj);
   }
 });
 
@@ -59548,12 +59573,6 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
@@ -59577,71 +59596,65 @@ function barsFromWebSocket(data) {
 
   var lastDailyBar = subscriptionItem.lastDailyBar;
   var nextDailyBarTime = getNextDailyBarTime(lastDailyBar.time, subscriptionItem.resolution);
-  var bar;
-
-  if (newBar) {
-    bar = {
-      time: tradeTime,
-      open: lastDailyBar.close,
-      high: tradePrice,
-      low: tradePrice,
-      close: tradePrice
-    };
-  } else {
-    bar = _objectSpread(_objectSpread({}, lastDailyBar), {}, {
-      high: Math.max(lastDailyBar.high, tradePrice),
-      low: Math.min(lastDailyBar.low, tradePrice),
-      close: tradePrice
-    }); //console.log('[socket] Update the latest bar by price', tradePrice);
-  }
+  var bar; // if (tradeTime >= nextDailyBarTime) {
+  // //if(newBar){
+  // 	bar = {
+  // 		time: tradeTime,
+  // 		open: lastDailyBar.close,
+  // 		high: tradePrice,
+  // 		low: tradePrice,
+  // 		close: tradePrice,
+  // 	};
+  // } else {
+  // 	bar = {
+  // 		...lastDailyBar,
+  // 		high: Math.max(lastDailyBar.high, tradePrice),
+  // 		low: Math.min(lastDailyBar.low, tradePrice),
+  // 		close: tradePrice,
+  // 	};
+  // 	//console.log('[socket] Update the latest bar by price', tradePrice);
+  // }
 
   subscriptionItem.lastDailyBar = bar; // send data to every subscriber of that symbol
 
   subscriptionItem.handlers.forEach(function (handler) {
     return handler.callback(bar);
   });
-}
-setInterval(function () {
-  if (!_.isEmpty(latestBar)) {
-    var dateLocal = new Date();
-    var key = Object.keys(latestBar)[0];
-    var shortName = latestBar[key].short_name;
-    var channelString = "0~".concat(exchange, "~").concat(shortName);
-    var subscriptionItem = channelToSubscription.get(channelString);
-
-    if (subscriptionItem !== undefined) {
-      var resolution = subscriptionItem.resolution;
-
-      if (dateLocal.getMinutes() !== date.getMinutes()) {
-        if (resolution === '1' || resolution === '5' || resolution === '15' || resolution === '30') {
-          var parsed = parseInt(resolution);
-
-          if (dateLocal.getMinutes() % parsed === 0) {
-            latestBar[key].last_update = new Date();
-            barsFromWebSocket(latestBar, true);
-            console.log('New fucking minute!', dateLocal.getMinutes());
-          }
-        }
-      }
-
-      if (dateLocal.getSeconds() !== date.getSeconds()) {
-        date = new Date();
-
-        if (resolution === '1S' || resolution === '5S' || resolution === '15S' || resolution === '30S') {
-          var _parsed = parseInt(resolution.replace('S', ''));
-
-          if (dateLocal.getSeconds() % _parsed === 0) {
-            latestBar[key].last_update = new Date();
-            barsFromWebSocket(latestBar, true);
-          }
-        }
-      }
-    }
-  }
-});
+} // setInterval(() => {
+// 	if(!_.isEmpty(latestBar)){
+// 		const dateLocal = new Date();
+// 		let key = Object.keys(latestBar)[0];
+// 		let shortName = latestBar[key].short_name;
+// 		const channelString = `0~${exchange}~${shortName}`;
+// 		const subscriptionItem = channelToSubscription.get(channelString);
+// 		if (subscriptionItem !== undefined) {
+// 			let resolution = subscriptionItem.resolution;
+// 			if(dateLocal.getMinutes() !== date.getMinutes()){
+// 				if (resolution === '1' || resolution === '5' || resolution === '15' || resolution === '30' || resolution === '60' || resolution === '240') {
+// 					let parsed = parseInt(resolution);
+// 					if (dateLocal.getMinutes() % parsed === 0) {
+// 						latestBar[key].last_update = new Date();
+// 						barsFromWebSocket(latestBar, true);
+// 					}
+// 				}
+// 			}
+//
+// 			if(dateLocal.getSeconds() !== date.getSeconds()){
+// 				date = new Date();
+// 				if(resolution === '1S' || resolution === '5S' || resolution === '15S' || resolution === '30S') {
+// 					let parsed = parseInt(resolution.replace('S', ''));
+// 					if (dateLocal.getSeconds() % parsed === 0) {
+// 						latestBar[key].last_update = new Date();
+// 						barsFromWebSocket(latestBar, true);
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// });
 
 function getNextDailyBarTime(barTime, resolution) {
-  if (resolution === '1' || resolution === '5' || resolution === '15' || resolution === '30') {
+  if (resolution === '1' || resolution === '5' || resolution === '15' || resolution === '30' || resolution === '60' || resolution === '240') {
     var _date = new Date(barTime);
 
     _date.setMinutes(_date.getMinutes() + parseInt(resolution));
@@ -59679,12 +59692,13 @@ function subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscribe
     subscribeUID: subscribeUID,
     resolution: resolution,
     lastDailyBar: lastDailyBar,
-    handlers: [handler]
+    handlers: [handler],
+    info: symbolInfo
   };
   channelToSubscription.set(channelString, subscriptionItem); //console.log('[subscribeBars]: Subscribe to streaming. Channel:', channelString);
   //socket.emit('SubAdd', { subs: [channelString] });
 }
-function unsubscribeFromStream(subscriberUID) {
+function unsubscribeFromStream(subscriberUID, tvObj) {
   // find a subscription with id === subscriberUID
   var _iterator = _createForOfIteratorHelper(channelToSubscription.keys()),
       _step;
@@ -59693,6 +59707,11 @@ function unsubscribeFromStream(subscriberUID) {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var channelString = _step.value;
       var subscriptionItem = channelToSubscription.get(channelString);
+      var parsedSymbol = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_0__["parseFullSymbol"])(subscriptionItem.info.full_name);
+
+      tvObj._deleteTicker('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
+
+      tvObj.removeSymbols('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
       var handlerIndex = subscriptionItem.handlers.findIndex(function (handler) {
         return handler.id === subscriberUID;
       });
@@ -59996,12 +60015,12 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
           if (Date.now() - Date.parse(_this2.tickerData[tickerName].last_retrieved) > 1000 * 60) {
             _this2._deleteTicker(tickerName);
           }
-        } else if (packet.m && packet.m === "symbol_resolved") {
+        } else if (packet.m && packet.m === "symbol_resolved" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
           _this2.firstLoadHistoryData(); // Get history bars
 
 
           _this2.symbolResolved = true; //barsFromWebSocket();
-        } else if (packet.m && packet.m === "timescale_update") {
+        } else if (packet.m && packet.m === "timescale_update" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
           var bars = [];
           packet.p[1].s1.s.forEach(function (bar) {
             //if (bar.time >= from && bar.time < to) {
@@ -60034,7 +60053,7 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             }
           }, each); //barsFromWebSocket();
 
-        } else if (packet.m && packet.m === "series_completed") {
+        } else if (packet.m && packet.m === "series_completed" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
           var _each = 10; // how much ms between runs
 
           var _runs = 3000 / _each; // time in ms divided by above
@@ -60154,9 +60173,22 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
       this.socketTV.send(this.createMessage("quote_remove_symbols", [this.session, ticker]));
     }
   }, {
+    key: "removeSymbols",
+    value: function removeSymbols(tickerName) {
+      var _this4 = this;
+
+      var interval = setInterval(function () {
+        if (_this4.sessionRegistered) {
+          clearInterval(interval);
+
+          _this4.socketTV.send(_this4.createMessage("quote_remove_symbols", [_this4.session, tickerName]));
+        }
+      }, 200);
+    }
+  }, {
     key: "getTicker",
     value: function getTicker(tickerName) {
-      var _this4 = this;
+      var _this5 = this;
 
       console.log('Get ticker!', tickerName);
       this.symbol = tickerName;
@@ -60169,9 +60201,9 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
       }
 
       var interval = setInterval(function () {
-        if (_this4.socketTV.readyState === 1 && _this4.sessionRegistered) {
+        if (_this5.socketTV.readyState === 1 && _this5.sessionRegistered) {
           // OPEN
-          _this4._getTicker(tickerName);
+          _this5._getTicker(tickerName);
 
           clearInterval(interval);
         } else if (!runs) {
@@ -60183,18 +60215,18 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
   }, {
     key: "getHistoryTicker",
     value: function getHistoryTicker() {
-      var _this5 = this;
+      var _this6 = this;
 
       var tickerName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.symbol;
       this.symbolResolved = false;
       var interval = setInterval(function () {
-        if (_this5.sessionRegistered) {
+        if (_this6.sessionRegistered) {
           clearInterval(interval);
-          _this5.chartSession = _this5.generateChartSession();
+          _this6.chartSession = _this6.generateChartSession();
 
-          _this5.socketTV.send(_this5.createMessage("chart_create_session", [_this5.chartSession, ""]));
+          _this6.socketTV.send(_this6.createMessage("chart_create_session", [_this6.chartSession, ""]));
 
-          _this5.socketTV.send(_this5.createMessage("resolve_symbol", [_this5.chartSession, "symbol_" + _this5.symbolNumber.toString(), '={"symbol":"' + tickerName + '","adjustment":"splits"}']));
+          _this6.socketTV.send(_this6.createMessage("resolve_symbol", [_this6.chartSession, "symbol_" + _this6.symbolNumber.toString(), '={"symbol":"' + tickerName + '","adjustment":"splits"}']));
         }
       }, 200);
     }
@@ -60206,13 +60238,13 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
   }, {
     key: "getMoreData",
     value: function getMoreData() {
-      var _this6 = this;
+      var _this7 = this;
 
       var interval = setInterval(function () {
-        if (_this6.symbolResolved) {
+        if (_this7.symbolResolved) {
           clearInterval(interval);
 
-          _this6.socketTV.send(_this6.createMessage("request_more_data", [_this6.chartSession, "s1", 2000]));
+          _this7.socketTV.send(_this7.createMessage("request_more_data", [_this7.chartSession, "s1", 2000]));
         }
       }, 200);
     } // IO functions

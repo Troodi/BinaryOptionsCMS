@@ -13,6 +13,7 @@ import {
 } from '../../vuejs/js/tv'
 
 const lastBarsCache = new Map();
+let latestSymbol = '';
 
 export function setLastBarsCache(symbolInfo, bars){
 	lastBarsCache.set(symbolInfo.full_name, {
@@ -21,7 +22,7 @@ export function setLastBarsCache(symbolInfo, bars){
 }
 
 const configurationData = {
-	supported_resolutions: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H', '1D'],
+	supported_resolutions: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H'],
 	exchanges: [{
 		value: 'Binary',
 		name: 'Binary Option',
@@ -122,8 +123,18 @@ export default {
 	},
 
 	getBars: async (symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) => {
+		try {
+			window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">' + symbolInfo.ticker + '</strong>';
+			localStorage.setItem('symbol_full', symbolInfo.pro_name);
+			localStorage.setItem('symbol_short', symbolInfo.ticker);
+			localStorage.setItem('resolution', resolution);
+		} catch(e){
+
+		}
 		tvObj.barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest);
-		if(firstDataRequest){
+		if(latestSymbol !== symbolInfo.name+resolution){//if(firstDataRequest){
+			latestSymbol = symbolInfo.name+resolution;
+			console.log('First');
 			tvObj.getTicker('FX:'+symbolInfo.name.replace('/', ''));
 			tvObj.getHistoryTicker();
 		} else {
@@ -152,6 +163,6 @@ export default {
 
 	unsubscribeBars: (subscriberUID) => {
 		//console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-		unsubscribeFromStream(subscriberUID);
+		unsubscribeFromStream(subscriberUID, tvObj);
 	},
 };
