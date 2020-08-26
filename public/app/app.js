@@ -59928,6 +59928,7 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
     this.checkBarsGot = false;
     this.symbolNumber = 1;
     this.symbolResolved = false;
+    this.seriesCompleted = false;
     this.socketTV = new WebSocket("ws://chart.getoption.pro:80");
 
     this.socketTV.onmessage = function (data) {
@@ -60034,37 +60035,44 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
           _this2.symbolResolved = true; //barsFromWebSocket();
         } else if (packet.m && packet.m === "timescale_update" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
           var bars = [];
-          packet.p[1].s1.s.forEach(function (bar) {
-            //if (bar.time >= from && bar.time < to) {
-            bars = [].concat(_toConsumableArray(bars), [{
-              time: bar.v[0] * 1000,
-              low: bar.v[3],
-              high: bar.v[2],
-              open: bar.v[1],
-              close: bar.v[4]
-            }]); //}
-          });
-          var each = 10; // how much ms between runs
 
-          var runs = 3000 / each; // time in ms divided by above
+          if (packet.p[1].s1.s.length > 1) {
+            packet.p[1].s1.s.forEach(function (bar) {
+              //if (bar.time >= from && bar.time < to) {
+              bars = [].concat(_toConsumableArray(bars), [{
+                time: bar.v[0] * 1000,
+                low: bar.v[3],
+                high: bar.v[2],
+                open: bar.v[1],
+                close: bar.v[4]
+              }]); //}
+            });
+            var each = 10; // how much ms between runs
 
-          var _interval = setInterval(function () {
-            --runs;
+            var runs = 3000 / each; // time in ms divided by above
 
-            if (typeof _this2.onHistoryCallbackLocal !== 'undefined') {
-              if (_this2.firstDataRequestLocal) {
-                Object(_assets_js_datafeed__WEBPACK_IMPORTED_MODULE_1__["setLastBarsCache"])(_this2.symbolInfoLocal, bars);
+            var _interval = setInterval(function () {
+              --runs;
+
+              if (typeof _this2.onHistoryCallbackLocal !== 'undefined') {
+                clearInterval(_interval);
+
+                if (_this2.firstDataRequestLocal) {
+                  _this2.firstDataRequestLocal = false;
+                  Object(_assets_js_datafeed__WEBPACK_IMPORTED_MODULE_1__["setLastBarsCache"])(_this2.symbolInfoLocal, bars);
+                }
+
+                console.log('onHistoryCallbackLocal');
+
+                _this2.onHistoryCallbackLocal(bars, {
+                  noData: false
+                });
+
+                _this2.checkBarsGot = true;
               }
+            }, each); //barsFromWebSocket();
 
-              _this2.onHistoryCallbackLocal(bars, {
-                noData: false
-              });
-
-              _this2.checkBarsGot = true;
-              clearInterval(_interval);
-            }
-          }, each); //barsFromWebSocket();
-
+          }
         } else if (packet.m && packet.m === "series_completed" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
           var _each = 10; // how much ms between runs
 
@@ -60075,6 +60083,8 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             --_runs;
 
             if (typeof _this2.onHistoryCallbackLocal !== 'undefined') {
+              _this2.seriesCompleted = true;
+
               if (!_this2.checkBarsGot) {
                 _this2.onHistoryCallbackLocal([], {
                   noData: true
@@ -60253,7 +60263,8 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
       var _this7 = this;
 
       var interval = setInterval(function () {
-        if (_this7.symbolResolved) {
+        if (_this7.symbolResolved && _this7.seriesCompleted) {
+          _this7.seriesCompleted = false;
           clearInterval(interval);
 
           _this7.socketTV.send(_this7.createMessage("request_more_data", [_this7.chartSession, "s1", 2000]));
