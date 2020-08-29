@@ -16,6 +16,7 @@ const lastBarsCache = new Map();
 let latestSymbol = '';
 
 export function setLastBarsCache(symbolInfo, bars){
+	window.dataLoaded = true;
 	lastBarsCache.set(symbolInfo.full_name, {
 		...bars[bars.length - 1],
 	});
@@ -49,7 +50,8 @@ async function getAllSymbols() {
 			let current = {
 				symbol: symbol.symbol,
 				full_name: "Binary:" + symbol.symbol,
-				description: "75%",
+				broker: symbol.broker,
+				description: symbol.percent.toString() + '%',
 				exchange: exchange.value,
 				type: 'forex',
 			};
@@ -106,6 +108,7 @@ export default {
 			description: symbolItem.description,
 			type: symbolItem.type,
 			session: '24x7',
+			broker: symbolItem.broker,
 			timezone: 'Etc/UTC',
 			exchange: symbolItem.exchange,
 			minmov: 1,
@@ -140,7 +143,7 @@ export default {
 		}
 		tvObj.barsCallback(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, first);
 		if(first){//if(firstDataRequest){
-			tvObj.getTicker('FX:'+symbolInfo.name.replace('/', ''));
+			tvObj.getTicker(symbolInfo.broker+':'+symbolInfo.name.replace('/', ''));
 			tvObj.getHistoryTicker();
 		} else {
 			tvObj.getMoreData();

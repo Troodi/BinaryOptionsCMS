@@ -2010,6 +2010,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.Datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__["default"];
+window.dataLoaded = false;
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Trading",
   created: function created() {
@@ -2293,19 +2294,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Trading",
   components: {
     TradingChartComponent: _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    setInterval(function () {
+      if (!window.dataLoaded) {
+        _this.percent = '';
+      }
+
+      if (typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== _this.symbol && window.dataLoaded) {
+        _this.percent = '+ ' + window.symbolInfo.description;
+      }
+    });
+  },
   methods: {
     buy: function buy(event) {
-      console.log('BUY');
-      var order = window.tvWidget.chart().createOrderLine().setText("Покупка").setLineLength(1).setLineStyle(0).setQuantity("100$");
+      var order = window.tvWidget.chart().createOrderLine().setText("Покупка").setLineLength(1).setLineStyle(0).setQuantity("100$").setLineColor('#23bd70').setQuantityBackgroundColor('#23bd70').setQuantityBorderColor('#23bd70').setBodyBorderColor('#23bd70').setBodyTextColor('#23bd70');
       order.setPrice(1.18302);
     }
+  },
+  data: function data() {
+    return {
+      percent: '',
+      symbol: ''
+    };
   }
 });
 
@@ -43762,23 +43788,80 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success glow w-100 btn-lg",
-                          attrs: { type: "button" },
-                          on: { click: _vm.buy }
-                        },
-                        [
-                          _c("i", { staticClass: "bx bx-trending-up" }),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "align-middle ml-25" }, [
-                            _vm._v("+ 75%")
-                          ])
-                        ]
-                      ),
+                      _vm.percent === ""
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success mb-1 w-100 btn-lg",
+                              attrs: { type: "button", disabled: "" }
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "spinner-border spinner-grow-sm",
+                                attrs: { role: "status", "aria-hidden": "true" }
+                              }),
+                              _vm._v(
+                                "\n                                    Загрузка...\n                                "
+                              )
+                            ]
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
-                      _vm._m(2),
+                      _vm.percent === ""
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger mb-1 w-100 btn-lg",
+                              attrs: { type: "button", disabled: "" }
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "spinner-border spinner-grow-sm",
+                                attrs: { role: "status", "aria-hidden": "true" }
+                              }),
+                              _vm._v(
+                                "\n                                    Загрузка...\n                                "
+                              )
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.percent !== ""
+                        ? _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success glow w-100 btn-lg",
+                              attrs: { type: "button" },
+                              on: { click: _vm.buy }
+                            },
+                            [
+                              _c("i", { staticClass: "bx bx-trending-up" }),
+                              _vm._v(" "),
+                              _c("span", {
+                                staticClass: "align-middle ml-25",
+                                domProps: { textContent: _vm._s(_vm.percent) }
+                              })
+                            ]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _vm.percent !== ""
+                        ? _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-danger glow w-100 mt-1 btn-lg",
+                              attrs: { type: "button" }
+                            },
+                            [
+                              _c("i", { staticClass: "bx bx-trending-down" }),
+                              _c("span", {
+                                staticClass: "align-middle ml-25",
+                                domProps: { textContent: _vm._s(_vm.percent) }
+                              })
+                            ]
+                          )
+                        : _vm._e(),
                       _vm._v(" "),
                       _c("hr", { staticClass: "mt-2" })
                     ])
@@ -43808,23 +43891,6 @@ var staticRenderFns = [
     return _c("small", { staticClass: "text-muted" }, [
       _c("i", [_vm._v("Сумма сделки")])
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-danger glow w-100 mt-1 btn-lg",
-        attrs: { type: "button" }
-      },
-      [
-        _c("i", { staticClass: "bx bx-trending-down" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "align-middle ml-25" }, [_vm._v("+ 75%")])
-      ]
-    )
   }
 ]
 render._withStripped = true
@@ -59106,6 +59172,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var lastBarsCache = new Map();
 var latestSymbol = '';
 function setLastBarsCache(symbolInfo, bars) {
+  window.dataLoaded = true;
   lastBarsCache.set(symbolInfo.full_name, _objectSpread({}, bars[bars.length - 1]));
 }
 var configurationData = {
@@ -59155,7 +59222,8 @@ function _getAllSymbols() {
                     current = {
                       symbol: symbol.symbol,
                       full_name: "Binary:" + symbol.symbol,
-                      description: "75%",
+                      broker: symbol.broker,
+                      description: symbol.percent.toString() + '%',
                       exchange: exchange.value,
                       type: 'forex'
                     };
@@ -59260,6 +59328,7 @@ function _getAllSymbols() {
                 description: symbolItem.description,
                 type: symbolItem.type,
                 session: '24x7',
+                broker: symbolItem.broker,
                 timezone: 'Etc/UTC',
                 exchange: symbolItem.exchange,
                 minmov: 1,
@@ -59318,7 +59387,7 @@ function _getAllSymbols() {
 
               if (first) {
                 //if(firstDataRequest){
-                tvObj.getTicker('FX:' + symbolInfo.name.replace('/', ''));
+                tvObj.getTicker(symbolInfo.broker + ':' + symbolInfo.name.replace('/', ''));
                 tvObj.getHistoryTicker();
               } else {
                 tvObj.getMoreData();
@@ -59556,6 +59625,7 @@ function getNextDailyBarTime(barTime, resolution) {
 }
 
 function subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscribeUID, onResetCacheNeededCallback, lastDailyBar) {
+  window.symbolInfo = symbolInfo;
   var parsedSymbol = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_0__["parseFullSymbol"])(symbolInfo.full_name);
   var channelString = "0~".concat(parsedSymbol.exchange, "~").concat(parsedSymbol.fromSymbol).concat(parsedSymbol.toSymbol);
   var handler = {
@@ -59582,6 +59652,8 @@ function subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscribe
 }
 function unsubscribeFromStream(subscriberUID, tvObj) {
   // find a subscription with id === subscriberUID
+  window.dataLoaded = false;
+
   var _iterator = _createForOfIteratorHelper(channelToSubscription.keys()),
       _step;
 
@@ -59856,7 +59928,6 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
           var token = '';
           jquery__WEBPACK_IMPORTED_MODULE_2___default.a.get("/data/getAuthToken", function (data) {
             token = data;
-            console.log('Got token ', token);
           });
           var interval = setInterval(function () {
             if (token !== '') {
