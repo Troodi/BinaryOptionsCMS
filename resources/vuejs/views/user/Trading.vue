@@ -34,14 +34,22 @@
                                         </div>
                                     </fieldset>
 
-                                    <button type="button" @click="buy" class="btn btn-success glow w-100 btn-lg">
-                                        <i class="bx bx-trending-up"></i>
-                                        <span class="align-middle ml-25">+ 75%</span>
+                                    <button v-if="percent === ''" class="btn btn-success mb-1 w-100 btn-lg" type="button" disabled="">
+                                        <span class="spinner-border spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                        Загрузка...
                                     </button>
 
-                                    <button type="button" class="btn btn-danger glow w-100 mt-1 btn-lg">
-                                        <i class="bx bx-trending-down"></i>
-                                        <span class="align-middle ml-25">+ 75%</span>
+                                    <button v-if="percent === ''" class="btn btn-danger mb-1 w-100 btn-lg" type="button" disabled="">
+                                        <span class="spinner-border spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                        Загрузка...
+                                    </button>
+
+                                    <button v-if="percent !== ''" type="button" @click="buy" class="btn btn-success glow w-100 btn-lg">
+                                        <i class="bx bx-trending-up"></i> <span class="align-middle ml-25" v-text="percent"></span>
+                                    </button>
+
+                                    <button v-if="percent !== ''" type="button" class="btn btn-danger glow w-100 mt-1 btn-lg">
+                                        <i class="bx bx-trending-down"></i><span class="align-middle ml-25" v-text="percent"></span>
                                     </button>
                                     <hr class="mt-2">
                                 </div>
@@ -62,17 +70,34 @@
             TradingChartComponent
         },
         mounted() {
-
+            setInterval(() => {
+                if(!window.dataLoaded){
+                    this.percent = '';
+                }
+                if(typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== this.symbol && window.dataLoaded) {
+                    this.percent = '+ ' + window.symbolInfo.description;
+                }
+            });
         },
         methods: {
             buy: function (event) {
-                console.log('BUY')
                 let order = window.tvWidget.chart().createOrderLine()
                     .setText("Покупка")
                     .setLineLength(1)
                     .setLineStyle(0)
                     .setQuantity("100$")
+                    .setLineColor('#23bd70')
+                    .setQuantityBackgroundColor('#23bd70')
+                    .setQuantityBorderColor('#23bd70')
+                    .setBodyBorderColor('#23bd70')
+                    .setBodyTextColor('#23bd70')
                 order.setPrice(1.18302);
+            }
+        },
+        data() {
+            return {
+                percent: '',
+                symbol: '',
             }
         }
     }

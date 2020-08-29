@@ -106,6 +106,7 @@ export function subscribeOnStream(
 	onResetCacheNeededCallback,
 	lastDailyBar,
 ) {
+	window.symbolInfo = symbolInfo;
 	const parsedSymbol = parseFullSymbol(symbolInfo.full_name);
 	const channelString = `0~${parsedSymbol.exchange}~${parsedSymbol.fromSymbol}${parsedSymbol.toSymbol}`;
 	const handler = {
@@ -132,6 +133,7 @@ export function subscribeOnStream(
 
 export function unsubscribeFromStream(subscriberUID, tvObj) {
 	// find a subscription with id === subscriberUID
+	window.dataLoaded = false;
 	for (const channelString of channelToSubscription.keys()) {
 		const subscriptionItem = channelToSubscription.get(channelString);
 		let parsedSymbol = parseFullSymbol(subscriptionItem.info.full_name);
