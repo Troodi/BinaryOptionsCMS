@@ -10,7 +10,8 @@
 data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 <div id="app">
   <!-- BEGIN: Header-->
-  @include('panels.navbar')
+  <div class="header-navbar-shadow"></div>
+  <header-component></header-component>
   <!-- END: Header-->
 
   <!-- BEGIN: Main Menu-->
@@ -21,30 +22,8 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
   <!-- BEGIN: Content-->
   <div class="app-content content">
   {{-- Application page structure --}}
-	@if($configData['isContentSidebar'] === true)
-		<div class="content-area-wrapper">
-			<div class="sidebar-left">
-				<div class="sidebar">
-          <menu></menu>
-{{--			@yield('sidebar-content')--}}
-				</div>
-			</div>
-			<div class="content-right">
-          <div class="content-overlay"></div>
-				<div class="content-wrapper">
-          <div class="content-header row">
-          </div>
-          <div class="content-body">
-{{--            @yield('content')--}}
-          </div>
-        </div>
-			</div>
-		</div>
-	@else
-    {{-- others page structures --}}
     <div class="content-overlay"></div>
     <app></app>
-	@endif
   </div>
   <!-- END: Content-->
 

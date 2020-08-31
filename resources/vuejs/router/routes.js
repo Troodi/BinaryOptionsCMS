@@ -16,8 +16,10 @@ import Profile from "../views/user/Profile";
 //  */
 export const routes = [
     //Students
-    { path: '/', name: 'Trading', component: Trading, meta: { icon: 'desktop', hideFooter: true } },
-    { path: '/profile', name: 'Profile', component: Profile, meta: { icon: 'gear' } },
+    { path: '/', name: 'Торговля', component: Trading, meta: { icon: 'desktop', hideFooter: true } },
+    { path: '/finance', name: 'Финансы', component: Profile, meta: { icon: 'gear' } },
+    { path: '/history', name: 'История', component: Profile, meta: { icon: 'gear' } },
+    { path: '/profile', name: 'Профиль', component: Profile, meta: { icon: 'gear' } },
 ];
 
 Vue.use(VueRouter);

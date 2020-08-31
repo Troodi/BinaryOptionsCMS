@@ -28,7 +28,7 @@
                         <a :href="href" @click="navigate">
                             <i class="menu-livicon" :data-icon="route.meta.icon"></i>
                             <span class="menu-title">{{ route.name }}</span>
-                            <span class="badge badge-light-danger badge-pill badge-round float-right mr-2">1</span>
+<!--                            <span class="badge badge-light-danger badge-pill badge-round float-right mr-2">1</span>-->
                         </a>
                     </li>
                 </router-link>
