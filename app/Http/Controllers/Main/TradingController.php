@@ -62,4 +62,11 @@ class TradingController extends Controller
         return $auth_token;
       }
     }
+
+    public function buySymbol(Request $request){
+      return response()->json([
+        'price' => 11633,
+        'quantity' => $request->amount
+      ]);
+    }
 }

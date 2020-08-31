@@ -10,6 +10,7 @@
 |
 */
 Auth::routes();
+Route::post("/binary/buy", 'Main\TradingController@buySymbol');
 Route::get("/data/symbols", 'Main\SymbolsHistoryController@getExchanges');
 Route::get("/data/getAuthToken", 'Main\TradingController@getAuthToken');
 Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');

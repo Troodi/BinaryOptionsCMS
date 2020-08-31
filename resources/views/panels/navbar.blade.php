@@ -1,21 +1,11 @@
 {{-- navabar  --}}
 <div class="header-navbar-shadow"></div>
-<nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu 
-@if(isset($configData['navbarType'])){{$configData['navbarClass']}} @endif" 
-data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgColor']}}@endif">
+<nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top" data-bgcolor="bg-white">
   <div class="navbar-wrapper">
     <div class="navbar-container content">
       <div class="navbar-collapse" id="navbar-mobile">
         <div class="mr-auto float-left bookmark-wrapper d-flex align-items-center">
-          @if (request()->is('sk-layout-1-column'))
-          <ul class="nav navbar-nav nav-back">
-            <li class="nav-item mobile-menu d-xl-none mr-auto">
-              <a class="nav-link nav-menu-main hidden-xs font-small-3 d-flex align-items-center" href="{{asset('sk-layout-2-columns')}}">
-                <i class="bx bx-left-arrow-alt"></i>Back
-              </a>
-            </li>
-          </ul>
-          @else
+
           <ul class="nav navbar-nav">
             <li class="nav-item mobile-menu d-xl-none mr-auto">
               <a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#">
@@ -23,21 +13,20 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
               </a>
             </li>
           </ul>
-          @endif
           
           <ul class="nav navbar-nav bookmark-icons">
             <li class="nav-item d-none d-lg-block">
-              <a class="nav-link" href="{{asset('sk-layout-1-column')}}" data-toggle="tooltip" data-placement="top" title="1-Column">
+              <a class="nav-link" href="" data-toggle="tooltip" data-placement="top" title="1-Column">
                 <i class="ficon bx bx-file"></i>
               </a>
             </li>
             <li class="nav-item d-none d-lg-block">
-              <a class="nav-link" href="{{asset('sk-layout-2-columns')}}" data-toggle="tooltip" data-placement="top" title="2-Columns">
+              <a class="nav-link" href="" data-toggle="tooltip" data-placement="top" title="2-Columns">
                 <i class="ficon bx bx-sidebar"></i>
               </a>
             </li>
             <li class="nav-item d-none d-lg-block">
-              <a class="nav-link" href="{{asset('sk-layout-static')}}" data-toggle="tooltip" data-placement="top" title="Static Layout">
+              <a class="nav-link" href="" data-toggle="tooltip" data-placement="top" title="Static Layout">
                 <i class="ficon bx bx-align-middle"></i>
               </a>
             </li>
@@ -58,16 +47,16 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
               <i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdown-flag">
-              <a class="dropdown-item" href="{{url('lang/en')}}" data-language="en">
+              <a class="dropdown-item" href="/lang/en" data-language="en">
                 <i class="flag-icon flag-icon-us mr-50"></i> English
               </a>
-              <a class="dropdown-item" href="{{url('lang/fr')}}" data-language="fr">
+              <a class="dropdown-item" href="/lang/fr" data-language="fr">
                 <i class="flag-icon flag-icon-fr mr-50"></i> French
               </a>
-              <a class="dropdown-item" href="{{url('lang/de')}}" data-language="de">
+              <a class="dropdown-item" href="/lang/de" data-language="de">
                 <i class="flag-icon flag-icon-de mr-50"></i> German
               </a>
-              <a class="dropdown-item" href="{{url('lang/pt')}}" data-language="pt">
+              <a class="dropdown-item" href="/lang/pt" data-language="pt">
                 <i class="flag-icon flag-icon-pt mr-50"></i> Portuguese
               </a>
             </div>
@@ -89,7 +78,7 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
               <li class="scrollable-container media-list"><a class="d-flex justify-content-between" href="javascript:void(0)">
                   <div class="media d-flex align-items-center">
                     <div class="media-left pr-0">
-                      <div class="avatar mr-1 m-0"><img src="{{asset('images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="39" width="39"></div>
+                      <div class="avatar mr-1 m-0"><img src="/images/portrait/small/avatar-s-11.jpg/" alt="avatar" height="39" width="39"></div>
                     </div>
                     <div class="media-body">
                       <h6 class="media-heading"><span class="text-bold-500">Congratulate Socrates Itumay</span> for work anniversaries</h6><small class="notification-text">Mar 15 12:32pm</small>
@@ -98,7 +87,7 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
                 <div class="d-flex justify-content-between read-notification cursor-pointer">
                   <div class="media d-flex align-items-center">
                     <div class="media-left pr-0">
-                      <div class="avatar mr-1 m-0"><img src="{{asset('images/portrait/small/avatar-s-16.jpg')}}" alt="avatar" height="39" width="39"></div>
+                      <div class="avatar mr-1 m-0"><img src="/images/portrait/small/avatar-s-16.jpg" alt="avatar" height="39" width="39"></div>
                     </div>
                     <div class="media-body">
                       <h6 class="media-heading"><span class="text-bold-500">New Message</span> received</h6><small class="notification-text">You have 18 unread messages</small>
@@ -107,7 +96,7 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
                 </div>
                 <div class="d-flex justify-content-between cursor-pointer">
                   <div class="media d-flex align-items-center py-0">
-                    <div class="media-left pr-0"><img class="mr-1" src="{{asset('images/icon/sketch-mac-icon.png')}}" alt="avatar" height="39" width="39"></div>
+                    <div class="media-left pr-0"><img class="mr-1" src="/images/icon/sketch-mac-icon.png" alt="avatar" height="39" width="39"></div>
                     <div class="media-body">
                       <h6 class="media-heading"><span class="text-bold-500">Updates Available</span></h6><small class="notification-text">Sketch 50.2 is currently newly added</small>
                     </div>
@@ -161,7 +150,7 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
                 <div class="d-flex justify-content-between read-notification cursor-pointer">
                   <div class="media d-flex align-items-center">
                     <div class="media-left pr-0">
-                      <div class="avatar mr-1 m-0"><img src="{{asset('images/portrait/small/avatar-s-4.jpg')}}" alt="avatar" height="39" width="39"></div>
+                      <div class="avatar mr-1 m-0"><img src="/images/portrait/small/avatar-s-4.jpg" alt="avatar" height="39" width="39"></div>
                     </div>
                     <div class="media-body">
                       <h6 class="media-heading"><span class="text-bold-500">New file</span> has been uploaded</h6><small class="notification-text">4 hrs ago</small>
@@ -183,7 +172,7 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
                 <div class="d-flex justify-content-between cursor-pointer">
                   <div class="media d-flex align-items-center border-0">
                     <div class="media-left pr-0">
-                      <div class="avatar mr-1 m-0"><img src="{{asset('images/portrait/small/avatar-s-16.jpg')}}" alt="avatar" height="39" width="39"></div>
+                      <div class="avatar mr-1 m-0"><img src="/images/portrait/small/avatar-s-16.jpg" alt="avatar" height="39" width="39"></div>
                     </div>
                     <div class="media-body">
                       <h6 class="media-heading"><span class="text-bold-500">New customer</span> comment recieved</h6><small class="notification-text">2 days ago</small>
@@ -200,7 +189,7 @@ data-bgcolor="@if(isset($configData['navbarBgColor'])){{$configData['navbarBgCol
                 <span class="user-name">John Doe</span>
                 <span class="user-status text-muted">Available</span>
               </div>
-              <span><img class="round" src="{{asset('images/portrait/small/avatar-s-11.jpg')}}" alt="avatar" height="40" width="40"></span>
+              <span><img class="round" src="/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"></span>
             </a>
             <div class="dropdown-menu dropdown-menu-right pb-0">
               <a class="dropdown-item" href="#">

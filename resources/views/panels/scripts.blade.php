@@ -9,6 +9,7 @@
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.defaults.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.min.js')}}"></script>
     <script src="{{asset('app/app.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="/vendors/css/extensions/toastr.css">
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
@@ -27,6 +28,7 @@
     <script src="{{asset('js/scripts/components.js')}}"></script>
     <script src="{{asset('js/scripts/footer.js')}}"></script>
     <script src="{{asset('js/scripts/customizer.js')}}"></script>
+    <script src="/vendors/js/extensions/toastr.min.js"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->

@@ -27,7 +27,7 @@ const configurationData = {
 	exchanges: [{
 		value: 'Binary',
 		name: 'Binary Option',
-		desc: 'Binary Option',
+		desc: 'Бинарные опционы',
 	}
 	],
 	symbols_types: [{
@@ -36,7 +36,7 @@ const configurationData = {
 		// `symbolType` argument for the `searchSymbols` method, if a user selects this symbol type
 		value: 'forex',
 	},
-		// ...
+	// ...
 	],
 };
 
@@ -48,10 +48,12 @@ async function getAllSymbols() {
 		const pairs = data;
 		for(const symbol of pairs){
 			let current = {
+				id: symbol.id,
 				symbol: symbol.symbol,
 				full_name: "Binary:" + symbol.symbol,
 				broker: symbol.broker,
 				description: symbol.percent.toString() + '%',
+				percent: symbol.percent,
 				exchange: exchange.value,
 				type: 'forex',
 			};
@@ -105,6 +107,7 @@ export default {
 		}
 		const symbolInfo = {
 			name: symbolItem.symbol,
+			id: symbolItem.id,
 			description: symbolItem.description,
 			type: symbolItem.type,
 			session: '24x7',
@@ -119,6 +122,7 @@ export default {
 			supported_resolutions: configurationData.supported_resolutions,
 			volume_precision: 2,
 			data_status: 'streaming',
+			percent: symbolItem.percent,
 		};
 		if(typeof window.button !== 'undefined') {
 			window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">' + symbolItem.symbol + '</strong>';
