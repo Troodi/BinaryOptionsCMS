@@ -2446,15 +2446,29 @@ __webpack_require__.r(__webpack_exports__);
         amount: this.amount
       }).then(function (response) {
         console.log(response);
-        var order = window.tvWidget.chart().createOrderLine().setText("Покупка").setLineLength(1).setLineStyle(0).setQuantity(response.data.quantity + '$').setLineColor('#23bd70').setQuantityBackgroundColor('#23bd70').setQuantityBorderColor('#23bd70').setBodyBorderColor('#23bd70').setBodyTextColor('#23bd70');
+        var order = window.tvWidget.chart().createOrderLine().setText("Выше").setLineLength(1).setLineStyle(0).setQuantity(response.data.quantity + '$').setLineColor('#23bd70').setQuantityBackgroundColor('#23bd70').setQuantityBorderColor('#23bd70').setBodyBorderColor('#23bd70').setBodyTextColor('#23bd70');
         order.setPrice(response.data.price);
-        toastr.info('Открыта сделка на покупку', 'Сделка открыта', {
+        toastr.info('Открыта сделка по цене ' + response.data.price, 'Сделка открыта', {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
       });
     },
-    sell: function sell() {}
+    sell: function sell() {
+      axios.post('/binary/buy', {
+        symbol: this.symbol,
+        expiration: this.expiration,
+        amount: this.amount
+      }).then(function (response) {
+        console.log(response);
+        var order = window.tvWidget.chart().createOrderLine().setText("Ниже").setLineLength(1).setLineStyle(0).setQuantity(response.data.quantity + '$').setLineColor('#FF5B5C').setQuantityBackgroundColor('#FF5B5C').setQuantityBorderColor('#FF5B5C').setBodyBorderColor('#FF5B5C').setBodyTextColor('#FF5B5C');
+        order.setPrice(response.data.price);
+        toastr.info('Открыта сделка по цене ' + response.data.price, 'Сделка открыта', {
+          positionClass: 'toast-bottom-left',
+          containerId: 'toast-bottom-left'
+        });
+      });
+    }
   },
   data: function data() {
     return {
@@ -44487,7 +44501,8 @@ var render = function() {
                             }
                           ],
                           staticClass: "btn btn-danger glow w-100 mt-1 btn-lg",
-                          attrs: { type: "button" }
+                          attrs: { type: "button" },
+                          on: { click: _vm.sell }
                         },
                         [
                           _c("i", { staticClass: "bx bx-trending-down" }),
@@ -60349,7 +60364,7 @@ function unsubscribeFromStream(subscriberUID, tvObj) {
       var subscriptionItem = channelToSubscription.get(channelString);
       var parsedSymbol = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_0__["parseFullSymbol"])(subscriptionItem.info.full_name);
 
-      tvObj._deleteTicker('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol); //tvObj.removeSymbols('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
+      tvObj._deleteTicker(subscriptionItem.info.broker + ':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol); //tvObj.removeSymbols('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
 
 
       var handlerIndex = subscriptionItem.handlers.findIndex(function (handler) {

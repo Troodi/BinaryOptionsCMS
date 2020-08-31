@@ -137,7 +137,7 @@ export function unsubscribeFromStream(subscriberUID, tvObj) {
 	for (const channelString of channelToSubscription.keys()) {
 		const subscriptionItem = channelToSubscription.get(channelString);
 		let parsedSymbol = parseFullSymbol(subscriptionItem.info.full_name);
-		tvObj._deleteTicker('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol)
+		tvObj._deleteTicker(subscriptionItem.info.broker+':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol)
 		//tvObj.removeSymbols('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
 		const handlerIndex = subscriptionItem.handlers
 			.findIndex(handler => handler.id === subscriberUID);

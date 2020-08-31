@@ -13,6 +13,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.2.5",
+        "ext-curl": "*",
         "ext-json": "*",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
@@ -24,7 +25,7 @@
         "laravel/tinker": "^2.0",
         "predis/predis": "^1.1",
         "spatie/laravel-permission": "^3.6",
-        "ext-curl": "*"
+        "textalk/websocket": "^1.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

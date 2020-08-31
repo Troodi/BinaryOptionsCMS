@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
-use App\Models\Symbols\Options\EurUsd\EurUsdTicks;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class TradingController extends Controller
 {
@@ -65,7 +63,7 @@ class TradingController extends Controller
 
     public function buySymbol(Request $request){
       return response()->json([
-        'price' => 11633,
+        'price' => Cache::get('symbol'.$request->symbol),
         'quantity' => $request->amount
       ]);
     }
