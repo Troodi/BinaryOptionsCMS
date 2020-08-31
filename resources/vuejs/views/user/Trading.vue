@@ -63,7 +63,7 @@
                                         Загрузка...
                                     </button>
 
-                                    <button v-show="percent !== ''" type="button" class="btn btn-danger glow w-100 mt-1 btn-lg">
+                                    <button v-show="percent !== ''" @click="sell" type="button" class="btn btn-danger glow w-100 mt-1 btn-lg">
                                         <i class="bx bx-trending-down"></i><span class="align-middle ml-25" v-text="percent"></span>
                                     </button>
                                     <hr class="mt-2">
@@ -109,7 +109,7 @@
                 .then(function (response) {
                     console.log(response);
                     let order = window.tvWidget.chart().createOrderLine()
-                        .setText("Покупка")
+                        .setText("Выше")
                         .setLineLength(1)
                         .setLineStyle(0)
                         .setQuantity(response.data.quantity + '$')
@@ -119,11 +119,30 @@
                         .setBodyBorderColor('#23bd70')
                         .setBodyTextColor('#23bd70')
                     order.setPrice(response.data.price);
-                    toastr.info('Открыта сделка на покупку', 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                    toastr.info('Открыта сделка по цене ' + response.data.price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 })
             },
             sell: function(){
-
+                axios.post('/binary/buy', {
+                    symbol: this.symbol,
+                    expiration: this.expiration,
+                    amount: this.amount,
+                })
+                    .then(function (response) {
+                        console.log(response);
+                        let order = window.tvWidget.chart().createOrderLine()
+                            .setText("Ниже")
+                            .setLineLength(1)
+                            .setLineStyle(0)
+                            .setQuantity(response.data.quantity + '$')
+                            .setLineColor('#FF5B5C')
+                            .setQuantityBackgroundColor('#FF5B5C')
+                            .setQuantityBorderColor('#FF5B5C')
+                            .setBodyBorderColor('#FF5B5C')
+                            .setBodyTextColor('#FF5B5C')
+                        order.setPrice(response.data.price);
+                        toastr.info('Открыта сделка по цене ' + response.data.price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                    })
             }
         },
         data() {
