@@ -24,6 +24,7 @@
         "laravel/passport": "^8.4",
         "laravel/tinker": "^2.0",
         "predis/predis": "^1.1",
+        "spatie/async": "^1.4",
         "spatie/laravel-permission": "^3.6",
         "textalk/websocket": "^1.4"
     },

@@ -2,10 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Symbols\Options\Ticks;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Models\Symbols\Options\Symbol;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use WebSocket\Client;
+use Spatie\Async\Pool;
 
 class TradingViewWebsocket extends Command
 {
@@ -19,6 +23,7 @@ class TradingViewWebsocket extends Command
     private $login;
     private $password;
     private $startTime;
+    private $pool;
     /**
      * The name and signature of the console command.
      *
@@ -218,9 +223,20 @@ class TradingViewWebsocket extends Command
               }
               foreach($this->tickerData as $key => $value) {
                 if(isset($value['lp'])) {
-                  Cache::put('symbol' . $value['id'], $value['lp']);
+                  if(Cache::get('symbol' . $value['id']) != $value['lp']) {
+                    Cache::put('symbol' . $value['id'], $value['lp']);
+                    //echo $value['id'].' - '.$value['lp'].PHP_EOL;
+                    //async(function () use ($value) {
+                      $model = new Ticks; // TODO асинхронная запись в БД
+                      $model->symbol_id = $value['id'];
+                      $model->price = $value['lp'];
+                      $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
+                      $model->save();
+                    //});
+                  }
                 }
               }
+              Ticks::where('created_at', '<', Carbon::now()->subMinutes(5))->delete(); //TODO Перенести в крон
             }
           }
           //call_user_func(array($this->class, 'readQuotes'), $this);

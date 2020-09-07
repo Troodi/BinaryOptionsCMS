@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Main;
 
+use App\Events\CloseOptionEvent;
 use App\Http\Controllers\Controller;
+use App\Jobs\CloseOptionJob;
+use App\Models\OpenOrders;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class TradingController extends Controller
 {
@@ -61,9 +66,18 @@ class TradingController extends Controller
       }
     }
 
+    //php artisan queue:listen --sleep=0
     public function buySymbol(Request $request){
+      $price = Cache::get('symbol'.$request->symbol);
+      $model = new OpenOrders();
+      $model->symbol_id = $request->symbol;
+      $model->user_id = 1;
+      $model->open_price = $price;
+      $model->close_at = Carbon::now()->addSecond(5)->format('Y-m-d H:i:s.u');
+      $model->save();
       return response()->json([
-        'price' => Cache::get('symbol'.$request->symbol),
+        'id' => $model->id,
+        'price' => $price,
         'quantity' => $request->amount
       ]);
     }

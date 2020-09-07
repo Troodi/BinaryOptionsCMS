@@ -14,8 +14,14 @@
 
     <!-- BEGIN: Page Vendor JS-->
     @yield('vendor-scripts')
+    <script src="/vendors/js/extensions/toastr.min.js"></script>
+    <script src="{{asset('vendors/js/pickers/pickadate/picker.js')}}"></script>
+    <script src="{{asset('vendors/js/pickers/pickadate/picker.date.js')}}"></script>
+    <script src="{{asset('vendors/js/pickers/pickadate/picker.time.js')}}"></script>
+    <script src="{{asset('vendors/js/pickers/pickadate/legacy.js')}}"></script>
+    <script src="{{asset('vendors/js/pickers/daterange/moment.min.js')}}"></script>
+    <script src="{{asset('vendors/js/pickers/daterange/daterangepicker.js')}}"></script>
     <!-- END: Page Vendor JS-->
-
     <!-- BEGIN: Theme JS-->
     @if($configData['mainLayoutType'] == 'vertical-menu')
     <script src="{{asset('js/scripts/configs/vertical-menu-light.js')}}"></script>
@@ -28,7 +34,6 @@
     <script src="{{asset('js/scripts/components.js')}}"></script>
     <script src="{{asset('js/scripts/footer.js')}}"></script>
     <script src="{{asset('js/scripts/customizer.js')}}"></script>
-    <script src="/vendors/js/extensions/toastr.min.js"></script>
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
