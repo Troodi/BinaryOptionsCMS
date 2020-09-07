@@ -6,7 +6,6 @@
 
 <script>
     import Datafeed from "../../assets/js/datafeed";
-    import {TradingViewWebsocket} from "../js/tv";
     window.Datafeed = Datafeed;
     window.dataLoaded = false;
 
