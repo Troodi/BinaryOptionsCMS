@@ -143,7 +143,85 @@
                                     <button v-show="percent !== ''" @click="sell" type="button" class="btn btn-danger glow w-100 mt-1 btn-lg" v-bind:disabled="isButtonDisabled">
                                         <i class="bx bx-trending-down"></i><span class="align-middle ml-25" v-text="percent"></span>
                                     </button>
-                                    <hr class="mt-2">
+                                    <hr class="mt-2" id="line">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12" id="history">
+                                        <div :style="{ height: historyHeight }" class="accordion collapse-icon accordion-icon-rotate ps ps--active-y" id="accordionWrapa2">
+                                            <div class="card collapse-header">
+                                                <div style="background-color: #22283e !important;border-top: 1px solid #464d5c !important; border-left: 1px solid #464d5c !important; border-right: 1px solid #464d5c !important;" id="heading5" class="card-header" data-toggle="collapse" data-target="#accordion5" aria-expanded="false" aria-controls="accordion5" role="tablist">
+                                                    <span class="collapse-title">
+                                                      <span class="text-success align-middle">EUR/USD</span>
+                                                        <small>
+                                                            <countdown :time="60 * 1000">
+                                                                <template slot-scope="props">({{ props.hours.toString().padStart(2, "0") }}:{{ props.minutes.toString().padStart(2, "0") }}:{{ props.seconds.toString().padStart(2, "0") }})</template>
+                                                            </countdown>
+                                                        </small>
+                                                        <countdown :time="60 * 1000">
+                                                            <template slot-scope="props">
+                                                                <div class="progress progress-sm progress-bar-success">
+                                                                    <div :style="{ width: 100 - (((props.hours + props.minutes + props.seconds) / 60) * 100) + '%'}" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                </div>
+                                                            </template>
+                                                        </countdown>
+                                                    </span>
+                                                </div>
+                                                <div id="accordion5" role="tabpanel" data-parent="#accordionWrapa2" aria-labelledby="heading5" class="collapse">
+                                                    <div class="card-content">
+                                                        <div class="card-body" style="background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
+                                                            Открыто: 18:12:15<br>
+                                                            Цена: 1.12332<br>
+                                                            Осталось: 00:00:15
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card collapse-header">
+                                                <div style="background-color: #22283e !important;border-top: 1px solid #464d5c !important; border-left: 1px solid #464d5c !important; border-right: 1px solid #464d5c !important;" id="heading6" class="card-header" data-toggle="collapse" data-target="#accordion6" aria-expanded="false" aria-controls="accordion6" role="tablist">
+                                                    <span class="collapse-title">
+                                                      <span class="text-danger align-middle">EUR/USD</span>
+                                                      <small>(00:00:15)</small>
+                                                        <div class="progress progress-sm progress-bar-danger">
+                                                          <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="40" aria-valuemax="100" style="width:40%"></div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div id="accordion6" role="tabpanel" data-parent="#accordionWrapa2" aria-labelledby="heading6" class="collapse">
+                                                    <div class="card-content">
+                                                        <div class="card-body" style="background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
+                                                            Открыто: 18:12:15<br>
+                                                            Цена: 1.12332<br>
+                                                            Осталось: 00:00:15
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card collapse-header">
+                                                <div style="background-color: #22283e !important;border-top: 1px solid #464d5c !important; border-left: 1px solid #464d5c !important; border-right: 1px solid #464d5c !important;" id="heading7" class="card-header" data-toggle="collapse" data-target="#accordion7" aria-expanded="false" aria-controls="accordion7" role="tablist">
+                                                    <span class="collapse-title">
+                                                      <span style="color:#39DA8A;" class="align-middle">EUR/USD</span>
+                                                      <small>(00:00:15)</small>
+                                                        <div class="progress progress-sm progress-bar-success">
+                                                          <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="40" aria-valuemax="100" style="width:40%"></div>
+                                                        </div>
+                                                    </span>
+                                                </div>
+                                                <div id="accordion7" role="tabpanel" data-parent="#accordionWrapa2" aria-labelledby="heading7" class="collapse">
+                                                    <div class="card-content">
+                                                        <div class="card-body" style="background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
+                                                            Открыто: 18:12:15<br>
+                                                            Цена: 1.12332<br>
+                                                            Осталось: 00:00:15
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -157,6 +235,7 @@
 <script>
     import TradingChartComponent from "./../../components/TradingChartComponent";
     import { Money } from 'v-money'
+    import $ from 'jquery'
 
     export default {
         name: "Trading",
@@ -165,6 +244,9 @@
             Money
         },
         mounted() {
+            window.addEventListener("resize", this.windowResized);
+            this.historyHeight = ($(window).height() - $('#line').offset().top - 30) + 'px';
+            this.ps = new PerfectScrollbar("#accordionWrapa2");
             let self = this;
             this.$echo.channel('closed').listen('CloseOptionEvent', (payload) => {
                 if(payload.success === true) {
@@ -195,6 +277,11 @@
             });
         },
         methods: {
+            windowResized: function (e){
+                this.historyHeight = ($(window).height() - $('#line').offset().top - 30) + 'px';
+                this.ps.destroy();
+                this.ps = new PerfectScrollbar("#accordionWrapa2");
+            },
             buy: function () {
                 let self = this;
                 axios.post('/binary/buy', {
@@ -323,6 +410,7 @@
                 hours: localStorage.getItem('hours') ? localStorage.getItem('hours') : '00',
                 minutes: localStorage.getItem('minutes') ? localStorage.getItem('minutes') : '00',
                 seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '30',
+                historyHeight: '300px',
                 money: {
                     decimal: '.',
                     thousands: ',',
@@ -414,5 +502,7 @@
 </script>
 
 <style scoped>
-
+    body.dark-layout .collapsible .card.open, body.dark-layout .accordion .card.open {
+        box-shadow: 0px 0px 0px 0 rgba(11, 26, 51, 0.63) !important;
+    }
 </style>

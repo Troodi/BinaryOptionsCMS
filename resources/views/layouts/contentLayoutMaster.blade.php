@@ -20,6 +20,7 @@
     <link rel="apple-touch-icon" href="{{asset('images/ico/apple-icon-120.png')}}">
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('images/ico/favicon.ico')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/forms/spinner/jquery.bootstrap-touchspin.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/plugins/animate/animate.css')}}">
       {{-- Include core + vendor Styles --}}
     @include('panels.styles')
     </head>
