@@ -5,7 +5,7 @@ import router from './router/routes';
 import App from './views/layouts/App';
 import VueEcho from 'vue-echo-laravel';
 import money from 'v-money'
-import VueCountdown from '@chenfengyuan/vue-countdown';
+import VueCountdownTimer from 'vuejs-countdown-timer'
 
 window.axios = require('axios');
 
@@ -14,7 +14,7 @@ window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 };
 
-Vue.component(VueCountdown.name, VueCountdown);
+Vue.use(VueCountdownTimer)
 Vue.component('menu-component', require('./views/layouts/Menu').default);
 Vue.component('footer-component', require('./views/layouts/Footer').default);
 Vue.component('header-component', require('./views/layouts/Header').default);

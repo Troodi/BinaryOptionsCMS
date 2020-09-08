@@ -98,438 +98,6 @@ module.exports = __webpack_require__(/*! regenerator-runtime */ "./node_modules/
 
 /***/ }),
 
-/***/ "./node_modules/@chenfengyuan/vue-countdown/dist/vue-countdown.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@chenfengyuan/vue-countdown/dist/vue-countdown.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*!
- * vue-countdown v1.1.5
- * https://fengyuanchen.github.io/vue-countdown
- *
- * Copyright 2018-present Chen Fengyuan
- * Released under the MIT license
- *
- * Date: 2020-02-25T01:19:32.769Z
- */
-
-(function (global, factory) {
-   true ? module.exports = factory() :
-  undefined;
-}(this, (function () { 'use strict';
-
-  var MILLISECONDS_SECOND = 1000;
-  var MILLISECONDS_MINUTE = 60 * MILLISECONDS_SECOND;
-  var MILLISECONDS_HOUR = 60 * MILLISECONDS_MINUTE;
-  var MILLISECONDS_DAY = 24 * MILLISECONDS_HOUR;
-  var EVENT_VISIBILITY_CHANGE = 'visibilitychange';
-  var index = {
-    name: 'countdown',
-    data: function data() {
-      return {
-        /**
-         * It is counting down.
-         * @type {boolean}
-         */
-        counting: false,
-
-        /**
-         * The absolute end time.
-         * @type {number}
-         */
-        endTime: 0,
-
-        /**
-         * The remaining milliseconds.
-         * @type {number}
-         */
-        totalMilliseconds: 0
-      };
-    },
-    props: {
-      /**
-       * Starts the countdown automatically when initialized.
-       */
-      autoStart: {
-        type: Boolean,
-        default: true
-      },
-
-      /**
-       * Emits the countdown events.
-       */
-      emitEvents: {
-        type: Boolean,
-        default: true
-      },
-
-      /**
-       * The interval time (in milliseconds) of the countdown progress.
-       */
-      interval: {
-        type: Number,
-        default: 1000,
-        validator: function validator(value) {
-          return value >= 0;
-        }
-      },
-
-      /**
-       * Generate the current time of a specific time zone.
-       */
-      now: {
-        type: Function,
-        default: function _default() {
-          return Date.now();
-        }
-      },
-
-      /**
-       * The tag name of the component's root element.
-       */
-      tag: {
-        type: String,
-        default: 'span'
-      },
-
-      /**
-       * The time (in milliseconds) to count down from.
-       */
-      time: {
-        type: Number,
-        default: 0,
-        validator: function validator(value) {
-          return value >= 0;
-        }
-      },
-
-      /**
-       * Transforms the output props before render.
-       */
-      transform: {
-        type: Function,
-        default: function _default(props) {
-          return props;
-        }
-      }
-    },
-    computed: {
-      /**
-       * Remaining days.
-       * @returns {number} The computed value.
-       */
-      days: function days() {
-        return Math.floor(this.totalMilliseconds / MILLISECONDS_DAY);
-      },
-
-      /**
-       * Remaining hours.
-       * @returns {number} The computed value.
-       */
-      hours: function hours() {
-        return Math.floor(this.totalMilliseconds % MILLISECONDS_DAY / MILLISECONDS_HOUR);
-      },
-
-      /**
-       * Remaining minutes.
-       * @returns {number} The computed value.
-       */
-      minutes: function minutes() {
-        return Math.floor(this.totalMilliseconds % MILLISECONDS_HOUR / MILLISECONDS_MINUTE);
-      },
-
-      /**
-       * Remaining seconds.
-       * @returns {number} The computed value.
-       */
-      seconds: function seconds() {
-        return Math.floor(this.totalMilliseconds % MILLISECONDS_MINUTE / MILLISECONDS_SECOND);
-      },
-
-      /**
-       * Remaining milliseconds.
-       * @returns {number} The computed value.
-       */
-      milliseconds: function milliseconds() {
-        return Math.floor(this.totalMilliseconds % MILLISECONDS_SECOND);
-      },
-
-      /**
-       * Total remaining days.
-       * @returns {number} The computed value.
-       */
-      totalDays: function totalDays() {
-        return this.days;
-      },
-
-      /**
-       * Total remaining hours.
-       * @returns {number} The computed value.
-       */
-      totalHours: function totalHours() {
-        return Math.floor(this.totalMilliseconds / MILLISECONDS_HOUR);
-      },
-
-      /**
-       * Total remaining minutes.
-       * @returns {number} The computed value.
-       */
-      totalMinutes: function totalMinutes() {
-        return Math.floor(this.totalMilliseconds / MILLISECONDS_MINUTE);
-      },
-
-      /**
-       * Total remaining seconds.
-       * @returns {number} The computed value.
-       */
-      totalSeconds: function totalSeconds() {
-        return Math.floor(this.totalMilliseconds / MILLISECONDS_SECOND);
-      }
-    },
-    render: function render(createElement) {
-      return createElement(this.tag, this.$scopedSlots.default ? [this.$scopedSlots.default(this.transform({
-        days: this.days,
-        hours: this.hours,
-        minutes: this.minutes,
-        seconds: this.seconds,
-        milliseconds: this.milliseconds,
-        totalDays: this.totalDays,
-        totalHours: this.totalHours,
-        totalMinutes: this.totalMinutes,
-        totalSeconds: this.totalSeconds,
-        totalMilliseconds: this.totalMilliseconds
-      }))] : this.$slots.default);
-    },
-    watch: {
-      $props: {
-        deep: true,
-        immediate: true,
-
-        /**
-         * Update the countdown when props changed.
-         */
-        handler: function handler() {
-          this.totalMilliseconds = this.time;
-          this.endTime = this.now() + this.time;
-
-          if (this.autoStart) {
-            this.start();
-          }
-        }
-      }
-    },
-    methods: {
-      /**
-       * Starts to countdown.
-       * @public
-       * @emits Countdown#start
-       */
-      start: function start() {
-        if (this.counting) {
-          return;
-        }
-
-        this.counting = true;
-
-        if (this.emitEvents) {
-          /**
-           * Countdown start event.
-           * @event Countdown#start
-           */
-          this.$emit('start');
-        }
-
-        if (document.visibilityState === 'visible') {
-          this.continue();
-        }
-      },
-
-      /**
-       * Continues the countdown.
-       * @private
-       */
-      continue: function _continue() {
-        var _this = this;
-
-        if (!this.counting) {
-          return;
-        }
-
-        var delay = Math.min(this.totalMilliseconds, this.interval);
-
-        if (delay > 0) {
-          if (window.requestAnimationFrame) {
-            var init;
-            var prev;
-
-            var step = function step(now) {
-              if (!init) {
-                init = now;
-              }
-
-              if (!prev) {
-                prev = now;
-              }
-
-              var range = now - init;
-
-              if (range >= delay // Avoid losing time about one second per minute (now - prev ≈ 16ms) (#43)
-              || range + (now - prev) / 2 >= delay) {
-                _this.progress();
-              } else {
-                _this.requestId = requestAnimationFrame(step);
-              }
-
-              prev = now;
-            };
-
-            this.requestId = requestAnimationFrame(step);
-          } else {
-            this.timeoutId = setTimeout(function () {
-              _this.progress();
-            }, delay);
-          }
-        } else {
-          this.end();
-        }
-      },
-
-      /**
-       * Pauses the countdown.
-       * @private
-       */
-      pause: function pause() {
-        if (window.requestAnimationFrame) {
-          cancelAnimationFrame(this.requestId);
-        } else {
-          clearTimeout(this.timeoutId);
-        }
-      },
-
-      /**
-       * Progresses to countdown.
-       * @private
-       * @emits Countdown#progress
-       */
-      progress: function progress() {
-        if (!this.counting) {
-          return;
-        }
-
-        this.totalMilliseconds -= this.interval;
-
-        if (this.emitEvents && this.totalMilliseconds > 0) {
-          /**
-           * Countdown progress event.
-           * @event Countdown#progress
-           */
-          this.$emit('progress', {
-            days: this.days,
-            hours: this.hours,
-            minutes: this.minutes,
-            seconds: this.seconds,
-            milliseconds: this.milliseconds,
-            totalDays: this.totalDays,
-            totalHours: this.totalHours,
-            totalMinutes: this.totalMinutes,
-            totalSeconds: this.totalSeconds,
-            totalMilliseconds: this.totalMilliseconds
-          });
-        }
-
-        this.continue();
-      },
-
-      /**
-       * Aborts the countdown.
-       * @public
-       * @emits Countdown#abort
-       */
-      abort: function abort() {
-        if (!this.counting) {
-          return;
-        }
-
-        this.pause();
-        this.counting = false;
-
-        if (this.emitEvents) {
-          /**
-           * Countdown abort event.
-           * @event Countdown#abort
-           */
-          this.$emit('abort');
-        }
-      },
-
-      /**
-       * Ends the countdown.
-       * @public
-       * @emits Countdown#end
-       */
-      end: function end() {
-        if (!this.counting) {
-          return;
-        }
-
-        this.pause();
-        this.totalMilliseconds = 0;
-        this.counting = false;
-
-        if (this.emitEvents) {
-          /**
-           * Countdown end event.
-           * @event Countdown#end
-           */
-          this.$emit('end');
-        }
-      },
-
-      /**
-       * Updates the count.
-       * @private
-       */
-      update: function update() {
-        if (this.counting) {
-          this.totalMilliseconds = Math.max(0, this.endTime - this.now());
-        }
-      },
-
-      /**
-       * visibility change event handler.
-       * @private
-       */
-      handleVisibilityChange: function handleVisibilityChange() {
-        switch (document.visibilityState) {
-          case 'visible':
-            this.update();
-            this.continue();
-            break;
-
-          case 'hidden':
-            this.pause();
-            break;
-        }
-      }
-    },
-    mounted: function mounted() {
-      document.addEventListener(EVENT_VISIBILITY_CHANGE, this.handleVisibilityChange);
-    },
-    beforeDestroy: function beforeDestroy() {
-      document.removeEventListener(EVENT_VISIBILITY_CHANGE, this.handleVisibilityChange);
-      this.pause();
-    }
-  };
-
-  return index;
-
-})));
-
-
-/***/ }),
-
 /***/ "./node_modules/after/index.js":
 /*!*************************************!*\
   !*** ./node_modules/after/index.js ***!
@@ -2983,27 +2551,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Trading",
@@ -3018,6 +2565,14 @@ __webpack_require__.r(__webpack_exports__);
     this.historyHeight = jquery__WEBPACK_IMPORTED_MODULE_2___default()(window).height() - jquery__WEBPACK_IMPORTED_MODULE_2___default()('#line').offset().top - 30 + 'px';
     this.ps = new PerfectScrollbar("#accordionWrapa2");
     var self = this;
+    axios.get('/data/symbols').then(function (response) {
+      self.symbols = response.data;
+    });
+    window.addEventListener('load', function () {
+      axios.post('/data/opened').then(function (response) {
+        self.opened = response.data;
+      });
+    });
     this.$echo.channel('closed').listen('CloseOptionEvent', function (payload) {
       if (payload.success === true) {
         toastr.success('Вы получили прибыль!', 'Сделка закрыта', {
@@ -3031,6 +2586,9 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
 
+      self.opened = self.opened.filter(function (item) {
+        return item.id !== payload.id;
+      });
       self.lines[payload.id].remove();
     });
     setInterval(function () {
@@ -3063,10 +2621,14 @@ __webpack_require__.r(__webpack_exports__);
         amount: this.amount,
         type: 1
       }).then(function (response) {
-        var order = window.tvWidget.chart().createOrderLine().setText("Выше").setLineLength(1).setLineStyle(0).setQuantity(response.data.quantity + '$').setLineColor('#23bd70').setQuantityBackgroundColor('#23bd70').setQuantityBorderColor('#23bd70').setBodyBorderColor('#23bd70').setBodyTextColor('#23bd70');
-        order.setPrice(response.data.price);
+        axios.post('/data/opened').then(function (response) {
+          self.opened = [];
+          self.opened = response.data;
+        });
+        var order = window.tvWidget.chart().createOrderLine().setText("Выше").setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#23bd70').setQuantityBackgroundColor('#23bd70').setQuantityBorderColor('#23bd70').setBodyBorderColor('#23bd70').setBodyTextColor('#23bd70');
+        order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
-        toastr.info('Открыта сделка по цене ' + response.data.price, 'Сделка открыта', {
+        toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -3082,10 +2644,14 @@ __webpack_require__.r(__webpack_exports__);
         amount: this.amount,
         type: 0
       }).then(function (response) {
+        axios.post('/data/opened').then(function (response) {
+          self.opened = [];
+          self.opened = response.data;
+        });
         var order = window.tvWidget.chart().createOrderLine().setText("Ниже").setLineLength(1).setLineStyle(0).setQuantity(response.data.quantity + '$').setLineColor('#FF5B5C').setQuantityBackgroundColor('#FF5B5C').setQuantityBorderColor('#FF5B5C').setBodyBorderColor('#FF5B5C').setBodyTextColor('#FF5B5C');
-        order.setPrice(response.data.price);
+        order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
-        toastr.info('Открыта сделка по цене ' + response.data.price, 'Сделка открыта', {
+        toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -3170,6 +2736,7 @@ __webpack_require__.r(__webpack_exports__);
       minutes: localStorage.getItem('minutes') ? localStorage.getItem('minutes') : '00',
       seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '30',
       historyHeight: '300px',
+      opened: [],
       money: {
         decimal: '.',
         thousands: ',',
@@ -22785,7 +22352,7 @@ var Echo = /*#__PURE__*/function () {
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.19';
+  var VERSION = '4.17.20';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -38361,7 +37928,7 @@ var Echo = /*#__PURE__*/function () {
      * // => [{ 'a': 4, 'b': 5, 'c': 6 }]
      *
      * // Checking for several possible values
-     * _.filter(users, _.overSome([_.matches({ 'a': 1 }), _.matches({ 'a': 4 })]));
+     * _.filter(objects, _.overSome([_.matches({ 'a': 1 }), _.matches({ 'a': 4 })]));
      * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matches(source) {
@@ -38398,7 +37965,7 @@ var Echo = /*#__PURE__*/function () {
      * // => { 'a': 4, 'b': 5, 'c': 6 }
      *
      * // Checking for several possible values
-     * _.filter(users, _.overSome([_.matchesProperty('a', 1), _.matchesProperty('a', 4)]));
+     * _.filter(objects, _.overSome([_.matchesProperty('a', 1), _.matchesProperty('a', 4)]));
      * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matchesProperty(path, srcValue) {
@@ -46385,8 +45952,8 @@ var render = function() {
                               style: { height: _vm.historyHeight },
                               attrs: { id: "accordionWrapa2" }
                             },
-                            [
-                              _c(
+                            _vm._l(_vm.opened, function(open) {
+                              return _c(
                                 "div",
                                 { staticClass: "card collapse-header" },
                                 [
@@ -46405,11 +45972,11 @@ var render = function() {
                                           "1px solid #464d5c !important"
                                       },
                                       attrs: {
-                                        id: "heading5",
-                                        "data-toggle": "collapse",
-                                        "data-target": "#accordion5",
+                                        id: "heading" + open.id,
+                                        "data-target": "#accordion" + open.id,
+                                        "aria-controls": "accordion" + open.id,
                                         "aria-expanded": "false",
-                                        "aria-controls": "accordion5",
+                                        "data-toggle": "collapse",
                                         role: "tablist"
                                       }
                                     },
@@ -46418,122 +45985,269 @@ var render = function() {
                                         "span",
                                         { staticClass: "collapse-title" },
                                         [
-                                          _c(
-                                            "span",
-                                            {
-                                              staticClass:
-                                                "text-success align-middle"
-                                            },
-                                            [_vm._v("EUR/USD")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "small",
-                                            [
-                                              _c("countdown", {
-                                                attrs: { time: 60 * 1000 },
-                                                scopedSlots: _vm._u([
+                                          [
+                                            _c("vue-countdown-timer", {
+                                              attrs: {
+                                                "start-time":
+                                                  "2020-01-01 00:00:00",
+                                                "end-time": open.timestamp,
+                                                interval: 1000
+                                              },
+                                              scopedSlots: _vm._u(
+                                                [
                                                   {
-                                                    key: "default",
-                                                    fn: function(props) {
+                                                    key: "countdown",
+                                                    fn: function(scope) {
                                                       return [
-                                                        _vm._v(
-                                                          "(" +
-                                                            _vm._s(
-                                                              props.hours
-                                                                .toString()
-                                                                .padStart(
-                                                                  2,
-                                                                  "0"
-                                                                )
-                                                            ) +
-                                                            ":" +
-                                                            _vm._s(
-                                                              props.minutes
-                                                                .toString()
-                                                                .padStart(
-                                                                  2,
-                                                                  "0"
-                                                                )
-                                                            ) +
-                                                            ":" +
-                                                            _vm._s(
-                                                              props.seconds
-                                                                .toString()
-                                                                .padStart(
-                                                                  2,
-                                                                  "0"
-                                                                )
-                                                            ) +
-                                                            ")"
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "text-success align-middle"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                _vm.symbols.find(
+                                                                  function(
+                                                                    item
+                                                                  ) {
+                                                                    return (
+                                                                      item.id ===
+                                                                      open.symbol_id
+                                                                    )
+                                                                  }
+                                                                ).symbol
+                                                              )
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("small", [
+                                                          _vm._v(
+                                                            "\n                                                                    (" +
+                                                              _vm._s(
+                                                                scope.props
+                                                                  .hours
+                                                              ) +
+                                                              ":" +
+                                                              _vm._s(
+                                                                scope.props
+                                                                  .minutes
+                                                              ) +
+                                                              ":" +
+                                                              _vm._s(
+                                                                scope.props
+                                                                  .seconds
+                                                              ) +
+                                                              ")\n                                                               "
+                                                          )
+                                                        ])
+                                                      ]
+                                                    }
+                                                  },
+                                                  {
+                                                    key: "end-text",
+                                                    fn: function(scope) {
+                                                      return [
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "text-success align-middle"
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              _vm._s(
+                                                                _vm.symbols.find(
+                                                                  function(
+                                                                    item
+                                                                  ) {
+                                                                    return (
+                                                                      item.id ===
+                                                                      open.symbol_id
+                                                                    )
+                                                                  }
+                                                                ).symbol
+                                                              )
+                                                            )
+                                                          ]
+                                                        ),
+                                                        _vm._v(" "),
+                                                        _c("small", [
+                                                          _vm._v(
+                                                            "\n                                                                    (00:00:00)\n                                                               "
+                                                          )
+                                                        ])
+                                                      ]
+                                                    }
+                                                  }
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            })
+                                          ],
+                                          _vm._v(" "),
+                                          [
+                                            _c("vue-countdown-timer", {
+                                              attrs: {
+                                                "start-time":
+                                                  "2020-01-01 00:00:00",
+                                                "end-time": open.timestamp,
+                                                interval: 1000
+                                              },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "countdown",
+                                                    fn: function(scope) {
+                                                      return [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "progress progress-sm progress-bar-success"
+                                                          },
+                                                          [
+                                                            _c("div", {
+                                                              staticClass:
+                                                                "progress-bar progress-bar-striped",
+                                                              style: {
+                                                                width:
+                                                                  100 -
+                                                                  ((scope.props
+                                                                    .hours *
+                                                                    60 *
+                                                                    60 +
+                                                                    scope.props
+                                                                      .minutes *
+                                                                      60 +
+                                                                    scope.props
+                                                                      .seconds) /
+                                                                    open.expiration) *
+                                                                    100 +
+                                                                  "%"
+                                                              },
+                                                              attrs: {
+                                                                role:
+                                                                  "progressbar",
+                                                                "aria-valuenow":
+                                                                  "0",
+                                                                "aria-valuemin":
+                                                                  "0",
+                                                                "aria-valuemax":
+                                                                  "100"
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
+                                                    }
+                                                  },
+                                                  {
+                                                    key: "end-text",
+                                                    fn: function(scope) {
+                                                      return [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "progress progress-sm progress-bar-success"
+                                                          },
+                                                          [
+                                                            _c("div", {
+                                                              staticClass:
+                                                                "progress-bar progress-bar-striped",
+                                                              style: {
+                                                                width: "100%"
+                                                              },
+                                                              attrs: {
+                                                                role:
+                                                                  "progressbar",
+                                                                "aria-valuenow":
+                                                                  "0",
+                                                                "aria-valuemin":
+                                                                  "0",
+                                                                "aria-valuemax":
+                                                                  "100"
+                                                              }
+                                                            })
+                                                          ]
                                                         )
                                                       ]
                                                     }
                                                   }
-                                                ])
-                                              })
-                                            ],
-                                            1
-                                          ),
-                                          _vm._v(" "),
-                                          _c("countdown", {
-                                            attrs: { time: 60 * 1000 },
-                                            scopedSlots: _vm._u([
-                                              {
-                                                key: "default",
-                                                fn: function(props) {
-                                                  return [
-                                                    _c(
-                                                      "div",
-                                                      {
-                                                        staticClass:
-                                                          "progress progress-sm progress-bar-success"
-                                                      },
-                                                      [
-                                                        _c("div", {
-                                                          staticClass:
-                                                            "progress-bar progress-bar-striped",
-                                                          style: {
-                                                            width:
-                                                              100 -
-                                                              ((props.hours +
-                                                                props.minutes +
-                                                                props.seconds) /
-                                                                60) *
-                                                                100 +
-                                                              "%"
-                                                          },
-                                                          attrs: {
-                                                            role: "progressbar",
-                                                            "aria-valuenow":
-                                                              "0",
-                                                            "aria-valuemin":
-                                                              "0",
-                                                            "aria-valuemax":
-                                                              "100"
-                                                          }
-                                                        })
-                                                      ]
-                                                    )
-                                                  ]
-                                                }
-                                              }
-                                            ])
-                                          })
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            })
+                                          ]
                                         ],
-                                        1
+                                        2
                                       )
                                     ]
                                   ),
                                   _vm._v(" "),
-                                  _vm._m(6)
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "collapse",
+                                      attrs: {
+                                        id: "accordion" + open.id,
+                                        "aria-labelledby": "heading" + open.id,
+                                        role: "tabpanel",
+                                        "data-parent": "#accordionWrapa2"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "card-content" },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass: "card-body",
+                                              staticStyle: {
+                                                "background-color":
+                                                  "#22283e !important",
+                                                border: "1px solid",
+                                                "border-top": "1px",
+                                                "border-bottom-left-radius":
+                                                  "5px",
+                                                "border-bottom-right-radius":
+                                                  "5px"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                        Открыто: 12:00:00"
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                        Цена: " +
+                                                  _vm._s(open.open_price)
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                        Время: 00:00:15"
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                        Направление: выше\n                                                    "
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
                                 ]
-                              ),
-                              _vm._v(" "),
-                              _vm._m(7),
-                              _vm._v(" "),
-                              _vm._m(8)
-                            ]
+                              )
+                            }),
+                            0
                           )
                         ]
                       )
@@ -46595,250 +46309,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("small", { staticClass: "text-muted" }, [
       _c("i", [_vm._v("Потенциальная прибыль")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "collapse",
-        attrs: {
-          id: "accordion5",
-          role: "tabpanel",
-          "data-parent": "#accordionWrapa2",
-          "aria-labelledby": "heading5"
-        }
-      },
-      [
-        _c("div", { staticClass: "card-content" }, [
-          _c(
-            "div",
-            {
-              staticClass: "card-body",
-              staticStyle: {
-                "background-color": "#22283e !important",
-                border: "1px solid",
-                "border-top": "1px",
-                "border-bottom-left-radius": "5px",
-                "border-bottom-right-radius": "5px"
-              }
-            },
-            [
-              _vm._v(
-                "\n                                                        Открыто: 18:12:15"
-              ),
-              _c("br"),
-              _vm._v(
-                "\n                                                        Цена: 1.12332"
-              ),
-              _c("br"),
-              _vm._v(
-                "\n                                                        Осталось: 00:00:15\n                                                    "
-              )
-            ]
-          )
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card collapse-header" }, [
-      _c(
-        "div",
-        {
-          staticClass: "card-header",
-          staticStyle: {
-            "background-color": "#22283e !important",
-            "border-top": "1px solid #464d5c !important",
-            "border-left": "1px solid #464d5c !important",
-            "border-right": "1px solid #464d5c !important"
-          },
-          attrs: {
-            id: "heading6",
-            "data-toggle": "collapse",
-            "data-target": "#accordion6",
-            "aria-expanded": "false",
-            "aria-controls": "accordion6",
-            role: "tablist"
-          }
-        },
-        [
-          _c("span", { staticClass: "collapse-title" }, [
-            _c("span", { staticClass: "text-danger align-middle" }, [
-              _vm._v("EUR/USD")
-            ]),
-            _vm._v(" "),
-            _c("small", [_vm._v("(00:00:15)")]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "progress progress-sm progress-bar-danger" },
-              [
-                _c("div", {
-                  staticClass: "progress-bar progress-bar-striped",
-                  staticStyle: { width: "40%" },
-                  attrs: {
-                    role: "progressbar",
-                    "aria-valuenow": "40",
-                    "aria-valuemin": "40",
-                    "aria-valuemax": "100"
-                  }
-                })
-              ]
-            )
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "collapse",
-          attrs: {
-            id: "accordion6",
-            role: "tabpanel",
-            "data-parent": "#accordionWrapa2",
-            "aria-labelledby": "heading6"
-          }
-        },
-        [
-          _c("div", { staticClass: "card-content" }, [
-            _c(
-              "div",
-              {
-                staticClass: "card-body",
-                staticStyle: {
-                  "background-color": "#22283e !important",
-                  border: "1px solid",
-                  "border-top": "1px",
-                  "border-bottom-left-radius": "5px",
-                  "border-bottom-right-radius": "5px"
-                }
-              },
-              [
-                _vm._v(
-                  "\n                                                        Открыто: 18:12:15"
-                ),
-                _c("br"),
-                _vm._v(
-                  "\n                                                        Цена: 1.12332"
-                ),
-                _c("br"),
-                _vm._v(
-                  "\n                                                        Осталось: 00:00:15\n                                                    "
-                )
-              ]
-            )
-          ])
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card collapse-header" }, [
-      _c(
-        "div",
-        {
-          staticClass: "card-header",
-          staticStyle: {
-            "background-color": "#22283e !important",
-            "border-top": "1px solid #464d5c !important",
-            "border-left": "1px solid #464d5c !important",
-            "border-right": "1px solid #464d5c !important"
-          },
-          attrs: {
-            id: "heading7",
-            "data-toggle": "collapse",
-            "data-target": "#accordion7",
-            "aria-expanded": "false",
-            "aria-controls": "accordion7",
-            role: "tablist"
-          }
-        },
-        [
-          _c("span", { staticClass: "collapse-title" }, [
-            _c(
-              "span",
-              {
-                staticClass: "align-middle",
-                staticStyle: { color: "#39DA8A" }
-              },
-              [_vm._v("EUR/USD")]
-            ),
-            _vm._v(" "),
-            _c("small", [_vm._v("(00:00:15)")]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "progress progress-sm progress-bar-success" },
-              [
-                _c("div", {
-                  staticClass: "progress-bar progress-bar-striped",
-                  staticStyle: { width: "40%" },
-                  attrs: {
-                    role: "progressbar",
-                    "aria-valuenow": "40",
-                    "aria-valuemin": "40",
-                    "aria-valuemax": "100"
-                  }
-                })
-              ]
-            )
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "collapse",
-          attrs: {
-            id: "accordion7",
-            role: "tabpanel",
-            "data-parent": "#accordionWrapa2",
-            "aria-labelledby": "heading7"
-          }
-        },
-        [
-          _c("div", { staticClass: "card-content" }, [
-            _c(
-              "div",
-              {
-                staticClass: "card-body",
-                staticStyle: {
-                  "background-color": "#22283e !important",
-                  border: "1px solid",
-                  "border-top": "1px",
-                  "border-bottom-left-radius": "5px",
-                  "border-bottom-right-radius": "5px"
-                }
-              },
-              [
-                _vm._v(
-                  "\n                                                        Открыто: 18:12:15"
-                ),
-                _c("br"),
-                _vm._v(
-                  "\n                                                        Цена: 1.12332"
-                ),
-                _c("br"),
-                _vm._v(
-                  "\n                                                        Осталось: 00:00:15\n                                                    "
-                )
-              ]
-            )
-          ])
-        ]
-      )
     ])
   }
 ]
@@ -46968,7 +46438,7 @@ function normalizeComponent (
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /*!
-  * vue-router v3.3.4
+  * vue-router v3.4.3
   * (c) 2020 Evan You
   * @license MIT
   */
@@ -46984,14 +46454,6 @@ function warn (condition, message) {
   if ( true && !condition) {
     typeof console !== 'undefined' && console.warn(("[vue-router] " + message));
   }
-}
-
-function isError (err) {
-  return Object.prototype.toString.call(err).indexOf('Error') > -1
-}
-
-function isRouterError (err, errorType) {
-  return isError(err) && err._isRouter && (errorType == null || err.type === errorType)
 }
 
 function extend (a, b) {
@@ -47102,7 +46564,7 @@ var View = {
     };
 
     var configProps = matched.props && matched.props[name];
-    // save route and configProps in cachce
+    // save route and configProps in cache
     if (configProps) {
       extend(cache[name], {
         route: route,
@@ -47163,8 +46625,8 @@ var commaRE = /%2C/g;
 // - escapes [!'()*]
 // - preserve commas
 var encode = function (str) { return encodeURIComponent(str)
-  .replace(encodeReserveRE, encodeReserveReplacer)
-  .replace(commaRE, ','); };
+    .replace(encodeReserveRE, encodeReserveReplacer)
+    .replace(commaRE, ','); };
 
 var decode = decodeURIComponent;
 
@@ -47184,10 +46646,15 @@ function resolveQuery (
     parsedQuery = {};
   }
   for (var key in extraQuery) {
-    parsedQuery[key] = extraQuery[key];
+    var value = extraQuery[key];
+    parsedQuery[key] = Array.isArray(value)
+      ? value.map(castQueryParamValue)
+      : castQueryParamValue(value);
   }
   return parsedQuery
 }
+
+var castQueryParamValue = function (value) { return (value == null || typeof value === 'object' ? value : String(value)); };
 
 function parseQuery (query) {
   var res = {};
@@ -47201,9 +46668,7 @@ function parseQuery (query) {
   query.split('&').forEach(function (param) {
     var parts = param.replace(/\+/g, ' ').split('=');
     var key = decode(parts.shift());
-    var val = parts.length > 0
-      ? decode(parts.join('='))
-      : null;
+    var val = parts.length > 0 ? decode(parts.join('=')) : null;
 
     if (res[key] === undefined) {
       res[key] = val;
@@ -47218,34 +46683,39 @@ function parseQuery (query) {
 }
 
 function stringifyQuery (obj) {
-  var res = obj ? Object.keys(obj).map(function (key) {
-    var val = obj[key];
+  var res = obj
+    ? Object.keys(obj)
+      .map(function (key) {
+        var val = obj[key];
 
-    if (val === undefined) {
-      return ''
-    }
-
-    if (val === null) {
-      return encode(key)
-    }
-
-    if (Array.isArray(val)) {
-      var result = [];
-      val.forEach(function (val2) {
-        if (val2 === undefined) {
-          return
+        if (val === undefined) {
+          return ''
         }
-        if (val2 === null) {
-          result.push(encode(key));
-        } else {
-          result.push(encode(key) + '=' + encode(val2));
-        }
-      });
-      return result.join('&')
-    }
 
-    return encode(key) + '=' + encode(val)
-  }).filter(function (x) { return x.length > 0; }).join('&') : null;
+        if (val === null) {
+          return encode(key)
+        }
+
+        if (Array.isArray(val)) {
+          var result = [];
+          val.forEach(function (val2) {
+            if (val2 === undefined) {
+              return
+            }
+            if (val2 === null) {
+              result.push(encode(key));
+            } else {
+              result.push(encode(key) + '=' + encode(val2));
+            }
+          });
+          return result.join('&')
+        }
+
+        return encode(key) + '=' + encode(val)
+      })
+      .filter(function (x) { return x.length > 0; })
+      .join('&')
+    : null;
   return res ? ("?" + res) : ''
 }
 
@@ -47359,6 +46829,8 @@ function isObjectEqual (a, b) {
   return aKeys.every(function (key) {
     var aVal = a[key];
     var bVal = b[key];
+    // query values can be null and undefined
+    if (aVal == null || bVal == null) { return aVal === bVal }
     // check nested equality
     if (typeof aVal === 'object' && typeof bVal === 'object') {
       return isObjectEqual(aVal, bVal)
@@ -48871,6 +48343,88 @@ function runQueue (queue, fn, cb) {
   step(0);
 }
 
+var NavigationFailureType = {
+  redirected: 2,
+  aborted: 4,
+  cancelled: 8,
+  duplicated: 16
+};
+
+function createNavigationRedirectedError (from, to) {
+  return createRouterError(
+    from,
+    to,
+    NavigationFailureType.redirected,
+    ("Redirected when going from \"" + (from.fullPath) + "\" to \"" + (stringifyRoute(
+      to
+    )) + "\" via a navigation guard.")
+  )
+}
+
+function createNavigationDuplicatedError (from, to) {
+  var error = createRouterError(
+    from,
+    to,
+    NavigationFailureType.duplicated,
+    ("Avoided redundant navigation to current location: \"" + (from.fullPath) + "\".")
+  );
+  // backwards compatible with the first introduction of Errors
+  error.name = 'NavigationDuplicated';
+  return error
+}
+
+function createNavigationCancelledError (from, to) {
+  return createRouterError(
+    from,
+    to,
+    NavigationFailureType.cancelled,
+    ("Navigation cancelled from \"" + (from.fullPath) + "\" to \"" + (to.fullPath) + "\" with a new navigation.")
+  )
+}
+
+function createNavigationAbortedError (from, to) {
+  return createRouterError(
+    from,
+    to,
+    NavigationFailureType.aborted,
+    ("Navigation aborted from \"" + (from.fullPath) + "\" to \"" + (to.fullPath) + "\" via a navigation guard.")
+  )
+}
+
+function createRouterError (from, to, type, message) {
+  var error = new Error(message);
+  error._isRouter = true;
+  error.from = from;
+  error.to = to;
+  error.type = type;
+
+  return error
+}
+
+var propertiesToLog = ['params', 'query', 'hash'];
+
+function stringifyRoute (to) {
+  if (typeof to === 'string') { return to }
+  if ('path' in to) { return to.path }
+  var location = {};
+  propertiesToLog.forEach(function (key) {
+    if (key in to) { location[key] = to[key]; }
+  });
+  return JSON.stringify(location, null, 2)
+}
+
+function isError (err) {
+  return Object.prototype.toString.call(err).indexOf('Error') > -1
+}
+
+function isNavigationFailure (err, errorType) {
+  return (
+    isError(err) &&
+    err._isRouter &&
+    (errorType == null || err.type === errorType)
+  )
+}
+
 /*  */
 
 function resolveAsyncComponents (matched) {
@@ -48980,73 +48534,6 @@ function once (fn) {
   }
 }
 
-var NavigationFailureType = {
-  redirected: 1,
-  aborted: 2,
-  cancelled: 3,
-  duplicated: 4
-};
-
-function createNavigationRedirectedError (from, to) {
-  return createRouterError(
-    from,
-    to,
-    NavigationFailureType.redirected,
-    ("Redirected when going from \"" + (from.fullPath) + "\" to \"" + (stringifyRoute(
-      to
-    )) + "\" via a navigation guard.")
-  )
-}
-
-function createNavigationDuplicatedError (from, to) {
-  return createRouterError(
-    from,
-    to,
-    NavigationFailureType.duplicated,
-    ("Avoided redundant navigation to current location: \"" + (from.fullPath) + "\".")
-  )
-}
-
-function createNavigationCancelledError (from, to) {
-  return createRouterError(
-    from,
-    to,
-    NavigationFailureType.cancelled,
-    ("Navigation cancelled from \"" + (from.fullPath) + "\" to \"" + (to.fullPath) + "\" with a new navigation.")
-  )
-}
-
-function createNavigationAbortedError (from, to) {
-  return createRouterError(
-    from,
-    to,
-    NavigationFailureType.aborted,
-    ("Navigation aborted from \"" + (from.fullPath) + "\" to \"" + (to.fullPath) + "\" via a navigation guard.")
-  )
-}
-
-function createRouterError (from, to, type, message) {
-  var error = new Error(message);
-  error._isRouter = true;
-  error.from = from;
-  error.to = to;
-  error.type = type;
-
-  return error
-}
-
-var propertiesToLog = ['params', 'query', 'hash'];
-
-function stringifyRoute (to) {
-  if (typeof to === 'string') { return to }
-  if ('path' in to) { return to.path }
-  var location = {};
-  propertiesToLog.forEach(function (key) {
-    if (key in to) { location[key] = to[key]; }
-  });
-  return JSON.stringify(location, null, 2)
-}
-
 /*  */
 
 var History = function History (router, base) {
@@ -49088,7 +48575,17 @@ History.prototype.transitionTo = function transitionTo (
 ) {
     var this$1 = this;
 
-  var route = this.router.match(location, this.current);
+  var route;
+  // catch redirect option https://github.com/vuejs/vue-router/issues/3201
+  try {
+    route = this.router.match(location, this.current);
+  } catch (e) {
+    this.errorCbs.forEach(function (cb) {
+      cb(e);
+    });
+    // Exception should still be thrown
+    throw e
+  }
   this.confirmTransition(
     route,
     function () {
@@ -49116,7 +48613,7 @@ History.prototype.transitionTo = function transitionTo (
         this$1.ready = true;
         // Initial redirection should still trigger the onReady onSuccess
         // https://github.com/vuejs/vue-router/issues/3225
-        if (!isRouterError(err, NavigationFailureType.redirected)) {
+        if (!isNavigationFailure(err, NavigationFailureType.redirected)) {
           this$1.readyErrorCbs.forEach(function (cb) {
             cb(err);
           });
@@ -49138,7 +48635,7 @@ History.prototype.confirmTransition = function confirmTransition (route, onCompl
     // changed after adding errors with
     // https://github.com/vuejs/vue-router/pull/3047 before that change,
     // redirect and aborted navigation would produce an err == null
-    if (!isRouterError(err) && isError(err)) {
+    if (!isNavigationFailure(err) && isError(err)) {
       if (this$1.errorCbs.length) {
         this$1.errorCbs.forEach(function (cb) {
           cb(err);
@@ -49724,7 +49221,7 @@ var AbstractHistory = /*@__PURE__*/(function (History) {
         this$1.updateRoute(route);
       },
       function (err) {
-        if (isRouterError(err, NavigationFailureType.duplicated)) {
+        if (isNavigationFailure(err, NavigationFailureType.duplicated)) {
           this$1.index = targetIndex;
         }
       }
@@ -49757,7 +49254,8 @@ var VueRouter = function VueRouter (options) {
   this.matcher = createMatcher(options.routes || [], this);
 
   var mode = options.mode || 'hash';
-  this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false;
+  this.fallback =
+    mode === 'history' && !supportsPushState && options.fallback !== false;
   if (this.fallback) {
     mode = 'hash';
   }
@@ -49785,11 +49283,7 @@ var VueRouter = function VueRouter (options) {
 
 var prototypeAccessors = { currentRoute: { configurable: true } };
 
-VueRouter.prototype.match = function match (
-  raw,
-  current,
-  redirectedFrom
-) {
+VueRouter.prototype.match = function match (raw, current, redirectedFrom) {
   return this.matcher.match(raw, current, redirectedFrom)
 };
 
@@ -49800,11 +49294,12 @@ prototypeAccessors.currentRoute.get = function () {
 VueRouter.prototype.init = function init (app /* Vue component instance */) {
     var this$1 = this;
 
-   true && assert(
-    install.installed,
-    "not installed. Make sure to call `Vue.use(VueRouter)` " +
-    "before creating root instance."
-  );
+   true &&
+    assert(
+      install.installed,
+      "not installed. Make sure to call `Vue.use(VueRouter)` " +
+        "before creating root instance."
+    );
 
   this.apps.push(app);
 
@@ -49836,10 +49331,24 @@ VueRouter.prototype.init = function init (app /* Vue component instance */) {
   var history = this.history;
 
   if (history instanceof HTML5History || history instanceof HashHistory) {
-    var setupListeners = function () {
-      history.setupListeners();
+    var handleInitialScroll = function (routeOrError) {
+      var from = history.current;
+      var expectScroll = this$1.options.scrollBehavior;
+      var supportsScroll = supportsPushState && expectScroll;
+
+      if (supportsScroll && 'fullPath' in routeOrError) {
+        handleScroll(this$1, routeOrError, from, false);
+      }
     };
-    history.transitionTo(history.getCurrentLocation(), setupListeners, setupListeners);
+    var setupListeners = function (routeOrError) {
+      history.setupListeners();
+      handleInitialScroll(routeOrError);
+    };
+    history.transitionTo(
+      history.getCurrentLocation(),
+      setupListeners,
+      setupListeners
+    );
   }
 
   history.listen(function (route) {
@@ -49916,11 +49425,14 @@ VueRouter.prototype.getMatchedComponents = function getMatchedComponents (to) {
   if (!route) {
     return []
   }
-  return [].concat.apply([], route.matched.map(function (m) {
-    return Object.keys(m.components).map(function (key) {
-      return m.components[key]
+  return [].concat.apply(
+    [],
+    route.matched.map(function (m) {
+      return Object.keys(m.components).map(function (key) {
+        return m.components[key]
+      })
     })
-  }))
+  )
 };
 
 VueRouter.prototype.resolve = function resolve (
@@ -49929,12 +49441,7 @@ VueRouter.prototype.resolve = function resolve (
   append
 ) {
   current = current || this.history.current;
-  var location = normalizeLocation(
-    to,
-    current,
-    append,
-    this
-  );
+  var location = normalizeLocation(to, current, append, this);
   var route = this.match(location, current);
   var fullPath = route.redirectedFrom || route.fullPath;
   var base = this.history.base;
@@ -49972,7 +49479,9 @@ function createHref (base, fullPath, mode) {
 }
 
 VueRouter.install = install;
-VueRouter.version = '3.3.4';
+VueRouter.version = '3.4.3';
+VueRouter.isNavigationFailure = isNavigationFailure;
+VueRouter.NavigationFailureType = NavigationFailureType;
 
 if (inBrowser && window.Vue) {
   window.Vue.use(VueRouter);
@@ -61941,6 +61450,17 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/vuejs-countdown-timer/dist/vuejs-countdown-timer.min.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/vuejs-countdown-timer/dist/vuejs-countdown-timer.min.js ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(t,e){ true?module.exports=e():undefined}(window,function(){return function(t){var e={};function n(i){if(e[i])return e[i].exports;var s=e[i]={i:i,l:!1,exports:{}};return t[i].call(s.exports,s,s.exports,n),s.l=!0,s.exports}return n.m=t,n.c=e,n.d=function(t,e,i){n.o(t,e)||Object.defineProperty(t,e,{enumerable:!0,get:i})},n.r=function(t){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(t,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(t,"__esModule",{value:!0})},n.t=function(t,e){if(1&e&&(t=n(t)),8&e)return t;if(4&e&&"object"==typeof t&&t&&t.__esModule)return t;var i=Object.create(null);if(n.r(i),Object.defineProperty(i,"default",{enumerable:!0,value:t}),2&e&&"string"!=typeof t)for(var s in t)n.d(i,s,function(e){return t[e]}.bind(null,s));return i},n.n=function(t){var e=t&&t.__esModule?function(){return t.default}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="",n(n.s=1)}([function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0}),e.default=function(t,e){for(var n=[],i={},s=0;s<e.length;s++){var r=e[s],o=r[0],u=r[1],a=r[2],c=r[3],h={id:t+":"+s,css:u,media:a,sourceMap:c};i[o]?i[o].parts.push(h):n.push(i[o]={id:o,parts:[h]})}return n}},function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var i=function(t){return t&&t.__esModule?t:{default:t}}(n(6));var s={install:function(t,e){t.component("VueCountdownTimer",{mixins:[i.default],props:{startLabel:{type:String,default:""},endLabel:{type:String,default:""},labelPosition:{type:String,default:"begin"},interval:{type:Number,default:function(){return 1e3}},leadingZero:{type:Boolean,default:function(){return!0}},showZero:{type:Boolean,default:function(){return!0}},startTime:{type:Number|String},endTime:{type:Number|String},endText:{type:String,default:function(){return"Event ended!"}},dayTxt:{type:null|String,default:function(){return":"}},hourTxt:{type:null|String,default:function(){return":"}},minutesTxt:{type:null|String,default:function(){return":"}},secondsTxt:{type:String,default:function(){return":"}},secondsFixed:{type:Boolean,default:function(){return!1}}},data:function(){return{tips:!0,current:"",count:0,counting:!1,showDay:!0,showHour:!0,showMinute:!0}},computed:{days:function(){return this.preprocess(Math.floor(this.count/864e5))},hours:function(){var t=Math.floor(this.count%864e5/36e5);return this.dayTxt||(t+=24*Math.floor(this.count/864e5)),this.preprocess(t)},minutes:function(){var t=Math.floor(this.count%36e5/6e4);if(!this.hourTxt){var e=Math.floor(this.count/864e5);t+=60*Math.floor(this.count%864e5/36e5),this.dayTxt||(t+=24*e*60)}return this.preprocess(t)},seconds:function(){var t=this.interval,e=this.count%6e4/1e3;this.minutesTxt||(e+=60*Math.floor(this.count%36e5/6e4),this.hourTxt||(e+=60*Math.floor(this.count%864e5/36e5)*60,this.dayTxt||(e+=24*Math.floor(this.count/864e5)*60*60)));return t<10?this.preprocess(parseFloat(e.toFixed(3))):t>=10&&t<100?this.preprocess(parseFloat(e.toFixed(2))):t>=100&&t<1e3?this.preprocess(parseFloat(e.toFixed(1))):this.preprocess(Math.floor(e))},status:function(){return this.current>new Date(this.formatTime(this.endTime)).getTime()?0:this.current<new Date(this.formatTime(this.startTime)).getTime()?1:this.current>=new Date(this.formatTime(this.startTime)).getTime()&&this.current<new Date(this.formatTime(this.endTime)).getTime()?2:void 0}},methods:{init:function(){var t=this;this.dayTxt||(this.showDay=!1),this.hourTxt||(this.showHour=!1),this.minutesTxt||(this.showMinute=!1),this.stop(),this.$set(this,"current",(new Date).getTime());var e=new Date(this.formatTime(this.startTime)).getTime()-this.current,n=new Date(this.formatTime(this.endTime)).getTime()-this.current,i=this.status;if(0===i)return this.count=0,void this.end_message();1===i&&(this.$set(this,"tips",!0),this.count=Math.max(0,e)),2===i&&(this.$set(this,"tips",!1),this.$emit("start_callback",i),this.count=Math.max(0,n)),0!==this.count?this.$nextTick(function(){t.start()}):this.end_message()},start:function(){this.counting||(this.counting=!0,this.next())},next:function(){this.timeout=setTimeout(this.step.bind(this),this.interval)},step:function(){this.counting&&(this.count>this.interval?(this.showZero||(0===Number(this.days)&&(this.showDay=!1),this.showDay||0!==Number(this.hours)||(this.showHour=!1),this.showHour||0!==Number(this.minutes)||(this.showMinute=!1)),this.count-=this.interval,this.next()):(this.count=0,this.init()))},stop:function(){this.counting=!1,clearTimeout(this.timeout),this.timeout=void 0},start_message:function(){this.$set(this,"tips",!1),this.$emit("start_callback",this.status)},end_message:function(){this.currentTime<=0||this.currentTime<new Date(this.formatTime(this.endTime)).getTime()||this.$emit("end_callback",this.status)},formatTime:function(t){return"number"==typeof t&&10===t.toString().length?1e3*t:t},preprocess:function(t){return this.leadingZero&&t<10?"0"+t:t},update:function(){if(this.counting){this.$set(this,"current",(new Date).getTime());var t=new Date(this.formatTime(this.startTime)).getTime()-this.current,e=new Date(this.formatTime(this.endTime)).getTime()-this.current,n=this.status;if(0===n)return this.count=0,this.stop(),void this.end_message();1===n&&(this.$set(this,"tips",!0),this.count=Math.max(0,t)),2===n&&(this.$set(this,"tips",!1),this.$emit("start_callback",this.status),this.count=Math.max(0,e))}}},watch:{startTime:function(){this.init()},endTime:function(){this.init()}},created:function(){this.init()},mounted:function(){window.addEventListener("focus",this.onFocus=this.update.bind(this))},beforeDestroy:function(){window.removeEventListener("focus",this.onFocus),clearTimeout(this.timeout)}})}};"undefined"!=typeof window&&window.Vue&&window.Vue.use(s),e.default=s},function(t,e,n){var i=n(3);"string"==typeof i&&(i=[[t.i,i,""]]),i.locals&&(t.exports=i.locals);(0,n(5).default)("3f71a86a",i,!0,{})},function(t,e,n){(t.exports=n(4)(!1)).push([t.i,"",""])},function(t,e,n){"use strict";t.exports=function(t){var e=[];return e.toString=function(){return this.map(function(e){var n=function(t,e){var n=t[1]||"",i=t[3];if(!i)return n;if(e&&"function"==typeof btoa){var s=function(t){return"/*# sourceMappingURL=data:application/json;charset=utf-8;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(t))))+" */"}(i),r=i.sources.map(function(t){return"/*# sourceURL="+i.sourceRoot+t+" */"});return[n].concat(r).concat([s]).join("\n")}return[n].join("\n")}(e,t);return e[2]?"@media "+e[2]+"{"+n+"}":n}).join("")},e.i=function(t,n){"string"==typeof t&&(t=[[null,t,""]]);for(var i={},s=0;s<this.length;s++){var r=this[s][0];"number"==typeof r&&(i[r]=!0)}for(s=0;s<t.length;s++){var o=t[s];"number"==typeof o[0]&&i[o[0]]||(n&&!o[2]?o[2]=n:n&&(o[2]="("+o[2]+") and ("+n+")"),e.push(o))}},e}},function(t,e,n){"use strict";n.r(e),n.d(e,"default",function(){return m});var i=n(0),s=n.n(i),r="undefined"!=typeof document;if("undefined"!=typeof DEBUG&&DEBUG&&!r)throw new Error("vue-style-loader cannot be used in a non-browser environment. Use { target: 'node' } in your Webpack config to indicate a server-rendering environment.");var o={},u=r&&(document.head||document.getElementsByTagName("head")[0]),a=null,c=0,h=!1,d=function(){},f=null,l="data-vue-ssr-id",p="undefined"!=typeof navigator&&/msie [6-9]\b/.test(navigator.userAgent.toLowerCase());function m(t,e,n,i){h=n,f=i||{};var r=s()(t,e);return v(r),function(e){for(var n=[],i=0;i<r.length;i++){var u=r[i];(a=o[u.id]).refs--,n.push(a)}e?v(r=s()(t,e)):r=[];for(i=0;i<n.length;i++){var a;if(0===(a=n[i]).refs){for(var c=0;c<a.parts.length;c++)a.parts[c]();delete o[a.id]}}}}function v(t){for(var e=0;e<t.length;e++){var n=t[e],i=o[n.id];if(i){i.refs++;for(var s=0;s<i.parts.length;s++)i.parts[s](n.parts[s]);for(;s<n.parts.length;s++)i.parts.push(T(n.parts[s]));i.parts.length>n.parts.length&&(i.parts.length=n.parts.length)}else{var r=[];for(s=0;s<n.parts.length;s++)r.push(T(n.parts[s]));o[n.id]={id:n.id,refs:1,parts:r}}}}function _(){var t=document.createElement("style");return t.type="text/css",u.appendChild(t),t}function T(t){var e,n,i=document.querySelector("style["+l+'~="'+t.id+'"]');if(i){if(h)return d;i.parentNode.removeChild(i)}if(p){var s=c++;i=a||(a=_()),e=y.bind(null,i,s,!1),n=y.bind(null,i,s,!0)}else i=_(),e=function(t,e){var n=e.css,i=e.media,s=e.sourceMap;i&&t.setAttribute("media",i);f.ssrId&&t.setAttribute(l,e.id);s&&(n+="\n/*# sourceURL="+s.sources[0]+" */",n+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(s))))+" */");if(t.styleSheet)t.styleSheet.cssText=n;else{for(;t.firstChild;)t.removeChild(t.firstChild);t.appendChild(document.createTextNode(n))}}.bind(null,i),n=function(){i.parentNode.removeChild(i)};return e(t),function(i){if(i){if(i.css===t.css&&i.media===t.media&&i.sourceMap===t.sourceMap)return;e(t=i)}else n()}}var b=function(){var t=[];return function(e,n){return t[e]=n,t.filter(Boolean).join("\n")}}();function y(t,e,n,i){var s=n?"":i.css;if(t.styleSheet)t.styleSheet.cssText=b(e,s);else{var r=document.createTextNode(s),o=t.childNodes;o[e]&&t.removeChild(o[e]),o.length?t.insertBefore(r,o[e]):t.appendChild(r)}}},function(t,e,n){"use strict";n.r(e);var i=function(t,e,n,i,s,r,o,u){var a=typeof(t=t||{}).default;"object"!==a&&"function"!==a||(t=t.default);var c,h="function"==typeof t?t.options:t;if(e&&(h.render=e,h.staticRenderFns=n,h._compiled=!0),i&&(h.functional=!0),r&&(h._scopeId=r),o?(c=function(t){(t=t||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext)||"undefined"==typeof __VUE_SSR_CONTEXT__||(t=__VUE_SSR_CONTEXT__),s&&s.call(this,t),t&&t._registeredComponents&&t._registeredComponents.add(o)},h._ssrRegister=c):s&&(c=u?function(){s.call(this,this.$root.$options.shadowRoot)}:s),c)if(h.functional){h._injectStyles=c;var d=h.render;h.render=function(t,e){return c.call(e),d(t,e)}}else{var f=h.beforeCreate;h.beforeCreate=f?[].concat(f,c):[c]}return{exports:t,options:h}}(null,function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("div",[t.status>0?t._t("start-label",[""!==t.startLabel&&t.tips&&"begin"===t.labelPosition?n("span",[t._v(t._s(t.startLabel)+":")]):t._e(),t._v(" "),""===t.endLabel||t.tips||"begin"!==t.labelPosition?t._e():n("span",[t._v(t._s(t.endLabel)+":")])],{props:{tips:t.tips,startLabel:t.startLabel,endLabel:t.endLabel,labelPosition:t.labelPosition}}):t._e(),t._v(" "),t.status>0?t._t("countdown",[t.showDay?n("span",[t._v(t._s(t.days))]):t._e(),t._v(" "),t.showDay?n("i",[t._v(t._s(t.dayTxt))]):t._e(),t._v(" "),t.showHour?n("span",[t._v(t._s(t.hours))]):t._e(),t._v(" "),t.showHour?n("i",[t._v(t._s(t.hourTxt))]):t._e(),t._v(" "),t.showMinute?n("span",[t._v(t._s(t.minutes))]):t._e(),t._v(" "),t.showMinute?n("i",[t._v(t._s(t.minutesTxt))]):t._e(),t._v(" "),n("span",[t._v(t._s(t.seconds))]),t._v(" "),t.secondsTxt?n("i",[t._v(t._s(t.secondsTxt))]):t._e()],{props:{status:t.status,days:t.days,hours:t.hours,minutes:t.minutes,seconds:t.seconds,dayTxt:t.dayTxt,hourTxt:t.hourTxt,minutesTxt:t.minutesTxt,secondsTxt:t.secondsTxt,showDay:t.showDay,showHour:t.showHour,showMinute:t.showMinute}}):t._e(),t._v(" "),t.status>0?t._t("end-label",[""!==t.startLabel&&t.tips&&"end"===t.labelPosition?n("span",[t._v(t._s(t.startLabel)+":")]):t._e(),t._v(" "),""===t.endLabel||t.tips||"end"!==t.labelPosition?t._e():n("span",[t._v(t._s(t.endLabel)+":")])],{props:{tips:t.tips,startLabel:t.startLabel,endLabel:t.endLabel,labelPosition:t.labelPosition}}):t._e(),t._v(" "),t.status<=0?t._t("end-text",[t._v("\n    "+t._s(t.endText)+"\n  ")],{props:{endText:t.endText}}):t._e()],2)},[],!1,function(t){n(2)},"data-v-7c035809",null);e.default=i.exports}])});
+
+/***/ }),
+
 /***/ "./node_modules/webpack/buildin/global.js":
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -62662,8 +62182,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
 /* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _chenfengyuan_vue_countdown__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @chenfengyuan/vue-countdown */ "./node_modules/@chenfengyuan/vue-countdown/dist/vue-countdown.js");
-/* harmony import */ var _chenfengyuan_vue_countdown__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_chenfengyuan_vue_countdown__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuejs-countdown-timer */ "./node_modules/vuejs-countdown-timer/dist/vuejs-countdown-timer.min.js");
+/* harmony import */ var vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_5__);
 __webpack_require__(/*! ./bootstrap */ "./resources/vuejs/bootstrap.js");
 
 __webpack_require__(/*! ./js/tv */ "./resources/vuejs/js/tv.js");
@@ -62673,7 +62193,7 @@ window.axios.defaults.headers.common = {
   'X-Requested-With': 'XMLHttpRequest',
   'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 };
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component(_chenfengyuan_vue_countdown__WEBPACK_IMPORTED_MODULE_5___default.a.name, _chenfengyuan_vue_countdown__WEBPACK_IMPORTED_MODULE_5___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_5___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('menu-component', __webpack_require__(/*! ./views/layouts/Menu */ "./resources/vuejs/views/layouts/Menu.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('footer-component', __webpack_require__(/*! ./views/layouts/Footer */ "./resources/vuejs/views/layouts/Footer.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('header-component', __webpack_require__(/*! ./views/layouts/Header */ "./resources/vuejs/views/layouts/Header.vue")["default"]);
@@ -63620,15 +63140,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./resources/vuejs/views/user/Trading.vue ***!
   \************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Trading_vue_vue_type_template_id_0b4c4794_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Trading.vue?vue&type=template&id=0b4c4794&scoped=true& */ "./resources/vuejs/views/user/Trading.vue?vue&type=template&id=0b4c4794&scoped=true&");
 /* harmony import */ var _Trading_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Trading.vue?vue&type=script&lang=js& */ "./resources/vuejs/views/user/Trading.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Trading_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Trading_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _Trading_vue_vue_type_style_index_0_id_0b4c4794_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Trading.vue?vue&type=style&index=0&id=0b4c4794&scoped=true&lang=css& */ "./resources/vuejs/views/user/Trading.vue?vue&type=style&index=0&id=0b4c4794&scoped=true&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Trading_vue_vue_type_style_index_0_id_0b4c4794_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Trading.vue?vue&type=style&index=0&id=0b4c4794&scoped=true&lang=css& */ "./resources/vuejs/views/user/Trading.vue?vue&type=style&index=0&id=0b4c4794&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 /* normalize component */
@@ -63655,7 +63174,7 @@ component.options.__file = "resources/vuejs/views/user/Trading.vue"
 /*!*************************************************************************!*\
   !*** ./resources/vuejs/views/user/Trading.vue?vue&type=script&lang=js& ***!
   \*************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

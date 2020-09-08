@@ -8,6 +8,7 @@ use App\Jobs\CloseOptionJob;
 use App\Models\OpenOrders;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -83,15 +84,26 @@ class TradingController extends Controller
       $price = Cache::get('symbol'.$request->symbol);
       $model = new OpenOrders();
       $model->symbol_id = $request->symbol;
-      $model->user_id = 1;
+      $model->user_id = Auth::user()->id;
       $model->type = $request->type;
       $model->open_price = $price;
       $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
+      $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
+      $model->amount = $request->amount;
       $model->save();
-      return response()->json([
-        'id' => $model->id,
-        'price' => $price,
-        'quantity' => $request->amount
-      ]);
+      return $model;
+    }
+
+    public function getOpenOrders(Request $request){
+      return OpenOrders::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get()->filter(function ($item) {
+        $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->created_at));
+        $item['expiration'] = $diff->s + $diff->i * 60 + $diff->h * 60 * 60;
+        return $item;
+      })->filter(function ($item) {
+        $diff = date_diff(new \DateTime(), new \DateTime($item->created_at));
+        $item['timestamp'] = Carbon::parse($item->close_at)->timestamp;
+        return $item;
+      });
+      //
     }
 }
