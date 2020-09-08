@@ -10,7 +10,10 @@
 |
 */
 Auth::routes();
-Route::post("/binary/buy", 'Main\TradingController@buySymbol');
-Route::get("/data/symbols", 'Main\SymbolsHistoryController@getExchanges');
-Route::get("/data/getAuthToken", 'Main\TradingController@getAuthToken');
-Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
+Route::middleware(['auth'])->group(function () {
+  Route::post("/binary/buy", 'Main\TradingController@buySymbol');
+  Route::post("/data/opened", 'Main\TradingController@getOpenOrders');
+  Route::get("/data/symbols", 'Main\SymbolsHistoryController@getExchanges');
+  Route::get("/data/getAuthToken", 'Main\TradingController@getAuthToken');
+  Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
+});

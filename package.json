@@ -12,15 +12,15 @@
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.10.4",
         "axios": "^0.19",
-        "bootstrap": "^4.0.0",
+        "bootstrap": "^4.5.2",
         "cross-env": "^5.1",
-        "laravel-mix": "^5.0.1",
-        "lodash": "^4.17.13",
+        "laravel-mix": "^5.0.5",
+        "lodash": "^4.17.20",
         "popper.js": "^1.12",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0",
-        "vue-template-compiler": "^2.6.11"
+        "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
         "@chenfengyuan/vue-countdown": "^1.1.5",
@@ -30,12 +30,13 @@
         "laravel-echo-server": "^1.6.2",
         "md5": "^2.3.0",
         "requirejs": "^2.3.6",
-        "rtlcss": "^2.5.0",
+        "rtlcss": "^2.6.0",
         "socket.io-client": "^2.3.0",
         "v-money": "^0.8.1",
         "vue": "^2.6.12",
         "vue-echo-laravel": "0.0.6",
-        "vue-router": "^3.3.4",
-        "vue-the-mask": "^0.11.1"
+        "vue-router": "^3.4.3",
+        "vue-the-mask": "^0.11.1",
+        "vuejs-countdown-timer": "^2.1.2"
     }
 }

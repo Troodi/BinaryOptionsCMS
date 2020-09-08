@@ -18,9 +18,10 @@ class CreateOpenOrdersTable extends Migration
             $table->integer('symbol_id')->nullable();
             $table->integer('user_id')->nullable();
             $table->timestamp('close_at', 6)->nullable();
+            $table->decimal('amount', 10, 2)->nullable();
             $table->decimal('open_price', 10, 5)->nullable();
             $table->integer('type')->nullable();
-            $table->timestamps();
+            $table->timestamps(6);
         });
     }
 

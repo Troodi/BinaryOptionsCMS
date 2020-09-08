@@ -148,77 +148,56 @@
                                 <div class="row">
                                     <div class="col-md-12" id="history">
                                         <div :style="{ height: historyHeight }" class="accordion collapse-icon accordion-icon-rotate ps ps--active-y" id="accordionWrapa2">
-                                            <div class="card collapse-header">
-                                                <div style="background-color: #22283e !important;border-top: 1px solid #464d5c !important; border-left: 1px solid #464d5c !important; border-right: 1px solid #464d5c !important;" id="heading5" class="card-header" data-toggle="collapse" data-target="#accordion5" aria-expanded="false" aria-controls="accordion5" role="tablist">
+
+                                            <div v-for="open in opened" class="card collapse-header">
+                                                <div :id="'heading' + open.id" :data-target="'#accordion' + open.id" :aria-controls="'accordion' + open.id" aria-expanded="false"  style="background-color: #22283e !important;border-top: 1px solid #464d5c !important; border-left: 1px solid #464d5c !important; border-right: 1px solid #464d5c !important;" class="card-header" data-toggle="collapse" role="tablist">
                                                     <span class="collapse-title">
-                                                      <span class="text-success align-middle">EUR/USD</span>
-                                                        <small>
-                                                            <countdown :time="60 * 1000">
-                                                                <template slot-scope="props">({{ props.hours.toString().padStart(2, "0") }}:{{ props.minutes.toString().padStart(2, "0") }}:{{ props.seconds.toString().padStart(2, "0") }})</template>
-                                                            </countdown>
-                                                        </small>
-                                                        <countdown :time="60 * 1000">
-                                                            <template slot-scope="props">
-                                                                <div class="progress progress-sm progress-bar-success">
-                                                                    <div :style="{ width: 100 - (((props.hours + props.minutes + props.seconds) / 60) * 100) + '%'}" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                </div>
-                                                            </template>
-                                                        </countdown>
+
+                                                        <template>
+                                                            <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="open.timestamp" :interval="1000">
+                                                                <template slot="countdown" slot-scope="scope">
+                                                                    <span class="text-success align-middle">{{ symbols.find(item => item.id === open.symbol_id).symbol }}</span>
+                                                                    <small>
+                                                                        ({{scope.props.hours}}:{{scope.props.minutes}}:{{scope.props.seconds}})
+                                                                   </small>
+                                                                  </template>
+                                                                  <template slot="end-text" slot-scope="scope">
+                                                                    <span class="text-success align-middle">{{ symbols.find(item => item.id === open.symbol_id).symbol }}</span>
+                                                                    <small>
+                                                                        (00:00:00)
+                                                                   </small>
+                                                                  </template>
+                                                            </vue-countdown-timer>
+                                                        </template>
+
+
+                                                        <template>
+                                                            <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="open.timestamp" :interval="1000">
+                                                                <template slot="countdown" slot-scope="scope">
+                                                                    <div class="progress progress-sm progress-bar-success">
+                                                                        <div :style="{ width: (100 - (((scope.props.hours * 60 * 60 + scope.props.minutes * 60 + scope.props.seconds) / open.expiration) * 100)) + '%'}" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    </div>
+                                                                  </template>
+                                                                  <template slot="end-text" slot-scope="scope">
+                                                                    <div class="progress progress-sm progress-bar-success">
+                                                                        <div :style="{ width: '100%'}" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                    </div>
+                                                                  </template>
+                                                            </vue-countdown-timer>
+                                                        </template>
                                                     </span>
                                                 </div>
-                                                <div id="accordion5" role="tabpanel" data-parent="#accordionWrapa2" aria-labelledby="heading5" class="collapse">
+                                                <div :id="'accordion' + open.id" :aria-labelledby="'heading' + open.id" role="tabpanel" data-parent="#accordionWrapa2" class="collapse">
                                                     <div class="card-content">
                                                         <div class="card-body" style="background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
-                                                            Открыто: 18:12:15<br>
-                                                            Цена: 1.12332<br>
-                                                            Осталось: 00:00:15
+                                                            Открыто: 12:00:00<br>
+                                                            Цена: {{ open.open_price }}<br>
+                                                            Время: 00:00:15<br>
+                                                            Направление: выше
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="card collapse-header">
-                                                <div style="background-color: #22283e !important;border-top: 1px solid #464d5c !important; border-left: 1px solid #464d5c !important; border-right: 1px solid #464d5c !important;" id="heading6" class="card-header" data-toggle="collapse" data-target="#accordion6" aria-expanded="false" aria-controls="accordion6" role="tablist">
-                                                    <span class="collapse-title">
-                                                      <span class="text-danger align-middle">EUR/USD</span>
-                                                      <small>(00:00:15)</small>
-                                                        <div class="progress progress-sm progress-bar-danger">
-                                                          <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="40" aria-valuemax="100" style="width:40%"></div>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                                <div id="accordion6" role="tabpanel" data-parent="#accordionWrapa2" aria-labelledby="heading6" class="collapse">
-                                                    <div class="card-content">
-                                                        <div class="card-body" style="background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
-                                                            Открыто: 18:12:15<br>
-                                                            Цена: 1.12332<br>
-                                                            Осталось: 00:00:15
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="card collapse-header">
-                                                <div style="background-color: #22283e !important;border-top: 1px solid #464d5c !important; border-left: 1px solid #464d5c !important; border-right: 1px solid #464d5c !important;" id="heading7" class="card-header" data-toggle="collapse" data-target="#accordion7" aria-expanded="false" aria-controls="accordion7" role="tablist">
-                                                    <span class="collapse-title">
-                                                      <span style="color:#39DA8A;" class="align-middle">EUR/USD</span>
-                                                      <small>(00:00:15)</small>
-                                                        <div class="progress progress-sm progress-bar-success">
-                                                          <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="40" aria-valuemax="100" style="width:40%"></div>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                                <div id="accordion7" role="tabpanel" data-parent="#accordionWrapa2" aria-labelledby="heading7" class="collapse">
-                                                    <div class="card-content">
-                                                        <div class="card-body" style="background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
-                                                            Открыто: 18:12:15<br>
-                                                            Цена: 1.12332<br>
-                                                            Осталось: 00:00:15
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
 
                                         </div>
                                     </div>
@@ -248,6 +227,18 @@
             this.historyHeight = ($(window).height() - $('#line').offset().top - 30) + 'px';
             this.ps = new PerfectScrollbar("#accordionWrapa2");
             let self = this;
+
+            axios.get('/data/symbols')
+                .then(function (response) {
+                    self.symbols = response.data;
+                })
+            window.addEventListener('load', () => {
+                axios.post('/data/opened')
+                    .then(function (response) {
+                        self.opened = response.data;
+                    })
+            });
+
             this.$echo.channel('closed').listen('CloseOptionEvent', (payload) => {
                 if(payload.success === true) {
                     toastr.success('Вы получили прибыль!', 'Сделка закрыта', {
@@ -260,6 +251,7 @@
                         containerId: 'toast-bottom-left'
                     });
                 }
+                self.opened = self.opened.filter(item => item.id !== payload.id);
                 self.lines[payload.id].remove();
             });
 
@@ -293,19 +285,24 @@
                     type: 1,
                 })
                 .then(function (response) {
+                    axios.post('/data/opened')
+                        .then(function (response) {
+                            self.opened = [];
+                            self.opened = response.data;
+                        })
                     let order = window.tvWidget.chart().createOrderLine()
                         .setText("Выше")
                         .setLineLength(1)
                         .setLineStyle(0)
-                        .setQuantity(response.data.quantity + '$')
+                        .setQuantity(response.data.amount + '$')
                         .setLineColor('#23bd70')
                         .setQuantityBackgroundColor('#23bd70')
                         .setQuantityBorderColor('#23bd70')
                         .setBodyBorderColor('#23bd70')
                         .setBodyTextColor('#23bd70');
-                    order.setPrice(response.data.price);
+                    order.setPrice(response.data.open_price);
                     self.lines[response.data.id] = order;
-                    toastr.info('Открыта сделка по цене ' + response.data.price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                    toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 })
             },
             sell: function(){
@@ -319,6 +316,11 @@
                     type: 0,
                 })
                 .then(function (response) {
+                    axios.post('/data/opened')
+                        .then(function (response) {
+                            self.opened = [];
+                            self.opened = response.data;
+                        })
                     let order = window.tvWidget.chart().createOrderLine()
                         .setText("Ниже")
                         .setLineLength(1)
@@ -329,9 +331,9 @@
                         .setQuantityBorderColor('#FF5B5C')
                         .setBodyBorderColor('#FF5B5C')
                         .setBodyTextColor('#FF5B5C')
-                    order.setPrice(response.data.price);
+                    order.setPrice(response.data.open_price);
                     self.lines[response.data.id] = order;
-                    toastr.info('Открыта сделка по цене ' + response.data.price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                    toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 })
             },
             timeClick: function () {
@@ -411,6 +413,7 @@
                 minutes: localStorage.getItem('minutes') ? localStorage.getItem('minutes') : '00',
                 seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '30',
                 historyHeight: '300px',
+                opened: [],
                 money: {
                     decimal: '.',
                     thousands: ',',
