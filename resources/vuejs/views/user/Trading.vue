@@ -2,7 +2,7 @@
     <div class="content-fluld" :style="{ 'margin-top': '4.6rem' }">
         <div class="content-body">
             <div class="row">
-                <div class="col-md-10 pr-0 pb-0">
+                <div class="col-lg-8 col-xxl-10 pr-0 pb-0">
                     <section class="card mb-0" :style="{ 'height': 'calc(100vh - 69px)' }">
                         <div class="card-content">
                             <div class="card-body p-0">
@@ -13,7 +13,7 @@
                         </div>
                     </section>
                 </div>
-                <div class="col-md-2 p-0">
+                <div class="col-lg-4 col-xxl-2 p-0">
                     <section class="card mb-0" :style="{ 'height': 'calc(100vh - 69px)' }">
                         <div class="card-content">
                             <div class="card-body">
@@ -27,7 +27,7 @@
                                     </fieldset>
 
                                     <div class="row pb-1" v-show="clicked">
-                                        <div class="col-lg-12 col-xl-4 pr-0">
+                                        <div class="col-4 pr-0">
                                             <small class="text-muted"><i>Часы</i></small>
                                             <div class="d-inline-block w-100">
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
@@ -39,7 +39,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12 col-xl-4 pr-0" style="padding-left:7.5px;padding-right:7.5px !important;">
+                                        <div class="col-4 pr-0" style="padding-left:7.5px;padding-right:7.5px !important;">
                                             <small class="text-muted"><i>Минуты</i></small>
                                             <div class="d-inline-block w-100">
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
@@ -51,7 +51,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg12 col-xl-4 pl-0">
+                                        <div class="col-4 pl-0">
                                             <small class="text-muted"><i>Секунды</i></small>
                                             <div class="d-inline-block w-100">
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
@@ -71,9 +71,43 @@
 
                                     <small class="text-muted"><i>Сумма сделки</i></small>
                                     <fieldset :style="{ 'margin-bottom': '0.3rem !important'}" class="form-group position-relative">
-                                        <input type="number" v-model="amount" class="form-control form-control-lg">
+                                        <input @click="amountClick" type="text" v-money="money" v-model="amount" class="form-control form-control-lg">
                                         <div class="form-control-position" :style="{ 'top' : '14px'}">
                                             <i class="bx bx-dollar"></i>
+                                        </div>
+
+                                        <div v-show="clickedAmount" class="row" :style="{ 'margin-top': '0.3rem !important'}">
+                                            <div class="col-4 pr-0">
+                                                <button @click="setAmount(min)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min }}$</button>
+                                            </div>
+                                            <div class="col-4" style="padding-left:7.5px;padding-right:7.5px !important;">
+                                                <button @click="setAmount(min*2)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min * 2}}$</button>
+                                            </div>
+                                            <div class="col-4 pl-0">
+                                                <button @click="setAmount(min*4)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min * 4}}$</button>
+                                            </div>
+                                        </div>
+                                        <div v-show="clickedAmount" class="row" :style="{ 'margin-top': '0.3rem !important'}">
+                                            <div class="col-4 pr-0">
+                                                <button @click="setAmount(min*8)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min * 8 }}$</button>
+                                            </div>
+                                            <div class="col-4" style="padding-left:7.5px;padding-right:7.5px !important;">
+                                                <button @click="setAmount(min*16)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min * 16}}$</button>
+                                            </div>
+                                            <div class="col-4 pl-0">
+                                                <button @click="setAmount(min*32)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min * 32}}$</button>
+                                            </div>
+                                        </div>
+                                        <div v-show="clickedAmount" class="row" :style="{ 'margin-top': '0.3rem !important'}">
+                                            <div class="col-4 pr-0">
+                                                <button @click="subAmount" type="button" class="btn btn-outline-primary btn-sm w-100">-</button>
+                                            </div>
+                                            <div class="col-4" style="padding-left:7.5px;padding-right:7.5px !important;">
+                                                <button @click="amountClickClose" type="button" class="btn btn-outline-success btn-sm w-100">ОК</button>
+                                            </div>
+                                            <div class="col-4 pl-0">
+                                                <button @click="addAmount" type="button" class="btn btn-outline-primary btn-sm w-100">+</button>
+                                            </div>
                                         </div>
                                     </fieldset>
 
@@ -86,7 +120,7 @@
                                     </fieldset>
 
                                     <fieldset v-show="number_percent !== null" class="form-group position-relative">
-                                        <input type="text" class="form-control form-control-lg" :value="amount * number_percent / 100" disabled>
+                                        <input type="text" class="form-control form-control-lg" :value="(amount.toString().replace(',', '') * number_percent / 100).toFixed(2)" disabled>
                                         <div class="form-control-position" :style="{ 'top' : '14px'}">
                                             <i class="bx bx-dollar"></i>
                                         </div>
@@ -122,12 +156,13 @@
 
 <script>
     import TradingChartComponent from "./../../components/TradingChartComponent";
-    import md5 from 'md5'
+    import { Money } from 'v-money'
 
     export default {
         name: "Trading",
         components : {
-            TradingChartComponent
+            TradingChartComponent,
+            Money
         },
         mounted() {
             let self = this;
@@ -225,6 +260,21 @@
                     this.clicked = false;
                 }
             },
+            addAmount: function(){
+                this.amount = (parseFloat(this.amount.toString().replace(',', '')) + this.min).toFixed(2).toString();
+            },
+            subAmount: function(){
+                this.amount = (parseFloat(this.amount.toString().replace(',', '')) - this.min).toFixed(2).toString();
+            },
+            setAmount: function(min){
+              this.amount = min.toFixed(2).toString();
+            },
+            amountClick: function () {
+              this.clickedAmount = true;
+            },
+            amountClickClose: function () {
+                this.clickedAmount = false;
+            },
             hourAdd: function () {
                 let parsed = parseInt(this.hours);
                 parsed += 1;
@@ -263,14 +313,21 @@
         data() {
             return {
                 clicked: false,
+                clickedAmount: false,
                 percent: '',
                 symbol: null,
                 number_percent: null,
-                amount: 10,
+                amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1.00',
+                min: 1,
                 lines: {},
-                hours: '00',
-                minutes: '00',
-                seconds: '30',
+                hours: localStorage.getItem('hours') ? localStorage.getItem('hours') : '00',
+                minutes: localStorage.getItem('minutes') ? localStorage.getItem('minutes') : '00',
+                seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '30',
+                money: {
+                    decimal: '.',
+                    thousands: ',',
+                    precision: 2,
+                }
             }
         },
         computed: {
@@ -298,6 +355,7 @@
                     final = '0' + final.toString();
                 }
                 this.hours = final;
+                localStorage.setItem('hours', this.hours);
             },
             minutes: function () {
                 let number = parseInt(this.minutes);
@@ -315,6 +373,7 @@
                     final = '0' + final.toString();
                 }
                 this.minutes = final;
+                localStorage.setItem('minutes', this.minutes);
             },
             seconds: function () {
                 let number = parseInt(this.seconds);
@@ -332,7 +391,24 @@
                     final = '0' + final.toString();
                 }
                 this.seconds = final;
+                localStorage.setItem('seconds', this.seconds);
             },
+            amount: function () {
+                let first = this.amount;
+                let number = parseFloat(first.toString().replace(',', ''));
+                let min = number / 8;
+                if(min < 1){
+                    min = 1;
+                }
+                this.min = min;
+                if(number < 1){
+                    this.amount = '1.00';
+                }
+                if(number > 100000){
+                    this.amount = '100000.00';
+                }
+                localStorage.setItem('amount', this.amount);
+            }
         }
     }
 </script>

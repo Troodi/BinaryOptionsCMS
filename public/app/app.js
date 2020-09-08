@@ -2334,8 +2334,42 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../components/TradingChartComponent */ "./resources/vuejs/components/TradingChartComponent.vue");
-/* harmony import */ var md5__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! md5 */ "./node_modules/md5/md5.js");
-/* harmony import */ var md5__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(md5__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2463,7 +2497,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Trading",
   components: {
-    TradingChartComponent: _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+    TradingChartComponent: _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Money: v_money__WEBPACK_IMPORTED_MODULE_1__["Money"]
   },
   mounted: function mounted() {
     var _this = this;
@@ -2550,6 +2585,21 @@ __webpack_require__.r(__webpack_exports__);
         this.clicked = false;
       }
     },
+    addAmount: function addAmount() {
+      this.amount = (parseFloat(this.amount.toString().replace(',', '')) + this.min).toFixed(2).toString();
+    },
+    subAmount: function subAmount() {
+      this.amount = (parseFloat(this.amount.toString().replace(',', '')) - this.min).toFixed(2).toString();
+    },
+    setAmount: function setAmount(min) {
+      this.amount = min.toFixed(2).toString();
+    },
+    amountClick: function amountClick() {
+      this.clickedAmount = true;
+    },
+    amountClickClose: function amountClickClose() {
+      this.clickedAmount = false;
+    },
     hourAdd: function hourAdd() {
       var parsed = parseInt(this.hours);
       parsed += 1;
@@ -2590,14 +2640,21 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       clicked: false,
+      clickedAmount: false,
       percent: '',
       symbol: null,
       number_percent: null,
-      amount: 10,
+      amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1.00',
+      min: 1,
       lines: {},
-      hours: '00',
-      minutes: '00',
-      seconds: '30'
+      hours: localStorage.getItem('hours') ? localStorage.getItem('hours') : '00',
+      minutes: localStorage.getItem('minutes') ? localStorage.getItem('minutes') : '00',
+      seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '30',
+      money: {
+        decimal: '.',
+        thousands: ',',
+        precision: 2
+      }
     };
   },
   computed: {
@@ -2626,6 +2683,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.hours = _final;
+      localStorage.setItem('hours', this.hours);
     },
     minutes: function minutes() {
       var number = parseInt(this.minutes);
@@ -2644,6 +2702,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.minutes = _final2;
+      localStorage.setItem('minutes', this.minutes);
     },
     seconds: function seconds() {
       var number = parseInt(this.seconds);
@@ -2662,6 +2721,28 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.seconds = _final3;
+      localStorage.setItem('seconds', this.seconds);
+    },
+    amount: function amount() {
+      var first = this.amount;
+      var number = parseFloat(first.toString().replace(',', ''));
+      var min = number / 8;
+
+      if (min < 1) {
+        min = 1;
+      }
+
+      this.min = min;
+
+      if (number < 1) {
+        this.amount = '1.00';
+      }
+
+      if (number > 100000) {
+        this.amount = '100000.00';
+      }
+
+      localStorage.setItem('amount', this.amount);
     }
   }
 });
@@ -4919,50 +5000,6 @@ function isnan (val) {
 
 /***/ }),
 
-/***/ "./node_modules/charenc/charenc.js":
-/*!*****************************************!*\
-  !*** ./node_modules/charenc/charenc.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var charenc = {
-  // UTF-8 encoding
-  utf8: {
-    // Convert a string to a byte array
-    stringToBytes: function(str) {
-      return charenc.bin.stringToBytes(unescape(encodeURIComponent(str)));
-    },
-
-    // Convert a byte array to a string
-    bytesToString: function(bytes) {
-      return decodeURIComponent(escape(charenc.bin.bytesToString(bytes)));
-    }
-  },
-
-  // Binary encoding
-  bin: {
-    // Convert a string to a byte array
-    stringToBytes: function(str) {
-      for (var bytes = [], i = 0; i < str.length; i++)
-        bytes.push(str.charCodeAt(i) & 0xFF);
-      return bytes;
-    },
-
-    // Convert a byte array to a string
-    bytesToString: function(bytes) {
-      for (var str = [], i = 0; i < bytes.length; i++)
-        str.push(String.fromCharCode(bytes[i]));
-      return str.join('');
-    }
-  }
-};
-
-module.exports = charenc;
-
-
-/***/ }),
-
 /***/ "./node_modules/component-bind/index.js":
 /*!**********************************************!*\
   !*** ./node_modules/component-bind/index.js ***!
@@ -5197,113 +5234,6 @@ module.exports = function(a, b){
   a.prototype = new fn;
   a.prototype.constructor = a;
 };
-
-/***/ }),
-
-/***/ "./node_modules/crypt/crypt.js":
-/*!*************************************!*\
-  !*** ./node_modules/crypt/crypt.js ***!
-  \*************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-(function() {
-  var base64map
-      = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
-
-  crypt = {
-    // Bit-wise rotation left
-    rotl: function(n, b) {
-      return (n << b) | (n >>> (32 - b));
-    },
-
-    // Bit-wise rotation right
-    rotr: function(n, b) {
-      return (n << (32 - b)) | (n >>> b);
-    },
-
-    // Swap big-endian to little-endian and vice versa
-    endian: function(n) {
-      // If number given, swap endian
-      if (n.constructor == Number) {
-        return crypt.rotl(n, 8) & 0x00FF00FF | crypt.rotl(n, 24) & 0xFF00FF00;
-      }
-
-      // Else, assume array and swap all items
-      for (var i = 0; i < n.length; i++)
-        n[i] = crypt.endian(n[i]);
-      return n;
-    },
-
-    // Generate an array of any length of random bytes
-    randomBytes: function(n) {
-      for (var bytes = []; n > 0; n--)
-        bytes.push(Math.floor(Math.random() * 256));
-      return bytes;
-    },
-
-    // Convert a byte array to big-endian 32-bit words
-    bytesToWords: function(bytes) {
-      for (var words = [], i = 0, b = 0; i < bytes.length; i++, b += 8)
-        words[b >>> 5] |= bytes[i] << (24 - b % 32);
-      return words;
-    },
-
-    // Convert big-endian 32-bit words to a byte array
-    wordsToBytes: function(words) {
-      for (var bytes = [], b = 0; b < words.length * 32; b += 8)
-        bytes.push((words[b >>> 5] >>> (24 - b % 32)) & 0xFF);
-      return bytes;
-    },
-
-    // Convert a byte array to a hex string
-    bytesToHex: function(bytes) {
-      for (var hex = [], i = 0; i < bytes.length; i++) {
-        hex.push((bytes[i] >>> 4).toString(16));
-        hex.push((bytes[i] & 0xF).toString(16));
-      }
-      return hex.join('');
-    },
-
-    // Convert a hex string to a byte array
-    hexToBytes: function(hex) {
-      for (var bytes = [], c = 0; c < hex.length; c += 2)
-        bytes.push(parseInt(hex.substr(c, 2), 16));
-      return bytes;
-    },
-
-    // Convert a byte array to a base-64 string
-    bytesToBase64: function(bytes) {
-      for (var base64 = [], i = 0; i < bytes.length; i += 3) {
-        var triplet = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2];
-        for (var j = 0; j < 4; j++)
-          if (i * 8 + j * 6 <= bytes.length * 8)
-            base64.push(base64map.charAt((triplet >>> 6 * (3 - j)) & 0x3F));
-          else
-            base64.push('=');
-      }
-      return base64.join('');
-    },
-
-    // Convert a base-64 string to a byte array
-    base64ToBytes: function(base64) {
-      // Remove non-base-64 characters
-      base64 = base64.replace(/[^A-Z0-9+\/]/ig, '');
-
-      for (var bytes = [], i = 0, imod4 = 0; i < base64.length;
-          imod4 = ++i % 4) {
-        if (imod4 == 0) continue;
-        bytes.push(((base64map.indexOf(base64.charAt(i - 1))
-            & (Math.pow(2, -2 * imod4 + 8) - 1)) << (imod4 * 2))
-            | (base64map.indexOf(base64.charAt(i)) >>> (6 - imod4 * 2)));
-      }
-      return bytes;
-    }
-  };
-
-  module.exports = crypt;
-})();
-
 
 /***/ }),
 
@@ -9897,38 +9827,6 @@ module.exports = function(arr, obj){
   }
   return -1;
 };
-
-/***/ }),
-
-/***/ "./node_modules/is-buffer/index.js":
-/*!*****************************************!*\
-  !*** ./node_modules/is-buffer/index.js ***!
-  \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/*!
- * Determine if an object is a Buffer
- *
- * @author   Feross Aboukhadijeh <https://feross.org>
- * @license  MIT
- */
-
-// The _isBuffer check is for Safari 5-7 support, because it's missing
-// Object.prototype.constructor. Remove this eventually
-module.exports = function (obj) {
-  return obj != null && (isBuffer(obj) || isSlowBuffer(obj) || !!obj._isBuffer)
-}
-
-function isBuffer (obj) {
-  return !!obj.constructor && typeof obj.constructor.isBuffer === 'function' && obj.constructor.isBuffer(obj)
-}
-
-// For Node v0.10 support. Remove this eventually.
-function isSlowBuffer (obj) {
-  return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
-}
-
 
 /***/ }),
 
@@ -39495,177 +39393,6 @@ var Echo = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./node_modules/md5/md5.js":
-/*!*********************************!*\
-  !*** ./node_modules/md5/md5.js ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-(function(){
-  var crypt = __webpack_require__(/*! crypt */ "./node_modules/crypt/crypt.js"),
-      utf8 = __webpack_require__(/*! charenc */ "./node_modules/charenc/charenc.js").utf8,
-      isBuffer = __webpack_require__(/*! is-buffer */ "./node_modules/is-buffer/index.js"),
-      bin = __webpack_require__(/*! charenc */ "./node_modules/charenc/charenc.js").bin,
-
-  // The core
-  md5 = function (message, options) {
-    // Convert to byte array
-    if (message.constructor == String)
-      if (options && options.encoding === 'binary')
-        message = bin.stringToBytes(message);
-      else
-        message = utf8.stringToBytes(message);
-    else if (isBuffer(message))
-      message = Array.prototype.slice.call(message, 0);
-    else if (!Array.isArray(message) && message.constructor !== Uint8Array)
-      message = message.toString();
-    // else, assume byte array already
-
-    var m = crypt.bytesToWords(message),
-        l = message.length * 8,
-        a =  1732584193,
-        b = -271733879,
-        c = -1732584194,
-        d =  271733878;
-
-    // Swap endian
-    for (var i = 0; i < m.length; i++) {
-      m[i] = ((m[i] <<  8) | (m[i] >>> 24)) & 0x00FF00FF |
-             ((m[i] << 24) | (m[i] >>>  8)) & 0xFF00FF00;
-    }
-
-    // Padding
-    m[l >>> 5] |= 0x80 << (l % 32);
-    m[(((l + 64) >>> 9) << 4) + 14] = l;
-
-    // Method shortcuts
-    var FF = md5._ff,
-        GG = md5._gg,
-        HH = md5._hh,
-        II = md5._ii;
-
-    for (var i = 0; i < m.length; i += 16) {
-
-      var aa = a,
-          bb = b,
-          cc = c,
-          dd = d;
-
-      a = FF(a, b, c, d, m[i+ 0],  7, -680876936);
-      d = FF(d, a, b, c, m[i+ 1], 12, -389564586);
-      c = FF(c, d, a, b, m[i+ 2], 17,  606105819);
-      b = FF(b, c, d, a, m[i+ 3], 22, -1044525330);
-      a = FF(a, b, c, d, m[i+ 4],  7, -176418897);
-      d = FF(d, a, b, c, m[i+ 5], 12,  1200080426);
-      c = FF(c, d, a, b, m[i+ 6], 17, -1473231341);
-      b = FF(b, c, d, a, m[i+ 7], 22, -45705983);
-      a = FF(a, b, c, d, m[i+ 8],  7,  1770035416);
-      d = FF(d, a, b, c, m[i+ 9], 12, -1958414417);
-      c = FF(c, d, a, b, m[i+10], 17, -42063);
-      b = FF(b, c, d, a, m[i+11], 22, -1990404162);
-      a = FF(a, b, c, d, m[i+12],  7,  1804603682);
-      d = FF(d, a, b, c, m[i+13], 12, -40341101);
-      c = FF(c, d, a, b, m[i+14], 17, -1502002290);
-      b = FF(b, c, d, a, m[i+15], 22,  1236535329);
-
-      a = GG(a, b, c, d, m[i+ 1],  5, -165796510);
-      d = GG(d, a, b, c, m[i+ 6],  9, -1069501632);
-      c = GG(c, d, a, b, m[i+11], 14,  643717713);
-      b = GG(b, c, d, a, m[i+ 0], 20, -373897302);
-      a = GG(a, b, c, d, m[i+ 5],  5, -701558691);
-      d = GG(d, a, b, c, m[i+10],  9,  38016083);
-      c = GG(c, d, a, b, m[i+15], 14, -660478335);
-      b = GG(b, c, d, a, m[i+ 4], 20, -405537848);
-      a = GG(a, b, c, d, m[i+ 9],  5,  568446438);
-      d = GG(d, a, b, c, m[i+14],  9, -1019803690);
-      c = GG(c, d, a, b, m[i+ 3], 14, -187363961);
-      b = GG(b, c, d, a, m[i+ 8], 20,  1163531501);
-      a = GG(a, b, c, d, m[i+13],  5, -1444681467);
-      d = GG(d, a, b, c, m[i+ 2],  9, -51403784);
-      c = GG(c, d, a, b, m[i+ 7], 14,  1735328473);
-      b = GG(b, c, d, a, m[i+12], 20, -1926607734);
-
-      a = HH(a, b, c, d, m[i+ 5],  4, -378558);
-      d = HH(d, a, b, c, m[i+ 8], 11, -2022574463);
-      c = HH(c, d, a, b, m[i+11], 16,  1839030562);
-      b = HH(b, c, d, a, m[i+14], 23, -35309556);
-      a = HH(a, b, c, d, m[i+ 1],  4, -1530992060);
-      d = HH(d, a, b, c, m[i+ 4], 11,  1272893353);
-      c = HH(c, d, a, b, m[i+ 7], 16, -155497632);
-      b = HH(b, c, d, a, m[i+10], 23, -1094730640);
-      a = HH(a, b, c, d, m[i+13],  4,  681279174);
-      d = HH(d, a, b, c, m[i+ 0], 11, -358537222);
-      c = HH(c, d, a, b, m[i+ 3], 16, -722521979);
-      b = HH(b, c, d, a, m[i+ 6], 23,  76029189);
-      a = HH(a, b, c, d, m[i+ 9],  4, -640364487);
-      d = HH(d, a, b, c, m[i+12], 11, -421815835);
-      c = HH(c, d, a, b, m[i+15], 16,  530742520);
-      b = HH(b, c, d, a, m[i+ 2], 23, -995338651);
-
-      a = II(a, b, c, d, m[i+ 0],  6, -198630844);
-      d = II(d, a, b, c, m[i+ 7], 10,  1126891415);
-      c = II(c, d, a, b, m[i+14], 15, -1416354905);
-      b = II(b, c, d, a, m[i+ 5], 21, -57434055);
-      a = II(a, b, c, d, m[i+12],  6,  1700485571);
-      d = II(d, a, b, c, m[i+ 3], 10, -1894986606);
-      c = II(c, d, a, b, m[i+10], 15, -1051523);
-      b = II(b, c, d, a, m[i+ 1], 21, -2054922799);
-      a = II(a, b, c, d, m[i+ 8],  6,  1873313359);
-      d = II(d, a, b, c, m[i+15], 10, -30611744);
-      c = II(c, d, a, b, m[i+ 6], 15, -1560198380);
-      b = II(b, c, d, a, m[i+13], 21,  1309151649);
-      a = II(a, b, c, d, m[i+ 4],  6, -145523070);
-      d = II(d, a, b, c, m[i+11], 10, -1120210379);
-      c = II(c, d, a, b, m[i+ 2], 15,  718787259);
-      b = II(b, c, d, a, m[i+ 9], 21, -343485551);
-
-      a = (a + aa) >>> 0;
-      b = (b + bb) >>> 0;
-      c = (c + cc) >>> 0;
-      d = (d + dd) >>> 0;
-    }
-
-    return crypt.endian([a, b, c, d]);
-  };
-
-  // Auxiliary functions
-  md5._ff  = function (a, b, c, d, x, s, t) {
-    var n = a + (b & c | ~b & d) + (x >>> 0) + t;
-    return ((n << s) | (n >>> (32 - s))) + b;
-  };
-  md5._gg  = function (a, b, c, d, x, s, t) {
-    var n = a + (b & d | c & ~d) + (x >>> 0) + t;
-    return ((n << s) | (n >>> (32 - s))) + b;
-  };
-  md5._hh  = function (a, b, c, d, x, s, t) {
-    var n = a + (b ^ c ^ d) + (x >>> 0) + t;
-    return ((n << s) | (n >>> (32 - s))) + b;
-  };
-  md5._ii  = function (a, b, c, d, x, s, t) {
-    var n = a + (c ^ (b | ~d)) + (x >>> 0) + t;
-    return ((n << s) | (n >>> (32 - s))) + b;
-  };
-
-  // Package private blocksize
-  md5._blocksize = 16;
-  md5._digestsize = 16;
-
-  module.exports = function (message, options) {
-    if (message === undefined || message === null)
-      throw new Error('Illegal argument ' + message);
-
-    var digestbytes = crypt.wordsToBytes(md5(message, options));
-    return options && options.asBytes ? digestbytes :
-        options && options.asString ? bin.bytesToString(digestbytes) :
-        crypt.bytesToHex(digestbytes);
-  };
-
-})();
-
-
-/***/ }),
-
 /***/ "./node_modules/ms/index.js":
 /*!**********************************!*\
   !*** ./node_modules/ms/index.js ***!
@@ -44137,6 +43864,17 @@ function toArray(list, index) {
 
 /***/ }),
 
+/***/ "./node_modules/v-money/dist/v-money.js":
+/*!**********************************************!*\
+  !*** ./node_modules/v-money/dist/v-money.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function(e,t){ true?module.exports=t():undefined})(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var i=n[r]={i:r,l:!1,exports:{}};return e[r].call(i.exports,i,i.exports,t),i.l=!0,i.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p=".",t(t.s=9)}([function(e,t,n){"use strict";t.a={prefix:"",suffix:"",thousands:",",decimal:".",precision:2}},function(e,t,n){"use strict";var r=n(2),i=n(5),u=n(0);t.a=function(e,t){if(t.value){var o=n.i(i.a)(u.a,t.value);if("INPUT"!==e.tagName.toLocaleUpperCase()){var a=e.getElementsByTagName("input");1!==a.length||(e=a[0])}e.oninput=function(){var t=e.value.length-e.selectionEnd;e.value=n.i(r.a)(e.value,o),t=Math.max(t,o.suffix.length),t=e.value.length-t,t=Math.max(t,o.prefix.length+1),n.i(r.b)(e,t),e.dispatchEvent(n.i(r.c)("change"))},e.onfocus=function(){n.i(r.b)(e,e.value.length-o.suffix.length)},e.oninput(),e.dispatchEvent(n.i(r.c)("input"))}}},function(e,t,n){"use strict";function r(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:m.a;"number"==typeof e&&(e=e.toFixed(o(t.precision)));var n=e.indexOf("-")>=0?"-":"",r=u(e),i=c(r,t.precision),a=d(i).split("."),p=a[0],l=a[1];return p=f(p,t.thousands),t.prefix+n+s(p,l,t.decimal)+t.suffix}function i(e,t){var n=e.indexOf("-")>=0?-1:1,r=u(e),i=c(r,t);return parseFloat(i)*n}function u(e){return d(e).replace(/\D+/g,"")||"0"}function o(e){return a(0,e,20)}function a(e,t,n){return Math.max(e,Math.min(t,n))}function c(e,t){var n=Math.pow(10,t);return(parseFloat(e)/n).toFixed(o(t))}function f(e,t){return e.replace(/(\d)(?=(?:\d{3})+\b)/gm,"$1"+t)}function s(e,t,n){return t?e+n+t:e}function d(e){return e?e.toString():""}function p(e,t){var n=function(){e.setSelectionRange(t,t)};e===document.activeElement&&(n(),setTimeout(n,1))}function l(e){var t=document.createEvent("Event");return t.initEvent(e,!0,!0),t}var m=n(0);n.d(t,"a",function(){return r}),n.d(t,"d",function(){return i}),n.d(t,"b",function(){return p}),n.d(t,"c",function(){return l})},function(e,t,n){"use strict";function r(e,t){t&&Object.keys(t).map(function(e){a.a[e]=t[e]}),e.directive("money",o.a),e.component("money",u.a)}Object.defineProperty(t,"__esModule",{value:!0});var i=n(6),u=n.n(i),o=n(1),a=n(0);n.d(t,"Money",function(){return u.a}),n.d(t,"VMoney",function(){return o.a}),n.d(t,"options",function(){return a.a}),n.d(t,"VERSION",function(){return c});var c="0.8.1";t.default=r,"undefined"!=typeof window&&window.Vue&&window.Vue.use(r)},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=n(1),i=n(0),u=n(2);t.default={name:"Money",props:{value:{required:!0,type:[Number,String],default:0},masked:{type:Boolean,default:!1},precision:{type:Number,default:function(){return i.a.precision}},decimal:{type:String,default:function(){return i.a.decimal}},thousands:{type:String,default:function(){return i.a.thousands}},prefix:{type:String,default:function(){return i.a.prefix}},suffix:{type:String,default:function(){return i.a.suffix}}},directives:{money:r.a},data:function(){return{formattedValue:""}},watch:{value:{immediate:!0,handler:function(e,t){var r=n.i(u.a)(e,this.$props);r!==this.formattedValue&&(this.formattedValue=r)}}},methods:{change:function(e){this.$emit("input",this.masked?e.target.value:n.i(u.d)(e.target.value,this.precision))}}}},function(e,t,n){"use strict";t.a=function(e,t){return e=e||{},t=t||{},Object.keys(e).concat(Object.keys(t)).reduce(function(n,r){return n[r]=void 0===t[r]?e[r]:t[r],n},{})}},function(e,t,n){var r=n(7)(n(4),n(8),null,null);e.exports=r.exports},function(e,t){e.exports=function(e,t,n,r){var i,u=e=e||{},o=typeof e.default;"object"!==o&&"function"!==o||(i=e,u=e.default);var a="function"==typeof u?u.options:u;if(t&&(a.render=t.render,a.staticRenderFns=t.staticRenderFns),n&&(a._scopeId=n),r){var c=a.computed||(a.computed={});Object.keys(r).forEach(function(e){var t=r[e];c[e]=function(){return t}})}return{esModule:i,exports:u,options:a}}},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement;return(e._self._c||t)("input",{directives:[{name:"money",rawName:"v-money",value:{precision:e.precision,decimal:e.decimal,thousands:e.thousands,prefix:e.prefix,suffix:e.suffix},expression:"{precision, decimal, thousands, prefix, suffix}"}],staticClass:"v-money",attrs:{type:"tel"},domProps:{value:e.formattedValue},on:{change:e.change}})},staticRenderFns:[]}},function(e,t,n){e.exports=n(3)}])});
+
+/***/ }),
+
 /***/ "./node_modules/vue-echo-laravel/dist/build.js":
 /*!*****************************************************!*\
   !*** ./node_modules/vue-echo-laravel/dist/build.js ***!
@@ -44761,7 +44499,7 @@ var render = function() {
     [
       _c("div", { staticClass: "content-body" }, [
         _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-10 pr-0 pb-0" }, [
+          _c("div", { staticClass: "col-lg-8 col-xxl-10 pr-0 pb-0" }, [
             _c(
               "section",
               {
@@ -44783,7 +44521,7 @@ var render = function() {
             )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-2 p-0" }, [
+          _c("div", { staticClass: "col-lg-4 col-xxl-2 p-0" }, [
             _c(
               "section",
               {
@@ -44856,95 +44594,84 @@ var render = function() {
                           staticClass: "row pb-1"
                         },
                         [
-                          _c(
-                            "div",
-                            { staticClass: "col-lg-12 col-xl-4 pr-0" },
-                            [
-                              _vm._m(1),
-                              _vm._v(" "),
+                          _c("div", { staticClass: "col-4 pr-0" }, [
+                            _vm._m(1),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "d-inline-block w-100" }, [
                               _c(
                                 "div",
-                                { staticClass: "d-inline-block w-100" },
+                                {
+                                  staticClass:
+                                    "input-group bootstrap-touchspin bootstrap-touchspin-injected"
+                                },
                                 [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "input-group bootstrap-touchspin bootstrap-touchspin-injected"
-                                    },
-                                    [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.hours,
-                                            expression: "hours"
-                                          }
-                                        ],
-                                        staticClass:
-                                          "touchspin-vertical form-control",
-                                        attrs: { type: "number" },
-                                        domProps: { value: _vm.hours },
-                                        on: {
-                                          focus: function($event) {
-                                            return $event.target.select()
-                                          },
-                                          click: function($event) {
-                                            return $event.target.select()
-                                          },
-                                          input: function($event) {
-                                            if ($event.target.composing) {
-                                              return
-                                            }
-                                            _vm.hours = $event.target.value
-                                          }
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.hours,
+                                        expression: "hours"
+                                      }
+                                    ],
+                                    staticClass:
+                                      "touchspin-vertical form-control",
+                                    attrs: { type: "number" },
+                                    domProps: { value: _vm.hours },
+                                    on: {
+                                      focus: function($event) {
+                                        return $event.target.select()
+                                      },
+                                      click: function($event) {
+                                        return $event.target.select()
+                                      },
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
                                         }
-                                      }),
-                                      _vm._v(" "),
+                                        _vm.hours = $event.target.value
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "input-group-btn-vertical" },
+                                    [
                                       _c(
-                                        "span",
+                                        "button",
                                         {
                                           staticClass:
-                                            "input-group-btn-vertical"
+                                            "btn btn-primary bootstrap-touchspin-up",
+                                          staticStyle: { width: "20px" },
+                                          attrs: { type: "button" },
+                                          on: { click: _vm.hourAdd }
                                         },
-                                        [
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-primary bootstrap-touchspin-up",
-                                              staticStyle: { width: "20px" },
-                                              attrs: { type: "button" },
-                                              on: { click: _vm.hourAdd }
-                                            },
-                                            [_vm._v("+")]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-primary bootstrap-touchspin-down",
-                                              staticStyle: { width: "20px" },
-                                              attrs: { type: "button" },
-                                              on: { click: _vm.hourSub }
-                                            },
-                                            [_vm._v("-")]
-                                          )
-                                        ]
+                                        [_vm._v("+")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "btn btn-primary bootstrap-touchspin-down",
+                                          staticStyle: { width: "20px" },
+                                          attrs: { type: "button" },
+                                          on: { click: _vm.hourSub }
+                                        },
+                                        [_vm._v("-")]
                                       )
                                     ]
                                   )
                                 ]
                               )
-                            ]
-                          ),
+                            ])
+                          ]),
                           _vm._v(" "),
                           _c(
                             "div",
                             {
-                              staticClass: "col-lg-12 col-xl-4 pr-0",
+                              staticClass: "col-4 pr-0",
                               staticStyle: {
                                 "padding-left": "7.5px",
                                 "padding-right": "7.5px !important"
@@ -45032,7 +44759,7 @@ var render = function() {
                             ]
                           ),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-lg12 col-xl-4 pl-0" }, [
+                          _c("div", { staticClass: "col-4 pl-0" }, [
                             _vm._m(3),
                             _vm._v(" "),
                             _c("div", { staticClass: "d-inline-block w-100" }, [
@@ -45140,6 +44867,12 @@ var render = function() {
                           _c("input", {
                             directives: [
                               {
+                                name: "money",
+                                rawName: "v-money",
+                                value: _vm.money,
+                                expression: "money"
+                              },
+                              {
                                 name: "model",
                                 rawName: "v-model",
                                 value: _vm.amount,
@@ -45147,9 +44880,10 @@ var render = function() {
                               }
                             ],
                             staticClass: "form-control form-control-lg",
-                            attrs: { type: "number" },
+                            attrs: { type: "text" },
                             domProps: { value: _vm.amount },
                             on: {
+                              click: _vm.amountClick,
                               input: function($event) {
                                 if ($event.target.composing) {
                                   return
@@ -45166,6 +44900,228 @@ var render = function() {
                               style: { top: "14px" }
                             },
                             [_c("i", { staticClass: "bx bx-dollar" })]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.clickedAmount,
+                                  expression: "clickedAmount"
+                                }
+                              ],
+                              staticClass: "row",
+                              style: { "margin-top": "0.3rem !important" }
+                            },
+                            [
+                              _c("div", { staticClass: "col-4 pr-0" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-primary btn-sm w-100",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.setAmount(_vm.min)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.min) + "$")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "col-4",
+                                  staticStyle: {
+                                    "padding-left": "7.5px",
+                                    "padding-right": "7.5px !important"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-outline-primary btn-sm w-100",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.setAmount(_vm.min * 2)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(_vm.min * 2) + "$")]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-4 pl-0" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-primary btn-sm w-100",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.setAmount(_vm.min * 4)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.min * 4) + "$")]
+                                )
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.clickedAmount,
+                                  expression: "clickedAmount"
+                                }
+                              ],
+                              staticClass: "row",
+                              style: { "margin-top": "0.3rem !important" }
+                            },
+                            [
+                              _c("div", { staticClass: "col-4 pr-0" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-primary btn-sm w-100",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.setAmount(_vm.min * 8)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.min * 8) + "$")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "col-4",
+                                  staticStyle: {
+                                    "padding-left": "7.5px",
+                                    "padding-right": "7.5px !important"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-outline-primary btn-sm w-100",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.setAmount(_vm.min * 16)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v(_vm._s(_vm.min * 16) + "$")]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-4 pl-0" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-primary btn-sm w-100",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.setAmount(_vm.min * 32)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.min * 32) + "$")]
+                                )
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.clickedAmount,
+                                  expression: "clickedAmount"
+                                }
+                              ],
+                              staticClass: "row",
+                              style: { "margin-top": "0.3rem !important" }
+                            },
+                            [
+                              _c("div", { staticClass: "col-4 pr-0" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-primary btn-sm w-100",
+                                    attrs: { type: "button" },
+                                    on: { click: _vm.subAmount }
+                                  },
+                                  [_vm._v("-")]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "col-4",
+                                  staticStyle: {
+                                    "padding-left": "7.5px",
+                                    "padding-right": "7.5px !important"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-outline-success btn-sm w-100",
+                                      attrs: { type: "button" },
+                                      on: { click: _vm.amountClickClose }
+                                    },
+                                    [_vm._v("ОК")]
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-4 pl-0" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-primary btn-sm w-100",
+                                    attrs: { type: "button" },
+                                    on: { click: _vm.addAmount }
+                                  },
+                                  [_vm._v("+")]
+                                )
+                              ])
+                            ]
                           )
                         ]
                       ),
@@ -45230,7 +45186,11 @@ var render = function() {
                             staticClass: "form-control form-control-lg",
                             attrs: { type: "text", disabled: "" },
                             domProps: {
-                              value: (_vm.amount * _vm.number_percent) / 100
+                              value: (
+                                (_vm.amount.toString().replace(",", "") *
+                                  _vm.number_percent) /
+                                100
+                              ).toFixed(2)
                             }
                           }),
                           _vm._v(" "),
@@ -61269,9 +61229,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_layouts_App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/layouts/App */ "./resources/vuejs/views/layouts/App.vue");
 /* harmony import */ var vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-echo-laravel */ "./node_modules/vue-echo-laravel/dist/build.js");
 /* harmony import */ var vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_4__);
 __webpack_require__(/*! ./bootstrap */ "./resources/vuejs/bootstrap.js");
 
 __webpack_require__(/*! ./js/tv */ "./resources/vuejs/js/tv.js");
+
 
 
 
@@ -61285,6 +61248,9 @@ window.axios.defaults.headers.common = {
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('menu-component', __webpack_require__(/*! ./views/layouts/Menu */ "./resources/vuejs/views/layouts/Menu.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('footer-component', __webpack_require__(/*! ./views/layouts/Footer */ "./resources/vuejs/views/layouts/Footer.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('header-component', __webpack_require__(/*! ./views/layouts/Header */ "./resources/vuejs/views/layouts/Header.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(v_money__WEBPACK_IMPORTED_MODULE_4___default.a, {
+  precision: 2
+});
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3___default.a, {
   broadcaster: 'socket.io',
   host: window.location.hostname + ':6001'
@@ -62264,14 +62230,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./resources/vuejs/views/user/Trading.vue ***!
   \************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Trading_vue_vue_type_template_id_0b4c4794_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Trading.vue?vue&type=template&id=0b4c4794&scoped=true& */ "./resources/vuejs/views/user/Trading.vue?vue&type=template&id=0b4c4794&scoped=true&");
 /* harmony import */ var _Trading_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Trading.vue?vue&type=script&lang=js& */ "./resources/vuejs/views/user/Trading.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Trading_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Trading_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -62301,7 +62268,7 @@ component.options.__file = "resources/vuejs/views/user/Trading.vue"
 /*!*************************************************************************!*\
   !*** ./resources/vuejs/views/user/Trading.vue?vue&type=script&lang=js& ***!
   \*************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
