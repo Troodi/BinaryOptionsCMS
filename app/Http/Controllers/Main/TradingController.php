@@ -68,12 +68,25 @@ class TradingController extends Controller
 
     //php artisan queue:listen --sleep=0
     public function buySymbol(Request $request){
+      $request->validate([
+        'hours' => 'numeric|min:0|max:12',
+        'minutes' => 'numeric|min:0|max:59',
+        'seconds' => 'numeric|min:0|max:59',
+        'symbol' => 'numeric|min:0',
+        'amount' => 'numeric|min:1',
+        'type' => 'numeric|min:0|max:1'
+      ]);
+      $seconds = $request->hours * 60 * 60 + $request->minutes * 60 + $request->seconds;
+      if($seconds < 30){
+        return response()->json(['Min 30 seconds'], 422);
+      }
       $price = Cache::get('symbol'.$request->symbol);
       $model = new OpenOrders();
       $model->symbol_id = $request->symbol;
       $model->user_id = 1;
+      $model->type = $request->type;
       $model->open_price = $price;
-      $model->close_at = Carbon::now()->addSecond(5)->format('Y-m-d H:i:s.u');
+      $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
       $model->save();
       return response()->json([
         'id' => $model->id,

@@ -23,6 +23,7 @@
         "vue-template-compiler": "^2.6.11"
     },
     "dependencies": {
+        "bootstrap-xxl": "^4.1.1",
         "jquery": "^3.2",
         "laravel-echo": "^1.8.1",
         "laravel-echo-server": "^1.6.2",
@@ -30,8 +31,10 @@
         "requirejs": "^2.3.6",
         "rtlcss": "^2.5.0",
         "socket.io-client": "^2.3.0",
+        "v-money": "^0.8.1",
         "vue": "^2.6.11",
         "vue-echo-laravel": "0.0.6",
-        "vue-router": "^3.3.4"
+        "vue-router": "^3.3.4",
+        "vue-the-mask": "^0.11.1"
     }
 }
