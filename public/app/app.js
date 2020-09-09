@@ -2338,7 +2338,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _js_tv__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../js/tv */ "./resources/vuejs/js/tv.js");
+/* harmony import */ var _js_tv2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../js/tv2 */ "./resources/vuejs/js/tv2.js");
 //
 //
 //
@@ -2563,11 +2563,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    (function () {
-      /* your stuff here */
-    })();
-
-    this.localTV = new _js_tv__WEBPACK_IMPORTED_MODULE_3__["TradingViewWebsocket"]();
+    this.localTV = new _js_tv2__WEBPACK_IMPORTED_MODULE_3__["TradingViewFastWebsocket"]();
     setInterval(function () {
       _this.fastData = _this.localTV.getTickerDataArray();
 
@@ -2606,11 +2602,6 @@ __webpack_require__.r(__webpack_exports__);
         self.localTV.getTicker(item.broker + ':' + item.symbol.replace('/', ''));
       });
     });
-    window.addEventListener('load', function () {
-      axios.post('/data/opened').then(function (response) {
-        self.opened = response.data;
-      });
-    });
     this.$echo.channel('closed').listen('CloseOptionEvent', function (payload) {
       if (payload.success === true) {
         toastr.success('Вы получили прибыль!', 'Сделка закрыта', {
@@ -2640,6 +2631,11 @@ __webpack_require__.r(__webpack_exports__);
         _this.symbol = window.symbolInfo.id;
         _this.percent = '+ ' + window.symbolInfo.description;
         _this.number_percent = window.symbolInfo.percent;
+        axios.post('/data/opened').then(function (response) {
+          if (self.opened.length === 0) {
+            self.opened = response.data;
+          }
+        });
 
         var filtered = _this.opened.filter(function (item) {
           return item.symbol_id === window.symbolInfo.id;
@@ -46281,12 +46277,12 @@ var render = function() {
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                        Цена: " +
+                                                "\n                                                        Цена открытия: " +
                                                   _vm._s(open.open_price)
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                        Тест: " +
+                                                "\n                                                        Текущая цена: " +
                                                   _vm._s(open.current_price)
                                               ),
                                               _c("br"),
@@ -62062,7 +62058,7 @@ var latestBar = {};
 var date = new Date();
 var exchange = 'Binary';
 var latestchannelString = '';
-function barsFromWebSocket(data, windowed) {
+function barsFromWebSocket(data) {
   latestBar = data;
   var key = Object.keys(data)[0];
   var shortName = data[key].short_name;
@@ -62194,9 +62190,9 @@ function unsubscribeFromStream(subscriberUID, tvObj) {
       var subscriptionItem = channelToSubscription.get(channelString);
       var parsedSymbol = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_0__["parseFullSymbol"])(subscriptionItem.info.full_name);
 
-      tvObj._deleteTicker(subscriptionItem.info.broker + ':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
+      tvObj._deleteTicker(subscriptionItem.info.broker + ':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol); //tvObj.removeSymbols(subscriptionItem.info.broker+':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
 
-      tvObj.removeSymbols(subscriptionItem.info.broker + ':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
+
       var handlerIndex = subscriptionItem.handlers.findIndex(function (handler) {
         return handler.id === subscriberUID;
       });
@@ -62806,6 +62802,369 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
   }]);
 
   return TradingViewWebsocket;
+}();
+
+/***/ }),
+
+/***/ "./resources/vuejs/js/tv2.js":
+/*!***********************************!*\
+  !*** ./resources/vuejs/js/tv2.js ***!
+  \***********************************/
+/*! exports provided: TradingViewFastWebsocket */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TradingViewFastWebsocket", function() { return TradingViewFastWebsocket; });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+var TradingViewFastWebsocket = /*#__PURE__*/function () {
+  function TradingViewFastWebsocket() {
+    var _this = this;
+
+    _classCallCheck(this, TradingViewFastWebsocket);
+
+    this.session = this.generateSession();
+    this.chartSession = this.generateChartSession();
+    this.sessionRegistered = false;
+    this.subscriptions = [];
+    this.tickerData = {};
+    this.symbol = '';
+    this.symbolIndex = 0;
+    this.checkBarsGot = false;
+    this.symbolNumber = 1;
+    this.symbolResolved = false;
+    this.seriesCompleted = false;
+    this.socketTV = new WebSocket("ws://chart.getoption.pro:80");
+
+    this.socketTV.onmessage = function (data) {
+      _this.onmessage(data);
+    };
+
+    this.socketTV.onopen = function () {
+      _this.onopen();
+    };
+
+    this.socketTV.onclose = function (data) {
+      _this.onclose(data);
+    };
+
+    this.socketTV.onerror = function (data) {
+      _this.onerror(data);
+    };
+  }
+
+  _createClass(TradingViewFastWebsocket, [{
+    key: "getTickerDataArray",
+    value: function getTickerDataArray() {
+      return this.tickerData;
+    }
+  }, {
+    key: "closeWebsocket",
+    value: function closeWebsocket() {
+      console.log('Closed!');
+      this.socketTV.close();
+    }
+  }, {
+    key: "onopen",
+    value: function onopen() {
+      console.log("Соединение установлено.");
+    }
+  }, {
+    key: "onclose",
+    value: function onclose(event) {
+      if (event.wasClean) {
+        console.log('Соединение закрыто чисто');
+      } else {
+        console.log('Обрыв соединения'); // например, "убит" процесс сервера
+      }
+
+      console.log('Код: ' + event.code + ' причина: ' + event.reason);
+    }
+  }, {
+    key: "onerror",
+    value: function onerror(error) {
+      console.log("Ошибка " + error.message);
+    }
+  }, {
+    key: "onmessage",
+    value: function onmessage(data) {
+      var _this2 = this;
+
+      var packets = this.parseMessages(data.data);
+      packets.forEach(function (packet) {
+        if (packet["~protocol~keepalive~"]) {
+          _this2.sendRawMessage("~h~" + packet["~protocol~keepalive~"]);
+        } else if (packet.session_id) {
+          var token = '';
+          jquery__WEBPACK_IMPORTED_MODULE_0___default.a.get("/data/getAuthToken", function (data) {
+            token = data;
+          });
+          var interval = setInterval(function () {
+            if (token !== '') {
+              // OPEN
+              clearInterval(interval);
+
+              _this2.sendMessage("set_auth_token", [token]);
+
+              _this2.sendMessage("quote_create_session", [_this2.session]);
+
+              _this2.sendMessage("quote_set_fields", [_this2.session, "ch", "chp", "current_session", "description", "local_description", "language", "exchange", "fractional", "is_tradable", "lp", "minmov", "minmove2", "original_name", "pricescale", "pro_name", "short_name", "type", "update_mode", "volume", "ask", "bid", "fundamentals", "high_price", "is_tradable", "low_price", "open_price", "prev_close_price", "rch", "rchp", "rtc", "status", "basic_eps_net_income", "beta_1_year", "earnings_per_share_basic_ttm", "industry", "market_cap_basic", "price_earnings_ttm", "sector", "volume", "dividends_yield"]);
+
+              _this2.sessionRegistered = true;
+            }
+          }, 200);
+        } else if (packet.m && packet.m === "qsd" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.session) {
+          var tticker = packet.p[1];
+          var tickerName = tticker.n;
+          var tickerStatus = tticker.s;
+          var tickerUpdate = tticker.v; // set ticker data, adding all object parameters together
+
+          _this2.tickerData[tickerName] = Object.assign(_this2.tickerData[tickerName] || {
+            last_retrieved: new Date()
+          }, tickerUpdate, {
+            s: tickerStatus
+          }, {
+            last_update: new Date()
+          });
+          _this2.tickerData[tickerName].last_retrieved = new Date();
+
+          if (Date.now() - Date.parse(_this2.tickerData[tickerName].last_retrieved) > 1000 * 60) {
+            _this2._deleteTicker(tickerName);
+          }
+        }
+      }); //console.log("Получены данные " + data.data);
+    }
+  }, {
+    key: "resetWebSocket",
+    value: function resetWebSocket() {
+      window.socket = new WebSocket("ws://chart.getoption.pro:80");
+    }
+  }, {
+    key: "generateSession",
+    value: function generateSession() {
+      return "qs_" + this.randomString(12);
+    }
+  }, {
+    key: "generateChartSession",
+    value: function generateChartSession() {
+      return "cs_" + this.randomString(12);
+    }
+  }, {
+    key: "randomString",
+    value: function randomString(length) {
+      return Math.random().toString(36).substring(2, length + 2) + Math.random().toString(36).substring(2, length + 2);
+    }
+  }, {
+    key: "sendRawMessage",
+    value: function sendRawMessage(message) {
+      this.socketTV.send(this.prependHeader(message));
+    }
+  }, {
+    key: "sendMessage",
+    value: function sendMessage(func, args) {
+      this.socketTV.send(this.createMessage(func, args));
+    }
+  }, {
+    key: "registerTicker",
+    value: function registerTicker(ticker) {
+      if (this.subscriptions.indexOf(ticker) !== -1) {
+        return;
+      }
+
+      this.subscriptions.push(ticker);
+      this.socketTV.send(this.createMessage("quote_add_symbols", [this.session, ticker, {
+        flags: ["force_permission"]
+      }])); // this.socketTV.send(
+      //     this.createMessage("quote_fast_symbols", [
+      //         this.session,
+      //         ticker
+      //     ])
+      // );
+    }
+  }, {
+    key: "_getTicker",
+    value: function _getTicker(tickerName) {
+      var _this3 = this;
+
+      // check if ticker is tracked, and if it is, return stored data
+      if (this.tickerData[tickerName] && this.tickerData[tickerName].pro_name) {
+        this.tickerData[tickerName].last_retrieved = new Date();
+        return;
+      } // if not, register and wait for data
+
+
+      this.registerTicker(tickerName);
+      var each = 10; // how much ms between runs
+
+      var runs = 3000 / each; // time in ms divided by above
+
+      var interval = setInterval(function () {
+        --runs;
+
+        if (_this3.tickerData[tickerName] && _this3.tickerData[tickerName].pro_name) {
+          _this3.tickerData[tickerName].last_retrieved = new Date();
+          clearInterval(interval);
+        } else if (!runs) {
+          _this3._deleteTicker(tickerName);
+
+          console.log("Timed out.");
+          clearInterval(interval);
+        }
+      }, each);
+    }
+  }, {
+    key: "_deleteTicker",
+    value: function _deleteTicker(ticker) {
+      this.unregisterTicker(ticker);
+      delete this.tickerData[ticker];
+    }
+  }, {
+    key: "unregisterTicker",
+    value: function unregisterTicker(ticker) {
+      var index = this.subscriptions.indexOf(ticker);
+
+      if (index === -1) {
+        return;
+      }
+
+      this.subscriptions.splice(index, 1);
+      this.socketTV.send(this.createMessage("quote_remove_symbols", [this.session, ticker]));
+    }
+  }, {
+    key: "removeSymbols",
+    value: function removeSymbols(tickerName) {
+      var _this4 = this;
+
+      var interval = setInterval(function () {
+        if (_this4.sessionRegistered) {
+          clearInterval(interval);
+
+          _this4.socketTV.send(_this4.createMessage("quote_remove_symbols", [_this4.session, tickerName]));
+        }
+      }, 200);
+    }
+  }, {
+    key: "getTicker",
+    value: function getTicker(tickerName) {
+      var _this5 = this;
+
+      console.log('Get ticker!', tickerName);
+      this.symbol = tickerName;
+      var each = 10;
+      var runs = 3000 / each; // time in ms divided by above
+
+      if (this.socketTV.readyState === 3) {
+        //CLOSED
+        this.resetWebSocket();
+      }
+
+      var interval = setInterval(function () {
+        if (_this5.socketTV.readyState === 1 && _this5.sessionRegistered) {
+          // OPEN
+          _this5._getTicker(tickerName);
+
+          clearInterval(interval);
+        } else if (!runs) {
+          console.log("WebSocket connection is closed.");
+          clearInterval(interval);
+        }
+      }, each);
+    }
+  }, {
+    key: "getHistoryTicker",
+    value: function getHistoryTicker() {
+      var _this6 = this;
+
+      var tickerName = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.symbol;
+      this.symbolResolved = false;
+      var interval = setInterval(function () {
+        if (_this6.sessionRegistered) {
+          clearInterval(interval);
+          _this6.chartSession = _this6.generateChartSession();
+
+          _this6.socketTV.send(_this6.createMessage("chart_create_session", [_this6.chartSession, ""]));
+
+          _this6.socketTV.send(_this6.createMessage("resolve_symbol", [_this6.chartSession, "symbol_" + _this6.symbolNumber.toString(), '={"symbol":"' + tickerName + '","adjustment":"splits"}']));
+        }
+      }, 200);
+    }
+  }, {
+    key: "firstLoadHistoryData",
+    value: function firstLoadHistoryData() {
+      this.socketTV.send(this.createMessage("create_series", [this.chartSession, "s1", "s1", "symbol_" + (this.symbolNumber++).toString(), this.resolutionLocal.toString(), 5000]));
+    }
+  }, {
+    key: "getMoreData",
+    value: function getMoreData() {
+      var _this7 = this;
+
+      var interval = setInterval(function () {
+        if (_this7.symbolResolved && _this7.seriesCompleted) {
+          _this7.seriesCompleted = false;
+          clearInterval(interval);
+
+          _this7.socketTV.send(_this7.createMessage("request_more_data", [_this7.chartSession, "s1", 2000]));
+        }
+      }, 200);
+    } // IO functions
+
+  }, {
+    key: "parseMessages",
+    value: function parseMessages(str) {
+      var packets = [];
+      str.split(/~m~\d+~m~/).filter(function (x) {
+        return x;
+      }).forEach(function (packet) {
+        packet = packet.split('').reverse().join('');
+
+        if (packet.indexOf('}') !== -1) {
+          packet = packet.substr(packet.indexOf('}'));
+        }
+
+        packet = packet.split('').reverse().join('');
+
+        if (packet.substr(0, 3) !== "~h~") {
+          packets.push(JSON.parse(packet));
+        } else {
+          packets.push({
+            "~protocol~keepalive~": packet.substr(3)
+          });
+        }
+      });
+      return packets;
+    }
+  }, {
+    key: "prependHeader",
+    value: function prependHeader(str) {
+      return "~m~" + str.length + "~m~" + str;
+    }
+  }, {
+    key: "createMessage",
+    value: function createMessage(func, paramList) {
+      return this.prependHeader(this.constructMessage(func, paramList));
+    }
+  }, {
+    key: "constructMessage",
+    value: function constructMessage(func, paramList) {
+      return JSON.stringify({
+        m: func,
+        p: paramList
+      });
+    } // End IO functions
+
+  }]);
+
+  return TradingViewFastWebsocket;
 }();
 
 /***/ }),
