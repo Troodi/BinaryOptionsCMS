@@ -72,6 +72,7 @@ export class TradingViewWebsocket {
                 let token = '';
                 $.get("/data/getAuthToken", function (data) {
                     token = data;
+
                 });
 
                 const interval = setInterval(() => {
