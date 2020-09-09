@@ -191,8 +191,8 @@
                                                     <div class="card-content">
                                                         <div class="card-body" style="background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
                                                             Открыто: 12:00:00<br>
-                                                            Цена: {{ open.open_price }}<br>
-                                                            Тест: {{ open.current_price }}<br>
+                                                            Цена открытия: {{ open.open_price }}<br>
+                                                            Текущая цена: {{ open.current_price }}<br>
                                                             Время: 00:00:15<br>
                                                             Направление: выше
                                                         </div>
@@ -216,7 +216,7 @@
     import TradingChartComponent from "./../../components/TradingChartComponent";
     import { Money } from 'v-money'
     import $ from 'jquery'
-    import { TradingViewWebsocket } from '../../js/tv'
+    import { TradingViewFastWebsocket } from '../../js/tv2'
 
     export default {
         name: "Trading",
@@ -225,10 +225,7 @@
             Money
         },
         mounted() {
-            (function () {
-                /* your stuff here */
-            }());
-            this.localTV = new TradingViewWebsocket();
+            this.localTV = new TradingViewFastWebsocket();
 
             setInterval(() => {
                 this.fastData = this.localTV.getTickerDataArray();
@@ -263,12 +260,6 @@
                         self.localTV.getTicker(item.broker + ':' + item.symbol.replace('/', ''));
                     });
                 })
-            window.addEventListener('load', () => {
-                axios.post('/data/opened')
-                    .then(function (response) {
-                        self.opened = response.data;
-                    })
-            });
 
             this.$echo.channel('closed').listen('CloseOptionEvent', (payload) => {
                 if(payload.success === true) {
@@ -296,6 +287,14 @@
                     this.symbol = window.symbolInfo.id;
                     this.percent = '+ ' + window.symbolInfo.description;
                     this.number_percent = window.symbolInfo.percent;
+
+                    axios.post('/data/opened')
+                        .then(function (response) {
+                            if(self.opened.length === 0) {
+                                self.opened = response.data;
+                            }
+                        })
+
                     let filtered = this.opened.filter(item => item.symbol_id === window.symbolInfo.id);
                     filtered.forEach(element => {
                         try {
