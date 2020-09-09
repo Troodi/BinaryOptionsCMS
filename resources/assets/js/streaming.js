@@ -10,6 +10,7 @@ const exchange = 'Binary';
 let latestchannelString = '';
 
 export function barsFromWebSocket(data, newBar = false){
+export function barsFromWebSocket(data, windowed){
 	latestBar = data;
 	let key = Object.keys(data)[0];
 	let shortName = data[key].short_name;
@@ -138,7 +139,7 @@ export function unsubscribeFromStream(subscriberUID, tvObj) {
 		const subscriptionItem = channelToSubscription.get(channelString);
 		let parsedSymbol = parseFullSymbol(subscriptionItem.info.full_name);
 		tvObj._deleteTicker(subscriptionItem.info.broker+':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol)
-		//tvObj.removeSymbols('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
+		tvObj.removeSymbols(subscriptionItem.info.broker+':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
 		const handlerIndex = subscriptionItem.handlers
 			.findIndex(handler => handler.id === subscriberUID);
 
