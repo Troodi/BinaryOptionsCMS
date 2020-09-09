@@ -9,7 +9,6 @@ let date = new Date();
 const exchange = 'Binary';
 let latestchannelString = '';
 
-export function barsFromWebSocket(data, newBar = false){
 export function barsFromWebSocket(data, windowed){
 	latestBar = data;
 	let key = Object.keys(data)[0];
