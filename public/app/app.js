@@ -2338,6 +2338,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _js_tv__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../js/tv */ "./resources/vuejs/js/tv.js");
 //
 //
 //
@@ -2551,6 +2552,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
@@ -2563,12 +2566,48 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
+    (function () {
+      /* your stuff here */
+    })();
+
+    this.localTV = new _js_tv__WEBPACK_IMPORTED_MODULE_3__["TradingViewWebsocket"]();
+    setInterval(function () {
+      _this.fastData = _this.localTV.getTickerDataArray();
+
+      _this.opened.forEach(function (open) {
+        if (_this.symbols.length > 0) {
+          try {
+            var symbol = _this.symbols.find(function (item) {
+              return item.id === open.symbol_id;
+            });
+
+            var lp = _this.fastData[symbol.broker + ':' + symbol.symbol.replace('/', '')].lp;
+
+            var color = 'warning';
+            var open_price = parseFloat(open.open_price);
+
+            if (open.type === 1 && lp > open_price || open.type === 0 && lp < open_price) {
+              color = 'success';
+            } else if (open.type === 0 && lp > open_price || open.type === 1 && lp < open_price) {
+              color = 'danger';
+            }
+
+            _this.$set(open, 'textColor', color);
+
+            _this.$set(open, 'current_price', lp);
+          } catch (e) {}
+        }
+      });
+    }, 100);
     window.addEventListener("resize", this.windowResized);
     this.historyHeight = jquery__WEBPACK_IMPORTED_MODULE_2___default()(window).height() - jquery__WEBPACK_IMPORTED_MODULE_2___default()('#line').offset().top - 30 + 'px';
     this.ps = new PerfectScrollbar("#accordionWrapa2");
     var self = this;
     axios.get('/data/symbols').then(function (response) {
       self.symbols = response.data;
+      self.symbols.forEach(function (item) {
+        self.localTV.getTicker(item.broker + ':' + item.symbol.replace('/', ''));
+      });
     });
     window.addEventListener('load', function () {
       axios.post('/data/opened').then(function (response) {
@@ -2600,10 +2639,25 @@ __webpack_require__.r(__webpack_exports__);
         _this.number_percent = null;
       }
 
-      if (typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== _this.symbol && window.dataLoaded) {
+      if (typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== _this.symbol && window.dataLoaded && _this.symbol !== window.symbolInfo.id) {
         _this.symbol = window.symbolInfo.id;
         _this.percent = '+ ' + window.symbolInfo.description;
         _this.number_percent = window.symbolInfo.percent;
+
+        var filtered = _this.opened.filter(function (item) {
+          return item.symbol_id === window.symbolInfo.id;
+        });
+
+        filtered.forEach(function (element) {
+          try {
+            self.lines[element.id].remove();
+          } catch (e) {}
+
+          var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
+          var order = window.tvWidget.chart().createOrderLine().setText("Выше").setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
+          order.setPrice(element.open_price);
+          self.lines[element.id] = order;
+        });
       }
     });
   },
@@ -2623,10 +2677,7 @@ __webpack_require__.r(__webpack_exports__);
         amount: this.amount,
         type: 1
       }).then(function (response) {
-        axios.post('/data/opened').then(function (response) {
-          self.opened = [];
-          self.opened = response.data;
-        });
+        self.opened.unshift(response.data);
         var order = window.tvWidget.chart().createOrderLine().setText("Выше").setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#23bd70').setQuantityBackgroundColor('#23bd70').setQuantityBorderColor('#23bd70').setBodyBorderColor('#23bd70').setBodyTextColor('#23bd70');
         order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
@@ -2646,11 +2697,8 @@ __webpack_require__.r(__webpack_exports__);
         amount: this.amount,
         type: 0
       }).then(function (response) {
-        axios.post('/data/opened').then(function (response) {
-          self.opened = [];
-          self.opened = response.data;
-        });
-        var order = window.tvWidget.chart().createOrderLine().setText("Ниже").setLineLength(1).setLineStyle(0).setQuantity(response.data.quantity + '$').setLineColor('#FF5B5C').setQuantityBackgroundColor('#FF5B5C').setQuantityBorderColor('#FF5B5C').setBodyBorderColor('#FF5B5C').setBodyTextColor('#FF5B5C');
+        self.opened.unshift(response.data);
+        var order = window.tvWidget.chart().createOrderLine().setText("Ниже").setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#FF5B5C').setQuantityBackgroundColor('#FF5B5C').setQuantityBorderColor('#FF5B5C').setBodyBorderColor('#FF5B5C').setBodyTextColor('#FF5B5C');
         order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
         toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', {
@@ -2739,6 +2787,7 @@ __webpack_require__.r(__webpack_exports__);
       seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '30',
       historyHeight: '300px',
       opened: [],
+      fastData: [],
       money: {
         decimal: '.',
         thousands: ',',
@@ -46111,7 +46160,10 @@ var render = function() {
                                                           "span",
                                                           {
                                                             staticClass:
-                                                              "text-success align-middle"
+                                                              "align-middle",
+                                                            class:
+                                                              "text-" +
+                                                              open.textColor
                                                           },
                                                           [
                                                             _vm._v(
@@ -46203,7 +46255,7 @@ var render = function() {
                                                 "start-time":
                                                   "2020-01-01 00:00:00",
                                                 "end-time": open.timestamp,
-                                                interval: 1000
+                                                interval: 100
                                               },
                                               scopedSlots: _vm._u(
                                                 [
@@ -46215,7 +46267,10 @@ var render = function() {
                                                           "div",
                                                           {
                                                             staticClass:
-                                                              "progress progress-sm progress-bar-success"
+                                                              "progress progress-sm",
+                                                            class:
+                                                              "progress-bar-" +
+                                                              open.textColor
                                                           },
                                                           [
                                                             _c("div", {
@@ -46337,6 +46392,11 @@ var render = function() {
                                               _vm._v(
                                                 "\n                                                        Цена: " +
                                                   _vm._s(open.open_price)
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                        Тест: " +
+                                                  _vm._s(open.current_price)
                                               ),
                                               _c("br"),
                                               _vm._v(
@@ -62148,8 +62208,7 @@ var latestBar = {};
 var date = new Date();
 var exchange = 'Binary';
 var latestchannelString = '';
-function barsFromWebSocket(data) {
-  var newBar = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+function barsFromWebSocket(data, windowed) {
   latestBar = data;
   var key = Object.keys(data)[0];
   var shortName = data[key].short_name;
@@ -62281,9 +62340,9 @@ function unsubscribeFromStream(subscriberUID, tvObj) {
       var subscriptionItem = channelToSubscription.get(channelString);
       var parsedSymbol = Object(_helpers_js__WEBPACK_IMPORTED_MODULE_0__["parseFullSymbol"])(subscriptionItem.info.full_name);
 
-      tvObj._deleteTicker(subscriptionItem.info.broker + ':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol); //tvObj.removeSymbols('FX:' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
+      tvObj._deleteTicker(subscriptionItem.info.broker + ':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
 
-
+      tvObj.removeSymbols(subscriptionItem.info.broker + ':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
       var handlerIndex = subscriptionItem.handlers.findIndex(function (handler) {
         return handler.id === subscriberUID;
       });
@@ -62525,6 +62584,11 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
   }
 
   _createClass(TradingViewWebsocket, [{
+    key: "getTickerDataArray",
+    value: function getTickerDataArray() {
+      return this.tickerData;
+    }
+  }, {
     key: "closeWebsocket",
     value: function closeWebsocket() {
       console.log('Closed!');
@@ -62722,7 +62786,12 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
       this.subscriptions.push(ticker);
       this.socketTV.send(this.createMessage("quote_add_symbols", [this.session, ticker, {
         flags: ["force_permission"]
-      }]));
+      }])); // this.socketTV.send(
+      //     this.createMessage("quote_fast_symbols", [
+      //         this.session,
+      //         ticker
+      //     ])
+      // );
     }
   }, {
     key: "_getTicker",

@@ -156,7 +156,7 @@
                                                         <template>
                                                             <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="open.timestamp" :interval="1000">
                                                                 <template slot="countdown" slot-scope="scope">
-                                                                    <span class="text-success align-middle">{{ symbols.find(item => item.id === open.symbol_id).symbol }}</span>
+                                                                    <span class="align-middle" :class="'text-' + open.textColor">{{ symbols.find(item => item.id === open.symbol_id).symbol }}</span>
                                                                     <small>
                                                                         ({{scope.props.hours}}:{{scope.props.minutes}}:{{scope.props.seconds}})
                                                                    </small>
@@ -172,9 +172,9 @@
 
 
                                                         <template>
-                                                            <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="open.timestamp" :interval="1000">
+                                                            <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="open.timestamp" :interval="100">
                                                                 <template slot="countdown" slot-scope="scope">
-                                                                    <div class="progress progress-sm progress-bar-success">
+                                                                    <div class="progress progress-sm" :class="'progress-bar-' + open.textColor">
                                                                         <div :style="{ width: (100 - (((scope.props.hours * 60 * 60 + scope.props.minutes * 60 + scope.props.seconds) / open.expiration) * 100)) + '%'}" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                                                     </div>
                                                                   </template>
@@ -192,6 +192,7 @@
                                                         <div class="card-body" style="background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
                                                             Открыто: 12:00:00<br>
                                                             Цена: {{ open.open_price }}<br>
+                                                            Тест: {{ open.current_price }}<br>
                                                             Время: 00:00:15<br>
                                                             Направление: выше
                                                         </div>
@@ -215,6 +216,7 @@
     import TradingChartComponent from "./../../components/TradingChartComponent";
     import { Money } from 'v-money'
     import $ from 'jquery'
+    import { TradingViewWebsocket } from '../../js/tv'
 
     export default {
         name: "Trading",
@@ -223,6 +225,32 @@
             Money
         },
         mounted() {
+            (function () {
+                /* your stuff here */
+            }());
+            this.localTV = new TradingViewWebsocket();
+
+            setInterval(() => {
+                this.fastData = this.localTV.getTickerDataArray();
+                this.opened.forEach((open) => {
+                    if(this.symbols.length > 0) {
+                        try {
+                            let symbol = this.symbols.find(item => item.id === open.symbol_id);
+                            let lp = this.fastData[symbol.broker + ':' + symbol.symbol.replace('/', '')].lp;
+                            let color = 'warning';
+                            let open_price = parseFloat(open.open_price);
+                            if (open.type === 1 && lp > open_price || open.type === 0 && lp < open_price) {
+                                color = 'success';
+                            } else if (open.type === 0 && lp > open_price || open.type === 1 && lp < open_price) {
+                                color = 'danger';
+                            }
+                            this.$set(open, 'textColor', color);
+                            this.$set(open, 'current_price', lp);
+                        } catch (e) { }
+                    }
+                });
+            }, 100);
+
             window.addEventListener("resize", this.windowResized);
             this.historyHeight = ($(window).height() - $('#line').offset().top - 30) + 'px';
             this.ps = new PerfectScrollbar("#accordionWrapa2");
@@ -231,6 +259,9 @@
             axios.get('/data/symbols')
                 .then(function (response) {
                     self.symbols = response.data;
+                    self.symbols.forEach(item => {
+                        self.localTV.getTicker(item.broker + ':' + item.symbol.replace('/', ''));
+                    });
                 })
             window.addEventListener('load', () => {
                 axios.post('/data/opened')
@@ -261,10 +292,29 @@
                     this.symbol = null;
                     this.number_percent = null;
                 }
-                if(typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== this.symbol && window.dataLoaded) {
+                if(typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== this.symbol && window.dataLoaded && this.symbol !== window.symbolInfo.id) {
                     this.symbol = window.symbolInfo.id;
                     this.percent = '+ ' + window.symbolInfo.description;
                     this.number_percent = window.symbolInfo.percent;
+                    let filtered = this.opened.filter(item => item.symbol_id === window.symbolInfo.id);
+                    filtered.forEach(element => {
+                        try {
+                            self.lines[element.id].remove();
+                        } catch (e) {}
+                        let color = element.type === 1 ? '#23bd70' : '#FF5B5C';
+                        let order = window.tvWidget.chart().createOrderLine()
+                            .setText("Выше")
+                            .setLineLength(1)
+                            .setLineStyle(0)
+                            .setQuantity(element.amount + '$')
+                            .setLineColor(color)
+                            .setQuantityBackgroundColor(color)
+                            .setQuantityBorderColor(color)
+                            .setBodyBorderColor(color)
+                            .setBodyTextColor(color);
+                        order.setPrice(element.open_price);
+                        self.lines[element.id] = order;
+                    });
                 }
             });
         },
@@ -285,11 +335,7 @@
                     type: 1,
                 })
                 .then(function (response) {
-                    axios.post('/data/opened')
-                        .then(function (response) {
-                            self.opened = [];
-                            self.opened = response.data;
-                        })
+                    self.opened.unshift(response.data);
                     let order = window.tvWidget.chart().createOrderLine()
                         .setText("Выше")
                         .setLineLength(1)
@@ -316,16 +362,12 @@
                     type: 0,
                 })
                 .then(function (response) {
-                    axios.post('/data/opened')
-                        .then(function (response) {
-                            self.opened = [];
-                            self.opened = response.data;
-                        })
+                    self.opened.unshift(response.data);
                     let order = window.tvWidget.chart().createOrderLine()
                         .setText("Ниже")
                         .setLineLength(1)
                         .setLineStyle(0)
-                        .setQuantity(response.data.quantity + '$')
+                        .setQuantity(response.data.amount + '$')
                         .setLineColor('#FF5B5C')
                         .setQuantityBackgroundColor('#FF5B5C')
                         .setQuantityBorderColor('#FF5B5C')
@@ -414,6 +456,7 @@
                 seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '30',
                 historyHeight: '300px',
                 opened: [],
+                fastData: [],
                 money: {
                     decimal: '.',
                     thousands: ',',
@@ -433,16 +476,14 @@
             hours: function () {
                 let number = parseInt(this.hours);
                 let final = number;
-                if(number > 12){
+                if (number > 12) {
                     final = '12';
-                }
-                else if(number <= 0){
+                } else if (number <= 0) {
+                    final = '0';
+                } else if (this.hours === '') {
                     final = '0';
                 }
-                else if(this.hours === ''){
-                    final = '0';
-                }
-                if(final < 10){
+                if (final < 10) {
                     final = '0' + final.toString();
                 }
                 this.hours = final;
@@ -451,16 +492,14 @@
             minutes: function () {
                 let number = parseInt(this.minutes);
                 let final = number;
-                if(number > 59){
+                if (number > 59) {
                     final = '59';
-                }
-                else if(number <= 0){
+                } else if (number <= 0) {
+                    final = '0';
+                } else if (this.minutes === '') {
                     final = '0';
                 }
-                else if(this.minutes === ''){
-                    final = '0';
-                }
-                if(final < 10){
+                if (final < 10) {
                     final = '0' + final.toString();
                 }
                 this.minutes = final;
@@ -469,16 +508,14 @@
             seconds: function () {
                 let number = parseInt(this.seconds);
                 let final = number;
-                if(number > 59){
+                if (number > 59) {
                     final = '59';
-                }
-                else if(number <= 0){
+                } else if (number <= 0) {
+                    final = '0';
+                } else if (this.seconds === '') {
                     final = '0';
                 }
-                else if(this.seconds === ''){
-                    final = '0';
-                }
-                if(final < 10){
+                if (final < 10) {
                     final = '0' + final.toString();
                 }
                 this.seconds = final;
@@ -488,14 +525,14 @@
                 let first = this.amount;
                 let number = parseFloat(first.toString().replace(',', ''));
                 let min = number / 8;
-                if(min < 1){
+                if (min < 1) {
                     min = 1;
                 }
                 this.min = min;
-                if(number < 1){
+                if (number < 1) {
                     this.amount = '1.00';
                 }
-                if(number > 100000){
+                if (number > 100000) {
                     this.amount = '100000.00';
                 }
                 localStorage.setItem('amount', this.amount);

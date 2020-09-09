@@ -27,6 +27,10 @@ export class TradingViewWebsocket {
         this.socketTV.onerror = (data) => { this.onerror(data) };
     }
 
+    getTickerDataArray(){
+        return this.tickerData;
+    }
+
     closeWebsocket(){
         console.log('Closed!');
         this.socketTV.close();
@@ -237,6 +241,12 @@ export class TradingViewWebsocket {
                 {flags: ["force_permission"]}
             ])
         );
+        // this.socketTV.send(
+        //     this.createMessage("quote_fast_symbols", [
+        //         this.session,
+        //         ticker
+        //     ])
+        // );
     }
 
     _getTicker(tickerName) {

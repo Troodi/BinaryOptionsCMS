@@ -11,14 +11,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Mockery\Exception;
+
+//location / {
+//  proxy_ssl_server_name on;
+//  proxy_pass https://prodata.tradingview.com/socket.io/websocket;#prodata
+//  proxy_http_version 1.1;
+//  proxy_set_header Origin https://www.tradingview.com;
+//  proxy_set_header Host prodata.tradingview.com;
+//  proxy_set_header Upgrade $http_upgrade;
+//  proxy_set_header Connection "upgrade";
+//  proxy_buffering off;
+//}
 
 class TradingController extends Controller
 {
-    public function getAuthToken(Request $request){
+    public function getAuthToken(Request $request)
+    {
       $login = env('TRADINGVIEW_LOGIN');
       $password = env('TRADINGVIEW_PASSWORD');
-
-      if(file_exists(__DIR__ . '/cookie.txt')){
+      if (file_exists(__DIR__ . '/cookie.txt')) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/quote_token/");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -91,6 +103,8 @@ class TradingController extends Controller
       $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
       $model->amount = $request->amount;
       $model->save();
+      $model->expiration = $seconds;
+      $model->timestamp = Carbon::parse($model->close_at)->timestamp;
       return $model;
     }
 
