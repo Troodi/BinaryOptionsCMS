@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Main;
 use App\Events\CloseOptionEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\CloseOptionJob;
+use App\Models\LatestOrder;
 use App\Models\OpenOrders;
+use App\Models\Symbols\Options\Symbol;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -94,11 +96,15 @@ class TradingController extends Controller
         return response()->json(['Min 30 seconds'], 422);
       }
       $price = Cache::get('symbol'.$request->symbol);
+      $symbols_all = Cache::remember('symbols_all', 60, function () {
+        return Symbol::orderBy('percent', 'desc')->get();
+      });
       $model = new OpenOrders();
       $model->symbol_id = $request->symbol;
       $model->user_id = Auth::user()->id;
       $model->type = $request->type;
       $model->open_price = $price;
+      $model->percent = $symbols_all->where('id', $request->symbol)->first()->percent;
       $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
       $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
       $model->amount = $request->amount;
@@ -120,4 +126,13 @@ class TradingController extends Controller
       });
       //
     }
+
+  public function getLatestOrders(Request $request){
+    return LatestOrder::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get()->filter(function ($item) {
+      $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->created_at));
+      $item['expiration'] = $diff->s + $diff->i * 60 + $diff->h * 60 * 60;
+      return $item;
+    });
+    //
+  }
 }

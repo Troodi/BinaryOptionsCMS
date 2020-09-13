@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\LatestOrder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 
@@ -38,9 +39,8 @@ class test extends Command
      */
     public function handle()
     {
-        Cache::tags(['test'])->put('John', '123', 30);
-        Cache::tags(['test'])->put('Ivan', '321', 30);
-        var_dump(Cache::tags(['test'])->get('John'));
+      $last_id = LatestOrder::where('user_id', 1)->take(10)->latest()->get()->last()->id;
+      var_dump($last_id);
         return 0;
     }
 }

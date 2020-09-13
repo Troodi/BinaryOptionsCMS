@@ -11,6 +11,7 @@
 */
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
+  Route::post("/data/latest", 'Main\TradingController@getLatestOrders');
   Route::post("/binary/buy", 'Main\TradingController@buySymbol');
   Route::post("/data/opened", 'Main\TradingController@getOpenOrders');
   Route::get("/data/symbols", 'Main\SymbolsHistoryController@getExchanges');

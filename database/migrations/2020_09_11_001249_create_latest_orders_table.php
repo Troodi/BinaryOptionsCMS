@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOpenOrdersTable extends Migration
+class CreateLatestOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,18 @@ class CreateOpenOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('open_orders', function (Blueprint $table) {
+        Schema::create('latest_orders', function (Blueprint $table) {
             $table->id();
             $table->integer('symbol_id')->nullable();
             $table->integer('user_id')->nullable();
             $table->timestamp('close_at', 6)->nullable();
             $table->decimal('amount', 10, 2)->nullable();
             $table->decimal('open_price', 10, 5)->nullable();
+            $table->decimal('close_price', 10, 5)->nullable();
+            $table->decimal('profit', 10, 5)->nullable();
             $table->integer('percent')->nullable();
             $table->integer('type')->nullable();
-            $table->timestamps(6);
+            $table->timestamp('created_at', 6);
         });
     }
 
@@ -33,6 +35,6 @@ class CreateOpenOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('open_orders');
+        Schema::dropIfExists('latest_orders');
     }
 }
