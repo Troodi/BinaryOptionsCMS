@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "@chenfengyuan/vue-countdown": "^1.1.5",
+        "animated-number-vue": "^1.0.0",
         "bootstrap-xxl": "^4.1.1",
         "jquery": "^3.2",
         "laravel-echo": "^1.8.1",
