@@ -85,6 +85,7 @@ class CheckOrdersForClose extends Command
               'open_price' => $open->open_price,
               'close_price' => $closed_price,
               'type' => $open->type,
+              'open_at' => Carbon::parse($open->created_at)->format('Y-m-d H:i:s.u'),
               'created_at' => Carbon::now()->format('Y-m-d H:i:s.u'),
             ]);
 
@@ -98,12 +99,17 @@ class CheckOrdersForClose extends Command
             $model->open_price = $open->open_price;
             $model->close_price = $closed_price;
             $model->type = $open->type;
+            $model->open_at = Carbon::parse($open->created_at)->format('Y-m-d H:i:s.u');
             $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
             $model->save();
+            $diff = date_diff(new \DateTime($model->close_at), new \DateTime($model->open_at));
+            $model->expiration = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
             broadcast(new CloseOptionEvent($model, $open->id, $success));
 
-            $last_id = LatestOrder::where('user_id', $open->user_id)->take(10)->latest()->get()->last()->id;
-            LatestOrder::where('id', '<=', $last_id)->delete();
+            $last_id = LatestOrder::where('user_id', $open->user_id)->take(10)->latest()->get()->last();
+            if($last_id->count() >= 10) {
+              LatestOrder::where('id', '<=', $last_id->id)->delete();
+            }
           }
           $end = microtime(true) - $start;
           if($end < 1000000){

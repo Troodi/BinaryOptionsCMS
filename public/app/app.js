@@ -2676,7 +2676,7 @@ __webpack_require__.r(__webpack_exports__);
       });
 
       try {
-        self.lines[model.id].remove();
+        self.lines[payload.id].remove();
       } catch (e) {}
     });
     setInterval(function () {
@@ -46757,8 +46757,7 @@ var render = function() {
                                               },
                                               [
                                                 _c("div", {
-                                                  staticClass:
-                                                    "progress-bar progress-bar-striped",
+                                                  staticClass: "progress-bar",
                                                   staticStyle: {
                                                     width: "100%"
                                                   },
@@ -46782,7 +46781,11 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                                                00:00:00\n                                                            "
+                                                      "\n                                                                " +
+                                                        _vm._s(
+                                                          open.expiration
+                                                        ) +
+                                                        "\n                                                            "
                                                     )
                                                   ]
                                                 ),

@@ -17,6 +17,7 @@ class OrderHistory1 extends Migration
         $table->id();
         $table->integer('symbol_id')->nullable();
         $table->integer('user_id')->nullable();
+        $table->timestamp('open_at', 6)->nullable();
         $table->timestamp('close_at', 6)->nullable();
         $table->decimal('amount', 10, 2)->nullable();
         $table->decimal('open_price', 10, 5)->nullable();
