@@ -129,8 +129,8 @@ class TradingController extends Controller
 
   public function getLatestOrders(Request $request){
     return LatestOrder::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get()->filter(function ($item) {
-      $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->created_at));
-      $item['expiration'] = $diff->s + $diff->i * 60 + $diff->h * 60 * 60;
+      $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->open_at));
+      $item['expiration'] = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
       return $item;
     });
     //

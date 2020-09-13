@@ -216,9 +216,9 @@
                                                             <strong v-text="parseFloat(open.profit).toFixed(2) + ' $'"></strong>
                                                        </small>
                                                         <div class="progress position-relative" :class="'progress-bar-primary'" style="text-shadow: 1px 1px 2px black;">
-                                                            <div style="width:100%" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                            <div style="width:100%" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                                             <small style="margin-top: -3.4px; font-size:12px;" class="text-white justify-content-center d-flex position-absolute w-100">
-                                                                00:00:00
+                                                                {{ open.expiration }}
                                                             </small>
 
                                                             <small style="margin-top: -3.4px; font-size:10px;" class="text-white justify-content-left d-flex position-absolute w-100">
@@ -326,7 +326,7 @@
                 }
                 self.opened = self.opened.filter(item => item.id !== payload.id);
                 try {
-                    self.lines[model.id].remove();
+                    self.lines[payload.id].remove();
                 } catch (e) {
                     
                 }
