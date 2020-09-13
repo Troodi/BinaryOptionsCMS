@@ -31,7 +31,7 @@
                         <li class="nav-item">
                             <h4>
                                 <router-link to="/finance" class="nav-link" style="padding-top:1.4rem">
-                                    1000.00 $
+                                    {{ parseFloat(balance).toFixed(2) }} $
                                 </router-link>
                             </h4>
                         </li>
@@ -86,7 +86,18 @@
 
 <script>
     export default {
-        name: "Header"
+        name: "Header",
+        props: ['user'],
+        mounted() {
+            this.$echo.channel('balance').listen('ChangeBalance', (payload) => {
+                this.balance = payload.balance;
+            });
+        },
+        data: function() {
+            return {
+                balance: this.user.balance,
+            }
+        }
     }
 </script>
 

@@ -2230,7 +2230,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Header"
+  name: "Header",
+  props: ['user'],
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$echo.channel('balance').listen('ChangeBalance', function (payload) {
+      _this.balance = payload.balance;
+    });
+  },
+  data: function data() {
+    return {
+      balance: this.user.balance
+    };
+  }
 });
 
 /***/ }),
@@ -44795,7 +44808,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                                1000.00 $\n                            "
+                            "\n                                " +
+                              _vm._s(parseFloat(_vm.balance).toFixed(2)) +
+                              " $\n                            "
                           )
                         ]
                       )

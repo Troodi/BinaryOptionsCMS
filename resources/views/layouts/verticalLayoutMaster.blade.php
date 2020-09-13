@@ -11,7 +11,7 @@ data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 <div id="app">
   <!-- BEGIN: Header-->
   <div class="header-navbar-shadow"></div>
-  <header-component></header-component>
+  <header-component v-bind:user="{{ Auth::user() }}"></header-component>
   <!-- END: Header-->
 
   <!-- BEGIN: Main Menu-->

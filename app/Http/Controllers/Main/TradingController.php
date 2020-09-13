@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers\Main;
 
+use App\Events\ChangeBalance;
 use App\Events\CloseOptionEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\CloseOptionJob;
 use App\Models\LatestOrder;
 use App\Models\OpenOrders;
 use App\Models\Symbols\Options\Symbol;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
 
@@ -95,6 +98,11 @@ class TradingController extends Controller
       if($seconds < 30){
         return response()->json(['Min 30 seconds'], 422);
       }
+      if(Auth::user()->balance - $request->amount < 0){
+        return response()->json(['Недостаточно средств'], 422);
+      }
+      User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-'.$request->amount)]);
+      broadcast(new ChangeBalance(Auth::user()->balance - $request->amount));
       $price = Cache::get('symbol'.$request->symbol);
       $symbols_all = Cache::remember('symbols_all', 60, function () {
         return Symbol::orderBy('percent', 'desc')->get();
