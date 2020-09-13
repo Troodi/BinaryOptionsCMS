@@ -16,11 +16,13 @@ class CloseOptionEvent implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $id;
     public $success;
+    public $model;
 
-    public function __construct($id, $success)
+    public function __construct($model, $id, $success)
     {
         $this->id = $id;
         $this->success = $success;
+        $this->model = $model;
     }
 
     public function broadcastOn()

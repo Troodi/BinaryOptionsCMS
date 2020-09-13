@@ -2553,6 +2553,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Trading",
@@ -2577,17 +2622,22 @@ __webpack_require__.r(__webpack_exports__);
             var lp = _this.fastData[symbol.broker + ':' + symbol.symbol.replace('/', '')].lp;
 
             var color = 'warning';
+            var profitStatus = 2;
             var open_price = parseFloat(open.open_price);
 
             if (open.type === 1 && lp > open_price || open.type === 0 && lp < open_price) {
               color = 'success';
+              profitStatus = 1;
             } else if (open.type === 0 && lp > open_price || open.type === 1 && lp < open_price) {
               color = 'danger';
+              profitStatus = 0;
             }
 
             _this.$set(open, 'textColor', color);
 
             _this.$set(open, 'current_price', lp);
+
+            _this.$set(open, 'profit_status', profitStatus);
           } catch (e) {}
         }
       });
@@ -2603,8 +2653,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     });
     this.$echo.channel('closed').listen('CloseOptionEvent', function (payload) {
+      var model = payload.model;
+      self.latest.unshift(model);
+
       if (payload.success === true) {
-        toastr.success('Вы получили прибыль!', 'Сделка закрыта', {
+        toastr.success('Вы получили прибыль ' + model.profit + '$!', 'Сделка закрыта', {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -2618,7 +2671,10 @@ __webpack_require__.r(__webpack_exports__);
       self.opened = self.opened.filter(function (item) {
         return item.id !== payload.id;
       });
-      self.lines[payload.id].remove();
+
+      try {
+        self.lines[model.id].remove();
+      } catch (e) {}
     });
     setInterval(function () {
       if (!window.dataLoaded) {
@@ -2631,26 +2687,33 @@ __webpack_require__.r(__webpack_exports__);
         _this.symbol = window.symbolInfo.id;
         _this.percent = '+ ' + window.symbolInfo.description;
         _this.number_percent = window.symbolInfo.percent;
-        axios.post('/data/opened').then(function (response) {
-          if (self.opened.length === 0) {
+
+        if (self.opened.length === 0) {
+          axios.post('/data/opened').then(function (response) {
             self.opened = response.data;
-          }
-        });
+            var filtered = self.opened.filter(function (item) {
+              return item.symbol_id === window.symbolInfo.id;
+            });
+            filtered.forEach(function (element) {
+              try {
+                self.lines[element.id].remove();
+              } catch (e) {}
 
-        var filtered = _this.opened.filter(function (item) {
-          return item.symbol_id === window.symbolInfo.id;
-        });
+              var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
+              var order = window.tvWidget.chart().createOrderLine().setText("Выше").setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
+              order.setPrice(element.open_price);
+              self.lines[element.id] = order;
+            });
+          });
+        }
 
-        filtered.forEach(function (element) {
-          try {
-            self.lines[element.id].remove();
-          } catch (e) {}
-
-          var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
-          var order = window.tvWidget.chart().createOrderLine().setText("Выше").setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
-          order.setPrice(element.open_price);
-          self.lines[element.id] = order;
-        });
+        if (self.latest.length === 0) {
+          axios.post('/data/latest').then(function (response) {
+            if (self.latest.length === 0) {
+              self.latest = response.data;
+            }
+          });
+        }
       }
     });
   },
@@ -2781,6 +2844,7 @@ __webpack_require__.r(__webpack_exports__);
       historyHeight: '300px',
       opened: [],
       fastData: [],
+      latest: [],
       money: {
         decimal: '.',
         thousands: ',',
@@ -2874,6 +2938,25 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       localStorage.setItem('amount', this.amount);
+    },
+    latest: function latest() {
+      var _this2 = this;
+
+      this.latest.forEach(function (last) {
+        try {
+          var color = 'warning';
+          var open_price = parseFloat(last.open_price);
+          var close_price = parseFloat(last.close_price);
+
+          if (last.type === 1 && close_price > open_price || last.type === 0 && close_price < open_price) {
+            color = 'success';
+          } else if (last.type === 0 && close_price > open_price || last.type === 1 && close_price < open_price) {
+            color = 'danger';
+          }
+
+          _this2.$set(last, 'textColor', color);
+        } catch (e) {}
+      });
     }
   }
 });
@@ -5376,7 +5459,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nbody.dark-layout .collapsible .card.open[data-v-0b4c4794], body.dark-layout .accordion .card.open[data-v-0b4c4794] {\n    box-shadow: 0px 0px 0px 0 rgba(11, 26, 51, 0.63) !important;\n}\n", ""]);
+exports.push([module.i, "\nbody.dark-layout .collapsible .card.open[data-v-0b4c4794], body.dark-layout .accordion .card.open[data-v-0b4c4794] {\n    box-shadow: 0px 0px 0px 0 rgba(11, 26, 51, 0.63) !important;\n}\n.progress-bar-success .progress-bar[data-v-0b4c4794] {\n    background-color: #157344;\n    box-shadow: 0 2px 6px 0 rgba(57, 218, 138, 0.2);\n}\n.progress-bar-primary .progress-bar[data-v-0b4c4794] {\n    background-color: #244177;\n    box-shadow: 0 2px 6px 0 rgba(90, 141, 238, 0.2);\n}\n", ""]);
 
 // exports
 
@@ -45895,7 +45978,7 @@ var render = function() {
                             attrs: { role: "status", "aria-hidden": "true" }
                           }),
                           _vm._v(
-                            "\n                                    Загрузка...\n                                "
+                            "\n                                        Загрузка...\n                                    "
                           )
                         ]
                       ),
@@ -45948,7 +46031,7 @@ var render = function() {
                             attrs: { role: "status", "aria-hidden": "true" }
                           }),
                           _vm._v(
-                            "\n                                    Загрузка...\n                                "
+                            "\n                                        Загрузка...\n                                    "
                           )
                         ]
                       ),
@@ -45996,313 +46079,775 @@ var render = function() {
                               style: { height: _vm.historyHeight },
                               attrs: { id: "accordionWrapa2" }
                             },
-                            _vm._l(_vm.opened, function(open) {
-                              return _c(
-                                "div",
-                                { staticClass: "card collapse-header" },
-                                [
-                                  _c(
-                                    "div",
+                            [
+                              _c(
+                                "p",
+                                {
+                                  directives: [
                                     {
-                                      staticClass: "card-header",
-                                      staticStyle: {
-                                        "background-color":
-                                          "#22283e !important",
-                                        "border-top":
-                                          "1px solid #464d5c !important",
-                                        "border-left":
-                                          "1px solid #464d5c !important",
-                                        "border-right":
-                                          "1px solid #464d5c !important"
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.opened.length > 0,
+                                      expression: "opened.length > 0"
+                                    }
+                                  ],
+                                  staticClass: "text-center"
+                                },
+                                [_vm._v("Открытые сделки")]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(_vm.opened, function(open) {
+                                return _c(
+                                  "div",
+                                  { staticClass: "card collapse-header" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "card-header",
+                                        staticStyle: {
+                                          "background-color":
+                                            "#22283e !important",
+                                          "border-top":
+                                            "1px solid #464d5c !important",
+                                          "border-left":
+                                            "1px solid #464d5c !important",
+                                          "border-right":
+                                            "1px solid #464d5c !important",
+                                          padding: "15px"
+                                        },
+                                        attrs: {
+                                          id: "heading" + open.id,
+                                          "data-target": "#accordion" + open.id,
+                                          "aria-controls":
+                                            "accordion" + open.id,
+                                          "aria-expanded": "false",
+                                          "data-toggle": "collapse",
+                                          role: "tablist"
+                                        }
                                       },
-                                      attrs: {
-                                        id: "heading" + open.id,
-                                        "data-target": "#accordion" + open.id,
-                                        "aria-controls": "accordion" + open.id,
-                                        "aria-expanded": "false",
-                                        "data-toggle": "collapse",
-                                        role: "tablist"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "span",
-                                        { staticClass: "collapse-title" },
-                                        [
+                                      [
+                                        _c(
+                                          "span",
+                                          { staticClass: "collapse-title" },
                                           [
-                                            _c("vue-countdown-timer", {
-                                              attrs: {
-                                                "start-time":
-                                                  "2020-01-01 00:00:00",
-                                                "end-time": open.timestamp,
-                                                interval: 1000
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass: "align-middle",
+                                                class: "text-" + open.textColor
                                               },
-                                              scopedSlots: _vm._u(
-                                                [
-                                                  {
-                                                    key: "countdown",
-                                                    fn: function(scope) {
-                                                      return [
-                                                        _c(
-                                                          "span",
-                                                          {
-                                                            staticClass:
-                                                              "align-middle",
-                                                            class:
-                                                              "text-" +
-                                                              open.textColor
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                _vm.symbols.find(
-                                                                  function(
-                                                                    item
-                                                                  ) {
-                                                                    return (
-                                                                      item.id ===
-                                                                      open.symbol_id
-                                                                    )
-                                                                  }
-                                                                ).symbol
-                                                              )
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c("small", [
-                                                          _vm._v(
-                                                            "\n                                                                    (" +
-                                                              _vm._s(
-                                                                scope.props
-                                                                  .hours
-                                                              ) +
-                                                              ":" +
-                                                              _vm._s(
-                                                                scope.props
-                                                                  .minutes
-                                                              ) +
-                                                              ":" +
-                                                              _vm._s(
-                                                                scope.props
-                                                                  .seconds
-                                                              ) +
-                                                              ")\n                                                               "
-                                                          )
-                                                        ])
-                                                      ]
-                                                    }
-                                                  },
-                                                  {
-                                                    key: "end-text",
-                                                    fn: function(scope) {
-                                                      return [
-                                                        _c(
-                                                          "span",
-                                                          {
-                                                            staticClass:
-                                                              "text-success align-middle"
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              _vm._s(
-                                                                _vm.symbols.find(
-                                                                  function(
-                                                                    item
-                                                                  ) {
-                                                                    return (
-                                                                      item.id ===
-                                                                      open.symbol_id
-                                                                    )
-                                                                  }
-                                                                ).symbol
-                                                              )
-                                                            )
-                                                          ]
-                                                        ),
-                                                        _vm._v(" "),
-                                                        _c("small", [
-                                                          _vm._v(
-                                                            "\n                                                                    (00:00:00)\n                                                               "
-                                                          )
-                                                        ])
-                                                      ]
-                                                    }
-                                                  }
-                                                ],
-                                                null,
-                                                true
-                                              )
-                                            })
-                                          ],
-                                          _vm._v(" "),
-                                          [
-                                            _c("vue-countdown-timer", {
-                                              attrs: {
-                                                "start-time":
-                                                  "2020-01-01 00:00:00",
-                                                "end-time": open.timestamp,
-                                                interval: 100
+                                              [
+                                                _vm._v(
+                                                  "\n                                                            " +
+                                                    _vm._s(
+                                                      _vm.symbols.find(function(
+                                                        item
+                                                      ) {
+                                                        return (
+                                                          item.id ===
+                                                          open.symbol_id
+                                                        )
+                                                      }).symbol
+                                                    ) +
+                                                    "\n                                                        "
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "small",
+                                              {
+                                                class: "text-" + open.textColor,
+                                                staticStyle: {
+                                                  float: "right",
+                                                  "padding-right": "20px",
+                                                  "padding-top": "5px"
+                                                }
                                               },
-                                              scopedSlots: _vm._u(
-                                                [
-                                                  {
-                                                    key: "countdown",
-                                                    fn: function(scope) {
-                                                      return [
-                                                        _c(
-                                                          "div",
-                                                          {
-                                                            staticClass:
-                                                              "progress progress-sm",
-                                                            class:
-                                                              "progress-bar-" +
-                                                              open.textColor
-                                                          },
-                                                          [
-                                                            _c("div", {
-                                                              staticClass:
-                                                                "progress-bar progress-bar-striped",
-                                                              style: {
-                                                                width:
-                                                                  100 -
-                                                                  ((scope.props
-                                                                    .hours *
-                                                                    60 *
-                                                                    60 +
-                                                                    scope.props
-                                                                      .minutes *
-                                                                      60 +
-                                                                    scope.props
-                                                                      .seconds) /
-                                                                    open.expiration) *
-                                                                    100 +
-                                                                  "%"
-                                                              },
-                                                              attrs: {
-                                                                role:
-                                                                  "progressbar",
-                                                                "aria-valuenow":
-                                                                  "0",
-                                                                "aria-valuemin":
-                                                                  "0",
-                                                                "aria-valuemax":
-                                                                  "100"
-                                                              }
-                                                            })
-                                                          ]
-                                                        )
-                                                      ]
+                                              [
+                                                _c("strong", {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value:
+                                                        open.profit_status ===
+                                                        0,
+                                                      expression:
+                                                        "open.profit_status === 0"
                                                     }
-                                                  },
-                                                  {
-                                                    key: "end-text",
-                                                    fn: function(scope) {
-                                                      return [
-                                                        _c(
-                                                          "div",
-                                                          {
-                                                            staticClass:
-                                                              "progress progress-sm progress-bar-success"
-                                                          },
-                                                          [
-                                                            _c("div", {
-                                                              staticClass:
-                                                                "progress-bar progress-bar-striped",
-                                                              style: {
-                                                                width: "100%"
-                                                              },
-                                                              attrs: {
-                                                                role:
-                                                                  "progressbar",
-                                                                "aria-valuenow":
-                                                                  "0",
-                                                                "aria-valuemin":
-                                                                  "0",
-                                                                "aria-valuemax":
-                                                                  "100"
-                                                              }
-                                                            })
-                                                          ]
-                                                        )
-                                                      ]
-                                                    }
+                                                  ],
+                                                  domProps: {
+                                                    textContent: _vm._s("0 $")
                                                   }
-                                                ],
-                                                null,
-                                                true
-                                              )
-                                            })
-                                          ]
-                                        ],
-                                        2
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass: "collapse",
-                                      attrs: {
-                                        id: "accordion" + open.id,
-                                        "aria-labelledby": "heading" + open.id,
-                                        role: "tabpanel",
-                                        "data-parent": "#accordionWrapa2"
-                                      }
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "card-content" },
-                                        [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass: "card-body",
-                                              staticStyle: {
-                                                "background-color":
-                                                  "#22283e !important",
-                                                border: "1px solid",
-                                                "border-top": "1px",
-                                                "border-bottom-left-radius":
-                                                  "5px",
-                                                "border-bottom-right-radius":
-                                                  "5px"
-                                              }
-                                            },
+                                                }),
+                                                _vm._v(" "),
+                                                _c("strong", {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value:
+                                                        open.profit_status ===
+                                                        1,
+                                                      expression:
+                                                        "open.profit_status === 1"
+                                                    }
+                                                  ],
+                                                  domProps: {
+                                                    textContent: _vm._s(
+                                                      (
+                                                        (open.amount *
+                                                          open.percent) /
+                                                        100
+                                                      ).toFixed(2) + " $"
+                                                    )
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                _c("strong", {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value:
+                                                        open.profit_status ===
+                                                        2,
+                                                      expression:
+                                                        "open.profit_status === 2"
+                                                    }
+                                                  ],
+                                                  domProps: {
+                                                    textContent: _vm._s(
+                                                      open.amount + " $"
+                                                    )
+                                                  }
+                                                })
+                                              ]
+                                            ),
+                                            _vm._v(" "),
                                             [
-                                              _vm._v(
-                                                "\n                                                        Открыто: 12:00:00"
-                                              ),
-                                              _c("br"),
-                                              _vm._v(
-                                                "\n                                                        Цена открытия: " +
-                                                  _vm._s(open.open_price)
-                                              ),
-                                              _c("br"),
-                                              _vm._v(
-                                                "\n                                                        Текущая цена: " +
-                                                  _vm._s(open.current_price)
-                                              ),
-                                              _c("br"),
-                                              _vm._v(
-                                                "\n                                                        Время: 00:00:15"
-                                              ),
-                                              _c("br"),
-                                              _vm._v(
-                                                "\n                                                        Направление: выше\n                                                    "
-                                              )
+                                              _c("vue-countdown-timer", {
+                                                attrs: {
+                                                  "start-time":
+                                                    "2020-01-01 00:00:00",
+                                                  "end-time": open.timestamp,
+                                                  interval: 1000
+                                                },
+                                                scopedSlots: _vm._u(
+                                                  [
+                                                    {
+                                                      key: "countdown",
+                                                      fn: function(scope) {
+                                                        return [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "progress position-relative",
+                                                              class:
+                                                                "progress-bar-" +
+                                                                open.textColor,
+                                                              staticStyle: {
+                                                                "text-shadow":
+                                                                  "1px 1px 2px black"
+                                                              }
+                                                            },
+                                                            [
+                                                              _c("div", {
+                                                                staticClass:
+                                                                  "progress-bar progress-bar-striped",
+                                                                style: {
+                                                                  width:
+                                                                    100 -
+                                                                    ((scope
+                                                                      .props
+                                                                      .hours *
+                                                                      60 *
+                                                                      60 +
+                                                                      scope
+                                                                        .props
+                                                                        .minutes *
+                                                                        60 +
+                                                                      scope
+                                                                        .props
+                                                                        .seconds) /
+                                                                      open.expiration) *
+                                                                      100 +
+                                                                    "%"
+                                                                },
+                                                                attrs: {
+                                                                  role:
+                                                                    "progressbar",
+                                                                  "aria-valuenow":
+                                                                    "0",
+                                                                  "aria-valuemin":
+                                                                    "0",
+                                                                  "aria-valuemax":
+                                                                    "100"
+                                                                }
+                                                              }),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "small",
+                                                                {
+                                                                  staticClass:
+                                                                    "text-white justify-content-center d-flex position-absolute w-100",
+                                                                  staticStyle: {
+                                                                    "margin-top":
+                                                                      "-3.4px",
+                                                                    "font-size":
+                                                                      "12px"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "\n                                                                            " +
+                                                                      _vm._s(
+                                                                        scope
+                                                                          .props
+                                                                          .hours
+                                                                      ) +
+                                                                      ":" +
+                                                                      _vm._s(
+                                                                        scope
+                                                                          .props
+                                                                          .minutes
+                                                                      ) +
+                                                                      ":" +
+                                                                      _vm._s(
+                                                                        scope
+                                                                          .props
+                                                                          .seconds
+                                                                      ) +
+                                                                      "\n                                                                        "
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "small",
+                                                                {
+                                                                  staticClass:
+                                                                    "text-white justify-content-left d-flex position-absolute w-100",
+                                                                  staticStyle: {
+                                                                    "margin-top":
+                                                                      "-3.4px",
+                                                                    "font-size":
+                                                                      "10px"
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _c("i", {
+                                                                    directives: [
+                                                                      {
+                                                                        name:
+                                                                          "show",
+                                                                        rawName:
+                                                                          "v-show",
+                                                                        value:
+                                                                          open.type ===
+                                                                          1,
+                                                                        expression:
+                                                                          "open.type === 1"
+                                                                      }
+                                                                    ],
+                                                                    staticClass:
+                                                                      "bx bx-trending-up",
+                                                                    staticStyle: {
+                                                                      "font-size":
+                                                                        "12px",
+                                                                      "padding-left":
+                                                                        "1px",
+                                                                      "padding-top":
+                                                                        "3px"
+                                                                    }
+                                                                  }),
+                                                                  _vm._v(" "),
+                                                                  _c("i", {
+                                                                    directives: [
+                                                                      {
+                                                                        name:
+                                                                          "show",
+                                                                        rawName:
+                                                                          "v-show",
+                                                                        value:
+                                                                          open.type ===
+                                                                          0,
+                                                                        expression:
+                                                                          "open.type === 0"
+                                                                      }
+                                                                    ],
+                                                                    staticClass:
+                                                                      "bx bx-trending-down",
+                                                                    staticStyle: {
+                                                                      "font-size":
+                                                                        "12px",
+                                                                      "padding-left":
+                                                                        "1px",
+                                                                      "padding-top":
+                                                                        "1px"
+                                                                    }
+                                                                  }),
+                                                                  _vm._v(" "),
+                                                                  _c(
+                                                                    "span",
+                                                                    {
+                                                                      staticClass:
+                                                                        "text-white",
+                                                                      staticStyle: {
+                                                                        "padding-top":
+                                                                          "1px"
+                                                                      }
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        _vm._s(
+                                                                          open.percent
+                                                                        ) + "%"
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c("small", {
+                                                                staticClass:
+                                                                  "text-white justify-content-end d-flex position-absolute w-100",
+                                                                staticStyle: {
+                                                                  "margin-top":
+                                                                    "-3.4px",
+                                                                  "font-size":
+                                                                    "12px",
+                                                                  "padding-right":
+                                                                    "1px"
+                                                                },
+                                                                domProps: {
+                                                                  textContent: _vm._s(
+                                                                    open.amount +
+                                                                      " $"
+                                                                  )
+                                                                }
+                                                              })
+                                                            ]
+                                                          )
+                                                        ]
+                                                      }
+                                                    },
+                                                    {
+                                                      key: "end-text",
+                                                      fn: function(scope) {
+                                                        return [
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "progress progress-sm progress-bar-success"
+                                                            },
+                                                            [
+                                                              _c("div", {
+                                                                staticClass:
+                                                                  "progress-bar progress-bar-striped",
+                                                                style: {
+                                                                  width: "100%"
+                                                                },
+                                                                attrs: {
+                                                                  role:
+                                                                    "progressbar",
+                                                                  "aria-valuenow":
+                                                                    "0",
+                                                                  "aria-valuemin":
+                                                                    "0",
+                                                                  "aria-valuemax":
+                                                                    "100"
+                                                                }
+                                                              })
+                                                            ]
+                                                          )
+                                                        ]
+                                                      }
+                                                    }
+                                                  ],
+                                                  null,
+                                                  true
+                                                )
+                                              })
                                             ]
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  )
-                                ]
+                                          ],
+                                          2
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "collapse",
+                                        attrs: {
+                                          id: "accordion" + open.id,
+                                          "aria-labelledby":
+                                            "heading" + open.id,
+                                          role: "tabpanel",
+                                          "data-parent": "#accordionWrapa2"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "card-content" },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "card-body",
+                                                staticStyle: {
+                                                  padding: "15px",
+                                                  "background-color":
+                                                    "#22283e !important",
+                                                  border: "1px solid",
+                                                  "border-top": "1px",
+                                                  "border-bottom-left-radius":
+                                                    "5px",
+                                                  "border-bottom-right-radius":
+                                                    "5px"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                                            Открыто: 12:00:00"
+                                                ),
+                                                _c("br"),
+                                                _vm._v(
+                                                  "\n                                                            Цена открытия: " +
+                                                    _vm._s(
+                                                      parseFloat(
+                                                        open.open_price
+                                                      )
+                                                    )
+                                                ),
+                                                _c("br"),
+                                                _vm._v(
+                                                  "\n                                                            Текущая цена: " +
+                                                    _vm._s(open.current_price)
+                                                ),
+                                                _c("br"),
+                                                _vm._v(
+                                                  "\n                                                            Время: 00:00:15"
+                                                ),
+                                                _c("br"),
+                                                _vm._v(
+                                                  "\n                                                            Направление: выше\n                                                        "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              }),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "text-center" }, [
+                                _vm._v("История сделок")
+                              ]),
+                              _vm._v(" "),
+                              _vm._l(_vm.latest, function(open) {
+                                return _c(
+                                  "div",
+                                  { staticClass: "card collapse-header" },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "card-header",
+                                        staticStyle: {
+                                          "background-color":
+                                            "#22283e !important",
+                                          "border-top":
+                                            "1px solid #464d5c !important",
+                                          "border-left":
+                                            "1px solid #464d5c !important",
+                                          "border-right":
+                                            "1px solid #464d5c !important",
+                                          padding: "15px"
+                                        },
+                                        attrs: {
+                                          id: "heading" + open.id,
+                                          "data-target": "#accordion" + open.id,
+                                          "aria-controls":
+                                            "accordion" + open.id,
+                                          "aria-expanded": "false",
+                                          "data-toggle": "collapse",
+                                          role: "tablist"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "span",
+                                          { staticClass: "collapse-title" },
+                                          [
+                                            _c(
+                                              "span",
+                                              {
+                                                staticClass: "align-middle",
+                                                class: "text-" + open.textColor
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                                            " +
+                                                    _vm._s(
+                                                      _vm.symbols.find(function(
+                                                        item
+                                                      ) {
+                                                        return (
+                                                          item.id ===
+                                                          open.symbol_id
+                                                        )
+                                                      }).symbol
+                                                    ) +
+                                                    "\n                                                        "
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "small",
+                                              {
+                                                class: "text-" + open.textColor,
+                                                staticStyle: {
+                                                  float: "right",
+                                                  "padding-right": "20px",
+                                                  "padding-top": "5px"
+                                                }
+                                              },
+                                              [
+                                                _c("strong", {
+                                                  domProps: {
+                                                    textContent: _vm._s(
+                                                      parseFloat(
+                                                        open.profit
+                                                      ).toFixed(2) + " $"
+                                                    )
+                                                  }
+                                                })
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "progress position-relative",
+                                                class: "progress-bar-primary",
+                                                staticStyle: {
+                                                  "text-shadow":
+                                                    "1px 1px 2px black"
+                                                }
+                                              },
+                                              [
+                                                _c("div", {
+                                                  staticClass:
+                                                    "progress-bar progress-bar-striped",
+                                                  staticStyle: {
+                                                    width: "100%"
+                                                  },
+                                                  attrs: {
+                                                    role: "progressbar",
+                                                    "aria-valuenow": "0",
+                                                    "aria-valuemin": "0",
+                                                    "aria-valuemax": "100"
+                                                  }
+                                                }),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "small",
+                                                  {
+                                                    staticClass:
+                                                      "text-white justify-content-center d-flex position-absolute w-100",
+                                                    staticStyle: {
+                                                      "margin-top": "-3.4px",
+                                                      "font-size": "12px"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                                                00:00:00\n                                                            "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "small",
+                                                  {
+                                                    staticClass:
+                                                      "text-white justify-content-left d-flex position-absolute w-100",
+                                                    staticStyle: {
+                                                      "margin-top": "-3.4px",
+                                                      "font-size": "10px"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("i", {
+                                                      directives: [
+                                                        {
+                                                          name: "show",
+                                                          rawName: "v-show",
+                                                          value:
+                                                            open.type === 1,
+                                                          expression:
+                                                            "open.type === 1"
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "bx bx-trending-up",
+                                                      staticStyle: {
+                                                        "font-size": "12px",
+                                                        "padding-left": "1px",
+                                                        "padding-top": "3px"
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("i", {
+                                                      directives: [
+                                                        {
+                                                          name: "show",
+                                                          rawName: "v-show",
+                                                          value:
+                                                            open.type === 0,
+                                                          expression:
+                                                            "open.type === 0"
+                                                        }
+                                                      ],
+                                                      staticClass:
+                                                        "bx bx-trending-down",
+                                                      staticStyle: {
+                                                        "font-size": "12px",
+                                                        "padding-left": "1px",
+                                                        "padding-top": "1px"
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass:
+                                                          "text-white",
+                                                        staticStyle: {
+                                                          "padding-top": "1px"
+                                                        }
+                                                      },
+                                                      [
+                                                        _vm._v(
+                                                          _vm._s(open.percent) +
+                                                            "%"
+                                                        )
+                                                      ]
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c("small", {
+                                                  staticClass:
+                                                    "text-white justify-content-end d-flex position-absolute w-100",
+                                                  staticStyle: {
+                                                    "margin-top": "-3.4px",
+                                                    "font-size": "12px",
+                                                    "padding-right": "1px"
+                                                  },
+                                                  domProps: {
+                                                    textContent: _vm._s(
+                                                      open.amount + " $"
+                                                    )
+                                                  }
+                                                })
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "collapse",
+                                        attrs: {
+                                          id: "accordion" + open.id,
+                                          "aria-labelledby":
+                                            "heading" + open.id,
+                                          role: "tabpanel",
+                                          "data-parent": "#accordionWrapa2"
+                                        }
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          { staticClass: "card-content" },
+                                          [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "card-body",
+                                                staticStyle: {
+                                                  padding: "15px",
+                                                  "background-color":
+                                                    "#22283e !important",
+                                                  border: "1px solid",
+                                                  "border-top": "1px",
+                                                  "border-bottom-left-radius":
+                                                    "5px",
+                                                  "border-bottom-right-radius":
+                                                    "5px"
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                                            Открыто: 12:00:00"
+                                                ),
+                                                _c("br"),
+                                                _vm._v(
+                                                  "\n                                                            Цена открытия: " +
+                                                    _vm._s(
+                                                      parseFloat(
+                                                        open.open_price
+                                                      )
+                                                    )
+                                                ),
+                                                _c("br"),
+                                                _vm._v(
+                                                  "\n                                                            Текущая цена: " +
+                                                    _vm._s(open.current_price)
+                                                ),
+                                                _c("br"),
+                                                _vm._v(
+                                                  "\n                                                            Время: 00:00:15"
+                                                ),
+                                                _c("br"),
+                                                _vm._v(
+                                                  "\n                                                            Направление: выше\n                                                        "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-outline-primary w-100",
+                                  attrs: { type: "button" }
+                                },
+                                [_vm._v("Полная история сделок")]
                               )
-                            }),
-                            0
+                            ],
+                            2
                           )
                         ]
                       )

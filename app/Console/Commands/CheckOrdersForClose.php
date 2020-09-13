@@ -3,10 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Events\CloseOptionEvent;
+use App\Models\LatestOrder;
 use App\Models\OpenOrders;
 use App\Models\Symbols\Options\Ticks;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class CheckOrdersForClose extends Command
 {
@@ -47,27 +49,63 @@ class CheckOrdersForClose extends Command
           $opened = OpenOrders::where('close_at', '<', Carbon::now()->format('Y-m-d H:i:s.u'))->get();
           $ticks = Ticks::all();
           foreach($opened as $open){
+            $open->delete();
             $closed_price = $ticks->where('symbol_id', $open->symbol_id)->where('created_at', '<', Carbon::parse($open->closed_at)->format('Y-m-d H:i:s.u'))->last()->price;
+            $profit = 0;
+            $success = false;
             if($closed_price == $open->open_price){
-              broadcast(new CloseOptionEvent($open->id, true));
+              $profit = $open->amount;
+              $success = true;
             }
             elseif($open->type == 1){ // Покупка
               if($closed_price > $open->open_price) {
-                broadcast(new CloseOptionEvent($open->id, true));
+                $profit = $open->amount * $open->percent / 100;
+                $success = true;
               } else {
-                broadcast(new CloseOptionEvent($open->id, false));
+                $profit = 0;
+                $success = false;
               }
             } else { // Продажа
               if($closed_price < $open->open_price) {
-                broadcast(new CloseOptionEvent($open->id, true));
+                $profit = $open->amount * $open->percent / 100;
+                $success = true;
               } else {
-                broadcast(new CloseOptionEvent($open->id, false));
+                $profit = 0;
+                $success = false;
               }
             }
-            $open->delete();
+
+            DB::table('order_history_1')->insert([
+              'symbol_id' => $open->symbol_id,
+              'user_id' => $open->user_id,
+              'close_at' => $open->close_at,
+              'amount' => $open->amount,
+              'profit' => $profit,
+              'percent' => $open->percent,
+              'open_price' => $open->open_price,
+              'close_price' => $closed_price,
+              'type' => $open->type,
+              'created_at' => Carbon::now()->format('Y-m-d H:i:s.u'),
+            ]);
+
+            $model = new LatestOrder;
+            $model->symbol_id = $open->symbol_id;
+            $model->user_id = $open->user_id;
+            $model->close_at = $open->close_at;
+            $model->amount = $open->amount;
+            $model->profit = $profit;
+            $model->percent = $open->percent;
+            $model->open_price = $open->open_price;
+            $model->close_price = $closed_price;
+            $model->type = $open->type;
+            $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
+            $model->save();
+            broadcast(new CloseOptionEvent($model, $open->id, $success));
+
+            $last_id = LatestOrder::where('user_id', $open->user_id)->take(10)->latest()->get()->last()->id;
+            LatestOrder::where('id', '<=', $last_id)->delete();
           }
           $end = microtime(true) - $start;
-          var_dump(number_format($end/1000000, 10));
           if($end < 1000000){
             usleep(1000000 - $end);
           }

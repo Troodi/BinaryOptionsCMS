@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 class SymbolsHistoryController extends Controller
 {
     public function getExchanges(Request $request){
-      $value = Cache::remember('users', 60, function () {
+      $value = Cache::remember('symbols_all', 60, function () {
         return Symbol::orderBy('percent', 'desc')->get();
       });
       return $value;
