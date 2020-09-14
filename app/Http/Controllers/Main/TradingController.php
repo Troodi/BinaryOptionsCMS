@@ -141,6 +141,9 @@ class TradingController extends Controller
       $item['expiration'] = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
       return $item;
     });
-    //
+  }
+
+  public function ping(Request $request){
+    return null;
   }
 }

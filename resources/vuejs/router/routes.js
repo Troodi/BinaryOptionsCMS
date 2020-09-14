@@ -10,6 +10,7 @@ import VueRouter from 'vue-router';
 // //Students
 import Trading from "../views/user/Trading";
 import Profile from "../views/user/Profile";
+import Deposit from "../views/user/Deposit";
 //
 // /**
 //  * Routes for vue components
@@ -17,7 +18,7 @@ import Profile from "../views/user/Profile";
 export const routes = [
     //Students
     { path: '/', name: 'Торговля', component: Trading, meta: { icon: 'desktop', hideFooter: true } },
-    { path: '/finance', name: 'Финансы', component: Profile, meta: { icon: 'gear' } },
+    { path: '/finance', name: 'Финансы', component: Deposit, meta: { icon: 'gear' } },
     { path: '/history', name: 'История', component: Profile, meta: { icon: 'gear' } },
     { path: '/profile', name: 'Профиль', component: Profile, meta: { icon: 'gear' } },
 ];
