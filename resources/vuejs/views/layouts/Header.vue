@@ -98,6 +98,9 @@
             this.$echo.channel('balance').listen('ChangeBalance', (payload) => {
                 this.balance = payload.balance;
             });
+            setInterval(() => {
+                axios.post('/ping');
+            }, 30000);
         },
         data: function() {
             return {

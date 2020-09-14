@@ -123,7 +123,7 @@
                                     </fieldset>
 
                                     <fieldset v-show="number_percent !== null" class="form-group position-relative">
-                                        <input type="text" class="form-control form-control-lg" :value="(this.$ci.parse(this.amount) + (this.$ci.parse(this.amount) * number_percent / 100)).toFixed(2)" disabled>
+                                        <input type="text" class="form-control form-control-lg" :value="(this.$ci.parse(this.amount) * number_percent / 100).toFixed(2)" disabled>
                                         <div class="form-control-position" :style="{ 'top' : '14px'}">
                                             <i class="bx bx-dollar"></i>
                                         </div>
