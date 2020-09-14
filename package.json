@@ -35,6 +35,7 @@
         "socket.io-client": "^2.3.0",
         "v-money": "^0.8.1",
         "vue": "^2.6.12",
+        "vue-currency-input": "^1.22.3",
         "vue-echo-laravel": "0.0.6",
         "vue-router": "^3.4.3",
         "vue-the-mask": "^0.11.1",

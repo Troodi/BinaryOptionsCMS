@@ -31,7 +31,9 @@
                         <li class="nav-item">
                             <h4>
                                 <router-link to="/finance" class="nav-link" style="padding-top:1.4rem">
-                                    {{ parseFloat(balance).toFixed(2) }} $
+                                    <template>
+                                        <animated-number :value="parseFloat(balance).toFixed(2)" :formatValue="formatToPrice" :duration="1000"/>
+                                    </template>
                                 </router-link>
                             </h4>
                         </li>
@@ -85,9 +87,13 @@
 </template>
 
 <script>
+    import AnimatedNumber from "animated-number-vue";
     export default {
         name: "Header",
         props: ['user'],
+        components: {
+            AnimatedNumber
+        },
         mounted() {
             this.$echo.channel('balance').listen('ChangeBalance', (payload) => {
                 this.balance = payload.balance;
@@ -96,6 +102,11 @@
         data: function() {
             return {
                 balance: this.user.balance,
+            }
+        },
+        methods: {
+            formatToPrice(value) {
+                return `${value.toFixed(2)} $`;
             }
         }
     }

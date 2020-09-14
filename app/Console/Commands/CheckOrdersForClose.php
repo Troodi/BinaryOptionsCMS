@@ -2,12 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Events\ChangeBalance;
 use App\Events\CloseOptionEvent;
 use App\Models\LatestOrder;
 use App\Models\OpenOrders;
 use App\Models\Symbols\Options\Ticks;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CheckOrdersForClose extends Command
@@ -59,7 +62,7 @@ class CheckOrdersForClose extends Command
             }
             elseif($open->type == 1){ // Покупка
               if($closed_price > $open->open_price) {
-                $profit = $open->amount * $open->percent / 100;
+                $profit = $open->amount + ($open->amount * $open->percent / 100);
                 $success = true;
               } else {
                 $profit = 0;
@@ -67,7 +70,7 @@ class CheckOrdersForClose extends Command
               }
             } else { // Продажа
               if($closed_price < $open->open_price) {
-                $profit = $open->amount * $open->percent / 100;
+                $profit = $open->amount + ($open->amount * $open->percent / 100);
                 $success = true;
               } else {
                 $profit = 0;
@@ -105,7 +108,12 @@ class CheckOrdersForClose extends Command
             $diff = date_diff(new \DateTime($model->close_at), new \DateTime($model->open_at));
             $model->expiration = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
             broadcast(new CloseOptionEvent($model, $open->id, $success));
-
+            if($profit > 0){
+              $user = User::find($open->user_id);
+              $user->balance = $user->balance + $profit;
+              $user->save();
+              broadcast(new ChangeBalance($user->balance));
+            }
             $last_id = LatestOrder::where('user_id', $open->user_id)->take(10)->latest()->get()->last();
             if($last_id->count() >= 10) {
               LatestOrder::where('id', '<=', $last_id->id)->delete();

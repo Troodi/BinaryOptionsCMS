@@ -4,7 +4,7 @@ import Vue from 'vue';
 import router from './router/routes';
 import App from './views/layouts/App';
 import VueEcho from 'vue-echo-laravel';
-import money from 'v-money'
+import VueCurrencyInput from "vue-currency-input";
 import VueCountdownTimer from 'vuejs-countdown-timer'
 
 window.axios = require('axios');
@@ -15,11 +15,10 @@ window.axios.defaults.headers.common = {
 };
 
 Vue.use(VueCountdownTimer)
+Vue.use(VueCurrencyInput);
 Vue.component('menu-component', require('./views/layouts/Menu').default);
 Vue.component('footer-component', require('./views/layouts/Footer').default);
 Vue.component('header-component', require('./views/layouts/Header').default);
-
-Vue.use(money, {precision: 2})
 
 Vue.use(VueEcho, {
     broadcaster: 'socket.io',
