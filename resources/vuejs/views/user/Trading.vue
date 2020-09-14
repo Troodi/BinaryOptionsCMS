@@ -71,7 +71,10 @@
 
                                     <small class="text-muted"><i>Сумма сделки</i></small>
                                     <fieldset :style="{ 'margin-bottom': '0.3rem !important'}" class="form-group position-relative">
-                                        <input @click="amountClick" type="text" v-money="money" v-model="amount" class="form-control form-control-lg">
+                                        <template>
+                                            <input ref="ci" @click="amountClick" type="text" class="form-control form-control-lg" v-model="amount" v-currency="{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 1000}}">
+                                        </template>
+
                                         <div class="form-control-position" :style="{ 'top' : '14px'}">
                                             <i class="bx bx-dollar"></i>
                                         </div>
@@ -120,7 +123,7 @@
                                     </fieldset>
 
                                     <fieldset v-show="number_percent !== null" class="form-group position-relative">
-                                        <input type="text" class="form-control form-control-lg" :value="(amount.toString().replace(',', '') * number_percent / 100).toFixed(2)" disabled>
+                                        <input type="text" class="form-control form-control-lg" :value="(this.$ci.parse(this.amount) + (this.$ci.parse(this.amount) * number_percent / 100)).toFixed(2)" disabled>
                                         <div class="form-control-position" :style="{ 'top' : '14px'}">
                                             <i class="bx bx-dollar"></i>
                                         </div>
@@ -159,7 +162,7 @@
 
                                                         <small :class="'text-' + open.textColor" style="float: right;padding-right: 20px;padding-top: 5px;">
                                                             <strong v-show="open.profit_status === 0" v-text="'0 $'"></strong>
-                                                            <strong v-show="open.profit_status === 1" v-text="(open.amount * open.percent / 100).toFixed(2) + ' $'"></strong>
+                                                            <strong v-show="open.profit_status === 1" v-text="(parseFloat(open.amount) + (open.amount * open.percent / 100)).toFixed(2) + ' $'"></strong>
                                                             <strong v-show="open.profit_status === 2" v-text="open.amount + ' $'"></strong>
                                                        </small>
 
@@ -259,15 +262,17 @@
 
 <script>
     import TradingChartComponent from "./../../components/TradingChartComponent";
-    import { Money } from 'v-money'
     import $ from 'jquery'
     import { TradingViewFastWebsocket } from '../../js/tv2'
+    import { CurrencyDirective, setValue, getValue } from 'vue-currency-input'
 
     export default {
         name: "Trading",
         components : {
-            TradingChartComponent,
-            Money
+            TradingChartComponent
+        },
+        directives: {
+            currency: CurrencyDirective
         },
         mounted() {
             this.localTV = new TradingViewFastWebsocket();
@@ -394,7 +399,7 @@
                     hours: this.hours,
                     minutes: this.minutes,
                     seconds: this.seconds,
-                    amount: this.amount,
+                    amount: this.$ci.parse(this.amount),
                     type: 1,
                 })
                 .then(function (response) {
@@ -421,7 +426,7 @@
                     hours: this.hours,
                     minutes: this.minutes,
                     seconds: this.seconds,
-                    amount: this.amount,
+                    amount: this.$ci.parse(this.amount),
                     type: 0,
                 })
                 .then(function (response) {
@@ -461,7 +466,7 @@
                 this.amount = (parseFloat(this.amount.toString().replace(',', '')) - this.min).toFixed(2).toString();
             },
             setAmount: function(min){
-              this.amount = min.toFixed(2).toString();
+              setValue(this.$refs.ci, min.toFixed(2))
             },
             amountClick: function () {
               this.clickedAmount = true;
@@ -511,7 +516,7 @@
                 percent: '',
                 symbol: null,
                 number_percent: null,
-                amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1.00',
+                amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1,00',
                 min: 1,
                 lines: {},
                 hours: localStorage.getItem('hours') ? localStorage.getItem('hours') : '00',
@@ -521,11 +526,6 @@
                 opened: [],
                 fastData: [],
                 latest: [],
-                money: {
-                    decimal: '.',
-                    thousands: ',',
-                    precision: 2,
-                }
             }
         },
         computed: {
@@ -586,19 +586,8 @@
                 localStorage.setItem('seconds', this.seconds);
             },
             amount: function () {
-                let first = this.amount;
-                let number = parseFloat(first.toString().replace(',', ''));
-                let min = number / 8;
-                if (min < 1) {
-                    min = 1;
-                }
+                let min = Math.ceil(this.$ci.parse(this.amount) / 8);
                 this.min = min;
-                if (number < 1) {
-                    this.amount = '1.00';
-                }
-                if (number > 100000) {
-                    this.amount = '100000.00';
-                }
                 localStorage.setItem('amount', this.amount);
             },
             latest: function () {

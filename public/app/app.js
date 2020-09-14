@@ -137,6 +137,18 @@ function noop() {}
 
 /***/ }),
 
+/***/ "./node_modules/animated-number-vue/dist/AnimatedNumber.umd.min.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/animated-number-vue/dist/AnimatedNumber.umd.min.js ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function(t,e){ true?module.exports=e():undefined})("undefined"!==typeof self?self:this,function(){return function(t){var e={};function n(r){if(e[r])return e[r].exports;var o=e[r]={i:r,l:!1,exports:{}};return t[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=t,n.c=e,n.d=function(t,e,r){n.o(t,e)||Object.defineProperty(t,e,{configurable:!1,enumerable:!0,get:r})},n.n=function(t){var e=t&&t.__esModule?function(){return t["default"]}:function(){return t};return n.d(e,"a",e),e},n.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)},n.p="./",n(n.s=0)}({0:function(t,e,n){t.exports=n("vgs7")},A5qe:function(t,e,n){(function(n){var r,o,a,i={scope:{}};i.defineProperty="function"==typeof Object.defineProperties?Object.defineProperty:function(t,e,n){if(n.get||n.set)throw new TypeError("ES3 does not support getters and setters.");t!=Array.prototype&&t!=Object.prototype&&(t[e]=n.value)},i.getGlobal=function(t){return"undefined"!=typeof window&&window===t?t:"undefined"!=typeof n&&null!=n?n:t},i.global=i.getGlobal(this),i.SYMBOL_PREFIX="jscomp_symbol_",i.initSymbol=function(){i.initSymbol=function(){},i.global.Symbol||(i.global.Symbol=i.Symbol)},i.symbolCounter_=0,i.Symbol=function(t){return i.SYMBOL_PREFIX+(t||"")+i.symbolCounter_++},i.initSymbolIterator=function(){i.initSymbol();var t=i.global.Symbol.iterator;t||(t=i.global.Symbol.iterator=i.global.Symbol("iterator")),"function"!=typeof Array.prototype[t]&&i.defineProperty(Array.prototype,t,{configurable:!0,writable:!0,value:function(){return i.arrayIterator(this)}}),i.initSymbolIterator=function(){}},i.arrayIterator=function(t){var e=0;return i.iteratorPrototype(function(){return e<t.length?{done:!1,value:t[e++]}:{done:!0}})},i.iteratorPrototype=function(t){return i.initSymbolIterator(),t={next:t},t[i.global.Symbol.iterator]=function(){return this},t},i.array=i.array||{},i.iteratorFromArray=function(t,e){i.initSymbolIterator(),t instanceof String&&(t+="");var n=0,r={next:function(){if(n<t.length){var o=n++;return{value:e(o,t[o]),done:!1}}return r.next=function(){return{done:!0,value:void 0}},r.next()}};return r[Symbol.iterator]=function(){return r},r},i.polyfill=function(t,e,n,r){if(e){for(n=i.global,t=t.split("."),r=0;r<t.length-1;r++){var o=t[r];o in n||(n[o]={}),n=n[o]}t=t[t.length-1],r=n[t],e=e(r),e!=r&&null!=e&&i.defineProperty(n,t,{configurable:!0,writable:!0,value:e})}},i.polyfill("Array.prototype.keys",function(t){return t||function(){return i.iteratorFromArray(this,function(t){return t})}},"es6-impl","es3");var u=this;(function(n,i){o=[],r=i,a="function"===typeof r?r.apply(e,o):r,void 0===a||(t.exports=a)})(0,function(){function t(t){if(!L.col(t))try{return document.querySelectorAll(t)}catch(t){}}function e(t,e){for(var n=t.length,r=2<=arguments.length?arguments[1]:void 0,o=[],a=0;a<n;a++)if(a in t){var i=t[a];e.call(r,i,a,t)&&o.push(i)}return o}function n(t){return t.reduce(function(t,e){return t.concat(L.arr(e)?n(e):e)},[])}function r(e){return L.arr(e)?e:(L.str(e)&&(e=t(e)||e),e instanceof NodeList||e instanceof HTMLCollection?[].slice.call(e):[e])}function o(t,e){return t.some(function(t){return t===e})}function a(t){var e,n={};for(e in t)n[e]=t[e];return n}function i(t,e){var n,r=a(t);for(n in t)r[n]=e.hasOwnProperty(n)?e[n]:t[n];return r}function s(t,e){var n,r=a(t);for(n in e)r[n]=L.und(t[n])?e[n]:t[n];return r}function f(t){t=t.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i,function(t,e,n,r){return e+e+n+n+r+r});var e=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(t);t=parseInt(e[1],16);var n=parseInt(e[2],16);e=parseInt(e[3],16);return"rgba("+t+","+n+","+e+",1)"}function c(t){function e(t,e,n){return 0>n&&(n+=1),1<n&&--n,n<1/6?t+6*(e-t)*n:.5>n?e:n<2/3?t+(e-t)*(2/3-n)*6:t}var n=/hsl\((\d+),\s*([\d.]+)%,\s*([\d.]+)%\)/g.exec(t)||/hsla\((\d+),\s*([\d.]+)%,\s*([\d.]+)%,\s*([\d.]+)\)/g.exec(t);t=parseInt(n[1])/360;var r=parseInt(n[2])/100,o=parseInt(n[3])/100;n=n[4]||1;if(0==r)o=r=t=o;else{var a=.5>o?o*(1+r):o+r-o*r,i=2*o-a;o=e(i,a,t+1/3),r=e(i,a,t);t=e(i,a,t-1/3)}return"rgba("+255*o+","+255*r+","+255*t+","+n+")"}function l(t){if(t=/([\+\-]?[0-9#\.]+)(%|px|pt|em|rem|in|cm|mm|ex|ch|pc|vw|vh|vmin|vmax|deg|rad|turn)?$/.exec(t))return t[2]}function d(t){return-1<t.indexOf("translate")||"perspective"===t?"px":-1<t.indexOf("rotate")||-1<t.indexOf("skew")?"deg":void 0}function p(t,e){return L.fnc(t)?t(e.target,e.id,e.total):t}function m(t,e){if(e in t.style)return getComputedStyle(t).getPropertyValue(e.replace(/([a-z])([A-Z])/g,"$1-$2").toLowerCase())||"0"}function y(t,e){return L.dom(t)&&o($,e)?"transform":L.dom(t)&&(t.getAttribute(e)||L.svg(t)&&t[e])?"attribute":L.dom(t)&&"transform"!==e&&m(t,e)?"css":null!=t[e]?"object":void 0}function g(t,n){var r=d(n);r=-1<n.indexOf("scale")?1:0+r;if(t=t.style.transform,!t)return r;for(var o=[],a=[],i=[],u=/(\w+)\((.+?)\)/g;o=u.exec(t);)a.push(o[1]),i.push(o[2]);return t=e(i,function(t,e){return a[e]===n}),t.length?t[0]:r}function h(t,e){switch(y(t,e)){case"transform":return g(t,e);case"css":return m(t,e);case"attribute":return t.getAttribute(e)}return t[e]||0}function v(t,e){var n=/^(\*=|\+=|-=)/.exec(t);if(!n)return t;var r=l(t)||0;switch(e=parseFloat(e),t=parseFloat(t.replace(n[0],"")),n[0][0]){case"+":return e+t+r;case"-":return e-t+r;case"*":return e*t+r}}function b(t,e){return Math.sqrt(Math.pow(e.x-t.x,2)+Math.pow(e.y-t.y,2))}function x(t){t=t.points;for(var e,n=0,r=0;r<t.numberOfItems;r++){var o=t.getItem(r);0<r&&(n+=b(e,o)),e=o}return n}function w(t){if(t.getTotalLength)return t.getTotalLength();switch(t.tagName.toLowerCase()){case"circle":return 2*Math.PI*t.getAttribute("r");case"rect":return 2*t.getAttribute("width")+2*t.getAttribute("height");case"line":return b({x:t.getAttribute("x1"),y:t.getAttribute("y1")},{x:t.getAttribute("x2"),y:t.getAttribute("y2")});case"polyline":return x(t);case"polygon":var e=t.points;return x(t)+b(e.getItem(e.numberOfItems-1),e.getItem(0))}}function S(t,e){function n(n){return n=void 0===n?0:n,t.el.getPointAtLength(1<=e+n?e+n:0)}var r=n(),o=n(-1),a=n(1);switch(t.property){case"x":return r.x;case"y":return r.y;case"angle":return 180*Math.atan2(a.y-o.y,a.x-o.x)/Math.PI}}function A(t,e){var n,r=/-?\d*\.?\d+/g;if(n=L.pth(t)?t.totalLength:t,L.col(n))if(L.rgb(n)){var o=/rgb\((\d+,\s*[\d]+,\s*[\d]+)\)/g.exec(n);n=o?"rgba("+o[1]+",1)":n}else n=L.hex(n)?f(n):L.hsl(n)?c(n):void 0;else o=(o=l(n))?n.substr(0,n.length-o.length):n,n=e&&!/\s/g.test(n)?o+e:o;return n+="",{original:n,numbers:n.match(r)?n.match(r).map(Number):[0],strings:L.str(t)||e?n.split(r):[]}}function _(t){return t=t?n(L.arr(t)?t.map(r):r(t)):[],e(t,function(t,e,n){return n.indexOf(t)===e})}function O(t){var e=_(t);return e.map(function(t,n){return{target:t,id:n,total:e.length}})}function M(t,e){var n=a(e);if(L.arr(t)){var o=t.length;2!==o||L.obj(t[0])?L.fnc(e.duration)||(n.duration=e.duration/o):t={value:t}}return r(t).map(function(t,n){return n=n?0:e.delay,t=L.obj(t)&&!L.pth(t)?t:{value:t},L.und(t.delay)&&(t.delay=n),t}).map(function(t){return s(t,n)})}function P(t,e){var n,r={};for(n in t){var o=p(t[n],e);L.arr(o)&&(o=o.map(function(t){return p(t,e)}),1===o.length&&(o=o[0])),r[n]=o}return r.duration=parseFloat(r.duration),r.delay=parseFloat(r.delay),r}function I(t){return L.arr(t)?R.apply(this,t):X[t]}function j(t,e){var n;return t.tweens.map(function(r){r=P(r,e);var o=r.value,a=h(e.target,t.name),i=n?n.to.original:a,u=(i=L.arr(o)?o[0]:i,v(L.arr(o)?o[1]:o,i));a=l(u)||l(i)||l(a);return r.from=A(i,a),r.to=A(u,a),r.start=n?n.end:t.offset,r.end=r.start+r.delay+r.duration,r.easing=I(r.easing),r.elasticity=(1e3-Math.min(Math.max(r.elasticity,1),999))/1e3,r.isPath=L.pth(o),r.isColor=L.col(r.from.original),r.isColor&&(r.round=1),n=r})}function F(t,r){return e(n(t.map(function(t){return r.map(function(e){var n=y(t.target,e.name);if(n){var r=j(e,t);e={type:n,property:e.name,animatable:t,tweens:r,duration:r[r.length-1].end,delay:r[0].delay}}else e=void 0;return e})})),function(t){return!L.und(t)})}function C(t,e,n,r){var o="delay"===t;return e.length?(o?Math.min:Math.max).apply(Math,e.map(function(e){return e[t]})):o?r.delay:n.offset+r.delay+r.duration}function k(t){var e,n=i(N,t),r=i(V,t),o=O(t.targets),a=[],u=s(n,r);for(e in t)u.hasOwnProperty(e)||"targets"===e||a.push({name:e,offset:u.offset,tweens:M(t[e],r)});return t=F(o,a),s(n,{children:[],animatables:o,animations:t,duration:C("duration",t,n,r),delay:C("delay",t,n,r)})}function E(t){function n(){return window.Promise&&new Promise(function(t){return l=t})}function r(t){return p.reversed?p.duration-t:t}function o(t){for(var n=0,r={},o=p.animations,a=o.length;n<a;){var i=o[n],u=i.animatable,s=i.tweens,f=s.length-1,c=s[f];f&&(c=e(s,function(e){return t<e.end})[0]||c);s=Math.min(Math.max(t-c.start-c.delay,0),c.duration)/c.duration;for(var l=isNaN(s)?1:c.easing(s,c.elasticity),d=(s=c.to.strings,c.round),y=(f=[],void 0),g=(y=c.to.numbers.length,0);g<y;g++){var h=void 0,v=(h=c.to.numbers[g],c.from.numbers[g]);h=c.isPath?S(c.value,l*h):v+l*(h-v);d&&(c.isColor&&2<g||(h=Math.round(h*d)/d)),f.push(h)}if(c=s.length)for(y=s[0],l=0;l<c;l++)d=s[l+1],g=f[l],isNaN(g)||(y=d?y+(g+d):y+(g+" "));else y=f[0];q[i.type](u.target,i.property,y,r,u.id),i.currentValue=y,n++}if(n=Object.keys(r).length)for(o=0;o<n;o++)T||(T=m(document.body,"transform")?"transform":"-webkit-transform"),p.animatables[o].target.style[T]=r[o].join(" ");p.currentTime=t,p.progress=t/p.duration*100}function a(t){p[t]&&p[t](p)}function i(){p.remaining&&!0!==p.remaining&&p.remaining--}function u(t){var e=p.duration,u=p.offset,m=u+p.delay,y=p.currentTime,g=p.reversed,h=r(t);if(p.children.length){var v=p.children,b=v.length;if(h>=p.currentTime)for(var x=0;x<b;x++)v[x].seek(h);else for(;b--;)v[b].seek(h)}(h>=m||!e)&&(p.began||(p.began=!0,a("begin")),a("run")),h>u&&h<e?o(h):(h<=u&&0!==y&&(o(0),g&&i()),(h>=e&&y!==e||!e)&&(o(e),g||i())),a("update"),t>=e&&(p.remaining?(f=s,"alternate"===p.direction&&(p.reversed=!p.reversed)):(p.pause(),p.completed||(p.completed=!0,a("complete"),"Promise"in window&&(l(),d=n()))),c=0)}t=void 0===t?{}:t;var s,f,c=0,l=null,d=n(),p=k(t);return p.reset=function(){var t=p.direction,e=p.loop;for(p.currentTime=0,p.progress=0,p.paused=!0,p.began=!1,p.completed=!1,p.reversed="reverse"===t,p.remaining="alternate"===t&&1===e?2:e,o(0),t=p.children.length;t--;)p.children[t].reset()},p.tick=function(t){s=t,f||(f=s),u((c+s-f)*E.speed)},p.seek=function(t){u(r(t))},p.pause=function(){var t=Y.indexOf(p);-1<t&&Y.splice(t,1),p.paused=!0},p.play=function(){p.paused&&(p.paused=!1,f=0,c=r(p.currentTime),Y.push(p),Z||B())},p.reverse=function(){p.reversed=!p.reversed,f=0,c=r(p.currentTime)},p.restart=function(){p.pause(),p.reset(),p.play()},p.finished=d,p.reset(),p.autoplay&&p.play(),p}var T,N={update:void 0,begin:void 0,run:void 0,complete:void 0,loop:1,direction:"normal",autoplay:!0,offset:0},V={duration:1e3,delay:0,easing:"easeOutElastic",elasticity:500,round:0},$="translateX translateY translateZ rotate rotateX rotateY rotateZ scale scaleX scaleY scaleZ skewX skewY perspective".split(" "),L={arr:function(t){return Array.isArray(t)},obj:function(t){return-1<Object.prototype.toString.call(t).indexOf("Object")},pth:function(t){return L.obj(t)&&t.hasOwnProperty("totalLength")},svg:function(t){return t instanceof SVGElement},dom:function(t){return t.nodeType||L.svg(t)},str:function(t){return"string"===typeof t},fnc:function(t){return"function"===typeof t},und:function(t){return"undefined"===typeof t},hex:function(t){return/(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(t)},rgb:function(t){return/^rgb/.test(t)},hsl:function(t){return/^hsl/.test(t)},col:function(t){return L.hex(t)||L.rgb(t)||L.hsl(t)}},R=function(){function t(t,e,n){return(((1-3*n+3*e)*t+(3*n-6*e))*t+3*e)*t}return function(e,n,r,o){if(0<=e&&1>=e&&0<=r&&1>=r){var a=new Float32Array(11);if(e!==n||r!==o)for(var i=0;11>i;++i)a[i]=t(.1*i,e,r);return function(i){if(e===n&&r===o)return i;if(0===i)return 0;if(1===i)return 1;for(var u=0,s=1;10!==s&&a[s]<=i;++s)u+=.1;--s;s=u+(i-a[s])/(a[s+1]-a[s])*.1;var f=3*(1-3*r+3*e)*s*s+2*(3*r-6*e)*s+3*e;if(.001<=f){for(u=0;4>u;++u){if(f=3*(1-3*r+3*e)*s*s+2*(3*r-6*e)*s+3*e,0===f)break;var c=t(s,e,r)-i;s=s-c/f}i=s}else if(0===f)i=s;else{s=u,u=u+.1;var l=0;do{c=s+(u-s)/2,f=t(c,e,r)-i,0<f?u=c:s=c}while(1e-7<Math.abs(f)&&10>++l);i=c}return t(i,n,o)}}}}(),X=function(){function t(t,e){return 0===t||1===t?t:-Math.pow(2,10*(t-1))*Math.sin(2*(t-1-e/(2*Math.PI)*Math.asin(1))*Math.PI/e)}var e,n="Quad Cubic Quart Quint Sine Expo Circ Back Elastic".split(" "),r={In:[[.55,.085,.68,.53],[.55,.055,.675,.19],[.895,.03,.685,.22],[.755,.05,.855,.06],[.47,0,.745,.715],[.95,.05,.795,.035],[.6,.04,.98,.335],[.6,-.28,.735,.045],t],Out:[[.25,.46,.45,.94],[.215,.61,.355,1],[.165,.84,.44,1],[.23,1,.32,1],[.39,.575,.565,1],[.19,1,.22,1],[.075,.82,.165,1],[.175,.885,.32,1.275],function(e,n){return 1-t(1-e,n)}],InOut:[[.455,.03,.515,.955],[.645,.045,.355,1],[.77,0,.175,1],[.86,0,.07,1],[.445,.05,.55,.95],[1,0,0,1],[.785,.135,.15,.86],[.68,-.55,.265,1.55],function(e,n){return.5>e?t(2*e,n)/2:1-t(-2*e+2,n)/2}]},o={linear:R(.25,.25,.75,.75)},a={};for(e in r)a.type=e,r[a.type].forEach(function(t){return function(e,r){o["ease"+t.type+n[r]]=L.fnc(e)?e:R.apply(u,e)}}(a)),a={type:a.type};return o}(),q={css:function(t,e,n){return t.style[e]=n},attribute:function(t,e,n){return t.setAttribute(e,n)},object:function(t,e,n){return t[e]=n},transform:function(t,e,n,r,o){r[o]||(r[o]=[]),r[o].push(e+"("+n+")")}},Y=[],Z=0,B=function(){function t(){Z=requestAnimationFrame(e)}function e(e){var n=Y.length;if(n){for(var r=0;r<n;)Y[r]&&Y[r].tick(e),r++;t()}else cancelAnimationFrame(Z),Z=0}return t}();return E.version="2.2.0",E.speed=1,E.running=Y,E.remove=function(t){t=_(t);for(var e=Y.length;e--;)for(var n=Y[e],r=n.animations,a=r.length;a--;)o(t,r[a].animatable.target)&&(r.splice(a,1),r.length||n.pause())},E.getValue=h,E.path=function(e,n){var r=L.str(e)?t(e)[0]:e,o=n||100;return function(t){return{el:r,property:t,totalLength:w(r)*(o/100)}}},E.setDashoffset=function(t){var e=w(t);return t.setAttribute("stroke-dasharray",e),e},E.bezier=R,E.easings=X,E.timeline=function(t){var e=E(t);return e.pause(),e.duration=0,e.add=function(n){return e.children.forEach(function(t){t.began=!0,t.completed=!0}),r(n).forEach(function(n){var r=s(n,i(V,t||{}));r.targets=r.targets||t.targets,n=e.duration;var o=r.offset;r.autoplay=!1,r.direction=e.direction,r.offset=L.und(o)?n:v(o,n),e.began=!0,e.completed=!0,e.seek(r.offset),r=E(r),r.began=!0,r.completed=!0,r.duration>n&&(e.duration=r.duration),e.children.push(r)}),e.seek(0),e.reset(),e.autoplay&&e.restart(),e},e},E.random=function(t,e){return Math.floor(Math.random()*(e-t+1))+t},E})}).call(e,n("DuR2"))},DuR2:function(t,e){var n;n=function(){return this}();try{n=n||Function("return this")()||(0,eval)("this")}catch(t){"object"===typeof window&&(n=window)}t.exports=n},vgs7:function(t,e,n){"use strict";Object.defineProperty(e,"__esModule",{value:!0});var r=n("A5qe"),o=n.n(r),a={props:{value:{type:[Number,String],default:"0",required:!0},formatValue:{type:Function,default:function(t){return t}},easing:{type:String,default:"linear"},duration:{type:Number,default:1e3},update:Function,begin:Function,complete:Function,run:Function,delay:{type:Number,default:0},round:{default:null}},data:function(){return{animatedValue:0}},mounted:function(){this.animateValue(this.value)},watch:{value:function(t){this.animateValue(t)}},methods:{animateValue:function(t){var e=this.begin,n=this.easing,r=this.duration,a=this.complete,i=this.update,u=this.run,s=this.delay,f=this.round;o()({targets:this,animatedValue:t,duration:r,easing:n,update:i,begin:e,complete:a,run:u,delay:s,round:f})}}},i=function(){var t=this,e=t.$createElement,n=t._self._c||e;return n("span",{domProps:{innerHTML:t._s(t.formatValue(Number(t.animatedValue)))}})},u=[];function s(t,e,n,r,o,a,i,u){t=t||{};var s=typeof t.default;"object"!==s&&"function"!==s||(t=t.default);var f,c="function"===typeof t?t.options:t;if(e&&(c.render=e,c.staticRenderFns=n,c._compiled=!0),r&&(c.functional=!0),a&&(c._scopeId=a),i?(f=function(t){t=t||this.$vnode&&this.$vnode.ssrContext||this.parent&&this.parent.$vnode&&this.parent.$vnode.ssrContext,t||"undefined"===typeof __VUE_SSR_CONTEXT__||(t=__VUE_SSR_CONTEXT__),o&&o.call(this,t),t&&t._registeredComponents&&t._registeredComponents.add(i)},c._ssrRegister=f):o&&(f=u?function(){o.call(this,this.$root.$options.shadowRoot)}:o),f)if(c.functional){c._injectStyles=f;var l=c.render;c.render=function(t,e){return f.call(e),l(t,e)}}else{var d=c.beforeCreate;c.beforeCreate=d?[].concat(d,f):[f]}return{exports:t,options:c}}var f=!1,c=null,l=null,d=null,p=s(a,i,u,f,c,l,d),m=p.exports;e["default"]=m}})["default"]});
+//# sourceMappingURL=AnimatedNumber.umd.min.js.map
+
+/***/ }),
+
 /***/ "./node_modules/arraybuffer.slice/index.js":
 /*!*************************************************!*\
   !*** ./node_modules/arraybuffer.slice/index.js ***!
@@ -2143,6 +2155,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var animated_number_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! animated-number-vue */ "./node_modules/animated-number-vue/dist/AnimatedNumber.umd.min.js");
+/* harmony import */ var animated_number_vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(animated_number_vue__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2229,9 +2243,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
   props: ['user'],
+  components: {
+    AnimatedNumber: animated_number_vue__WEBPACK_IMPORTED_MODULE_0___default.a
+  },
   mounted: function mounted() {
     var _this = this;
 
@@ -2243,6 +2263,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       balance: this.user.balance
     };
+  },
+  methods: {
+    formatToPrice: function formatToPrice(value) {
+      return "".concat(value.toFixed(2), " $");
+    }
   }
 });
 
@@ -2347,11 +2372,13 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../components/TradingChartComponent */ "./resources/vuejs/components/TradingChartComponent.vue");
-/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
-/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
-/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _js_tv2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../js/tv2 */ "./resources/vuejs/js/tv2.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _js_tv2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../js/tv2 */ "./resources/vuejs/js/tv2.js");
+/* harmony import */ var vue_currency_input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-currency-input */ "./node_modules/vue-currency-input/dist/vue-currency-input.esm.js");
+//
+//
+//
 //
 //
 //
@@ -2618,13 +2645,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Trading",
   components: {
-    TradingChartComponent: _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Money: v_money__WEBPACK_IMPORTED_MODULE_1__["Money"]
+    TradingChartComponent: _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  directives: {
+    currency: vue_currency_input__WEBPACK_IMPORTED_MODULE_3__["CurrencyDirective"]
   },
   mounted: function mounted() {
     var _this = this;
 
-    this.localTV = new _js_tv2__WEBPACK_IMPORTED_MODULE_3__["TradingViewFastWebsocket"]();
+    this.localTV = new _js_tv2__WEBPACK_IMPORTED_MODULE_2__["TradingViewFastWebsocket"]();
     setInterval(function () {
       _this.fastData = _this.localTV.getTickerDataArray();
 
@@ -2659,7 +2688,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }, 100);
     window.addEventListener("resize", this.windowResized);
-    this.historyHeight = jquery__WEBPACK_IMPORTED_MODULE_2___default()(window).height() - jquery__WEBPACK_IMPORTED_MODULE_2___default()('#line').offset().top - 30 + 'px';
+    this.historyHeight = jquery__WEBPACK_IMPORTED_MODULE_1___default()(window).height() - jquery__WEBPACK_IMPORTED_MODULE_1___default()('#line').offset().top - 30 + 'px';
     this.ps = new PerfectScrollbar("#accordionWrapa2");
     var self = this;
     axios.get('/data/symbols').then(function (response) {
@@ -2735,7 +2764,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     windowResized: function windowResized(e) {
-      this.historyHeight = jquery__WEBPACK_IMPORTED_MODULE_2___default()(window).height() - jquery__WEBPACK_IMPORTED_MODULE_2___default()('#line').offset().top - 30 + 'px';
+      this.historyHeight = jquery__WEBPACK_IMPORTED_MODULE_1___default()(window).height() - jquery__WEBPACK_IMPORTED_MODULE_1___default()('#line').offset().top - 30 + 'px';
       this.ps.destroy();
       this.ps = new PerfectScrollbar("#accordionWrapa2");
     },
@@ -2746,7 +2775,7 @@ __webpack_require__.r(__webpack_exports__);
         hours: this.hours,
         minutes: this.minutes,
         seconds: this.seconds,
-        amount: this.amount,
+        amount: this.$ci.parse(this.amount),
         type: 1
       }).then(function (response) {
         self.opened.unshift(response.data);
@@ -2766,7 +2795,7 @@ __webpack_require__.r(__webpack_exports__);
         hours: this.hours,
         minutes: this.minutes,
         seconds: this.seconds,
-        amount: this.amount,
+        amount: this.$ci.parse(this.amount),
         type: 0
       }).then(function (response) {
         self.opened.unshift(response.data);
@@ -2799,7 +2828,7 @@ __webpack_require__.r(__webpack_exports__);
       this.amount = (parseFloat(this.amount.toString().replace(',', '')) - this.min).toFixed(2).toString();
     },
     setAmount: function setAmount(min) {
-      this.amount = min.toFixed(2).toString();
+      Object(vue_currency_input__WEBPACK_IMPORTED_MODULE_3__["setValue"])(this.$refs.ci, min.toFixed(2));
     },
     amountClick: function amountClick() {
       this.clickedAmount = true;
@@ -2851,7 +2880,7 @@ __webpack_require__.r(__webpack_exports__);
       percent: '',
       symbol: null,
       number_percent: null,
-      amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1.00',
+      amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1,00',
       min: 1,
       lines: {},
       hours: localStorage.getItem('hours') ? localStorage.getItem('hours') : '00',
@@ -2860,12 +2889,7 @@ __webpack_require__.r(__webpack_exports__);
       historyHeight: '300px',
       opened: [],
       fastData: [],
-      latest: [],
-      money: {
-        decimal: '.',
-        thousands: ',',
-        precision: 2
-      }
+      latest: []
     };
   },
   computed: {
@@ -2935,24 +2959,8 @@ __webpack_require__.r(__webpack_exports__);
       localStorage.setItem('seconds', this.seconds);
     },
     amount: function amount() {
-      var first = this.amount;
-      var number = parseFloat(first.toString().replace(',', ''));
-      var min = number / 8;
-
-      if (min < 1) {
-        min = 1;
-      }
-
+      var min = Math.ceil(this.$ci.parse(this.amount) / 8);
       this.min = min;
-
-      if (number < 1) {
-        this.amount = '1.00';
-      }
-
-      if (number > 100000) {
-        this.amount = '100000.00';
-      }
-
       localStorage.setItem('amount', this.amount);
     },
     latest: function latest() {
@@ -44739,14 +44747,585 @@ function toArray(list, index) {
 
 /***/ }),
 
-/***/ "./node_modules/v-money/dist/v-money.js":
-/*!**********************************************!*\
-  !*** ./node_modules/v-money/dist/v-money.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ "./node_modules/vue-currency-input/dist/vue-currency-input.esm.js":
+/*!************************************************************************!*\
+  !*** ./node_modules/vue-currency-input/dist/vue-currency-input.esm.js ***!
+  \************************************************************************/
+/*! exports provided: default, CurrencyDirective, CurrencyInput, getValue, parse, setValue */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-(function(e,t){ true?module.exports=t():undefined})(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var i=n[r]={i:r,l:!1,exports:{}};return e[r].call(i.exports,i,i.exports,t),i.l=!0,i.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p=".",t(t.s=9)}([function(e,t,n){"use strict";t.a={prefix:"",suffix:"",thousands:",",decimal:".",precision:2}},function(e,t,n){"use strict";var r=n(2),i=n(5),u=n(0);t.a=function(e,t){if(t.value){var o=n.i(i.a)(u.a,t.value);if("INPUT"!==e.tagName.toLocaleUpperCase()){var a=e.getElementsByTagName("input");1!==a.length||(e=a[0])}e.oninput=function(){var t=e.value.length-e.selectionEnd;e.value=n.i(r.a)(e.value,o),t=Math.max(t,o.suffix.length),t=e.value.length-t,t=Math.max(t,o.prefix.length+1),n.i(r.b)(e,t),e.dispatchEvent(n.i(r.c)("change"))},e.onfocus=function(){n.i(r.b)(e,e.value.length-o.suffix.length)},e.oninput(),e.dispatchEvent(n.i(r.c)("input"))}}},function(e,t,n){"use strict";function r(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:m.a;"number"==typeof e&&(e=e.toFixed(o(t.precision)));var n=e.indexOf("-")>=0?"-":"",r=u(e),i=c(r,t.precision),a=d(i).split("."),p=a[0],l=a[1];return p=f(p,t.thousands),t.prefix+n+s(p,l,t.decimal)+t.suffix}function i(e,t){var n=e.indexOf("-")>=0?-1:1,r=u(e),i=c(r,t);return parseFloat(i)*n}function u(e){return d(e).replace(/\D+/g,"")||"0"}function o(e){return a(0,e,20)}function a(e,t,n){return Math.max(e,Math.min(t,n))}function c(e,t){var n=Math.pow(10,t);return(parseFloat(e)/n).toFixed(o(t))}function f(e,t){return e.replace(/(\d)(?=(?:\d{3})+\b)/gm,"$1"+t)}function s(e,t,n){return t?e+n+t:e}function d(e){return e?e.toString():""}function p(e,t){var n=function(){e.setSelectionRange(t,t)};e===document.activeElement&&(n(),setTimeout(n,1))}function l(e){var t=document.createEvent("Event");return t.initEvent(e,!0,!0),t}var m=n(0);n.d(t,"a",function(){return r}),n.d(t,"d",function(){return i}),n.d(t,"b",function(){return p}),n.d(t,"c",function(){return l})},function(e,t,n){"use strict";function r(e,t){t&&Object.keys(t).map(function(e){a.a[e]=t[e]}),e.directive("money",o.a),e.component("money",u.a)}Object.defineProperty(t,"__esModule",{value:!0});var i=n(6),u=n.n(i),o=n(1),a=n(0);n.d(t,"Money",function(){return u.a}),n.d(t,"VMoney",function(){return o.a}),n.d(t,"options",function(){return a.a}),n.d(t,"VERSION",function(){return c});var c="0.8.1";t.default=r,"undefined"!=typeof window&&window.Vue&&window.Vue.use(r)},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=n(1),i=n(0),u=n(2);t.default={name:"Money",props:{value:{required:!0,type:[Number,String],default:0},masked:{type:Boolean,default:!1},precision:{type:Number,default:function(){return i.a.precision}},decimal:{type:String,default:function(){return i.a.decimal}},thousands:{type:String,default:function(){return i.a.thousands}},prefix:{type:String,default:function(){return i.a.prefix}},suffix:{type:String,default:function(){return i.a.suffix}}},directives:{money:r.a},data:function(){return{formattedValue:""}},watch:{value:{immediate:!0,handler:function(e,t){var r=n.i(u.a)(e,this.$props);r!==this.formattedValue&&(this.formattedValue=r)}}},methods:{change:function(e){this.$emit("input",this.masked?e.target.value:n.i(u.d)(e.target.value,this.precision))}}}},function(e,t,n){"use strict";t.a=function(e,t){return e=e||{},t=t||{},Object.keys(e).concat(Object.keys(t)).reduce(function(n,r){return n[r]=void 0===t[r]?e[r]:t[r],n},{})}},function(e,t,n){var r=n(7)(n(4),n(8),null,null);e.exports=r.exports},function(e,t){e.exports=function(e,t,n,r){var i,u=e=e||{},o=typeof e.default;"object"!==o&&"function"!==o||(i=e,u=e.default);var a="function"==typeof u?u.options:u;if(t&&(a.render=t.render,a.staticRenderFns=t.staticRenderFns),n&&(a._scopeId=n),r){var c=a.computed||(a.computed={});Object.keys(r).forEach(function(e){var t=r[e];c[e]=function(){return t}})}return{esModule:i,exports:u,options:a}}},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement;return(e._self._c||t)("input",{directives:[{name:"money",rawName:"v-money",value:{precision:e.precision,decimal:e.decimal,thousands:e.thousands,prefix:e.prefix,suffix:e.suffix},expression:"{precision, decimal, thousands, prefix, suffix}"}],staticClass:"v-money",attrs:{type:"tel"},domProps:{value:e.formattedValue},on:{change:e.change}})},staticRenderFns:[]}},function(e,t,n){e.exports=n(3)}])});
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CurrencyDirective", function() { return directive; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CurrencyInput", function() { return component; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getValue", function() { return getValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parse", function() { return parse; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setValue", function() { return setValue; });
+/**
+ * Vue Currency Input 1.22.3
+ * (c) 2018-2020 Matthias Stiller
+ * @license MIT
+ */
+var escapeRegExp = function (str) { return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); };
+var removeLeadingZeros = function (str) { return str.replace(/^0+(0$|[^0])/, '$1'); };
+var count = function (str, search) { return (str.match(new RegExp(escapeRegExp(search), 'g')) || []).length; };
+var startsWith = function (str, search) { return str.substring(0, search.length) === search; };
+var substringBefore = function (str, search) { return str.substring(0, str.indexOf(search)); };
+
+var DECIMAL_SYMBOLS = [',', '.', '٫'];
+var NumberFormat = function NumberFormat (options) {
+  var currency = options.currency;
+  var locale = options.locale;
+  var precision = options.precision;
+  var autoDecimalMode = options.autoDecimalMode;
+  var valueAsInteger = options.valueAsInteger;
+  var numberFormat = new Intl.NumberFormat(locale, typeof currency === 'string' ? { currency: currency, style: 'currency' } : { minimumFractionDigits: 1 });
+  var ps = numberFormat.format(123456);
+  this.locale = locale;
+  this.currency = currency;
+  this.digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (i) { return i.toLocaleString(locale); });
+  this.decimalSymbol = count(ps, this.digits[0]) ? ps.substr(ps.indexOf(this.digits[6]) + 1, 1) : undefined;
+  this.groupingSymbol = ps.substr(ps.indexOf(this.digits[3]) + 1, 1);
+  this.minusSymbol = substringBefore(Number(-1).toLocaleString(locale), this.digits[1]);
+  if (this.decimalSymbol === undefined) {
+    this.minimumFractionDigits = this.maximumFractionDigits = 0;
+  } else if (typeof precision === 'number') {
+    this.minimumFractionDigits = this.maximumFractionDigits = precision;
+  } else if (typeof precision === 'object' && !autoDecimalMode && !valueAsInteger) {
+    this.minimumFractionDigits = precision.min || 0;
+    this.maximumFractionDigits = precision.max !== undefined ? precision.max : 20;
+  } else if (typeof currency === 'string') {
+    this.minimumFractionDigits = numberFormat.resolvedOptions().minimumFractionDigits;
+    this.maximumFractionDigits = numberFormat.resolvedOptions().maximumFractionDigits;
+  } else {
+    this.minimumFractionDigits = this.maximumFractionDigits = 2;
+  }
+  if (typeof currency === 'string') {
+    this.prefix = substringBefore(ps, this.digits[1]);
+    this.negativePrefix = substringBefore(numberFormat.format(-1), this.digits[1]);
+    this.suffix = ps.substring(ps.lastIndexOf(this.decimalSymbol ? this.digits[0] : this.digits[6]) + 1);
+  } else {
+    this.prefix = (currency || {}).prefix || '';
+    this.negativePrefix = "" + (this.minusSymbol) + (this.prefix);
+    this.suffix = (currency || {}).suffix || '';
+  }
+};
+NumberFormat.prototype.parse = function parse (str, valueAsInteger) {
+    if ( valueAsInteger === void 0 ) valueAsInteger = false;
+  if (str) {
+    var negative = this.isNegative(str);
+    str = this.normalizeDigits(str);
+    str = this.stripCurrencySymbol(str);
+    str = this.stripMinusSymbol(str);
+    var fraction = this.decimalSymbol ? ("(" + (escapeRegExp(this.decimalSymbol)) + "\\d*)?") : '';
+    var match = str.match(new RegExp(("^" + (this.integerPattern()) + fraction + "$")));
+    if (match) {
+      var number = Number(("" + (negative ? '-' : '') + ((this.onlyDigits(match[1]))) + "." + ((this.onlyDigits(match[3] || '')))));
+      return valueAsInteger ? Number(number.toFixed(this.maximumFractionDigits).split('.').join('')) : number
+    }
+  }
+  return null
+};
+NumberFormat.prototype.format = function format (number, options) {
+    if ( options === void 0 ) options = {
+  minimumFractionDigits: this.minimumFractionDigits,
+  maximumFractionDigits: this.maximumFractionDigits
+};
+  if (typeof this.currency === 'string') {
+    return number.toLocaleString(this.locale, Object.assign({}, {style: 'currency',
+      currency: this.currency},
+      options))
+  } else {
+    return this.insertCurrencySymbol(Math.abs(number).toLocaleString(this.locale, options), number < 0 || (number === 0 && (1 / number < 0)))
+  }
+};
+NumberFormat.prototype.integerPattern = function integerPattern () {
+  return ("(0|[1-9]\\d{0,2}(" + (escapeRegExp(this.groupingSymbol)) + "?\\d{3})*)")
+};
+NumberFormat.prototype.toFraction = function toFraction (str) {
+  return ("" + (this.digits[0]) + (this.decimalSymbol) + ((this.onlyLocaleDigits(str.substr(1)).substr(0, this.maximumFractionDigits))))
+};
+NumberFormat.prototype.isFractionIncomplete = function isFractionIncomplete (str) {
+  return !!this.normalizeDigits(str).match(new RegExp(("^" + (this.integerPattern()) + (escapeRegExp(this.decimalSymbol)) + "$")))
+};
+NumberFormat.prototype.isNegative = function isNegative (str) {
+  return startsWith(str, this.negativePrefix) || startsWith(str.replace('-', this.minusSymbol), this.minusSymbol)
+};
+NumberFormat.prototype.insertCurrencySymbol = function insertCurrencySymbol (str, negative) {
+  return ("" + (negative ? this.negativePrefix : this.prefix) + str + (this.suffix))
+};
+NumberFormat.prototype.stripMinusSymbol = function stripMinusSymbol (str) {
+  return str.replace('-', this.minusSymbol).replace(this.minusSymbol, '')
+};
+NumberFormat.prototype.stripCurrencySymbol = function stripCurrencySymbol (str) {
+  return str.replace(this.negativePrefix, '').replace(this.prefix, '').replace(this.suffix, '')
+};
+NumberFormat.prototype.normalizeDecimalSymbol = function normalizeDecimalSymbol (str, from) {
+    var this$1 = this;
+  DECIMAL_SYMBOLS.forEach(function (s) {
+    str = str.substr(0, from) + str.substr(from).replace(s, this$1.decimalSymbol);
+  });
+  return str
+};
+NumberFormat.prototype.normalizeDigits = function normalizeDigits (str) {
+  if (this.digits[0] !== '0') {
+    this.digits.forEach(function (digit, index) {
+      str = str.replace(new RegExp(digit, 'g'), index);
+    });
+  }
+  return str
+};
+NumberFormat.prototype.onlyDigits = function onlyDigits (str) {
+  return this.normalizeDigits(str).replace(/\D+/g, '')
+};
+NumberFormat.prototype.onlyLocaleDigits = function onlyLocaleDigits (str) {
+  return str.replace(new RegExp(("[^" + (this.digits.join('')) + "]*"), 'g'), '')
+};
+
+var DEFAULT_OPTIONS = {
+  locale: undefined,
+  currency: 'EUR',
+  valueAsInteger: false,
+  distractionFree: true,
+  precision: undefined,
+  autoDecimalMode: false,
+  valueRange: undefined,
+  allowNegative: true
+};
+var parse = function (formattedValue, options) {
+  var mergedOptions = Object.assign({}, DEFAULT_OPTIONS, options);
+  return new NumberFormat(mergedOptions).parse(formattedValue, mergedOptions.valueAsInteger)
+};
+var getValue = function (ref) { return (ref.$el || ref).$ci.getValue(); };
+var setValue = function (ref, value) {
+  (ref.$el || ref).$ci.setValue(value);
+};
+
+var equal = function (a, b) {
+  if (a === b) {
+    return true
+  }
+  if (!a || !b || typeof a !== 'object' || typeof b !== 'object') {
+    return false
+  }
+  var keys = Object.keys(a);
+  if (keys.length !== Object.keys(b).length) {
+    return false
+  }
+  if (!keys.every(Object.prototype.hasOwnProperty.bind(b))) {
+    return false
+  }
+  return keys.every(function (key) { return equal(a[key], b[key]); })
+};
+
+var DefaultNumberMask = function DefaultNumberMask (numberFormat) {
+  this.numberFormat = numberFormat;
+};
+DefaultNumberMask.prototype.conformToMask = function conformToMask (str, previousConformedValue) {
+    var this$1 = this;
+    if ( previousConformedValue === void 0 ) previousConformedValue = '';
+  var negative = this.numberFormat.isNegative(str);
+  var checkIncompleteValue = function (str) {
+    if (str === '' && negative && previousConformedValue !== this$1.numberFormat.negativePrefix) {
+      return ''
+    } else if (this$1.numberFormat.maximumFractionDigits > 0) {
+      if (this$1.numberFormat.isFractionIncomplete(str)) {
+        return str
+      } else if (startsWith(str, this$1.numberFormat.decimalSymbol)) {
+        return this$1.numberFormat.toFraction(str)
+      }
+    }
+    return null
+  };
+  var value = str;
+  value = this.numberFormat.stripCurrencySymbol(value);
+  value = this.numberFormat.stripMinusSymbol(value);
+  var incompleteValue = checkIncompleteValue(value);
+  if (incompleteValue != null) {
+    return this.numberFormat.insertCurrencySymbol(incompleteValue, negative)
+  }
+  var ref = value.split(this.numberFormat.decimalSymbol);
+    var integer = ref[0];
+    var fraction = ref.slice(1);
+  var integerDigits = removeLeadingZeros(this.numberFormat.onlyDigits(integer));
+  var fractionDigits = this.numberFormat.onlyDigits(fraction.join('')).substr(0, this.numberFormat.maximumFractionDigits);
+  var invalidFraction = fraction.length > 0 && fractionDigits.length === 0;
+  var invalidNegativeValue = integerDigits === '' && negative && (previousConformedValue === str.slice(0, -1) || previousConformedValue !== this.numberFormat.negativePrefix);
+  if (invalidFraction || invalidNegativeValue) {
+    return previousConformedValue
+  } else if (integerDigits.match(/\d+/)) {
+    return {
+      numberValue: Number(("" + (negative ? '-' : '') + integerDigits + "." + fractionDigits)),
+      fractionDigits: fractionDigits
+    }
+  } else {
+    return ''
+  }
+};
+var AutoDecimalModeNumberMask = function AutoDecimalModeNumberMask (numberFormat) {
+  this.numberFormat = numberFormat;
+};
+AutoDecimalModeNumberMask.prototype.conformToMask = function conformToMask (str) {
+  if (str === '') {
+    return ''
+  }
+  var negative = this.numberFormat.isNegative(str);
+  var numberValue = this.numberFormat.stripMinusSymbol(str) === ''
+    ? -0
+    : Number(("" + (negative ? '-' : '') + (removeLeadingZeros(this.numberFormat.onlyDigits(str))))) / Math.pow(10, this.numberFormat.minimumFractionDigits);
+  return {
+    numberValue: numberValue,
+    fractionDigits: numberValue.toFixed(this.numberFormat.minimumFractionDigits).slice(-this.numberFormat.minimumFractionDigits)
+  }
+};
+
+var getCaretPositionAfterFormat = function (newValue, inputtedValue, caretPosition, numberFormat, options) {
+  var prefix = numberFormat.prefix;
+  var suffix = numberFormat.suffix;
+  var decimalSymbol = numberFormat.decimalSymbol;
+  var maximumFractionDigits = numberFormat.maximumFractionDigits;
+  var groupingSymbol = numberFormat.groupingSymbol;
+  var decimalSymbolPosition = inputtedValue.indexOf(decimalSymbol) + 1;
+  var caretPositionFromLeft = inputtedValue.length - caretPosition;
+  if (Math.abs(newValue.length - inputtedValue.length) > 1 && caretPosition <= decimalSymbolPosition) {
+    return newValue.indexOf(decimalSymbol) + 1
+  } else if (newValue.substr(caretPosition, 1) === groupingSymbol && count(newValue, groupingSymbol) === count(inputtedValue, groupingSymbol) + 1) {
+    return newValue.length - caretPositionFromLeft - 1
+  } else {
+    if (!options.autoDecimalMode && decimalSymbolPosition !== 0 && caretPosition > decimalSymbolPosition) {
+      if (numberFormat.onlyDigits(inputtedValue.substr(decimalSymbolPosition)).length - 1 === maximumFractionDigits) {
+        caretPositionFromLeft -= 1;
+      }
+    }
+    return options.distractionFree.hideCurrencySymbol
+      ? newValue.length - caretPositionFromLeft
+      : Math.max(newValue.length - Math.max(caretPositionFromLeft, suffix.length), prefix.length === 0 ? 0 : prefix.length + 1)
+  }
+};
+var getDistractionFreeCaretPosition = function (numberFormat, options, value, caretPosition) {
+  var result = caretPosition;
+  if (options.distractionFree.hideCurrencySymbol) {
+    result -= numberFormat.prefix.length;
+  }
+  if (options.distractionFree.hideGroupingSymbol) {
+    result -= count(value.substring(0, caretPosition), numberFormat.groupingSymbol);
+  }
+  return Math.max(0, result)
+};
+
+var MAX_SAFE_INTEGER = Math.pow(2, 53) - 1;
+var NumberInput = function NumberInput (el, options, callbackFns) {
+  this.el = el;
+  this.callbackFns = callbackFns;
+  this.numberValue = null;
+  this.addEventListener();
+  this.init(options);
+  this.setValue(this.currencyFormat.parse(this.el.value));
+};
+NumberInput.prototype.init = function init (newOptions) {
+  var options = Object.assign({}, newOptions);
+  var distractionFree = options.distractionFree;
+    var autoDecimalMode = options.autoDecimalMode;
+    var valueRange = options.valueRange;
+  if (typeof distractionFree === 'boolean') {
+    options.distractionFree = {
+      hideCurrencySymbol: distractionFree,
+      hideNegligibleDecimalDigits: distractionFree,
+      hideGroupingSymbol: distractionFree
+    };
+  }
+  if (valueRange) {
+    options.valueRange = {
+      min: valueRange.min !== undefined ? Math.max(valueRange.min, -MAX_SAFE_INTEGER) : -MAX_SAFE_INTEGER,
+      max: valueRange.max !== undefined ? Math.min(valueRange.max, MAX_SAFE_INTEGER) : MAX_SAFE_INTEGER
+    };
+  } else {
+    options.valueRange = {
+      min: -MAX_SAFE_INTEGER,
+      max: MAX_SAFE_INTEGER
+    };
+  }
+  if (autoDecimalMode) {
+    options.distractionFree.hideNegligibleDecimalDigits = false;
+    this.el.setAttribute('inputmode', 'numeric');
+  } else {
+    this.el.setAttribute('inputmode', 'decimal');
+  }
+  this.options = options;
+  this.currencyFormat = new NumberFormat(this.options);
+  this.numberMask = options.autoDecimalMode ? new AutoDecimalModeNumberMask(this.currencyFormat) : new DefaultNumberMask(this.currencyFormat);
+};
+NumberInput.prototype.setOptions = function setOptions (options) {
+  this.init(options);
+  this.applyFixedFractionFormat(this.numberValue, true);
+};
+NumberInput.prototype.applyFixedFractionFormat = function applyFixedFractionFormat (number, forcedChange) {
+  this.format(number != null ? this.currencyFormat.format(this.validateValueRange(number)) : null);
+  if (number !== this.numberValue || forcedChange) {
+    this.callbackFns.onChange(this.getValue());
+  }
+};
+NumberInput.prototype.getValue = function getValue () {
+  return this.currencyFormat.parse(this.formattedValue, this.options.valueAsInteger)
+};
+NumberInput.prototype.setValue = function setValue (value) {
+  var newValue = this.options.valueAsInteger && value != null ? value / Math.pow(10, this.currencyFormat.maximumFractionDigits) : value;
+  if (newValue !== this.numberValue) {
+    this.applyFixedFractionFormat(newValue);
+  }
+};
+NumberInput.prototype.validateValueRange = function validateValueRange (value) {
+  var ref = this.options.valueRange;
+    var min = ref.min;
+    var max = ref.max;
+  return Math.min(Math.max(value, min), max)
+};
+NumberInput.prototype.updateInputValue = function updateInputValue (value, hideNegligibleDecimalDigits) {
+    if ( hideNegligibleDecimalDigits === void 0 ) hideNegligibleDecimalDigits = false;
+  if (value != null) {
+    if (this.decimalSymbolInsertedAt !== undefined) {
+      value = this.currencyFormat.normalizeDecimalSymbol(value, this.decimalSymbolInsertedAt);
+      this.decimalSymbolInsertedAt = undefined;
+    }
+    var conformedValue = this.numberMask.conformToMask(value, this.formattedValue);
+    var formattedValue;
+    if (typeof conformedValue === 'object') {
+      var numberValue = conformedValue.numberValue;
+        var fractionDigits = conformedValue.fractionDigits;
+      var ref = this.currencyFormat;
+        var maximumFractionDigits = ref.maximumFractionDigits;
+        var minimumFractionDigits = ref.minimumFractionDigits;
+      if (this.focus) {
+        minimumFractionDigits = maximumFractionDigits;
+      }
+      minimumFractionDigits = hideNegligibleDecimalDigits
+        ? fractionDigits.replace(/0+$/, '').length
+        : Math.min(minimumFractionDigits, fractionDigits.length);
+      formattedValue = numberValue > MAX_SAFE_INTEGER
+        ? this.formattedValue
+        : this.currencyFormat.format(numberValue, {
+          useGrouping: !(this.focus && this.options.distractionFree.hideGroupingSymbol),
+          minimumFractionDigits: minimumFractionDigits,
+          maximumFractionDigits: maximumFractionDigits
+        });
+    } else {
+      formattedValue = conformedValue;
+    }
+    if (!this.options.allowNegative) {
+      formattedValue = formattedValue.replace(this.currencyFormat.negativePrefix, this.currencyFormat.prefix);
+    }
+    if (this.focus && this.options.distractionFree.hideCurrencySymbol) {
+      formattedValue = formattedValue
+        .replace(this.currencyFormat.negativePrefix, this.currencyFormat.minusSymbol)
+        .replace(this.currencyFormat.prefix, '')
+        .replace(this.currencyFormat.suffix, '');
+    }
+    this.el.value = formattedValue;
+    this.numberValue = this.currencyFormat.parse(formattedValue);
+  } else {
+    this.el.value = this.numberValue = null;
+  }
+  this.formattedValue = this.el.value;
+};
+NumberInput.prototype.format = function format (value) {
+  this.updateInputValue(value);
+  this.callbackFns.onInput(this.getValue());
+};
+NumberInput.prototype.addEventListener = function addEventListener () {
+    var this$1 = this;
+  this.el.addEventListener('input', function () {
+    var ref = this$1.el;
+      var value = ref.value;
+      var selectionStart = ref.selectionStart;
+    this$1.format(value);
+    if (this$1.focus) {
+      this$1.setCaretPosition(getCaretPositionAfterFormat(this$1.formattedValue, value, selectionStart, this$1.currencyFormat, this$1.options));
+    }
+  }, { capture: true });
+  this.el.addEventListener('focus', function () {
+    this$1.focus = true;
+    var ref = this$1.options.distractionFree;
+      var hideCurrencySymbol = ref.hideCurrencySymbol;
+      var hideGroupingSymbol = ref.hideGroupingSymbol;
+      var hideNegligibleDecimalDigits = ref.hideNegligibleDecimalDigits;
+    if (hideCurrencySymbol || hideGroupingSymbol || hideNegligibleDecimalDigits) {
+      setTimeout(function () {
+        var ref = this$1.el;
+          var value = ref.value;
+          var selectionStart = ref.selectionStart;
+          var selectionEnd = ref.selectionEnd;
+        if (value) {
+          this$1.updateInputValue(this$1.el.value, hideNegligibleDecimalDigits);
+        }
+        if (Math.abs(selectionStart - selectionEnd) > 0) {
+          this$1.setCaretPosition(0, this$1.el.value.length);
+        } else {
+          this$1.setCaretPosition(getDistractionFreeCaretPosition(this$1.currencyFormat, this$1.options, value, selectionStart));
+        }
+      });
+    }
+  });
+  this.el.addEventListener('keypress', function (e) {
+    if (DECIMAL_SYMBOLS.includes(e.key)) {
+      this$1.decimalSymbolInsertedAt = this$1.el.selectionStart;
+    }
+  });
+  this.el.addEventListener('blur', function () {
+    this$1.focus = false;
+    if (this$1.numberValue != null) {
+      this$1.applyFixedFractionFormat(this$1.numberValue);
+    }
+  });
+  this.el.addEventListener('change', function () {
+    this$1.callbackFns.onChange(this$1.getValue());
+  });
+};
+NumberInput.prototype.setCaretPosition = function setCaretPosition (start, end) {
+  if ( end === void 0 ) end = start;
+ this.el.setSelectionRange(start, end); };
+
+var directive = {
+  bind: function bind (el, ref, vnode) {
+    var optionsFromBinding = ref.value;
+    var inputElement = el.tagName.toLowerCase() === 'input' ? el : el.querySelector('input');
+    if (!inputElement) {
+      throw new Error('No input element found')
+    }
+    var options = Object.assign({}, DEFAULT_OPTIONS,
+      (vnode.context.$ci || {}).globalOptions,
+      optionsFromBinding);
+    var listeners = (vnode.data && vnode.data.on) || (vnode.componentOptions && vnode.componentOptions.listeners) || {};
+    var emit = function (event, data) {
+      if (listeners[event]) {
+        listeners[event](vnode.componentOptions ? data : { target: { value: data } });
+      }
+    };
+    el.$ci = new NumberInput(inputElement, options, {
+      onChange: function () { emit('change', inputElement.value); },
+      onInput: function () { emit('input', inputElement.value); }
+    });
+  },
+  componentUpdated: function componentUpdated (el, ref) {
+    var value = ref.value;
+    var oldValue = ref.oldValue;
+    if (!equal(value, oldValue)) {
+      el.$ci.setOptions(value);
+    }
+  }
+};
+
+var component = {
+  render: function render (h) {
+    var this$1 = this;
+    return h('input', {
+      directives: [{
+        name: 'currency',
+        value: this.options
+      }],
+      on: Object.assign({}, this.$listeners,
+        {change: function () {
+          this$1.$emit('change', getValue(this$1.$el));
+        },
+        input: function () {
+          var numberValue = getValue(this$1.$el);
+          if (this$1.value !== numberValue) {
+            this$1.$emit('input', numberValue);
+          }
+        }})
+    })
+  },
+  directives: {
+    currency: directive
+  },
+  name: 'CurrencyInput',
+  props: {
+    value: {
+      type: Number,
+      default: null
+    },
+    locale: {
+      type: String,
+      default: undefined
+    },
+    currency: {
+      type: [String, Object],
+      default: undefined
+    },
+    distractionFree: {
+      type: [Boolean, Object],
+      default: undefined
+    },
+    precision: {
+      type: [Number, Object],
+      default: undefined
+    },
+    autoDecimalMode: {
+      type: Boolean,
+      default: undefined
+    },
+    valueAsInteger: {
+      type: Boolean,
+      default: undefined
+    },
+    valueRange: {
+      type: Object,
+      default: undefined
+    },
+    allowNegative: {
+      type: Boolean,
+      default: undefined
+    }
+  },
+  mounted: function mounted () {
+    this.setValue(this.value);
+  },
+  computed: {
+    options: function options () {
+      var this$1 = this;
+      var options = Object.assign({}, DEFAULT_OPTIONS,
+        (this.$ci || {}).globalOptions);
+      Object.keys(DEFAULT_OPTIONS).forEach(function (key) {
+        if (this$1[key] !== undefined) {
+          options[key] = this$1[key];
+        }
+      });
+      return options
+    }
+  },
+  watch: {
+    value: 'setValue'
+  },
+  methods: {
+    setValue: function setValue$1 (value) {
+      setValue(this.$el, value);
+    }
+  }
+};
+
+var plugin = {
+  install: function install (Vue, ref) {
+    if ( ref === void 0 ) ref = {};
+    var componentName = ref.componentName; if ( componentName === void 0 ) componentName = component.name;
+    var directiveName = ref.directiveName; if ( directiveName === void 0 ) directiveName = 'currency';
+    var globalOptions = ref.globalOptions; if ( globalOptions === void 0 ) globalOptions = {};
+    Vue.component(componentName, component);
+    Vue.directive(directiveName, directive);
+    Vue.prototype.$ci = {
+      parse: function (formattedValue, options) { return parse(formattedValue, Object.assign({}, globalOptions, options)); },
+      getValue: getValue,
+      setValue: setValue,
+      globalOptions: globalOptions
+    };
+  }
+};
+
+if (typeof window !== 'undefined' && window.Vue) {
+  window.Vue.use(plugin);
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (plugin);
+
+
 
 /***/ }),
 
@@ -44910,12 +45489,17 @@ var render = function() {
                           attrs: { to: "/finance" }
                         },
                         [
-                          _vm._v(
-                            "\n                                " +
-                              _vm._s(parseFloat(_vm.balance).toFixed(2)) +
-                              " $\n                            "
-                          )
-                        ]
+                          [
+                            _c("animated-number", {
+                              attrs: {
+                                value: parseFloat(_vm.balance).toFixed(2),
+                                formatValue: _vm.formatToPrice,
+                                duration: 1000
+                              }
+                            })
+                          ]
+                        ],
+                        2
                       )
                     ],
                     1
@@ -45741,34 +46325,42 @@ var render = function() {
                           style: { "margin-bottom": "0.3rem !important" }
                         },
                         [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "money",
-                                rawName: "v-money",
-                                value: _vm.money,
-                                expression: "money"
-                              },
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.amount,
-                                expression: "amount"
-                              }
-                            ],
-                            staticClass: "form-control form-control-lg",
-                            attrs: { type: "text" },
-                            domProps: { value: _vm.amount },
-                            on: {
-                              click: _vm.amountClick,
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
+                          [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.amount,
+                                  expression: "amount"
+                                },
+                                {
+                                  name: "currency",
+                                  rawName: "v-currency",
+                                  value: {
+                                    currency: null,
+                                    autoDecimalMode: true,
+                                    valueRange: { min: 1, max: 1000 }
+                                  },
+                                  expression:
+                                    "{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 1000}}"
                                 }
-                                _vm.amount = $event.target.value
+                              ],
+                              ref: "ci",
+                              staticClass: "form-control form-control-lg",
+                              attrs: { type: "text" },
+                              domProps: { value: _vm.amount },
+                              on: {
+                                click: _vm.amountClick,
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.amount = $event.target.value
+                                }
                               }
-                            }
-                          }),
+                            })
+                          ],
                           _vm._v(" "),
                           _c(
                             "div",
@@ -46000,7 +46592,8 @@ var render = function() {
                               ])
                             ]
                           )
-                        ]
+                        ],
+                        2
                       ),
                       _vm._v(" "),
                       _vm._m(5),
@@ -46064,9 +46657,10 @@ var render = function() {
                             attrs: { type: "text", disabled: "" },
                             domProps: {
                               value: (
-                                (_vm.amount.toString().replace(",", "") *
+                                this.$ci.parse(this.amount) +
+                                (this.$ci.parse(this.amount) *
                                   _vm.number_percent) /
-                                100
+                                  100
                               ).toFixed(2)
                             }
                           }),
@@ -46322,9 +46916,12 @@ var render = function() {
                                                   domProps: {
                                                     textContent: _vm._s(
                                                       (
+                                                        parseFloat(
+                                                          open.amount
+                                                        ) +
                                                         (open.amount *
                                                           open.percent) /
-                                                        100
+                                                          100
                                                       ).toFixed(2) + " $"
                                                     )
                                                   }
@@ -62943,8 +63540,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_layouts_App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/layouts/App */ "./resources/vuejs/views/layouts/App.vue");
 /* harmony import */ var vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-echo-laravel */ "./node_modules/vue-echo-laravel/dist/build.js");
 /* harmony import */ var vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
-/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var vue_currency_input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue-currency-input */ "./node_modules/vue-currency-input/dist/vue-currency-input.esm.js");
 /* harmony import */ var vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuejs-countdown-timer */ "./node_modules/vuejs-countdown-timer/dist/vuejs-countdown-timer.min.js");
 /* harmony import */ var vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_5__);
 __webpack_require__(/*! ./bootstrap */ "./resources/vuejs/bootstrap.js");
@@ -62963,12 +63559,10 @@ window.axios.defaults.headers.common = {
   'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 };
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_5___default.a);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_currency_input__WEBPACK_IMPORTED_MODULE_4__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('menu-component', __webpack_require__(/*! ./views/layouts/Menu */ "./resources/vuejs/views/layouts/Menu.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('footer-component', __webpack_require__(/*! ./views/layouts/Footer */ "./resources/vuejs/views/layouts/Footer.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('header-component', __webpack_require__(/*! ./views/layouts/Header */ "./resources/vuejs/views/layouts/Header.vue")["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(v_money__WEBPACK_IMPORTED_MODULE_4___default.a, {
-  precision: 2
-});
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3___default.a, {
   broadcaster: 'socket.io',
   host: window.location.hostname + ':6001'
