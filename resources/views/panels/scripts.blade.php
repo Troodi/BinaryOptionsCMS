@@ -8,19 +8,14 @@
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.tools.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.defaults.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.min.js')}}"></script>
-    <script src="{{asset('app/app.js')}}"></script>
     <link rel="stylesheet" type="text/css" href="/vendors/css/extensions/toastr.css">
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
     @yield('vendor-scripts')
     <script src="/vendors/js/extensions/toastr.min.js"></script>
-    <script src="{{asset('vendors/js/pickers/pickadate/picker.js')}}"></script>
-    <script src="{{asset('vendors/js/pickers/pickadate/picker.date.js')}}"></script>
-    <script src="{{asset('vendors/js/pickers/pickadate/picker.time.js')}}"></script>
     <script src="{{asset('vendors/js/pickers/pickadate/legacy.js')}}"></script>
     <script src="{{asset('vendors/js/pickers/daterange/moment.min.js')}}"></script>
-    <script src="{{asset('vendors/js/pickers/daterange/daterangepicker.js')}}"></script>
     <!-- END: Page Vendor JS-->
     <!-- BEGIN: Theme JS-->
     @if($configData['mainLayoutType'] == 'vertical-menu')
@@ -39,3 +34,5 @@
     <!-- BEGIN: Page JS-->
     @yield('page-scripts')
     <!-- END: Page JS-->
+
+    <script src="{{asset('app/app.js')}}"></script>

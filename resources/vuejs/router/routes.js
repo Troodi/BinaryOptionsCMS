@@ -11,16 +11,24 @@ import VueRouter from 'vue-router';
 import Trading from "../views/user/Trading";
 import Profile from "../views/user/Profile";
 import Deposit from "../views/user/Deposit";
+import History from "../views/user/TradeHistory";
+import Withdrawal from "../views/user/Withdrawal";
+import Support from "../views/user/Support";
 //
 // /**
 //  * Routes for vue components
 //  */
 export const routes = [
-    //Students
     { path: '/', name: 'Торговля', component: Trading, meta: { icon: 'desktop', hideFooter: true } },
-    { path: '/finance', name: 'Финансы', component: Deposit, meta: { icon: 'gear' } },
-    { path: '/history', name: 'История', component: Profile, meta: { icon: 'gear' } },
-    { path: '/profile', name: 'Профиль', component: Profile, meta: { icon: 'gear' } },
+    { path: '/demo', name: 'Демо торговля', component: Trading, meta: { icon: 'line-chart', hideFooter: true } },
+    { path: '/deposit', name: 'Пополнение', component: Deposit, meta: { icon: 'bank' } },
+    { path: '/withdrawal', name: 'Вывод средств', component: Withdrawal, meta: { icon: 'coins' } },
+    { path: '/promocodes', name: 'Промокоды', component: Deposit, meta: { icon: 'bulb' } },
+    { path: '/history', name: 'История торговли', component: History, h_child: true, meta: {icon: 'calendar'}},
+    { path: '/profile', name: 'Профиль', component: Profile, meta: { icon: 'settings' }},
+    { path: '/partner', name: 'Партнерский кабинет', component: Profile, meta: { icon: 'users' }},
+    { path: '/support', name: 'Поддержка', component: Support, meta: { icon: 'comments' } },
+    { path: '/logout', name: 'Выйти', component: Profile, meta: { icon: 'close' }},
 ];
 
 Vue.use(VueRouter);
