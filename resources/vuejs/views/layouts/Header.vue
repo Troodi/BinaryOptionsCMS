@@ -30,7 +30,7 @@
 
                         <li class="nav-item">
                             <h4>
-                                <router-link to="/finance" class="nav-link" style="padding-top:1.4rem">
+                                <router-link to="/deposit" class="nav-link" style="padding-top:1.4rem">
                                     <template>
                                         <animated-number :value="parseFloat(balance).toFixed(2)" :formatValue="formatToPrice" :duration="1000"/>
                                     </template>
