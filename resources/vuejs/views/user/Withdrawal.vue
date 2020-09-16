@@ -73,7 +73,7 @@
                                                         <div class="dashboard-content-left">
                                                             <h1 class="text-primary font-large-2 text-bold-500">$ 250.00</h1>
                                                             <p>Вы успешно отработали 57.6% от общей суммы бонуса.</p>
-                                                            <button type="button" class="btn btn-primary glow">Отказаться от получения бонуса</button>
+                                                            <button type="button" class="btn btn-primary glow">Отказаться от бонуса</button>
                                                         </div>
                                                         <div class="dashboard-content-right">
                                                             <img src="/images/icon/cup.png" height="155" width="155" class="img-fluid" style="float-right"/>
@@ -117,7 +117,7 @@
         name: "Deposit",
         data: function () {
             return {
-
+                amount: 10,
             }
         },
         methods: {

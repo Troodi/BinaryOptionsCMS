@@ -28,46 +28,10 @@
                         <a :href="href" @click="navigate">
                             <i class="menu-livicon" :data-icon="route.meta.icon"></i>
                             <span class="menu-title">{{ route.name }}</span>
-<!--                            <span class="badge badge-light-danger badge-pill badge-round float-right mr-2">1</span>-->
+                            <span v-if="route.meta.badge" class="badge badge-primary badge-round float-right text-white">{{ route.meta.badge }}</span>
                         </a>
                     </li>
                 </router-link>
-
-<!--                <router-link to="/" v-slot="{ href, route, navigate, isActive, isExactActive }">-->
-<!--                    <li class="nav-item" :class="[isExactActive && 'active']">-->
-<!--                        <a :href="href" @click="navigate">-->
-<!--                            <i class="menu-livicon" data-icon="gear"></i>-->
-<!--                            <span class="menu-title">{{ route.name }}</span>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                </router-link>-->
-
-<!--&lt;!&ndash;                sidebar-group-active&ndash;&gt;-->
-<!--                <li class="nav-item has-sub">-->
-<!--                    <a onclick="return false;">-->
-<!--                        <i class="menu-livicon" data-icon="gear"></i>-->
-<!--                        <span class="menu-title">Финансы</span>-->
-<!--                    </a>-->
-<!--                    <ul class="menu-content">-->
-<!--                        <router-link to="/history/real" v-slot="{ href, route, navigate, isActive, isExactActive }">-->
-<!--                            <li :class="[isExactActive && 'active']">-->
-<!--                                <a :href="href" @click="navigate">-->
-<!--                                    <i class="bx bx-right-arrow-alt"></i>-->
-<!--                                    <span class="menu-item">{{ route.name }}</span>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                        </router-link>-->
-<!--                        <router-link to="/history/demo" v-slot="{ href, route, navigate, isActive, isExactActive }">-->
-<!--                            <li :class="[isExactActive && 'active']">-->
-<!--                                <a :href="href" @click="navigate">-->
-<!--                                    <i class="bx bx-right-arrow-alt"></i>-->
-<!--                                    <span class="menu-item">{{ route.name }}</span>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                        </router-link>-->
-<!--                    </ul>-->
-<!--                </li>-->
-
             </ul>
         </div>
     </div>
