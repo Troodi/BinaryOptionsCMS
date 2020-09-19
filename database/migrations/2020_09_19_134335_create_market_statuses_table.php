@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTicksTable extends Migration
+class CreateMarketStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateTicksTable extends Migration
      */
     public function up()
     {
-        Schema::create('ticks', function (Blueprint $table) {
+        Schema::create('market_statuses', function (Blueprint $table) {
             $table->engine = 'MEMORY';
             $table->id();
-            $table->integer('symbol_id')->nullable();
-            $table->decimal('price', 15, 5)->nullable();
-            $table->timestamp('created_at', 6);
+            $table->integer('symbol_id')->index()->nullable();
+            $table->string('market_status')->nullable();
+            $table->timestamps(6);
         });
     }
 
@@ -29,6 +29,6 @@ class CreateTicksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticks');
+        Schema::dropIfExists('market_statuses');
     }
 }

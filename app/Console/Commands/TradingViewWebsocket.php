@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\MarketStatus;
 use App\Models\Symbols\Options\Ticks;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -172,11 +173,17 @@ class TradingViewWebsocket extends Command
               $this->sendMessage("quote_create_session", [$this->session]); // Основная сессия для реалтайм котировок
               $this->setMainFields($this->session);
               $this->symbols_all = [];
+              var_dump('RENEW SESSION');
+              MarketStatus::truncate();
               foreach(Symbol::all() as $symbol){
                 $name = $symbol->broker.':'.str_replace('/', '', $symbol->symbol);
                 $this->map[$name] = $symbol->id;
                 $this->registerTicker($name);
                 $this->symbols_all[] = $name;
+                $model = new MarketStatus;
+                $model->symbol_id = $symbol->id;
+                $model->market_status = 0;
+                $model->save();
               }
               $this->sendMessage("quote_create_session", [$this->sessionStatus]); // Дополнительная сессия для статуса маркета
               $this->setMainFields($this->sessionStatus);
@@ -192,13 +199,13 @@ class TradingViewWebsocket extends Command
                 $this->tickerData[$tickerName]['id'] = $this->map[$tickerName];
                 if($packet->p[0] == $this->sessionStatus) {
                   if ($key == 'pro_name') {
-                    $this->sendMessage("quote_remove_symbols", [$this->sessionStatus, $value, ['flags' => ["force_permission"]]]);
+                    $this->sendMessage("quote_remove_symbols", [$this->sessionStatus, $value]);
                     $this->sendMessage("quote_add_symbols", [$this->sessionStatus, $value, ['flags' => ["force_permission"]]]);
                   }
                 }
               }
-              if(isset($this->tickerData[$tickerName]['pro_name']) && isset($this->tickerData[$tickerName]['current_session'])) {
-                var_dump($this->tickerData[$tickerName]['pro_name'] . ' - ' . $this->tickerData[$tickerName]['current_session']);
+              if(isset($this->tickerData[$tickerName]['current_session'])) {
+                MarketStatus::where('symbol_id', $this->tickerData[$tickerName]['id'])->update(['market_status' => $this->tickerData[$tickerName]['current_session'], 'updated_at' => Carbon::now()->format('Y-m-d H:i:s.u')]);
               }
               foreach($this->tickerData as $key => $value) {
                 if(isset($value['lp'])) {
