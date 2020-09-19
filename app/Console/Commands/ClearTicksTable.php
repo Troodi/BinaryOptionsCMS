@@ -44,7 +44,7 @@ class ClearTicksTable extends Command
         $count = Ticks::where('symbol_id', $symbol->id)
           ->where('created_at', '>', Carbon::now()->subMinutes(2))
           ->count();
-        if($count){
+        if($count > 1){
           Ticks::where('symbol_id', $symbol->id)
             ->where('created_at', '<', Carbon::now()->subMinutes(2))
             ->delete();

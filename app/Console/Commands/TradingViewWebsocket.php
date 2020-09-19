@@ -195,16 +195,25 @@ class TradingViewWebsocket extends Command
               $tickerStatus = $tticker->s;
               $tickerUpdate = $tticker->v;
               foreach ($tickerUpdate as $key => $value) {
-                $this->tickerData[$tickerName][$key] = $value;
-                $this->tickerData[$tickerName]['id'] = $this->map[$tickerName];
                 if($packet->p[0] == $this->sessionStatus) {
-                  if ($key == 'pro_name') {
+                  if($key != 'pro_name' and $key != 'current_session'){
+                    continue;
+                  }
+                  elseif ($key == 'pro_name') {
                     $this->sendMessage("quote_remove_symbols", [$this->sessionStatus, $value]);
                     $this->sendMessage("quote_add_symbols", [$this->sessionStatus, $value, ['flags' => ["force_permission"]]]);
+                    continue;
                   }
+                  elseif ($key == 'current_session'){
+                    $this->tickerData[$tickerName][$key] = $value;
+                    continue;
+                  }
+                } else {
+                  $this->tickerData[$tickerName][$key] = $value;
+                  $this->tickerData[$tickerName]['id'] = $this->map[$tickerName];
                 }
               }
-              if(isset($this->tickerData[$tickerName]['current_session'])) {
+              if(isset($this->tickerData[$tickerName]['current_session']) && isset($this->tickerData[$tickerName]['id'])) {
                 MarketStatus::where('symbol_id', $this->tickerData[$tickerName]['id'])->update(['market_status' => $this->tickerData[$tickerName]['current_session'], 'updated_at' => Carbon::now()->format('Y-m-d H:i:s.u')]);
               }
               foreach($this->tickerData as $key => $value) {
