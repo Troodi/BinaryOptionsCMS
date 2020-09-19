@@ -108,9 +108,8 @@ class TradingController extends Controller
       if($fisrt){
         $price = $fisrt->price;
       } else {
-        return response()->json(['message' => 'Произошла ошибка при выставлении ордера!'], 422);
+        return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее!'], 422);
       }
-      //Cache::get('symbol'.$request->symbol);
       $symbols_all = Cache::remember('symbols_all', 60, function () {
         return Symbol::orderBy('percent', 'desc')->get();
       });

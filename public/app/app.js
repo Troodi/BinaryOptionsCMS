@@ -3832,6 +3832,11 @@ __webpack_require__.r(__webpack_exports__);
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
+      })["catch"](function (error) {
+        toastr.error(error.response.data.message, 'Ошибка!', {
+          positionClass: 'toast-bottom-left',
+          containerId: 'toast-bottom-left'
+        });
       });
     },
     sell: function sell() {
@@ -3849,6 +3854,11 @@ __webpack_require__.r(__webpack_exports__);
         order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
         toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', {
+          positionClass: 'toast-bottom-left',
+          containerId: 'toast-bottom-left'
+        });
+      })["catch"](function (error) {
+        toastr.error(error.response.data.message, 'Ошибка!', {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -4028,6 +4038,9 @@ __webpack_require__.r(__webpack_exports__);
         } catch (e) {}
       });
     }
+  },
+  destroyed: function destroyed() {
+    this.$echo.leave('closed');
   }
 });
 
