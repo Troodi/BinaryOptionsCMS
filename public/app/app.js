@@ -2063,7 +2063,8 @@ window.dataLoaded = false;
             library_path: '/charts/charting_library/',
             theme: "dark",
             // "header_symbol_search",
-            disabled_features: ["widget_logo", "header_compare", 'compare_symbol', 'timeframes_toolbar', 'display_market_status', 'header_screenshot'],
+            disabled_features: ["widget_logo", "header_compare", 'compare_symbol', 'timeframes_toolbar', 'header_screenshot'],
+            // 'display_market_status',
             favorites: {
               intervals: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H'],
               chartTypes: ["Candles", "Area", "Line", "Bars", "Hollow Candles", "Baseline"]
@@ -2749,6 +2750,312 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Profile"
 });
@@ -2913,8 +3220,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+__webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
+
+__webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js */ "./resources/vendors/js/tables/datatable/dataTables.bootstrap4.min.js");
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Promocode"
+  name: "Promocode",
+  mounted: function mounted() {
+    $('#history').DataTable({
+      "language": {
+        "url": "/locales/Russian.json"
+      }
+    });
+  }
 });
 
 /***/ }),
@@ -3702,6 +4046,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -63003,13 +63348,863 @@ var staticRenderFns = [
       _c("div", { staticClass: "content-body" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
-            _c("section", { staticClass: "card" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v("Основная информация")
+                ])
+              ]),
+              _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-text" }, [
-                    _vm._v(
-                      "\n                                Проверка\n                            "
-                    )
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Никнейм")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Email")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Телефон*")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Telegram для связи")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Пол")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Язык")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-8" }, [
+                      _c("p", [
+                        _vm._v(
+                          "\n                                            * Не используем email для рассылок, мобильный телефон только для подтверждения личности.\n                                        "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-primary float-right",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Сохранить изменения")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-outline-danger float-right mr-1",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Очистить поля")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v("Изменение пароля")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Текущий пароль")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Новый пароль")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Повтор нового пароля")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-8" }, [
+                      _c("p", [
+                        _vm._v(
+                          "\n                                            Сохраните пароль в надежном месте после его изменения, во избежание потери доступа к аккаунту.\n                                        "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-primary float-right",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Сохранить изменения")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-outline-danger float-right mr-1",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Очистить поля")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v("Личные данные")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Фамилия")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Имя")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Отчество")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Дата рождения")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Адрес регистрации")]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [
+                          _vm._v("Серия и номер удостоверяющего документа")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group position-relative" },
+                          [
+                            _c("input", {
+                              staticClass: "form-control",
+                              staticStyle: { opacity: "1" },
+                              attrs: { readonly: "readonly", type: "text" }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "form-control-position",
+                                staticStyle: { top: "12px" }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass: "spinner-border spinner-grow-sm",
+                                  attrs: {
+                                    role: "status",
+                                    "aria-hidden": "true"
+                                  }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-8" }, [
+                      _c("p", [
+                        _vm._v(
+                          "\n                                            Используются только для верификации личности, это необходимо для защиты от отмывания денег.\n                                        "
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-primary float-right",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Сохранить изменения")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-outline-danger float-right mr-1",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Очистить поля")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v("Первая страница паспорта")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("fieldset", [
+                    _c("div", { staticClass: "input-group" }, [
+                      _c("div", { staticClass: "custom-file" }, [
+                        _c("input", {
+                          staticClass: "custom-file-input",
+                          attrs: {
+                            type: "file",
+                            id: "inputGroupFile01",
+                            "aria-describedby": "inputGroupFileAddon01"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticClass: "custom-file-label",
+                            attrs: { for: "inputGroupFile01" }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "spinner-border spinner-grow-sm",
+                              attrs: { role: "status", "aria-hidden": "true" }
+                            })
+                          ]
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-1" }, [
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-danger",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Очистить поле")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-primary float-right",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Отправить на проверку")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v("Страница с пропиской")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("fieldset", [
+                    _c("div", { staticClass: "input-group" }, [
+                      _c("div", { staticClass: "custom-file" }, [
+                        _c("input", {
+                          staticClass: "custom-file-input",
+                          attrs: {
+                            type: "file",
+                            id: "inputGroupFile02",
+                            "aria-describedby": "inputGroupFileAddon01"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticClass: "custom-file-label",
+                            attrs: { for: "inputGroupFile02" }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "spinner-border spinner-grow-sm",
+                              attrs: { role: "status", "aria-hidden": "true" }
+                            }),
+                            _vm._v(" Выберите изображение")
+                          ]
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-1" }, [
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-danger",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Очистить поле")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-primary float-right",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Отправить на проверку")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v("Допольнительный документ")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("fieldset", [
+                    _c("div", { staticClass: "input-group" }, [
+                      _c("div", { staticClass: "custom-file" }, [
+                        _c("input", {
+                          staticClass: "custom-file-input",
+                          attrs: {
+                            type: "file",
+                            id: "inputGroupFile03",
+                            "aria-describedby": "inputGroupFileAddon01"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "label",
+                          {
+                            staticClass: "custom-file-label",
+                            attrs: { for: "inputGroupFile03" }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "spinner-border spinner-grow-sm",
+                              attrs: { role: "status", "aria-hidden": "true" }
+                            })
+                          ]
+                        )
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row mt-1" }, [
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-danger",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Очистить поле")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-outline-primary float-right",
+                          attrs: { type: "button" }
+                        },
+                        [_vm._v("Отправить на проверку")]
+                      )
+                    ])
                   ])
                 ])
               ])
@@ -63352,6 +64547,42 @@ var staticRenderFns = [
                     ])
                   ]
                 )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("section", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v("История применений промокодов")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "card-text" }, [
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c(
+                        "table",
+                        { staticClass: "table", attrs: { id: "history" } },
+                        [
+                          _c("thead", [
+                            _c("tr", [
+                              _c("th", [_vm._v("Промокод")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Тип промокода")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Статус")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Дата")])
+                            ])
+                          ])
+                        ]
+                      )
+                    ])
+                  ])
+                ])
               ])
             ])
           ])
@@ -65513,19 +66744,20 @@ var staticRenderFns = [
                         },
                         [
                           _c("div", { staticClass: "dashboard-content-left" }, [
-                            _c(
-                              "h1",
-                              {
-                                staticClass:
-                                  "text-primary font-large-2 text-bold-500"
-                              },
-                              [_vm._v("$ 250.00")]
-                            ),
+                            _c("span", {
+                              staticClass:
+                                "mb-2 spinner-border spinner-grow-sm text-primary",
+                              staticStyle: { width: "3rem", height: "3rem" },
+                              attrs: { role: "status", "aria-hidden": "true" }
+                            }),
                             _vm._v(" "),
                             _c("p", [
-                              _vm._v(
-                                "Вы успешно отработали 57.6% от общей суммы бонуса."
-                              )
+                              _vm._v("Вы успешно отработали "),
+                              _c("span", {
+                                staticClass: "spinner-border spinner-grow-sm",
+                                attrs: { role: "status", "aria-hidden": "true" }
+                              }),
+                              _vm._v(" % от общей суммы бонуса.")
                             ]),
                             _vm._v(" "),
                             _c(
@@ -65573,7 +66805,7 @@ var staticRenderFns = [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-12" }, [
                       _vm._v(
-                        "\n                                                Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия.\n                                            "
+                        "\n                                                    Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия.\n                                                "
                       )
                     ])
                   ])

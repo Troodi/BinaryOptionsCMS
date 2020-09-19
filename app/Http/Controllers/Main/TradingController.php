@@ -9,6 +9,7 @@ use App\Jobs\CloseOptionJob;
 use App\Models\LatestOrder;
 use App\Models\OpenOrders;
 use App\Models\Symbols\Options\Symbol;
+use App\Models\Symbols\Options\Ticks;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -96,14 +97,20 @@ class TradingController extends Controller
       ]);
       $seconds = $request->hours * 60 * 60 + $request->minutes * 60 + $request->seconds;
       if($seconds < 30){
-        return response()->json(['Min 30 seconds'], 422);
+        return response()->json(['message' => 'Min 30 seconds'], 422);
       }
       if(Auth::user()->balance - $request->amount < 0){
-        return response()->json(['Недостаточно средств'], 422);
+        return response()->json(['message' => 'Недостаточно средств'], 422);
       }
       User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-'.$request->amount)]);
       broadcast(new ChangeBalance(Auth::user()->balance - $request->amount));
-      $price = Cache::get('symbol'.$request->symbol);
+      $fisrt = Ticks::where('symbol_id', $request->symbol)->orderBy('id', 'desc')->first();
+      if($fisrt){
+        $price = $fisrt->price;
+      } else {
+        return response()->json(['message' => 'Произошла ошибка при выставлении ордера!'], 422);
+      }
+      //Cache::get('symbol'.$request->symbol);
       $symbols_all = Cache::remember('symbols_all', 60, function () {
         return Symbol::orderBy('percent', 'desc')->get();
       });

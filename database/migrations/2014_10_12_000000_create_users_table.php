@@ -17,9 +17,12 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('token')->nullable();
+            $table->integer('referer_id')->nullable();
             $table->decimal('balance', 15, 4)->default(0);
             $table->decimal('demo_balance', 15, 4)->default(0);
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('banned_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

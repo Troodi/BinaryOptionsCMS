@@ -30,15 +30,6 @@
                 <form method="POST" action="{{ route('register') }}">
                   @csrf
                   <div class="form-group mb-50">
-                    <label class="text-bold-600" for="name">Name</label>
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Full Name">
-                    @error('name')
-                      <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                      </span>
-                    @enderror
-                  </div>
-                  <div class="form-group mb-50">
                     <label class="text-bold-600" for="email">Email address</label>
                     <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Email address">
                     @error('email')

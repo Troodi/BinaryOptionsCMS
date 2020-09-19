@@ -14,10 +14,11 @@ class CreateTicksTable extends Migration
     public function up()
     {
         Schema::create('ticks', function (Blueprint $table) {
+            $table->engine = 'MEMORY';
             $table->id();
             $table->integer('symbol_id')->nullable();
             $table->decimal('price', 10, 5)->nullable();
-            $table->timestamps(6);
+            $table->timestamp('created_at', 6);
         });
     }
 
