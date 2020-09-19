@@ -7,7 +7,7 @@ use App\Models\Symbols\Options\Ticks;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class CrearTicksTable extends Command
+class ClearTicksTable extends Command
 {
     /**
      * The name and signature of the console command.

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Events\ChangeBalance;
 use App\Events\CloseOptionEvent;
+use App\MarketStatus;
 use App\Models\LatestOrder;
 use App\Models\OpenOrders;
 use App\Models\Symbols\Options\Ticks;
@@ -11,6 +12,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class CheckOrdersForClose extends Command
@@ -50,13 +52,25 @@ class CheckOrdersForClose extends Command
           //TODO добавить асинхронность
           $start = microtime(true);
           $opened = OpenOrders::where('close_at', '<', Carbon::now()->format('Y-m-d H:i:s.u'))->get();
+          $market = MarketStatus::all();
           $ticks = Ticks::all();
           foreach($opened as $open){
             $open->delete();
-            $closed_price = $ticks->where('symbol_id', $open->symbol_id)->where('created_at', '<', Carbon::parse($open->closed_at)->format('Y-m-d H:i:s.u'))->last()->price;
+            $closed_price_obj = $ticks->where('symbol_id', $open->symbol_id)->where('created_at', '<', Carbon::parse($open->closed_at)->format('Y-m-d H:i:s.u'))->last();
             $profit = 0;
             $success = false;
-            if($closed_price == $open->open_price){
+            if(!isset($closed_price_obj) or !$closed_price_obj->count()){
+              $closed_price = -1;
+            } else {
+              $closed_price = $closed_price_obj->price;
+            }
+            $current_market = $market->where('symbol_id', $open->symbol_id)->first();
+            if(!Cache::has('latest_websocket_update') or time() - 5 > Cache::get('latest_websocket_update') or $closed_price == -1 or !isset($current_market) or !$current_market->count() or $current_market->market_status != 'market'){ // Проверка на закрытие рынка на момент закрытия сделки
+              $closed_price = $open->open_price;
+              $profit = $open->amount;
+              $success = true;
+            }
+            elseif($closed_price == $open->open_price){
               $profit = $open->amount;
               $success = true;
             }

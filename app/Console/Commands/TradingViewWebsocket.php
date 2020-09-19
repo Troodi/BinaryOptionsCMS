@@ -189,6 +189,7 @@ class TradingViewWebsocket extends Command
               $this->customMessageAllSymbols($this->sessionStatus, $this->symbols_all);
               $this->sessionRegistered = true;
             } elseif (isset($packet->m) && $packet->m === "qsd" && isset($packet->p)) {// && $packet->p[0] === $this->session
+              Cache::put('latest_websocket_update', time());
               $tticker = $packet->p[1];
               $tickerName = $tticker->n;
               $tickerStatus = $tticker->s;

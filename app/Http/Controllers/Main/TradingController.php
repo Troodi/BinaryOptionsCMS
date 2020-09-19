@@ -6,6 +6,7 @@ use App\Events\ChangeBalance;
 use App\Events\CloseOptionEvent;
 use App\Http\Controllers\Controller;
 use App\Jobs\CloseOptionJob;
+use App\MarketStatus;
 use App\Models\LatestOrder;
 use App\Models\OpenOrders;
 use App\Models\Symbols\Options\Symbol;
@@ -110,6 +111,13 @@ class TradingController extends Controller
       } else {
         return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее!'], 422);
       }
+      $market = MarketStatus::where('symbol_id', $request->symbol);
+      if(!isset($market) || !$market->count()){
+        return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее!'], 422);
+      }
+      if($market->first()->market_status != 'market'){
+        return response()->json(['message' => 'Данный инструмент закрыт для торговли, т.к. его рабочая сессия окончена!'], 422);
+      }
       $symbols_all = Cache::remember('symbols_all', 60, function () {
         return Symbol::orderBy('percent', 'desc')->get();
       });
@@ -123,7 +131,7 @@ class TradingController extends Controller
       $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
       $model->amount = $request->amount;
       $model->save();
-      $model->expiration = $seconds;
+      $model->expiration = $seconds-1;
       $model->timestamp = Carbon::parse($model->close_at)->timestamp;
       return $model;
     }
