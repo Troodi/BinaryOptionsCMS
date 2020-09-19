@@ -71,8 +71,9 @@
                                                 <div class="col-md-12">
                                                     <div class="d-flex justify-content-between align-items-end">
                                                         <div class="dashboard-content-left">
-                                                            <h1 class="text-primary font-large-2 text-bold-500">$ 250.00</h1>
-                                                            <p>Вы успешно отработали 57.6% от общей суммы бонуса.</p>
+                                                            <span role="status" aria-hidden="true" class="mb-2 spinner-border spinner-grow-sm text-primary" style="width:3rem;height:3rem;"></span>
+<!--                                                            <h1 class="text-primary font-large-2 text-bold-500">$ 250.00</h1>-->
+                                                            <p>Вы успешно отработали <span role="status" aria-hidden="true" class="spinner-border spinner-grow-sm"></span> % от общей суммы бонуса.</p>
                                                             <button type="button" class="btn btn-primary glow">Отказаться от бонуса</button>
                                                         </div>
                                                         <div class="dashboard-content-right">

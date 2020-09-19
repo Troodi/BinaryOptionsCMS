@@ -44,7 +44,7 @@
                             library_path: '/charts/charting_library/',
                             theme: "dark",
                             // "header_symbol_search",
-                            disabled_features: ["widget_logo", "header_compare", 'compare_symbol', 'timeframes_toolbar', 'display_market_status', 'header_screenshot'],
+                            disabled_features: ["widget_logo", "header_compare", 'compare_symbol', 'timeframes_toolbar', 'header_screenshot'], // 'display_market_status',
                             favorites: {
                                 intervals: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H'],
                                 chartTypes: ["Candles", "Area", "Line", "Bars", "Hollow Candles", "Baseline"]

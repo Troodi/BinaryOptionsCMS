@@ -14,6 +14,7 @@ use Spatie\Async\Pool;
 class TradingViewWebsocket extends Command
 {
     private $session;
+    private $sessionStatus;
     private $chartSession;
     private $subscriptions;
     private $websocket;
@@ -23,7 +24,8 @@ class TradingViewWebsocket extends Command
     private $login;
     private $password;
     private $startTime;
-    private $pool;
+    private $symbols_all = [];
+    public $tickerDataUptime;
     /**
      * The name and signature of the console command.
      *
@@ -68,7 +70,8 @@ class TradingViewWebsocket extends Command
     }
 
     private function sendMessage($func, $args){
-      $this->websocket->send($this->createMessage($func, $args));
+      $message = $this->createMessage($func, $args);
+      $this->websocket->send($message);
     }
 
     public function registerTicker($ticker){
@@ -89,9 +92,11 @@ class TradingViewWebsocket extends Command
     }
 
     private function resetWebSocket(){
+      $this->startTime = microtime(true);
       $this->tickerData = [];
       $this->subscriptions = [];
       $this->session = $this->generateSession();
+      $this->sessionStatus = $this->generateSession();
       $this->chartSession = $this->generateChartSession();
       $this->sessionRegistered = false;
       if($this->login and $this->password){
@@ -159,60 +164,25 @@ class TradingViewWebsocket extends Command
                   $json = json_decode($curl_exec);
                   $auth_token = $json->user->auth_token;
                 }
+                $auth_token = 'unauthorized_user_token';
                 $this->sendMessage("set_auth_token", [$auth_token]);
               } else {
                 $this->sendMessage("set_auth_token", ["unauthorized_user_token"]);
               }
-              $this->sendMessage("quote_create_session", [$this->session]);
-              $this->sendMessage("quote_set_fields", [
-                $this->session,
-                "ch",
-                "chp",
-                "current_session",
-                "description",
-                "local_description",
-                "language",
-                "exchange",
-                "fractional",
-                "is_tradable",
-                "lp",
-                "minmov",
-                "minmove2",
-                "original_name",
-                "pricescale",
-                "pro_name",
-                "short_name",
-                "type",
-                "update_mode",
-                "volume",
-                "ask",
-                "bid",
-                "fundamentals",
-                "high_price",
-                "is_tradable",
-                "low_price",
-                "open_price",
-                "prev_close_price",
-                "rch",
-                "rchp",
-                "rtc",
-                "status",
-                "basic_eps_net_income",
-                "beta_1_year",
-                "earnings_per_share_basic_ttm",
-                "industry",
-                "market_cap_basic",
-                "price_earnings_ttm",
-                "sector",
-                "volume",
-                "dividends_yield"
-              ]);
+              $this->sendMessage("quote_create_session", [$this->session]); // Основная сессия для реалтайм котировок
+              $this->setMainFields($this->session);
+              $this->symbols_all = [];
               foreach(Symbol::all() as $symbol){
-                $this->map[$symbol->broker.':'.str_replace('/', '', $symbol->symbol)] = $symbol->id;
-                $this->registerTicker($symbol->broker.':'.str_replace('/', '', $symbol->symbol));
+                $name = $symbol->broker.':'.str_replace('/', '', $symbol->symbol);
+                $this->map[$name] = $symbol->id;
+                $this->registerTicker($name);
+                $this->symbols_all[] = $name;
               }
+              $this->sendMessage("quote_create_session", [$this->sessionStatus]); // Дополнительная сессия для статуса маркета
+              $this->setMainFields($this->sessionStatus);
+              $this->customMessageAllSymbols($this->sessionStatus, $this->symbols_all);
               $this->sessionRegistered = true;
-            } elseif (isset($packet->m) && $packet->m === "qsd" && isset($packet->p) && $packet->p[0] === $this->session) {
+            } elseif (isset($packet->m) && $packet->m === "qsd" && isset($packet->p)) {// && $packet->p[0] === $this->session
               $tticker = $packet->p[1];
               $tickerName = $tticker->n;
               $tickerStatus = $tticker->s;
@@ -220,12 +190,20 @@ class TradingViewWebsocket extends Command
               foreach ($tickerUpdate as $key => $value) {
                 $this->tickerData[$tickerName][$key] = $value;
                 $this->tickerData[$tickerName]['id'] = $this->map[$tickerName];
+                if($packet->p[0] == $this->sessionStatus) {
+                  if ($key == 'pro_name') {
+                    $this->sendMessage("quote_remove_symbols", [$this->sessionStatus, $value, ['flags' => ["force_permission"]]]);
+                    $this->sendMessage("quote_add_symbols", [$this->sessionStatus, $value, ['flags' => ["force_permission"]]]);
+                  }
+                }
+              }
+              if(isset($this->tickerData[$tickerName]['pro_name']) && isset($this->tickerData[$tickerName]['current_session'])) {
+                var_dump($this->tickerData[$tickerName]['pro_name'] . ' - ' . $this->tickerData[$tickerName]['current_session']);
               }
               foreach($this->tickerData as $key => $value) {
                 if(isset($value['lp'])) {
                   if(Cache::get('symbol' . $value['id']) != $value['lp']) {
                     Cache::put('symbol' . $value['id'], $value['lp']);
-                    //echo $value['id'].' - '.$value['lp'].PHP_EOL;
                     //async(function () use ($value) {
                       $model = new Ticks; // TODO асинхронная запись в БД
                       $model->symbol_id = $value['id'];
@@ -277,6 +255,72 @@ class TradingViewWebsocket extends Command
       return $this->prependHeader($this->constructMessage($func, $paramList));
     }
 
+    private function customMessageAllSymbols($session, $symbols){
+      $all = '';
+      foreach($symbols as $value){
+        $all .= '"'.$value.'",';
+      }
+      $all = rtrim($all, ',');
+      $message = '{"m":"quote_add_symbols","p":["'.$session.'",'.$all.',{"flags":["force_permission"]}]}';
+      $this->websocket->send($this->prependHeader($message));
+    }
+
+    private function customMessageDeleteAllSymbols($session, $symbols){
+      $all = '';
+      foreach($symbols as $value){
+        $all .= '"'.$value.'",';
+      }
+      $all = rtrim($all, ',');
+      $message = '{"m":"quote_remove_symbols","p":["'.$session.'",'.$all.',{"flags":["force_permission"]}]}';
+      $this->websocket->send($this->prependHeader($message));
+    }
+
+    private function setMainFields($session){
+      $this->sendMessage("quote_set_fields", [
+        $session,
+        "ch",
+        "chp",
+        "current_session",
+        "description",
+        "local_description",
+        "language",
+        "exchange",
+        "fractional",
+        "is_tradable",
+        "lp",
+        "minmov",
+        "minmove2",
+        "original_name",
+        "pricescale",
+        "pro_name",
+        "short_name",
+        "type",
+        "update_mode",
+        "volume",
+        "ask",
+        "bid",
+        "fundamentals",
+        "high_price",
+        "is_tradable",
+        "low_price",
+        "open_price",
+        "prev_close_price",
+        "rch",
+        "rchp",
+        "rtc",
+        "status",
+        "basic_eps_net_income",
+        "beta_1_year",
+        "earnings_per_share_basic_ttm",
+        "industry",
+        "market_cap_basic",
+        "price_earnings_ttm",
+        "sector",
+        "volume",
+        "dividends_yield"
+      ]);
+    }
+
     private function constructMessage($func, $paramList){
       return json_encode([
         'm' => $func,
@@ -284,7 +328,16 @@ class TradingViewWebsocket extends Command
       ]);
     }
 
-    /**
+    private function microtimeFormat($data,$format=null,$lng=null)
+    {
+      $duration = microtime(true) - $data;
+      $hours = (int)($duration/60/60);
+      $minutes = (int)($duration/60)-$hours*60;
+      $seconds = $duration-$hours*60*60-$minutes*60;
+      return number_format((float)$seconds, 2, '.', '');
+    }
+
+  /**
      * Execute the console command.
      *
      * @return int
@@ -294,7 +347,6 @@ class TradingViewWebsocket extends Command
         $this->subscriptions = [];
         $this->login = env('TRADINGVIEW_LOGIN');
         $this->password = env('TRADINGVIEW_PASSWORD');
-        $this->startTime = microtime(true);
         $this->resetWebSocket();
         return 0;
     }

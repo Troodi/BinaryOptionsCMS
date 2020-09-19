@@ -16,13 +16,7 @@
     <script src="/vendors/js/extensions/toastr.min.js"></script>
     <script src="{{asset('vendors/js/pickers/pickadate/legacy.js')}}"></script>
     <script src="{{asset('vendors/js/pickers/daterange/moment.min.js')}}"></script>
-    <!-- END: Page Vendor JS-->
-    <!-- BEGIN: Theme JS-->
-    @if($configData['mainLayoutType'] == 'vertical-menu')
     <script src="{{asset('js/scripts/configs/vertical-menu-light.js')}}"></script>
-    @else
-    <script src="{{asset('js/scripts/configs/horizontal-menu.js')}}"></script>
-    @endif
     <script src="{{asset('js/core/app-menu.js')}}"></script>
     <script src="{{asset('app/scripts.js')}}"></script>
     <script src="{{asset('js/core/app.js')}}"></script>

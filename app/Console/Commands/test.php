@@ -39,8 +39,7 @@ class test extends Command
      */
     public function handle()
     {
-      $last_id = LatestOrder::where('user_id', 1)->take(10)->latest()->get()->last()->id;
-      var_dump($last_id);
-        return 0;
+      Cache::add('test', 'value', 60);
+      return 0;
     }
 }
