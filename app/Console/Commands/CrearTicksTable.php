@@ -2,18 +2,19 @@
 
 namespace App\Console\Commands;
 
-use App\Models\LatestOrder;
+use App\Models\Symbols\Options\Symbol;
+use App\Models\Symbols\Options\Ticks;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Cache;
 
-class test extends Command
+class CrearTicksTable extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'test';
+    protected $signature = 'clear:ticks';
 
     /**
      * The console command description.
@@ -39,7 +40,16 @@ class test extends Command
      */
     public function handle()
     {
-      Cache::add('test', 'value', 60);
+      foreach(Symbol::all() as $symbol){
+        $count = Ticks::where('symbol_id', $symbol->id)
+          ->where('created_at', '>', Carbon::now()->subMinutes(2))
+          ->count();
+        if($count){
+          Ticks::where('symbol_id', $symbol->id)
+            ->where('created_at', '<', Carbon::now()->subMinutes(2))
+            ->delete();
+        }
+      }
       return 0;
     }
 }

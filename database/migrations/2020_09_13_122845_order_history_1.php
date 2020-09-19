@@ -20,8 +20,8 @@ class OrderHistory1 extends Migration
         $table->timestamp('open_at', 6)->nullable();
         $table->timestamp('close_at', 6)->nullable();
         $table->decimal('amount', 10, 2)->nullable();
-        $table->decimal('open_price', 10, 5)->nullable();
-        $table->decimal('close_price', 10, 5)->nullable();
+        $table->decimal('open_price', 15, 5)->nullable();
+        $table->decimal('close_price', 15, 5)->nullable();
         $table->decimal('profit', 10, 5)->nullable();
         $table->integer('percent')->nullable();
         $table->integer('type')->nullable();

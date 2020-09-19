@@ -173,7 +173,6 @@ class TradingViewWebsocket extends Command
               $this->sendMessage("quote_create_session", [$this->session]); // Основная сессия для реалтайм котировок
               $this->setMainFields($this->session);
               $this->symbols_all = [];
-              var_dump('RENEW SESSION');
               MarketStatus::truncate();
               foreach(Symbol::all() as $symbol){
                 $name = $symbol->broker.':'.str_replace('/', '', $symbol->symbol);
@@ -221,12 +220,11 @@ class TradingViewWebsocket extends Command
                   }
                 }
               }
-              Ticks::where('created_at', '<', Carbon::now()->subMinutes(5))->delete(); //TODO Перенести в крон
             }
           }
           //call_user_func(array($this->class, 'readQuotes'), $this);
         } catch (\WebSocket\ConnectionException $e) {
-
+          var_dump($e->getMessage());
         }
       }
     }

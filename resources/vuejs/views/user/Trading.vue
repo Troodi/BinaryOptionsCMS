@@ -418,6 +418,9 @@
                     self.lines[response.data.id] = order;
                     toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 })
+                .catch(error => {
+                    toastr.error(error.response.data.message, 'Ошибка!', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                });
             },
             sell: function(){
                 let self = this;
@@ -445,6 +448,9 @@
                     self.lines[response.data.id] = order;
                     toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 })
+                .catch(error => {
+                    toastr.error(error.response.data.message, 'Ошибка!', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                });
             },
             timeClick: function () {
                 this.clicked = true;
@@ -605,6 +611,9 @@
                     } catch (e) { }
                 });
             }
+        },
+        destroyed() {
+            this.$echo.leave('closed');
         }
     }
 </script>
