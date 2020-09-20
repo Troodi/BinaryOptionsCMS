@@ -53,10 +53,12 @@ class CheckOrdersForClose extends Command
           $start = microtime(true);
           $opened = OpenOrders::where('close_at', '<', Carbon::now()->format('Y-m-d H:i:s.u'))->get();
           $market = MarketStatus::all();
-          $ticks = Ticks::all();
           foreach($opened as $open){
             $open->delete();
-            $closed_price_obj = $ticks->where('symbol_id', $open->symbol_id)->where('created_at', '<', Carbon::parse($open->closed_at)->format('Y-m-d H:i:s.u'))->last();
+            $closed_price_obj = Ticks::where('symbol_id', $open->symbol_id)
+              ->where('created_at', '<', Carbon::parse($open->closed_at)->format('Y-m-d H:i:s.u'))
+              ->orderBy('created_at', 'desc')
+              ->first();
             $profit = 0;
             $success = false;
             if(!isset($closed_price_obj) or !$closed_price_obj->count()){
@@ -121,12 +123,12 @@ class CheckOrdersForClose extends Command
             $model->save();
             $diff = date_diff(new \DateTime($model->close_at), new \DateTime($model->open_at));
             $model->expiration = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
-            broadcast(new CloseOptionEvent($model, $open->id, $success));
+            broadcast(new CloseOptionEvent($model, $open->id, $success, $open->user_id));
             if($profit > 0){
               $user = User::find($open->user_id);
               $user->balance = $user->balance + $profit;
               $user->save();
-              broadcast(new ChangeBalance($user->balance));
+              broadcast(new ChangeBalance($user->balance, $user));
             }
             $last_id = LatestOrder::where('user_id', $open->user_id)->take(10)->latest()->get()->last();
             if($last_id->count() >= 10) {

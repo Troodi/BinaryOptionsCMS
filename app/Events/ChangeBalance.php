@@ -16,15 +16,17 @@ class ChangeBalance implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $balance;
+    public $user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($balance)
+    public function __construct($balance, $user)
     {
         $this->balance = $balance;
+        $this->user = $user;
     }
 
     /**
@@ -34,6 +36,6 @@ class ChangeBalance implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        return new Channel('balance');
+        return new PrivateChannel('balance.'.$this->user->id);
     }
 }

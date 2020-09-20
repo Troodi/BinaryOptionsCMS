@@ -1,6 +1,5 @@
 <!-- BEGIN: Body-->
-<body class="vertical-layout vertical-menu-modern 2-columns dark-layout navbar-sticky footer-static no-card-shadow"
-data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
+<body class="vertical-layout vertical-menu-modern 2-columns dark-layout navbar-sticky footer-static no-card-shadow" data-open="click" data-menu="vertical-menu-modern" data-col="2-columns">
 <div id="app">
   <!-- BEGIN: Header-->
   <div class="header-navbar-shadow"></div>
