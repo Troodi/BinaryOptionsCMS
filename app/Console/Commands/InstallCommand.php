@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Promocode;
 use App\Models\Symbols\Options\Symbol;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class InstallCommand extends Command
@@ -19,7 +21,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Loading and fill database data';
 
     /**
      * Create a new command instance.
@@ -103,6 +105,21 @@ class InstallCommand extends Command
           $model->status = 1;
           $model->save();
         }
+
+        $model = new Promocode;
+        $model->description = 'Бездепозитный бонус 50$ для новых клиентов. После отработки бонуса необходимо пополнить баланс на сумму полученой прибыли и отработать полученную прибыль c бонуса для вывода.';
+        $model->code = 'GIVEME30DOLLARS';
+        $model->image = '/images/slider/07.jpg';
+        $model->public_code = 1;
+        $model->used = 0;
+        $model->for_new = 1;
+        $model->attempts = 1;
+        $model->type = 1; // Бездепозитный бонус
+        $model->turnover = 25;
+        $model->bonus_size = 30;
+        $model->active_from = Carbon::now();
+        $model->active_to = Carbon::now()->addYears(10);
+        $model->save();
 
         return 0;
     }

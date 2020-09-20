@@ -614,7 +614,7 @@
             }
         },
         destroyed() {
-            this.$echo.leave('closed');
+            this.$echo.leave('closed.'+window.user_data.id);
         }
     }
 </script>

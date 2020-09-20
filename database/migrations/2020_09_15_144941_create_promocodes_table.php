@@ -16,6 +16,7 @@ class CreatePromocodesTable extends Migration
         Schema::create('promocodes', function (Blueprint $table) {
             $table->id();
             $table->string('description')->nullable();
+            $table->integer('bonus_size')->nullable();
             $table->string('code')->nullable();
             $table->string('image')->nullable();
             $table->integer('public_code')->nullable();
