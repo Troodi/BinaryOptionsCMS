@@ -17,5 +17,7 @@ Route::middleware(['auth'])->group(function () {
   Route::post("/data/opened", 'Main\TradingController@getOpenOrders');
   Route::get("/data/symbols", 'Main\SymbolsHistoryController@getExchanges');
   Route::get("/data/getAuthToken", 'Main\TradingController@getAuthToken');
+  Route::post("/promocodes", 'Main\PromocodeController@getAvailablePromocodes');
+  Route::post("/promocode", 'Main\PromocodeController@checkPromocode');
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
 });

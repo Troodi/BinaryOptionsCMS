@@ -1,7 +1,21 @@
 <template>
     <div class="content-wrapper">
         <div class="content-body">
-            <div class="row equal">
+            <div class="row">
+                <div class="col-12">
+                    <div v-show="show" class="alert alert-dismissible mb-2" :class="{'bg-rgba-success' : success, 'bg-rgba-danger' : !success}" role="alert">
+                        <button @click="closeAlert" type="button" class="close" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <div class="d-flex align-items-center">
+                            <i v-show="success" class="bx bx-like"></i>
+                            <i v-show="!success" class="bx bx-error-circle"></i>
+                            <span>
+                              {{ message }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-md-6">
                     <section class="card">
                         <div class="card-header">
@@ -15,128 +29,29 @@
                                         привилегий. Обратите внимание - некоторые промокоды имеют условия использования.
                                     </p>
                                     <fieldset class="form-group">
-                                        <input type="text" class="form-control" placeholder="Введите промокод для его проверки">
+                                        <input type="text" class="form-control" placeholder="Введите промокод для его проверки" v-model="promocode">
                                     </fieldset>
-                                    <a href="#" class="btn btn-primary">Проверить</a>
-                                    <a href="#" class="btn btn-success float-right">Применить</a>
+                                    <button href="#" class="btn btn-primary">Очистить</button>
+                                    <button @click="checkPromocode" class="btn btn-success float-right">Применить</button>
                                 </div>
                             </div>
                         </div>
                     </section>
                 </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-content">
-                            <img class="card-img img-fluid" src="/images/slider/07.jpg" alt="Card image">
-                            <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column">
-                                <div class="overlay-content">
-                                    <p class="card-text text-ellipsis">
-                                        Sugar plum tiramisu sweet. Cake jelly marshmallow cotton candy chupa
-                                        chups.
-                                    </p>
-                                </div>
-                                <div class="overlay-status">
-                                    <p class="mb-25"><small>Last updated 3 mins ago</small></p>
-                                    <a href="#" class="btn btn-outline-info">Check More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-content">
-                            <img class="card-img img-fluid" src="/images/slider/08.jpg" alt="Card image">
-                            <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column">
-                                <div class="overlay-content">
-                                    <p class="card-text text-ellipsis">
-                                        Sugar plum tiramisu sweet. Cake jelly marshmallow cotton candy chupa
-                                        chups.
-                                    </p>
-                                </div>
-                                <div class="overlay-status">
-                                    <p class="mb-25"><small>Last updated 3 mins ago</small></p>
-                                    <a href="#" class="btn btn-outline-info">Check More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3" v-for="promocode in promocodes">
                     <div class="card">
                         <div class="card-content">
-                            <img class="card-img img-fluid" src="/images/slider/08.jpg" alt="Card image">
+                            <img class="card-img img-fluid" :src="promocode.image">
                             <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column">
                                 <div class="overlay-content">
-                                    <p class="card-text text-ellipsis">
-                                        Sugar plum tiramisu sweet. Cake jelly marshmallow cotton candy chupa
-                                        chups.
+                                    <p class="card-text">
+                                        {{ promocode.description }}
                                     </p>
                                 </div>
                                 <div class="overlay-status">
-                                    <p class="mb-25"><small>Last updated 3 mins ago</small></p>
-                                    <a href="#" class="btn btn-outline-info">Check More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-content">
-                            <img class="card-img img-fluid" src="/images/slider/08.jpg" alt="Card image">
-                            <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column">
-                                <div class="overlay-content">
-                                    <p class="card-text text-ellipsis">
-                                        Sugar plum tiramisu sweet. Cake jelly marshmallow cotton candy chupa
-                                        chups.
-                                    </p>
-                                </div>
-                                <div class="overlay-status">
-                                    <p class="mb-25"><small>Last updated 3 mins ago</small></p>
-                                    <a href="#" class="btn btn-outline-info">Check More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-content">
-                            <img class="card-img img-fluid" src="/images/slider/08.jpg" alt="Card image">
-                            <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column">
-                                <div class="overlay-content">
-                                    <p class="card-text text-ellipsis">
-                                        Sugar plum tiramisu sweet. Cake jelly marshmallow cotton candy chupa
-                                        chups.
-                                    </p>
-                                </div>
-                                <div class="overlay-status">
-                                    <p class="mb-25"><small>Last updated 3 mins ago</small></p>
-                                    <a href="#" class="btn btn-outline-info">Check More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="card">
-                        <div class="card-content">
-                            <img class="card-img img-fluid" src="/images/slider/08.jpg" alt="Card image">
-                            <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column">
-                                <div class="overlay-content">
-                                    <p class="card-text text-ellipsis">
-                                        Sugar plum tiramisu sweet. Cake jelly marshmallow cotton candy chupa
-                                        chups.
-                                    </p>
-                                </div>
-                                <div class="overlay-status">
-                                    <p class="mb-25"><small>Last updated 3 mins ago</small></p>
-                                    <a href="#" class="btn btn-outline-info">Check More</a>
+                                    <p class="mb-25"><small>Успейте воспользоваться предложением!</small></p>
+                                    <button @click="setCode(promocode.code)" class="btn btn-outline-info">Использовать промокод</button>
                                 </div>
                             </div>
                         </div>
@@ -180,15 +95,48 @@
     export default {
         name: "Promocode",
         mounted() {
+            let self = this;
             $('#history').DataTable({
                 "language": {
                     "url": "/locales/Russian.json"
                 }
             });
+            axios.post('/promocodes')
+                .then(function (response) {
+                    self.promocodes = response.data;
+                })
+        },
+        data: function () {
+            return {
+                promocode: '',
+                promocodes: [],
+                success: false,
+                message: '',
+                show: false
+            }
+        },
+        methods: {
+            setCode: function (promocode) {
+                this.promocode = promocode;
+            },
+            checkPromocode: function(){
+                let self = this;
+                axios.post('/promocode', { code: this.promocode})
+                    .then(function (response) {
+                        self.success = response.data.success;
+                        self.message = response.data.message;
+                        self.show = true;
+                    })
+            },
+            closeAlert: function () {
+                this.show = false;
+            }
         }
     }
 </script>
 
 <style scoped>
-
+    .overlay-dark {
+        background: rgba(57, 76, 98, 0.7) !important;
+    }
 </style>
