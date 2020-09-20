@@ -26,7 +26,8 @@
         "predis/predis": "^1.1",
         "spatie/async": "^1.4",
         "spatie/laravel-permission": "^3.6",
-        "textalk/websocket": "^1.4"
+        "textalk/websocket": "^1.4",
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

@@ -31,8 +31,8 @@
                                     <fieldset class="form-group">
                                         <input type="text" class="form-control" placeholder="Введите промокод для его проверки" v-model="promocode">
                                     </fieldset>
-                                    <button href="#" class="btn btn-primary">Очистить</button>
-                                    <button @click="checkPromocode" class="btn btn-success float-right">Применить</button>
+                                    <button @click="clearPromocode" class="btn btn-primary">Очистить</button>
+                                    <button @click="checkPromocode" class="btn btn-success float-right" :class="{'disabled' : promocode.length < 3}">Применить</button>
                                 </div>
                             </div>
                         </div>
@@ -130,6 +130,10 @@
             },
             closeAlert: function () {
                 this.show = false;
+            },
+            clearPromocode: function () {
+                this.promocode = '';
+                this.closeAlert();
             }
         }
     }

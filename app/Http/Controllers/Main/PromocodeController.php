@@ -44,6 +44,10 @@ class PromocodeController extends Controller
     $model->user_id = Auth::user()->id;
     $model->promocode_id = $promocode->id;
     $model->save();
-    return response()->json(['success' => true, 'message' => 'Промокод активирован!'], 200);
+    if($promocode->type == 1) {
+      return response()->json(['success' => true, 'message' => 'Промокод на бездепозиный бонус активирован!'], 200);
+    } elseif ($promocode->type == 2){
+      return response()->json(['success' => true, 'message' => 'Данный промокод активен и доступен на странице пополнения!'], 200);
+    }
   }
 }
