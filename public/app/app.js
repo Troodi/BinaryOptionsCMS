@@ -3202,6 +3202,10 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
     },
     closeAlert: function closeAlert() {
       this.show = false;
+    },
+    clearPromocode: function clearPromocode() {
+      this.promocode = '';
+      this.closeAlert();
     }
   }
 });
@@ -64363,7 +64367,10 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "button",
-                      { staticClass: "btn btn-primary", attrs: { href: "#" } },
+                      {
+                        staticClass: "btn btn-primary",
+                        on: { click: _vm.clearPromocode }
+                      },
                       [_vm._v("Очистить")]
                     ),
                     _vm._v(" "),
@@ -64371,6 +64378,7 @@ var render = function() {
                       "button",
                       {
                         staticClass: "btn btn-success float-right",
+                        class: { disabled: _vm.promocode.length < 3 },
                         on: { click: _vm.checkPromocode }
                       },
                       [_vm._v("Применить")]
