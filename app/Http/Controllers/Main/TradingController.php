@@ -104,7 +104,7 @@ class TradingController extends Controller
         return response()->json(['message' => 'Недостаточно средств'], 422);
       }
       User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-'.$request->amount)]);
-      broadcast(new ChangeBalance(Auth::user()->balance - $request->amount));
+      broadcast(new ChangeBalance(Auth::user()->balance - $request->amount, Auth::user()));
       $fisrt = Ticks::where('symbol_id', $request->symbol)->orderBy('id', 'desc')->first();
       if($fisrt){
         $price = $fisrt->price;

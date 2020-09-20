@@ -268,6 +268,7 @@
 
     export default {
         name: "Trading",
+        props: ['user'],
         components : {
             TradingChartComponent
         },
@@ -315,7 +316,7 @@
                     });
                 })
 
-            this.$echo.channel('closed').listen('CloseOptionEvent', (payload) => {
+            this.$echo.private('closed.' + window.user_data.id).listen('CloseOptionEvent', (payload) => {
                 let model = payload.model;
                 self.latest.unshift(model);
                 if(payload.success === true) {

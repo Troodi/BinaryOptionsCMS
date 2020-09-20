@@ -2255,7 +2255,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    this.$echo.channel('balance').listen('ChangeBalance', function (payload) {
+    this.$echo["private"]('balance.' + this.user.id).listen('ChangeBalance', function (payload) {
       _this.balance = payload.balance;
     });
     setInterval(function () {
@@ -3693,6 +3693,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Trading",
+  props: ['user'],
   components: {
     TradingChartComponent: _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -3746,7 +3747,7 @@ __webpack_require__.r(__webpack_exports__);
         self.localTV.getTicker(item.broker + ':' + item.symbol.replace('/', ''));
       });
     });
-    this.$echo.channel('closed').listen('CloseOptionEvent', function (payload) {
+    this.$echo["private"]('closed.' + window.user_data.id).listen('CloseOptionEvent', function (payload) {
       var model = payload.model;
       self.latest.unshift(model);
 

@@ -17,16 +17,18 @@ class CloseOptionEvent implements ShouldBroadcastNow
     public $id;
     public $success;
     public $model;
+    public $user_id;
 
-    public function __construct($model, $id, $success)
+    public function __construct($model, $id, $success, $user_id)
     {
         $this->id = $id;
         $this->success = $success;
         $this->model = $model;
+        $this->user_id = $user_id;
     }
 
     public function broadcastOn()
     {
-        return new Channel('closed');
+        return new PrivateChannel('closed.'.$this->user_id);
     }
 }

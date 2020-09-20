@@ -95,7 +95,7 @@
             AnimatedNumber
         },
         mounted() {
-            this.$echo.channel('balance').listen('ChangeBalance', (payload) => {
+            this.$echo.private('balance.'+this.user.id).listen('ChangeBalance', (payload) => {
                 this.balance = payload.balance;
             });
             setInterval(() => {
