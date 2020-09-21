@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="overlay-status">
                                     <p class="mb-25"><small>Успейте воспользоваться предложением!</small></p>
-                                    <button @click="setCode(promocode.code)" class="btn btn-outline-info">Использовать промокод</button>
+                                    <button @click="setCode(promocode.code)" class="btn btn-outline-info">Активировать промокод</button>
                                 </div>
                             </div>
                         </div>
@@ -89,6 +89,8 @@
 </template>
 
 <script>
+    import dateformat from "dateformat";
+
     require('../../../vendors/js/tables/datatable/datatables.min.js');
     require('../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js');
 
@@ -97,9 +99,64 @@
         mounted() {
             let self = this;
             $('#history').DataTable({
+                "iDisplayLength": 10,
+                "processing": true,
+                "serverSide": true,
+                "order": [[3, "desc"]],
+                "ajax": {
+                    url: "/promocode/history",
+                    type: "POST"
+                },
                 "language": {
                     "url": "/locales/Russian.json"
-                }
+                },
+                columns: [
+                    { data: 'promocode.code', name: 'promocode.code' },
+                    {
+                        data: 'promocode.type',
+                        name: 'promocode.type',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type) {
+                            let status = '';
+                            if (type === 'display') {
+                                switch (data) {
+                                    case 1:
+                                        status = 'Бездепозитный бонус';
+                                        break;
+                                    case 2:
+                                        status = 'Процент к пополнению';
+                                        break;
+                                }
+                            }
+                            return '<div class="badge badge-primary">' + status + '</div>';
+                        }
+                    },
+                    {
+                        data: 'id',
+                        name: 'promocode_id',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type) {
+                            let status = '';
+                            if (type === 'display') {
+                                status = 'Активирован';
+                            }
+                            return '<div class="badge badge-success">' + status + '</div>';
+                        }
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data, type) {
+                            let date = new Date();
+                            if (type === 'display') {
+                                date = new Date(data);
+                            }
+                            return dateformat(date, 'HH:MM:ss dd-mm-yyyy');
+                        }
+                    },
+                ]
             });
             axios.post('/promocodes')
                 .then(function (response) {
@@ -118,6 +175,7 @@
         methods: {
             setCode: function (promocode) {
                 this.promocode = promocode;
+                this.checkPromocode();
             },
             checkPromocode: function(){
                 let self = this;

@@ -30,3 +30,10 @@
     <!-- END: Page JS-->
 
     <script src="{{asset('app/app.js')}}"></script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>

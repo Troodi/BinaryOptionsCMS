@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
+use Yajra\DataTables\DataTables;
 
 //location / {
 //  proxy_ssl_server_name on;
@@ -155,6 +156,11 @@ class TradingController extends Controller
       $item['expiration'] = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
       return $item;
     });
+  }
+
+  public function tradingHistory(Request $request){
+    $history = DB::table('order_history_1')->where('user_id', Auth::user()->id)->get();
+    return Datatables::of($history)->make();
   }
 
   public function ping(Request $request){
