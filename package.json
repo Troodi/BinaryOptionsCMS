@@ -27,6 +27,7 @@
         "animated-number-vue": "^1.0.0",
         "bootstrap-xxl": "^4.1.1",
         "datatables.net": "^1.10.21",
+        "dateformat": "^3.0.3",
         "jquery": "^3.2",
         "laravel-echo": "^1.8.1",
         "laravel-echo-server": "^1.6.2",

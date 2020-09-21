@@ -304,7 +304,11 @@
             }, 100);
 
             window.addEventListener("resize", this.windowResized);
-            this.historyHeight = ($(window).height() - $('#line').offset().top - 30) + 'px';
+            try {
+                this.historyHeight = ($(window).height() - $('#line').offset().top - 30) + 'px';
+            } catch (e){
+                this.historyHeight = '0px';
+            }
             this.ps = new PerfectScrollbar("#accordionWrapa2");
             let self = this;
 
@@ -389,7 +393,11 @@
         },
         methods: {
             windowResized: function (e){
-                this.historyHeight = ($(window).height() - $('#line').offset().top - 30) + 'px';
+                try {
+                    this.historyHeight = ($(window).height() - $('#line').offset().top - 30) + 'px';
+                } catch (e) {
+                    this.historyHeight = '0px';
+                }
                 this.ps.destroy();
                 this.ps = new PerfectScrollbar("#accordionWrapa2");
             },

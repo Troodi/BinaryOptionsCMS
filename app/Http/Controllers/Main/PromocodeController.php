@@ -9,6 +9,7 @@ use App\Models\PromocodeHistory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class PromocodeController extends Controller
 {
@@ -49,5 +50,11 @@ class PromocodeController extends Controller
     } elseif ($promocode->type == 2){
       return response()->json(['success' => true, 'message' => 'Данный промокод активен и доступен на странице пополнения!'], 200);
     }
+  }
+
+  public function promocodeHistory(Request $request)
+  {
+    $history = PromocodeHistory::where('user_id', Auth::user()->id)->with('promocode')->get();
+    return Datatables::of($history)->make();
   }
 }
