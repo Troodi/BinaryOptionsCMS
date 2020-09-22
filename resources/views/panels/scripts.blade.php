@@ -28,7 +28,6 @@
     <!-- BEGIN: Page JS-->
     @yield('page-scripts')
     <!-- END: Page JS-->
-
     <script src="{{asset('app/app.js')}}"></script>
     <script>
         $.ajaxSetup({
