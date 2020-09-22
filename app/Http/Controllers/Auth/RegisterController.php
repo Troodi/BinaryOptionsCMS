@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Profile;
+use App\Models\Referral;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use Dirape\Token\Token;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -63,10 +66,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+      $create = User::create([
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'token' => Token::Unique('users', 'token', 10),
+      ]);
+
+      $profile = new Profile();
+      $profile->user_id = $create->id;
+      $profile->save();
+
+      $referral = new Referral();
+      $referral->user_id = $create->id;
+      $referral->save();
+      return $create;
     }
 
     // Register

@@ -15,6 +15,7 @@
         "php": "^7.2.5",
         "ext-curl": "*",
         "ext-json": "*",
+        "dirape/token": "^2.3",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",

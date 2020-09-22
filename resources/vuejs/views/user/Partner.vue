@@ -58,11 +58,11 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td><span role="status" aria-hidden="true" class="spinner-border spinner-grow-sm"></span></td>
-                                                    <td><span class="badge badge-primary text-white"><span role="status" aria-hidden="true" class="spinner-border spinner-grow-sm"></span> $</span></td>
-                                                    <td><span role="status" aria-hidden="true" class="spinner-border spinner-grow-sm"></span></td>
-                                                    <td><span role="status" aria-hidden="true" class="spinner-border spinner-grow-sm"></span></td>
-                                                    <td><span role="status" aria-hidden="true" class="spinner-border spinner-grow-sm"></span></td>
+                                                    <td v-text="count"></td>
+                                                    <td><span class="badge badge-primary text-white" v-text="reward + ' $'"></span></td>
+                                                    <td v-text="active"></td>
+                                                    <td v-text="deposit_count"></td>
+                                                    <td v-text="tracked"></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -76,19 +76,19 @@
                 <div class="col-md-12">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Список рефералов</h4>
+                            <h4 class="card-title">Список приглашенных</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="card-text">
                                     <div class="table-responsive">
-                                        <table class="table" id="referals">
+                                        <table class="table" id="referrals">
                                             <thead>
                                             <tr>
-                                                <th>Сумма платежа</th>
-                                                <th>Платежная система</th>
-                                                <th>Статус</th>
-                                                <th>Дата</th>
+                                                <th>Токен пользователя</th>
+<!--                                                <th>Вознаграждение</th>-->
+<!--                                                <th>Статус</th>-->
+                                                <th>Дата регистрации</th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -104,21 +104,61 @@
 </template>
 
 <script>
+    import dateformat from "dateformat";
     require('../../../vendors/js/tables/datatable/datatables.min.js');
     require('../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js');
 
     export default {
         name: "Partner",
         mounted() {
-            $('#referals').DataTable({
+            let self = this;
+            axios.post('/data/referralsInfo')
+                .then(function (response) {
+                    self.count = response.data.total_referrals;
+                    self.reward = response.data.reward;
+                    self.active = response.data.active;
+                    self.deposit_count = response.data.deposit_count;
+                    self.tracked = response.data.tracked;
+                });
+            $('#referrals').DataTable({
+                "iDisplayLength": 10,
+                "processing": true,
+                "serverSide": true,
+                "order": [[1, "desc"]],
+                "ajax": {
+                    url: "/data/referrals",
+                    type: "POST"
+                },
                 "language": {
                     "url": "/locales/Russian.json"
-                }
+                },
+                columns: [
+                    {
+                        data: 'token',
+                        name: 'token'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                        render: function(data, type) {
+                            let date = new Date();
+                            if (type === 'display') {
+                                date = new Date(data);
+                            }
+                            return dateformat(date, 'HH:MM:ss dd-mm-yyyy');
+                        }
+                    },
+                ]
             });
         },
         data: function () {
             return {
-                link: window.location.origin + '/offer/gjasdsda',
+                count: 0,
+                reward: '0.0000000000',
+                active: 0,
+                deposit_count: 0,
+                tracked: 0,
+                link: window.location.origin + '/offer/' + window.user_data.token,
             }
         }
     }
