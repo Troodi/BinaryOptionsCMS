@@ -69,6 +69,7 @@
 <script>
     require('../../../vendors/js/tables/datatable/datatables.min.js');
     require('../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js');
+    require('../../../js/core/libraries/bootstrap.min.js');
     import dateformat from 'dateformat';
 
     export default {
@@ -84,7 +85,7 @@
                         "serverSide": true,
                         "order": [[6, "desc"]],
                         "drawCallback": function(settings) {
-                            $('[data-toggle="popover"]').popover();
+                            $('[data-toggle="popover"]').popover({ html : true });
                         },
                         "ajax": {
                             url: "/trading/history",
@@ -95,19 +96,34 @@
                         },
                         columns: [
                             {
+                                orderable: false,
+                                searchable: false,
                                 data: 'amount',
                                 name: 'amount',
                                 render: function(data, type) {
-                                    $('[data-toggle="popover"]').popover();
                                     return parseFloat(data).toFixed(2) + ' $';
                                 }
                             },
                             {
+                                orderable: false,
+                                searchable: false,
                                 data: 'amount',
                                 name: 'amount',
-                                render: function(data, type) {
-                                    return '<button type="button" class="btn btn-primary" data-toggle="popover" data-placement="top" data-container="body" data-original-title="Popover Title" data-content="Macaroon chocolate candy. I love carrot cake gingerbread cake." aria-describedby="popover982962">Popover with Title</button>';
-                                    //return parseFloat(data).toFixed(2) + ' $';
+                                render: function(data, type, row) {
+                                    let path = 'выше';
+                                    let classname = 'success';
+                                    if(row.type === 0){
+                                        path = 'ниже';
+                                        classname = 'danger';
+                                    }
+                                    return '<div class="badge badge-secondary cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' +
+                                                'Дополнительная информация" data-content="' +
+                                                'Цена открытия: ' + row.open_price + '<br>' +
+                                                'Цена закрытия: '+ row.close_price+'<br>' +
+                                                'Направление: <div class=\'badge badge-'+classname+'\'>'+path+'</div><br>' +
+                                                'Время открытия: '+dateformat(row.open_at, 'HH:MM:ss dd-mm-yyyy')+'<br>' +
+                                                'Время закрытия: '+dateformat(row.close_at, 'HH:MM:ss dd-mm-yyyy')+'' +
+                                            '">Дополнительно</div>'
                                 }
                             },
                             {
@@ -142,6 +158,8 @@
                                 }
                             },
                             {
+                                orderable: false,
+                                searchable: false,
                                 data: 'percent',
                                 name: 'percent',
                                 render: function(data, type) {
@@ -149,6 +167,8 @@
                                 }
                             },
                             {
+                                orderable: false,
+                                searchable: false,
                                 data: 'close_at',
                                 name: 'close_at',
                                 render: function(data, type, row) {
@@ -156,7 +176,6 @@
                                     if (type === 'display') {
                                         date = new Date(new Date(row.close_at).getTime() - new Date(row.open_at).getTime());
                                         date.setHours(date.getHours() + new Date().getTimezoneOffset() / 60);
-                                        console.log(new Date(row.close_at).getTime() - new Date(row.open_at).getTime())
                                     }
                                     return dateformat(date, 'HH:MM:ss');
                                 }
@@ -169,7 +188,7 @@
                                     if (type === 'display') {
                                         date = new Date(data);
                                     }
-                                    return dateformat(date, 'HH:MM:ss dd-mm-yyyy');
+                                    return dateformat(date, 'dd-mm-yyyy');
                                 }
                             },
                         ]

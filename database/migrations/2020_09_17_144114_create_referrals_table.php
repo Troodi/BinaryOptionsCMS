@@ -17,7 +17,7 @@ class CreateReferralsTable extends Migration
           $table->id();
           $table->integer('user_id')->index();
           $table->integer('total_referrals')->default(0);
-          $table->decimal('reward', 12, 4)->default(0);
+          $table->decimal('reward', 20, 10)->default(0);
           $table->integer('active')->default(0);
           $table->integer('deposit_count')->default(0);
           $table->integer('tracked')->default(0);
