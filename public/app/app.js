@@ -3422,6 +3422,9 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
         "processing": true,
         "serverSide": true,
         "order": [[6, "desc"]],
+        "drawCallback": function drawCallback(settings) {
+          $('[data-toggle="popover"]').popover();
+        },
         "ajax": {
           url: "/trading/history",
           type: "POST"
@@ -3433,11 +3436,15 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
           data: 'amount',
           name: 'amount',
           render: function render(data, type) {
+            $('[data-toggle="popover"]').popover();
             return parseFloat(data).toFixed(2) + ' $';
           }
         }, {
           data: 'amount',
-          name: 'amount'
+          name: 'amount',
+          render: function render(data, type) {
+            return '<button type="button" class="btn btn-primary" data-toggle="popover" data-placement="top" data-container="body" data-original-title="Popover Title" data-content="Macaroon chocolate candy. I love carrot cake gingerbread cake." aria-describedby="popover982962">Popover with Title</button>'; //return parseFloat(data).toFixed(2) + ' $';
+          }
         }, {
           data: 'profit',
           name: 'profit',
