@@ -10,6 +10,9 @@
 
 /* Select2 Css */
 /* ----------- */
+.select2-search__field {
+  border-radius: 4px;
+}
 
 .select2-container--classic {
   .select2-selection--single {
@@ -28,6 +31,7 @@
     }
   }
 }
+
 .select2-container--classic,
 .select2-container--default {
   &:focus {
@@ -36,11 +40,11 @@
 
   // Select2 Single
   .select2-selection--single {
-    min-height: 38px;
+    min-height: 38.8px !important;
     padding: 5px;
-    border: 1px solid $input-border-color;
+    border: 1px solid $select2-border-color !important;
     &:focus {
-      border-color: $primary !important;
+      border-color: $select2-border-color !important;
       box-shadow: $input-focus-box-shadow !important;
     }
 
@@ -54,14 +58,14 @@
     }
     // Dropdown Arrow Height
     .select2-selection__arrow {
-      min-height: 38px;
+      min-height: 38.8px;
       b {
         width: 6px;
         height: 6px;
         margin-left: -10px;
         margin-top: -5px;
         border-width: 0 2px 2px 0;
-        border-color: $select-arrow-border;
+        border-color: $select2-border-color;
         transform: rotate(45deg);
       }
     }
@@ -69,13 +73,12 @@
   // When Select Container Open
   &.select2-container--open {
     .select2-selection--single {
-      border-color: $primary !important;
+      border-color: $select2-border-color !important;
       outline: 0;
       .select2-selection__arrow {
         b {
           border-width: 2px 0 0 2px;
-          border-color: $select-arrow-border transparent transparent
-            $select-arrow-border;
+          border-color: $select2-border-color transparent transparent $select2-border-color;
           margin-top: -2px;
         }
       }
@@ -101,7 +104,7 @@
   // Multiple Select2
   .select2-selection--multiple {
     min-height: 38px !important;
-    border: 1px solid $input-border-color;
+    border: 1px solid $select2-border-color;
     &:focus {
       outline: 0;
       border-color: $primary !important;
@@ -235,7 +238,7 @@
 .select2 {
   .form-control {
     &:focus {
-      border-color: $primary !important;
+      border-color: $select2-border-color !important;
     }
   }
 }

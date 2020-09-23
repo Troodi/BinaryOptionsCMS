@@ -20,7 +20,7 @@ class CreateProfilesTable extends Migration
         $table->string('last_name')->nullable();
         $table->string('patronymic')->nullable();
         $table->string('telegram')->nullable();
-        $table->integer('phone')->nullable();
+        $table->string('phone')->nullable();
         $table->timestamp('phone_verify_at')->nullable();
         $table->integer('gender')->nullable();
         $table->string('language')->nullable();
@@ -28,8 +28,11 @@ class CreateProfilesTable extends Migration
         $table->string('address')->nullable();
         $table->string('document_number')->nullable();
         $table->string('document_first_page')->nullable();
+        $table->timestamp('document_first_page_verify_at')->nullable();
         $table->string('document_second_page')->nullable();
+        $table->timestamp('document_second_page_verify_at')->nullable();
         $table->string('document_additional')->nullable();
+        $table->timestamp('document_additional_verify_at')->nullable();
         $table->timestamps();
       });
     }
