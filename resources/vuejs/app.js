@@ -7,7 +7,7 @@ import VueEcho from 'vue-echo-laravel';
 import VueCurrencyInput from "vue-currency-input";
 import VueCountdownTimer from 'vuejs-countdown-timer'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-
+import select2 from 'v-select2-component';
 window.axios = require('axios');
 
 window.axios.defaults.headers.common = {
@@ -19,6 +19,7 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCountdownTimer)
 Vue.use(VueCurrencyInput);
+Vue.component('select2', select2);
 Vue.component('deposit-history', require('./views/user/DepositHistory').default);
 Vue.component('menu-component', require('./views/layouts/Menu').default);
 Vue.component('footer-component', require('./views/layouts/Footer').default);

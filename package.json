@@ -37,6 +37,7 @@
         "rtlcss": "^2.6.0",
         "socket.io-client": "^2.3.0",
         "v-money": "^0.8.1",
+        "v-select2-component": "^0.4.3",
         "vue": "^2.6.12",
         "vue-currency-input": "^1.22.3",
         "vue-echo-laravel": "0.0.6",
