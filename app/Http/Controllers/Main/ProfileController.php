@@ -15,8 +15,8 @@ class ProfileController extends Controller
   public function changePassword(Request $request){
     $request->validate([
       'old_password' =>  'string|min:6|max:255',
-      'new_password' =>  'string|min:8|max:255',
-      'repeat_password' =>  'string|min:8|max:255',
+      'new_password' =>  'string|min:6|max:255',
+      'repeat_password' =>  'string|min:6|max:255',
     ]);
     if(Hash::make($request->old_password) != Auth::user()->password){
       return response()->json(['success' => false, 'message' => 'Текущий пароль введен неверно!'], 200);
