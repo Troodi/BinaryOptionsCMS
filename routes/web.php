@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
   Route::post("/data/latest", 'Main\TradingController@getLatestOrders');
   // Профиль
   Route::post("/data/profile", 'Main\ProfileController@loadAllProfileData');
+  Route::post("/data/changePassword", 'Main\ProfileController@changePassword');
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');

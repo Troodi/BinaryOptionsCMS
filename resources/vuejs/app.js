@@ -8,6 +8,7 @@ import VueCurrencyInput from "vue-currency-input";
 import VueCountdownTimer from 'vuejs-countdown-timer'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import select2 from 'v-select2-component';
+const VueInputMask = require('vue-inputmask').default
 window.axios = require('axios');
 
 window.axios.defaults.headers.common = {
@@ -15,6 +16,7 @@ window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 };
 
+Vue.use(VueInputMask)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCountdownTimer)

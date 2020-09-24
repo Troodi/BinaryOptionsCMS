@@ -41,6 +41,7 @@
         "vue": "^2.6.12",
         "vue-currency-input": "^1.22.3",
         "vue-echo-laravel": "0.0.6",
+        "vue-inputmask": "^0.2.1",
         "vue-router": "^3.4.3",
         "vue-the-mask": "^0.11.1",
         "vuejs-countdown-timer": "^2.1.2"
