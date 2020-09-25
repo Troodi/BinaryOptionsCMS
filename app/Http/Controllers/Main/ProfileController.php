@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
+use App\TwilioNumber;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Twilio\Exceptions\ConfigurationException;
+use Twilio\Rest\Client;
 
 class ProfileController extends Controller
 {
@@ -48,7 +53,60 @@ class ProfileController extends Controller
 
   // Верификация телефона
   public function approvePhone(Request $request){
+    $request->validate([
+      'code' => 'numeric|min:1000|max:9999'
+    ]);
+    if(Profile::where('user_id', Auth::user()->id)->first()->phone_verify_at){
+      return response()->json(['success' => false, 'message' => 'Телефон уже подтвержден!']);
+    }
+    if(cache()->has('phoneCodeUser'.Auth::user()->id) and cache()->get('phoneCodeUser'.Auth::user()->id) == $request->code){
+      Profile::where('user_id', Auth::user()->id)->update(['phone_verify_at' => Carbon::now()]);
+      return response()->json(['success' => true]);
+    } else {
+      return response()->json(['success' => false, 'message' => 'Код неверный или вы не заказывали звонок!']);
+    }
+  }
 
+  public function sendPhoneCode(Request $request){
+    $request->validate([
+      'phone' => 'regex:/\+\d{6,20}/'
+    ]);
+    if(Profile::where('user_id', Auth::user()->id)->first()->phone_verify_at){
+      return response()->json(['success' => false, 'message' => 'Телефон уже подтвержден!']);
+    }
+    $sid = env('TWILLIO_SID');
+    $token = env('TWILLIO_KEY');
+    try {
+      $client = new Client($sid, $token);
+    } catch (ConfigurationException $e) {
+      return response()->json(['success' => false, 'message' => 'Не удалось отправить код подтверждения, попробуйте позднее!']);
+    }
+    $number = TwilioNumber::inRandomOrder()->first()->number;
+    $digits = substr($number, -4);
+    cache()->put('phoneCodeUser'.Auth::user()->id, $digits, 900);
+    $client->calls->create(
+      $request->phone,
+      $number, [
+        'url' => 'https://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient'
+      ]
+    );
+    return response()->json(['success' => true, 'message' => 'Мы сделали Вам звонок!']);
+  }
+
+  //Событие начала звонка из twilio
+  public function phoneEvent(Request $request){
+    $sid = env('TWILLIO_SID');
+    $token = env('TWILLIO_KEY');
+    try {
+      $client = new Client($sid, $token);
+    } catch (ConfigurationException $e) {
+      return null;
+    }
+    $call = $client->calls($request->sid)->fetch();
+    if($call->status != 'queued'){
+      //$call->update(array("Status" => "completed"));
+      return response()->json(['success' => true, 'message' => 'Мы успешно дозвонились до Вас!']);
+    }
   }
 
   // Верификация емайла
@@ -58,16 +116,16 @@ class ProfileController extends Controller
 
   // Загрузка первой страницы паспорта
   public function passportFirstPage(Request $request){
-
+    return null;
   }
 
   // Загрузка второй страницы паспорта
   public function passportSecondPage(Request $request){
-
+    return null;
   }
 
   // Загрузка дополнительного документа
   public function additionalDocument(Request $request){
-
+    return null;
   }
 }

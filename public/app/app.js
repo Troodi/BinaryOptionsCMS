@@ -3163,6 +3163,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3172,7 +3207,16 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     handleFileUploads: function handleFileUploads(event) {
-      console.log(event);
+      var formData = new FormData();
+      formData.append('file', event.target.files[0]);
+      var self = this;
+      axios.post('/data/upload-additional', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function () {
+        self.getProfile();
+      });
     },
     getProfile: function getProfile() {
       var self = this;
@@ -3217,10 +3261,56 @@ __webpack_require__.r(__webpack_exports__);
       this.nickname = '';
       this.telegram = '';
     },
-    checkPhoneCode: function checkPhoneCode() {},
-    sendPhoneCode: function sendPhoneCode() {},
+    checkPhoneCode: function checkPhoneCode() {
+      var _this = this;
+
+      axios.post('/data/checkPhoneCode', {
+        code: this.phoneCode
+      }).then(function (response) {
+        if (response.data.success === true) {
+          $('#phone').modal('hide');
+          $('.modal-backdrop').remove();
+
+          _this.getProfile();
+        } else {
+          _this.phoneModalErrors = [];
+
+          _this.phoneModalErrors.push(response.data.message);
+        }
+      });
+    },
+    sendPhoneCode: function sendPhoneCode() {
+      var _this2 = this;
+
+      axios.post('/data/verifyPhone', {
+        phone: this.phone
+      }).then(function (response) {
+        if (response.data.success === false) {
+          _this2.phoneModalErrors = [];
+
+          _this2.phoneModalErrors.push(response.data.message);
+        } else {
+          _this2.phoneModalSuccess = [];
+
+          _this2.phoneModalSuccess.push(response.data.message);
+        }
+      });
+      this.phoneCodeEnabled = false;
+      this.phoneTime = Date.now() + 60000;
+      var self = this;
+      setTimeout(function () {
+        self.phoneCodeEnabled = true;
+      }, 60000);
+    },
     checkEmailCode: function checkEmailCode() {},
-    sendEmailCode: function sendEmailCode() {}
+    sendEmailCode: function sendEmailCode() {
+      this.emailCodeEnabled = false;
+      this.emailTime = Date.now() + 60000;
+      var self = this;
+      setTimeout(function () {
+        self.emailCodeEnabled = true;
+      }, 60000);
+    }
   },
   data: function data() {
     return {
@@ -3247,6 +3337,12 @@ __webpack_require__.r(__webpack_exports__);
       current_password: '',
       new_password: '',
       repeat_password: '',
+      phoneCodeEnabled: true,
+      emailCodeEnabled: true,
+      phoneTime: true,
+      emailTime: true,
+      phoneModalErrors: [],
+      phoneModalSuccess: [],
       options: [{
         id: "ru",
         text: "Русский"
@@ -120497,66 +120593,181 @@ var render = function() {
             _c("div", { staticClass: "modal-content" }, [
               _vm._m(0),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("p", [
-                  _vm._v(
-                    "\n                        На номер телефона будет совершен звонок. Введите посление 4 цифры номера для подтверждения.\n                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "input-group" }, [
-                  _c("input", {
-                    directives: [
+              _c(
+                "div",
+                { staticClass: "modal-body" },
+                [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _vm._l(_vm.phoneModalErrors, function(value) {
+                    return _c(
+                      "div",
                       {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.phoneCode,
-                        expression: "phoneCode"
+                        staticClass:
+                          "alert bg-rgba-danger alert-dismissible mb-2",
+                        attrs: { role: "alert" }
                       },
-                      {
-                        name: "mask",
-                        rawName: "v-mask",
-                        value: "9999",
-                        expression: "'9999'"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.phoneCode },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.phoneCode = $event.target.value
-                      }
-                    }
+                      [
+                        _vm._m(2, true),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "d-flex align-items-center" },
+                          [
+                            _c("i", { staticClass: "bx bx-error" }),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v(
+                                "\n                              " +
+                                  _vm._s(value) +
+                                  "\n                            "
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
                   }),
                   _vm._v(" "),
-                  _vm._m(1)
-                ])
-              ]),
+                  _vm._l(_vm.phoneModalSuccess, function(value) {
+                    return _c(
+                      "div",
+                      {
+                        staticClass:
+                          "alert bg-rgba-success alert-dismissible mb-2",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _vm._m(3, true),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "d-flex align-items-center" },
+                          [
+                            _c("i", { staticClass: "bx bx-error" }),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v(
+                                "\n                              " +
+                                  _vm._s(value) +
+                                  "\n                            "
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "input-group" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.phoneCode,
+                            expression: "phoneCode"
+                          },
+                          {
+                            name: "mask",
+                            rawName: "v-mask",
+                            value: "9999",
+                            expression: "'9999'"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.phoneCode },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.phoneCode = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.phoneCodeEnabled,
+                              expression: "phoneCodeEnabled"
+                            }
+                          ],
+                          staticClass: "input-group-append"
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: { type: "button" },
+                              on: { click: _vm.sendPhoneCode }
+                            },
+                            [_vm._v("Сделать звонок")]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("vue-countdown-timer", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.phoneCodeEnabled,
+                            expression: "!phoneCodeEnabled"
+                          }
+                        ],
+                        staticClass: "input-group-append",
+                        attrs: {
+                          "start-time": "2020-01-01 00:00:00",
+                          "end-time": _vm.phoneTime,
+                          interval: 1000
+                        },
+                        scopedSlots: _vm._u([
+                          {
+                            key: "countdown",
+                            fn: function(scope) {
+                              return [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary",
+                                    attrs: {
+                                      disabled: "disabled",
+                                      type: "button"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "Повторить (" +
+                                        _vm._s(scope.props.seconds) +
+                                        ")"
+                                    )
+                                  ]
+                                )
+                              ]
+                            }
+                          }
+                        ])
+                      })
+                    ],
+                    1
+                  )
+                ],
+                2
+              ),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-light-secondary",
-                    attrs: { type: "button", "data-dismiss": "modal" }
-                  },
-                  [
-                    _c("i", { staticClass: "bx bx-x d-block d-sm-none" }),
-                    _vm._v(" "),
-                    _c(
-                      "span",
-                      {
-                        staticClass: "d-none d-sm-block",
-                        on: { click: _vm.sendPhoneCode }
-                      },
-                      [_vm._v("Закрыть")]
-                    )
-                  ]
-                ),
+                _vm._m(4),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -120606,7 +120817,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(2),
+              _vm._m(5),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c("p", [
@@ -120615,51 +120826,113 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "input-group" }, [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.emailCode,
-                        expression: "emailCode"
-                      },
-                      {
-                        name: "mask",
-                        rawName: "v-mask",
-                        value: "9999",
-                        expression: "'9999'"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.emailCode },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                _c(
+                  "div",
+                  { staticClass: "input-group" },
+                  [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.emailCode,
+                          expression: "emailCode"
+                        },
+                        {
+                          name: "mask",
+                          rawName: "v-mask",
+                          value: "9999",
+                          expression: "'9999'"
                         }
-                        _vm.emailCode = $event.target.value
+                      ],
+                      staticClass: "form-control",
+                      attrs: { type: "text" },
+                      domProps: { value: _vm.emailCode },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.emailCode = $event.target.value
+                        }
                       }
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "input-group-append" }, [
+                    }),
+                    _vm._v(" "),
                     _c(
-                      "button",
+                      "div",
                       {
-                        staticClass: "btn btn-primary",
-                        attrs: { type: "button" },
-                        on: { click: _vm.sendEmailCode }
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.emailCodeEnabled,
+                            expression: "emailCodeEnabled"
+                          }
+                        ],
+                        staticClass: "input-group-append"
                       },
-                      [_vm._v("Отправить код")]
-                    )
-                  ])
-                ])
+                      [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-primary",
+                            attrs: { type: "button" },
+                            on: { click: _vm.sendEmailCode }
+                          },
+                          [_vm._v("Отправить код")]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("vue-countdown-timer", {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: !_vm.emailCodeEnabled,
+                          expression: "!emailCodeEnabled"
+                        }
+                      ],
+                      staticClass: "input-group-append",
+                      attrs: {
+                        "start-time": "2020-01-01 00:00:00",
+                        "end-time": _vm.emailTime,
+                        interval: 1000
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "countdown",
+                          fn: function(scope) {
+                            return [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-primary",
+                                  attrs: {
+                                    disabled: "disabled",
+                                    type: "button"
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "Повторить (" +
+                                      _vm._s(scope.props.seconds) +
+                                      ")"
+                                  )
+                                ]
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    })
+                  ],
+                  1
+                )
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
-                _vm._m(3),
+                _vm._m(6),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -120704,7 +120977,7 @@ var render = function() {
                     attrs: { role: "alert" }
                   },
                   [
-                    _vm._m(4, true),
+                    _vm._m(7, true),
                     _vm._v(" "),
                     _c("div", { staticClass: "d-flex align-items-center" }, [
                       _c("i", { staticClass: "bx bx-error" }),
@@ -120722,7 +120995,7 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("div", { staticClass: "card" }, [
-                _vm._m(5),
+                _vm._m(8),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-content" }, [
                   _c("div", { staticClass: "card-body" }, [
@@ -120977,7 +121250,7 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _vm._m(6),
+                      _vm._m(9),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c(
@@ -121020,7 +121293,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(7, true),
+              _vm._m(10, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -121040,7 +121313,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(8),
+              _vm._m(11),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -121129,7 +121402,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(9),
+                    _vm._m(12),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c(
@@ -121171,7 +121444,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(10, true),
+              _vm._m(13, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -121191,7 +121464,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(11),
+              _vm._m(14),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -121260,7 +121533,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _vm._m(12),
+                        _vm._m(15),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -121390,7 +121663,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(13),
+                    _vm._m(16),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c(
@@ -121442,7 +121715,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(14),
+              _vm._m(17),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -121463,7 +121736,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(15)]
+                    [_vm._m(18)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -121480,7 +121753,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(16)]
+                    [_vm._m(19)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -121505,6 +121778,8 @@ var render = function() {
                         [
                           _c("b-form-file", {
                             attrs: {
+                              accept:
+                                "image/jpg, image/jpeg, image/png, image/gif",
                               state: Boolean(_vm.document_first_page),
                               placeholder: "Выберите изображение",
                               "drop-placeholder": "Перетащите сюда файл..."
@@ -121515,93 +121790,6 @@ var render = function() {
                                 _vm.document_first_page = $$v
                               },
                               expression: "document_first_page"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]
-                  )
-                ])
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-4" }, [
-            _c("div", { staticClass: "card" }, [
-              _vm._m(17),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c(
-                    "div",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value:
-                            _vm.document_second_page &&
-                            !_vm.document_second_page_verify_at,
-                          expression:
-                            "document_second_page && !document_second_page_verify_at"
-                        }
-                      ],
-                      staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
-                      attrs: { role: "alert" }
-                    },
-                    [_vm._m(18)]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.document_second_page_verify_at,
-                          expression: "document_second_page_verify_at"
-                        }
-                      ],
-                      staticClass: "alert bg-rgba-success mb-0 alert-paddings",
-                      attrs: { role: "alert" }
-                    },
-                    [_vm._m(19)]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "fieldset",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value:
-                            !_vm.document_second_page &&
-                            !_vm.document_second_page_verify_at,
-                          expression:
-                            "!document_second_page && !document_second_page_verify_at"
-                        }
-                      ]
-                    },
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "input-group" },
-                        [
-                          _c("b-form-file", {
-                            attrs: {
-                              state: Boolean(_vm.document_second_page),
-                              placeholder: "Выберите изображение",
-                              "drop-placeholder": "Перетащите сюда файл..."
-                            },
-                            model: {
-                              value: _vm.document_second_page,
-                              callback: function($$v) {
-                                _vm.document_second_page = $$v
-                              },
-                              expression: "document_second_page"
                             }
                           })
                         ],
@@ -121628,6 +121816,95 @@ var render = function() {
                           name: "show",
                           rawName: "v-show",
                           value:
+                            _vm.document_second_page &&
+                            !_vm.document_second_page_verify_at,
+                          expression:
+                            "document_second_page && !document_second_page_verify_at"
+                        }
+                      ],
+                      staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
+                      attrs: { role: "alert" }
+                    },
+                    [_vm._m(21)]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.document_second_page_verify_at,
+                          expression: "document_second_page_verify_at"
+                        }
+                      ],
+                      staticClass: "alert bg-rgba-success mb-0 alert-paddings",
+                      attrs: { role: "alert" }
+                    },
+                    [_vm._m(22)]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "fieldset",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value:
+                            !_vm.document_second_page &&
+                            !_vm.document_second_page_verify_at,
+                          expression:
+                            "!document_second_page && !document_second_page_verify_at"
+                        }
+                      ]
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "input-group" },
+                        [
+                          _c("b-form-file", {
+                            attrs: {
+                              accept:
+                                "image/jpg, image/jpeg, image/png, image/gif",
+                              state: Boolean(_vm.document_second_page),
+                              placeholder: "Выберите изображение",
+                              "drop-placeholder": "Перетащите сюда файл..."
+                            },
+                            model: {
+                              value: _vm.document_second_page,
+                              callback: function($$v) {
+                                _vm.document_second_page = $$v
+                              },
+                              expression: "document_second_page"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-4" }, [
+            _c("div", { staticClass: "card" }, [
+              _vm._m(23),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value:
                             _vm.document_additional &&
                             !_vm.document_additional_verify_at,
                           expression:
@@ -121637,7 +121914,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(21)]
+                    [_vm._m(24)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -121654,7 +121931,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(22)]
+                    [_vm._m(25)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -121679,6 +121956,8 @@ var render = function() {
                         [
                           _c("b-form-file", {
                             attrs: {
+                              accept:
+                                "image/jpg, image/jpeg, image/png, image/gif",
                               state: Boolean(_vm.document_additional),
                               placeholder: "Выберите изображение",
                               "drop-placeholder": "Перетащите сюда файл..."
@@ -121735,13 +122014,70 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group-append" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("Сделать звонок")]
+    return _c("p", [
+      _vm._v(
+        "\n                        На номер телефона будет совершен звонок. Введите посление 4 цифры номера для подтверждения. "
+      ),
+      _c("code", [
+        _vm._v(
+          "Отвечать на звонок не нужно, нужны только 4 последние цифры номера!"
+        )
+      ]),
+      _vm._v(
+        " На подтверждение номера выделяется 3 попытки.\n                    "
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-light-secondary",
+        attrs: { type: "button", "data-dismiss": "modal" }
+      },
+      [
+        _c("i", { staticClass: "bx bx-x d-block d-sm-none" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "d-none d-sm-block" }, [_vm._v("Закрыть")])
+      ]
+    )
   },
   function() {
     var _vm = this

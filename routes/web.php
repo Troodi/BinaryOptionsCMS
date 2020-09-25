@@ -30,6 +30,9 @@ Route::middleware(['auth'])->group(function () {
   // Профиль
   Route::post("/data/profile", 'Main\ProfileController@loadAllProfileData');
   Route::post("/data/changePassword", 'Main\ProfileController@changePassword');
+  Route::post('/data/upload-additional','Main\ProfileController@additionalDocument');
+  Route::post('/data/verifyPhone', 'Main\ProfileController@sendPhoneCode');
+  Route::post('/data/checkPhoneCode', 'Main\ProfileController@approvePhone');
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');

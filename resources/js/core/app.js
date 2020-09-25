@@ -313,11 +313,11 @@
     }
 
     //Custom File Input
-    $(".custom-file input").change(function (e) {
-      $(this)
-        .next(".custom-file-label")
-        .html(e.target.files[0].name)
-    })
+    // $(".custom-file input").change(function (e) {
+    //   $(this)
+    //     .next(".custom-file-label")
+    //     .html(e.target.files[0].name)
+    // })
 
     /* Text Area Counter Set Start */
 

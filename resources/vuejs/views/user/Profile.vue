@@ -11,19 +11,49 @@
                     </div>
                     <div class="modal-body">
                         <p>
-                            На номер телефона будет совершен звонок. Введите посление 4 цифры номера для подтверждения.
+                            На номер телефона будет совершен звонок. Введите посление 4 цифры номера для подтверждения. <code>Отвечать на звонок не нужно, нужны только 4 последние цифры номера!</code> На подтверждение номера выделяется 3 попытки.
                         </p>
+
+                        <div v-for="value in phoneModalErrors" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-error"></i>
+                                <span>
+                                  {{ value }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div v-for="value in phoneModalSuccess" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-error"></i>
+                                <span>
+                                  {{ value }}
+                                </span>
+                            </div>
+                        </div>
+
                         <div class="input-group">
                             <input v-model="phoneCode" type="text" class="form-control" v-mask="'9999'">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">Сделать звонок</button>
+                            <div v-show="phoneCodeEnabled" class="input-group-append">
+                                <button @click="sendPhoneCode" class="btn btn-primary" type="button">Сделать звонок</button>
                             </div>
+                            <vue-countdown-timer v-show="!phoneCodeEnabled" class="input-group-append" :start-time="'2020-01-01 00:00:00'" :end-time="phoneTime" :interval="1000">
+                                <template slot="countdown" slot-scope="scope">
+                                    <button disabled="disabled" class="btn btn-primary" type="button">Повторить ({{ scope.props.seconds }})</button>
+                                </template>
+                            </vue-countdown-timer>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
                             <i class="bx bx-x d-block d-sm-none"></i>
-                            <span @click="sendPhoneCode" class="d-none d-sm-block">Закрыть</span>
+                            <span class="d-none d-sm-block">Закрыть</span>
                         </button>
                         <button v-bind:disabled="checkPhoneCodeDisabled" @click="checkPhoneCode" type="button" class="btn btn-primary ml-1">
                             <i class="bx bx-check d-block d-sm-none"></i>
@@ -49,9 +79,14 @@
                         </p>
                         <div class="input-group">
                             <input v-model="emailCode" type="text" class="form-control" v-mask="'9999'">
-                            <div class="input-group-append">
+                            <div v-show="emailCodeEnabled" class="input-group-append">
                                 <button @click="sendEmailCode" class="btn btn-primary" type="button">Отправить код</button>
                             </div>
+                            <vue-countdown-timer v-show="!emailCodeEnabled" class="input-group-append" :start-time="'2020-01-01 00:00:00'" :end-time="emailTime" :interval="1000">
+                                <template slot="countdown" slot-scope="scope">
+                                    <button disabled="disabled" class="btn btn-primary" type="button">Повторить ({{ scope.props.seconds }})</button>
+                                </template>
+                            </vue-countdown-timer>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -308,7 +343,7 @@
 
                                 <fieldset v-show="!document_first_page && !document_first_page_verify_at">
                                     <div class="input-group">
-                                        <b-form-file v-model="document_first_page" :state="Boolean(document_first_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
+                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-model="document_first_page" :state="Boolean(document_first_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
                                     </div>
                                 </fieldset>
                             </div>
@@ -342,7 +377,7 @@
 
                                 <fieldset v-show="!document_second_page && !document_second_page_verify_at">
                                     <div class="input-group">
-                                        <b-form-file v-model="document_second_page" :state="Boolean(document_second_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
+                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-model="document_second_page" :state="Boolean(document_second_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
                                     </div>
                                 </fieldset>
                             </div>
@@ -376,7 +411,7 @@
 
                                 <fieldset v-show="!document_additional && !document_additional_verify_at">
                                     <div class="input-group">
-                                        <b-form-file v-on:change="handleFileUploads" v-model="document_additional" :state="Boolean(document_additional)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
+                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="handleFileUploads" v-model="document_additional" :state="Boolean(document_additional)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
                                     </div>
                                 </fieldset>
                             </div>
@@ -398,7 +433,13 @@
         },
         methods: {
             handleFileUploads: function(event){
-                console.log(event);
+                let formData = new FormData();
+                formData.append('file', event.target.files[0]);
+                let self = this;
+                axios.post( '/data/upload-additional', formData, { headers: { 'Content-Type': 'multipart/form-data' }})
+                    .then(function(){
+                        self.getProfile();
+                    });
             },
             getProfile: function(){
                 let self = this;
@@ -447,16 +488,44 @@
                 this.telegram = '';
             },
             checkPhoneCode: function () {
-
+                axios.post('/data/checkPhoneCode', { code: this.phoneCode }).then((response) => {
+                    if(response.data.success === true) {
+                        $('#phone').modal('hide');
+                        $('.modal-backdrop').remove();
+                        this.getProfile();
+                    } else {
+                        this.phoneModalErrors = [];
+                        this.phoneModalErrors.push(response.data.message);
+                    }
+                });
             },
             sendPhoneCode: function () {
-
+                axios.post('/data/verifyPhone', { phone: this.phone }).then((response) => {
+                    if(response.data.success === false) {
+                        this.phoneModalErrors = [];
+                        this.phoneModalErrors.push(response.data.message);
+                    } else {
+                        this.phoneModalSuccess = [];
+                        this.phoneModalSuccess.push(response.data.message);
+                    }
+                });
+                this.phoneCodeEnabled = false;
+                this.phoneTime = Date.now() + 60000;
+                let self = this;
+                setTimeout(() => {
+                    self.phoneCodeEnabled = true;
+                }, 60000);
             },
             checkEmailCode: function () {
 
             },
             sendEmailCode: function () {
-
+                this.emailCodeEnabled = false;
+                this.emailTime = Date.now() + 60000;
+                let self = this;
+                setTimeout(() => {
+                    self.emailCodeEnabled = true;
+                }, 60000);
             },
         },
         data: function () {
@@ -484,6 +553,12 @@
                 current_password: '',
                 new_password: '',
                 repeat_password: '',
+                phoneCodeEnabled: true,
+                emailCodeEnabled: true,
+                phoneTime: true,
+                emailTime: true,
+                phoneModalErrors: [],
+                phoneModalSuccess: [],
                 options: [
                     { id: "ru", text: "Русский" },
                     { id: "en", text: "English" },
