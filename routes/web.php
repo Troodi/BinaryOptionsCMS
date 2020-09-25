@@ -10,6 +10,8 @@
 |
 */
 Auth::routes();
+
+Route::GET('/event-twilio', 'Main\ProfileController@phoneEvent');
 Route::middleware(['auth'])->group(function () {
   // Трейдинг
   Route::post("/binary/buy", 'Main\TradingController@buySymbol');

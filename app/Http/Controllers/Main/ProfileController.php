@@ -87,6 +87,10 @@ class ProfileController extends Controller
     $client->calls->create(
       $request->phone,
       $number, [
+        "method" => "POST",
+        "statusCallback" => env('APP_URL')."/event-twilio",
+        "statusCallbackEvent" => ["initiated","answered"],
+        "statusCallbackMethod" => "POST",
         'url' => 'https://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient'
       ]
     );
@@ -103,10 +107,8 @@ class ProfileController extends Controller
       return null;
     }
     $call = $client->calls($request->sid)->fetch();
-    if($call->status != 'queued'){
-      //$call->update(array("Status" => "completed"));
-      return response()->json(['success' => true, 'message' => 'Мы успешно дозвонились до Вас!']);
-    }
+    $call->update(array("Status" => "completed"));
+    return null;
   }
 
   // Верификация емайла
