@@ -66,10 +66,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+      $token = new Token();
       $create = User::create([
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
-        'token' => Token::Unique('users', 'token', 10),
+        'token' => $token->unique('users', 'token', 10),
       ]);
 
       $profile = new Profile();
