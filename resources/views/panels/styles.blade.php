@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('css/components.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/themes/dark-layout.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/themes/semi-dark-layout.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('css/extensions/toastr.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('css/plugins/extensions/toastr.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/tables/datatable/datatables.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/core/menu/menu-types/vertical-menu.css')}}">
 @yield('page-styles')
