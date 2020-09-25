@@ -27,6 +27,8 @@
         "predis/predis": "^1.1",
         "spatie/async": "^1.4",
         "textalk/websocket": "^1.4",
+        "troodi/laravel-auto-deploy": "dev-master",
+        "twilio/sdk": "^6.10",
         "yajra/laravel-datatables-oracle": "^9.11"
     },
     "require-dev": {
