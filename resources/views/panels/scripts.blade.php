@@ -8,7 +8,6 @@
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.tools.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.defaults.js')}}"></script>
     <script src="{{asset('fonts/LivIconsEvo/js/LivIconsEvo.min.js')}}"></script>
-    <link rel="stylesheet" type="text/css" href="/vendors/css/extensions/toastr.css">
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
