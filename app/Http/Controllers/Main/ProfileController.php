@@ -88,7 +88,7 @@ class ProfileController extends Controller
       $number, [
         "method" => "POST",
         "statusCallback" => env('APP_URL')."/event-twilio",
-        "statusCallbackEvent" => ["initiated","answered","ringing"],
+        "statusCallbackEvent" => ["ringing","answered"],
         "statusCallbackMethod" => "POST",
         'url' => 'https://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient'
       ]
@@ -105,7 +105,7 @@ class ProfileController extends Controller
     } catch (ConfigurationException $e) {
       return null;
     }
-    $call = $client->calls($request->sid)->fetch();
+    $call = $client->calls($request->CallSid)->fetch();
     $call->update(array("Status" => "completed"));
     return null;
   }
