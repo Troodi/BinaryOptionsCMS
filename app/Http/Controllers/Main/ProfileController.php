@@ -90,10 +90,15 @@ class ProfileController extends Controller
         "statusCallback" => env('APP_URL')."/event-twilio",
         "statusCallbackEvent" => ["ringing","answered"],
         "statusCallbackMethod" => "POST",
-        'url' => 'https://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient'
+        'url' => env('APP_URL').'/mp3'
       ]
     );
     return response()->json(['success' => true, 'message' => 'Мы сделали Вам звонок!']);
+  }
+
+  public function playMP3(Request $request){
+    $str = '<Response><Play>'.env('APP_URL').'/data/silence.mp3</Play><Redirect/></Response>';
+    return response($str, 200, ['Content-Type' => 'application/xml']);
   }
 
   //Событие начала звонка из twilio
