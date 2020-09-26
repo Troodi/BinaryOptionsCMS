@@ -88,7 +88,7 @@ class ProfileController extends Controller
       $number, [
         "method" => "POST",
         "statusCallback" => env('APP_URL')."/event-twilio",
-        "statusCallbackEvent" => ["initiated","answered"],
+        "statusCallbackEvent" => ["initiated","answered","ringing"],
         "statusCallbackMethod" => "POST",
         'url' => 'https://twimlets.com/holdmusic?Bucket=com.twilio.music.ambient'
       ]
