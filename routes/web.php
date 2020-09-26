@@ -12,6 +12,7 @@
 Auth::routes();
 
 Route::post('/event-twilio', 'Main\ProfileController@phoneEvent');
+Route::get('/mp3', 'Main\ProfileController@playMP3');
 Route::middleware(['auth'])->group(function () {
   // Трейдинг
   Route::post("/binary/buy", 'Main\TradingController@buySymbol');
