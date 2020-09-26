@@ -20,3 +20,4 @@ yarn-error.log
 laravel-echo-server.lock
 app/Http/Controllers/Main/cookie.txt
 .env
+laravel-echo-server.json
