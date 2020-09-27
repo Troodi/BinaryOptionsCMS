@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Rest\Client;
 
@@ -113,6 +114,29 @@ class ProfileController extends Controller
     $call = $client->calls($request->CallSid)->fetch();
     $call->update(array("Status" => "completed"));
     return null;
+  }
+
+  public function sendEmailCode(Request $request){
+//    $request->validate([
+//      'email' => 'email'
+//    ]);
+    $token = 5233;
+    $mail_data = [
+      'headline' => 'Подтверждение email адреса',
+      'subtitle' =>  'Код для подтверждения',
+      'text' => '<p>Здравствуйте, для активации аккаунта необходимо ввести код подтвержения на странице профиля.</p><p><h1 style="text-align: center;"><strong>'.$token.'</strong></h1></p>',
+      'image' => 'notification-setting.png',
+      'button_link' => env('APP_URL').'/profile',
+      'button_text' => 'Перейти в кабинет'
+    ];
+    Mail::send('mail.mail', $mail_data, function($message)
+    {
+      $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
+      $message->replyTo(env('MAIL_USERNAME'));
+      $message->subject('Подтверждение email адреса');
+      $message->to('troodi@bk.ru');
+    });
+    return response()->json(['success' => true, 'message' => 'Мы выслали Вам код подтверждения!']);
   }
 
   // Верификация емайла
