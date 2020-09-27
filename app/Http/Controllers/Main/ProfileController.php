@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Main;
 
+use App\Models\EmailAttempts;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
-use App\TwilioNumber;
+use App\Models\PhoneAttempts;
+use App\Models\TwilioNumber;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -56,11 +58,13 @@ class ProfileController extends Controller
     $request->validate([
       'code' => 'numeric|min:1000|max:9999'
     ]);
-    if(Profile::where('user_id', Auth::user()->id)->first()->phone_verify_at){
+    $profile = Profile::where('user_id', Auth::user()->id)->first();
+    if($profile->phone_verify_at){
       return response()->json(['success' => false, 'message' => 'Телефон уже подтвержден!']);
     }
     if(cache()->has('phoneCodeUser'.Auth::user()->id) and cache()->get('phoneCodeUser'.Auth::user()->id) == $request->code){
       Profile::where('user_id', Auth::user()->id)->update(['phone_verify_at' => Carbon::now()]);
+      PhoneAttempts::where('phone', $profile->phone)->where('user_id', Auth::user()->id)->delete();
       return response()->json(['success' => true]);
     } else {
       return response()->json(['success' => false, 'message' => 'Код неверный или вы не заказывали звонок!']);
@@ -71,8 +75,18 @@ class ProfileController extends Controller
     $request->validate([
       'phone' => 'regex:/\+\d{6,20}/'
     ]);
+    if(cache()->has('phoneSent'.Auth::user()->id)){
+      return response()->json(['success' => false, 'message' => 'Совершение звонка возможно не чаще одного раза в минуту!']);
+    }
     if(Profile::where('user_id', Auth::user()->id)->first()->phone_verify_at){
       return response()->json(['success' => false, 'message' => 'Телефон уже подтвержден!']);
+    }
+    $phoneAttepmts = PhoneAttempts::where('phone', $request->phone)->where('user_id', Auth::user()->id)->first();
+    if($phoneAttepmts and $phoneAttepmts->attempts >= 3){
+      return response()->json(['success' => false, 'message' => 'Вы исчерпали количество подтверждений для данного номера телефона. Если считаете что произошла ошибка - обратитесь в техническую поддержку!']);
+    }
+    if(Profile::where('phone', $request->phone)->whereNotNull('phone_verify_at')->count()){
+      return response()->json(['success' => false, 'message' => 'Данный телефон невозможно верифицировать!']);
     }
     $sid = env('TWILLIO_SID');
     $token = env('TWILLIO_KEY');
@@ -81,7 +95,16 @@ class ProfileController extends Controller
     } catch (ConfigurationException $e) {
       return response()->json(['success' => false, 'message' => 'Не удалось отправить код подтверждения, попробуйте позднее!']);
     }
-    $number = TwilioNumber::inRandomOrder()->first()->number;
+    $model = PhoneAttempts::firstOrNew(['phone' => $request->phone, 'user_id' => Auth::user()->id]);
+    $model->increment('attempts');
+    $model->save();
+    $twilio = TwilioNumber::where('updated_at', '<=', Carbon::now()->subSeconds(20))->inRandomOrder()->first();
+    if($twilio){
+      $number = $twilio->number;
+      TwilioNumber::where('id', $twilio->id)->update(['updated_at' => Carbon::now()]);
+    } else {
+      return response()->json(['success' => false, 'message' => 'Не удалось совершить звонок из-за отсутствия свободных номеров!']);
+    }
     $digits = substr($number, -4);
     cache()->put('phoneCodeUser'.Auth::user()->id, $digits, 900);
     $client->calls->create(
@@ -94,6 +117,7 @@ class ProfileController extends Controller
         'url' => env('APP_URL').'/mp3'
       ]
     );
+    cache()->put('phoneSent'.Auth::user()->id, true, 60);
     return response()->json(['success' => true, 'message' => 'Мы сделали Вам звонок!']);
   }
 
@@ -117,31 +141,67 @@ class ProfileController extends Controller
   }
 
   public function sendEmailCode(Request $request){
-//    $request->validate([
-//      'email' => 'email'
-//    ]);
-    $token = 5233;
+    $request->validate([
+      'email' => 'email'
+    ]);
+    if(cache()->has('emailSent'.Auth::user()->id)){
+      return response()->json(['success' => false, 'message' => 'Отправка письма возможна не чаще одного раза в минуту!']);
+    }
+    if(Auth::user()->email_verified_at){
+      return response()->json(['success' => false, 'message' => 'Email уже подтвержден!']);
+    }
+    $emailAttepmts = EmailAttempts::where('email', $request->email)->where('user_id', Auth::user()->id)->first();
+    if($emailAttepmts and $emailAttepmts->attempts >= 10){
+      return response()->json(['success' => false, 'message' => 'Вы исчерпали количество подтверждений для данного email адреса. Если считаете что произошла ошибка - обратитесь в техническую поддержку!']);
+    }
+    if(User::where('email', $request->email)->whereNotNull('email_verified_at')->count()){
+      return response()->json(['success' => false, 'message' => 'Данный email невозможно верифицировать!']);
+    }
+    $model = EmailAttempts::firstOrNew(['email' => $request->email, 'user_id' => Auth::user()->id]);
+    $model->increment('attempts');
+    $model->save();
+    $token = mt_rand(1000, 9999);
+    cache()->put('emailCodeUser'.Auth::user()->id, $token, 900);
+    cache()->put('emailAddressUser'.Auth::user()->id.$token, $request->email, 910);
     $mail_data = [
       'headline' => 'Подтверждение email адреса',
       'subtitle' =>  'Код для подтверждения',
       'text' => '<p>Здравствуйте, для активации аккаунта необходимо ввести код подтвержения на странице профиля.</p><p><h1 style="text-align: center;"><strong>'.$token.'</strong></h1></p><p>Данный код действителен в течение 15 минут после его получения.</p>',
-      'image' => 'notification-setting.png',
+      'image' => 'user-reset-password.png',
       'button_link' => env('APP_URL').'/profile',
       'button_text' => 'Перейти в кабинет'
     ];
-    Mail::send('mail.mail', $mail_data, function($message)
+    Mail::send('mail.mail', $mail_data, function($message) use ($request)
     {
       $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
       $message->replyTo(env('MAIL_USERNAME'));
       $message->subject('Подтверждение email адреса');
-      $message->to('troodi@bk.ru');
+      $message->to($request->email);
     });
+    cache()->put('emailSent'.Auth::user()->id, true, 60);
     return response()->json(['success' => true, 'message' => 'Мы выслали Вам код подтверждения!']);
   }
 
   // Верификация емайла
   public function approveEmail(Request $request){
-
+    $request->validate([
+      'code' => 'numeric|min:1000|max:9999'
+    ]);
+    if(Auth::user()->email_verified_at){
+      return response()->json(['success' => false, 'message' => 'Email уже подтвержден!']);
+    }
+    if(cache()->has('emailCodeUser'.Auth::user()->id) and cache()->get('emailCodeUser'.Auth::user()->id) == $request->code){
+      if(cache()->has('emailAddressUser'.Auth::user()->id.$request->code)){
+        $email = cache()->get('emailAddressUser'.Auth::user()->id.$request->code);
+      } else {
+        return response()->json(['success' => false, 'message' => 'Не удалось подтвердить почту!']);
+      }
+      User::where('id', Auth::user()->id)->update(['email' => $email, 'email_verified_at' => Carbon::now()]);
+      EmailAttempts::where('email', $email)->where('user_id', Auth::user()->id)->delete();
+      return response()->json(['success' => true]);
+    } else {
+      return response()->json(['success' => false, 'message' => 'Код неверный или вы не отправляли письмо!']);
+    }
   }
 
   // Загрузка первой страницы паспорта

@@ -7,9 +7,6 @@
                         <div class="brand-logo">
                             <img src="/images/logo/logo4.png" class="logo" alt="" style="height: auto;width: 150px;left:0px;margin-top: 4px;">
                         </div>
-<!--                        <h2 class="brand-text mb-0">-->
-<!--                            GetOption-->
-<!--                        </h2>-->
                     </a>
                 </li>
                 <li class="nav-item nav-toggle">

@@ -67,7 +67,7 @@
                             <div class="card-body">
                                 <div class="card-text">
                                     <div class="table-responsive">
-                                        <table class="table" id="history">
+                                        <table class="table" id="promocode">
                                             <thead>
                                             <tr>
                                                 <th>Промокод</th>
@@ -98,7 +98,7 @@
         name: "Promocode",
         mounted() {
             let self = this;
-            $('#history').DataTable({
+            $('#promocode').DataTable({
                 "iDisplayLength": 10,
                 "processing": true,
                 "serverSide": true,

@@ -77,6 +77,31 @@
                         <p>
                             На указанную почту будет отправлен четырёхзначный код, введите его для подтверждения.
                         </p>
+
+                        <div v-for="value in emailModalErrors" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-error"></i>
+                                <span>
+                                  {{ value }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div v-for="value in emailModalSuccess" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            <div class="d-flex align-items-center">
+                                <i class="bx bx-error"></i>
+                                <span>
+                                  {{ value }}
+                                </span>
+                            </div>
+                        </div>
+
                         <div class="input-group">
                             <input v-model="emailCode" type="text" class="form-control" v-mask="'9999'">
                             <div v-show="emailCodeEnabled" class="input-group-append">
@@ -94,7 +119,7 @@
                             <i class="bx bx-x d-block d-sm-none"></i>
                             <span class="d-none d-sm-block">Закрыть</span>
                         </button>
-                        <button v-bind:disabled="checkEmailCodeDisabled" @click="checkEmailCode" type="button" class="btn btn-primary ml-1" data-dismiss="modal">
+                        <button v-bind:disabled="checkEmailCodeDisabled" @click="checkEmailCode" type="button" class="btn btn-primary ml-1">
                             <i class="bx bx-check d-block d-sm-none"></i>
                             <span class="d-none d-sm-block">Подтвердить</span>
                         </button>
@@ -488,18 +513,21 @@
                 this.telegram = '';
             },
             checkPhoneCode: function () {
+                this.phoneModalSuccess = [];
+                this.phoneModalErrors = [];
                 axios.post('/data/checkPhoneCode', { code: this.phoneCode }).then((response) => {
                     if(response.data.success === true) {
                         $('#phone').modal('hide');
                         $('.modal-backdrop').remove();
                         this.getProfile();
                     } else {
-                        this.phoneModalErrors = [];
                         this.phoneModalErrors.push(response.data.message);
                     }
                 });
             },
             sendPhoneCode: function () {
+                this.phoneModalErrors = [];
+                this.phoneModalSuccess = [];
                 axios.post('/data/verifyPhone', { phone: this.phone }).then((response) => {
                     if(response.data.success === false) {
                         this.phoneModalErrors = [];
@@ -517,9 +545,30 @@
                 }, 60000);
             },
             checkEmailCode: function () {
-
+                this.emailModalSuccess = [];
+                this.emailModalErrors = [];
+                axios.post('/data/checkEmailCode', { code: this.emailCode }).then((response) => {
+                    if(response.data.success === true) {
+                        $('#email').modal('hide');
+                        $('.modal-backdrop').remove();
+                        this.getProfile();
+                    } else {
+                        this.emailModalErrors.push(response.data.message);
+                    }
+                });
             },
             sendEmailCode: function () {
+                this.emailModalErrors = [];
+                this.emailModalSuccess = [];
+                axios.post('/data/verifyEmail', { email: this.email }).then((response) => {
+                    if(response.data.success === false) {
+                        this.emailModalErrors = [];
+                        this.emailModalErrors.push(response.data.message);
+                    } else {
+                        this.emailModalSuccess = [];
+                        this.emailModalSuccess.push(response.data.message);
+                    }
+                });
                 this.emailCodeEnabled = false;
                 this.emailTime = Date.now() + 60000;
                 let self = this;
@@ -559,6 +608,8 @@
                 emailTime: true,
                 phoneModalErrors: [],
                 phoneModalSuccess: [],
+                emailModalErrors: [],
+                emailModalSuccess: [],
                 options: [
                     { id: "ru", text: "Русский" },
                     { id: "en", text: "English" },

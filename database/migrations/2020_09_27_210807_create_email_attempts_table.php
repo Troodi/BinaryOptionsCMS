@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTwilioNumbersTable extends Migration
+class CreateEmailAttemptsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateTwilioNumbersTable extends Migration
      */
     public function up()
     {
-        Schema::create('twilio_numbers', function (Blueprint $table) {
+        Schema::create('email_attempts', function (Blueprint $table) {
             $table->id();
-            $table->string('number')->nullable();
+            $table->string('email')->nullable()->index();
+            $table->integer('attempts')->default(0);
+            $table->integer('user_id')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreateTwilioNumbersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('twilio_numbers');
+        Schema::dropIfExists('email_attempts');
     }
 }
