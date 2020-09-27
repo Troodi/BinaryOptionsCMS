@@ -2321,9 +2321,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Menu"
 });
@@ -3198,6 +3195,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3264,6 +3286,8 @@ __webpack_require__.r(__webpack_exports__);
     checkPhoneCode: function checkPhoneCode() {
       var _this = this;
 
+      this.phoneModalSuccess = [];
+      this.phoneModalErrors = [];
       axios.post('/data/checkPhoneCode', {
         code: this.phoneCode
       }).then(function (response) {
@@ -3273,8 +3297,6 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.getProfile();
         } else {
-          _this.phoneModalErrors = [];
-
           _this.phoneModalErrors.push(response.data.message);
         }
       });
@@ -3282,6 +3304,8 @@ __webpack_require__.r(__webpack_exports__);
     sendPhoneCode: function sendPhoneCode() {
       var _this2 = this;
 
+      this.phoneModalErrors = [];
+      this.phoneModalSuccess = [];
       axios.post('/data/verifyPhone', {
         phone: this.phone
       }).then(function (response) {
@@ -3302,8 +3326,42 @@ __webpack_require__.r(__webpack_exports__);
         self.phoneCodeEnabled = true;
       }, 60000);
     },
-    checkEmailCode: function checkEmailCode() {},
+    checkEmailCode: function checkEmailCode() {
+      var _this3 = this;
+
+      this.emailModalSuccess = [];
+      this.emailModalErrors = [];
+      axios.post('/data/checkEmailCode', {
+        code: this.emailCode
+      }).then(function (response) {
+        if (response.data.success === true) {
+          $('#email').modal('hide');
+          $('.modal-backdrop').remove();
+
+          _this3.getProfile();
+        } else {
+          _this3.emailModalErrors.push(response.data.message);
+        }
+      });
+    },
     sendEmailCode: function sendEmailCode() {
+      var _this4 = this;
+
+      this.emailModalErrors = [];
+      this.emailModalSuccess = [];
+      axios.post('/data/verifyEmail', {
+        email: this.email
+      }).then(function (response) {
+        if (response.data.success === false) {
+          _this4.emailModalErrors = [];
+
+          _this4.emailModalErrors.push(response.data.message);
+        } else {
+          _this4.emailModalSuccess = [];
+
+          _this4.emailModalSuccess.push(response.data.message);
+        }
+      });
       this.emailCodeEnabled = false;
       this.emailTime = Date.now() + 60000;
       var self = this;
@@ -3343,6 +3401,8 @@ __webpack_require__.r(__webpack_exports__);
       emailTime: true,
       phoneModalErrors: [],
       phoneModalSuccess: [],
+      emailModalErrors: [],
+      emailModalSuccess: [],
       options: [{
         id: "ru",
         text: "Русский"
@@ -3577,7 +3637,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
   name: "Promocode",
   mounted: function mounted() {
     var self = this;
-    $('#history').DataTable({
+    $('#promocode').DataTable({
       "iDisplayLength": 10,
       "processing": true,
       "serverSide": true,
@@ -122260,120 +122320,185 @@ var render = function() {
             _c("div", { staticClass: "modal-content" }, [
               _vm._m(5),
               _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("p", [
-                  _vm._v(
-                    "\n                        На указанную почту будет отправлен четырёхзначный код, введите его для подтверждения.\n                    "
-                  )
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "input-group" },
-                  [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.emailCode,
-                          expression: "emailCode"
-                        },
-                        {
-                          name: "mask",
-                          rawName: "v-mask",
-                          value: "9999",
-                          expression: "'9999'"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text" },
-                      domProps: { value: _vm.emailCode },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.emailCode = $event.target.value
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
+              _c(
+                "div",
+                { staticClass: "modal-body" },
+                [
+                  _c("p", [
+                    _vm._v(
+                      "\n                        На указанную почту будет отправлен четырёхзначный код, введите его для подтверждения.\n                    "
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.emailModalErrors, function(value) {
+                    return _c(
                       "div",
                       {
+                        staticClass:
+                          "alert bg-rgba-danger alert-dismissible mb-2",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _vm._m(6, true),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "d-flex align-items-center" },
+                          [
+                            _c("i", { staticClass: "bx bx-error" }),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v(
+                                "\n                              " +
+                                  _vm._s(value) +
+                                  "\n                            "
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _vm._l(_vm.emailModalSuccess, function(value) {
+                    return _c(
+                      "div",
+                      {
+                        staticClass:
+                          "alert bg-rgba-success alert-dismissible mb-2",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _vm._m(7, true),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "d-flex align-items-center" },
+                          [
+                            _c("i", { staticClass: "bx bx-error" }),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v(
+                                "\n                              " +
+                                  _vm._s(value) +
+                                  "\n                            "
+                              )
+                            ])
+                          ]
+                        )
+                      ]
+                    )
+                  }),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "input-group" },
+                    [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.emailCode,
+                            expression: "emailCode"
+                          },
+                          {
+                            name: "mask",
+                            rawName: "v-mask",
+                            value: "9999",
+                            expression: "'9999'"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.emailCode },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.emailCode = $event.target.value
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.emailCodeEnabled,
+                              expression: "emailCodeEnabled"
+                            }
+                          ],
+                          staticClass: "input-group-append"
+                        },
+                        [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-primary",
+                              attrs: { type: "button" },
+                              on: { click: _vm.sendEmailCode }
+                            },
+                            [_vm._v("Отправить код")]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("vue-countdown-timer", {
                         directives: [
                           {
                             name: "show",
                             rawName: "v-show",
-                            value: _vm.emailCodeEnabled,
-                            expression: "emailCodeEnabled"
+                            value: !_vm.emailCodeEnabled,
+                            expression: "!emailCodeEnabled"
                           }
                         ],
-                        staticClass: "input-group-append"
-                      },
-                      [
-                        _c(
-                          "button",
+                        staticClass: "input-group-append",
+                        attrs: {
+                          "start-time": "2020-01-01 00:00:00",
+                          "end-time": _vm.emailTime,
+                          interval: 1000
+                        },
+                        scopedSlots: _vm._u([
                           {
-                            staticClass: "btn btn-primary",
-                            attrs: { type: "button" },
-                            on: { click: _vm.sendEmailCode }
-                          },
-                          [_vm._v("Отправить код")]
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("vue-countdown-timer", {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: !_vm.emailCodeEnabled,
-                          expression: "!emailCodeEnabled"
-                        }
-                      ],
-                      staticClass: "input-group-append",
-                      attrs: {
-                        "start-time": "2020-01-01 00:00:00",
-                        "end-time": _vm.emailTime,
-                        interval: 1000
-                      },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "countdown",
-                          fn: function(scope) {
-                            return [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-primary",
-                                  attrs: {
-                                    disabled: "disabled",
-                                    type: "button"
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "Повторить (" +
-                                      _vm._s(scope.props.seconds) +
-                                      ")"
-                                  )
-                                ]
-                              )
-                            ]
+                            key: "countdown",
+                            fn: function(scope) {
+                              return [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-primary",
+                                    attrs: {
+                                      disabled: "disabled",
+                                      type: "button"
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "Повторить (" +
+                                        _vm._s(scope.props.seconds) +
+                                        ")"
+                                    )
+                                  ]
+                                )
+                              ]
+                            }
                           }
-                        }
-                      ])
-                    })
-                  ],
-                  1
-                )
-              ]),
+                        ])
+                      })
+                    ],
+                    1
+                  )
+                ],
+                2
+              ),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
-                _vm._m(6),
+                _vm._m(8),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -122381,8 +122506,7 @@ var render = function() {
                     staticClass: "btn btn-primary ml-1",
                     attrs: {
                       disabled: _vm.checkEmailCodeDisabled,
-                      type: "button",
-                      "data-dismiss": "modal"
+                      type: "button"
                     },
                     on: { click: _vm.checkEmailCode }
                   },
@@ -122418,7 +122542,7 @@ var render = function() {
                     attrs: { role: "alert" }
                   },
                   [
-                    _vm._m(7, true),
+                    _vm._m(9, true),
                     _vm._v(" "),
                     _c("div", { staticClass: "d-flex align-items-center" }, [
                       _c("i", { staticClass: "bx bx-error" }),
@@ -122436,7 +122560,7 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("div", { staticClass: "card" }, [
-                _vm._m(8),
+                _vm._m(10),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-content" }, [
                   _c("div", { staticClass: "card-body" }, [
@@ -122691,7 +122815,7 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _vm._m(9),
+                      _vm._m(11),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c(
@@ -122734,7 +122858,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(10, true),
+              _vm._m(12, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -122754,7 +122878,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(11),
+              _vm._m(13),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -122843,7 +122967,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(12),
+                    _vm._m(14),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c(
@@ -122885,7 +123009,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(13, true),
+              _vm._m(15, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -122905,7 +123029,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(14),
+              _vm._m(16),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -122974,7 +123098,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _vm._m(15),
+                        _vm._m(17),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -123104,7 +123228,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(16),
+                    _vm._m(18),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c(
@@ -123156,7 +123280,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(17),
+              _vm._m(19),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123177,7 +123301,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(18)]
+                    [_vm._m(20)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123194,7 +123318,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(19)]
+                    [_vm._m(21)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123245,7 +123369,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(20),
+              _vm._m(22),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123266,7 +123390,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(21)]
+                    [_vm._m(23)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123283,7 +123407,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(22)]
+                    [_vm._m(24)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123334,7 +123458,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(23),
+              _vm._m(25),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123355,7 +123479,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(24)]
+                    [_vm._m(26)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123372,7 +123496,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(25)]
+                    [_vm._m(27)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123542,6 +123666,40 @@ var staticRenderFns = [
         [_c("i", { staticClass: "bx bx-x" })]
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   },
   function() {
     var _vm = this
@@ -124051,7 +124209,7 @@ var staticRenderFns = [
               _c("div", { staticClass: "table-responsive" }, [
                 _c(
                   "table",
-                  { staticClass: "table", attrs: { id: "history" } },
+                  { staticClass: "table", attrs: { id: "promocode" } },
                   [
                     _c("thead", [
                       _c("tr", [

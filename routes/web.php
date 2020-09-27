@@ -37,6 +37,8 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/data/upload-additional','Main\ProfileController@additionalDocument');
   Route::post('/data/verifyPhone', 'Main\ProfileController@sendPhoneCode');
   Route::post('/data/checkPhoneCode', 'Main\ProfileController@approvePhone');
+  Route::post('/data/verifyEmail', 'Main\ProfileController@sendEmailCode');
+  Route::post('/data/checkEmailCode', 'Main\ProfileController@approveEmail');
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
