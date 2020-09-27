@@ -8,7 +8,7 @@
 						<tbody><tr>
 							<td style="padding-top: 40px; padding-bottom: 40px;" class="emailLogo" valign="middle" align="center">
 								<a href="{{ env('APP_URL') }}" target="_blank" style="text-decoration:none;">
-									<img src="{{ env('APP_URL') }}/images/mail/mail_logo.png" alt="" style="width:100%; max-width:150px;height:auto; display:block;" width="150" border="0">
+									<img src="{{ env('APP_URL') }}/images/logo/mail_logo.png" alt="" style="width:100%; max-width:150px;height:auto; display:block;" width="150" border="0">
 								</a>
 							</td>
 						</tr>
