@@ -3,13 +3,13 @@
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
                 <li class="nav-item mr-auto">
-                    <a class="navbar-brand" href="/">
+                    <a class="navbar-brand" href="/" style="margin-top: 0px;margin-left: 0px;">
                         <div class="brand-logo">
-                            <img src="/images/logo/logo.png" class="logo" alt="">
+                            <img src="/images/logo/logo3.png" class="logo" alt="" style="height: auto;width: 150px;left:0px">
                         </div>
-                        <h2 class="brand-text mb-0">
-                            GetOption
-                        </h2>
+<!--                        <h2 class="brand-text mb-0">-->
+<!--                            GetOption-->
+<!--                        </h2>-->
                     </a>
                 </li>
                 <li class="nav-item nav-toggle">
