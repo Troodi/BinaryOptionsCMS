@@ -119746,8 +119746,13 @@ var staticRenderFns = [
               _c("div", { staticClass: "brand-logo" }, [
                 _c("img", {
                   staticClass: "logo",
-                  staticStyle: { height: "auto", width: "150px", left: "0px" },
-                  attrs: { src: "/images/logo/logo3.png", alt: "" }
+                  staticStyle: {
+                    height: "auto",
+                    width: "150px",
+                    left: "0px",
+                    "margin-top": "4px"
+                  },
+                  attrs: { src: "/images/logo/logo4.png", alt: "" }
                 })
               ])
             ]
