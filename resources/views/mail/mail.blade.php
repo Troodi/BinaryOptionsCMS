@@ -8,7 +8,7 @@
 						<tbody><tr>
 							<td style="padding-top: 40px; padding-bottom: 40px;" class="emailLogo" valign="middle" align="center">
 								<a href="{{ env('APP_URL') }}" target="_blank" style="text-decoration:none;">
-									<img src="{{ env('APP_URL') }}/images/logo/mail_logo.png" alt="" style="width:100%; max-width:150px;height:auto; display:block;" width="150" border="0">
+									<img src="{{ env('APP_URL') }}/images/logo/email_logo.png" alt="" style="width:100%; max-width:150px;height:auto; display:block;" width="150" border="0">
 								</a>
 							</td>
 						</tr>
@@ -88,7 +88,7 @@
 
 						<tr><td style="padding-bottom: 40px;" class="emailRegards" valign="middle" align="center">
                         <a href="{{ env('APP_URL') }}" target="_blank" style="text-decoration:none;">
-                            <img src="{{ env('APP_URL') }}/images/mail/bottom_text.png" alt="" style="width:100%;max-width:150px; height:auto; display:block;" width="150" border="0">
+                            <img src="{{ env('APP_URL') }}/images/logo/bottom_text_mail.png" alt="" style="width:100%;max-width:150px; height:auto; display:block;" width="150" border="0">
                         </a>
                     </td>
 </tr>
@@ -117,7 +117,7 @@
 						<tr>
 							<td style="padding: 0px 10px 20px;" class="footerLinks" valign="top" align="center">
 								<p class="text" style="color:#777777; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:12px; font-weight:400; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; padding:0; margin:0;">
-									<a href="{{ env('APP_URL') }}" style="color:#777777;text-decoration:underline;" target="_blank">{{ __('mail.go_to_website') }} </a>&nbsp;|&nbsp;<a href="{{ env('APP_URL') }}/home" style="color:#777777;text-decoration:underline;" target="_blank">{{ __('mail.go_to_dashboard') }} </a>
+									<a href="{{ env('APP_URL') }}" style="color:#777777;text-decoration:underline;" target="_blank">Перейти на сайт </a>&nbsp;|&nbsp;<a href="{{ env('APP_URL') }}" style="color:#777777;text-decoration:underline;" target="_blank">Перейти в личный кабинет </a>
 								</p>
 							</td>
 						</tr>
@@ -125,7 +125,7 @@
 						<tr>
 							<td style="padding: 0px 10px 10px;" class="footerEmailInfo" valign="top" align="center">
 								<p class="text" style="color:#777777; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:12px; font-weight:400; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; padding:0; margin:0;">
-								{{ __('mail.if_any_questions') }} <a href="mailto:{{ env('MAIL_USERNAME') }}" style="color:#777777;text-decoration:underline;" target="_blank">{{ env('MAIL_USERNAME') }}.</a>
+									Если у вас есть какие-либо вопросы, пожалуйста, свяжитесь с нами <a href="mailto:{{ env('MAIL_USERNAME') }}" style="color:#777777;text-decoration:underline;" target="_blank">{{ env('MAIL_USERNAME') }}.</a>
 								</p>
 							</td>
 						</tr>
