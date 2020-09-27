@@ -117,6 +117,7 @@ class ProfileController extends Controller
         'url' => env('APP_URL').'/mp3'
       ]
     );
+    Profile::where('user_id', Auth::user()->id)->update(['phone' => $request->phone]);
     cache()->put('phoneSent'.Auth::user()->id, true, 60);
     return response()->json(['success' => true, 'message' => 'Мы сделали Вам звонок!']);
   }
@@ -166,7 +167,7 @@ class ProfileController extends Controller
     $mail_data = [
       'headline' => 'Подтверждение email адреса',
       'subtitle' =>  'Код для подтверждения',
-      'text' => '<p>Здравствуйте, для активации аккаунта необходимо ввести код подтвержения на странице профиля.</p><p><h1 style="text-align: center;"><strong>'.$token.'</strong></h1></p><p>Данный код действителен в течение 15 минут после его получения.</p>',
+      'text' => '<p>Здравствуйте, для активации аккаунта необходимо ввести код подтверждения на странице профиля.</p><p><h1 style="text-align: center;"><strong>'.$token.'</strong></h1></p><p>Данный код действителен в течение 15 минут после его получения.</p>',
       'image' => 'user-reset-password.png',
       'button_link' => env('APP_URL').'/profile',
       'button_text' => 'Перейти в кабинет'
