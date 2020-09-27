@@ -119735,20 +119735,23 @@ var staticRenderFns = [
     return _c("div", { staticClass: "navbar-header" }, [
       _c("ul", { staticClass: "nav navbar-nav flex-row" }, [
         _c("li", { staticClass: "nav-item mr-auto" }, [
-          _c("a", { staticClass: "navbar-brand", attrs: { href: "/" } }, [
-            _c("div", { staticClass: "brand-logo" }, [
-              _c("img", {
-                staticClass: "logo",
-                attrs: { src: "/images/logo/logo.png", alt: "" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("h2", { staticClass: "brand-text mb-0" }, [
-              _vm._v(
-                "\n                        GetOption\n                    "
-              )
-            ])
-          ])
+          _c(
+            "a",
+            {
+              staticClass: "navbar-brand",
+              staticStyle: { "margin-top": "0px", "margin-left": "0px" },
+              attrs: { href: "/" }
+            },
+            [
+              _c("div", { staticClass: "brand-logo" }, [
+                _c("img", {
+                  staticClass: "logo",
+                  staticStyle: { height: "auto", width: "150px", left: "0px" },
+                  attrs: { src: "/images/logo/logo3.png", alt: "" }
+                })
+              ])
+            ]
+          )
         ]),
         _vm._v(" "),
         _c("li", { staticClass: "nav-item nav-toggle" }, [

@@ -124,7 +124,7 @@ class ProfileController extends Controller
     $mail_data = [
       'headline' => 'Подтверждение email адреса',
       'subtitle' =>  'Код для подтверждения',
-      'text' => '<p>Здравствуйте, для активации аккаунта необходимо ввести код подтвержения на странице профиля.</p><p><h1 style="text-align: center;"><strong>'.$token.'</strong></h1></p>',
+      'text' => '<p>Здравствуйте, для активации аккаунта необходимо ввести код подтвержения на странице профиля.</p><p><h1 style="text-align: center;"><strong>'.$token.'</strong></h1></p><p>Данный код действителен в течение 15 минут после его получения.</p>',
       'image' => 'notification-setting.png',
       'button_link' => env('APP_URL').'/profile',
       'button_text' => 'Перейти в кабинет'

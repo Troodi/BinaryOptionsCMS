@@ -109,7 +109,7 @@
 
 						<tr>
 							<td style="padding: 10px 10px 5px;" class="brandInfo" valign="top" align="center">
-								<p class="text" style="color:#777777; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:12px; font-weight:400; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; padding:0; margin:0;">Geth.pro 2020
+								<p class="text" style="color:#777777; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:12px; font-weight:400; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; padding:0; margin:0;">{{ env('APP_NAME') }} 2020
 								</p>
 							</td>
 						</tr>
