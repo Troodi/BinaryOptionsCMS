@@ -308,7 +308,8 @@
   }
 
   &:disabled ~ .custom-file-label {
-    background-color: $custom-file-disabled-bg;
+    //background-color: $custom-file-disabled-bg;
+    opacity: 0.5;
   }
 
   @each $lang, $value in $custom-file-text {

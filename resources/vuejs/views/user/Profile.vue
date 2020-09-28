@@ -340,6 +340,31 @@
                     </div>
                 </div>
             </div>
+
+            <div v-for="value in fileError" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <div class="d-flex align-items-center">
+                    <i class="bx bx-error"></i>
+                    <span>
+                          {{ value }}
+                        </span>
+                </div>
+            </div>
+
+            <div v-for="value in fileSuccess" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <div class="d-flex align-items-center">
+                    <i class="bx bx-error"></i>
+                    <span>
+                          {{ value }}
+                        </span>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-4">
                     <div class="card">
@@ -348,7 +373,16 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <div v-show="document_first_page && !document_first_page_verify_at" class="alert bg-rgba-primary mb-0 alert-paddings" role="alert">
+                                <div v-show="firstDocumentLoading" class="alert bg-rgba-warning mb-0 alert-paddings" role="alert">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bx bx-info-circle"></i>
+                                        <span>
+                                          Идет загрузка документа
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div v-show="document_first_page && !document_first_page_verify_at && !firstDocumentLoading" class="alert bg-rgba-primary mb-0 alert-paddings" role="alert">
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
@@ -368,7 +402,7 @@
 
                                 <fieldset v-show="!document_first_page && !document_first_page_verify_at">
                                     <div class="input-group">
-                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-model="document_first_page" :state="Boolean(document_first_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
+                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="firstUpload" v-model="document_first_page" :state="Boolean(document_first_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
                                     </div>
                                 </fieldset>
                             </div>
@@ -382,7 +416,16 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <div v-show="document_second_page && !document_second_page_verify_at" class="alert bg-rgba-primary mb-0 alert-paddings" role="alert">
+                                <div v-show="secondDocumentLoading" class="alert bg-rgba-warning mb-0 alert-paddings" role="alert">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bx bx-info-circle"></i>
+                                        <span>
+                                          Идет загрузка документа
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div v-show="document_second_page && !document_second_page_verify_at && !secondDocumentLoading" class="alert bg-rgba-primary mb-0 alert-paddings" role="alert">
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
@@ -402,7 +445,7 @@
 
                                 <fieldset v-show="!document_second_page && !document_second_page_verify_at">
                                     <div class="input-group">
-                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-model="document_second_page" :state="Boolean(document_second_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
+                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="secondUpload" v-model="document_second_page" :state="Boolean(document_second_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
                                     </div>
                                 </fieldset>
                             </div>
@@ -416,7 +459,16 @@
                         </div>
                         <div class="card-content">
                             <div class="card-body">
-                                <div v-show="document_additional && !document_additional_verify_at" class="alert bg-rgba-primary mb-0 alert-paddings" role="alert">
+                                <div v-show="additionalDocumentLoading" class="alert bg-rgba-warning mb-0 alert-paddings" role="alert">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bx bx-info-circle"></i>
+                                        <span>
+                                          Идет загрузка документа
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div v-show="document_additional && !document_additional_verify_at && !additionalDocumentLoading" class="alert bg-rgba-primary mb-0 alert-paddings" role="alert">
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
@@ -436,7 +488,7 @@
 
                                 <fieldset v-show="!document_additional && !document_additional_verify_at">
                                     <div class="input-group">
-                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="handleFileUploads" v-model="document_additional" :state="Boolean(document_additional)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
+                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="additionalUpload" v-model="document_additional" :state="Boolean(document_additional)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
                                     </div>
                                 </fieldset>
                             </div>
@@ -457,14 +509,56 @@
             this.getProfile();
         },
         methods: {
-            handleFileUploads: function(event){
+            sendDocument: function (event, page){
+                this.fileError = [];
+                this.fileSuccess = [];
                 let formData = new FormData();
                 formData.append('file', event.target.files[0]);
+                formData.append('page', page);
                 let self = this;
-                axios.post( '/data/upload-additional', formData, { headers: { 'Content-Type': 'multipart/form-data' }})
-                    .then(function(){
-                        self.getProfile();
+                if(page === '1'){
+                    this.firstDocumentLoading = true;
+                } else if (page === '2') {
+                    this.secondDocumentLoading = true;
+                } else if (page === '3') {
+                    this.additionalDocumentLoading = true;
+                }
+                axios.post( '/data/sendPhoto', formData, { headers: { 'Content-Type': 'multipart/form-data' }})
+                    .then(function(response){
+                        let page = response.data.page;
+                        if(response.data.success === true) {
+                            self.fileSuccess.push(response.data.message);
+                            if(page === '1'){
+                                self.firstDocumentLoading = false;
+                            } else if (page === '2') {
+                                self.secondDocumentLoading = false;
+                            } else if (page === '3') {
+                                self.additionalDocumentLoading = false;
+                            }
+                            self.getProfile();
+                        } else {
+                            self.fileError.push(response.data.message);
+                            if(page === '1'){
+                                self.document_first_page = null;
+                                self.firstDocumentLoading = false;
+                            } else if (page === '2') {
+                                self.document_second_page = null;
+                                self.secondDocumentLoading = false;
+                            } else if (page === '3') {
+                                self.document_additional = null;
+                                self.additionalDocumentLoading = false;
+                            }
+                        }
                     });
+            },
+            firstUpload: function(event){
+                this.sendDocument(event, '1');
+            },
+            secondUpload: function(event){
+                this.sendDocument(event, '2');
+            },
+            additionalUpload: function(event){
+                this.sendDocument(event, '3');
             },
             getProfile: function(){
                 let self = this;
@@ -620,6 +714,11 @@
                 ],
                 phoneCode: '',
                 emailCode: '',
+                fileError: [],
+                fileSuccess: [],
+                firstDocumentLoading: false,
+                secondDocumentLoading: false,
+                additionalDocumentLoading: false,
             }
         },
         computed: {
@@ -650,6 +749,9 @@
             },
             privateDataIsset: function () { // Проверка блокировать ли поля личных данных
                 return this.document_first_page_verify_at || this.document_second_page_verify_at || this.document_additional_verify_at || this.document_first_page || this.document_second_page || this.document_additional;
+            },
+            documentsLoading: function (){
+                return this.firstDocumentLoading && this.secondDocumentLoading && this.additionalDocumentLoading;
             },
             password_error: function () { // Проверка блокировать ли поля личных данных
                 let errors = [];

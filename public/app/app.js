@@ -3220,6 +3220,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3228,17 +3280,65 @@ __webpack_require__.r(__webpack_exports__);
     this.getProfile();
   },
   methods: {
-    handleFileUploads: function handleFileUploads(event) {
+    sendDocument: function sendDocument(event, page) {
+      this.fileError = [];
+      this.fileSuccess = [];
       var formData = new FormData();
       formData.append('file', event.target.files[0]);
+      formData.append('page', page);
       var self = this;
-      axios.post('/data/upload-additional', formData, {
+
+      if (page === '1') {
+        this.firstDocumentLoading = true;
+      } else if (page === '2') {
+        this.secondDocumentLoading = true;
+      } else if (page === '3') {
+        this.additionalDocumentLoading = true;
+      }
+
+      axios.post('/data/sendPhoto', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
-      }).then(function () {
-        self.getProfile();
+      }).then(function (response) {
+        var page = response.data.page;
+
+        if (response.data.success === true) {
+          self.fileSuccess.push(response.data.message);
+
+          if (page === '1') {
+            self.firstDocumentLoading = false;
+          } else if (page === '2') {
+            self.secondDocumentLoading = false;
+          } else if (page === '3') {
+            self.additionalDocumentLoading = false;
+          }
+
+          self.getProfile();
+        } else {
+          self.fileError.push(response.data.message);
+
+          if (page === '1') {
+            self.document_first_page = null;
+            self.firstDocumentLoading = false;
+          } else if (page === '2') {
+            self.document_second_page = null;
+            self.secondDocumentLoading = false;
+          } else if (page === '3') {
+            self.document_additional = null;
+            self.additionalDocumentLoading = false;
+          }
+        }
       });
+    },
+    firstUpload: function firstUpload(event) {
+      this.sendDocument(event, '1');
+    },
+    secondUpload: function secondUpload(event) {
+      this.sendDocument(event, '2');
+    },
+    additionalUpload: function additionalUpload(event) {
+      this.sendDocument(event, '3');
     },
     getProfile: function getProfile() {
       var self = this;
@@ -3418,7 +3518,12 @@ __webpack_require__.r(__webpack_exports__);
         text: "Женский"
       }],
       phoneCode: '',
-      emailCode: ''
+      emailCode: '',
+      fileError: [],
+      fileSuccess: [],
+      firstDocumentLoading: false,
+      secondDocumentLoading: false,
+      additionalDocumentLoading: false
     };
   },
   computed: {
@@ -3458,6 +3563,9 @@ __webpack_require__.r(__webpack_exports__);
     privateDataIsset: function privateDataIsset() {
       // Проверка блокировать ли поля личных данных
       return this.document_first_page_verify_at || this.document_second_page_verify_at || this.document_additional_verify_at || this.document_first_page || this.document_second_page || this.document_additional;
+    },
+    documentsLoading: function documentsLoading() {
+      return this.firstDocumentLoading && this.secondDocumentLoading && this.additionalDocumentLoading;
     },
     password_error: function password_error() {
       // Проверка блокировать ли поля личных данных
@@ -123277,10 +123385,60 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
+        _vm._l(_vm.fileError, function(value) {
+          return _c(
+            "div",
+            {
+              staticClass: "alert bg-rgba-danger alert-dismissible mb-2",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._m(19, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex align-items-center" }, [
+                _c("i", { staticClass: "bx bx-error" }),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "\n                      " +
+                      _vm._s(value) +
+                      "\n                    "
+                  )
+                ])
+              ])
+            ]
+          )
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.fileSuccess, function(value) {
+          return _c(
+            "div",
+            {
+              staticClass: "alert bg-rgba-success alert-dismissible mb-2",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._m(20, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex align-items-center" }, [
+                _c("i", { staticClass: "bx bx-error" }),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "\n                      " +
+                      _vm._s(value) +
+                      "\n                    "
+                  )
+                ])
+              ])
+            ]
+          )
+        }),
+        _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(19),
+              _vm._m(21),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123291,17 +123449,35 @@ var render = function() {
                         {
                           name: "show",
                           rawName: "v-show",
+                          value: _vm.firstDocumentLoading,
+                          expression: "firstDocumentLoading"
+                        }
+                      ],
+                      staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
+                      attrs: { role: "alert" }
+                    },
+                    [_vm._m(22)]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
                           value:
                             _vm.document_first_page &&
-                            !_vm.document_first_page_verify_at,
+                            !_vm.document_first_page_verify_at &&
+                            !_vm.firstDocumentLoading,
                           expression:
-                            "document_first_page && !document_first_page_verify_at"
+                            "document_first_page && !document_first_page_verify_at && !firstDocumentLoading"
                         }
                       ],
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(20)]
+                    [_vm._m(23)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123318,7 +123494,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(21)]
+                    [_vm._m(24)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123349,6 +123525,7 @@ var render = function() {
                               placeholder: "Выберите изображение",
                               "drop-placeholder": "Перетащите сюда файл..."
                             },
+                            on: { change: _vm.firstUpload },
                             model: {
                               value: _vm.document_first_page,
                               callback: function($$v) {
@@ -123369,7 +123546,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(22),
+              _vm._m(25),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123380,17 +123557,35 @@ var render = function() {
                         {
                           name: "show",
                           rawName: "v-show",
+                          value: _vm.secondDocumentLoading,
+                          expression: "secondDocumentLoading"
+                        }
+                      ],
+                      staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
+                      attrs: { role: "alert" }
+                    },
+                    [_vm._m(26)]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
                           value:
                             _vm.document_second_page &&
-                            !_vm.document_second_page_verify_at,
+                            !_vm.document_second_page_verify_at &&
+                            !_vm.secondDocumentLoading,
                           expression:
-                            "document_second_page && !document_second_page_verify_at"
+                            "document_second_page && !document_second_page_verify_at && !secondDocumentLoading"
                         }
                       ],
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(23)]
+                    [_vm._m(27)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123407,7 +123602,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(24)]
+                    [_vm._m(28)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123438,6 +123633,7 @@ var render = function() {
                               placeholder: "Выберите изображение",
                               "drop-placeholder": "Перетащите сюда файл..."
                             },
+                            on: { change: _vm.secondUpload },
                             model: {
                               value: _vm.document_second_page,
                               callback: function($$v) {
@@ -123458,7 +123654,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(25),
+              _vm._m(29),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123469,17 +123665,35 @@ var render = function() {
                         {
                           name: "show",
                           rawName: "v-show",
+                          value: _vm.additionalDocumentLoading,
+                          expression: "additionalDocumentLoading"
+                        }
+                      ],
+                      staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
+                      attrs: { role: "alert" }
+                    },
+                    [_vm._m(30)]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
                           value:
                             _vm.document_additional &&
-                            !_vm.document_additional_verify_at,
+                            !_vm.document_additional_verify_at &&
+                            !_vm.additionalDocumentLoading,
                           expression:
-                            "document_additional && !document_additional_verify_at"
+                            "document_additional && !document_additional_verify_at && !additionalDocumentLoading"
                         }
                       ],
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(26)]
+                    [_vm._m(31)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123496,7 +123710,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(27)]
+                    [_vm._m(32)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123527,7 +123741,7 @@ var render = function() {
                               placeholder: "Выберите изображение",
                               "drop-placeholder": "Перетащите сюда файл..."
                             },
-                            on: { change: _vm.handleFileUploads },
+                            on: { change: _vm.additionalUpload },
                             model: {
                               value: _vm.document_additional,
                               callback: function($$v) {
@@ -123845,9 +124059,57 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h4", { staticClass: "card-title" }, [
         _vm._v("Первая страница паспорта или ID")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("i", { staticClass: "bx bx-info-circle" }),
+      _vm._v(" "),
+      _c("span", [
+        _vm._v(
+          "\n                                      Идет загрузка документа\n                                    "
+        )
       ])
     ])
   },
@@ -123898,6 +124160,20 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("span", [
         _vm._v(
+          "\n                                      Идет загрузка документа\n                                    "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("i", { staticClass: "bx bx-info-circle" }),
+      _vm._v(" "),
+      _c("span", [
+        _vm._v(
           "\n                                      Документ находится на проверке!\n                                    "
         )
       ])
@@ -123924,6 +124200,20 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _c("h4", { staticClass: "card-title" }, [
         _vm._v("Допольнительный документ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("i", { staticClass: "bx bx-info-circle" }),
+      _vm._v(" "),
+      _c("span", [
+        _vm._v(
+          "\n                                      Идет загрузка документа\n                                    "
+        )
       ])
     ])
   },
