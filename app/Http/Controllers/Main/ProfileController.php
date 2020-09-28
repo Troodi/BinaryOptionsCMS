@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Main;
 
+use App\Helpers\Helper;
 use App\Models\EmailAttempts;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
@@ -13,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Mockery\Exception;
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Rest\Client;
 
@@ -205,18 +207,31 @@ class ProfileController extends Controller
     }
   }
 
-  // Загрузка первой страницы паспорта
+  // Загрузка фото документа
   public function passportFirstPage(Request $request){
-    return null;
-  }
-
-  // Загрузка второй страницы паспорта
-  public function passportSecondPage(Request $request){
-    return null;
-  }
-
-  // Загрузка дополнительного документа
-  public function additionalDocument(Request $request){
-    return null;
+    $request->validate([
+      'page' => 'required|min:1|max:3',
+      'file' => 'required|image|max:4096'
+    ]);
+    $pages = ['1' => 'document_first_page', '2' => 'document_second_page', '3' => 'document_additional'];
+    $profile = Profile::where('user_id', Auth::user()->id)->first();
+    if(!$profile->name or !$profile->last_name or !$profile->patronymic or !$profile->birth or !$profile->address or !$profile->document_number){
+      return response()->json(['success' => false, 'message' => 'Перед загрузкой документов необходимо заполнить личные данные!', 'page' => $request->page]);
+    }
+    $tableDocument = $profile->{$pages[$request->page]};
+    $tableVerify = $profile->{$pages[$request->page].'_verify_at'};
+    if($tableDocument or $tableVerify){
+      return response()->json(['success' => false, 'message' => 'Документ уже находится на проверке или проверен!', 'page' => $request->page]);
+    }
+    try {
+      $path = Helper::createPathForVerifyPhotos();
+      $fileName = time() . '_' . $request->file->getClientOriginalName();
+      $filePath = $request->file('file')->storeAs($path, $fileName);
+      Profile::where('user_id', Auth::user()->id)->update([$pages[$request->page] => $filePath]);
+    } catch (\Exception $ex){
+      dump($ex->getMessage());
+      return response()->json(['success' => false, 'message' => 'Произошла непредвиденная ошибка при сохранении файла!', 'page' => $request->page]);
+    }
+    return response()->json(['success' => true, 'message' => 'Файл успешно отправлен на проверку, ожидайте результата!', 'page' => $request->page]);
   }
 }

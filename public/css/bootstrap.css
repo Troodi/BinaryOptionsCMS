@@ -4244,7 +4244,7 @@ input[type=button].btn-block {
 }
 
 .custom-file-input:disabled ~ .custom-file-label {
-  background-color: #F2F4F4;
+  opacity: 0.5;
 }
 
 .custom-file-input:lang(en) ~ .custom-file-label::after {

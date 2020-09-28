@@ -13,7 +13,6 @@ Auth::routes();
 
 Route::post('/event-twilio', 'Main\ProfileController@phoneEvent');
 Route::get('/mp3', 'Main\ProfileController@playMP3');
-Route::get('/send', 'Main\ProfileController@sendEmailCode');
 Route::middleware(['auth'])->group(function () {
   // Трейдинг
   Route::post("/binary/buy", 'Main\TradingController@buySymbol');
@@ -39,6 +38,9 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/data/checkPhoneCode', 'Main\ProfileController@approvePhone');
   Route::post('/data/verifyEmail', 'Main\ProfileController@sendEmailCode');
   Route::post('/data/checkEmailCode', 'Main\ProfileController@approveEmail');
+  Route::post('/data/sendPhoto', 'Main\ProfileController@passportFirstPage');
+  Route::post('/data/changeGeneralData', 'Main\ProfileController@changeGeneralData');
+
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
