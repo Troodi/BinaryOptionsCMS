@@ -19,4 +19,8 @@ class ReferralController extends Controller
       $referrals = User::select('token', 'created_at')->where('referer_id', Auth::user()->id)->get();
       return Datatables::of($referrals)->make();
     }
+
+    public function setReferralCookie(Request $request){
+      return redirect('/')->withCookie(cookie()->forever('offer', $request->code));
+    }
 }
