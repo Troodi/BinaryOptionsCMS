@@ -16,6 +16,18 @@ window.axios.defaults.headers.common = {
     'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 };
 
+window.axios.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    if (401 === error.response.status) {
+        window.location = '/login';
+    } else if (419 === error.response.status) {
+        location.reload();
+    } else {
+        return Promise.reject(error);
+    }
+});
+
 Vue.use(VueInputMask)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)

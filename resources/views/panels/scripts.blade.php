@@ -32,6 +32,14 @@
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            statusCode: {
+                401: function(){
+                    window.location = '/login';
+                },
+                419: function () {
+                    location.reload();
+                }
             }
         });
     </script>

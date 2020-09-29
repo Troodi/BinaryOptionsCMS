@@ -149614,6 +149614,17 @@ window.axios.defaults.headers.common = {
   'X-Requested-With': 'XMLHttpRequest',
   'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 };
+window.axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if (401 === error.response.status) {
+    window.location = '/login';
+  } else if (419 === error.response.status) {
+    location.reload();
+  } else {
+    return Promise.reject(error);
+  }
+});
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(VueInputMask);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_6__["BootstrapVue"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_6__["IconsPlugin"]);
