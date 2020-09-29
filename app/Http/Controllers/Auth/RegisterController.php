@@ -69,6 +69,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
       $token = new Token();
+      $token_string = $token->unique('users', 'token', 10);
       $referer_id = null;
       if(Cookie::get('offer')){
         $token = Cookie::get('offer');
@@ -80,7 +81,7 @@ class RegisterController extends Controller
       $create = User::create([
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
-        'token' => $token->unique('users', 'token', 10),
+        'token' => $token_string,
         'referer_id' => $referer_id,
       ]);
       if($referer_id) {
