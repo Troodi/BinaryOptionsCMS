@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Mockery\Exception;
 use Twilio\Exceptions\ConfigurationException;
 use Twilio\Rest\Client;
 
@@ -27,7 +26,7 @@ class ProfileController extends Controller
       'new_password' =>  'string|min:6|max:255',
       'repeat_password' =>  'string|min:6|max:255',
     ]);
-    if(Hash::make($request->old_password) != Auth::user()->password){
+    if(!Hash::check(Hash::make($request->old_password), Auth::user()->password)){
       return response()->json(['success' => false, 'message' => 'Текущий пароль введен неверно!'], 200);
     }
     if($request->new_password != $request->repeat_password){
@@ -37,17 +36,46 @@ class ProfileController extends Controller
     return response()->json(['success' => true, 'message' => 'Пароль успешно обновлен!'], 200);
   }
 
-  // Изменение личных данных
+  // Изменение основных данных
   public function changeGeneralData(Request $request){
     $request->validate([
       'nickname' => 'string|min:3|max:50',
       'telegram' => 'string|min:3|max:50',
       'gender' => 'numeric|min:0|max:1',
-      'language' => 'string|min:3|max:50',
+      'language' => 'string|min:2|max:50',
     ]);
     User::where('id', Auth::user()->id)->update(['name' => $request->nickname]);
-    ProFile::where('user_id', Auth::user()->id)->update(['telegram' => $request->telegram, 'gender' => $request->telegram, 'language' => $request->language,]);
+    ProFile::where('user_id', Auth::user()->id)->update([
+      'telegram' => $request->telegram,
+      'gender' => $request->gender,
+      'language' => $request->language
+    ]);
     return response()->json(['success' => true, 'message' => 'Данные успешно обновлены!'], 200);
+  }
+
+  // Изменение личных данных
+  public function changeMainData(Request $request){
+    $request->validate([
+      'name' => 'string|min:3|max:50',
+      'last_name' => 'string|min:3|max:50',
+      'patronymic' => 'string|min:3|max:50',
+      'birth' => 'regex:/\d{2}\-\d{2}\-\d{4}/',
+      'address' => 'string|min:10|max:250',
+      'document_number' => 'string|min:3|max:250',
+    ]);
+    $profile = Profile::where('user_id', Auth::user()->id)->first();
+    if($profile->document_first_page or $profile->document_first_page_verify_at or $profile->document_second_page or $profile->document_second_page_verify_at or $profile->document_additional or $profile->document_document_additional_verify_at){
+      return response()->json(['success' => false, 'message' => 'Невозможно обновить т.к. документы уже находятся на проверке!'], 200);
+    }
+    Profile::where('user_id', Auth::user()->id)->update([
+      'name' => $request->name,
+      'last_name' => $request->last_name,
+      'patronymic' => $request->patronymic,
+      'birth' => Carbon::parse($request->birth),
+      'address' => $request->address,
+      'document_number' => $request->document_number,
+    ]);
+    return response()->json(['success' => true, 'message' => 'Личные данные успешно обновлены!'], 200);
   }
 
   //Загружаем информацию о профиле

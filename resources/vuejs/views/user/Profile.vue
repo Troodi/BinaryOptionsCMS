@@ -132,15 +132,27 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <div v-for="value in main_error" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+                    <div v-for="value in general_error" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                         <div class="d-flex align-items-center">
                             <i class="bx bx-error"></i>
                             <span>
-                      {{ value }}
-                    </span>
+                              {{ value }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div v-for="value in general_success" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                        <div class="d-flex align-items-center">
+                            <i class="bx bx-error"></i>
+                            <span>
+                              {{ value }}
+                            </span>
                         </div>
                     </div>
 
@@ -203,7 +215,7 @@
                                         </p>
                                     </div>
                                     <div class="col-md-4">
-                                        <button v-bind:disabled="mainSaveDisabled" type="button" class="btn btn-outline-primary float-right">Сохранить изменения</button>
+                                        <button v-bind:disabled="mainSaveDisabled" @click="saveGeneral" type="button" class="btn btn-outline-primary float-right">Сохранить изменения</button>
                                         <button type="button" @click="clearMain" class="btn btn-outline-danger float-right mr-1">Очистить поля</button>
                                     </div>
                                 </div>
@@ -214,6 +226,18 @@
             </div>
 
             <div v-for="value in password_error" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <div class="d-flex align-items-center">
+                    <i class="bx bx-error"></i>
+                    <span>
+                      {{ value }}
+                    </span>
+                </div>
+            </div>
+
+            <div v-for="value in password_success" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -268,7 +292,19 @@
                 </div>
             </div>
 
-            <div v-for="value in private_error" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+            <div v-for="value in main_error" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <div class="d-flex align-items-center">
+                    <i class="bx bx-error"></i>
+                    <span>
+                      {{ value }}
+                    </span>
+                </div>
+            </div>
+
+            <div v-for="value in main_success" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -331,7 +367,7 @@
                                         </p>
                                     </div>
                                     <div class="col-md-4">
-                                        <button v-show="!privateDataIsset" v-bind:disabled="privateSaveDisabled" type="button" class="btn btn-outline-primary float-right">Сохранить изменения</button>
+                                        <button v-show="!privateDataIsset" @click="saveMain" v-bind:disabled="privateSaveDisabled" type="button" class="btn btn-outline-primary float-right">Сохранить изменения</button>
                                         <button v-show="!privateDataIsset" @click="clearPrivate" type="button" class="btn btn-outline-danger float-right mr-1">Очистить поля</button>
                                     </div>
                                 </div>
@@ -587,7 +623,56 @@
                     });
             },
             changePassword: function () {
-
+                let self = this;
+                axios.post('/data/changePassword', {
+                    old_password: self.current_password,
+                    new_password: self.new_password,
+                    repeat_password: self.repeat_password
+                }).then(function (response) {
+                    self.password_error = [];
+                    self.password_success = [];
+                    if(response.data.success === true) {
+                        self.password_success.push(response.data.message);
+                    } else {
+                        self.password_error.push(response.data.message);
+                    }
+                })
+            },
+            saveGeneral: function(){
+                let self = this;
+                axios.post('/data/changeGeneralData', {
+                    nickname: self.nickname,
+                    telegram: self.telegram,
+                    gender: self.gender,
+                    language: self.language
+                }).then(function (response) {
+                    self.general_error = [];
+                    self.general_success = [];
+                    if(response.data.success === true) {
+                        self.general_success.push(response.data.message);
+                    } else {
+                        self.general_error.push(response.data.message);
+                    }
+                })
+            },
+            saveMain: function(){
+                let self = this;
+                axios.post('/data/changeMainData', {
+                    name: self.name,
+                    last_name: self.last_name,
+                    patronymic: self.patronymic,
+                    address: self.address,
+                    document_number: self.document_number,
+                    birth: self.birth
+                }).then(function (response) {
+                    self.main_error = [];
+                    self.main_success = [];
+                    if(response.data.success === true) {
+                        self.main_success.push(response.data.message);
+                    } else {
+                        self.main_error.push(response.data.message);
+                    }
+                })
             },
             clearPassword: function () {
                 this.current_password = '';
@@ -719,10 +804,13 @@
                 firstDocumentLoading: false,
                 secondDocumentLoading: false,
                 additionalDocumentLoading: false,
+                main_success: [],
+                general_success: [],
+                password_success: [],
             }
         },
         computed: {
-            private_error: function () { // Проверка валидности полей личных данных
+            general_error: function () { // Проверка валидности полей личных данных
                 let errors = [];
                 if(this.name.length > 0 && this.name.length < 2){
                     errors.push('Имя должно содержать более 2х символов!');
