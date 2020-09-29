@@ -3983,12 +3983,73 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Support",
   data: function data() {
-    return {};
+    return {
+      question: '',
+      success: []
+    };
   },
-  methods: {}
+  methods: {
+    clearForm: function clearForm() {
+      this.question = '';
+    },
+    send: function send() {
+      var self = this;
+      axios.post('/data/support', {
+        question: self.question
+      }).then(function (response) {
+        self.error = [];
+        self.success = [];
+
+        if (response.data.success === true) {
+          self.success.push(response.data.message);
+          self.clearForm();
+        } else {
+          self.error.push(response.data.message);
+        }
+      });
+    }
+  },
+  computed: {
+    error: function error() {
+      var errors = [];
+
+      if (this.question.length > 0 && this.question.length < 25) {
+        errors.push('Вопрос не может быть короче 25 символов!');
+      }
+
+      return errors;
+    },
+    buttonDisabled: function buttonDisabled() {
+      return this.question.length < 25;
+    }
+  }
 });
 
 /***/ }),
@@ -123327,53 +123388,114 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content-wrapper" }, [
-      _c("div", { staticClass: "content-body" }, [
+  return _c("div", { staticClass: "content-wrapper" }, [
+    _c(
+      "div",
+      { staticClass: "content-body" },
+      [
+        _vm._l(_vm.error, function(value) {
+          return _c(
+            "div",
+            {
+              staticClass: "alert bg-rgba-danger alert-dismissible mb-2",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._m(0, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex align-items-center" }, [
+                _c("i", { staticClass: "bx bx-error" }),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(value) +
+                      "\n                "
+                  )
+                ])
+              ])
+            ]
+          )
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.success, function(value) {
+          return _c(
+            "div",
+            {
+              staticClass: "alert bg-rgba-success alert-dismissible mb-2",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._m(1, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex align-items-center" }, [
+                _c("i", { staticClass: "bx bx-error" }),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "\n                  " +
+                      _vm._s(value) +
+                      "\n                "
+                  )
+                ])
+              ])
+            ]
+          )
+        }),
+        _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("section", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h4", { staticClass: "card-title" }, [
-                  _vm._v("Обращение в техническую поддержку")
-                ])
-              ]),
+              _vm._m(2),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "card-text" }, [
                     _c("p", [
                       _vm._v(
-                        "\n                                    Для обращения в техническую поддержку необходимо иметь подтвержденный email т.к. на него придет\n                                    ответ, по Вашему обращению, а также подтвержденный номер мобильного телефона. Скорость ответа\n                                    обычно составляет до 24х часов. В случае, если на Ваш вопрос не ответили в течение данного времени,\n                                    пожалуйста, не дублируйте вопрос - скорее всего рассмотрение заявки требует большего времени.\n                                "
+                        "\n                                    Скорость ответа обычно составляет до 24х часов. В случае, если на Ваш вопрос не ответили в течение данного времени,\n                                    пожалуйста, не дублируйте вопрос - скорее всего рассмотрение заявки требует большего времени. Можно задать не более 1\n                                    вопроса в 10 минут. Ответ придет на email адрес текущего аккаунта.\n                                "
                       )
                     ]),
                     _vm._v(" "),
                     _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.question,
+                          expression: "question"
+                        }
+                      ],
                       staticClass: "form-control",
                       staticStyle: { height: "200px" },
-                      attrs: { placeholder: "Напишите свой вопрос..." }
+                      attrs: { placeholder: "Напишите свой вопрос..." },
+                      domProps: { value: _vm.question },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.question = $event.target.value
+                        }
+                      }
                     }),
                     _vm._v(" "),
                     _c(
                       "button",
                       {
                         staticClass: "btn btn-secondary mt-2",
-                        attrs: { type: "button" }
+                        attrs: { type: "button" },
+                        on: { click: _vm.clearForm }
                       },
-                      [_vm._v("Отменить")]
+                      [_vm._v("Очистить")]
                     ),
                     _vm._v(" "),
                     _c(
                       "button",
                       {
                         staticClass: "btn btn-primary mt-2 float-right",
-                        attrs: { type: "button" }
+                        attrs: { type: "button", disabled: _vm.buttonDisabled },
+                        on: { click: _vm.send }
                       },
                       [_vm._v("Отправить")]
                     )
@@ -123383,6 +123505,53 @@ var staticRenderFns = [
             ])
           ])
         ])
+      ],
+      2
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h4", { staticClass: "card-title" }, [
+        _vm._v("Обращение в техническую поддержку")
       ])
     ])
   }
