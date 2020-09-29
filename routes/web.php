@@ -40,6 +40,7 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/data/checkEmailCode', 'Main\ProfileController@approveEmail');
   Route::post('/data/sendPhoto', 'Main\ProfileController@passportFirstPage');
   Route::post('/data/changeGeneralData', 'Main\ProfileController@changeGeneralData');
+  Route::post('/data/changeMainData', 'Main\ProfileController@changeMainData');
 
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
