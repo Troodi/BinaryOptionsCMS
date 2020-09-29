@@ -13,6 +13,7 @@ Auth::routes();
 
 Route::post('/event-twilio', 'Main\ProfileController@phoneEvent');
 Route::get('/mp3', 'Main\ProfileController@playMP3');
+Route::get('/offer/{code}', 'Main\ReferralController@setReferralCookie');
 Route::middleware(['auth'])->group(function () {
   // Трейдинг
   Route::post("/binary/buy", 'Main\TradingController@buySymbol');
@@ -22,7 +23,6 @@ Route::middleware(['auth'])->group(function () {
   // Реферралы
   Route::post('/data/referralsInfo', 'Main\ReferralController@getUserReferralInfo');
   Route::post('/data/referrals', 'Main\ReferralController@getUserReferrals');
-  Route::get('/offer/{code}', 'Main\ReferralController@setReferralCookie');
   // Промокоды
   Route::post("/promocodes", 'Main\PromocodeController@getAvailablePromocodes');
   Route::post("/promocode", 'Main\PromocodeController@checkPromocode');
