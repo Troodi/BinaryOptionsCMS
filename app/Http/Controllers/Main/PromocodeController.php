@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Main;
 
+use App\Events\ChangeBalance;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
 use App\Models\Promocode;
 use App\Models\PromocodeHistory;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
 class PromocodeController extends Controller
@@ -46,6 +49,9 @@ class PromocodeController extends Controller
     $model->promocode_id = $promocode->id;
     $model->save();
     if($promocode->type == 1) {
+      $turnover = $promocode->bonus_size * $promocode->turnover;
+      User::where('id', Auth::user()->id)->update(['bonus' => DB::raw("bonus+$promocode->bonus_size"), 'all_turnover' => DB::raw("all_turnover+$turnover"), 'left_turnover' => DB::raw("left_turnover+$turnover"), 'balance' => DB::raw("balance+$promocode->bonus_size")]);
+      broadcast(new ChangeBalance(Auth::user()->balance+$promocode->bonus_size, Auth::user()));
       return response()->json(['success' => true, 'message' => 'Промокод на бездепозиный бонус активирован!'], 200);
     } elseif ($promocode->type == 2){
       return response()->json(['success' => true, 'message' => 'Данный промокод активен и доступен на странице пополнения!'], 200);
@@ -56,5 +62,17 @@ class PromocodeController extends Controller
   {
     $history = PromocodeHistory::where('user_id', Auth::user()->id)->with('promocode')->get();
     return Datatables::of($history)->make();
+  }
+
+  public function discardBonus(Request $request){
+    $user = Auth::user();
+    if($user->left_turnover == 0 or $user->all_turnover == 0 or $user->bonus == 0){
+      return response()->json(['success' => false, 'message' => 'У Вас нет бонусов!'], 200);
+    }
+    $percent_to_payout = 1 - ($user->left_turnover / $user->all_turnover); // Сколько процентов отработано
+    $add_to_balance = $user->bonus * $percent_to_payout - $user->bonus;
+    User::where('id', Auth::user()->id)->update(['bonus' => 0, 'all_turnover' => 0, 'left_turnover' => 0, 'balance' => DB::raw("balance+$add_to_balance")]);
+    broadcast(new ChangeBalance(Auth::user()->balance+$add_to_balance, Auth::user()));
+    return response()->json(['success' => true, 'message' => 'Бонус успешно отменен!'], 200);
   }
 }
