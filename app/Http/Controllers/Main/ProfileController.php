@@ -257,7 +257,6 @@ class ProfileController extends Controller
       $filePath = $request->file('file')->storeAs($path, $fileName);
       Profile::where('user_id', Auth::user()->id)->update([$pages[$request->page] => $filePath]);
     } catch (\Exception $ex){
-      dump($ex->getMessage());
       return response()->json(['success' => false, 'message' => 'Произошла непредвиденная ошибка при сохранении файла!', 'page' => $request->page]);
     }
     return response()->json(['success' => true, 'message' => 'Файл успешно отправлен на проверку, ожидайте результата!', 'page' => $request->page]);

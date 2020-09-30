@@ -44,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/data/changeMainData', 'Main\ProfileController@changeMainData');
   //Поддержка
   Route::post('/data/support', 'Main\SupportController@sendQuestion');
+  //Вывод
+  Route::post('/data/getAccountData', 'Main\WithdrawalController@getAccountData');
+  Route::post('/data/discardBonus', 'Main\PromocodeController@discardBonus');
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
