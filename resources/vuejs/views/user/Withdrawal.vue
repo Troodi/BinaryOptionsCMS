@@ -65,7 +65,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 pt-2">
-                                                    <button @click="processPayout" type="button" class="btn btn-outline-secondary mr-1 mb-1">Продолжить</button>
+                                                    <button v-bind:disabled="continueButtonDisabled" @click="processPayout" type="button" class="btn btn-outline-secondary mr-1 mb-1">Продолжить</button>
                                                 </div>
                                                 <div class="col-md-6 pt-2 text-right align-bottom">
                                                     <p style="padding-top:10px;">Вы получите <span class="text-white" style="font-size: 1.3rem;">$ {{ amount }}</span></p>
@@ -135,11 +135,41 @@
             </div>
         </div>
 
-        <deposit-history></deposit-history>
+        <div class="content-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <section class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">История заявок на вывод средств</h4>
+                        </div>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <div class="table-responsive">
+                                        <table class="table" id="withdrawalHistory">
+                                            <thead>
+                                            <tr>
+                                                <th>Сумма</th>
+                                                <th>Платежная система</th>
+                                                <th>Статус</th>
+                                                <th>Дата</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import dateformat from "dateformat";
+
     export default {
         name: "Deposit",
         data: function () {
@@ -148,7 +178,6 @@
                 account: null,
                 system: '0',
                 success: [],
-                errors: [],
                 systems: [
                     { id: "0", text: "Payeer (0%)" },
                     { id: "1", text: "Visa/Mastercard (скоро)", disabled: true },
@@ -179,24 +208,115 @@
             },
             processPayout: function () {
                 let self = this;
-                axios.post('/data/processPayout', { amount: self.amount_formatted, system: self.system }).then(function(response){
-                    this.getAccountData();
+                this.success = [];
+                this.errors = [];
+                axios.post('/data/processPayout', { amount: self.amount_formatted, system_id: self.system }).then(function(response){
+                    self.getAccountData();
+                    if(response.data.success === true){
+                        self.success.push(response.data.message);
+                        $("#withdrawalHistory").dataTable().fnDestroy()
+                        self.initDatatable();
+                    } else {
+                        self.errors.push(response.data.message);
+                    }
+                });
+            },
+            initDatatable: function () {
+                $('#withdrawalHistory').DataTable({
+                    "iDisplayLength": 10,
+                    "processing": true,
+                    "serverSide": true,
+                    "order": [[3, "desc"]],
+                    "drawCallback": function(settings) {
+                        $('[data-toggle="popover"]').popover({ html : true });
+                    },
+                    "ajax": {
+                        url: "/data/withdrawalHistory",
+                        type: "POST"
+                    },
+                    "language": {
+                        "url": "/locales/Russian.json"
+                    },
+                    columns: [
+                        {
+                            orderable: false,
+                            searchable: false,
+                            data: 'amount',
+                            name: 'amount',
+                            render: function(data, type) {
+                                return parseFloat(data).toFixed(2) + ' $';
+                            }
+                        },
+                        {
+                            data: 'system_id',
+                            name: 'system_id',
+                            orderable: false,
+                            searchable: false,
+                            render: function(data, type) {
+                                return '<div class="badge badge-primary">Payeer</div>';
+                            }
+                        },
+                        {
+                            data: 'status',
+                            name: 'status',
+                            orderable: false,
+                            searchable: false,
+                            render: function(data, type) {
+                                let classname = 'info';
+                                let text = 'Обрабатывается';
+                                if (type === 'display') {
+                                    if(data == 0){
+                                        classname = 'info';
+                                        text = 'Обрабатывается';
+                                    } else if (data == 1){
+                                        classname = 'success';
+                                        text = 'Выплачено';
+                                    } else if (data == 2){
+                                        classname = 'danger';
+                                        text = 'Отклонено';
+                                    }
+                                }
+                                return '<div class="badge badge-'+classname+'">' + text + '</div>';
+                            }
+                        },
+                        {
+                            data: 'created_at',
+                            name: 'created_at',
+                            render: function(data, type) {
+                                let date = new Date();
+                                if (type === 'display') {
+                                    date = new Date(data);
+                                }
+                                return dateformat(date, 'dd-mm-yyyy');
+                            }
+                        },
+                    ]
                 });
             }
         },
         mounted() {
             this.getAccountData();
+            this.initDatatable();
         },
         computed: {
             amount_formatted: function () {
-                return (this.amount).toString().replace(',', '.');
-            },
-            errors: function() {
-                let errors = [];
-                if(this.amount_formatted < 10){
-                    errors.push('Минимальная сумма вывода составляет 10$!');
+                let amount = parseFloat((this.amount).toString().replace(',', '.'));
+                if(isNaN(amount)){
+                    amount = 0;
                 }
-                return errors;
+                return amount;
+            },
+            errors: {
+                get: function() {
+                    let errors = [];
+                    if(this.amount_formatted < 10){
+                        errors.push('Минимальная сумма вывода составляет 10$!');
+                    }
+                    return errors;
+                },
+                set: function(array) {
+                    return array;
+                }
             },
             afterDiscardBonus: function () {
                 if(!this.account){
@@ -220,6 +340,12 @@
                     return true;
                 }
                 return this.account.all_turnover == 0;
+            },
+            continueButtonDisabled: function () {
+                if(!this.account){
+                    return true;
+                }
+                return this.amount_formatted < 10;
             }
         }
     }

@@ -19,6 +19,7 @@ class CreateWithdrawalsTable extends Migration
           $table->decimal('amount', 10, 2);
           $table->integer('system_id');
           $table->integer('status');
+          $table->string('message')->nullable();
           $table->timestamps();
         });
     }
