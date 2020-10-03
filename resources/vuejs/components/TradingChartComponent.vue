@@ -1,5 +1,5 @@
 <template>
-        <div id="tv_chart_container" style="height: calc(100vh - 69px)">
+        <div id="tv_chart_container" class="trading-chart-height">
             <!-- This div will contain the Charting Library widget. -->
         </div>
 </template>
@@ -77,5 +77,14 @@
 </script>
 
 <style scoped>
-
+    @media screen and (max-width: 1000px) {
+        .trading-chart-height {
+            height: 50vh;
+        }
+    }
+    @media screen and (min-width: 1000px) {
+        .trading-chart-height {
+            height: calc(100vh - 69px);
+        }
+    }
 </style>
