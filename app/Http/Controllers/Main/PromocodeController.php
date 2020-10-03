@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Main;
 use App\Events\ChangeBalance;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
+use App\Models\LatestOrder;
 use App\Models\Promocode;
 use App\Models\PromocodeHistory;
 use App\User;
@@ -36,7 +37,7 @@ class PromocodeController extends Controller
     if(Carbon::now() < $active_from or Carbon::now() > $active_to){
       return response()->json(['success' => false, 'message' => 'Срок действия промокода истёк!'], 200);
     }
-    $deposits = Deposit::where('user_id', Auth::user()->id)->where('status', 1)->count(); //TODO проверка на второй бездепозитный
+    $deposits = Deposit::where('user_id', Auth::user()->id)->where('status', 1)->count() + LatestOrder::where('user_id', Auth::user()->id)->count() + PromocodeHistory::where('user_id', Auth::user()->id)->whereHas('promocode', function($query){ $query->where('for_new', 1); })->count();
     if($promocode->for_new and $deposits){
       return response()->json(['success' => false, 'message' => 'Данный промокод предназначен только для новых пользователей!'], 200);
     }
@@ -44,18 +45,28 @@ class PromocodeController extends Controller
     if($promocode->attempts && $promocode_history >= $promocode->attempts){
       return response()->json(['success' => false, 'message' => 'Вы уже использовали максимальное количество раз данный промокод!'], 200);
     }
-    $model = new PromocodeHistory;
-    $model->user_id = Auth::user()->id;
-    $model->promocode_id = $promocode->id;
-    $model->save();
     if($promocode->type == 1) {
       $turnover = $promocode->bonus_size * $promocode->turnover;
-      User::where('id', Auth::user()->id)->update(['bonus' => DB::raw("bonus+$promocode->bonus_size"), 'all_turnover' => DB::raw("all_turnover+$turnover"), 'left_turnover' => DB::raw("left_turnover+$turnover"), 'balance' => DB::raw("balance+$promocode->bonus_size")]);
+      $model = new PromocodeHistory;
+      $model->user_id = Auth::user()->id;
+      $model->promocode_id = $promocode->id;
+      $model->save();
+      User::where('id', Auth::user()->id)
+        ->update([
+          'bonus' => DB::raw("bonus+$promocode->bonus_size"),
+          'all_turnover' => DB::raw("all_turnover+$turnover"),
+          'left_turnover' => DB::raw("left_turnover+$turnover"),
+          'balance' => DB::raw("balance+$promocode->bonus_size")
+        ]);
       broadcast(new ChangeBalance(Auth::user()->balance+$promocode->bonus_size, Auth::user()));
       return response()->json(['success' => true, 'message' => 'Промокод на бездепозиный бонус активирован!'], 200);
     } elseif ($promocode->type == 2){
       return response()->json(['success' => true, 'message' => 'Данный промокод активен и доступен при пополнении баланса!', 'data' => $promocode], 200);
     }
+  }
+
+  public function getDepositPromocodes(Request $request){
+    return Promocode::where('public_code', 2)->orderBy('bonus_size', 'desc')->get();
   }
 
   public function promocodeHistory(Request $request)

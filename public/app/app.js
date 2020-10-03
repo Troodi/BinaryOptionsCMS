@@ -2559,6 +2559,9 @@ __webpack_require__.r(__webpack_exports__);
           self.success.push(response.data.message);
         }
       });
+    },
+    proccess: function proccess() {
+      console.log(this.selected_promocode);
     }
   },
   computed: {
@@ -2582,6 +2585,13 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       return null;
+    },
+    selected_promocode: function selected_promocode() {
+      if (this.promocode_info && this.prev_promocode === this.promocode && this.use_promocode) {
+        return this.promocode_info.id;
+      }
+
+      return '';
     }
   }
 });
@@ -3685,7 +3695,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    general_error: function general_error() {
+    main_error: function main_error() {
       // Проверка валидности полей личных данных
       var errors = [];
 
@@ -3754,7 +3764,7 @@ __webpack_require__.r(__webpack_exports__);
     passwordSaveDisabled: function passwordSaveDisabled() {
       return this.current_password.length < 6 || this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password || this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8;
     },
-    main_error: function main_error() {
+    general_error: function general_error() {
       // Проверка правильности ввода оснровных параметров профиля
       var errors = [];
 
@@ -122228,7 +122238,18 @@ var render = function() {
                               )
                             ]),
                             _vm._v(" "),
-                            _vm._m(7),
+                            _c("div", { staticClass: "col-md-6 pt-2" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-outline-secondary mr-1 mb-1",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.proccess }
+                                },
+                                [_vm._v("Продолжить")]
+                              )
+                            ]),
                             _vm._v(" "),
                             _c(
                               "div",
@@ -122606,21 +122627,6 @@ var staticRenderFns = [
     return _c("span", [
       _vm._v("Использовать бонус "),
       _c("small", [_vm._v("(условия)")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 pt-2" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-outline-secondary mr-1 mb-1",
-          attrs: { type: "button" }
-        },
-        [_vm._v("Продолжить")]
-      )
     ])
   }
 ]
@@ -143636,7 +143642,7 @@ function _makeApiRequest() {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return fetch("http://getoption.pro/".concat(path));
+            return fetch(window.location.protocol + "//" + window.location.host + "/".concat(path));
 
           case 3:
             response = _context.sent;
@@ -150638,7 +150644,7 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
     this.symbolNumber = 1;
     this.symbolResolved = false;
     this.seriesCompleted = false;
-    this.socketTV = new WebSocket("ws://chart.getoption.pro:80");
+    this.socketTV = new WebSocket(window.websocketAddress);
 
     this.socketTV.onmessage = function (data) {
       _this.onmessage(data);
@@ -150823,7 +150829,7 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
   }, {
     key: "resetWebSocket",
     value: function resetWebSocket() {
-      window.socket = new WebSocket("ws://chart.getoption.pro:80");
+      window.socket = new WebSocket(window.websocketAddress);
     }
   }, {
     key: "generateSession",
@@ -151083,7 +151089,7 @@ var TradingViewFastWebsocket = /*#__PURE__*/function () {
     this.symbolNumber = 1;
     this.symbolResolved = false;
     this.seriesCompleted = false;
-    this.socketTV = new WebSocket("ws://chart.getoption.pro:80");
+    this.socketTV = new WebSocket(window.websocketAddress);
 
     this.socketTV.onmessage = function (data) {
       _this.onmessage(data);
@@ -151186,7 +151192,7 @@ var TradingViewFastWebsocket = /*#__PURE__*/function () {
   }, {
     key: "resetWebSocket",
     value: function resetWebSocket() {
-      window.socket = new WebSocket("ws://chart.getoption.pro:80");
+      window.socket = new WebSocket(window.websocketAddress);
     }
   }, {
     key: "generateSession",

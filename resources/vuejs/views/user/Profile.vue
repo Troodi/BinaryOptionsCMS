@@ -810,7 +810,7 @@
             }
         },
         computed: {
-            general_error: function () { // Проверка валидности полей личных данных
+            main_error: function () { // Проверка валидности полей личных данных
                 let errors = [];
                 if(this.name.length > 0 && this.name.length < 2){
                     errors.push('Имя должно содержать более 2х символов!');
@@ -863,7 +863,7 @@
             passwordSaveDisabled: function () {
                 return this.current_password.length < 6 || this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password || this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8;
             },
-            main_error: function () { // Проверка правильности ввода оснровных параметров профиля
+            general_error: function () { // Проверка правильности ввода оснровных параметров профиля
                 let errors = [];
                 if(this.nickname.length > 0 && this.nickname.length < 3){
                     errors.push('Никнейм не может быть короче 3 символов!');

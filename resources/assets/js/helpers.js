@@ -1,7 +1,7 @@
 // Make requests to CryptoCompare API
 export async function makeApiRequest(path) {
 	try {
-		const response = await fetch(`http://getoption.pro/${path}`);
+		const response = await fetch(window.location.protocol + "//" + window.location.host+`/${path}`);
 		return response.json();
 	} catch (error) {
 		throw new Error(`CryptoCompare request error: ${error.status}`);

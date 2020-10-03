@@ -89,7 +89,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 pt-2">
-                                                    <button type="button" class="btn btn-outline-secondary mr-1 mb-1">Продолжить</button>
+                                                    <button @click="proccess" type="button" class="btn btn-outline-secondary mr-1 mb-1">Продолжить</button>
                                                 </div>
                                                 <div class="col-md-6 pt-2 text-right align-bottom">
                                                     <p style="padding-top:10px;">
@@ -212,6 +212,9 @@
                             self.success.push(response.data.message);
                         }
                     });
+            },
+            proccess: function () {
+                console.log(this.selected_promocode);
             }
         },
         computed: {
@@ -230,6 +233,12 @@
                     return this.promocode_info.bonus_size;
                 }
                 return null;
+            },
+            selected_promocode: function () {
+                if(this.promocode_info && this.prev_promocode === this.promocode && this.use_promocode){
+                    return this.promocode_info.id;
+                }
+                return '';
             }
         },
     }
