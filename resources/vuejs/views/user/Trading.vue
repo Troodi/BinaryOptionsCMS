@@ -3,7 +3,7 @@
         <div class="content-body">
             <div class="row">
                 <div class="col-lg-8 col-xxl-10 pr-0 pb-0">
-                    <section class="card mb-0" :style="{ 'height': 'calc(100vh - 69px)' }">
+                    <section class="card mb-0 trading-chart-height">
                         <div class="card-content">
                             <div class="card-body p-0">
                                 <div class="card-text">
@@ -14,7 +14,7 @@
                     </section>
                 </div>
                 <div class="col-lg-4 col-xxl-2 p-0">
-                    <section class="card mb-0" :style="{ 'height': 'calc(100vh - 69px)' }">
+                    <section class="card mb-0 trading-chart-height">
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="card-text">
@@ -638,5 +638,16 @@
     .progress-bar-primary .progress-bar {
         background-color: #244177;
         box-shadow: 0 2px 6px 0 rgba(90, 141, 238, 0.2);
+    }
+
+    @media screen and (max-width: 1000px) {
+        .trading-chart-height {
+            height: 50vh;
+        }
+    }
+    @media screen and (min-width: 1000px) {
+        .trading-chart-height {
+            height: calc(100vh - 69px);
+        }
     }
 </style>

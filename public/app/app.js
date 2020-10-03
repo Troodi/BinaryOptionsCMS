@@ -54076,6 +54076,25 @@ exports.push([module.i, ".select2-container{box-sizing:border-box;display:inline
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/components/TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css&":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--33-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--33-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/vuejs/components/TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css& ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n@media screen and (max-width: 1000px) {\n.trading-chart-height[data-v-449b36df] {\n        height: 50vh;\n}\n}\n@media screen and (min-width: 1000px) {\n.trading-chart-height[data-v-449b36df] {\n        height: calc(100vh - 69px);\n}\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/views/user/Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css&":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/css-loader??ref--33-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--33-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/vuejs/views/user/Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css& ***!
@@ -54164,7 +54183,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nbody.dark-layout .collapsible .card.open[data-v-0b4c4794], body.dark-layout .accordion .card.open[data-v-0b4c4794] {\n    box-shadow: 0px 0px 0px 0 rgba(11, 26, 51, 0.63) !important;\n}\n.progress-bar-success .progress-bar[data-v-0b4c4794] {\n    background-color: #157344;\n    box-shadow: 0 2px 6px 0 rgba(57, 218, 138, 0.2);\n}\n.progress-bar-primary .progress-bar[data-v-0b4c4794] {\n    background-color: #244177;\n    box-shadow: 0 2px 6px 0 rgba(90, 141, 238, 0.2);\n}\n", ""]);
+exports.push([module.i, "\nbody.dark-layout .collapsible .card.open[data-v-0b4c4794], body.dark-layout .accordion .card.open[data-v-0b4c4794] {\n    box-shadow: 0px 0px 0px 0 rgba(11, 26, 51, 0.63) !important;\n}\n.progress-bar-success .progress-bar[data-v-0b4c4794] {\n    background-color: #157344;\n    box-shadow: 0 2px 6px 0 rgba(57, 218, 138, 0.2);\n}\n.progress-bar-primary .progress-bar[data-v-0b4c4794] {\n    background-color: #244177;\n    box-shadow: 0 2px 6px 0 rgba(90, 141, 238, 0.2);\n}\n@media screen and (max-width: 1000px) {\n.trading-chart-height[data-v-0b4c4794] {\n        height: 50vh;\n}\n}\n@media screen and (min-width: 1000px) {\n.trading-chart-height[data-v-0b4c4794] {\n        height: calc(100vh - 69px);\n}\n}\n", ""]);
 
 // exports
 
@@ -118368,6 +118387,34 @@ module.exports = Array.isArray || function (arr) {
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/components/TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css&":
+/*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--33-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--33-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/vuejs/components/TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css& ***!
+  \************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--33-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--33-2!../../../node_modules/vue-loader/lib??vue-loader-options!./TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/components/TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/views/user/Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css&":
 /*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader??ref--33-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--33-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/vuejs/views/user/Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css& ***!
@@ -119899,7 +119946,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", {
-    staticStyle: { height: "calc(100vh - 69px)" },
+    staticClass: "trading-chart-height",
     attrs: { id: "tv_chart_container" }
   })
 }
@@ -124303,102 +124350,172 @@ var render = function() {
       _c("div", { staticClass: "content-body" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-lg-8 col-xxl-10 pr-0 pb-0" }, [
-            _c(
-              "section",
-              {
-                staticClass: "card mb-0",
-                style: { height: "calc(100vh - 69px)" }
-              },
-              [
-                _c("div", { staticClass: "card-content" }, [
-                  _c("div", { staticClass: "card-body p-0" }, [
-                    _c(
-                      "div",
-                      { staticClass: "card-text" },
-                      [_c("TradingChartComponent")],
-                      1
-                    )
-                  ])
+            _c("section", { staticClass: "card mb-0 trading-chart-height" }, [
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body p-0" }, [
+                  _c(
+                    "div",
+                    { staticClass: "card-text" },
+                    [_c("TradingChartComponent")],
+                    1
+                  )
                 ])
-              ]
-            )
+              ])
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-lg-4 col-xxl-2 p-0" }, [
-            _c(
-              "section",
-              {
-                staticClass: "card mb-0",
-                style: { height: "calc(100vh - 69px)" }
-              },
-              [
-                _c("div", { staticClass: "card-content" }, [
-                  _c("div", { staticClass: "card-body" }, [
-                    _c("div", { staticClass: "card-text" }, [
-                      _vm._m(0),
-                      _vm._v(" "),
-                      _c(
-                        "fieldset",
-                        {
-                          staticClass: "form-group position-relative",
-                          style: { "margin-bottom": "0.3rem !important" }
-                        },
-                        [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.expiration,
-                                expression: "expiration"
-                              }
-                            ],
-                            staticClass: "form-control form-control-lg",
-                            staticStyle: { opacity: "1" },
-                            attrs: {
-                              id: "time",
-                              readonly: "readonly",
-                              type: "text"
-                            },
-                            domProps: { value: _vm.expiration },
-                            on: {
-                              click: _vm.timeClick,
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.expiration = $event.target.value
-                              }
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "form-control-position",
-                              style: { top: "14px" }
-                            },
-                            [_c("i", { staticClass: "bx bx-timer" })]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
+            _c("section", { staticClass: "card mb-0 trading-chart-height" }, [
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "card-text" }, [
+                    _vm._m(0),
+                    _vm._v(" "),
+                    _c(
+                      "fieldset",
+                      {
+                        staticClass: "form-group position-relative",
+                        style: { "margin-bottom": "0.3rem !important" }
+                      },
+                      [
+                        _c("input", {
                           directives: [
                             {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.clicked,
-                              expression: "clicked"
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.expiration,
+                              expression: "expiration"
                             }
                           ],
-                          staticClass: "row pb-1"
-                        },
-                        [
-                          _c("div", { staticClass: "col-4 pr-0" }, [
-                            _vm._m(1),
+                          staticClass: "form-control form-control-lg",
+                          staticStyle: { opacity: "1" },
+                          attrs: {
+                            id: "time",
+                            readonly: "readonly",
+                            type: "text"
+                          },
+                          domProps: { value: _vm.expiration },
+                          on: {
+                            click: _vm.timeClick,
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.expiration = $event.target.value
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "form-control-position",
+                            style: { top: "14px" }
+                          },
+                          [_c("i", { staticClass: "bx bx-timer" })]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.clicked,
+                            expression: "clicked"
+                          }
+                        ],
+                        staticClass: "row pb-1"
+                      },
+                      [
+                        _c("div", { staticClass: "col-4 pr-0" }, [
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "d-inline-block w-100" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "input-group bootstrap-touchspin bootstrap-touchspin-injected"
+                              },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.hours,
+                                      expression: "hours"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "touchspin-vertical form-control",
+                                  attrs: { type: "number" },
+                                  domProps: { value: _vm.hours },
+                                  on: {
+                                    focus: function($event) {
+                                      return $event.target.select()
+                                    },
+                                    click: function($event) {
+                                      return $event.target.select()
+                                    },
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.hours = $event.target.value
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  { staticClass: "input-group-btn-vertical" },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-primary bootstrap-touchspin-up",
+                                        staticStyle: { width: "20px" },
+                                        attrs: { type: "button" },
+                                        on: { click: _vm.hourAdd }
+                                      },
+                                      [_vm._v("+")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-primary bootstrap-touchspin-down",
+                                        staticStyle: { width: "20px" },
+                                        attrs: { type: "button" },
+                                        on: { click: _vm.hourSub }
+                                      },
+                                      [_vm._v("-")]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "col-4 pr-0",
+                            staticStyle: {
+                              "padding-left": "7.5px",
+                              "padding-right": "7.5px !important"
+                            }
+                          },
+                          [
+                            _vm._m(2),
                             _vm._v(" "),
                             _c("div", { staticClass: "d-inline-block w-100" }, [
                               _c(
@@ -124413,14 +124530,14 @@ var render = function() {
                                       {
                                         name: "model",
                                         rawName: "v-model",
-                                        value: _vm.hours,
-                                        expression: "hours"
+                                        value: _vm.minutes,
+                                        expression: "minutes"
                                       }
                                     ],
                                     staticClass:
                                       "touchspin-vertical form-control",
                                     attrs: { type: "number" },
-                                    domProps: { value: _vm.hours },
+                                    domProps: { value: _vm.minutes },
                                     on: {
                                       focus: function($event) {
                                         return $event.target.select()
@@ -124432,7 +124549,7 @@ var render = function() {
                                         if ($event.target.composing) {
                                           return
                                         }
-                                        _vm.hours = $event.target.value
+                                        _vm.minutes = $event.target.value
                                       }
                                     }
                                   }),
@@ -124448,7 +124565,7 @@ var render = function() {
                                             "btn btn-primary bootstrap-touchspin-up",
                                           staticStyle: { width: "20px" },
                                           attrs: { type: "button" },
-                                          on: { click: _vm.hourAdd }
+                                          on: { click: _vm.minuteAdd }
                                         },
                                         [_vm._v("+")]
                                       ),
@@ -124460,7 +124577,7 @@ var render = function() {
                                             "btn btn-primary bootstrap-touchspin-down",
                                           staticStyle: { width: "20px" },
                                           attrs: { type: "button" },
-                                          on: { click: _vm.hourSub }
+                                          on: { click: _vm.minuteSub }
                                         },
                                         [_vm._v("-")]
                                       )
@@ -124469,89 +124586,1037 @@ var render = function() {
                                 ]
                               )
                             ])
-                          ]),
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-4 pl-0" }, [
+                          _vm._m(3),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "col-4 pr-0",
-                              staticStyle: {
-                                "padding-left": "7.5px",
-                                "padding-right": "7.5px !important"
+                          _c("div", { staticClass: "d-inline-block w-100" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "input-group bootstrap-touchspin bootstrap-touchspin-injected"
+                              },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.seconds,
+                                      expression: "seconds"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "touchspin-vertical form-control",
+                                  attrs: { type: "number" },
+                                  domProps: { value: _vm.seconds },
+                                  on: {
+                                    focus: function($event) {
+                                      return $event.target.select()
+                                    },
+                                    click: function($event) {
+                                      return $event.target.select()
+                                    },
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.seconds = $event.target.value
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "span",
+                                  { staticClass: "input-group-btn-vertical" },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-primary bootstrap-touchspin-up",
+                                        staticStyle: { width: "20px" },
+                                        attrs: { type: "button" },
+                                        on: { click: _vm.secondAdd }
+                                      },
+                                      [_vm._v("+")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn btn-primary bootstrap-touchspin-down",
+                                        staticStyle: { width: "20px" },
+                                        attrs: { type: "button" },
+                                        on: { click: _vm.secondSub }
+                                      },
+                                      [_vm._v("-")]
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "col-md-12",
+                            staticStyle: { "padding-top": "5px" }
+                          },
+                          [
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-outline-primary btn-sm w-100",
+                                attrs: { type: "button" },
+                                on: { click: _vm.closeClick }
+                              },
+                              [_vm._v("Закрыть")]
+                            )
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "fieldset",
+                      {
+                        staticClass: "form-group position-relative",
+                        style: { "margin-bottom": "0.3rem !important" }
+                      },
+                      [
+                        [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.amount,
+                                expression: "amount"
+                              },
+                              {
+                                name: "currency",
+                                rawName: "v-currency",
+                                value: {
+                                  currency: null,
+                                  autoDecimalMode: true,
+                                  valueRange: { min: 1, max: 1000 }
+                                },
+                                expression:
+                                  "{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 1000}}"
                               }
-                            },
-                            [
-                              _vm._m(2),
-                              _vm._v(" "),
+                            ],
+                            ref: "ci",
+                            staticClass: "form-control form-control-lg",
+                            attrs: { type: "text" },
+                            domProps: { value: _vm.amount },
+                            on: {
+                              click: _vm.amountClick,
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.amount = $event.target.value
+                              }
+                            }
+                          })
+                        ],
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "form-control-position",
+                            style: { top: "14px" }
+                          },
+                          [_c("i", { staticClass: "bx bx-dollar" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.clickedAmount,
+                                expression: "clickedAmount"
+                              }
+                            ],
+                            staticClass: "row",
+                            style: { "margin-top": "0.3rem !important" }
+                          },
+                          [
+                            _c("div", { staticClass: "col-4 pr-0" }, [
                               _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-outline-primary btn-sm w-100",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.setAmount(_vm.min)
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(_vm.min) + "$")]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "col-4",
+                                staticStyle: {
+                                  "padding-left": "7.5px",
+                                  "padding-right": "7.5px !important"
+                                }
+                              },
+                              [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-primary btn-sm w-100",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.setAmount(_vm.min * 2)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.min * 2) + "$")]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-4 pl-0" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-outline-primary btn-sm w-100",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.setAmount(_vm.min * 4)
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(_vm.min * 4) + "$")]
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.clickedAmount,
+                                expression: "clickedAmount"
+                              }
+                            ],
+                            staticClass: "row",
+                            style: { "margin-top": "0.3rem !important" }
+                          },
+                          [
+                            _c("div", { staticClass: "col-4 pr-0" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-outline-primary btn-sm w-100",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.setAmount(_vm.min * 8)
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(_vm.min * 8) + "$")]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "col-4",
+                                staticStyle: {
+                                  "padding-left": "7.5px",
+                                  "padding-right": "7.5px !important"
+                                }
+                              },
+                              [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-primary btn-sm w-100",
+                                    attrs: { type: "button" },
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.setAmount(_vm.min * 16)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v(_vm._s(_vm.min * 16) + "$")]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-4 pl-0" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-outline-primary btn-sm w-100",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function($event) {
+                                      return _vm.setAmount(_vm.min * 32)
+                                    }
+                                  }
+                                },
+                                [_vm._v(_vm._s(_vm.min * 32) + "$")]
+                              )
+                            ])
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.clickedAmount,
+                                expression: "clickedAmount"
+                              }
+                            ],
+                            staticClass: "row",
+                            style: { "margin-top": "0.3rem !important" }
+                          },
+                          [
+                            _c("div", { staticClass: "col-4 pr-0" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-outline-primary btn-sm w-100",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.subAmount }
+                                },
+                                [_vm._v("-")]
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "div",
+                              {
+                                staticClass: "col-4",
+                                staticStyle: {
+                                  "padding-left": "7.5px",
+                                  "padding-right": "7.5px !important"
+                                }
+                              },
+                              [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-outline-success btn-sm w-100",
+                                    attrs: { type: "button" },
+                                    on: { click: _vm.amountClickClose }
+                                  },
+                                  [_vm._v("ОК")]
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-4 pl-0" }, [
+                              _c(
+                                "button",
+                                {
+                                  staticClass:
+                                    "btn btn-outline-primary btn-sm w-100",
+                                  attrs: { type: "button" },
+                                  on: { click: _vm.addAmount }
+                                },
+                                [_vm._v("+")]
+                              )
+                            ])
+                          ]
+                        )
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c(
+                      "fieldset",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.number_percent === null,
+                            expression: "number_percent === null"
+                          }
+                        ],
+                        staticClass: "form-group position-relative"
+                      },
+                      [
+                        _c("input", {
+                          staticClass: "form-control form-control-lg",
+                          attrs: {
+                            type: "text",
+                            disabled: "",
+                            placeholder: "Загрузка...",
+                            "aria-describedby": "basic-addon2"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "form-control-position",
+                            style: { top: "14px" }
+                          },
+                          [
+                            _c("span", {
+                              staticClass: "spinner-border spinner-grow-sm",
+                              attrs: { role: "status", "aria-hidden": "true" }
+                            })
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "fieldset",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.number_percent !== null,
+                            expression: "number_percent !== null"
+                          }
+                        ],
+                        staticClass: "form-group position-relative"
+                      },
+                      [
+                        _c("input", {
+                          staticClass: "form-control form-control-lg",
+                          attrs: { type: "text", disabled: "" },
+                          domProps: {
+                            value: (
+                              (this.$ci.parse(this.amount) *
+                                _vm.number_percent) /
+                              100
+                            ).toFixed(2)
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "form-control-position",
+                            style: { top: "14px" }
+                          },
+                          [_c("i", { staticClass: "bx bx-dollar" })]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.percent === "",
+                            expression: "percent === ''"
+                          }
+                        ],
+                        staticClass: "btn btn-success mb-1 w-100 btn-lg",
+                        attrs: { type: "button", disabled: "" }
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-grow-sm",
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        }),
+                        _vm._v(
+                          "\n                                        Загрузка...\n                                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.percent !== "",
+                            expression: "percent !== ''"
+                          }
+                        ],
+                        staticClass: "btn btn-success glow w-100 btn-lg",
+                        attrs: {
+                          type: "button",
+                          disabled: _vm.isButtonDisabled
+                        },
+                        on: { click: _vm.buy }
+                      },
+                      [
+                        _c("i", { staticClass: "bx bx-trending-up" }),
+                        _vm._v(" "),
+                        _c("span", {
+                          staticClass: "align-middle ml-25",
+                          domProps: { textContent: _vm._s(_vm.percent) }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.percent === "",
+                            expression: "percent === ''"
+                          }
+                        ],
+                        staticClass: "btn btn-danger mb-1 w-100 btn-lg",
+                        attrs: { type: "button", disabled: "" }
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-grow-sm",
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        }),
+                        _vm._v(
+                          "\n                                        Загрузка...\n                                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.percent !== "",
+                            expression: "percent !== ''"
+                          }
+                        ],
+                        staticClass: "btn btn-danger glow w-100 mt-1 btn-lg",
+                        attrs: {
+                          type: "button",
+                          disabled: _vm.isButtonDisabled
+                        },
+                        on: { click: _vm.sell }
+                      },
+                      [
+                        _c("i", { staticClass: "bx bx-trending-down" }),
+                        _c("span", {
+                          staticClass: "align-middle ml-25",
+                          domProps: { textContent: _vm._s(_vm.percent) }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("hr", { staticClass: "mt-2", attrs: { id: "line" } })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "div",
+                      { staticClass: "col-md-12", attrs: { id: "history" } },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "accordion collapse-icon accordion-icon-rotate ps ps--active-y",
+                            style: { height: _vm.historyHeight },
+                            attrs: { id: "accordionWrapa2" }
+                          },
+                          [
+                            _c(
+                              "p",
+                              {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.opened.length > 0,
+                                    expression: "opened.length > 0"
+                                  }
+                                ],
+                                staticClass: "text-center"
+                              },
+                              [_vm._v("Открытые сделки")]
+                            ),
+                            _vm._v(" "),
+                            _vm._l(_vm.opened, function(open) {
+                              return _c(
                                 "div",
-                                { staticClass: "d-inline-block w-100" },
+                                { staticClass: "card collapse-header" },
                                 [
                                   _c(
                                     "div",
                                     {
-                                      staticClass:
-                                        "input-group bootstrap-touchspin bootstrap-touchspin-injected"
+                                      staticClass: "card-header",
+                                      staticStyle: {
+                                        "background-color":
+                                          "#22283e !important",
+                                        "border-top":
+                                          "1px solid #464d5c !important",
+                                        "border-left":
+                                          "1px solid #464d5c !important",
+                                        "border-right":
+                                          "1px solid #464d5c !important",
+                                        padding: "15px"
+                                      },
+                                      attrs: {
+                                        id: "heading" + open.id,
+                                        "data-target": "#accordion" + open.id,
+                                        "aria-controls": "accordion" + open.id,
+                                        "aria-expanded": "false",
+                                        "data-toggle": "collapse",
+                                        role: "tablist"
+                                      }
                                     },
                                     [
-                                      _c("input", {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.minutes,
-                                            expression: "minutes"
-                                          }
-                                        ],
-                                        staticClass:
-                                          "touchspin-vertical form-control",
-                                        attrs: { type: "number" },
-                                        domProps: { value: _vm.minutes },
-                                        on: {
-                                          focus: function($event) {
-                                            return $event.target.select()
-                                          },
-                                          click: function($event) {
-                                            return $event.target.select()
-                                          },
-                                          input: function($event) {
-                                            if ($event.target.composing) {
-                                              return
-                                            }
-                                            _vm.minutes = $event.target.value
-                                          }
-                                        }
-                                      }),
-                                      _vm._v(" "),
                                       _c(
                                         "span",
-                                        {
-                                          staticClass:
-                                            "input-group-btn-vertical"
-                                        },
+                                        { staticClass: "collapse-title" },
                                         [
                                           _c(
-                                            "button",
+                                            "span",
                                             {
-                                              staticClass:
-                                                "btn btn-primary bootstrap-touchspin-up",
-                                              staticStyle: { width: "20px" },
-                                              attrs: { type: "button" },
-                                              on: { click: _vm.minuteAdd }
+                                              staticClass: "align-middle",
+                                              class: "text-" + open.textColor
                                             },
-                                            [_vm._v("+")]
+                                            [
+                                              _vm._v(
+                                                "\n                                                            " +
+                                                  _vm._s(
+                                                    _vm.symbols.find(function(
+                                                      item
+                                                    ) {
+                                                      return (
+                                                        item.id ===
+                                                        open.symbol_id
+                                                      )
+                                                    }).symbol
+                                                  ) +
+                                                  "\n                                                        "
+                                              )
+                                            ]
                                           ),
                                           _vm._v(" "),
                                           _c(
-                                            "button",
+                                            "small",
                                             {
-                                              staticClass:
-                                                "btn btn-primary bootstrap-touchspin-down",
-                                              staticStyle: { width: "20px" },
-                                              attrs: { type: "button" },
-                                              on: { click: _vm.minuteSub }
+                                              class: "text-" + open.textColor,
+                                              staticStyle: {
+                                                float: "right",
+                                                "padding-right": "20px",
+                                                "padding-top": "5px"
+                                              }
                                             },
-                                            [_vm._v("-")]
+                                            [
+                                              _c("strong", {
+                                                directives: [
+                                                  {
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value:
+                                                      open.profit_status === 0,
+                                                    expression:
+                                                      "open.profit_status === 0"
+                                                  }
+                                                ],
+                                                domProps: {
+                                                  textContent: _vm._s("0 $")
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("strong", {
+                                                directives: [
+                                                  {
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value:
+                                                      open.profit_status === 1,
+                                                    expression:
+                                                      "open.profit_status === 1"
+                                                  }
+                                                ],
+                                                domProps: {
+                                                  textContent: _vm._s(
+                                                    (
+                                                      parseFloat(open.amount) +
+                                                      (open.amount *
+                                                        open.percent) /
+                                                        100
+                                                    ).toFixed(2) + " $"
+                                                  )
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("strong", {
+                                                directives: [
+                                                  {
+                                                    name: "show",
+                                                    rawName: "v-show",
+                                                    value:
+                                                      open.profit_status === 2,
+                                                    expression:
+                                                      "open.profit_status === 2"
+                                                  }
+                                                ],
+                                                domProps: {
+                                                  textContent: _vm._s(
+                                                    open.amount + " $"
+                                                  )
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          [
+                                            _c("vue-countdown-timer", {
+                                              attrs: {
+                                                "start-time":
+                                                  "2020-01-01 00:00:00",
+                                                "end-time": open.timestamp,
+                                                interval: 1000
+                                              },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "countdown",
+                                                    fn: function(scope) {
+                                                      return [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "progress position-relative",
+                                                            class:
+                                                              "progress-bar-" +
+                                                              open.textColor,
+                                                            staticStyle: {
+                                                              "text-shadow":
+                                                                "1px 1px 2px black"
+                                                            }
+                                                          },
+                                                          [
+                                                            _c("div", {
+                                                              staticClass:
+                                                                "progress-bar progress-bar-striped",
+                                                              style: {
+                                                                width:
+                                                                  100 -
+                                                                  ((scope.props
+                                                                    .hours *
+                                                                    60 *
+                                                                    60 +
+                                                                    scope.props
+                                                                      .minutes *
+                                                                      60 +
+                                                                    scope.props
+                                                                      .seconds) /
+                                                                    open.expiration) *
+                                                                    100 +
+                                                                  "%"
+                                                              },
+                                                              attrs: {
+                                                                role:
+                                                                  "progressbar",
+                                                                "aria-valuenow":
+                                                                  "0",
+                                                                "aria-valuemin":
+                                                                  "0",
+                                                                "aria-valuemax":
+                                                                  "100"
+                                                              }
+                                                            }),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "small",
+                                                              {
+                                                                staticClass:
+                                                                  "text-white justify-content-center d-flex position-absolute w-100",
+                                                                staticStyle: {
+                                                                  "margin-top":
+                                                                    "-3.4px",
+                                                                  "font-size":
+                                                                    "12px"
+                                                                }
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                                                                            " +
+                                                                    _vm._s(
+                                                                      scope
+                                                                        .props
+                                                                        .hours
+                                                                    ) +
+                                                                    ":" +
+                                                                    _vm._s(
+                                                                      scope
+                                                                        .props
+                                                                        .minutes
+                                                                    ) +
+                                                                    ":" +
+                                                                    _vm._s(
+                                                                      scope
+                                                                        .props
+                                                                        .seconds
+                                                                    ) +
+                                                                    "\n                                                                        "
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "small",
+                                                              {
+                                                                staticClass:
+                                                                  "text-white justify-content-left d-flex position-absolute w-100",
+                                                                staticStyle: {
+                                                                  "margin-top":
+                                                                    "-3.4px",
+                                                                  "font-size":
+                                                                    "10px"
+                                                                }
+                                                              },
+                                                              [
+                                                                _c("i", {
+                                                                  directives: [
+                                                                    {
+                                                                      name:
+                                                                        "show",
+                                                                      rawName:
+                                                                        "v-show",
+                                                                      value:
+                                                                        open.type ===
+                                                                        1,
+                                                                      expression:
+                                                                        "open.type === 1"
+                                                                    }
+                                                                  ],
+                                                                  staticClass:
+                                                                    "bx bx-trending-up",
+                                                                  staticStyle: {
+                                                                    "font-size":
+                                                                      "12px",
+                                                                    "padding-left":
+                                                                      "1px",
+                                                                    "padding-top":
+                                                                      "3px"
+                                                                  }
+                                                                }),
+                                                                _vm._v(" "),
+                                                                _c("i", {
+                                                                  directives: [
+                                                                    {
+                                                                      name:
+                                                                        "show",
+                                                                      rawName:
+                                                                        "v-show",
+                                                                      value:
+                                                                        open.type ===
+                                                                        0,
+                                                                      expression:
+                                                                        "open.type === 0"
+                                                                    }
+                                                                  ],
+                                                                  staticClass:
+                                                                    "bx bx-trending-down",
+                                                                  staticStyle: {
+                                                                    "font-size":
+                                                                      "12px",
+                                                                    "padding-left":
+                                                                      "1px",
+                                                                    "padding-top":
+                                                                      "1px"
+                                                                  }
+                                                                }),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "span",
+                                                                  {
+                                                                    staticClass:
+                                                                      "text-white",
+                                                                    staticStyle: {
+                                                                      "padding-top":
+                                                                        "1px"
+                                                                    }
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      _vm._s(
+                                                                        open.percent
+                                                                      ) + "%"
+                                                                    )
+                                                                  ]
+                                                                )
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c("small", {
+                                                              staticClass:
+                                                                "text-white justify-content-end d-flex position-absolute w-100",
+                                                              staticStyle: {
+                                                                "margin-top":
+                                                                  "-3.4px",
+                                                                "font-size":
+                                                                  "12px",
+                                                                "padding-right":
+                                                                  "1px"
+                                                              },
+                                                              domProps: {
+                                                                textContent: _vm._s(
+                                                                  open.amount +
+                                                                    " $"
+                                                                )
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
+                                                    }
+                                                  },
+                                                  {
+                                                    key: "end-text",
+                                                    fn: function(scope) {
+                                                      return [
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "progress progress-sm progress-bar-success"
+                                                          },
+                                                          [
+                                                            _c("div", {
+                                                              staticClass:
+                                                                "progress-bar progress-bar-striped",
+                                                              style: {
+                                                                width: "100%"
+                                                              },
+                                                              attrs: {
+                                                                role:
+                                                                  "progressbar",
+                                                                "aria-valuenow":
+                                                                  "0",
+                                                                "aria-valuemin":
+                                                                  "0",
+                                                                "aria-valuemax":
+                                                                  "100"
+                                                              }
+                                                            })
+                                                          ]
+                                                        )
+                                                      ]
+                                                    }
+                                                  }
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            })
+                                          ]
+                                        ],
+                                        2
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "collapse",
+                                      attrs: {
+                                        id: "accordion" + open.id,
+                                        "aria-labelledby": "heading" + open.id,
+                                        role: "tabpanel",
+                                        "data-parent": "#accordionWrapa2"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        { staticClass: "card-content" },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass: "card-body",
+                                              staticStyle: {
+                                                padding: "15px",
+                                                "background-color":
+                                                  "#22283e !important",
+                                                border: "1px solid",
+                                                "border-top": "1px",
+                                                "border-bottom-left-radius":
+                                                  "5px",
+                                                "border-bottom-right-radius":
+                                                  "5px"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                            Открыто: 12:00:00"
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                            Цена открытия: " +
+                                                  _vm._s(
+                                                    parseFloat(open.open_price)
+                                                  )
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                            Текущая цена: " +
+                                                  _vm._s(open.current_price)
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                            Время: 00:00:15"
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                            Направление: выше\n                                                        "
+                                              )
+                                            ]
                                           )
                                         ]
                                       )
@@ -124559,1368 +125624,306 @@ var render = function() {
                                   )
                                 ]
                               )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-4 pl-0" }, [
-                            _vm._m(3),
+                            }),
                             _vm._v(" "),
-                            _c("div", { staticClass: "d-inline-block w-100" }, [
-                              _c(
+                            _c("p", { staticClass: "text-center" }, [
+                              _vm._v("История сделок")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.latest, function(open) {
+                              return _c(
                                 "div",
-                                {
-                                  staticClass:
-                                    "input-group bootstrap-touchspin bootstrap-touchspin-injected"
-                                },
+                                { staticClass: "card collapse-header" },
                                 [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.seconds,
-                                        expression: "seconds"
-                                      }
-                                    ],
-                                    staticClass:
-                                      "touchspin-vertical form-control",
-                                    attrs: { type: "number" },
-                                    domProps: { value: _vm.seconds },
-                                    on: {
-                                      focus: function($event) {
-                                        return $event.target.select()
-                                      },
-                                      click: function($event) {
-                                        return $event.target.select()
-                                      },
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.seconds = $event.target.value
-                                      }
-                                    }
-                                  }),
-                                  _vm._v(" "),
                                   _c(
-                                    "span",
-                                    { staticClass: "input-group-btn-vertical" },
+                                    "div",
+                                    {
+                                      staticClass: "card-header",
+                                      staticStyle: {
+                                        "background-color":
+                                          "#22283e !important",
+                                        "border-top":
+                                          "1px solid #464d5c !important",
+                                        "border-left":
+                                          "1px solid #464d5c !important",
+                                        "border-right":
+                                          "1px solid #464d5c !important",
+                                        padding: "15px"
+                                      },
+                                      attrs: {
+                                        id: "heading" + open.id,
+                                        "data-target": "#accordion" + open.id,
+                                        "aria-controls": "accordion" + open.id,
+                                        "aria-expanded": "false",
+                                        "data-toggle": "collapse",
+                                        role: "tablist"
+                                      }
+                                    },
                                     [
                                       _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-primary bootstrap-touchspin-up",
-                                          staticStyle: { width: "20px" },
-                                          attrs: { type: "button" },
-                                          on: { click: _vm.secondAdd }
-                                        },
-                                        [_vm._v("+")]
-                                      ),
-                                      _vm._v(" "),
+                                        "span",
+                                        { staticClass: "collapse-title" },
+                                        [
+                                          _c(
+                                            "span",
+                                            {
+                                              staticClass: "align-middle",
+                                              class: "text-" + open.textColor
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                            " +
+                                                  _vm._s(
+                                                    _vm.symbols.find(function(
+                                                      item
+                                                    ) {
+                                                      return (
+                                                        item.id ===
+                                                        open.symbol_id
+                                                      )
+                                                    }).symbol
+                                                  ) +
+                                                  "\n                                                        "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "small",
+                                            {
+                                              class: "text-" + open.textColor,
+                                              staticStyle: {
+                                                float: "right",
+                                                "padding-right": "20px",
+                                                "padding-top": "5px"
+                                              }
+                                            },
+                                            [
+                                              _c("strong", {
+                                                domProps: {
+                                                  textContent: _vm._s(
+                                                    parseFloat(
+                                                      open.profit
+                                                    ).toFixed(2) + " $"
+                                                  )
+                                                }
+                                              })
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "progress position-relative",
+                                              class: "progress-bar-primary",
+                                              staticStyle: {
+                                                "text-shadow":
+                                                  "1px 1px 2px black"
+                                              }
+                                            },
+                                            [
+                                              _c("div", {
+                                                staticClass: "progress-bar",
+                                                staticStyle: { width: "100%" },
+                                                attrs: {
+                                                  role: "progressbar",
+                                                  "aria-valuenow": "0",
+                                                  "aria-valuemin": "0",
+                                                  "aria-valuemax": "100"
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c(
+                                                "small",
+                                                {
+                                                  staticClass:
+                                                    "text-white justify-content-center d-flex position-absolute w-100",
+                                                  staticStyle: {
+                                                    "margin-top": "-3.4px",
+                                                    "font-size": "12px"
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                                " +
+                                                      _vm._s(open.expiration) +
+                                                      "\n                                                            "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "small",
+                                                {
+                                                  staticClass:
+                                                    "text-white justify-content-left d-flex position-absolute w-100",
+                                                  staticStyle: {
+                                                    "margin-top": "-3.4px",
+                                                    "font-size": "10px"
+                                                  }
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    directives: [
+                                                      {
+                                                        name: "show",
+                                                        rawName: "v-show",
+                                                        value: open.type === 1,
+                                                        expression:
+                                                          "open.type === 1"
+                                                      }
+                                                    ],
+                                                    staticClass:
+                                                      "bx bx-trending-up",
+                                                    staticStyle: {
+                                                      "font-size": "12px",
+                                                      "padding-left": "1px",
+                                                      "padding-top": "3px"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("i", {
+                                                    directives: [
+                                                      {
+                                                        name: "show",
+                                                        rawName: "v-show",
+                                                        value: open.type === 0,
+                                                        expression:
+                                                          "open.type === 0"
+                                                      }
+                                                    ],
+                                                    staticClass:
+                                                      "bx bx-trending-down",
+                                                    staticStyle: {
+                                                      "font-size": "12px",
+                                                      "padding-left": "1px",
+                                                      "padding-top": "1px"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      staticClass: "text-white",
+                                                      staticStyle: {
+                                                        "padding-top": "1px"
+                                                      }
+                                                    },
+                                                    [
+                                                      _vm._v(
+                                                        _vm._s(open.percent) +
+                                                          "%"
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c("small", {
+                                                staticClass:
+                                                  "text-white justify-content-end d-flex position-absolute w-100",
+                                                staticStyle: {
+                                                  "margin-top": "-3.4px",
+                                                  "font-size": "12px",
+                                                  "padding-right": "1px"
+                                                },
+                                                domProps: {
+                                                  textContent: _vm._s(
+                                                    open.amount + " $"
+                                                  )
+                                                }
+                                              })
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass: "collapse",
+                                      attrs: {
+                                        id: "accordion" + open.id,
+                                        "aria-labelledby": "heading" + open.id,
+                                        role: "tabpanel",
+                                        "data-parent": "#accordionWrapa2"
+                                      }
+                                    },
+                                    [
                                       _c(
-                                        "button",
-                                        {
-                                          staticClass:
-                                            "btn btn-primary bootstrap-touchspin-down",
-                                          staticStyle: { width: "20px" },
-                                          attrs: { type: "button" },
-                                          on: { click: _vm.secondSub }
-                                        },
-                                        [_vm._v("-")]
+                                        "div",
+                                        { staticClass: "card-content" },
+                                        [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass: "card-body",
+                                              staticStyle: {
+                                                padding: "15px",
+                                                "background-color":
+                                                  "#22283e !important",
+                                                border: "1px solid",
+                                                "border-top": "1px",
+                                                "border-bottom-left-radius":
+                                                  "5px",
+                                                "border-bottom-right-radius":
+                                                  "5px"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                            Открыто: 12:00:00"
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                            Цена открытия: " +
+                                                  _vm._s(
+                                                    parseFloat(open.open_price)
+                                                  )
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                            Текущая цена: " +
+                                                  _vm._s(open.current_price)
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                            Время: 00:00:15"
+                                              ),
+                                              _c("br"),
+                                              _vm._v(
+                                                "\n                                                            Направление: выше\n                                                        "
+                                              )
+                                            ]
+                                          )
+                                        ]
                                       )
                                     ]
                                   )
                                 ]
                               )
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "col-md-12",
-                              staticStyle: { "padding-top": "5px" }
-                            },
-                            [
-                              _c(
-                                "button",
-                                {
-                                  staticClass:
-                                    "btn btn-outline-primary btn-sm w-100",
-                                  attrs: { type: "button" },
-                                  on: { click: _vm.closeClick }
-                                },
-                                [_vm._v("Закрыть")]
-                              )
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _vm._m(4),
-                      _vm._v(" "),
-                      _c(
-                        "fieldset",
-                        {
-                          staticClass: "form-group position-relative",
-                          style: { "margin-bottom": "0.3rem !important" }
-                        },
-                        [
-                          [
-                            _c("input", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.amount,
-                                  expression: "amount"
-                                },
-                                {
-                                  name: "currency",
-                                  rawName: "v-currency",
-                                  value: {
-                                    currency: null,
-                                    autoDecimalMode: true,
-                                    valueRange: { min: 1, max: 1000 }
-                                  },
-                                  expression:
-                                    "{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 1000}}"
-                                }
-                              ],
-                              ref: "ci",
-                              staticClass: "form-control form-control-lg",
-                              attrs: { type: "text" },
-                              domProps: { value: _vm.amount },
-                              on: {
-                                click: _vm.amountClick,
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.amount = $event.target.value
-                                }
-                              }
-                            })
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn btn-outline-primary w-100",
+                                attrs: { type: "button" }
+                              },
+                              [_vm._v("Полная история сделок")]
+                            )
                           ],
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "form-control-position",
-                              style: { top: "14px" }
-                            },
-                            [_c("i", { staticClass: "bx bx-dollar" })]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.clickedAmount,
-                                  expression: "clickedAmount"
-                                }
-                              ],
-                              staticClass: "row",
-                              style: { "margin-top": "0.3rem !important" }
-                            },
-                            [
-                              _c("div", { staticClass: "col-4 pr-0" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-outline-primary btn-sm w-100",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.setAmount(_vm.min)
-                                      }
-                                    }
-                                  },
-                                  [_vm._v(_vm._s(_vm.min) + "$")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "col-4",
-                                  staticStyle: {
-                                    "padding-left": "7.5px",
-                                    "padding-right": "7.5px !important"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-outline-primary btn-sm w-100",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.setAmount(_vm.min * 2)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v(_vm._s(_vm.min * 2) + "$")]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-4 pl-0" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-outline-primary btn-sm w-100",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.setAmount(_vm.min * 4)
-                                      }
-                                    }
-                                  },
-                                  [_vm._v(_vm._s(_vm.min * 4) + "$")]
-                                )
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.clickedAmount,
-                                  expression: "clickedAmount"
-                                }
-                              ],
-                              staticClass: "row",
-                              style: { "margin-top": "0.3rem !important" }
-                            },
-                            [
-                              _c("div", { staticClass: "col-4 pr-0" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-outline-primary btn-sm w-100",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.setAmount(_vm.min * 8)
-                                      }
-                                    }
-                                  },
-                                  [_vm._v(_vm._s(_vm.min * 8) + "$")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "col-4",
-                                  staticStyle: {
-                                    "padding-left": "7.5px",
-                                    "padding-right": "7.5px !important"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-outline-primary btn-sm w-100",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.setAmount(_vm.min * 16)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v(_vm._s(_vm.min * 16) + "$")]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-4 pl-0" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-outline-primary btn-sm w-100",
-                                    attrs: { type: "button" },
-                                    on: {
-                                      click: function($event) {
-                                        return _vm.setAmount(_vm.min * 32)
-                                      }
-                                    }
-                                  },
-                                  [_vm._v(_vm._s(_vm.min * 32) + "$")]
-                                )
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              directives: [
-                                {
-                                  name: "show",
-                                  rawName: "v-show",
-                                  value: _vm.clickedAmount,
-                                  expression: "clickedAmount"
-                                }
-                              ],
-                              staticClass: "row",
-                              style: { "margin-top": "0.3rem !important" }
-                            },
-                            [
-                              _c("div", { staticClass: "col-4 pr-0" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-outline-primary btn-sm w-100",
-                                    attrs: { type: "button" },
-                                    on: { click: _vm.subAmount }
-                                  },
-                                  [_vm._v("-")]
-                                )
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "col-4",
-                                  staticStyle: {
-                                    "padding-left": "7.5px",
-                                    "padding-right": "7.5px !important"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn btn-outline-success btn-sm w-100",
-                                      attrs: { type: "button" },
-                                      on: { click: _vm.amountClickClose }
-                                    },
-                                    [_vm._v("ОК")]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-4 pl-0" }, [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass:
-                                      "btn btn-outline-primary btn-sm w-100",
-                                    attrs: { type: "button" },
-                                    on: { click: _vm.addAmount }
-                                  },
-                                  [_vm._v("+")]
-                                )
-                              ])
-                            ]
-                          )
-                        ],
-                        2
-                      ),
-                      _vm._v(" "),
-                      _vm._m(5),
-                      _vm._v(" "),
-                      _c(
-                        "fieldset",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.number_percent === null,
-                              expression: "number_percent === null"
-                            }
-                          ],
-                          staticClass: "form-group position-relative"
-                        },
-                        [
-                          _c("input", {
-                            staticClass: "form-control form-control-lg",
-                            attrs: {
-                              type: "text",
-                              disabled: "",
-                              placeholder: "Загрузка...",
-                              "aria-describedby": "basic-addon2"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "form-control-position",
-                              style: { top: "14px" }
-                            },
-                            [
-                              _c("span", {
-                                staticClass: "spinner-border spinner-grow-sm",
-                                attrs: { role: "status", "aria-hidden": "true" }
-                              })
-                            ]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "fieldset",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.number_percent !== null,
-                              expression: "number_percent !== null"
-                            }
-                          ],
-                          staticClass: "form-group position-relative"
-                        },
-                        [
-                          _c("input", {
-                            staticClass: "form-control form-control-lg",
-                            attrs: { type: "text", disabled: "" },
-                            domProps: {
-                              value: (
-                                (this.$ci.parse(this.amount) *
-                                  _vm.number_percent) /
-                                100
-                              ).toFixed(2)
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass: "form-control-position",
-                              style: { top: "14px" }
-                            },
-                            [_c("i", { staticClass: "bx bx-dollar" })]
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.percent === "",
-                              expression: "percent === ''"
-                            }
-                          ],
-                          staticClass: "btn btn-success mb-1 w-100 btn-lg",
-                          attrs: { type: "button", disabled: "" }
-                        },
-                        [
-                          _c("span", {
-                            staticClass: "spinner-border spinner-grow-sm",
-                            attrs: { role: "status", "aria-hidden": "true" }
-                          }),
-                          _vm._v(
-                            "\n                                        Загрузка...\n                                    "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.percent !== "",
-                              expression: "percent !== ''"
-                            }
-                          ],
-                          staticClass: "btn btn-success glow w-100 btn-lg",
-                          attrs: {
-                            type: "button",
-                            disabled: _vm.isButtonDisabled
-                          },
-                          on: { click: _vm.buy }
-                        },
-                        [
-                          _c("i", { staticClass: "bx bx-trending-up" }),
-                          _vm._v(" "),
-                          _c("span", {
-                            staticClass: "align-middle ml-25",
-                            domProps: { textContent: _vm._s(_vm.percent) }
-                          })
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.percent === "",
-                              expression: "percent === ''"
-                            }
-                          ],
-                          staticClass: "btn btn-danger mb-1 w-100 btn-lg",
-                          attrs: { type: "button", disabled: "" }
-                        },
-                        [
-                          _c("span", {
-                            staticClass: "spinner-border spinner-grow-sm",
-                            attrs: { role: "status", "aria-hidden": "true" }
-                          }),
-                          _vm._v(
-                            "\n                                        Загрузка...\n                                    "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.percent !== "",
-                              expression: "percent !== ''"
-                            }
-                          ],
-                          staticClass: "btn btn-danger glow w-100 mt-1 btn-lg",
-                          attrs: {
-                            type: "button",
-                            disabled: _vm.isButtonDisabled
-                          },
-                          on: { click: _vm.sell }
-                        },
-                        [
-                          _c("i", { staticClass: "bx bx-trending-down" }),
-                          _c("span", {
-                            staticClass: "align-middle ml-25",
-                            domProps: { textContent: _vm._s(_vm.percent) }
-                          })
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("hr", { staticClass: "mt-2", attrs: { id: "line" } })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "row" }, [
-                      _c(
-                        "div",
-                        { staticClass: "col-md-12", attrs: { id: "history" } },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "accordion collapse-icon accordion-icon-rotate ps ps--active-y",
-                              style: { height: _vm.historyHeight },
-                              attrs: { id: "accordionWrapa2" }
-                            },
-                            [
-                              _c(
-                                "p",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: _vm.opened.length > 0,
-                                      expression: "opened.length > 0"
-                                    }
-                                  ],
-                                  staticClass: "text-center"
-                                },
-                                [_vm._v("Открытые сделки")]
-                              ),
-                              _vm._v(" "),
-                              _vm._l(_vm.opened, function(open) {
-                                return _c(
-                                  "div",
-                                  { staticClass: "card collapse-header" },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "card-header",
-                                        staticStyle: {
-                                          "background-color":
-                                            "#22283e !important",
-                                          "border-top":
-                                            "1px solid #464d5c !important",
-                                          "border-left":
-                                            "1px solid #464d5c !important",
-                                          "border-right":
-                                            "1px solid #464d5c !important",
-                                          padding: "15px"
-                                        },
-                                        attrs: {
-                                          id: "heading" + open.id,
-                                          "data-target": "#accordion" + open.id,
-                                          "aria-controls":
-                                            "accordion" + open.id,
-                                          "aria-expanded": "false",
-                                          "data-toggle": "collapse",
-                                          role: "tablist"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "span",
-                                          { staticClass: "collapse-title" },
-                                          [
-                                            _c(
-                                              "span",
-                                              {
-                                                staticClass: "align-middle",
-                                                class: "text-" + open.textColor
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                                            " +
-                                                    _vm._s(
-                                                      _vm.symbols.find(function(
-                                                        item
-                                                      ) {
-                                                        return (
-                                                          item.id ===
-                                                          open.symbol_id
-                                                        )
-                                                      }).symbol
-                                                    ) +
-                                                    "\n                                                        "
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "small",
-                                              {
-                                                class: "text-" + open.textColor,
-                                                staticStyle: {
-                                                  float: "right",
-                                                  "padding-right": "20px",
-                                                  "padding-top": "5px"
-                                                }
-                                              },
-                                              [
-                                                _c("strong", {
-                                                  directives: [
-                                                    {
-                                                      name: "show",
-                                                      rawName: "v-show",
-                                                      value:
-                                                        open.profit_status ===
-                                                        0,
-                                                      expression:
-                                                        "open.profit_status === 0"
-                                                    }
-                                                  ],
-                                                  domProps: {
-                                                    textContent: _vm._s("0 $")
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                _c("strong", {
-                                                  directives: [
-                                                    {
-                                                      name: "show",
-                                                      rawName: "v-show",
-                                                      value:
-                                                        open.profit_status ===
-                                                        1,
-                                                      expression:
-                                                        "open.profit_status === 1"
-                                                    }
-                                                  ],
-                                                  domProps: {
-                                                    textContent: _vm._s(
-                                                      (
-                                                        parseFloat(
-                                                          open.amount
-                                                        ) +
-                                                        (open.amount *
-                                                          open.percent) /
-                                                          100
-                                                      ).toFixed(2) + " $"
-                                                    )
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                _c("strong", {
-                                                  directives: [
-                                                    {
-                                                      name: "show",
-                                                      rawName: "v-show",
-                                                      value:
-                                                        open.profit_status ===
-                                                        2,
-                                                      expression:
-                                                        "open.profit_status === 2"
-                                                    }
-                                                  ],
-                                                  domProps: {
-                                                    textContent: _vm._s(
-                                                      open.amount + " $"
-                                                    )
-                                                  }
-                                                })
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            [
-                                              _c("vue-countdown-timer", {
-                                                attrs: {
-                                                  "start-time":
-                                                    "2020-01-01 00:00:00",
-                                                  "end-time": open.timestamp,
-                                                  interval: 1000
-                                                },
-                                                scopedSlots: _vm._u(
-                                                  [
-                                                    {
-                                                      key: "countdown",
-                                                      fn: function(scope) {
-                                                        return [
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "progress position-relative",
-                                                              class:
-                                                                "progress-bar-" +
-                                                                open.textColor,
-                                                              staticStyle: {
-                                                                "text-shadow":
-                                                                  "1px 1px 2px black"
-                                                              }
-                                                            },
-                                                            [
-                                                              _c("div", {
-                                                                staticClass:
-                                                                  "progress-bar progress-bar-striped",
-                                                                style: {
-                                                                  width:
-                                                                    100 -
-                                                                    ((scope
-                                                                      .props
-                                                                      .hours *
-                                                                      60 *
-                                                                      60 +
-                                                                      scope
-                                                                        .props
-                                                                        .minutes *
-                                                                        60 +
-                                                                      scope
-                                                                        .props
-                                                                        .seconds) /
-                                                                      open.expiration) *
-                                                                      100 +
-                                                                    "%"
-                                                                },
-                                                                attrs: {
-                                                                  role:
-                                                                    "progressbar",
-                                                                  "aria-valuenow":
-                                                                    "0",
-                                                                  "aria-valuemin":
-                                                                    "0",
-                                                                  "aria-valuemax":
-                                                                    "100"
-                                                                }
-                                                              }),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "small",
-                                                                {
-                                                                  staticClass:
-                                                                    "text-white justify-content-center d-flex position-absolute w-100",
-                                                                  staticStyle: {
-                                                                    "margin-top":
-                                                                      "-3.4px",
-                                                                    "font-size":
-                                                                      "12px"
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "\n                                                                            " +
-                                                                      _vm._s(
-                                                                        scope
-                                                                          .props
-                                                                          .hours
-                                                                      ) +
-                                                                      ":" +
-                                                                      _vm._s(
-                                                                        scope
-                                                                          .props
-                                                                          .minutes
-                                                                      ) +
-                                                                      ":" +
-                                                                      _vm._s(
-                                                                        scope
-                                                                          .props
-                                                                          .seconds
-                                                                      ) +
-                                                                      "\n                                                                        "
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c(
-                                                                "small",
-                                                                {
-                                                                  staticClass:
-                                                                    "text-white justify-content-left d-flex position-absolute w-100",
-                                                                  staticStyle: {
-                                                                    "margin-top":
-                                                                      "-3.4px",
-                                                                    "font-size":
-                                                                      "10px"
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _c("i", {
-                                                                    directives: [
-                                                                      {
-                                                                        name:
-                                                                          "show",
-                                                                        rawName:
-                                                                          "v-show",
-                                                                        value:
-                                                                          open.type ===
-                                                                          1,
-                                                                        expression:
-                                                                          "open.type === 1"
-                                                                      }
-                                                                    ],
-                                                                    staticClass:
-                                                                      "bx bx-trending-up",
-                                                                    staticStyle: {
-                                                                      "font-size":
-                                                                        "12px",
-                                                                      "padding-left":
-                                                                        "1px",
-                                                                      "padding-top":
-                                                                        "3px"
-                                                                    }
-                                                                  }),
-                                                                  _vm._v(" "),
-                                                                  _c("i", {
-                                                                    directives: [
-                                                                      {
-                                                                        name:
-                                                                          "show",
-                                                                        rawName:
-                                                                          "v-show",
-                                                                        value:
-                                                                          open.type ===
-                                                                          0,
-                                                                        expression:
-                                                                          "open.type === 0"
-                                                                      }
-                                                                    ],
-                                                                    staticClass:
-                                                                      "bx bx-trending-down",
-                                                                    staticStyle: {
-                                                                      "font-size":
-                                                                        "12px",
-                                                                      "padding-left":
-                                                                        "1px",
-                                                                      "padding-top":
-                                                                        "1px"
-                                                                    }
-                                                                  }),
-                                                                  _vm._v(" "),
-                                                                  _c(
-                                                                    "span",
-                                                                    {
-                                                                      staticClass:
-                                                                        "text-white",
-                                                                      staticStyle: {
-                                                                        "padding-top":
-                                                                          "1px"
-                                                                      }
-                                                                    },
-                                                                    [
-                                                                      _vm._v(
-                                                                        _vm._s(
-                                                                          open.percent
-                                                                        ) + "%"
-                                                                      )
-                                                                    ]
-                                                                  )
-                                                                ]
-                                                              ),
-                                                              _vm._v(" "),
-                                                              _c("small", {
-                                                                staticClass:
-                                                                  "text-white justify-content-end d-flex position-absolute w-100",
-                                                                staticStyle: {
-                                                                  "margin-top":
-                                                                    "-3.4px",
-                                                                  "font-size":
-                                                                    "12px",
-                                                                  "padding-right":
-                                                                    "1px"
-                                                                },
-                                                                domProps: {
-                                                                  textContent: _vm._s(
-                                                                    open.amount +
-                                                                      " $"
-                                                                  )
-                                                                }
-                                                              })
-                                                            ]
-                                                          )
-                                                        ]
-                                                      }
-                                                    },
-                                                    {
-                                                      key: "end-text",
-                                                      fn: function(scope) {
-                                                        return [
-                                                          _c(
-                                                            "div",
-                                                            {
-                                                              staticClass:
-                                                                "progress progress-sm progress-bar-success"
-                                                            },
-                                                            [
-                                                              _c("div", {
-                                                                staticClass:
-                                                                  "progress-bar progress-bar-striped",
-                                                                style: {
-                                                                  width: "100%"
-                                                                },
-                                                                attrs: {
-                                                                  role:
-                                                                    "progressbar",
-                                                                  "aria-valuenow":
-                                                                    "0",
-                                                                  "aria-valuemin":
-                                                                    "0",
-                                                                  "aria-valuemax":
-                                                                    "100"
-                                                                }
-                                                              })
-                                                            ]
-                                                          )
-                                                        ]
-                                                      }
-                                                    }
-                                                  ],
-                                                  null,
-                                                  true
-                                                )
-                                              })
-                                            ]
-                                          ],
-                                          2
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "collapse",
-                                        attrs: {
-                                          id: "accordion" + open.id,
-                                          "aria-labelledby":
-                                            "heading" + open.id,
-                                          role: "tabpanel",
-                                          "data-parent": "#accordionWrapa2"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "card-content" },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass: "card-body",
-                                                staticStyle: {
-                                                  padding: "15px",
-                                                  "background-color":
-                                                    "#22283e !important",
-                                                  border: "1px solid",
-                                                  "border-top": "1px",
-                                                  "border-bottom-left-radius":
-                                                    "5px",
-                                                  "border-bottom-right-radius":
-                                                    "5px"
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                                            Открыто: 12:00:00"
-                                                ),
-                                                _c("br"),
-                                                _vm._v(
-                                                  "\n                                                            Цена открытия: " +
-                                                    _vm._s(
-                                                      parseFloat(
-                                                        open.open_price
-                                                      )
-                                                    )
-                                                ),
-                                                _c("br"),
-                                                _vm._v(
-                                                  "\n                                                            Текущая цена: " +
-                                                    _vm._s(open.current_price)
-                                                ),
-                                                _c("br"),
-                                                _vm._v(
-                                                  "\n                                                            Время: 00:00:15"
-                                                ),
-                                                _c("br"),
-                                                _vm._v(
-                                                  "\n                                                            Направление: выше\n                                                        "
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                )
-                              }),
-                              _vm._v(" "),
-                              _c("p", { staticClass: "text-center" }, [
-                                _vm._v("История сделок")
-                              ]),
-                              _vm._v(" "),
-                              _vm._l(_vm.latest, function(open) {
-                                return _c(
-                                  "div",
-                                  { staticClass: "card collapse-header" },
-                                  [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "card-header",
-                                        staticStyle: {
-                                          "background-color":
-                                            "#22283e !important",
-                                          "border-top":
-                                            "1px solid #464d5c !important",
-                                          "border-left":
-                                            "1px solid #464d5c !important",
-                                          "border-right":
-                                            "1px solid #464d5c !important",
-                                          padding: "15px"
-                                        },
-                                        attrs: {
-                                          id: "heading" + open.id,
-                                          "data-target": "#accordion" + open.id,
-                                          "aria-controls":
-                                            "accordion" + open.id,
-                                          "aria-expanded": "false",
-                                          "data-toggle": "collapse",
-                                          role: "tablist"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "span",
-                                          { staticClass: "collapse-title" },
-                                          [
-                                            _c(
-                                              "span",
-                                              {
-                                                staticClass: "align-middle",
-                                                class: "text-" + open.textColor
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                                            " +
-                                                    _vm._s(
-                                                      _vm.symbols.find(function(
-                                                        item
-                                                      ) {
-                                                        return (
-                                                          item.id ===
-                                                          open.symbol_id
-                                                        )
-                                                      }).symbol
-                                                    ) +
-                                                    "\n                                                        "
-                                                )
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "small",
-                                              {
-                                                class: "text-" + open.textColor,
-                                                staticStyle: {
-                                                  float: "right",
-                                                  "padding-right": "20px",
-                                                  "padding-top": "5px"
-                                                }
-                                              },
-                                              [
-                                                _c("strong", {
-                                                  domProps: {
-                                                    textContent: _vm._s(
-                                                      parseFloat(
-                                                        open.profit
-                                                      ).toFixed(2) + " $"
-                                                    )
-                                                  }
-                                                })
-                                              ]
-                                            ),
-                                            _vm._v(" "),
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "progress position-relative",
-                                                class: "progress-bar-primary",
-                                                staticStyle: {
-                                                  "text-shadow":
-                                                    "1px 1px 2px black"
-                                                }
-                                              },
-                                              [
-                                                _c("div", {
-                                                  staticClass: "progress-bar",
-                                                  staticStyle: {
-                                                    width: "100%"
-                                                  },
-                                                  attrs: {
-                                                    role: "progressbar",
-                                                    "aria-valuenow": "0",
-                                                    "aria-valuemin": "0",
-                                                    "aria-valuemax": "100"
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "small",
-                                                  {
-                                                    staticClass:
-                                                      "text-white justify-content-center d-flex position-absolute w-100",
-                                                    staticStyle: {
-                                                      "margin-top": "-3.4px",
-                                                      "font-size": "12px"
-                                                    }
-                                                  },
-                                                  [
-                                                    _vm._v(
-                                                      "\n                                                                " +
-                                                        _vm._s(
-                                                          open.expiration
-                                                        ) +
-                                                        "\n                                                            "
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c(
-                                                  "small",
-                                                  {
-                                                    staticClass:
-                                                      "text-white justify-content-left d-flex position-absolute w-100",
-                                                    staticStyle: {
-                                                      "margin-top": "-3.4px",
-                                                      "font-size": "10px"
-                                                    }
-                                                  },
-                                                  [
-                                                    _c("i", {
-                                                      directives: [
-                                                        {
-                                                          name: "show",
-                                                          rawName: "v-show",
-                                                          value:
-                                                            open.type === 1,
-                                                          expression:
-                                                            "open.type === 1"
-                                                        }
-                                                      ],
-                                                      staticClass:
-                                                        "bx bx-trending-up",
-                                                      staticStyle: {
-                                                        "font-size": "12px",
-                                                        "padding-left": "1px",
-                                                        "padding-top": "3px"
-                                                      }
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c("i", {
-                                                      directives: [
-                                                        {
-                                                          name: "show",
-                                                          rawName: "v-show",
-                                                          value:
-                                                            open.type === 0,
-                                                          expression:
-                                                            "open.type === 0"
-                                                        }
-                                                      ],
-                                                      staticClass:
-                                                        "bx bx-trending-down",
-                                                      staticStyle: {
-                                                        "font-size": "12px",
-                                                        "padding-left": "1px",
-                                                        "padding-top": "1px"
-                                                      }
-                                                    }),
-                                                    _vm._v(" "),
-                                                    _c(
-                                                      "span",
-                                                      {
-                                                        staticClass:
-                                                          "text-white",
-                                                        staticStyle: {
-                                                          "padding-top": "1px"
-                                                        }
-                                                      },
-                                                      [
-                                                        _vm._v(
-                                                          _vm._s(open.percent) +
-                                                            "%"
-                                                        )
-                                                      ]
-                                                    )
-                                                  ]
-                                                ),
-                                                _vm._v(" "),
-                                                _c("small", {
-                                                  staticClass:
-                                                    "text-white justify-content-end d-flex position-absolute w-100",
-                                                  staticStyle: {
-                                                    "margin-top": "-3.4px",
-                                                    "font-size": "12px",
-                                                    "padding-right": "1px"
-                                                  },
-                                                  domProps: {
-                                                    textContent: _vm._s(
-                                                      open.amount + " $"
-                                                    )
-                                                  }
-                                                })
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "collapse",
-                                        attrs: {
-                                          id: "accordion" + open.id,
-                                          "aria-labelledby":
-                                            "heading" + open.id,
-                                          role: "tabpanel",
-                                          "data-parent": "#accordionWrapa2"
-                                        }
-                                      },
-                                      [
-                                        _c(
-                                          "div",
-                                          { staticClass: "card-content" },
-                                          [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass: "card-body",
-                                                staticStyle: {
-                                                  padding: "15px",
-                                                  "background-color":
-                                                    "#22283e !important",
-                                                  border: "1px solid",
-                                                  "border-top": "1px",
-                                                  "border-bottom-left-radius":
-                                                    "5px",
-                                                  "border-bottom-right-radius":
-                                                    "5px"
-                                                }
-                                              },
-                                              [
-                                                _vm._v(
-                                                  "\n                                                            Открыто: 12:00:00"
-                                                ),
-                                                _c("br"),
-                                                _vm._v(
-                                                  "\n                                                            Цена открытия: " +
-                                                    _vm._s(
-                                                      parseFloat(
-                                                        open.open_price
-                                                      )
-                                                    )
-                                                ),
-                                                _c("br"),
-                                                _vm._v(
-                                                  "\n                                                            Текущая цена: " +
-                                                    _vm._s(open.current_price)
-                                                ),
-                                                _c("br"),
-                                                _vm._v(
-                                                  "\n                                                            Время: 00:00:15"
-                                                ),
-                                                _c("br"),
-                                                _vm._v(
-                                                  "\n                                                            Направление: выше\n                                                        "
-                                                )
-                                              ]
-                                            )
-                                          ]
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                )
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn btn-outline-primary w-100",
-                                  attrs: { type: "button" }
-                                },
-                                [_vm._v("Полная история сделок")]
-                              )
-                            ],
-                            2
-                          )
-                        ]
-                      )
-                    ])
+                          2
+                        )
+                      ]
+                    )
                   ])
                 ])
-              ]
-            )
+              ])
+            ])
           ])
         ])
       ])
@@ -149043,11 +149046,12 @@ window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jqu
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TradingChartComponent_vue_vue_type_template_id_449b36df_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TradingChartComponent.vue?vue&type=template&id=449b36df&scoped=true& */ "./resources/vuejs/components/TradingChartComponent.vue?vue&type=template&id=449b36df&scoped=true&");
 /* harmony import */ var _TradingChartComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TradingChartComponent.vue?vue&type=script&lang=js& */ "./resources/vuejs/components/TradingChartComponent.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _TradingChartComponent_vue_vue_type_style_index_0_id_449b36df_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css& */ "./resources/vuejs/components/TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _TradingChartComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _TradingChartComponent_vue_vue_type_template_id_449b36df_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _TradingChartComponent_vue_vue_type_template_id_449b36df_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -149076,6 +149080,22 @@ component.options.__file = "resources/vuejs/components/TradingChartComponent.vue
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TradingChartComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TradingChartComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/components/TradingChartComponent.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TradingChartComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/vuejs/components/TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css&":
+/*!***********************************************************************************************************************!*\
+  !*** ./resources/vuejs/components/TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css& ***!
+  \***********************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_33_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_33_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TradingChartComponent_vue_vue_type_style_index_0_id_449b36df_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--33-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--33-2!../../../node_modules/vue-loader/lib??vue-loader-options!./TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/components/TradingChartComponent.vue?vue&type=style&index=0&id=449b36df&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_33_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_33_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TradingChartComponent_vue_vue_type_style_index_0_id_449b36df_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_33_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_33_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TradingChartComponent_vue_vue_type_style_index_0_id_449b36df_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_33_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_33_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TradingChartComponent_vue_vue_type_style_index_0_id_449b36df_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_33_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_33_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TradingChartComponent_vue_vue_type_style_index_0_id_449b36df_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_33_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_33_2_node_modules_vue_loader_lib_index_js_vue_loader_options_TradingChartComponent_vue_vue_type_style_index_0_id_449b36df_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -150304,15 +150324,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./resources/vuejs/views/user/Deposit.vue ***!
   \************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Deposit_vue_vue_type_template_id_7430a733_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Deposit.vue?vue&type=template&id=7430a733&scoped=true& */ "./resources/vuejs/views/user/Deposit.vue?vue&type=template&id=7430a733&scoped=true&");
 /* harmony import */ var _Deposit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Deposit.vue?vue&type=script&lang=js& */ "./resources/vuejs/views/user/Deposit.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Deposit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Deposit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _Deposit_vue_vue_type_style_index_0_id_7430a733_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css& */ "./resources/vuejs/views/user/Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _Deposit_vue_vue_type_style_index_0_id_7430a733_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css& */ "./resources/vuejs/views/user/Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 /* normalize component */
@@ -150339,7 +150358,7 @@ component.options.__file = "resources/vuejs/views/user/Deposit.vue"
 /*!*************************************************************************!*\
   !*** ./resources/vuejs/views/user/Deposit.vue?vue&type=script&lang=js& ***!
   \*************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
