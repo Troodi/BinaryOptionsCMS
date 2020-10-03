@@ -20,7 +20,7 @@ export class TradingViewWebsocket {
         this.symbolNumber = 1;
         this.symbolResolved = false;
         this.seriesCompleted = false;
-        this.socketTV = new WebSocket("ws://chart.getoption.pro:80");
+        this.socketTV = new WebSocket(window.websocketAddress);
         this.socketTV.onmessage = (data) => { this.onmessage(data) };
         this.socketTV.onopen = () => { this.onopen() };
         this.socketTV.onclose = (data) => { this.onclose(data) };
@@ -207,7 +207,7 @@ export class TradingViewWebsocket {
     };
 
     resetWebSocket() {
-        window.socket = new WebSocket("ws://chart.getoption.pro:80");
+        window.socket = new WebSocket(window.websocketAddress);
     }
 
     generateSession() {

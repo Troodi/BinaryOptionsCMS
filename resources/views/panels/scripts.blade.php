@@ -1,7 +1,11 @@
-
     <!-- BEGIN: Vendor JS-->
     <script>
       var assetBaseUrl = "{{ asset('') }}";
+      if(window.location.protocol === 'https:'){
+          window.websocketAddress = 'wss://{{ env('WEBSOCKET_HOST') }}:443';
+      } else {
+          window.websocketAddress = 'ws://{{ env('WEBSOCKET_HOST') }}:80';
+      }
     </script>
     @yield('above-vendor-scripts')
     <script src="{{asset('vendors/js/vendors.min.js')}}"></script>
