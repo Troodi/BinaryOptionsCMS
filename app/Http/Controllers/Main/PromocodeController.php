@@ -36,12 +36,12 @@ class PromocodeController extends Controller
     if(Carbon::now() < $active_from or Carbon::now() > $active_to){
       return response()->json(['success' => false, 'message' => 'Срок действия промокода истёк!'], 200);
     }
-    $deposits = Deposit::where('user_id', Auth::user()->id)->where('status', 1)->count();
+    $deposits = Deposit::where('user_id', Auth::user()->id)->where('status', 1)->count(); //TODO проверка на второй бездепозитный
     if($promocode->for_new and $deposits){
-      return response()->json(['success' => false, 'message' => 'Данный депозит предназначен только для новых пользователей!'], 200);
+      return response()->json(['success' => false, 'message' => 'Данный промокод предназначен только для новых пользователей!'], 200);
     }
     $promocode_history = PromocodeHistory::where('user_id', Auth::user()->id)->where('promocode_id', $promocode->id)->count();
-    if($promocode_history >= $promocode->attempts){
+    if($promocode->attempts && $promocode_history >= $promocode->attempts){
       return response()->json(['success' => false, 'message' => 'Вы уже использовали максимальное количество раз данный промокод!'], 200);
     }
     $model = new PromocodeHistory;
@@ -54,7 +54,7 @@ class PromocodeController extends Controller
       broadcast(new ChangeBalance(Auth::user()->balance+$promocode->bonus_size, Auth::user()));
       return response()->json(['success' => true, 'message' => 'Промокод на бездепозиный бонус активирован!'], 200);
     } elseif ($promocode->type == 2){
-      return response()->json(['success' => true, 'message' => 'Данный промокод активен и доступен на странице пополнения!'], 200);
+      return response()->json(['success' => true, 'message' => 'Данный промокод активен и доступен при пополнении баланса!', 'data' => $promocode], 200);
     }
   }
 

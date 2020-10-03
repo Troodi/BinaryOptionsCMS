@@ -2450,6 +2450,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2457,58 +2494,45 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     TradingChartComponent: _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
+  mounted: function mounted() {
+    var self = this;
+    axios.post('/data/getDepositPromocodes').then(function (response) {
+      self.bonus = response.data;
+      self.promocode = self.bonus.find(function (item) {
+        return item.min_amount == 500;
+      }).code;
+      self.prev_promocode = self.promocode;
+      self.promocode_info = self.bonus.find(function (item) {
+        return item.min_amount == 500;
+      });
+    });
+  },
   data: function data() {
     return {
-      bonus: [{
-        id: 7,
-        amount: '10 000',
-        percent: '100',
-        checked: false
-      }, {
-        id: 6,
-        amount: '5 000',
-        percent: '90',
-        checked: false
-      }, {
-        id: 5,
-        amount: '3 000',
-        percent: '80',
-        checked: false
-      }, {
-        id: 4,
-        amount: '1 000',
-        percent: '70',
-        checked: false
-      }, {
-        id: 3,
-        amount: '500',
-        percent: '65',
-        checked: true
-      }, {
-        id: 2,
-        amount: '250',
-        percent: '60',
-        checked: false
-      }, {
-        id: 1,
-        amount: '100',
-        percent: '55',
-        checked: false
-      }, {
-        id: 0,
-        amount: '50',
-        percent: '50',
-        checked: false
-      }],
-      bonus_id: 3,
-      amount: 50
+      bonus: [],
+      bonus_id: 500,
+      amount: '500',
+      prev_promocode: '',
+      promocode: '',
+      promocode_info: null,
+      use_promocode: true,
+      errors: [],
+      success: []
     };
   },
   methods: {
     setBonusId: function setBonusId(id) {
       this.bonus_id = id;
+      this.promocode = this.bonus.find(function (item) {
+        return item.min_amount == id;
+      }).code;
+      this.prev_promocode = this.promocode;
+      this.promocode_info = this.bonus.find(function (item) {
+        return item.min_amount == id;
+      });
+      this.setAmount(this.promocode_info.min_amount);
 
-      if (id === 3) {
+      if (id == 500) {
         toastr.warning('Это рекомендуемая сумма к пополнению!', 'Внимание!', {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
@@ -2517,6 +2541,47 @@ __webpack_require__.r(__webpack_exports__);
     },
     setAmount: function setAmount(amount) {
       Object(vue_currency_input__WEBPACK_IMPORTED_MODULE_0__["setValue"])(this.$refs.ci, amount.toFixed(2));
+    },
+    checkPromocode: function checkPromocode() {
+      var self = this;
+      this.errors = [];
+      this.success = [];
+      axios.post('/promocode', {
+        code: this.promocode
+      }).then(function (response) {
+        if (response.data.success === false) {
+          self.errors.push(response.data.message);
+          self.promocode_info = null;
+          self.prev_promocode = self.promocode;
+        } else {
+          self.prev_promocode = self.promocode;
+          self.promocode_info = response.data.data;
+          self.success.push(response.data.message);
+        }
+      });
+    }
+  },
+  computed: {
+    numericAmount: function numericAmount() {
+      return this.$ci.parse(this.amount);
+    },
+    show_amount: function show_amount() {
+      var amount = this.numericAmount;
+
+      if (this.promocode_info && this.use_promocode && this.prev_promocode === this.promocode) {
+        amount = amount + amount * this.promocode_info.bonus_size * 0.01;
+      }
+
+      return amount.toLocaleString(undefined, {
+        minimumFractionDigits: 2
+      });
+    },
+    bonus_percent: function bonus_percent() {
+      if (this.promocode_info && this.prev_promocode === this.promocode) {
+        return this.promocode_info.bonus_size;
+      }
+
+      return null;
     }
   }
 });
@@ -3838,71 +3903,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
   name: "Promocode",
   mounted: function mounted() {
     var self = this;
-    $('#promocode').DataTable({
-      "iDisplayLength": 10,
-      "processing": true,
-      "serverSide": true,
-      "order": [[3, "desc"]],
-      "ajax": {
-        url: "/promocode/history",
-        type: "POST"
-      },
-      "language": {
-        "url": "/locales/Russian.json"
-      },
-      columns: [{
-        data: 'promocode.code',
-        name: 'promocode.code'
-      }, {
-        data: 'promocode.type',
-        name: 'promocode.type',
-        orderable: false,
-        searchable: false,
-        render: function render(data, type) {
-          var status = '';
-
-          if (type === 'display') {
-            switch (data) {
-              case 1:
-                status = 'Бездепозитный бонус';
-                break;
-
-              case 2:
-                status = 'Процент к пополнению';
-                break;
-            }
-          }
-
-          return '<div class="badge badge-primary">' + status + '</div>';
-        }
-      }, {
-        data: 'id',
-        name: 'promocode_id',
-        orderable: false,
-        searchable: false,
-        render: function render(data, type) {
-          var status = '';
-
-          if (type === 'display') {
-            status = 'Активирован';
-          }
-
-          return '<div class="badge badge-success">' + status + '</div>';
-        }
-      }, {
-        data: 'created_at',
-        name: 'created_at',
-        render: function render(data, type) {
-          var date = new Date();
-
-          if (type === 'display') {
-            date = new Date(data);
-          }
-
-          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
-        }
-      }]
-    });
+    this.updateDatatable();
     axios.post('/promocodes').then(function (response) {
       self.promocodes = response.data;
     });
@@ -3917,6 +3918,74 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
     };
   },
   methods: {
+    updateDatatable: function updateDatatable() {
+      $("#promocode").dataTable().fnDestroy();
+      $('#promocode').DataTable({
+        "iDisplayLength": 10,
+        "processing": true,
+        "serverSide": true,
+        "order": [[3, "desc"]],
+        "ajax": {
+          url: "/promocode/history",
+          type: "POST"
+        },
+        "language": {
+          "url": "/locales/Russian.json"
+        },
+        columns: [{
+          data: 'promocode.code',
+          name: 'promocode.code'
+        }, {
+          data: 'promocode.type',
+          name: 'promocode.type',
+          orderable: false,
+          searchable: false,
+          render: function render(data, type) {
+            var status = '';
+
+            if (type === 'display') {
+              switch (data) {
+                case 1:
+                  status = 'Бездепозитный бонус';
+                  break;
+
+                case 2:
+                  status = 'Процент к пополнению';
+                  break;
+              }
+            }
+
+            return '<div class="badge badge-primary">' + status + '</div>';
+          }
+        }, {
+          data: 'id',
+          name: 'promocode_id',
+          orderable: false,
+          searchable: false,
+          render: function render(data, type) {
+            var status = '';
+
+            if (type === 'display') {
+              status = 'Активирован';
+            }
+
+            return '<div class="badge badge-success">' + status + '</div>';
+          }
+        }, {
+          data: 'created_at',
+          name: 'created_at',
+          render: function render(data, type) {
+            var date = new Date();
+
+            if (type === 'display') {
+              date = new Date(data);
+            }
+
+            return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
+          }
+        }]
+      });
+    },
     setCode: function setCode(promocode) {
       this.promocode = promocode;
       this.checkPromocode();
@@ -3929,6 +3998,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
         self.success = response.data.success;
         self.message = response.data.message;
         self.show = true;
+        self.updateDatatable();
       });
     },
     closeAlert: function closeAlert() {
@@ -5105,7 +5175,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "Deposit",
   data: function data() {
     return {
-      amount: 10,
+      amount: '10',
       account: null,
       system: '0',
       success: [],
@@ -5247,7 +5317,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     amount_formatted: function amount_formatted() {
-      var amount = parseFloat(this.amount.toString().replace(',', '.'));
+      var amount = this.$ci.parse(this.amount);
 
       if (isNaN(amount)) {
         amount = 0;
@@ -120381,337 +120451,629 @@ var render = function() {
     "div",
     { staticClass: "content-wrapper" },
     [
-      _c("div", { staticClass: "content-body" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("section", { staticClass: "card" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-text" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-6 pt-3" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _vm._m(1),
-                          _vm._v(" "),
-                          _vm._m(2),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-6 mt-3" }, [
-                            _c(
-                              "fieldset",
-                              {
-                                staticClass: "form-group",
-                                staticStyle: { "margin-bottom": "3px" }
-                              },
-                              [
-                                _c("label", [_vm._v("Сумма депозита")]),
+      _c(
+        "div",
+        { staticClass: "content-body" },
+        [
+          _vm._l(_vm.errors, function(value) {
+            return _c(
+              "div",
+              {
+                staticClass: "alert bg-rgba-danger alert-dismissible mb-2",
+                attrs: { role: "alert" }
+              },
+              [
+                _vm._m(0, true),
+                _vm._v(" "),
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _c("i", { staticClass: "bx bx-error" }),
+                  _vm._v(" "),
+                  _c("span", [
+                    _vm._v(
+                      "\n                  " +
+                        _vm._s(value) +
+                        "\n                "
+                    )
+                  ])
+                ])
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _vm._l(_vm.success, function(value) {
+            return _c(
+              "div",
+              {
+                staticClass: "alert bg-rgba-success alert-dismissible mb-2",
+                attrs: { role: "alert" }
+              },
+              [
+                _vm._m(1, true),
+                _vm._v(" "),
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _c("i", { staticClass: "bx bx-error" }),
+                  _vm._v(" "),
+                  _c("span", [
+                    _vm._v(
+                      "\n                  " +
+                        _vm._s(value) +
+                        "\n                "
+                    )
+                  ])
+                ])
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-12" }, [
+              _c("section", { staticClass: "card" }, [
+                _vm._m(2),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-content" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("div", { staticClass: "card-text" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-6 pt-3" }, [
+                          _c("div", { staticClass: "row" }, [
+                            _vm._m(3),
+                            _vm._v(" "),
+                            _vm._m(4),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-6 mt-3" }, [
+                              _c(
+                                "fieldset",
+                                {
+                                  staticClass: "form-group",
+                                  staticStyle: { "margin-bottom": "3px" }
+                                },
+                                [
+                                  _c("label", [_vm._v("Сумма депозита")]),
+                                  _vm._v(" "),
+                                  _vm._m(5),
+                                  _vm._v(" "),
+                                  [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.amount,
+                                          expression: "amount"
+                                        },
+                                        {
+                                          name: "currency",
+                                          rawName: "v-currency",
+                                          value: {
+                                            currency: null,
+                                            autoDecimalMode: true,
+                                            valueRange: { min: 1, max: 10000 }
+                                          },
+                                          expression:
+                                            "{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 10000}}"
+                                        }
+                                      ],
+                                      ref: "ci",
+                                      staticClass: "form-control",
+                                      attrs: { type: "text" },
+                                      domProps: { value: _vm.amount },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.amount = $event.target.value
+                                        }
+                                      }
+                                    })
+                                  ]
+                                ],
+                                2
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row mb-1 mr-0 ml-0" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "col-md-3 pl-0",
+                                    staticStyle: { "padding-right": "3px" }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn w-100 btn-sm btn-outline-dark",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setAmount(150)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("$ 150")]
+                                    )
+                                  ]
+                                ),
                                 _vm._v(" "),
-                                _vm._m(3),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "col-md-3 pl-0",
+                                    staticStyle: { "padding-right": "1.5px" }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn w-100 btn-sm btn-outline-dark",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setAmount(200)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("$ 200")]
+                                    )
+                                  ]
+                                ),
                                 _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "col-md-3 pr-0",
+                                    staticStyle: { "padding-left": "1.5px" }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn w-100 btn-sm btn-outline-dark",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setAmount(300)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("$ 300")]
+                                    )
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass: "col-md-3 pr-0",
+                                    staticStyle: { "padding-left": "3px" }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass:
+                                          "btn w-100 btn-sm btn-outline-dark",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setAmount(500)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("$ 500")]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "col-md-6 mt-3" }, [
+                              _c(
+                                "fieldset",
+                                {
+                                  staticClass: "form-group",
+                                  staticStyle: { "margin-bottom": "10px" }
+                                },
+                                [
+                                  _c("label", [
+                                    _vm._v("Промокод для получения бонуса")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("small", { staticClass: "text-muted" }, [
+                                    _vm._v("(необязательно)")
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("div", { staticClass: "input-group" }, [
+                                    _c("input", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.promocode,
+                                          expression: "promocode"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { type: "text" },
+                                      domProps: { value: _vm.promocode },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.promocode = $event.target.value
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "input-group-append" },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value:
+                                                  this.promocode !==
+                                                  this.prev_promocode,
+                                                expression:
+                                                  "this.promocode !== this.prev_promocode"
+                                              }
+                                            ],
+                                            staticClass: "btn btn-secondary",
+                                            attrs: { type: "button" },
+                                            on: { click: _vm.checkPromocode }
+                                          },
+                                          [_vm._v("Проверить")]
+                                        )
+                                      ]
+                                    )
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "custom-control custom-switch custom-control-inline mb-1"
+                                },
                                 [
                                   _c("input", {
                                     directives: [
                                       {
                                         name: "model",
                                         rawName: "v-model",
-                                        value: _vm.amount,
-                                        expression: "amount"
-                                      },
-                                      {
-                                        name: "currency",
-                                        rawName: "v-currency",
-                                        value: {
-                                          currency: null,
-                                          autoDecimalMode: true,
-                                          valueRange: { min: 1, max: 10000 }
-                                        },
-                                        expression:
-                                          "{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 10000}}"
+                                        value: _vm.use_promocode,
+                                        expression: "use_promocode"
                                       }
                                     ],
-                                    ref: "ci",
-                                    staticClass: "form-control",
-                                    attrs: { type: "text" },
-                                    domProps: { value: _vm.amount },
+                                    staticClass: "custom-control-input",
+                                    attrs: {
+                                      type: "checkbox",
+                                      id: "customSwitch1"
+                                    },
+                                    domProps: {
+                                      checked: Array.isArray(_vm.use_promocode)
+                                        ? _vm._i(_vm.use_promocode, null) > -1
+                                        : _vm.use_promocode
+                                    },
                                     on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
+                                      change: function($event) {
+                                        var $$a = _vm.use_promocode,
+                                          $$el = $event.target,
+                                          $$c = $$el.checked ? true : false
+                                        if (Array.isArray($$a)) {
+                                          var $$v = null,
+                                            $$i = _vm._i($$a, $$v)
+                                          if ($$el.checked) {
+                                            $$i < 0 &&
+                                              (_vm.use_promocode = $$a.concat([
+                                                $$v
+                                              ]))
+                                          } else {
+                                            $$i > -1 &&
+                                              (_vm.use_promocode = $$a
+                                                .slice(0, $$i)
+                                                .concat($$a.slice($$i + 1)))
+                                          }
+                                        } else {
+                                          _vm.use_promocode = $$c
                                         }
-                                        _vm.amount = $event.target.value
                                       }
                                     }
-                                  })
-                                ]
-                              ],
-                              2
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "row mb-1 mr-0 ml-0" }, [
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "col-md-3 pl-0",
-                                  staticStyle: { "padding-right": "3px" }
-                                },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn w-100 btn-sm btn-outline-dark",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.setAmount(150)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("$ 150")]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "col-md-3 pl-0",
-                                  staticStyle: { "padding-right": "1.5px" }
-                                },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn w-100 btn-sm btn-outline-dark",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.setAmount(200)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("$ 200")]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "col-md-3 pr-0",
-                                  staticStyle: { "padding-left": "1.5px" }
-                                },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn w-100 btn-sm btn-outline-dark",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.setAmount(300)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("$ 300")]
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  staticClass: "col-md-3 pr-0",
-                                  staticStyle: { "padding-left": "3px" }
-                                },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "btn w-100 btn-sm btn-outline-dark",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.setAmount(500)
-                                        }
-                                      }
-                                    },
-                                    [_vm._v("$ 500")]
-                                  )
+                                  }),
+                                  _vm._v(" "),
+                                  _c("label", {
+                                    staticClass: "custom-control-label mr-1",
+                                    attrs: { for: "customSwitch1" }
+                                  }),
+                                  _vm._v(" "),
+                                  _vm._m(6)
                                 ]
                               )
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _vm._m(4),
-                          _vm._v(" "),
-                          _vm._m(5),
-                          _vm._v(" "),
-                          _vm._m(6)
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "col-md-6" },
-                        [
-                          _c("h4", { staticClass: "card-title" }, [
-                            _vm._v("Выберите Ваш бонус")
-                          ]),
-                          _vm._v(" "),
-                          _vm._l(_vm.bonus, function(current) {
-                            return _c(
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(7),
+                            _vm._v(" "),
+                            _c(
                               "div",
                               {
-                                staticClass: "row",
-                                staticStyle: { "padding-bottom": "5px" }
+                                staticClass:
+                                  "col-md-6 pt-2 text-right align-bottom"
                               },
                               [
-                                _c("div", { staticClass: "col-md-12" }, [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "btn btn-light-secondary w-100",
-                                      class: {
-                                        "yellow-outline": current.checked,
-                                        "checked-box":
-                                          current.id === _vm.bonus_id
+                                _c(
+                                  "p",
+                                  { staticStyle: { "padding-top": "10px" } },
+                                  [
+                                    _vm._v(
+                                      "\n                                                    Вы получите\n                                                    "
+                                    ),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass: "text-white",
+                                        staticStyle: { "font-size": "1.3rem" }
                                       },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.setBonusId(current.id)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _c("div", { staticClass: "row" }, [
-                                        _c("div", { staticClass: "col-md-3" }, [
-                                          _c("fieldset", [
-                                            _c(
-                                              "div",
-                                              {
-                                                staticClass:
-                                                  "radio radio-primary radio-glow",
-                                                staticStyle: {
-                                                  "padding-top": "5px"
-                                                }
-                                              },
-                                              [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: _vm.bonus_id,
-                                                      expression: "bonus_id"
-                                                    }
-                                                  ],
-                                                  attrs: {
-                                                    type: "radio",
-                                                    id:
-                                                      "radio" + current.amount,
-                                                    name: "radioGlow",
-                                                    disabled: "disabled"
-                                                  },
-                                                  domProps: {
-                                                    value: current.id,
-                                                    checked: _vm._q(
-                                                      _vm.bonus_id,
-                                                      current.id
-                                                    )
-                                                  },
-                                                  on: {
-                                                    change: function($event) {
-                                                      _vm.bonus_id = current.id
-                                                    }
-                                                  }
-                                                }),
-                                                _vm._v(" "),
-                                                _c("label", {
-                                                  attrs: {
-                                                    for:
-                                                      "radio" + current.amount
-                                                  }
-                                                })
-                                              ]
-                                            )
-                                          ])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-2" }, [
-                                          _vm._v(
-                                            "\n                                                            $ " +
-                                              _vm._s(current.amount) +
-                                              "\n                                                        "
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c(
-                                          "div",
+                                      [
+                                        _vm._v(
+                                          "$\n                                                        " +
+                                            _vm._s(_vm.show_amount) +
+                                            "\n                                                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.promocode_info && _vm.bonus_percent
+                                      ? _c(
+                                          "span",
                                           {
-                                            staticClass: "col-md-3 text-success"
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value: _vm.use_promocode,
+                                                expression: "use_promocode"
+                                              }
+                                            ]
                                           },
                                           [
                                             _vm._v(
-                                              "\n                                                            бонус " +
-                                                _vm._s(current.percent) +
-                                                " %\n                                                        "
+                                              "(бонус " +
+                                                _vm._s(
+                                                  _vm.promocode_info.bonus_size
+                                                ) +
+                                                "%)"
                                             )
                                           ]
-                                        ),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-1" }, [
-                                          _vm._v(
-                                            "\n                                                            =\n                                                        "
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("div", { staticClass: "col-md-2" }, [
-                                          _vm._v(
-                                            "\n                                                            $ " +
-                                              _vm._s(
-                                                (
-                                                  (parseInt(
-                                                    current.amount.replace(
-                                                      " ",
-                                                      ""
-                                                    )
-                                                  ) *
-                                                    current.percent) /
-                                                  100
-                                                )
-                                                  .toString()
-                                                  .replace(
-                                                    /(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g,
-                                                    "$1 "
-                                                  )
-                                              ) +
-                                              "\n                                                        "
-                                          )
-                                        ])
-                                      ])
-                                    ]
-                                  )
-                                ])
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        directives: [
+                                          {
+                                            name: "show",
+                                            rawName: "v-show",
+                                            value:
+                                              !_vm.use_promocode ||
+                                              !_vm.bonus_percent,
+                                            expression:
+                                              "!use_promocode || !bonus_percent"
+                                          }
+                                        ]
+                                      },
+                                      [_vm._v("(без бонуса)")]
+                                    )
+                                  ]
+                                )
                               ]
                             )
-                          })
-                        ],
-                        2
-                      )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-md-6" },
+                          [
+                            _c("h4", { staticClass: "card-title" }, [
+                              _vm._v("Выберите Ваш бонус")
+                            ]),
+                            _vm._v(" "),
+                            _vm._l(_vm.bonus, function(current) {
+                              return _c(
+                                "div",
+                                {
+                                  staticClass: "row",
+                                  staticStyle: { "padding-bottom": "5px" }
+                                },
+                                [
+                                  _c("div", { staticClass: "col-md-12" }, [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "btn btn-light-secondary w-100",
+                                        class: {
+                                          "yellow-outline":
+                                            current.min_amount ===
+                                              _vm.bonus_id ||
+                                            current.min_amount === 500,
+                                          "checked-box":
+                                            current.min_amount === _vm.bonus_id
+                                        },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.setBonusId(
+                                              current.min_amount
+                                            )
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("div", { staticClass: "row" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-3" },
+                                            [
+                                              _c("fieldset", [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "radio radio-primary radio-glow",
+                                                    staticStyle: {
+                                                      "padding-top": "5px"
+                                                    }
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value: _vm.bonus_id,
+                                                          expression: "bonus_id"
+                                                        }
+                                                      ],
+                                                      attrs: {
+                                                        type: "radio",
+                                                        id:
+                                                          "radio" +
+                                                          current.min_amount,
+                                                        name: "radioGlow",
+                                                        disabled: "disabled"
+                                                      },
+                                                      domProps: {
+                                                        value:
+                                                          current.min_amount,
+                                                        checked: _vm._q(
+                                                          _vm.bonus_id,
+                                                          current.min_amount
+                                                        )
+                                                      },
+                                                      on: {
+                                                        change: function(
+                                                          $event
+                                                        ) {
+                                                          _vm.bonus_id =
+                                                            current.min_amount
+                                                        }
+                                                      }
+                                                    }),
+                                                    _vm._v(" "),
+                                                    _c("label", {
+                                                      attrs: {
+                                                        for:
+                                                          "radio" +
+                                                          current.min_amount
+                                                      }
+                                                    })
+                                                  ]
+                                                )
+                                              ])
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-2" },
+                                            [
+                                              _vm._v(
+                                                "\n                                                            $ " +
+                                                  _vm._s(
+                                                    current.min_amount.toLocaleString(
+                                                      undefined,
+                                                      {
+                                                        minimumFractionDigits: 0
+                                                      }
+                                                    )
+                                                  ) +
+                                                  "\n                                                        "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "col-md-3 text-success"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                                            бонус " +
+                                                  _vm._s(current.bonus_size) +
+                                                  " %\n                                                        "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-1" },
+                                            [
+                                              _vm._v(
+                                                "\n                                                            =\n                                                        "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            { staticClass: "col-md-2" },
+                                            [
+                                              _vm._v(
+                                                "\n                                                            $ " +
+                                                  _vm._s(
+                                                    (
+                                                      (parseInt(
+                                                        current.min_amount
+                                                          .toString()
+                                                          .replace(" ", "")
+                                                      ) *
+                                                        current.bonus_size) /
+                                                      100
+                                                    )
+                                                      .toString()
+                                                      .replace(
+                                                        /(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g,
+                                                        "$1 "
+                                                      )
+                                                  ) +
+                                                  "\n                                                        "
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ]
+                                    )
+                                  ])
+                                ]
+                              )
+                            })
+                          ],
+                          2
+                        )
+                      ])
                     ])
                   ])
                 ])
               ])
             ])
           ])
-        ])
-      ]),
+        ],
+        2
+      ),
       _vm._v(" "),
       _c("deposit-history")
     ],
@@ -120719,6 +121081,40 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -120780,46 +121176,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 mt-3" }, [
-      _c(
-        "fieldset",
-        { staticClass: "form-group", staticStyle: { "margin-bottom": "10px" } },
-        [
-          _c("label", [_vm._v("Промокод для получения бонуса")]),
-          _vm._v(" "),
-          _c("small", { staticClass: "text-muted" }, [
-            _vm._v("(необязательно)")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "text", value: "START50" }
-          })
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "custom-control custom-switch custom-control-inline mb-1"
-        },
-        [
-          _c("input", {
-            staticClass: "custom-control-input",
-            attrs: { type: "checkbox", checked: "", id: "customSwitch1" }
-          }),
-          _vm._v(" "),
-          _c("label", {
-            staticClass: "custom-control-label mr-1",
-            attrs: { for: "customSwitch1" }
-          }),
-          _vm._v(" "),
-          _c("span", [
-            _vm._v("Использовать бонус "),
-            _c("small", [_vm._v("(условия)")])
-          ])
-        ]
-      )
+    return _c("span", [
+      _vm._v("Использовать бонус "),
+      _c("small", [_vm._v("(условия)")])
     ])
   },
   function() {
@@ -120835,22 +121194,6 @@ var staticRenderFns = [
         },
         [_vm._v("Продолжить")]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 pt-2 text-right align-bottom" }, [
-      _c("p", { staticStyle: { "padding-top": "10px" } }, [
-        _vm._v("Вы получите "),
-        _c(
-          "span",
-          { staticClass: "text-white", staticStyle: { "font-size": "1.3rem" } },
-          [_vm._v("$ 1,000.00")]
-        ),
-        _vm._v(" (бонус 35%)")
-      ])
     ])
   }
 ]
@@ -149955,14 +150298,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./resources/vuejs/views/user/Deposit.vue ***!
   \************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Deposit_vue_vue_type_template_id_7430a733_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Deposit.vue?vue&type=template&id=7430a733&scoped=true& */ "./resources/vuejs/views/user/Deposit.vue?vue&type=template&id=7430a733&scoped=true&");
 /* harmony import */ var _Deposit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Deposit.vue?vue&type=script&lang=js& */ "./resources/vuejs/views/user/Deposit.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _Deposit_vue_vue_type_style_index_0_id_7430a733_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css& */ "./resources/vuejs/views/user/Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Deposit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Deposit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _Deposit_vue_vue_type_style_index_0_id_7430a733_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css& */ "./resources/vuejs/views/user/Deposit.vue?vue&type=style&index=0&id=7430a733&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 /* normalize component */
@@ -149989,7 +150333,7 @@ component.options.__file = "resources/vuejs/views/user/Deposit.vue"
 /*!*************************************************************************!*\
   !*** ./resources/vuejs/views/user/Deposit.vue?vue&type=script&lang=js& ***!
   \*************************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -150621,7 +150965,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\vuejs\app.js */"./resources/vuejs/app.js");
+module.exports = __webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\vuejs\app.js */"./resources/vuejs/app.js");
 
 
 /***/ })

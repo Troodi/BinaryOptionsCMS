@@ -25,8 +25,9 @@ class CreatePromocodesTable extends Migration
             $table->integer('attempts')->nullable();
             $table->integer('type')->nullable();
             $table->integer('turnover')->nullable();
-            $table->timestamp('active_from');
-            $table->timestamp('active_to');
+            $table->integer('min_amount')->nullable();
+            $table->timestamp('active_from')->nullable();
+            $table->timestamp('active_to')->nullable();
             $table->timestamps();
         });
     }
