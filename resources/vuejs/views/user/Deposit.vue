@@ -1,6 +1,31 @@
 <template>
     <div class="content-wrapper">
         <div class="content-body">
+
+            <div v-for="value in errors" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <div class="d-flex align-items-center">
+                    <i class="bx bx-error"></i>
+                    <span>
+                      {{ value }}
+                    </span>
+                </div>
+            </div>
+
+            <div v-for="value in success" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <div class="d-flex align-items-center">
+                    <i class="bx bx-error"></i>
+                    <span>
+                      {{ value }}
+                    </span>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <section class="card">
@@ -49,10 +74,15 @@
                                                     <fieldset class="form-group" style="margin-bottom: 10px;">
                                                         <label>Промокод для получения бонуса</label>
                                                         <small class="text-muted">(необязательно)</small>
-                                                        <input type="text" class="form-control" value="START50">
+                                                        <div class="input-group">
+                                                            <input v-model="promocode" type="text" class="form-control">
+                                                            <div class="input-group-append">
+                                                                <button v-show="this.promocode !== this.prev_promocode" @click="checkPromocode" class="btn btn-secondary" type="button">Проверить</button>
+                                                            </div>
+                                                        </div>
                                                     </fieldset>
                                                     <div class="custom-control custom-switch custom-control-inline mb-1">
-                                                        <input type="checkbox" class="custom-control-input" checked="" id="customSwitch1">
+                                                        <input v-model="use_promocode" type="checkbox" class="custom-control-input" id="customSwitch1">
                                                         <label class="custom-control-label mr-1" for="customSwitch1">
                                                         </label>
                                                         <span>Использовать бонус <small>(условия)</small></span>
@@ -62,7 +92,14 @@
                                                     <button type="button" class="btn btn-outline-secondary mr-1 mb-1">Продолжить</button>
                                                 </div>
                                                 <div class="col-md-6 pt-2 text-right align-bottom">
-                                                    <p style="padding-top:10px;">Вы получите <span class="text-white" style="font-size: 1.3rem;">$ 1,000.00</span> (бонус 35%)</p>
+                                                    <p style="padding-top:10px;">
+                                                        Вы получите
+                                                        <span class="text-white" style="font-size: 1.3rem;">$
+                                                            {{ show_amount }}
+                                                        </span>
+                                                        <span v-if="promocode_info && bonus_percent" v-show="use_promocode">(бонус {{ promocode_info.bonus_size }}%)</span>
+                                                        <span v-show="!use_promocode || !bonus_percent">(без бонуса)</span>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -70,27 +107,27 @@
                                             <h4 class="card-title">Выберите Ваш бонус</h4>
                                             <div class="row" v-for="current in bonus" style="padding-bottom: 5px;">
                                                 <div class="col-md-12">
-                                                    <div @click="setBonusId(current.id)" class="btn btn-light-secondary w-100" :class="{'yellow-outline' : current.checked, 'checked-box' : current.id === bonus_id}">
+                                                    <div @click="setBonusId(current.min_amount)" class="btn btn-light-secondary w-100" :class="{'yellow-outline' : current.min_amount === bonus_id || current.min_amount === 500, 'checked-box' : current.min_amount === bonus_id}">
                                                         <div class="row">
                                                             <div class="col-md-3">
                                                                 <fieldset>
                                                                     <div class="radio radio-primary radio-glow" style="padding-top: 5px;">
-                                                                        <input type="radio" :id="'radio'+current.amount" :value="current.id" v-model="bonus_id" name="radioGlow" disabled="disabled">
-                                                                        <label :for="'radio'+current.amount"></label>
+                                                                        <input type="radio" :id="'radio'+current.min_amount" :value="current.min_amount" v-model="bonus_id" name="radioGlow" disabled="disabled">
+                                                                        <label :for="'radio'+current.min_amount"></label>
                                                                     </div>
                                                                 </fieldset>
                                                             </div>
                                                             <div class="col-md-2">
-                                                                $ {{ current.amount }}
+                                                                $ {{ current.min_amount.toLocaleString(undefined, {minimumFractionDigits: 0}) }}
                                                             </div>
                                                             <div class="col-md-3 text-success">
-                                                                бонус {{ current.percent }} %
+                                                                бонус {{ current.bonus_size }} %
                                                             </div>
                                                             <div class="col-md-1">
                                                                 =
                                                             </div>
                                                             <div class="col-md-2">
-                                                                $ {{ (parseInt(current.amount.replace(' ', '')) * current.percent / 100).toString().replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1 ') }}
+                                                                $ {{ (parseInt((current.min_amount).toString().replace(' ', '')) * current.bonus_size / 100).toString().replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1 ') }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -113,31 +150,43 @@
 <script>
     import { CurrencyDirective, setValue, getValue } from 'vue-currency-input'
     import TradingChartComponent from "../../components/TradingChartComponent";
+
     export default {
         name: "Deposit",
         components : {
             TradingChartComponent
         },
+        mounted() {
+            let self = this;
+            axios.post('/data/getDepositPromocodes')
+                .then(function (response) {
+                    self.bonus = response.data;
+                    self.promocode = self.bonus.find(item => item.min_amount == 500).code;
+                    self.prev_promocode = self.promocode;
+                    self.promocode_info = self.bonus.find(item => item.min_amount == 500);
+                })
+        },
         data: function () {
             return {
-                bonus: [
-                    { id: 7, amount: '10 000', percent: '100', checked: false },
-                    { id: 6, amount: '5 000', percent: '90', checked: false },
-                    { id: 5, amount: '3 000', percent: '80', checked: false },
-                    { id: 4, amount: '1 000', percent: '70', checked: false },
-                    { id: 3, amount: '500', percent: '65', checked: true },
-                    { id: 2, amount: '250', percent: '60', checked: false },
-                    { id: 1, amount: '100', percent: '55', checked: false },
-                    { id: 0, amount: '50', percent: '50', checked: false },
-                ],
-                bonus_id: 3,
-                amount: 50,
+                bonus: [],
+                bonus_id: 500,
+                amount: '500',
+                prev_promocode: '',
+                promocode: '',
+                promocode_info: null,
+                use_promocode: true,
+                errors: [],
+                success: [],
             }
         },
         methods: {
             setBonusId: function (id) {
                 this.bonus_id = id;
-                if(id === 3){
+                this.promocode = this.bonus.find(item => item.min_amount == id).code;
+                this.prev_promocode = this.promocode;
+                this.promocode_info = this.bonus.find(item => item.min_amount == id);
+                this.setAmount(this.promocode_info.min_amount);
+                if(id == 500){
                     toastr.warning('Это рекомендуемая сумма к пополнению!', 'Внимание!', {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
@@ -146,8 +195,43 @@
             },
             setAmount: function (amount) {
                 setValue(this.$refs.ci, amount.toFixed(2))
+            },
+            checkPromocode: function () {
+                let self = this;
+                this.errors = [];
+                this.success = [];
+                axios.post('/promocode', { code: this.promocode })
+                    .then(function (response) {
+                        if(response.data.success === false) {
+                            self.errors.push(response.data.message);
+                            self.promocode_info = null;
+                            self.prev_promocode = self.promocode;
+                        } else {
+                            self.prev_promocode = self.promocode;
+                            self.promocode_info = response.data.data;
+                            self.success.push(response.data.message);
+                        }
+                    });
             }
-        }
+        },
+        computed: {
+            numericAmount: function () {
+                return this.$ci.parse(this.amount);
+            },
+            show_amount: function () {
+                let amount = this.numericAmount;
+                if(this.promocode_info && this.use_promocode && this.prev_promocode === this.promocode){
+                    amount = amount + (amount * this.promocode_info.bonus_size * 0.01);
+                }
+                return amount.toLocaleString(undefined, {minimumFractionDigits: 2});
+            },
+            bonus_percent: function () {
+                if(this.promocode_info && this.prev_promocode === this.promocode){
+                    return this.promocode_info.bonus_size;
+                }
+                return null;
+            }
+        },
     }
 </script>
 

@@ -11138,35 +11138,35 @@ window.io = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.i
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\assets\js\scripts.js */"./resources/assets/js/scripts.js");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\core\colors\palette-noui.scss */"./resources/sass/core/colors/palette-noui.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\core\menu\menu-types\horizontal-menu.scss */"./resources/sass/core/menu/menu-types/horizontal-menu.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\core\menu\menu-types\vertical-menu.scss */"./resources/sass/core/menu/menu-types/vertical-menu.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\core\menu\menu-types\vertical-overlay-menu.scss */"./resources/sass/core/menu/menu-types/vertical-overlay-menu.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\pages\authentication.scss */"./resources/sass/pages/authentication.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\pages\dashboard-analytics.scss */"./resources/sass/pages/dashboard-analytics.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\pages\dashboard-ecommerce.scss */"./resources/sass/pages/dashboard-ecommerce.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\animate\animate.scss */"./resources/sass/plugins/animate/animate.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\calendars\app-calendar.scss */"./resources/sass/plugins/calendars/app-calendar.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\extensions\context-menu.scss */"./resources/sass/plugins/extensions/context-menu.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\extensions\drag-and-drop.scss */"./resources/sass/plugins/extensions/drag-and-drop.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\extensions\ext-component-treeview.scss */"./resources/sass/plugins/extensions/ext-component-treeview.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\extensions\noui-slider.scss */"./resources/sass/plugins/extensions/noui-slider.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\extensions\swiper.scss */"./resources/sass/plugins/extensions/swiper.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\extensions\toastr.scss */"./resources/sass/plugins/extensions/toastr.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\file-uploaders\dropzone.scss */"./resources/sass/plugins/file-uploaders/dropzone.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\forms\validation\form-validation.scss */"./resources/sass/plugins/forms/validation/form-validation.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\forms\wizard.scss */"./resources/sass/plugins/forms/wizard.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\plugins\tour\tour.scss */"./resources/sass/plugins/tour/tour.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\themes\dark-layout.scss */"./resources/sass/themes/dark-layout.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\themes\semi-dark-layout.scss */"./resources/sass/themes/semi-dark-layout.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\assets\scss\style-rtl.scss */"./resources/assets/scss/style-rtl.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\assets\scss\style.scss */"./resources/assets/scss/style.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\bootstrap-extended.scss */"./resources/sass/bootstrap-extended.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\bootstrap.scss */"./resources/sass/bootstrap.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\colors.scss */"./resources/sass/colors.scss");
-__webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\components.scss */"./resources/sass/components.scss");
-module.exports = __webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\sass\custom-rtl.scss */"./resources/sass/custom-rtl.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\assets\js\scripts.js */"./resources/assets/js/scripts.js");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\core\colors\palette-noui.scss */"./resources/sass/core/colors/palette-noui.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\core\menu\menu-types\horizontal-menu.scss */"./resources/sass/core/menu/menu-types/horizontal-menu.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\core\menu\menu-types\vertical-menu.scss */"./resources/sass/core/menu/menu-types/vertical-menu.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\core\menu\menu-types\vertical-overlay-menu.scss */"./resources/sass/core/menu/menu-types/vertical-overlay-menu.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\pages\authentication.scss */"./resources/sass/pages/authentication.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\pages\dashboard-analytics.scss */"./resources/sass/pages/dashboard-analytics.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\pages\dashboard-ecommerce.scss */"./resources/sass/pages/dashboard-ecommerce.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\animate\animate.scss */"./resources/sass/plugins/animate/animate.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\calendars\app-calendar.scss */"./resources/sass/plugins/calendars/app-calendar.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\extensions\context-menu.scss */"./resources/sass/plugins/extensions/context-menu.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\extensions\drag-and-drop.scss */"./resources/sass/plugins/extensions/drag-and-drop.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\extensions\ext-component-treeview.scss */"./resources/sass/plugins/extensions/ext-component-treeview.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\extensions\noui-slider.scss */"./resources/sass/plugins/extensions/noui-slider.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\extensions\swiper.scss */"./resources/sass/plugins/extensions/swiper.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\extensions\toastr.scss */"./resources/sass/plugins/extensions/toastr.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\file-uploaders\dropzone.scss */"./resources/sass/plugins/file-uploaders/dropzone.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\forms\validation\form-validation.scss */"./resources/sass/plugins/forms/validation/form-validation.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\forms\wizard.scss */"./resources/sass/plugins/forms/wizard.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\plugins\tour\tour.scss */"./resources/sass/plugins/tour/tour.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\themes\dark-layout.scss */"./resources/sass/themes/dark-layout.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\themes\semi-dark-layout.scss */"./resources/sass/themes/semi-dark-layout.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\assets\scss\style-rtl.scss */"./resources/assets/scss/style-rtl.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\assets\scss\style.scss */"./resources/assets/scss/style.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\bootstrap-extended.scss */"./resources/sass/bootstrap-extended.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\bootstrap.scss */"./resources/sass/bootstrap.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\colors.scss */"./resources/sass/colors.scss");
+__webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\components.scss */"./resources/sass/components.scss");
+module.exports = __webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\sass\custom-rtl.scss */"./resources/sass/custom-rtl.scss");
 
 
 /***/ }),

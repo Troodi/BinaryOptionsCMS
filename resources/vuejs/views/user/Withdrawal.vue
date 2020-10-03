@@ -174,7 +174,7 @@
         name: "Deposit",
         data: function () {
             return {
-                amount: 10,
+                amount: '10',
                 account: null,
                 system: '0',
                 success: [],
@@ -300,7 +300,7 @@
         },
         computed: {
             amount_formatted: function () {
-                let amount = parseFloat((this.amount).toString().replace(',', '.'));
+                let amount = this.$ci.parse(this.amount);
                 if(isNaN(amount)){
                     amount = 0;
                 }
