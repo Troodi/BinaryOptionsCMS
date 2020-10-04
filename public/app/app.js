@@ -2084,6 +2084,7 @@ window.dataLoaded = false;
               });
               window.button.innerHTML = '<strong style="color: #8a99b5; cursor: pointer;">' + tabSymbol + '</strong>';
               $('#' + window.tvWidget._iFrame.name).contents().find('#header-toolbar-symbol-search').replaceWith($('#' + window.tvWidget._iFrame.name).contents().find('.button-symbol-get'));
+              $('#' + window.tvWidget._iFrame.name).contents().find('head').append($("<style type='text/css'> ._tv-dialog-nonmodal { width:350px !important; left: 57px !important; top: 41px !important;} </style>"));
             });
           });
         }
