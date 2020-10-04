@@ -3,7 +3,7 @@
         <div class="content-body">
             <div class="row">
                 <div class="col-lg-8 col-xxl-10 pr-0 pb-0">
-                    <section class="card mb-0 trading-chart-height">
+                    <section class="card mb-0 trading-card-height">
                         <div class="card-content">
                             <div class="card-body p-0">
                                 <div class="card-text">
@@ -641,12 +641,12 @@
     }
 
     @media screen and (max-width: 1000px) {
-        .trading-chart-height {
-            height: 50vh;
+        .trading-card-height {
+            height: auto;
         }
     }
     @media screen and (min-width: 1000px) {
-        .trading-chart-height {
+        .trading-card-height {
             height: calc(100vh - 69px);
         }
     }
