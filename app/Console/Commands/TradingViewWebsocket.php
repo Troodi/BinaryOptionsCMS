@@ -10,7 +10,6 @@ use App\Models\Symbols\Options\Symbol;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use WebSocket\Client;
-use Spatie\Async\Pool;
 
 class TradingViewWebsocket extends Command
 {
@@ -26,6 +25,7 @@ class TradingViewWebsocket extends Command
     private $password;
     private $startTime;
     private $symbols_all = [];
+    private $cacheLP = [];
     public $tickerDataUptime;
     /**
      * The name and signature of the console command.
@@ -218,15 +218,16 @@ class TradingViewWebsocket extends Command
               }
               foreach($this->tickerData as $key => $value) {
                 if(isset($value['lp'])) {
-                  if(Cache::get('symbol' . $value['id']) != $value['lp']) {
-                    Cache::put('symbol' . $value['id'], $value['lp']);
-                    //async(function () use ($value) {
-                      $model = new Ticks; // TODO асинхронная запись в БД
+                  if(!isset($this->cacheLP['symbol' . $value['id']])){
+                    $this->cacheLP['symbol' . $value['id']] = 0;
+                  }
+                  if($this->cacheLP['symbol' . $value['id']] != $value['lp']) {
+                      $this->cacheLP['symbol' . $value['id']] = $value['lp'];
+                      $model = new Ticks;
                       $model->symbol_id = $value['id'];
                       $model->price = $value['lp'];
                       $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
                       $model->save();
-                    //});
                   }
                 }
               }
