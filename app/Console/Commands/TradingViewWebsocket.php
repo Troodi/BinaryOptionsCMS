@@ -173,7 +173,9 @@ class TradingViewWebsocket extends Command
               $this->sendMessage("quote_create_session", [$this->session]); // Основная сессия для реалтайм котировок
               $this->setMainFields($this->session);
               $this->symbols_all = [];
-              MarketStatus::truncate();
+              async(function () {
+                MarketStatus::truncate();
+              });
               foreach(Symbol::all() as $symbol){
                 $name = $symbol->broker.':'.str_replace('/', '', $symbol->symbol);
                 $this->map[$name] = $symbol->id;
@@ -214,19 +216,21 @@ class TradingViewWebsocket extends Command
                 }
               }
               if(isset($this->tickerData[$tickerName]['current_session']) && isset($this->tickerData[$tickerName]['id'])) {
-                MarketStatus::where('symbol_id', $this->tickerData[$tickerName]['id'])->update(['market_status' => $this->tickerData[$tickerName]['current_session'], 'updated_at' => Carbon::now()->format('Y-m-d H:i:s.u')]);
+                async(function () use ($tickerName) {
+                  MarketStatus::where('symbol_id', $this->tickerData[$tickerName]['id'])->update(['market_status' => $this->tickerData[$tickerName]['current_session'], 'updated_at' => Carbon::now()->format('Y-m-d H:i:s.u')]);
+                });
               }
               foreach($this->tickerData as $key => $value) {
                 if(isset($value['lp'])) {
                   if(Cache::get('symbol' . $value['id']) != $value['lp']) {
                     Cache::put('symbol' . $value['id'], $value['lp']);
-                    //async(function () use ($value) {
+                    async(function () use ($value) {
                       $model = new Ticks; // TODO асинхронная запись в БД
                       $model->symbol_id = $value['id'];
                       $model->price = $value['lp'];
                       $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
                       $model->save();
-                    //});
+                    });
                   }
                 }
               }
