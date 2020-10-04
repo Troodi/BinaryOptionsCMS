@@ -22,14 +22,14 @@
                         </ul>
                     </div>
                     <ul class="nav navbar-nav float-right">
-                        <li class="nav-item" style="padding-top: 1rem">
+                        <li class="nav-item d-none d-md-block mr-1" style="padding-top: 1rem">
                             <button type="button" class="btn btn-success glow w-100">
                                 <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">Пополнить счет</span>
                             </button>
                         </li>
 
                         <li class="nav-item">
-                            <h4>
+                            <h4 class="mr-1">
                                 <router-link to="/deposit" class="nav-link" style="padding-top:1.4rem">
                                     <template>
                                         <animated-number :value="parseFloat(balance).toFixed(2)" :formatValue="formatToPrice" :duration="1000"/>
@@ -37,7 +37,7 @@
                                 </router-link>
                             </h4>
                         </li>
-                        <li class="dropdown dropdown-language nav-item">
+                        <li class="dropdown dropdown-language nav-item lang-padding">
                             <a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span>
                             </a>
@@ -116,5 +116,9 @@
 </script>
 
 <style scoped>
-
+    @media screen and (max-width: 1000px) {
+        .lang-padding {
+            padding: 17px 0 !important;
+        }
+    }
 </style>
