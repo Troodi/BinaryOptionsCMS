@@ -104,8 +104,6 @@ class TradingController extends Controller
       if(Auth::user()->balance - $request->amount < 0){
         return response()->json(['message' => 'Недостаточно средств'], 422);
       }
-      User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-'.$request->amount)]);
-      broadcast(new ChangeBalance(Auth::user()->balance - $request->amount, Auth::user()));
       $fisrt = Ticks::where('symbol_id', $request->symbol)->orderBy('id', 'desc')->first();
       if($fisrt){
         $price = $fisrt->price;
@@ -134,6 +132,8 @@ class TradingController extends Controller
       $model->save();
       $model->expiration = $seconds-1;
       $model->timestamp = Carbon::parse($model->close_at)->timestamp;
+      User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-'.$request->amount)]);
+      broadcast(new ChangeBalance(Auth::user()->balance - $request->amount, Auth::user()));
       return $model;
     }
 
