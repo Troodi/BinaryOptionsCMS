@@ -87,7 +87,6 @@ class TradingController extends Controller
       }
     }
 
-    //php artisan queue:listen --sleep=0
     public function buySymbol(Request $request){
       $request->validate([
         'hours' => 'numeric|min:0|max:12',
@@ -104,12 +103,6 @@ class TradingController extends Controller
       if(Auth::user()->balance - $request->amount < 0){
         return response()->json(['message' => 'Недостаточно средств'], 422);
       }
-      $fisrt = Ticks::where('symbol_id', $request->symbol)->orderBy('id', 'desc')->first();
-      if($fisrt){
-        $price = $fisrt->price;
-      } else {
-        return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее!'], 422);
-      }
       $market = MarketStatus::where('symbol_id', $request->symbol);
       if(!isset($market) || !$market->count()){
         return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее!'], 422);
@@ -120,6 +113,12 @@ class TradingController extends Controller
       $symbols_all = Cache::remember('symbols_all', 60, function () {
         return Symbol::orderBy('percent', 'desc')->get();
       });
+      $fisrt = Ticks::where('symbol_id', $request->symbol)->orderBy('id', 'desc')->first();
+      if($fisrt){
+        $price = $fisrt->price;
+      } else {
+        return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее!'], 422);
+      }
       $model = new OpenOrders();
       $model->symbol_id = $request->symbol;
       $model->user_id = Auth::user()->id;
