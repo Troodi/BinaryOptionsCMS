@@ -25,7 +25,7 @@ class OrderHistory1 extends Migration
         $table->decimal('profit', 10, 5)->nullable();
         $table->integer('percent')->nullable();
         $table->integer('type')->nullable();
-        $table->timestamp('created_at', 6);
+        $table->timestamp('created_at', 6)->nullable();
       });
     }
 
