@@ -25,3 +25,4 @@ location / {
 1. nodejs, npm
 2. laravel-echo-server
 3. nginx
+3. Swoole (не ясно нужно ли, но с ним запросы в БД пишутся быстрее)
