@@ -102,9 +102,9 @@ class TradingViewWebsocket extends Command
     $this->chartSession = $this->generateChartSession();
     $this->sessionRegistered = false;
     if($this->login and $this->password){
-      $wss = "wss://prodata.tradingview.com/socket.io/websocket";
+      $wss = "ws://prodata.tradingview.com/socket.io/websocket";
     } else {
-      $wss = "wss://prodata.tradingview.com/socket.io/websocket";
+      $wss = "ws://prodata.tradingview.com/socket.io/websocket";
     }
     $this->websocket = new Client($wss, [
       'timeout' => 60, // 1 minute time out
@@ -215,11 +215,10 @@ class TradingViewWebsocket extends Command
               }
             }
             if(isset($this->tickerData[$tickerName]['current_session']) && isset($this->tickerData[$tickerName]['id'])) {
-              //MarketStatus::where('symbol_id', $this->tickerData[$tickerName]['id'])->update(['market_status' => $this->tickerData[$tickerName]['current_session'], 'updated_at' => Carbon::now()->format('Y-m-d H:i:s.u')]);
               $status = $this->tickerData[$tickerName]['current_session'];
               $updated = Carbon::now()->format('Y-m-d H:i:s.u');
               $symbol_id = $this->tickerData[$tickerName]['id'];
-              $this->db->query("update `market_statuses` SET `market_status` = '$status', `updated_at` = '$updated' where `symbol_id` = '$symbol_id'");
+              MarketStatus::where('symbol_id', $symbol_id)->update(['market_status' => $status, 'updated_at' => $updated]);
             }
             foreach($this->tickerData as $key => $value) {
               if(isset($value['lp'])) {
@@ -228,16 +227,14 @@ class TradingViewWebsocket extends Command
                 }
                 if($this->cacheLP['symbol' . $value['id']] != $value['lp']) {
                   $this->cacheLP['symbol' . $value['id']] = $value['lp'];
-                  // $model = new Ticks;
-                  // $model->symbol_id = $value['id'];
-                  // $model->price = $value['lp'];
-                  // $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
-                  // $model->save();
-                  //
                   $value_id = $value['id'];
                   $value_lp = $value['lp'];
                   $value_created_at = Carbon::now()->format('Y-m-d H:i:s.u');
-                  $this->db->query("insert into `ticks` (`symbol_id`, `price`, `created_at`) values ('$value_id', '$value_lp', '$value_created_at')");
+                  $model = new Ticks;
+                  $model->symbol_id = $value_id;
+                  $model->price = $value_lp;
+                  $model->created_at = $value_created_at;
+                  $model->save();
                 }
               }
             }
@@ -370,21 +367,10 @@ class TradingViewWebsocket extends Command
    */
   public function handle()
   {
-    go(function() {
-      \Swoole\Runtime::enableCoroutine(SWOOLE_HOOK_ALL);
-      $this->db = new \Swoole\Coroutine\MySQL();
-      $this->db->connect([
-        'host' => '127.0.0.1',
-        'user' => 'getoption',
-        'password' => '2M6j0N2t',
-        'database' => 'getoption',
-      ]);
-      $this->db->setDefer();
-      $this->subscriptions = [];
-      $this->login = env('TRADINGVIEW_LOGIN');
-      $this->password = env('TRADINGVIEW_PASSWORD');
-      $this->resetWebSocket();
-    });
+    $this->subscriptions = [];
+    $this->login = env('TRADINGVIEW_LOGIN');
+    $this->password = env('TRADINGVIEW_PASSWORD');
+    $this->resetWebSocket();
     return 0;
   }
 }
