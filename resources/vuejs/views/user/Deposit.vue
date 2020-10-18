@@ -219,7 +219,7 @@
                         containerId: 'toast-bottom-left'
                       });
                       self.$refs.datatables.updateDatatables();
-                      setTimeout(() => { window.open(response.data.link,'_blank'); }, response.data.timeout);
+                      setTimeout(() => { window.location.href = response.data.link; }, response.data.timeout);
                     } else {
                       self.errors.push(response.data.message);
                     }
