@@ -15,6 +15,7 @@ Route::post('/event-twilio', 'Main\ProfileController@phoneEvent');
 Route::get('/mp3', 'Main\ProfileController@playMP3');
 Route::get('/offer/{code}', 'Main\ReferralController@setReferralCookie');
 Route::get('/test', 'Main\TestController@test');
+Route::post('/payeer/status', 'Main\DepositController@processPayeer');
 
 Route::middleware(['auth'])->group(function () {
   // Трейдинг
@@ -54,7 +55,6 @@ Route::middleware(['auth'])->group(function () {
   // Пополнение
   Route::post('/data/getDepositPromocodes', 'Main\PromocodeController@getDepositPromocodes');
   Route::post('/data/deposit', 'Main\DepositController@startDeposit');
-  Route::post('/payeer/status', 'Main\DepositController@processPayeer');
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
