@@ -2562,7 +2562,19 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     proccess: function proccess() {
-      console.log(this.selected_promocode);
+      var self = this;
+      axios.post('/data/deposit', {
+        amount: self.numericAmount,
+        promocode: self.selected_promocode
+      }).then(function (response) {
+        toastr.success(response.data.message, 'Успешно!', {
+          positionClass: 'toast-bottom-left',
+          containerId: 'toast-bottom-left'
+        });
+        setTimeout(function () {
+          window.open(response.data.link, '_blank');
+        }, response.data.timeout);
+      });
     }
   },
   computed: {
@@ -151065,7 +151077,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\OSpanel\domains\getoption.pro\resources\vuejs\app.js */"./resources/vuejs/app.js");
+module.exports = __webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\vuejs\app.js */"./resources/vuejs/app.js");
 
 
 /***/ })

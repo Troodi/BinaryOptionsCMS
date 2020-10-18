@@ -17,6 +17,7 @@ class CreateDepositsTable extends Migration
           $table->id();
           $table->integer('user_id')->index();;
           $table->decimal('amount', 10, 2);
+          $table->integer('promocode_id')->nullable();
           $table->integer('system_id');
           $table->integer('status');
           $table->timestamps();

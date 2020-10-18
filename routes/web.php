@@ -53,7 +53,8 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/data/withdrawalHistory', 'Main\WithdrawalController@withdrawalHistory');
   // Пополнение
   Route::post('/data/getDepositPromocodes', 'Main\PromocodeController@getDepositPromocodes');
-
+  Route::post('/data/deposit', 'Main\DepositController@startDeposit');
+  Route::post('/payeer/status', 'Main\DepositController@processPayeer');
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');

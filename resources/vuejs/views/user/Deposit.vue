@@ -214,7 +214,15 @@
                     });
             },
             proccess: function () {
-                console.log(this.selected_promocode);
+              let self = this;
+              axios.post('/data/deposit', { amount: self.numericAmount, promocode: self.selected_promocode})
+                  .then(function (response) {
+                    toastr.success(response.data.message, 'Успешно!', {
+                      positionClass: 'toast-bottom-left',
+                      containerId: 'toast-bottom-left'
+                    });
+                    setTimeout(() => { window.open(response.data.link,'_blank'); }, response.data.timeout);
+                  })
             }
         },
         computed: {
