@@ -2338,7 +2338,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_currency_input__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-currency-input */ "./node_modules/vue-currency-input/dist/vue-currency-input.esm.js");
-/* harmony import */ var _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/TradingChartComponent */ "./resources/vuejs/components/TradingChartComponent.vue");
 //
 //
 //
@@ -2487,13 +2486,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Deposit",
-  components: {
-    TradingChartComponent: _components_TradingChartComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
-  },
   mounted: function mounted() {
     var self = this;
     axios.post('/data/getDepositPromocodes').then(function (response) {
@@ -2573,6 +2568,7 @@ __webpack_require__.r(__webpack_exports__);
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
+          self.$refs.datatables.updateDatatables();
           setTimeout(function () {
             window.open(response.data.link, '_blank');
           }, response.data.timeout);
@@ -2668,73 +2664,79 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "DepositHistory",
   mounted: function mounted() {
-    $('#historyDeposit').DataTable({
-      "iDisplayLength": 10,
-      "processing": true,
-      "serverSide": true,
-      "order": [[3, "desc"]],
-      "drawCallback": function drawCallback(settings) {
-        $('[data-toggle="popover"]').popover({
-          html: true
-        });
-      },
-      "ajax": {
-        url: "/data/depositHistory",
-        type: "POST"
-      },
-      "language": {
-        "url": "/locales/Russian.json"
-      },
-      columns: [{
-        orderable: false,
-        searchable: false,
-        data: 'amount',
-        name: 'amount',
-        render: function render(data, type) {
-          return parseFloat(data).toFixed(2) + ' $';
-        }
-      }, {
-        data: 'status',
-        name: 'status',
-        orderable: false,
-        searchable: false,
-        render: function render(data, type) {
-          var string = '';
+    this.updateDatatables();
+  },
+  methods: {
+    updateDatatables: function updateDatatables() {
+      $("#historyDeposit").dataTable().fnDestroy();
+      $('#historyDeposit').DataTable({
+        "iDisplayLength": 10,
+        "processing": true,
+        "serverSide": true,
+        "order": [[3, "desc"]],
+        "drawCallback": function drawCallback(settings) {
+          $('[data-toggle="popover"]').popover({
+            html: true
+          });
+        },
+        "ajax": {
+          url: "/data/depositHistory",
+          type: "POST"
+        },
+        "language": {
+          "url": "/locales/Russian.json"
+        },
+        columns: [{
+          orderable: false,
+          searchable: false,
+          data: 'amount',
+          name: 'amount',
+          render: function render(data, type) {
+            return parseFloat(data).toFixed(2) + ' $';
+          }
+        }, {
+          data: 'status',
+          name: 'status',
+          orderable: false,
+          searchable: false,
+          render: function render(data, type) {
+            var string = '';
 
-          if (type === 'display') {
-            if (data == 0) {
-              string = '<div class="badge badge-primary">Ожидание оплаты</div>';
-            } else if (data == 1) {
-              string = '<div class="badge badge-success">Успешно</div>';
-            } else if (data == 2) {
-              string = '<div class="badge badge-success">Отменено</div>';
+            if (type === 'display') {
+              if (data == 0) {
+                string = '<div class="badge badge-primary">Ожидание оплаты</div>';
+              } else if (data == 1) {
+                string = '<div class="badge badge-success">Успешно</div>';
+              } else if (data == 2) {
+                string = '<div class="badge badge-success">Отменено</div>';
+              }
             }
+
+            return string;
           }
-
-          return string;
-        }
-      }, {
-        orderable: false,
-        searchable: false,
-        data: 'system_id',
-        name: 'system_id',
-        render: function render(data, type) {
-          return 'Payeer';
-        }
-      }, {
-        data: 'created_at',
-        name: 'created_at',
-        render: function render(data, type) {
-          var date = new Date();
-
-          if (type === 'display') {
-            date = new Date(data);
+        }, {
+          orderable: false,
+          searchable: false,
+          data: 'system_id',
+          name: 'system_id',
+          render: function render(data, type) {
+            return 'Payeer';
           }
+        }, {
+          data: 'created_at',
+          name: 'created_at',
+          render: function render(data, type) {
+            var date = new Date();
 
-          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
-        }
-      }]
-    });
+            if (type === 'display') {
+              date = new Date(data);
+            }
+
+            return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
+          }
+        }]
+      });
+    }
   }
 });
 
@@ -122715,7 +122717,7 @@ var render = function() {
         2
       ),
       _vm._v(" "),
-      _c("deposit-history")
+      _c("deposit-history", { ref: "datatables" })
     ],
     1
   )

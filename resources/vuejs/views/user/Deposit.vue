@@ -142,19 +142,14 @@
                 </div>
             </div>
         </div>
-        <deposit-history></deposit-history>
+        <deposit-history ref="datatables"></deposit-history>
     </div>
 </template>
 
 <script>
     import { CurrencyDirective, setValue, getValue } from 'vue-currency-input'
-    import TradingChartComponent from "../../components/TradingChartComponent";
-
     export default {
         name: "Deposit",
-        components : {
-            TradingChartComponent
-        },
         mounted() {
             let self = this;
             axios.post('/data/getDepositPromocodes')
@@ -223,6 +218,7 @@
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
                       });
+                      self.$refs.datatables.updateDatatables();
                       setTimeout(() => { window.open(response.data.link,'_blank'); }, response.data.timeout);
                     } else {
                       self.errors.push(response.data.message);

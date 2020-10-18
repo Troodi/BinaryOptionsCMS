@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
       $schedule->command('clear:ticks')->everyMinute();
+      $schedule->command('clear:deposit')->everyMinute();
     }
 
     /**
