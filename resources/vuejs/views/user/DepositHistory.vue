@@ -37,8 +37,13 @@
     require('../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js');
 
     export default {
-        name: "DepositHistory",
-        mounted() {
+      name: "DepositHistory",
+      mounted() {
+        this.updateDatatables();
+      },
+      methods: {
+        updateDatatables: function(){
+          $("#historyDeposit").dataTable().fnDestroy()
           $('#historyDeposit').DataTable({
             "iDisplayLength": 10,
             "processing": true,
@@ -106,6 +111,7 @@
             ]
           });
         }
+      }
     }
 </script>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Main;
 
+use App\Events\ChangeBalance;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
 use App\Models\LatestOrder;
@@ -109,8 +110,10 @@ class DepositController extends Controller
                 'all_turnover' => DB::raw("all_turnover+$turnover"),
                 'left_turnover' => DB::raw("left_turnover+$turnover"),
               ]);
+              broadcast(new ChangeBalance(Auth::user()->balance+$amount_with_promocode, Auth::user()));
             } else {
               User::where('id', $deposit->user_id)->update(['balance' => DB::raw("balance+$deposit->amount")]);
+              broadcast(new ChangeBalance(Auth::user()->balance+$deposit->amount, Auth::user()));
             }
             $deposit->update(['status' => 1]);
             return $request->m_orderid.'|success';
