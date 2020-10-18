@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class DepositController extends Controller
 {
@@ -39,6 +40,9 @@ class DepositController extends Controller
         $promocode_history = PromocodeHistory::where('user_id', Auth::user()->id)->where('promocode_id', $promocode->id)->count();
         if($promocode->attempts && $promocode_history >= $promocode->attempts){
           return response()->json(['success' => false, 'message' => 'Вы уже использовали максимальное количество раз данный промокод!'], 200);
+        }
+        if($amount < $promocode->min_amount){
+          return response()->json(['success' => false, 'message' => 'Данный промокод доступен только от суммы '.$promocode->min_amount.'$!'], 200);
         }
         $promocode_id = $promocode->id;
       }
@@ -116,5 +120,10 @@ class DepositController extends Controller
         ob_end_clean();
         return $request->m_orderid.'|error';
       }
+    }
+
+    public function depositHistory(Request $request){
+      $history = Deposit::where('user_id', Auth::user()->id)->get();
+      return Datatables::of($history)->make();
     }
 }

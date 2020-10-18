@@ -2487,7 +2487,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2620,6 +2619,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2652,6 +2653,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
 
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js */ "./resources/vendors/js/tables/datatable/dataTables.bootstrap4.min.js");
@@ -2659,10 +2662,72 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "DepositHistory",
   mounted: function mounted() {
-    $('#history').DataTable({
+    $('#historyDeposit').DataTable({
+      "iDisplayLength": 10,
+      "processing": true,
+      "serverSide": true,
+      "order": [[3, "desc"]],
+      "drawCallback": function drawCallback(settings) {
+        $('[data-toggle="popover"]').popover({
+          html: true
+        });
+      },
+      "ajax": {
+        url: "/data/depositHistory",
+        type: "POST"
+      },
       "language": {
         "url": "/locales/Russian.json"
-      }
+      },
+      columns: [{
+        orderable: false,
+        searchable: false,
+        data: 'amount',
+        name: 'amount',
+        render: function render(data, type) {
+          return parseFloat(data).toFixed(2) + ' $';
+        }
+      }, {
+        data: 'status',
+        name: 'status',
+        orderable: false,
+        searchable: false,
+        render: function render(data, type) {
+          var string = '';
+
+          if (type === 'display') {
+            if (data == 0) {
+              string = '<div class="badge badge-primary">Ожидание оплаты</div>';
+            } else if (data == 1) {
+              string = '<div class="badge badge-success">Успешно</div>';
+            } else if (data == 2) {
+              string = '<div class="badge badge-success">Отменено</div>';
+            }
+          }
+
+          return string;
+        }
+      }, {
+        orderable: false,
+        searchable: false,
+        data: 'system_id',
+        name: 'system_id',
+        render: function render(data, type) {
+          return 'Payeer';
+        }
+      }, {
+        data: 'created_at',
+        name: 'created_at',
+        render: function render(data, type) {
+          var date = new Date();
+
+          if (type === 'display') {
+            date = new Date(data);
+          }
+
+          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
+        }
+      }]
     });
   }
 });
@@ -122795,15 +122860,15 @@ var staticRenderFns = [
                   _c("div", { staticClass: "table-responsive" }, [
                     _c(
                       "table",
-                      { staticClass: "table", attrs: { id: "history" } },
+                      { staticClass: "table", attrs: { id: "historyDeposit" } },
                       [
                         _c("thead", [
                           _c("tr", [
                             _c("th", [_vm._v("Сумма платежа")]),
                             _vm._v(" "),
-                            _c("th", [_vm._v("Платежная система")]),
-                            _vm._v(" "),
                             _c("th", [_vm._v("Статус")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Платежная система")]),
                             _vm._v(" "),
                             _c("th", [_vm._v("Дата")])
                           ])

@@ -142,7 +142,6 @@
                 </div>
             </div>
         </div>
-
         <deposit-history></deposit-history>
     </div>
 </template>
