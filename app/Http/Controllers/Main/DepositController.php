@@ -105,6 +105,7 @@ class DepositController extends Controller
               $turnover = $bonus_amount * $promocode->turnover;
               User::where('id', $deposit->user_id)->update([
                 'balance' => DB::raw("balance+$amount_with_promocode"),
+                'bonus' => DB::raw("bonus+$bonus_amount"),
                 'all_turnover' => DB::raw("all_turnover+$turnover"),
                 'left_turnover' => DB::raw("left_turnover+$turnover"),
               ]);
