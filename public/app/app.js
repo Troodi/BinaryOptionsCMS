@@ -2570,7 +2570,7 @@ __webpack_require__.r(__webpack_exports__);
           });
           self.$refs.datatables.updateDatatables();
           setTimeout(function () {
-            window.open(response.data.link, '_blank');
+            window.location.href = response.data.link;
           }, response.data.timeout);
         } else {
           self.errors.push(response.data.message);
@@ -150152,7 +150152,7 @@ var routes = [{
   component: _views_user_Promocode__WEBPACK_IMPORTED_MODULE_9__["default"],
   meta: {
     icon: 'bulb',
-    badge: '30$ GIFT'
+    badge: '10$ GIFT'
   }
 }, {
   path: '/history',

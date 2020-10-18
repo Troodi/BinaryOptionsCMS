@@ -26,7 +26,7 @@ export const routes = [
     { path: '/demo', name: 'Демо торговля', component: Trading, meta: { icon: 'line-chart', hideFooter: true } },
     { path: '/deposit', name: 'Пополнение', component: Deposit, meta: { icon: 'bank', badge : '50% OFF' } },
     { path: '/withdrawal', name: 'Вывод средств', component: Withdrawal, meta: { icon: 'coins' } },
-    { path: '/promocodes', name: 'Промокоды', component: Promocode, meta: { icon: 'bulb', badge : '30$ GIFT' } },
+    { path: '/promocodes', name: 'Промокоды', component: Promocode, meta: { icon: 'bulb', badge : '10$ GIFT' } },
     { path: '/history', name: 'История торговли', component: History, meta: {icon: 'calendar'}},
     { path: '/profile', name: 'Профиль', component: Profile, meta: { icon: 'settings' }},
     { path: '/partner', name: 'Партнерский кабинет', component: Partner, meta: { icon: 'users' }},
