@@ -2562,17 +2562,23 @@ __webpack_require__.r(__webpack_exports__);
     },
     proccess: function proccess() {
       var self = this;
+      this.errors = [];
+      this.success = [];
       axios.post('/data/deposit', {
         amount: self.numericAmount,
         promocode: self.selected_promocode
       }).then(function (response) {
-        toastr.success(response.data.message, 'Успешно!', {
-          positionClass: 'toast-bottom-left',
-          containerId: 'toast-bottom-left'
-        });
-        setTimeout(function () {
-          window.open(response.data.link, '_blank');
-        }, response.data.timeout);
+        if (response.data.success === true) {
+          toastr.success(response.data.message, 'Успешно!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+          setTimeout(function () {
+            window.open(response.data.link, '_blank');
+          }, response.data.timeout);
+        } else {
+          self.errors.push(response.data.message);
+        }
       });
     }
   },
