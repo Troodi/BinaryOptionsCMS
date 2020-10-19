@@ -129,6 +129,7 @@
                                                             <div class="col-md-2">
                                                                 $ {{ (parseInt((current.min_amount).toString().replace(' ', '')) * current.bonus_size / 100).toString().replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1 ') }}
                                                             </div>
+                                                            <i v-b-tooltip.hover v-bind:title="'Необходимо отработать бонус в размере ' + current.turnover + ' раз от суммы бонуса'" style="color: #8a99b5;" class="bx bx-help-circle cursor-pointer"></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -148,6 +149,7 @@
 
 <script>
     import { CurrencyDirective, setValue, getValue } from 'vue-currency-input'
+
     export default {
         name: "Deposit",
         mounted() {
