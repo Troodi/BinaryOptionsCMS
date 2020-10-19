@@ -19,6 +19,9 @@
                                     <i class="ficon bx bx-fullscreen"></i>
                                 </a>
                             </li>
+                          <li class="nav-item d-none d-lg-block">
+                            <a><ping-component></ping-component></a>
+                          </li>
                         </ul>
                     </div>
                     <ul class="nav navbar-nav float-right">

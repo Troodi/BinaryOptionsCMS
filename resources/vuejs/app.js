@@ -8,6 +8,10 @@ import VueCurrencyInput from "vue-currency-input";
 import VueCountdownTimer from 'vuejs-countdown-timer'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import select2 from 'v-select2-component';
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import '../sass/bootstrap.scss'
+import '../sass/bootstrap-extended.scss'
+
 const VueInputMask = require('vue-inputmask').default
 window.axios = require('axios');
 
@@ -38,6 +42,7 @@ Vue.component('deposit-history', require('./views/user/DepositHistory').default)
 Vue.component('menu-component', require('./views/layouts/Menu').default);
 Vue.component('footer-component', require('./views/layouts/Footer').default);
 Vue.component('header-component', require('./views/layouts/Header').default);
+Vue.component('ping-component', require('./components/PingComponent').default);
 
 Vue.use(VueEcho, {
     broadcaster: 'socket.io',
