@@ -21,17 +21,6 @@ use Illuminate\Support\Facades\Log;
 use Mockery\Exception;
 use Yajra\DataTables\DataTables;
 
-//location / {
-//  proxy_ssl_server_name on;
-//  proxy_pass https://prodata.tradingview.com/socket.io/websocket;#prodata
-//  proxy_http_version 1.1;
-//  proxy_set_header Origin https://www.tradingview.com;
-//  proxy_set_header Host prodata.tradingview.com;
-//  proxy_set_header Upgrade $http_upgrade;
-//  proxy_set_header Connection "upgrade";
-//  proxy_buffering off;
-//}
-
 class TradingController extends Controller
 {
     public function getAuthToken(Request $request)

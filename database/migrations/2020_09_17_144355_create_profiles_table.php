@@ -33,6 +33,7 @@ class CreateProfilesTable extends Migration
         $table->timestamp('document_second_page_verify_at')->nullable();
         $table->string('document_additional')->nullable();
         $table->timestamp('document_additional_verify_at')->nullable();
+        $table->timestamp('user_verify_at')->nullable();
         $table->timestamps();
       });
     }

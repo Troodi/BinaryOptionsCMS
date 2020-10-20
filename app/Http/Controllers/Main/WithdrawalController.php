@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Events\ChangeBalance;
 use App\Http\Controllers\Controller;
+use App\Models\Profile;
 use App\Models\PromocodeHistory;
 use App\Models\Withdrawal;
 use App\User;
@@ -28,6 +29,9 @@ class WithdrawalController extends Controller
       }
       if(Auth::user()->left_turnover > 0){
         return response()->json(['success' => false, 'message' => 'Перед выводом необходимо отработать бонус или отменить его!']);
+      }
+      if(!Profile::where('user_id', Auth::user()->id)->first()->user_verify_at){
+        return response()->json(['success' => false, 'message' => 'Для выплаты необходимо пройти верификацию аккаунта!']);
       }
       $model = new Withdrawal();
       $model->user_id = Auth::user()->id;
