@@ -292,6 +292,24 @@
                 </div>
             </div>
 
+            <div v-show="!user_verify_at" class="alert bg-rgba-warning mb-2" role="alert">
+              <div class="d-flex align-items-center">
+                <i class="bx bx-error-circle"></i>
+                <span>
+                  Ваш аккаунт не верифицирован! Для верификации заполните личные данные и загрузите документы.
+                </span>
+              </div>
+            </div>
+
+            <div v-show="user_verify_at" class="alert bg-rgba-success mb-2" role="alert">
+              <div class="d-flex align-items-center">
+                <i class="bx bx-error-circle"></i>
+                <span>
+                  У Вас верифицированный аккаунт!
+                </span>
+              </div>
+            </div>
+
             <div v-for="value in main_error" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -620,6 +638,7 @@
                         self.document_first_page_verify_at = response.data.profile.document_first_page_verify_at;
                         self.document_second_page_verify_at = response.data.profile.document_second_page_verify_at;
                         self.document_additional_verify_at = response.data.profile.document_additional_verify_at;
+                        self.user_verify_at = response.data.profile.user_verify_at;
                     });
             },
             changePassword: function () {
@@ -807,6 +826,7 @@
                 main_success: [],
                 general_success: [],
                 password_success: [],
+                user_verify_at: null,
             }
         },
         computed: {

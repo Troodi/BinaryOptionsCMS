@@ -49,7 +49,6 @@ class CheckOrdersForClose extends Command
     public function handle()
     {
         while(true){
-          //TODO добавить асинхронность
           $start = microtime(true);
           $opened = OpenOrders::where('close_at', '<', Carbon::now()->format('Y-m-d H:i:s.u'))->get();
           $market = MarketStatus::all();

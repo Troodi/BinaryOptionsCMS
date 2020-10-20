@@ -3521,6 +3521,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3612,6 +3630,7 @@ __webpack_require__.r(__webpack_exports__);
         self.document_first_page_verify_at = response.data.profile.document_first_page_verify_at;
         self.document_second_page_verify_at = response.data.profile.document_second_page_verify_at;
         self.document_additional_verify_at = response.data.profile.document_additional_verify_at;
+        self.user_verify_at = response.data.profile.user_verify_at;
       });
     },
     changePassword: function changePassword() {
@@ -3829,7 +3848,8 @@ __webpack_require__.r(__webpack_exports__);
       additionalDocumentLoading: false,
       main_success: [],
       general_success: [],
-      password_success: []
+      password_success: [],
+      user_verify_at: null
     };
   },
   computed: {
@@ -122830,6 +122850,40 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.user_verify_at,
+                expression: "!user_verify_at"
+              }
+            ],
+            staticClass: "alert bg-rgba-warning mb-2",
+            attrs: { role: "alert" }
+          },
+          [_vm._m(17)]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.user_verify_at,
+                expression: "user_verify_at"
+              }
+            ],
+            staticClass: "alert bg-rgba-success mb-2",
+            attrs: { role: "alert" }
+          },
+          [_vm._m(18)]
+        ),
+        _vm._v(" "),
         _vm._l(_vm.main_error, function(value) {
           return _c(
             "div",
@@ -122838,7 +122892,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(17, true),
+              _vm._m(19, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -122863,7 +122917,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(18, true),
+              _vm._m(20, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -122883,7 +122937,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(19),
+              _vm._m(21),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -122952,7 +123006,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _vm._m(20),
+                        _vm._m(22),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -123082,7 +123136,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(21),
+                    _vm._m(23),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c(
@@ -123140,7 +123194,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(22, true),
+              _vm._m(24, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -123165,7 +123219,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(23, true),
+              _vm._m(25, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -123185,7 +123239,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(24),
+              _vm._m(26),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123203,7 +123257,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(25)]
+                    [_vm._m(27)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123224,7 +123278,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(26)]
+                    [_vm._m(28)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123241,7 +123295,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(27)]
+                    [_vm._m(29)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123293,7 +123347,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(28),
+              _vm._m(30),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123311,7 +123365,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(29)]
+                    [_vm._m(31)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123332,7 +123386,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(30)]
+                    [_vm._m(32)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123349,7 +123403,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(31)]
+                    [_vm._m(33)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123401,7 +123455,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(32),
+              _vm._m(34),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123419,7 +123473,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(33)]
+                    [_vm._m(35)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123440,7 +123494,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(34)]
+                    [_vm._m(36)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123457,7 +123511,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(35)]
+                    [_vm._m(37)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123784,6 +123838,32 @@ var staticRenderFns = [
         _vm._v(
           "\n                                        Сохраните пароль в надежном месте после его изменения, во избежание потери доступа к аккаунту.\n                                    "
         )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("i", { staticClass: "bx bx-error-circle" }),
+      _vm._v(" "),
+      _c("span", [
+        _vm._v(
+          "\n              Ваш аккаунт не верифицирован! Для верификации заполните личные данные и загрузите документы.\n            "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("i", { staticClass: "bx bx-error-circle" }),
+      _vm._v(" "),
+      _c("span", [
+        _vm._v("\n              У Вас верифицированный аккаунт!\n            ")
       ])
     ])
   },
