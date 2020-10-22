@@ -8,6 +8,7 @@ use App\Models\Deposit;
 use App\Models\LatestOrder;
 use App\Models\Promocode;
 use App\Models\PromocodeHistory;
+use App\Models\Referral;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -116,6 +117,10 @@ class DepositController extends Controller
               broadcast(new ChangeBalance(Auth::user()->balance+$deposit->amount, Auth::user()));
             }
             $deposit->update(['status' => 1]);
+            $user = User::where('id', $deposit->user_id)->first();
+            if($user->referer_id) {
+              Referral::where('user_id', $user->referer_id)->update(['deposit_count' => DB::raw("deposit_count+$deposit->amount")]);
+            }
             return $request->m_orderid.'|success';
           } else {
             return $request->m_orderid.'|error';

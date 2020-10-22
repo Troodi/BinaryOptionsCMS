@@ -7,6 +7,7 @@ use App\Events\CloseOptionEvent;
 use App\MarketStatus;
 use App\Models\LatestOrder;
 use App\Models\OpenOrders;
+use App\Models\Referral;
 use App\Models\Symbols\Options\Ticks;
 use App\User;
 use Carbon\Carbon;
@@ -127,6 +128,12 @@ class CheckOrdersForClose extends Command
               $user = User::find($open->user_id);
               $user->balance = $user->balance + $profit;
               $user->save();
+              $referer_id = $user->referer_id;
+              if($referer_id and !$user->left_turnover){
+                $balance_to_referer = $model->amount * 0.02;
+                User::where('id', $referer_id)->update(['balance' => DB::raw("balance+$balance_to_referer")]);
+                Referral::where('user_id', $referer_id)->update(['balance' => DB::raw("reward+$balance_to_referer")]);
+              }
               broadcast(new ChangeBalance($user->balance, $user));
             }
             $last_id = LatestOrder::where('user_id', $open->user_id)->take(10)->latest()->get()->last();
