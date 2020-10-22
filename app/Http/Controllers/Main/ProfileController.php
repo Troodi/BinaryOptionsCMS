@@ -7,6 +7,7 @@ use App\Models\EmailAttempts;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Models\PhoneAttempts;
+use App\Models\Referral;
 use App\Models\TwilioNumber;
 use App\User;
 use Carbon\Carbon;
@@ -229,6 +230,9 @@ class ProfileController extends Controller
       }
       User::where('id', Auth::user()->id)->update(['email' => $email, 'email_verified_at' => Carbon::now()]);
       EmailAttempts::where('email', $email)->where('user_id', Auth::user()->id)->delete();
+      if(Auth::user()->referer_id){
+        Referral::where('user_id', Auth::user()->referer_id)->increment('active');
+      }
       return response()->json(['success' => true]);
     } else {
       return response()->json(['success' => false, 'message' => 'Код неверный или вы не отправляли письмо!']);
