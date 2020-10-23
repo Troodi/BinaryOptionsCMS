@@ -3,7 +3,7 @@
         <div class="content-body">
             <div class="row">
                 <div class="col-lg-8 col-xxl-10 pr-0 pb-0">
-                    <section class="card mb-0 trading-card-height">
+                    <section class="card mb-0">
                         <div class="card-content">
                             <div class="card-body p-0">
                                 <div class="card-text">
@@ -14,7 +14,7 @@
                     </section>
                 </div>
                 <div class="col-lg-4 col-xxl-2 p-0">
-                    <section class="card mb-0 trading-chart-height">
+                    <section class="card mb-0 trading-card-height">
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="card-text">
@@ -252,7 +252,7 @@
                                                 <button type="button" class="btn btn-outline-primary w-100">Полная история сделок</button>
                                               </template>
                                             </router-link>
-<!--                                            End latest orders-->
+<!--                                        End latest orders-->
                                         </div>
                                     </div>
                                 </div>
@@ -653,12 +653,12 @@
 
     @media screen and (max-width: 1000px) {
         .trading-card-height {
-            height: auto;
+           height: auto !important;
         }
     }
     @media screen and (min-width: 1000px) {
         .trading-card-height {
-            height: calc(100vh - 69px);
+            height: calc(100vh - 69px) !important;
         }
     }
     :focus {
