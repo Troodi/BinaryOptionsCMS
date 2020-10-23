@@ -153,63 +153,62 @@
                                         <div :style="{ height: historyHeight }" class="accordion collapse-icon accordion-icon-rotate ps ps--active-y" id="accordionWrapa2">
 <!--                                            Opened orders-->
                                             <p v-show="opened.length > 0" class="text-center">Открытые сделки</p>
-                                            <div v-for="open in opened" class="card collapse-header">
-                                                <div :id="'heading' + open.id" :data-target="'#accordion' + open.id" :aria-controls="'accordion' + open.id" aria-expanded="false"  style="background-color: #22283e !important;border-top: 1px solid #464d5c !important; border-left: 1px solid #464d5c !important; border-right: 1px solid #464d5c !important; padding:15px;" class="card-header" data-toggle="collapse" role="tablist">
-                                                    <span class="collapse-title">
-                                                        <span class="align-middle" :class="'text-' + open.textColor">
-                                                            {{ symbols.find(item => item.id === open.symbol_id).symbol }}
-                                                        </span>
 
-                                                        <small :class="'text-' + open.textColor" style="float: right;padding-right: 20px;padding-top: 5px;">
-                                                            <strong v-show="open.profit_status === 0" v-text="'0 $'"></strong>
-                                                            <strong v-show="open.profit_status === 1" v-text="(parseFloat(open.amount) + (open.amount * open.percent / 100)).toFixed(2) + ' $'"></strong>
-                                                            <strong v-show="open.profit_status === 2" v-text="open.amount + ' $'"></strong>
-                                                       </small>
+                                            <b-card no-body v-for="(open, index) in opened" :key="index" class="collapse-header">
+                                              <div v-b-toggle="'opened-orders' + index" data-toggle="collapse" class="card-header p-1">
+                                                <span class="collapse-title">
+                                                  <span class="align-middle" :class="'text-' + open.textColor">
+                                                      {{ symbols.find(item => item.id === open.symbol_id).symbol }}
+                                                  </span>
 
-                                                        <template>
-                                                            <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="open.timestamp" :interval="1000">
-                                                                <template slot="countdown" slot-scope="scope">
-                                                                    <div class="progress position-relative" :class="'progress-bar-' + open.textColor" style="text-shadow: 1px 1px 2px black;">
-                                                                        <div :style="{ width: (100 - (((scope.props.hours * 60 * 60 + scope.props.minutes * 60 + scope.props.seconds) / open.expiration) * 100)) + '%'}" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                        <small style="margin-top: -3.4px; font-size:12px;" class="text-white justify-content-center d-flex position-absolute w-100">
-                                                                            {{scope.props.hours}}:{{scope.props.minutes}}:{{scope.props.seconds}}
-                                                                        </small>
+                                                  <small :class="'text-' + open.textColor" style="float: right;padding-right: 20px;padding-top: 5px;">
+                                                      <strong v-show="open.profit_status === 0" v-text="'0 $'"></strong>
+                                                      <strong v-show="open.profit_status === 1" v-text="(parseFloat(open.amount) + (open.amount * open.percent / 100)).toFixed(2) + ' $'"></strong>
+                                                      <strong v-show="open.profit_status === 2" v-text="open.amount + ' $'"></strong>
+                                                 </small>
 
-                                                                        <small style="margin-top: -3.4px; font-size:10px;" class="text-white justify-content-left d-flex position-absolute w-100">
-                                                                            <i v-show="open.type === 1" class="bx bx-trending-up" style="font-size: 12px;padding-left: 1px;padding-top: 3px;"></i>
-                                                                            <i v-show="open.type === 0" class="bx bx-trending-down" style="font-size: 12px;padding-left: 1px;padding-top: 1px;"></i>
-                                                                            <span class="text-white" style="padding-top: 1px;">{{ open.percent }}%</span>
-                                                                        </small>
+                                                  <template>
+                                                      <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="open.timestamp" :interval="1000">
+                                                          <template slot="countdown" slot-scope="scope">
+                                                              <div class="progress position-relative" :class="'progress-bar-' + open.textColor" style="text-shadow: 1px 1px 2px black;">
+                                                                  <div :style="{ width: (100 - (((scope.props.hours * 60 * 60 + scope.props.minutes * 60 + scope.props.seconds) / open.expiration) * 100)) + '%'}" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                                  <small style="margin-top: -3.4px; font-size:12px;" class="text-white justify-content-center d-flex position-absolute w-100">
+                                                                      {{scope.props.hours}}:{{scope.props.minutes}}:{{scope.props.seconds}}
+                                                                  </small>
 
-                                                                        <small v-text="open.amount + ' $'" style="margin-top: -3.4px; font-size:12px; padding-right:1px;" class="text-white justify-content-end d-flex position-absolute w-100"></small>
-                                                                    </div>
-                                                                  </template>
-                                                                  <template slot="end-text" slot-scope="scope">
-                                                                    <div class="progress progress-sm progress-bar-success">
-                                                                        <div :style="{ width: '100%'}" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                                                    </div>
-                                                                  </template>
-                                                            </vue-countdown-timer>
-                                                        </template>
-                                                    </span>
+                                                                  <small style="margin-top: -3.4px; font-size:10px;" class="text-white justify-content-left d-flex position-absolute w-100">
+                                                                      <i v-show="open.type === 1" class="bx bx-trending-up" style="font-size: 12px;padding-left: 1px;padding-top: 3px;"></i>
+                                                                      <i v-show="open.type === 0" class="bx bx-trending-down" style="font-size: 12px;padding-left: 1px;padding-top: 1px;"></i>
+                                                                      <span class="text-white" style="padding-top: 1px;">{{ open.percent }}%</span>
+                                                                  </small>
+
+                                                                  <small v-text="open.amount + ' $'" style="margin-top: -3.4px; font-size:12px; padding-right:1px;" class="text-white justify-content-end d-flex position-absolute w-100"></small>
+                                                              </div>
+                                                            </template>
+                                                            <template slot="end-text" slot-scope="scope">
+                                                              <div class="progress progress-sm progress-bar-success">
+                                                                  <div :style="{ width: '100%'}" class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                                              </div>
+                                                            </template>
+                                                      </vue-countdown-timer>
+                                                  </template>
+                                              </span>
+                                              </div>
+                                              <b-collapse :id="'opened-orders' + index" accordion="opened-orders" role="tabpanel">
+                                                <div class="card-content">
+                                                  <div class="card-body" style="padding: 15px; background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
+                                                    Открыто: {{ openedDate(open.created_at) }}<br>
+                                                    Цена открытия: {{ parseFloat(open.open_price) }}<br>
+                                                    Направление: <div v-show="open.type === 1" class="badge badge-success">выше</div><div v-show="open.type === 0" class="badge badge-danger">ниже</div>
+                                                  </div>
                                                 </div>
-                                                <div :id="'accordion' + open.id" :aria-labelledby="'heading' + open.id" role="tabpanel" data-parent="#accordionWrapa2" class="collapse">
-                                                    <div class="card-content">
-                                                        <div class="card-body" style="padding: 15px; background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
-                                                            Открыто: 12:00:00<br>
-                                                            Цена открытия: {{ parseFloat(open.open_price) }}<br>
-                                                            Текущая цена: {{ open.current_price }}<br>
-                                                            Время: 00:00:15<br>
-                                                            Направление: выше
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                              </b-collapse>
+                                            </b-card>
 <!--                                            End opened orders-->
                                             <p class="text-center">История сделок</p>
-<!--                                            Latest orders-->
-                                            <div v-for="open in latest" class="card collapse-header">
-                                                <div :id="'heading' + open.id" :data-target="'#accordion' + open.id" :aria-controls="'accordion' + open.id" aria-expanded="false"  style="background-color: #22283e !important;border-top: 1px solid #464d5c !important; border-left: 1px solid #464d5c !important; border-right: 1px solid #464d5c !important; padding:15px;" class="card-header" data-toggle="collapse" role="tablist">
+<!--                                        Latest orders-->
+                                            <b-card no-body v-for="(open, index) in latest" :key="'latest' + index" class="collapse-header">
+                                              <div v-b-toggle="'latest-orders' + index" data-toggle="collapse" class="card-header p-1">
                                                     <span class="collapse-title">
                                                         <span class="align-middle" :class="'text-' + open.textColor">
                                                             {{ symbols.find(item => item.id === open.symbol_id).symbol }}
@@ -234,19 +233,25 @@
                                                         </div>
                                                     </span>
                                                 </div>
-                                                <div :id="'accordion' + open.id" :aria-labelledby="'heading' + open.id" role="tabpanel" data-parent="#accordionWrapa2" class="collapse">
-                                                    <div class="card-content">
-                                                        <div class="card-body" style="padding: 15px; background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
-                                                            Открыто: 12:00:00<br>
-                                                            Цена открытия: {{ parseFloat(open.open_price) }}<br>
-                                                            Текущая цена: {{ open.current_price }}<br>
-                                                            Время: 00:00:15<br>
-                                                            Направление: выше
-                                                        </div>
+                                                <b-collapse :id="'latest-orders' + index" accordion="latest-orders" role="tabpanel">
+                                                  <div class="card-content">
+                                                    <div class="card-body" style="padding: 15px; background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
+                                                      Открыто: {{ openedDate(open.open_at) }}<br>
+                                                      Цена открытия: {{ parseFloat(open.open_price) }}<br>
+                                                      Время: {{ open.expiration }}<br>
+                                                      Направление: <div v-show="open.type === 1" class="badge badge-success">выше</div><div v-show="open.type === 0" class="badge badge-danger">ниже</div>
                                                     </div>
-                                                </div>
+                                                  </div>
+                                                </b-collapse>
+                                            </b-card>
+                                            <div class="text-center mb-2">
+                                              <span v-show="!historyLoaded" role="status" aria-hidden="true" class="spinner-border spinner-grow-sm" style="width:3rem;height:3rem;"></span>
                                             </div>
-                                            <button type="button" class="btn btn-outline-primary w-100">Полная история сделок</button>
+                                            <router-link to="/history">
+                                              <template>
+                                                <button type="button" class="btn btn-outline-primary w-100">Полная история сделок</button>
+                                              </template>
+                                            </router-link>
 <!--                                            End latest orders-->
                                         </div>
                                     </div>
@@ -265,6 +270,7 @@
     import $ from 'jquery'
     import { TradingViewFastWebsocket } from '../../js/tv2'
     import { CurrencyDirective, setValue, getValue } from 'vue-currency-input'
+    import * as dateformat from "dateformat";
 
     export default {
         name: "Trading",
@@ -387,11 +393,15 @@
                                     self.latest = response.data;
                                 }
                             });
+                        this.historyLoaded = true;
                     }
                 }
             });
         },
         methods: {
+            openedDate: function(date){
+              return dateformat(new Date(date), 'HH:MM:ss');
+            },
             windowResized: function (e){
                 try {
                     this.historyHeight = ($(window).height() - $('#line').offset().top - 30) + 'px';
@@ -541,6 +551,7 @@
                 opened: [],
                 fastData: [],
                 latest: [],
+                historyLoaded: false,
             }
         },
         computed: {
@@ -649,5 +660,19 @@
         .trading-card-height {
             height: calc(100vh - 69px);
         }
+    }
+    :focus {
+      outline: -webkit-focus-ring-color auto 0px;
+    }
+
+    .collapse-icon [data-toggle=collapse]:before {
+      position: absolute;
+      top: 26%;
+      right: 14px;
+      font-family: "boxicons";
+      content: "\EA1D";
+      transition: all 200ms linear 0s;
+      font-size: 1.2rem;
+      font-weight: 600;
     }
 </style>

@@ -4525,6 +4525,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _js_tv2__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../js/tv2 */ "./resources/vuejs/js/tv2.js");
 /* harmony import */ var vue_currency_input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-currency-input */ "./node_modules/vue-currency-input/dist/vue-currency-input.esm.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_4__);
 //
 //
 //
@@ -4787,6 +4789,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 
@@ -4914,11 +4922,15 @@ __webpack_require__.r(__webpack_exports__);
               self.latest = response.data;
             }
           });
+          _this.historyLoaded = true;
         }
       }
     });
   },
   methods: {
+    openedDate: function openedDate(date) {
+      return dateformat__WEBPACK_IMPORTED_MODULE_4__(new Date(date), 'HH:MM:ss');
+    },
     windowResized: function windowResized(e) {
       try {
         this.historyHeight = jquery__WEBPACK_IMPORTED_MODULE_1___default()(window).height() - jquery__WEBPACK_IMPORTED_MODULE_1___default()('#line').offset().top - 30 + 'px';
@@ -5060,7 +5072,8 @@ __webpack_require__.r(__webpack_exports__);
       historyHeight: '300px',
       opened: [],
       fastData: [],
-      latest: []
+      latest: [],
+      historyLoaded: false
     };
   },
   computed: {
@@ -55716,7 +55729,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nbody.dark-layout .collapsible .card.open[data-v-0b4c4794], body.dark-layout .accordion .card.open[data-v-0b4c4794] {\n    box-shadow: 0px 0px 0px 0 rgba(11, 26, 51, 0.63) !important;\n}\n.progress-bar-success .progress-bar[data-v-0b4c4794] {\n    background-color: #157344;\n    box-shadow: 0 2px 6px 0 rgba(57, 218, 138, 0.2);\n}\n.progress-bar-primary .progress-bar[data-v-0b4c4794] {\n    background-color: #244177;\n    box-shadow: 0 2px 6px 0 rgba(90, 141, 238, 0.2);\n}\n@media screen and (max-width: 1000px) {\n.trading-card-height[data-v-0b4c4794] {\n        height: auto;\n}\n}\n@media screen and (min-width: 1000px) {\n.trading-card-height[data-v-0b4c4794] {\n        height: calc(100vh - 69px);\n}\n}\n", ""]);
+exports.push([module.i, "\nbody.dark-layout .collapsible .card.open[data-v-0b4c4794], body.dark-layout .accordion .card.open[data-v-0b4c4794] {\n    box-shadow: 0px 0px 0px 0 rgba(11, 26, 51, 0.63) !important;\n}\n.progress-bar-success .progress-bar[data-v-0b4c4794] {\n    background-color: #157344;\n    box-shadow: 0 2px 6px 0 rgba(57, 218, 138, 0.2);\n}\n.progress-bar-primary .progress-bar[data-v-0b4c4794] {\n    background-color: #244177;\n    box-shadow: 0 2px 6px 0 rgba(90, 141, 238, 0.2);\n}\n@media screen and (max-width: 1000px) {\n.trading-card-height[data-v-0b4c4794] {\n        height: auto;\n}\n}\n@media screen and (min-width: 1000px) {\n.trading-card-height[data-v-0b4c4794] {\n        height: calc(100vh - 69px);\n}\n}\n[data-v-0b4c4794]:focus {\n  outline: -webkit-focus-ring-color auto 0px;\n}\n.collapse-icon [data-toggle=collapse][data-v-0b4c4794]:before {\n  position: absolute;\n  top: 26%;\n  right: 14px;\n  font-family: \"boxicons\";\n  content: \"\\EA1D\";\n  transition: all 200ms linear 0s;\n  font-size: 1.2rem;\n  font-weight: 600;\n}\n", ""]);
 
 // exports
 
@@ -127011,34 +127024,28 @@ var render = function() {
                               [_vm._v("Открытые сделки")]
                             ),
                             _vm._v(" "),
-                            _vm._l(_vm.opened, function(open) {
+                            _vm._l(_vm.opened, function(open, index) {
                               return _c(
-                                "div",
-                                { staticClass: "card collapse-header" },
+                                "b-card",
+                                {
+                                  key: index,
+                                  staticClass: "collapse-header",
+                                  attrs: { "no-body": "" }
+                                },
                                 [
                                   _c(
                                     "div",
                                     {
-                                      staticClass: "card-header",
-                                      staticStyle: {
-                                        "background-color":
-                                          "#22283e !important",
-                                        "border-top":
-                                          "1px solid #464d5c !important",
-                                        "border-left":
-                                          "1px solid #464d5c !important",
-                                        "border-right":
-                                          "1px solid #464d5c !important",
-                                        padding: "15px"
-                                      },
-                                      attrs: {
-                                        id: "heading" + open.id,
-                                        "data-target": "#accordion" + open.id,
-                                        "aria-controls": "accordion" + open.id,
-                                        "aria-expanded": "false",
-                                        "data-toggle": "collapse",
-                                        role: "tablist"
-                                      }
+                                      directives: [
+                                        {
+                                          name: "b-toggle",
+                                          rawName: "v-b-toggle",
+                                          value: "opened-orders" + index,
+                                          expression: "'opened-orders' + index"
+                                        }
+                                      ],
+                                      staticClass: "card-header p-1",
+                                      attrs: { "data-toggle": "collapse" }
                                     },
                                     [
                                       _c(
@@ -127053,7 +127060,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                                            " +
+                                                "\n                                                      " +
                                                   _vm._s(
                                                     _vm.symbols.find(function(
                                                       item
@@ -127064,7 +127071,7 @@ var render = function() {
                                                       )
                                                     }).symbol
                                                   ) +
-                                                  "\n                                                        "
+                                                  "\n                                                  "
                                               )
                                             ]
                                           ),
@@ -127212,7 +127219,7 @@ var render = function() {
                                                               },
                                                               [
                                                                 _vm._v(
-                                                                  "\n                                                                            " +
+                                                                  "\n                                                                      " +
                                                                     _vm._s(
                                                                       scope
                                                                         .props
@@ -127230,7 +127237,7 @@ var render = function() {
                                                                         .props
                                                                         .seconds
                                                                     ) +
-                                                                    "\n                                                                        "
+                                                                    "\n                                                                  "
                                                                 )
                                                               ]
                                                             ),
@@ -127390,14 +127397,12 @@ var render = function() {
                                   ),
                                   _vm._v(" "),
                                   _c(
-                                    "div",
+                                    "b-collapse",
                                     {
-                                      staticClass: "collapse",
                                       attrs: {
-                                        id: "accordion" + open.id,
-                                        "aria-labelledby": "heading" + open.id,
-                                        role: "tabpanel",
-                                        "data-parent": "#accordionWrapa2"
+                                        id: "opened-orders" + index,
+                                        accordion: "opened-orders",
+                                        role: "tabpanel"
                                       }
                                     },
                                     [
@@ -127423,27 +127428,57 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                                            Открыто: 12:00:00"
+                                                "\n                                                    Открыто: " +
+                                                  _vm._s(
+                                                    _vm.openedDate(
+                                                      open.created_at
+                                                    )
+                                                  )
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                            Цена открытия: " +
+                                                "\n                                                    Цена открытия: " +
                                                   _vm._s(
                                                     parseFloat(open.open_price)
                                                   )
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                            Текущая цена: " +
-                                                  _vm._s(open.current_price)
+                                                "\n                                                    Направление: "
                                               ),
-                                              _c("br"),
-                                              _vm._v(
-                                                "\n                                                            Время: 00:00:15"
+                                              _c(
+                                                "div",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value: open.type === 1,
+                                                      expression:
+                                                        "open.type === 1"
+                                                    }
+                                                  ],
+                                                  staticClass:
+                                                    "badge badge-success"
+                                                },
+                                                [_vm._v("выше")]
                                               ),
-                                              _c("br"),
-                                              _vm._v(
-                                                "\n                                                            Направление: выше\n                                                        "
+                                              _c(
+                                                "div",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value: open.type === 0,
+                                                      expression:
+                                                        "open.type === 0"
+                                                    }
+                                                  ],
+                                                  staticClass:
+                                                    "badge badge-danger"
+                                                },
+                                                [_vm._v("ниже")]
                                               )
                                             ]
                                           )
@@ -127451,7 +127486,8 @@ var render = function() {
                                       )
                                     ]
                                   )
-                                ]
+                                ],
+                                1
                               )
                             }),
                             _vm._v(" "),
@@ -127459,34 +127495,28 @@ var render = function() {
                               _vm._v("История сделок")
                             ]),
                             _vm._v(" "),
-                            _vm._l(_vm.latest, function(open) {
+                            _vm._l(_vm.latest, function(open, index) {
                               return _c(
-                                "div",
-                                { staticClass: "card collapse-header" },
+                                "b-card",
+                                {
+                                  key: "latest" + index,
+                                  staticClass: "collapse-header",
+                                  attrs: { "no-body": "" }
+                                },
                                 [
                                   _c(
                                     "div",
                                     {
-                                      staticClass: "card-header",
-                                      staticStyle: {
-                                        "background-color":
-                                          "#22283e !important",
-                                        "border-top":
-                                          "1px solid #464d5c !important",
-                                        "border-left":
-                                          "1px solid #464d5c !important",
-                                        "border-right":
-                                          "1px solid #464d5c !important",
-                                        padding: "15px"
-                                      },
-                                      attrs: {
-                                        id: "heading" + open.id,
-                                        "data-target": "#accordion" + open.id,
-                                        "aria-controls": "accordion" + open.id,
-                                        "aria-expanded": "false",
-                                        "data-toggle": "collapse",
-                                        role: "tablist"
-                                      }
+                                      directives: [
+                                        {
+                                          name: "b-toggle",
+                                          rawName: "v-b-toggle",
+                                          value: "latest-orders" + index,
+                                          expression: "'latest-orders' + index"
+                                        }
+                                      ],
+                                      staticClass: "card-header p-1",
+                                      attrs: { "data-toggle": "collapse" }
                                     },
                                     [
                                       _c(
@@ -127671,14 +127701,12 @@ var render = function() {
                                   ),
                                   _vm._v(" "),
                                   _c(
-                                    "div",
+                                    "b-collapse",
                                     {
-                                      staticClass: "collapse",
                                       attrs: {
-                                        id: "accordion" + open.id,
-                                        "aria-labelledby": "heading" + open.id,
-                                        role: "tabpanel",
-                                        "data-parent": "#accordionWrapa2"
+                                        id: "latest-orders" + index,
+                                        accordion: "latest-orders",
+                                        role: "tabpanel"
                                       }
                                     },
                                     [
@@ -127704,27 +127732,60 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                                            Открыто: 12:00:00"
+                                                "\n                                                      Открыто: " +
+                                                  _vm._s(
+                                                    _vm.openedDate(open.open_at)
+                                                  )
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                            Цена открытия: " +
+                                                "\n                                                      Цена открытия: " +
                                                   _vm._s(
                                                     parseFloat(open.open_price)
                                                   )
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                            Текущая цена: " +
-                                                  _vm._s(open.current_price)
+                                                "\n                                                      Время: " +
+                                                  _vm._s(open.expiration)
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                            Время: 00:00:15"
+                                                "\n                                                      Направление: "
                                               ),
-                                              _c("br"),
-                                              _vm._v(
-                                                "\n                                                            Направление: выше\n                                                        "
+                                              _c(
+                                                "div",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value: open.type === 1,
+                                                      expression:
+                                                        "open.type === 1"
+                                                    }
+                                                  ],
+                                                  staticClass:
+                                                    "badge badge-success"
+                                                },
+                                                [_vm._v("выше")]
+                                              ),
+                                              _c(
+                                                "div",
+                                                {
+                                                  directives: [
+                                                    {
+                                                      name: "show",
+                                                      rawName: "v-show",
+                                                      value: open.type === 0,
+                                                      expression:
+                                                        "open.type === 0"
+                                                    }
+                                                  ],
+                                                  staticClass:
+                                                    "badge badge-danger"
+                                                },
+                                                [_vm._v("ниже")]
                                               )
                                             ]
                                           )
@@ -127732,17 +127793,44 @@ var render = function() {
                                       )
                                     ]
                                   )
-                                ]
+                                ],
+                                1
                               )
                             }),
                             _vm._v(" "),
+                            _c("div", { staticClass: "text-center mb-2" }, [
+                              _c("span", {
+                                directives: [
+                                  {
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: !_vm.historyLoaded,
+                                    expression: "!historyLoaded"
+                                  }
+                                ],
+                                staticClass: "spinner-border spinner-grow-sm",
+                                staticStyle: { width: "3rem", height: "3rem" },
+                                attrs: { role: "status", "aria-hidden": "true" }
+                              })
+                            ]),
+                            _vm._v(" "),
                             _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-outline-primary w-100",
-                                attrs: { type: "button" }
-                              },
-                              [_vm._v("Полная история сделок")]
+                              "router-link",
+                              { attrs: { to: "/history" } },
+                              [
+                                [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-outline-primary w-100",
+                                      attrs: { type: "button" }
+                                    },
+                                    [_vm._v("Полная история сделок")]
+                                  )
+                                ]
+                              ],
+                              2
                             )
                           ],
                           2
