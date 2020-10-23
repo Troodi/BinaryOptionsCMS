@@ -54419,7 +54419,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-
 
 
 // module
-exports.push([module.i, "\nbody.dark-layout .collapsible .card.open[data-v-0b4c4794], body.dark-layout .accordion .card.open[data-v-0b4c4794] {\n    box-shadow: 0px 0px 0px 0 rgba(11, 26, 51, 0.63) !important;\n}\n.progress-bar-success .progress-bar[data-v-0b4c4794] {\n    background-color: #157344;\n    box-shadow: 0 2px 6px 0 rgba(57, 218, 138, 0.2);\n}\n.progress-bar-primary .progress-bar[data-v-0b4c4794] {\n    background-color: #244177;\n    box-shadow: 0 2px 6px 0 rgba(90, 141, 238, 0.2);\n}\n@media screen and (max-width: 1000px) {\n.trading-card-height[data-v-0b4c4794] {\n        height: auto;\n}\n}\n@media screen and (min-width: 1000px) {\n.trading-card-height[data-v-0b4c4794] {\n        height: calc(100vh - 69px);\n}\n}\n[data-v-0b4c4794]:focus {\n  outline: -webkit-focus-ring-color auto 0px;\n}\n.collapse-icon [data-toggle=collapse][data-v-0b4c4794]:before {\n  position: absolute;\n  top: 26%;\n  right: 14px;\n  font-family: \"boxicons\";\n  content: \"\\EA1D\";\n  transition: all 200ms linear 0s;\n  font-size: 1.2rem;\n  font-weight: 600;\n}\n", ""]);
+exports.push([module.i, "\nbody.dark-layout .collapsible .card.open[data-v-0b4c4794], body.dark-layout .accordion .card.open[data-v-0b4c4794] {\n    box-shadow: 0px 0px 0px 0 rgba(11, 26, 51, 0.63) !important;\n}\n.progress-bar-success .progress-bar[data-v-0b4c4794] {\n    background-color: #157344;\n    box-shadow: 0 2px 6px 0 rgba(57, 218, 138, 0.2);\n}\n.progress-bar-primary .progress-bar[data-v-0b4c4794] {\n    background-color: #244177;\n    box-shadow: 0 2px 6px 0 rgba(90, 141, 238, 0.2);\n}\n@media screen and (max-width: 1000px) {\n.trading-card-height[data-v-0b4c4794] {\n       height: auto !important;\n}\n}\n@media screen and (min-width: 1000px) {\n.trading-card-height[data-v-0b4c4794] {\n        height: calc(100vh - 69px) !important;\n}\n}\n[data-v-0b4c4794]:focus {\n  outline: -webkit-focus-ring-color auto 0px;\n}\n.collapse-icon [data-toggle=collapse][data-v-0b4c4794]:before {\n  position: absolute;\n  top: 26%;\n  right: 14px;\n  font-family: \"boxicons\";\n  content: \"\\EA1D\";\n  transition: all 200ms linear 0s;\n  font-size: 1.2rem;\n  font-weight: 600;\n}\n", ""]);
 
 // exports
 
@@ -124742,7 +124742,7 @@ var render = function() {
       _c("div", { staticClass: "content-body" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-lg-8 col-xxl-10 pr-0 pb-0" }, [
-            _c("section", { staticClass: "card mb-0 trading-card-height" }, [
+            _c("section", { staticClass: "card mb-0" }, [
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body p-0" }, [
                   _c(
@@ -124757,7 +124757,7 @@ var render = function() {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "col-lg-4 col-xxl-2 p-0" }, [
-            _c("section", { staticClass: "card mb-0 trading-chart-height" }, [
+            _c("section", { staticClass: "card mb-0 trading-card-height" }, [
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "card-text" }, [
