@@ -21,6 +21,7 @@ class CreateOpenOrdersTable extends Migration
             $table->decimal('amount', 15, 2)->nullable();
             $table->decimal('open_price', 15, 5)->nullable();
             $table->integer('percent')->nullable();
+            $table->integer('hedging')->nullable();
             $table->integer('type')->nullable();
             $table->timestamps(6);
         });
