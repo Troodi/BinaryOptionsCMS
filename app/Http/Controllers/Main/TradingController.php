@@ -113,6 +113,7 @@ class TradingController extends Controller
       $model->user_id = Auth::user()->id;
       $model->type = $request->type;
       $model->open_price = $price;
+      $model->hedging = $hedge;
       $model->percent = $symbols_all->where('id', $request->symbol)->first()->percent;
       $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
       $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
