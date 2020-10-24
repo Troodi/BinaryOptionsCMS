@@ -12,7 +12,6 @@ use App\Models\Symbols\Options\Ticks;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
@@ -124,12 +123,15 @@ class CheckOrdersForClose extends Command
             $diff = date_diff(new \DateTime($model->close_at), new \DateTime($model->open_at));
             $model->expiration = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
             broadcast(new CloseOptionEvent($model, $open->id, $success, $open->user_id));
+            if(!$open->hedging){
+              User::where('user_id', $open->user_id)->update(['left_turnover' => DB::raw("left_turnover-$open->amount")]);
+            }
             if($profit > 0){
               $user = User::find($open->user_id);
               $user->balance = $user->balance + $profit;
               $user->save();
               $referer_id = $user->referer_id;
-              if($referer_id and !$user->left_turnover){
+              if($referer_id and !$user->left_turnover){ // Если бонус отработан, даем рефереру процент
                 $balance_to_referer = $model->amount * 0.02;
                 User::where('id', $referer_id)->update(['balance' => DB::raw("balance+$balance_to_referer")]);
                 Referral::where('user_id', $referer_id)->update(['balance' => DB::raw("reward+$balance_to_referer")]);

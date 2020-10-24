@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Events\ChangeBalance;
-use App\Events\CloseOptionEvent;
 use App\Http\Controllers\Controller;
-use App\Jobs\CloseOptionJob;
 use App\MarketStatus;
 use App\Models\LatestOrder;
 use App\Models\OpenOrders;
@@ -17,8 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Mockery\Exception;
 use Yajra\DataTables\DataTables;
 
 class TradingController extends Controller
@@ -107,6 +103,10 @@ class TradingController extends Controller
         $price = $fisrt->price;
       } else {
         return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее!'], 422);
+      }
+      $hedge = 0;
+      if(OpenOrders::where('user_id', Auth::user()->id)->where('symbol_id', $request->symbol)->where('type', '<>', $request->type)->count()){
+        $hedge = 1;
       }
       $model = new OpenOrders();
       $model->symbol_id = $request->symbol;
