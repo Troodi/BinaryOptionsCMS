@@ -25,20 +25,37 @@
                         </ul>
                     </div>
                     <ul class="nav navbar-nav float-right">
-                        <li class="nav-item d-none d-md-block mr-1" style="padding-top: 1rem">
-                            <button type="button" class="btn btn-success glow w-100">
-                                <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">Пополнить счет</span>
-                            </button>
+                        <li class="nav-item d-none d-md-block mr-1" style="padding-top: 13px;">
+                          <button type="button" class="btn btn-success glow w-100" v-show="!isDemo">
+                              <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">Пополнить счет</span>
+                          </button>
+                          <button v-show="isDemo" type="button" class="btn btn-outline-warning w-100" v-bind:style="{ color: realButtonColor }" @mouseover="realButtonColor='#FFF !important'" @mouseleave="realButtonColor='#FDAC41 !important'">
+                            <i class="bx bxs-briefcase-alt"></i>
+                            <span class="align-middle ml-25 text-warning">Торговать на реальном счете</span>
+                          </button>
                         </li>
 
                         <li class="nav-item">
-                            <h4 class="mr-1">
-                                <router-link to="/deposit" class="nav-link" style="padding-top:1.4rem">
+                            <h4 :class="{'mr-1': !isDemo}">
+                                <router-link to="/deposit" class="nav-link" style="padding-top:1.4rem" v-show="!isDemo">
                                     <template>
                                         <animated-number :value="parseFloat(balance).toFixed(2)" :formatValue="formatToPrice" :duration="1000"/>
                                     </template>
                                 </router-link>
+                                <router-link to="/deposit" class="nav-link" style="padding-top:1.4rem" v-show="isDemo">
+                                  <template>
+                                    <animated-number :value="(1000).toFixed(2)" :formatValue="formatToPrice" :duration="1000"/>
+                                  </template>
+                                </router-link>
                             </h4>
+                        </li>
+                        <li class="nav-item mr-1 cursor-pointer" v-show="isDemo">
+                          <div id="disabled-wrapper" class="font-animated mx-auto text-center" style="margin-top: 19px;">
+                            <div class="fonticon-wrap">
+                              <i class="livicon-evo" data-options="name: refresh.svg; size: 30px; style: lines-alt;"></i>
+                            </div>
+                          </div>
+                          <b-tooltip target="disabled-wrapper">Сделать баланс равным 1000 $</b-tooltip>
                         </li>
                         <li class="dropdown dropdown-language nav-item lang-padding">
                             <a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -98,6 +115,7 @@
             AnimatedNumber
         },
         mounted() {
+            this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
             this.$echo.private('balance.'+this.user.id).listen('ChangeBalance', (payload) => {
                 this.balance = payload.balance;
             });
@@ -108,13 +126,20 @@
         data: function() {
             return {
                 balance: this.user.balance,
+                isDemo: false,
+                realButtonColor: '#FDAC41 !important'
             }
         },
         methods: {
             formatToPrice(value) {
                 return `${value.toFixed(2)} $`;
             }
+        },
+      watch:{
+        $route (to, from){
+          this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
         }
+      }
     }
 </script>
 

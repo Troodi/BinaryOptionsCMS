@@ -2297,6 +2297,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
@@ -2307,6 +2324,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
+    this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
     this.$echo["private"]('balance.' + this.user.id).listen('ChangeBalance', function (payload) {
       _this.balance = payload.balance;
     });
@@ -2316,12 +2334,19 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      balance: this.user.balance
+      balance: this.user.balance,
+      isDemo: false,
+      realButtonColor: '#FDAC41 !important'
     };
   },
   methods: {
     formatToPrice: function formatToPrice(value) {
       return "".concat(value.toFixed(2), " $");
+    }
+  },
+  watch: {
+    $route: function $route(to, from) {
+      this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
     }
   }
 });
@@ -5069,7 +5094,8 @@ __webpack_require__.r(__webpack_exports__);
       opened: [],
       fastData: [],
       latest: [],
-      historyLoaded: false
+      historyLoaded: false,
+      isDemo: false
     };
   },
   computed: {
@@ -5081,6 +5107,9 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   watch: {
+    $route: function $route(to, from) {
+      this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+    },
     hours: function hours() {
       var number = parseInt(this.hours);
       var _final = number;
@@ -120369,16 +120398,88 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("ul", { staticClass: "nav navbar-nav float-right" }, [
-                _vm._m(2),
+                _c(
+                  "li",
+                  {
+                    staticClass: "nav-item d-none d-md-block mr-1",
+                    staticStyle: { "padding-top": "13px" }
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: !_vm.isDemo,
+                            expression: "!isDemo"
+                          }
+                        ],
+                        staticClass: "btn btn-success glow w-100",
+                        attrs: { type: "button" }
+                      },
+                      [
+                        _c("i", { staticClass: "bx bx-trending-up" }),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "align-middle ml-25" }, [
+                          _vm._v("Пополнить счет")
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.isDemo,
+                            expression: "isDemo"
+                          }
+                        ],
+                        staticClass: "btn btn-outline-warning w-100",
+                        style: { color: _vm.realButtonColor },
+                        attrs: { type: "button" },
+                        on: {
+                          mouseover: function($event) {
+                            _vm.realButtonColor = "#FFF !important"
+                          },
+                          mouseleave: function($event) {
+                            _vm.realButtonColor = "#FDAC41 !important"
+                          }
+                        }
+                      },
+                      [
+                        _c("i", { staticClass: "bx bxs-briefcase-alt" }),
+                        _vm._v(" "),
+                        _c(
+                          "span",
+                          { staticClass: "align-middle ml-25 text-warning" },
+                          [_vm._v("Торговать на реальном счете")]
+                        )
+                      ]
+                    )
+                  ]
+                ),
                 _vm._v(" "),
                 _c("li", { staticClass: "nav-item" }, [
                   _c(
                     "h4",
-                    { staticClass: "mr-1" },
+                    { class: { "mr-1": !_vm.isDemo } },
                     [
                       _c(
                         "router-link",
                         {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.isDemo,
+                              expression: "!isDemo"
+                            }
+                          ],
                           staticClass: "nav-link",
                           staticStyle: { "padding-top": "1.4rem" },
                           attrs: { to: "/deposit" }
@@ -120395,11 +120496,63 @@ var render = function() {
                           ]
                         ],
                         2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "router-link",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.isDemo,
+                              expression: "isDemo"
+                            }
+                          ],
+                          staticClass: "nav-link",
+                          staticStyle: { "padding-top": "1.4rem" },
+                          attrs: { to: "/deposit" }
+                        },
+                        [
+                          [
+                            _c("animated-number", {
+                              attrs: {
+                                value: (1000).toFixed(2),
+                                formatValue: _vm.formatToPrice,
+                                duration: 1000
+                              }
+                            })
+                          ]
+                        ],
+                        2
                       )
                     ],
                     1
                   )
                 ]),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.isDemo,
+                        expression: "isDemo"
+                      }
+                    ],
+                    staticClass: "nav-item mr-1 cursor-pointer"
+                  },
+                  [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("b-tooltip", { attrs: { target: "disabled-wrapper" } }, [
+                      _vm._v("Сделать баланс равным 1000 $")
+                    ])
+                  ],
+                  1
+                ),
                 _vm._v(" "),
                 _vm._m(3),
                 _vm._v(" "),
@@ -120459,26 +120612,21 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "li",
+      "div",
       {
-        staticClass: "nav-item d-none d-md-block mr-1",
-        staticStyle: { "padding-top": "1rem" }
+        staticClass: "font-animated mx-auto text-center",
+        staticStyle: { "margin-top": "19px" },
+        attrs: { id: "disabled-wrapper" }
       },
       [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-success glow w-100",
-            attrs: { type: "button" }
-          },
-          [
-            _c("i", { staticClass: "bx bx-trending-up" }),
-            _vm._v(" "),
-            _c("span", { staticClass: "align-middle ml-25" }, [
-              _vm._v("Пополнить счет")
-            ])
-          ]
-        )
+        _c("div", { staticClass: "fonticon-wrap" }, [
+          _c("i", {
+            staticClass: "livicon-evo",
+            attrs: {
+              "data-options": "name: refresh.svg; size: 30px; style: lines-alt;"
+            }
+          })
+        ])
       ]
     )
   },
@@ -150545,7 +150693,8 @@ var routes = [{
   component: _views_user_Trading__WEBPACK_IMPORTED_MODULE_2__["default"],
   meta: {
     icon: 'line-chart',
-    hideFooter: true
+    hideFooter: true,
+    demoPage: true
   }
 }, {
   path: '/deposit',

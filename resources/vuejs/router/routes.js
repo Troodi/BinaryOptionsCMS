@@ -23,7 +23,7 @@ import Promocode from "../views/user/Promocode";
 //  */
 export const routes = [
     { path: '/', name: 'Торговля', component: Trading, meta: { icon: 'desktop', hideFooter: true } },
-    { path: '/demo', name: 'Демо торговля', component: Trading, meta: { icon: 'line-chart', hideFooter: true } },
+    { path: '/demo', name: 'Демо торговля', component: Trading, meta: { icon: 'line-chart', hideFooter: true, demoPage: true } },
     { path: '/deposit', name: 'Пополнение', component: Deposit, meta: { icon: 'bank', badge : '50% OFF' } },
     { path: '/withdrawal', name: 'Вывод средств', component: Withdrawal, meta: { icon: 'coins' } },
     { path: '/promocodes', name: 'Промокоды', component: Promocode, meta: { icon: 'bulb', badge : '10$ GIFT' } },
