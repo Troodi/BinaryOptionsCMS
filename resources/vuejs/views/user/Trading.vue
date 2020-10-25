@@ -552,6 +552,7 @@
                 fastData: [],
                 latest: [],
                 historyLoaded: false,
+                isDemo: false,
             }
         },
         computed: {
@@ -563,6 +564,9 @@
             }
         },
         watch: {
+            $route (to, from){
+              this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+            },
             hours: function () {
                 let number = parseInt(this.hours);
                 let final = number;
