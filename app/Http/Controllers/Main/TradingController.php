@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Main;
 use App\Events\ChangeBalance;
 use App\Http\Controllers\Controller;
 use App\MarketStatus;
+use App\Models\LatestDemoOrder;
 use App\Models\LatestOrder;
+use App\Models\OpenDemoOrders;
 use App\Models\OpenOrders;
 use App\Models\Symbols\Options\Symbol;
 use App\Models\Symbols\Options\Ticks;
@@ -79,14 +81,21 @@ class TradingController extends Controller
         'seconds' => 'numeric|min:0|max:59',
         'symbol' => 'numeric|min:0',
         'amount' => 'numeric|min:1',
-        'type' => 'numeric|min:0|max:1'
+        'type' => 'numeric|min:0|max:1',
+        'demo' => 'numeric|min:0|max:1',
       ]);
       $seconds = $request->hours * 60 * 60 + $request->minutes * 60 + $request->seconds;
       if($seconds < 30){
         return response()->json(['message' => 'Min 30 seconds'], 422);
       }
-      if(Auth::user()->balance - $request->amount < 0){
-        return response()->json(['message' => 'Недостаточно средств'], 422);
+      if(!$request->demo) {
+        if (Auth::user()->balance - $request->amount < 0) {
+          return response()->json(['message' => 'Недостаточно средств'], 422);
+        }
+      } else {
+        if (Auth::user()->demo_balance - $request->amount < 0) {
+          return response()->json(['message' => 'Недостаточно средств'], 422);
+        }
       }
       $market = MarketStatus::where('symbol_id', $request->symbol);
       if(!isset($market) || !$market->count()){
@@ -108,21 +117,39 @@ class TradingController extends Controller
       if(OpenOrders::where('user_id', Auth::user()->id)->where('symbol_id', $request->symbol)->where('type', '<>', $request->type)->count()){
         $hedge = 1;
       }
-      $model = new OpenOrders();
-      $model->symbol_id = $request->symbol;
-      $model->user_id = Auth::user()->id;
-      $model->type = $request->type;
-      $model->open_price = $price;
-      $model->hedging = $hedge;
-      $model->percent = $symbols_all->where('id', $request->symbol)->first()->percent;
-      $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
-      $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
-      $model->amount = $request->amount;
-      $model->save();
-      $model->expiration = $seconds-1;
-      $model->timestamp = Carbon::parse($model->close_at)->timestamp;
-      User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-'.$request->amount)]);
-      broadcast(new ChangeBalance(Auth::user()->balance - $request->amount, Auth::user()));
+      if(!$request->demo) {
+        $model = new OpenOrders();
+        $model->symbol_id = $request->symbol;
+        $model->user_id = Auth::user()->id;
+        $model->type = $request->type;
+        $model->open_price = $price;
+        $model->hedging = $hedge;
+        $model->percent = $symbols_all->where('id', $request->symbol)->first()->percent;
+        $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
+        $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
+        $model->amount = $request->amount;
+        $model->save();
+        $model->expiration = $seconds - 1;
+        $model->timestamp = Carbon::parse($model->close_at)->timestamp;
+        User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-' . $request->amount)]);
+        broadcast(new ChangeBalance(Auth::user()->balance - $request->amount, Auth::user()));
+      } else {
+        $model = new OpenDemoOrders();
+        $model->symbol_id = $request->symbol;
+        $model->user_id = Auth::user()->id;
+        $model->type = $request->type;
+        $model->open_price = $price;
+        $model->hedging = $hedge;
+        $model->percent = $symbols_all->where('id', $request->symbol)->first()->percent;
+        $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
+        $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
+        $model->amount = $request->amount;
+        $model->save();
+        $model->expiration = $seconds - 1;
+        $model->timestamp = Carbon::parse($model->close_at)->timestamp;
+        User::where('id', Auth::user()->id)->update(['demo_balance' => DB::raw('demo_balance-' . $request->amount)]);
+        //TODO broadcast(new ChangeDemoBalance(Auth::user()->balance - $request->amount, Auth::user()));
+      }
       return $model;
     }
 
@@ -136,11 +163,30 @@ class TradingController extends Controller
         $item['timestamp'] = Carbon::parse($item->close_at)->timestamp;
         return $item;
       });
-      //
     }
 
   public function getLatestOrders(Request $request){
     return LatestOrder::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get()->filter(function ($item) {
+      $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->open_at));
+      $item['expiration'] = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
+      return $item;
+    });
+  }
+
+  public function getOpenDemoOrders(Request $request){
+    return OpenDemoOrders::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get()->filter(function ($item) {
+      $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->created_at));
+      $item['expiration'] = $diff->s + $diff->i * 60 + $diff->h * 60 * 60;
+      return $item;
+    })->filter(function ($item) {
+      $diff = date_diff(new \DateTime(), new \DateTime($item->created_at));
+      $item['timestamp'] = Carbon::parse($item->close_at)->timestamp;
+      return $item;
+    });
+  }
+
+  public function getLatestDemoOrders(Request $request){
+    return LatestDemoOrder::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get()->filter(function ($item) {
       $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->open_at));
       $item['expiration'] = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
       return $item;

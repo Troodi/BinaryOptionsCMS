@@ -206,6 +206,16 @@
                                             </b-card>
 <!--                                            End opened orders-->
                                             <p class="text-center">История сделок</p>
+                                            <div v-show="latest.length === 0 && historyLoaded">
+                                              <ul class="list-group">
+                                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                  <span> Нет сделок</span>
+                                                  <span class="badge-circle badge-circle-warning badge-circle-sm text-white">
+                                                    <i class="bx bx-info-circle font-size-base" style="font-size: 1rem;margin-left: -1.5px;"></i>
+                                                  </span>
+                                                </li>
+                                              </ul>
+                                            </div>
 <!--                                        Latest orders-->
                                             <b-card no-body v-for="(open, index) in latest" :key="'latest' + index" class="collapse-header">
                                               <div v-b-toggle="'latest-orders' + index" data-toggle="collapse" class="card-header p-1">
@@ -282,8 +292,8 @@
             currency: CurrencyDirective
         },
         mounted() {
+            this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
             this.localTV = new TradingViewFastWebsocket();
-
             setInterval(() => {
                 this.fastData = this.localTV.getTickerDataArray();
                 this.opened.forEach((open) => {
@@ -360,7 +370,11 @@
                     this.number_percent = window.symbolInfo.percent;
 
                     if(self.opened.length === 0) {
-                        axios.post('/data/opened')
+                        let urlOpened = '/data/opened';
+                        if(this.isDemo) {
+                          urlOpened = '/data/demo/opened';
+                        }
+                        axios.post(urlOpened)
                             .then(function (response) {
                                 self.opened = response.data;
                                 let filtered = self.opened.filter(item => item.symbol_id === window.symbolInfo.id);
@@ -387,13 +401,17 @@
                     }
 
                     if(self.latest.length === 0) {
-                        axios.post('/data/latest')
-                            .then(function (response) {
-                                if (self.latest.length === 0) {
-                                    self.latest = response.data;
-                                }
-                            });
-                        this.historyLoaded = true;
+                      let urlLatest = '/data/latest';
+                      if(this.isDemo) {
+                        urlLatest = '/data/demo/latest';
+                      }
+                      axios.post(urlLatest)
+                          .then(function (response) {
+                              if (self.latest.length === 0) {
+                                  self.latest = response.data;
+                              }
+                            self.historyLoaded = true;
+                          });
                     }
                 }
             });
@@ -420,6 +438,7 @@
                     seconds: this.seconds,
                     amount: this.$ci.parse(this.amount),
                     type: 1,
+                    demo: self.isDemo ? 1 : 0,
                 })
                 .then(function (response) {
                     self.opened.unshift(response.data);
@@ -450,6 +469,7 @@
                     seconds: this.seconds,
                     amount: this.$ci.parse(this.amount),
                     type: 0,
+                    demo: self.isDemo ? 1 : 0,
                 })
                 .then(function (response) {
                     self.opened.unshift(response.data);
