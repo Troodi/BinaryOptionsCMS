@@ -2314,6 +2314,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
@@ -2324,6 +2369,8 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
+    setTimeout(function () {//$('#discountModal').modal('show');
+    }, 5000);
     this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
     this.$echo["private"]('balance.' + this.user.id).listen('ChangeBalance', function (payload) {
       _this.balance = payload.balance;
@@ -54350,10 +54397,10 @@ exports.push([module.i, "\n@media screen and (max-width: 1000px) {\n.trading-cha
 
 exports = module.exports = __webpack_require__(/*! ../../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
 // imports
-
+exports.push([module.i, "@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap);", ""]);
 
 // module
-exports.push([module.i, "\n@media screen and (max-width: 1000px) {\n.lang-padding[data-v-853209a8] {\n        padding: 17px 0 !important;\n}\n}\n", ""]);
+exports.push([module.i, "\n@media screen and (max-width: 1000px) {\n.lang-padding[data-v-853209a8] {\n        padding: 17px 0 !important;\n}\n}\n.gradient-border[data-v-853209a8] {\n  position: relative;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Lato, sans-serif;\n  font-size: 1rem;\n  color: white;\n  background: #272e48;\n  border-radius: 3px;\n}\n.gradient-border[data-v-853209a8]::after {\n  position: absolute;\n  content: \"\";\n  top: calc(-1 * 3px);\n  left: calc(-1 * 3px);\n  z-index: -1;\n  width: calc(100% + 3px * 2);\n  height: calc(100% + 3px * 2);\n  background: linear-gradient(\n      60deg,\n      hsl(224, 85%, 66%),\n      hsl(269, 85%, 66%),\n      hsl(314, 85%, 66%),\n      hsl(359, 85%, 66%),\n      hsl(44, 85%, 66%),\n      hsl(89, 85%, 66%),\n      hsl(134, 85%, 66%),\n      hsl(179, 85%, 66%)\n  );\n  background-size: 300% 300%;\n  background-position: 0 50%;\n  border-radius: calc(2 * 3px);\n  -webkit-animation: moveGradient-data-v-853209a8 4s alternate infinite;\n          animation: moveGradient-data-v-853209a8 4s alternate infinite;\n}\n@-webkit-keyframes moveGradient-data-v-853209a8 {\n50% {\n    background-position: 100% 50%;\n}\n}\n@keyframes moveGradient-data-v-853209a8 {\n50% {\n    background-position: 100% 50%;\n}\n}\n.gradient-text[data-v-853209a8] {\n  text-align: center;\n  color: #f35626;\n  background-image: -webkit-linear-gradient(180deg, #f35626, #feab3a);\n  -webkit-background-clip: text;\n  -webkit-text-fill-color: transparent;\n  -webkit-animation: hue-data-v-853209a8 10s infinite linear;\n}\n@-webkit-keyframes hue-data-v-853209a8 {\nfrom {\n    -webkit-filter: hue-rotate(0deg);\n}\nto {\n    -webkit-filter: hue-rotate(-360deg);\n}\n}\n.count-down[data-v-853209a8] {\n  font-family: 'Roboto', sans-serif;\n  font-size: 10px;\n  font-weight: 600;\n  text-transform: uppercase;\n}\n", ""]);
 
 // exports
 
@@ -120364,113 +120411,53 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "nav",
-    {
-      staticClass:
-        "header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top",
-      attrs: { "data-bgcolor": "bg-white" }
-    },
-    [
-      _c("div", { staticClass: "navbar-wrapper" }, [
-        _c("div", { staticClass: "navbar-container content" }, [
-          _c(
-            "div",
-            { staticClass: "navbar-collapse", attrs: { id: "navbar-mobile" } },
-            [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "mr-auto float-left bookmark-wrapper d-flex align-items-center"
-                },
-                [
-                  _vm._m(0),
-                  _vm._v(" "),
-                  _c("ul", { staticClass: "nav navbar-nav bookmark-icons" }, [
-                    _vm._m(1),
-                    _vm._v(" "),
-                    _c("li", { staticClass: "nav-item d-none d-lg-block" }, [
-                      _c("a", [_c("ping-component")], 1)
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c("ul", { staticClass: "nav navbar-nav float-right" }, [
+  return _c("div", [
+    _c(
+      "nav",
+      {
+        staticClass:
+          "header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top",
+        attrs: { "data-bgcolor": "bg-white" }
+      },
+      [
+        _c("div", { staticClass: "navbar-wrapper" }, [
+          _c("div", { staticClass: "navbar-container content" }, [
+            _c(
+              "div",
+              {
+                staticClass: "navbar-collapse",
+                attrs: { id: "navbar-mobile" }
+              },
+              [
                 _c(
-                  "li",
+                  "div",
                   {
-                    staticClass: "nav-item d-none d-md-block mr-1",
-                    staticStyle: { "padding-top": "13px" }
+                    staticClass:
+                      "mr-auto float-left bookmark-wrapper d-flex align-items-center"
                   },
                   [
-                    _c(
-                      "button",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: !_vm.isDemo,
-                            expression: "!isDemo"
-                          }
-                        ],
-                        staticClass: "btn btn-success glow w-100",
-                        attrs: { type: "button" }
-                      },
-                      [
-                        _c("i", { staticClass: "bx bx-trending-up" }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "align-middle ml-25" }, [
-                          _vm._v("Пополнить счет")
-                        ])
-                      ]
-                    ),
+                    _vm._m(0),
                     _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.isDemo,
-                            expression: "isDemo"
-                          }
-                        ],
-                        staticClass: "btn btn-outline-warning w-100",
-                        style: { color: _vm.realButtonColor },
-                        attrs: { type: "button" },
-                        on: {
-                          mouseover: function($event) {
-                            _vm.realButtonColor = "#FFF !important"
-                          },
-                          mouseleave: function($event) {
-                            _vm.realButtonColor = "#FDAC41 !important"
-                          }
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "bx bxs-briefcase-alt" }),
-                        _vm._v(" "),
-                        _c(
-                          "span",
-                          { staticClass: "align-middle ml-25 text-warning" },
-                          [_vm._v("Торговать на реальном счете")]
-                        )
-                      ]
-                    )
+                    _c("ul", { staticClass: "nav navbar-nav bookmark-icons" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "nav-item d-none d-lg-block" }, [
+                        _c("a", [_c("ping-component")], 1)
+                      ])
+                    ])
                   ]
                 ),
                 _vm._v(" "),
-                _c("li", { staticClass: "nav-item" }, [
+                _c("ul", { staticClass: "nav navbar-nav float-right" }, [
                   _c(
-                    "h4",
-                    { class: { "mr-1": !_vm.isDemo } },
+                    "li",
+                    {
+                      staticClass: "nav-item d-none d-md-block mr-1",
+                      staticStyle: { "padding-top": "13px" }
+                    },
                     [
                       _c(
-                        "router-link",
+                        "button",
                         {
                           directives: [
                             {
@@ -120480,26 +120467,20 @@ var render = function() {
                               expression: "!isDemo"
                             }
                           ],
-                          staticClass: "nav-link",
-                          staticStyle: { "padding-top": "1.4rem" },
-                          attrs: { to: "/deposit" }
+                          staticClass: "btn btn-success glow w-100",
+                          attrs: { type: "button" }
                         },
                         [
-                          [
-                            _c("animated-number", {
-                              attrs: {
-                                value: parseFloat(_vm.balance).toFixed(2),
-                                formatValue: _vm.formatToPrice,
-                                duration: 1000
-                              }
-                            })
-                          ]
-                        ],
-                        2
+                          _c("i", { staticClass: "bx bx-trending-up" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "align-middle ml-25" }, [
+                            _vm._v("Пополнить счет")
+                          ])
+                        ]
                       ),
                       _vm._v(" "),
                       _c(
-                        "router-link",
+                        "button",
                         {
                           directives: [
                             {
@@ -120509,61 +120490,234 @@ var render = function() {
                               expression: "isDemo"
                             }
                           ],
-                          staticClass: "nav-link",
-                          staticStyle: { "padding-top": "1.4rem" },
-                          attrs: { to: "/deposit" }
+                          staticClass: "btn btn-outline-warning w-100",
+                          style: { color: _vm.realButtonColor },
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push("/")
+                            },
+                            mouseover: function($event) {
+                              _vm.realButtonColor = "#FFF !important"
+                            },
+                            mouseleave: function($event) {
+                              _vm.realButtonColor = "#FDAC41 !important"
+                            }
+                          }
                         },
                         [
-                          [
-                            _c("animated-number", {
-                              attrs: {
-                                value: (1000).toFixed(2),
-                                formatValue: _vm.formatToPrice,
-                                duration: 1000
+                          _c("i", { staticClass: "bx bxs-briefcase-alt" }),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { staticClass: "align-middle ml-25 text-warning" },
+                            [_vm._v("Торговать на реальном счете")]
+                          )
+                        ]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("li", { staticClass: "nav-item" }, [
+                    _c(
+                      "h4",
+                      { class: { "mr-1": !_vm.isDemo } },
+                      [
+                        _c(
+                          "router-link",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: !_vm.isDemo,
+                                expression: "!isDemo"
                               }
-                            })
-                          ]
-                        ],
-                        2
+                            ],
+                            staticClass: "nav-link",
+                            staticStyle: { "padding-top": "1.4rem" },
+                            attrs: { to: "/deposit" }
+                          },
+                          [
+                            [
+                              _c("animated-number", {
+                                attrs: {
+                                  value: parseFloat(_vm.balance).toFixed(2),
+                                  formatValue: _vm.formatToPrice,
+                                  duration: 1000
+                                }
+                              })
+                            ]
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.isDemo,
+                                expression: "isDemo"
+                              }
+                            ],
+                            staticClass: "nav-link",
+                            staticStyle: { "padding-top": "1.4rem" },
+                            attrs: { to: "/deposit" }
+                          },
+                          [
+                            [
+                              _c("animated-number", {
+                                attrs: {
+                                  value: (1000).toFixed(2),
+                                  formatValue: _vm.formatToPrice,
+                                  duration: 1000
+                                }
+                              })
+                            ]
+                          ],
+                          2
+                        )
+                      ],
+                      1
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.isDemo,
+                          expression: "isDemo"
+                        }
+                      ],
+                      staticClass: "nav-item mr-1 cursor-pointer"
+                    },
+                    [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c(
+                        "b-tooltip",
+                        { attrs: { target: "disabled-wrapper" } },
+                        [_vm._v("Сделать баланс равным 1000 $")]
                       )
                     ],
                     1
-                  )
-                ]),
-                _vm._v(" "),
+                  ),
+                  _vm._v(" "),
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _vm._m(4)
+                ])
+              ]
+            )
+          ])
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "discountModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "discountModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass: "modal-dialog gradient-border",
+            staticStyle: { top: "25vh" },
+            attrs: { role: "document" }
+          },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(5),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
                 _c(
-                  "li",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.isDemo,
-                        expression: "isDemo"
-                      }
-                    ],
-                    staticClass: "nav-item mr-1 cursor-pointer"
-                  },
+                  "div",
+                  { staticClass: "text-center" },
                   [
-                    _vm._m(2),
+                    _c("div", { staticClass: "text-center mb-2" }, [
+                      _vm._v(
+                        "\n              Специально для Вас мы подготовили скидку 50% на первое пополнение, используйте её чтобы получить больше прибыли.\n            "
+                      )
+                    ]),
                     _vm._v(" "),
-                    _c("b-tooltip", { attrs: { target: "disabled-wrapper" } }, [
-                      _vm._v("Сделать баланс равным 1000 $")
-                    ])
+                    _c("vue-countdown-timer", {
+                      attrs: {
+                        "start-time": "2020-01-01 00:00:00",
+                        "end-time": new Date().getTime() + 3600 * 4 * 1000,
+                        interval: 1000
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "countdown",
+                          fn: function(scope) {
+                            return [
+                              _c("div", { staticClass: "row" }, [
+                                _c("div", { staticClass: "col-md-3" }),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-2" }, [
+                                  _c("h1", { staticClass: "mb-0" }, [
+                                    _vm._v(_vm._s(scope.props.hours))
+                                  ]),
+                                  _c("p", { staticClass: "count-down" }, [
+                                    _vm._v("Часа")
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-2" }, [
+                                  _c("h1", { staticClass: "mb-0" }, [
+                                    _vm._v(_vm._s(scope.props.minutes))
+                                  ]),
+                                  _c("p", { staticClass: "count-down" }, [
+                                    _vm._v("Минут")
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-2" }, [
+                                  _c("h1", { staticClass: "mb-0" }, [
+                                    _vm._v(_vm._s(scope.props.seconds))
+                                  ]),
+                                  _c("p", { staticClass: "count-down" }, [
+                                    _vm._v("Секунд")
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "col-md-3" })
+                              ])
+                            ]
+                          }
+                        }
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _vm._m(6)
                   ],
                   1
-                ),
-                _vm._v(" "),
-                _vm._m(3),
-                _vm._v(" "),
-                _vm._m(4)
-              ])
-            ]
-          )
-        ])
-      ])
-    ]
-  )
+                )
+              ]),
+              _vm._v(" "),
+              _vm._m(7)
+            ])
+          ]
+        )
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -120673,7 +120827,7 @@ var staticRenderFns = [
               },
               [
                 _c("i", { staticClass: "flag-icon flag-icon-us mr-50" }),
-                _vm._v(" English\n                            ")
+                _vm._v(" English\n                              ")
               ]
             ),
             _vm._v(" "),
@@ -120685,7 +120839,7 @@ var staticRenderFns = [
               },
               [
                 _c("i", { staticClass: "flag-icon flag-icon-fr mr-50" }),
-                _vm._v(" French\n                            ")
+                _vm._v(" French\n                              ")
               ]
             ),
             _vm._v(" "),
@@ -120697,7 +120851,7 @@ var staticRenderFns = [
               },
               [
                 _c("i", { staticClass: "flag-icon flag-icon-de mr-50" }),
-                _vm._v(" German\n                            ")
+                _vm._v(" German\n                              ")
               ]
             ),
             _vm._v(" "),
@@ -120709,7 +120863,7 @@ var staticRenderFns = [
               },
               [
                 _c("i", { staticClass: "flag-icon flag-icon-pt mr-50" }),
-                _vm._v(" Portuguese\n                            ")
+                _vm._v(" Portuguese\n                              ")
               ]
             )
           ]
@@ -120754,12 +120908,12 @@ var staticRenderFns = [
       _c("div", { staticClass: "dropdown-menu dropdown-menu-right pb-0" }, [
         _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
           _c("i", { staticClass: "bx bx-user mr-50" }),
-          _vm._v(" Edit Profile\n                            ")
+          _vm._v(" Edit Profile\n                              ")
         ]),
         _vm._v(" "),
         _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
           _c("i", { staticClass: "bx bx-envelope mr-50" }),
-          _vm._v(" My Inbox\n                            ")
+          _vm._v(" My Inbox\n                              ")
         ]),
         _vm._v(" "),
         _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
@@ -120769,7 +120923,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
           _c("i", { staticClass: "bx bx-message mr-50" }),
-          _vm._v(" Chats\n                            ")
+          _vm._v(" Chats\n                              ")
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "dropdown-divider mb-0" }),
@@ -120779,6 +120933,55 @@ var staticRenderFns = [
           _vm._v(" Logout")
         ])
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Специальное предложение!")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-center" }, [
+      _vm._v(
+        "\n              Пополните сейчас, чтобы успеть испоьзовать промокод "
+      ),
+      _c("code", [_vm._v("START50BONUS")]),
+      _vm._v(" и начать уверенно торговать!\n            ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-footer" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-warning", attrs: { type: "button" } },
+        [_vm._v("Пополнить баланс")]
+      )
     ])
   }
 ]

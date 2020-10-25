@@ -1,4 +1,5 @@
 <template>
+  <div>
     <nav class="header-navbar main-header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top" data-bgcolor="bg-white">
         <div class="navbar-wrapper">
             <div class="navbar-container content">
@@ -29,7 +30,7 @@
                           <button type="button" class="btn btn-success glow w-100" v-show="!isDemo">
                               <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">Пополнить счет</span>
                           </button>
-                          <button v-show="isDemo" type="button" class="btn btn-outline-warning w-100" v-bind:style="{ color: realButtonColor }" @mouseover="realButtonColor='#FFF !important'" @mouseleave="realButtonColor='#FDAC41 !important'">
+                          <button @click="$router.push('/')" v-show="isDemo" type="button" class="btn btn-outline-warning w-100" v-bind:style="{ color: realButtonColor }" @mouseover="realButtonColor='#FFF !important'" @mouseleave="realButtonColor='#FDAC41 !important'">
                             <i class="bx bxs-briefcase-alt"></i>
                             <span class="align-middle ml-25 text-warning">Торговать на реальном счете</span>
                           </button>
@@ -104,6 +105,50 @@
             </div>
         </div>
     </nav>
+    <!-- Modal -->
+    <div class="modal fade" id="discountModal" tabindex="-1" role="dialog" aria-labelledby="discountModalLabel" aria-hidden="true">
+      <div class="modal-dialog gradient-border" role="document" style="top:25vh">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Специальное предложение!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <div class="text-center mb-2">
+                Специально для Вас мы подготовили скидку 50% на первое пополнение, используйте её чтобы получить больше прибыли.
+              </div>
+              <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="new Date().getTime() + 3600 * 4 * 1000" :interval="1000">
+                <template slot="countdown" slot-scope="scope">
+                  <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-2">
+                      <h1 class="mb-0">{{scope.props.hours}}</h1><p class="count-down">Часа</p>
+                    </div>
+                    <div class="col-md-2">
+                      <h1 class="mb-0">{{scope.props.minutes}}</h1><p class="count-down">Минут</p>
+                    </div>
+                    <div class="col-md-2">
+                      <h1 class="mb-0">{{scope.props.seconds}}</h1><p class="count-down">Секунд</p>
+                    </div>
+                    <div class="col-md-3"></div>
+                  </div>
+                </template>
+              </vue-countdown-timer>
+              <div class="text-center">
+                Пополните сейчас, чтобы успеть испоьзовать промокод <code>START50BONUS</code> и начать уверенно торговать!
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning">Пополнить баланс</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -115,6 +160,9 @@
             AnimatedNumber
         },
         mounted() {
+            setTimeout(() => {
+              //$('#discountModal').modal('show');
+            }, 5000);
             this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
             this.$echo.private('balance.'+this.user.id).listen('ChangeBalance', (payload) => {
                 this.balance = payload.balance;
@@ -148,5 +196,75 @@
         .lang-padding {
             padding: 17px 0 !important;
         }
+    }
+
+
+    .gradient-border {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Lato, sans-serif;
+      font-size: 1rem;
+      color: white;
+      background: #272e48;
+      border-radius: 3px;
+    }
+
+    .gradient-border::after {
+      position: absolute;
+      content: "";
+      top: calc(-1 * 3px);
+      left: calc(-1 * 3px);
+      z-index: -1;
+      width: calc(100% + 3px * 2);
+      height: calc(100% + 3px * 2);
+      background: linear-gradient(
+          60deg,
+          hsl(224, 85%, 66%),
+          hsl(269, 85%, 66%),
+          hsl(314, 85%, 66%),
+          hsl(359, 85%, 66%),
+          hsl(44, 85%, 66%),
+          hsl(89, 85%, 66%),
+          hsl(134, 85%, 66%),
+          hsl(179, 85%, 66%)
+      );
+      background-size: 300% 300%;
+      background-position: 0 50%;
+      border-radius: calc(2 * 3px);
+      animation: moveGradient 4s alternate infinite;
+    }
+
+    @keyframes moveGradient {
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .gradient-text {
+      text-align: center;
+      color: #f35626;
+      background-image: -webkit-linear-gradient(180deg, #f35626, #feab3a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-animation: hue 10s infinite linear;
+    }
+
+    @-webkit-keyframes hue {
+      from {
+        -webkit-filter: hue-rotate(0deg);
+      }
+      to {
+        -webkit-filter: hue-rotate(-360deg);
+      }
+    }
+
+    .count-down {
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+      font-family: 'Roboto', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
     }
 </style>
