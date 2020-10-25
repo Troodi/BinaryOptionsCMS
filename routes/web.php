@@ -20,7 +20,6 @@ Route::post('/payeer/status', 'Main\DepositController@processPayeer');
 Route::middleware(['auth'])->group(function () {
   // Трейдинг
   Route::post("/binary/buy", 'Main\TradingController@buySymbol');
-  Route::post("/data/opened", 'Main\TradingController@getOpenOrders');
   Route::get("/data/symbols", 'Main\SymbolsHistoryController@getExchanges');
   Route::get("/data/getAuthToken", 'Main\TradingController@getAuthToken');
   // Реферралы
@@ -34,6 +33,9 @@ Route::middleware(['auth'])->group(function () {
   Route::post("/trading/history", 'Main\TradingController@tradingHistory');
   Route::post("/trading/demo/history", 'Main\PromocodeController@demoTradingHistory');
   Route::post("/data/latest", 'Main\TradingController@getLatestOrders');
+  Route::post("/data/opened", 'Main\TradingController@getOpenOrders');
+  Route::post("/data/demo/latest", 'Main\TradingController@getLatestDemoOrders');
+  Route::post("/data/demo/opened", 'Main\TradingController@getOpenDemoOrders');
   // Профиль
   Route::post("/data/profile", 'Main\ProfileController@loadAllProfileData');
   Route::post("/data/changePassword", 'Main\ProfileController@changePassword');
