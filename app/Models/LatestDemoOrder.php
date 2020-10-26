@@ -11,8 +11,6 @@ class LatestDemoOrder extends Model
     'open_at',
   ];
 
-  protected $table = 'order_demo_history_1';
-
   protected $dateFormat = 'Y-m-d H:i:s.u';
   const UPDATED_AT = null;
 }
