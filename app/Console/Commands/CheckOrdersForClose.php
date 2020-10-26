@@ -171,8 +171,9 @@ class CheckOrdersForClose extends Command
         if($demo){
           $latest_order_table = 'latest_demo_orders';
         }
-        $last_id = DB::table($latest_order_table)->where('user_id', $open->user_id)->take(10)->latest()->get()->last();
-        if(isset($last_id) and $last_id->count() >= 10) {
+        $latest_order_table_instance = DB::table($latest_order_table)->where('user_id', $open->user_id);
+        $last_id = $latest_order_table_instance->take(10)->latest()->get()->last();
+        if($latest_order_table_instance->count() >= 10) {
           DB::table($latest_order_table)->where('id', '<=', $last_id->id)->delete();
         }
       }
