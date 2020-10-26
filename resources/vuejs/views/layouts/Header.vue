@@ -40,12 +40,12 @@
                             <h4 :class="{'mr-1': !isDemo}">
                                 <router-link to="/deposit" class="nav-link" style="padding-top:1.4rem" v-show="!isDemo">
                                     <template>
-                                        <animated-number :value="parseFloat(balance).toFixed(2)" :formatValue="formatToPrice" :duration="1000"/>
+                                        <animated-number :value="balance" :formatValue="formatToPrice" :duration="1000"/>
                                     </template>
                                 </router-link>
                                 <router-link to="/deposit" class="nav-link" style="padding-top:1.4rem" v-show="isDemo">
                                   <template>
-                                    <animated-number :value="(1000).toFixed(2)" :formatValue="formatToPrice" :duration="1000"/>
+                                    <animated-number :value="demo_balance" :formatValue="formatToPrice" :duration="1000"/>
                                   </template>
                                 </router-link>
                             </h4>
@@ -165,7 +165,10 @@
             }, 5000);
             this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
             this.$echo.private('balance.'+this.user.id).listen('ChangeBalance', (payload) => {
-                this.balance = payload.balance;
+                this.balance = parseFloat(payload.balance).toFixed(2);
+            });
+            this.$echo.private('demo_balance.'+this.user.id).listen('ChangeDemoBalance', (payload) => {
+              this.demo_balance = parseFloat(payload.balance).toFixed(2);
             });
             setInterval(() => {
                 axios.post('/ping');
@@ -173,7 +176,8 @@
         },
         data: function() {
             return {
-                balance: this.user.balance,
+                balance: parseFloat(this.user.balance).toFixed(2),
+                demo_balance: parseFloat(this.user.demo_balance).toFixed(2),
                 isDemo: false,
                 realButtonColor: '#FDAC41 !important'
             }

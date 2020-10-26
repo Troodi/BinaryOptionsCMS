@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Events\ChangeBalance;
+use App\Events\ChangeDemoBalance;
 use App\Http\Controllers\Controller;
 use App\MarketStatus;
 use App\Models\LatestDemoOrder;
@@ -148,7 +149,7 @@ class TradingController extends Controller
         $model->expiration = $seconds - 1;
         $model->timestamp = Carbon::parse($model->close_at)->timestamp;
         User::where('id', Auth::user()->id)->update(['demo_balance' => DB::raw('demo_balance-' . $request->amount)]);
-        //TODO broadcast(new ChangeDemoBalance(Auth::user()->balance - $request->amount, Auth::user()));
+        broadcast(new ChangeDemoBalance(Auth::user()->demo_balance - $request->amount, Auth::user()));
       }
       return $model;
     }
