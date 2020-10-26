@@ -2373,7 +2373,10 @@ __webpack_require__.r(__webpack_exports__);
     }, 5000);
     this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
     this.$echo["private"]('balance.' + this.user.id).listen('ChangeBalance', function (payload) {
-      _this.balance = payload.balance;
+      _this.balance = parseFloat(payload.balance).toFixed(2);
+    });
+    this.$echo["private"]('demo_balance.' + this.user.id).listen('ChangeDemoBalance', function (payload) {
+      _this.demo_balance = parseFloat(payload.balance).toFixed(2);
     });
     setInterval(function () {
       axios.post('/ping');
@@ -2381,7 +2384,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      balance: this.user.balance,
+      balance: parseFloat(this.user.balance).toFixed(2),
+      demo_balance: parseFloat(this.user.demo_balance).toFixed(2),
       isDemo: false,
       realButtonColor: '#FDAC41 !important'
     };
@@ -122000,7 +122004,7 @@ var render = function() {
                             [
                               _c("animated-number", {
                                 attrs: {
-                                  value: parseFloat(_vm.balance).toFixed(2),
+                                  value: _vm.balance,
                                   formatValue: _vm.formatToPrice,
                                   duration: 1000
                                 }
@@ -122029,7 +122033,7 @@ var render = function() {
                             [
                               _c("animated-number", {
                                 attrs: {
-                                  value: (1000).toFixed(2),
+                                  value: _vm.demo_balance,
                                   formatValue: _vm.formatToPrice,
                                   duration: 1000
                                 }

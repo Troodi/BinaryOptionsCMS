@@ -15,6 +15,10 @@ Broadcast::channel('balance.{id}', function ($user, $id) {
   return (int) $user->id === (int) $id;
 });
 
+Broadcast::channel('demo_balance.{id}', function ($user, $id) {
+  return (int) $user->id === (int) $id;
+});
+
 Broadcast::channel('closed.{id}', function ($user, $id) {
   return (int) $user->id === (int) $id;
 });
