@@ -199,6 +199,17 @@ class TradingController extends Controller
     return Datatables::of($history)->make();
   }
 
+  public function demoTradingHistory(Request $request){
+    $history = DB::table('order_demo_history_1')->where('user_id', Auth::user()->id)->get();
+    return Datatables::of($history)->make();
+  }
+
+  public function refillDemoBalance(Request $request){
+    User::where('id', Auth::user()->id)->update(['demo_balance' => 1000]);
+    broadcast(new ChangeDemoBalance(1000, Auth::user()));
+    return response()->json(['success' => true, 'message' => 'Баланс демо счета успешно восстановлен!']);
+  }
+
   public function ping(Request $request){
     return null;
   }
