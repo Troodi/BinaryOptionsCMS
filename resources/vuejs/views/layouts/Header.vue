@@ -50,7 +50,7 @@
                                 </router-link>
                             </h4>
                         </li>
-                        <li class="nav-item mr-1 cursor-pointer" v-show="isDemo">
+                        <li class="nav-item mr-1 cursor-pointer" @click="refillDemoBalance" v-show="isDemo">
                           <div id="disabled-wrapper" class="font-animated mx-auto text-center" style="margin-top: 19px;">
                             <div class="fonticon-wrap">
                               <i class="livicon-evo" data-options="name: refresh.svg; size: 30px; style: lines-alt;"></i>
@@ -185,6 +185,23 @@
         methods: {
             formatToPrice(value) {
                 return `${value.toFixed(2)} $`;
+            },
+            refillDemoBalance: function (){
+              let self = this;
+              axios.post('/data/demo/refill')
+                  .then(function (response) {
+                    if(response.data.success === true) {
+                      toastr.success(response.data.message, 'Успешно!', {
+                        positionClass: 'toast-bottom-left',
+                        containerId: 'toast-bottom-left'
+                      });
+                    } else {
+                      toastr.error(response.data.message, 'Ошибка!', {
+                        positionClass: 'toast-bottom-left',
+                        containerId: 'toast-bottom-left'
+                      });
+                    }
+                  });
             }
         },
       watch:{

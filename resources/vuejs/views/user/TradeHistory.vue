@@ -78,127 +78,10 @@
             let self = this;
             axios.get('/data/symbols')
                 .then(function (response) {
-                    self.symbols = response.data;
-                    $('#history').DataTable({
-                        "iDisplayLength": 10,
-                        "processing": true,
-                        "serverSide": true,
-                        "order": [[6, "desc"]],
-                        "drawCallback": function(settings) {
-                            $('[data-toggle="popover"]').popover({ html : true });
-                        },
-                        "ajax": {
-                            url: "/trading/history",
-                            type: "POST"
-                        },
-                        "language": {
-                            "url": "/locales/Russian.json"
-                        },
-                        columns: [
-                            {
-                                orderable: false,
-                                searchable: false,
-                                data: 'amount',
-                                name: 'amount',
-                                render: function(data, type) {
-                                    return parseFloat(data).toFixed(2) + ' $';
-                                }
-                            },
-                            {
-                                orderable: false,
-                                searchable: false,
-                                data: 'amount',
-                                name: 'amount',
-                                render: function(data, type, row) {
-                                    let path = 'выше';
-                                    let classname = 'success';
-                                    if(row.type === 0){
-                                        path = 'ниже';
-                                        classname = 'danger';
-                                    }
-                                    return '<div class="badge badge-secondary cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' +
-                                                'Дополнительная информация" data-content="' +
-                                                'Цена открытия: ' + row.open_price + '<br>' +
-                                                'Цена закрытия: '+ row.close_price+'<br>' +
-                                                'Направление: <div class=\'badge badge-'+classname+'\'>'+path+'</div><br>' +
-                                                'Время открытия: '+dateformat(row.open_at, 'HH:MM:ss dd-mm-yyyy')+'<br>' +
-                                                'Время закрытия: '+dateformat(row.close_at, 'HH:MM:ss dd-mm-yyyy')+'' +
-                                            '">Дополнительно</div>'
-                                }
-                            },
-                            {
-                                data: 'profit',
-                                name: 'profit',
-                                orderable: false,
-                                searchable: false,
-                                render: function(data, type) {
-                                    let classname = 'success';
-                                    if (type === 'display') {
-                                        if(data > 0){
-                                            classname = 'success';
-                                        } else {
-                                            classname = 'danger';
-                                        }
-
-                                    }
-                                    return '<div class="badge badge-' + classname + '">' + parseFloat(data).toFixed(2) + ' $</div>';
-                                }
-                            },
-                            {
-                                data: 'symbol_id',
-                                name: 'symbol_id',
-                                orderable: false,
-                                searchable: false,
-                                render: function(data, type) {
-                                    let symbol = '';
-                                    if (type === 'display') {
-                                        symbol = self.symbols.find(x => x.id === data).symbol;
-                                    }
-                                    return '<div class="badge badge-primary">' + symbol + '</div>';
-                                }
-                            },
-                            {
-                                orderable: false,
-                                searchable: false,
-                                data: 'percent',
-                                name: 'percent',
-                                render: function(data, type) {
-                                    return parseFloat(data).toFixed(2) + ' %';
-                                }
-                            },
-                            {
-                                orderable: false,
-                                searchable: false,
-                                data: 'close_at',
-                                name: 'close_at',
-                                render: function(data, type, row) {
-                                    let date = new Date();
-                                    if (type === 'display') {
-                                        date = new Date(new Date(row.close_at).getTime() - new Date(row.open_at).getTime());
-                                        date.setHours(date.getHours() + new Date().getTimezoneOffset() / 60);
-                                    }
-                                    return dateformat(date, 'HH:MM:ss');
-                                }
-                            },
-                            {
-                                data: 'created_at',
-                                name: 'created_at',
-                                render: function(data, type) {
-                                    let date = new Date();
-                                    if (type === 'display') {
-                                        date = new Date(data);
-                                    }
-                                    return dateformat(date, 'dd-mm-yyyy');
-                                }
-                            },
-                        ]
-                    });
+                  self.symbols = response.data;
+                  self.fillDT('#history', "/trading/history");
+                  self.fillDT('#demo-history', "/trading/demo/history");
                 });
-            $('#demo-history').DataTable({
-                "language": {
-                    "url": "/locales/Russian.json"
-                }
-            });
         },
         data: function () {
             return {
@@ -206,7 +89,123 @@
             }
         },
         methods: {
+          fillDT: function (element, url){
+            let self = this;
+            $(element).DataTable({
+              "iDisplayLength": 10,
+              "processing": true,
+              "serverSide": true,
+              "order": [[6, "desc"]],
+              "drawCallback": function(settings) {
+                $('[data-toggle="popover"]').popover({ html : true });
+              },
+              "ajax": {
+                url: url,
+                type: "POST"
+              },
+              "language": {
+                "url": "/locales/Russian.json"
+              },
+              columns: [
+                {
+                  orderable: false,
+                  searchable: false,
+                  data: 'amount',
+                  name: 'amount',
+                  render: function(data, type) {
+                    return parseFloat(data).toFixed(2) + ' $';
+                  }
+                },
+                {
+                  orderable: false,
+                  searchable: false,
+                  data: 'amount',
+                  name: 'amount',
+                  render: function(data, type, row) {
+                    let path = 'выше';
+                    let classname = 'success';
+                    if(row.type === 0){
+                      path = 'ниже';
+                      classname = 'danger';
+                    }
+                    return '<div class="badge badge-secondary cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' +
+                        'Дополнительная информация" data-content="' +
+                        'Цена открытия: ' + row.open_price + '<br>' +
+                        'Цена закрытия: '+ row.close_price+'<br>' +
+                        'Направление: <div class=\'badge badge-'+classname+'\'>'+path+'</div><br>' +
+                        'Время открытия: '+dateformat(row.open_at, 'HH:MM:ss dd-mm-yyyy')+'<br>' +
+                        'Время закрытия: '+dateformat(row.close_at, 'HH:MM:ss dd-mm-yyyy')+'' +
+                        '">Дополнительно</div>'
+                  }
+                },
+                {
+                  data: 'profit',
+                  name: 'profit',
+                  orderable: false,
+                  searchable: false,
+                  render: function(data, type) {
+                    let classname = 'success';
+                    if (type === 'display') {
+                      if(data > 0){
+                        classname = 'success';
+                      } else {
+                        classname = 'danger';
+                      }
 
+                    }
+                    return '<div class="badge badge-' + classname + '">' + parseFloat(data).toFixed(2) + ' $</div>';
+                  }
+                },
+                {
+                  data: 'symbol_id',
+                  name: 'symbol_id',
+                  orderable: false,
+                  searchable: false,
+                  render: function(data, type) {
+                    let symbol = '';
+                    if (type === 'display') {
+                      symbol = self.symbols.find(x => x.id === data).symbol;
+                    }
+                    return '<div class="badge badge-primary">' + symbol + '</div>';
+                  }
+                },
+                {
+                  orderable: false,
+                  searchable: false,
+                  data: 'percent',
+                  name: 'percent',
+                  render: function(data, type) {
+                    return parseFloat(data).toFixed(2) + ' %';
+                  }
+                },
+                {
+                  orderable: false,
+                  searchable: false,
+                  data: 'close_at',
+                  name: 'close_at',
+                  render: function(data, type, row) {
+                    let date = new Date();
+                    if (type === 'display') {
+                      date = new Date(new Date(row.close_at).getTime() - new Date(row.open_at).getTime());
+                      date.setHours(date.getHours() + new Date().getTimezoneOffset() / 60);
+                    }
+                    return dateformat(date, 'HH:MM:ss');
+                  }
+                },
+                {
+                  data: 'created_at',
+                  name: 'created_at',
+                  render: function(data, type) {
+                    let date = new Date();
+                    if (type === 'display') {
+                      date = new Date(data);
+                    }
+                    return dateformat(date, 'dd-mm-yyyy');
+                  }
+                },
+              ]
+            });
+          }
         }
     }
 </script>

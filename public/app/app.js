@@ -2393,6 +2393,22 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     formatToPrice: function formatToPrice(value) {
       return "".concat(value.toFixed(2), " $");
+    },
+    refillDemoBalance: function refillDemoBalance() {
+      var self = this;
+      axios.post('/data/demo/refill').then(function (response) {
+        if (response.data.success === true) {
+          toastr.success(response.data.message, 'Успешно!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        } else {
+          toastr.error(response.data.message, 'Ошибка!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        }
+      });
     }
   },
   watch: {
@@ -4460,7 +4476,17 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
     var self = this;
     axios.get('/data/symbols').then(function (response) {
       self.symbols = response.data;
-      $('#history').DataTable({
+      self.fillDT('#history', "/trading/history");
+      self.fillDT('#demo-history', "/trading/demo/history");
+    });
+  },
+  data: function data() {
+    return {};
+  },
+  methods: {
+    fillDT: function fillDT(element, url) {
+      var self = this;
+      $(element).DataTable({
         "iDisplayLength": 10,
         "processing": true,
         "serverSide": true,
@@ -4471,7 +4497,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
           });
         },
         "ajax": {
-          url: "/trading/history",
+          url: url,
           type: "POST"
         },
         "language": {
@@ -4572,17 +4598,8 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
           }
         }]
       });
-    });
-    $('#demo-history').DataTable({
-      "language": {
-        "url": "/locales/Russian.json"
-      }
-    });
-  },
-  data: function data() {
-    return {};
-  },
-  methods: {}
+    }
+  }
 });
 
 /***/ }),
@@ -122058,7 +122075,8 @@ var render = function() {
                           expression: "isDemo"
                         }
                       ],
-                      staticClass: "nav-item mr-1 cursor-pointer"
+                      staticClass: "nav-item mr-1 cursor-pointer",
+                      on: { click: _vm.refillDemoBalance }
                     },
                     [
                       _vm._m(2),

@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
   Route::post("/promocode/history", 'Main\PromocodeController@promocodeHistory');
   // История сделок
   Route::post("/trading/history", 'Main\TradingController@tradingHistory');
-  Route::post("/trading/demo/history", 'Main\PromocodeController@demoTradingHistory');
+  Route::post("/trading/demo/history", 'Main\TradingController@demoTradingHistory');
   Route::post("/data/latest", 'Main\TradingController@getLatestOrders');
   Route::post("/data/opened", 'Main\TradingController@getOpenOrders');
   Route::post("/data/demo/latest", 'Main\TradingController@getLatestDemoOrders');
@@ -58,6 +58,7 @@ Route::middleware(['auth'])->group(function () {
   Route::post('/data/getDepositPromocodes', 'Main\PromocodeController@getDepositPromocodes');
   Route::post('/data/deposit', 'Main\DepositController@startDeposit');
   Route::post('/data/depositHistory', 'Main\DepositController@depositHistory');
+  Route::post("/data/demo/refill", 'Main\TradingController@refillDemoBalance');
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
