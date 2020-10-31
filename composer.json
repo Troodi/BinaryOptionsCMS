@@ -15,6 +15,8 @@
         "php": "^7.2.5",
         "ext-curl": "*",
         "ext-json": "*",
+        "ext-openssl": "*",
+        "biscolab/laravel-recaptcha": "^4.4",
         "dirape/token": "^2.3",
         "doctrine/dbal": "^2.10",
         "fideloper/proxy": "^4.2",
@@ -29,8 +31,7 @@
         "textalk/websocket": "^1.4",
         "troodi/laravel-auto-deploy": "dev-master",
         "twilio/sdk": "^6.10",
-        "yajra/laravel-datatables-oracle": "^9.11",
-        "ext-openssl": "*"
+        "yajra/laravel-datatables-oracle": "^9.11"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

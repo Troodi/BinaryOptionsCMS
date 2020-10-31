@@ -152569,7 +152569,14 @@ var routes = [{
   name: 'Поддержка',
   component: _views_user_Support__WEBPACK_IMPORTED_MODULE_7__["default"],
   meta: {
-    icon: 'comments'
+    icon: 'help'
+  }
+}, {
+  path: '/contacts',
+  name: 'Контакты',
+  component: _views_user_Support__WEBPACK_IMPORTED_MODULE_7__["default"],
+  meta: {
+    icon: 'phone-alt'
   }
 }, {
   path: '/logout',
@@ -153623,7 +153630,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\ospanel\domains\getoption.pro\resources\vuejs\app.js */"./resources/vuejs/app.js");
+module.exports = __webpack_require__(/*! E:\ospanel\domains\dev.go-trade.xyz\resources\vuejs\app.js */"./resources/vuejs/app.js");
 
 
 /***/ })

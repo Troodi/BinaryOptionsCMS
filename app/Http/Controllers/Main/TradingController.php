@@ -165,7 +165,6 @@ class TradingController extends Controller
         return $item;
       });
     }
-
   public function getLatestOrders(Request $request){
     return LatestOrder::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->get()->filter(function ($item) {
       $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->open_at));

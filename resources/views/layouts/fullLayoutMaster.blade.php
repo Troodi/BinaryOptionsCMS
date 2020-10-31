@@ -12,7 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('panels.styles')
   </head>
-  <body class="vertical-layout vertical-menu-modern 1-column navbar-sticky bg-full-screen-image blank-page footer-static dark-layout" data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
+  <body class="vertical-layout vertical-menu-modern 1-column navbar-sticky bg-full-screen-image blank-page footer-static" data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
    <div class="app-content content">
       <div class="content-overlay"></div>
       <div class="content-wrapper">
