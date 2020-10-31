@@ -16,7 +16,7 @@
 
     <!-- BEGIN: Page Vendor JS-->
     @yield('vendor-scripts')
-    <script src="/vendors/js/extensions/toastr.min.js"></script>
+    <script src="{{asset('vendors/js/extensions/toastr.min.js')}}"></script>
     <script src="{{asset('vendors/js/pickers/pickadate/legacy.js')}}"></script>
     <script src="{{asset('vendors/js/pickers/daterange/moment.min.js')}}"></script>
     <script src="{{asset('js/scripts/configs/vertical-menu-light.js')}}"></script>
@@ -31,6 +31,7 @@
     <!-- BEGIN: Page JS-->
     @yield('page-scripts')
     <!-- END: Page JS-->
+    @auth
     <script src="{{asset('app/app.js')}}"></script>
     <script>
         $.ajaxSetup({
@@ -47,3 +48,4 @@
             }
         });
     </script>
+    @endauth

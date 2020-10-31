@@ -30,7 +30,8 @@ export const routes = [
     { path: '/history', name: 'История торговли', component: History, meta: {icon: 'calendar'}},
     { path: '/profile', name: 'Профиль', component: Profile, meta: { icon: 'settings' }},
     { path: '/partner', name: 'Партнерский кабинет', component: Partner, meta: { icon: 'users' }},
-    { path: '/support', name: 'Поддержка', component: Support, meta: { icon: 'comments' } },
+    { path: '/support', name: 'Поддержка', component: Support, meta: { icon: 'help' } },
+    { path: '/contacts', name: 'Контакты', component: Support, meta: { icon: 'phone-alt' } },
     { path: '/logout', name: 'Выйти', component: Profile, meta: { icon: 'close' }},
 ];
 
