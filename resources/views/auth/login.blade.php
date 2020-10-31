@@ -71,8 +71,10 @@
                       <a href="{{ route('password.request') }}" class="card-link"><small>Forgot Password?</small></a>
                     </div>
                   </div>
-                  {!! htmlFormSnippet() !!}
-                  <button type="submit" class="btn btn-primary glow w-100 position-relative mt-1">Login
+                  @section('page-scripts')
+                    @component('components.recaptcha') @endcomponent
+                  @endsection
+                  <button type="button" class="btn btn-primary glow w-100 position-relative mt-1" data-toggle="modal" data-target="#captchaModal">Login
                     <i id="icon-arrow" class="bx bx-right-arrow-alt"></i>
                   </button>
                 </form>

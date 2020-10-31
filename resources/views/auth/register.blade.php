@@ -76,7 +76,9 @@
                       <a href="{{ route('password.request') }}" class="card-link"><small>Прочитать правила</small></a>
                     </div>
                   </div>
-                  @component('components.recaptcha') @endcomponent
+                  @section('page-scripts')
+                    @component('components.recaptcha') @endcomponent
+                  @endsection
                   <button type="button" class="mt-1 btn btn-primary glow position-relative w-100" data-toggle="modal" data-target="#captchaModal">SIGN UP<i
                     id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
                 </form>

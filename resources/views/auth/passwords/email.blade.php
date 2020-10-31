@@ -36,7 +36,7 @@
                   <small>Enter the email or phone number you used when you joined and we will send you temporary password</small>
                 </div>
                 {{-- form --}}
-                <form class="mb-2" method="POST" action="{{ route('password.email') }}">
+                <form class="mb-2" method="POST" action="{{ route('password.email') }}" id="checkCaptcha">
                   @csrf
                   <div class="form-group mb-2">
                     <label class="text-bold-600" for="email">Email or Phone</label>
@@ -47,8 +47,8 @@
                       </span>
                     @enderror
                   </div>
-                  {!! htmlFormSnippet() !!}
-                  <button type="submit" class="mt-1 btn btn-primary glow position-relative w-100">SEND PASSWORD
+                  @component('components.recaptcha') @endcomponent
+                  <button type="button" class="mt-1 btn btn-primary glow position-relative w-100" data-toggle="modal" data-target="#captchaModal">SEND PASSWORD
                     <i id="icon-arrow" class="bx bx-right-arrow-alt"></i>
                   </button>
                 </form>
