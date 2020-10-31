@@ -24,27 +24,25 @@
 </div>
 
 <textarea id="custom-g-recaptcha-response" name="custom-g-recaptcha-response" style="display:none;"></textarea>
-@section('page-scripts')
-    <style>
-        .g-recaptcha > div {
-            margin-left: auto !important;
-            margin-right: auto !important;
-        }
-    </style>
-    {!! htmlScriptTagJsApi() !!}
-    <script src="{{ asset('vendors/js/jquery.min.js') }}"></script>
-    <script type="text/javascript">
-        function callbackFunction() {
-            let token = grecaptcha.getResponse();
-            $('#checkCaptcha').submit();
-        }
+<style>
+    .g-recaptcha > div {
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+</style>
+{!! htmlScriptTagJsApi() !!}
+<script src="{{ asset('vendors/js/jquery.min.js') }}"></script>
+<script type="text/javascript">
+    function callbackFunction() {
+        let token = grecaptcha.getResponse();
+        $('#checkCaptcha').submit();
+    }
 
-        function expiredCallbackFunction(){
-            $('#custom-g-recaptcha-response').val('');
-        }
+    function expiredCallbackFunction(){
+        $('#custom-g-recaptcha-response').val('');
+    }
 
-        function errorCallbackFunction(){
-            $('#custom-g-recaptcha-response').val('');
-        }
-    </script>
-@show
+    function errorCallbackFunction(){
+        $('#custom-g-recaptcha-response').val('');
+    }
+</script>
