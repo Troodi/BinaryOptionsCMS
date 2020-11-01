@@ -9,7 +9,7 @@
 @section('content')
 <!-- login page start -->
 <section id="auth-login" class="row flexbox-container">
-  <div class="col-xl-4 col-11">
+  <div class="col-xl-4 col-lg-6 col-sm-8 col-11">
     <div class="card bg-authentication mb-0">
       <div class="row m-0">
         <!-- left section-login -->
@@ -71,9 +71,7 @@
                       <a href="{{ route('password.request') }}" class="card-link"><small>Forgot Password?</small></a>
                     </div>
                   </div>
-                  @section('page-scripts')
-                    @component('components.recaptcha') @endcomponent
-                  @endsection
+                  @component('components.recaptcha') @endcomponent
                   <button type="button" class="btn btn-primary glow w-100 position-relative mt-1" data-toggle="modal" data-target="#captchaModal">Login
                     <i id="icon-arrow" class="bx bx-right-arrow-alt"></i>
                   </button>

@@ -9,7 +9,17 @@
 @section('content')
 <!-- forgot password start -->
 <section class="row flexbox-container">
-  <div class="col-xl-4 сol-11  px-0">
+  <div class="col-xl-4 col-lg-6 col-sm-8 col-11">
+    @if (session('status'))
+      <div class="alert alert-success">
+        {{ session('status') }}
+      </div>
+    @endif
+    @if($errors->has('custom-g-recaptcha-response'))
+      <div class="alert alert-danger">
+        {{ $errors->first('custom-g-recaptcha-response') }}
+      </div>
+    @endif
     <div class="card bg-authentication mb-0">
       <div class="row m-0">
         <!-- left section-forgot password -->
