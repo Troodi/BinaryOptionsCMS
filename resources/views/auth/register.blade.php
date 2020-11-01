@@ -10,7 +10,7 @@
 @section('content')
 <!-- register section starts -->
 <section class="row flexbox-container">
-  <div class="col-xl-4 col-11">
+  <div class="col-xl-4 col-lg-6 col-sm-8 col-11">
     <div class="card bg-authentication mb-0">
       <div class="row m-0">
         <!-- register section left -->
@@ -76,9 +76,7 @@
                       <a href="{{ route('password.request') }}" class="card-link"><small>Прочитать правила</small></a>
                     </div>
                   </div>
-                  @section('page-scripts')
-                    @component('components.recaptcha') @endcomponent
-                  @endsection
+                  @component('components.recaptcha') @endcomponent
                   <button type="button" class="mt-1 btn btn-primary glow position-relative w-100" data-toggle="modal" data-target="#captchaModal">SIGN UP<i
                     id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
                 </form>

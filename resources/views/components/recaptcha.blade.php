@@ -35,6 +35,7 @@
 <script type="text/javascript">
     function callbackFunction() {
         let token = grecaptcha.getResponse();
+        $('#custom-g-recaptcha-response').val(token);
         $('#checkCaptcha').submit();
     }
 
