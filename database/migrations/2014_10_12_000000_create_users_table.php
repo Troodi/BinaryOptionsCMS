@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->decimal('demo_balance', 15, 4)->default(1000);
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('banned_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->decimal('bonus', 15, 4)->default(0);
             $table->decimal('all_turnover', 15, 4)->default(0);
             $table->decimal('left_turnover', 15, 4)->default(0);
