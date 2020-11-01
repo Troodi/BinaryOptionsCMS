@@ -11,6 +11,9 @@
 */
 Auth::routes();
 
+Route::get('login/{provider}', 'Main\SocialController@redirect');
+Route::get('login/{provider}/callback','Main\SocialController@Callback');
+
 Route::post('/event-twilio', 'Main\ProfileController@phoneEvent');
 Route::get('/mp3', 'Main\ProfileController@playMP3');
 Route::get('/offer/{code}', 'Main\ReferralController@setReferralCookie');

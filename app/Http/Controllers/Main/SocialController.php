@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Controllers\Main;
+
+use App\Helpers\Helper;
+use App\Http\Controllers\Controller;
+use App\Models\UserProvider;
+use App\Providers\RouteServiceProvider;
+use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+
+class SocialController extends Controller
+{
+  public function redirect($provider)
+  {
+    return Socialite::driver($provider)->redirect();
+  }
+
+  public function Callback($provider)
+  {
+    $userSocial = Socialite::driver($provider)->user();
+    if(empty($userSocial->user['email'])){
+      return redirect('/login')->withErrors(['social' => 'У аккаунта, который вы пытаетесь использовать не подтвержден email адрес']);
+    }
+    $model = UserProvider::where('provider_id', $userSocial->id)->where('provider', $provider);
+    if($model->count()){ // Если есть такой пользователь
+      Auth::loginUsingId($model->first()->user_id);
+    } else { // Если записи нет, регистрируем
+      $user_model = User::where('email', $userSocial->user['email']);
+      if(!$user_model->count()) {
+        $created = Helper::createUser(['email' => $userSocial->user['email'], 'password' => null]);
+        $user_id = $created->id;
+      } else {
+        $user_id = $user_model->first()->email;
+      }
+      $model = new UserProvider;
+      $model->user_id = $user_id;
+      $model->provider = $provider;
+      $model->provider_id = $userSocial->id;
+      $model->save();
+      Auth::loginUsingId($user_id);
+    }
+    return redirect(RouteServiceProvider::HOME);
+  }
+}

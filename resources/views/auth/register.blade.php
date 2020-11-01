@@ -11,6 +11,11 @@
 <!-- register section starts -->
 <section class="row flexbox-container">
   <div class="col-xl-4 col-lg-6 col-sm-8 col-11">
+    @if($errors->has('custom-g-recaptcha-response'))
+      <div class="alert alert-danger">
+        {{ $errors->first('custom-g-recaptcha-response') }}
+      </div>
+    @endif
     <div class="card bg-authentication mb-0">
       <div class="row m-0">
         <!-- register section left -->
@@ -25,11 +30,11 @@
             <div class="card-content">
               <div class="card-body">
                 <div class="d-flex flex-md-row flex-column justify-content-around mb-1">
-                  <a href="#" class="btn btn-social btn-google btn-block font-small-3 mr-md-1 mb-md-0 mb-1">
+                  <a href="/login/google" class="btn btn-social btn-google btn-block font-small-3 mr-md-1 mb-md-0 mb-1">
                     <i class="bx bxl-google font-medium-3"></i>
                     <span class="pl-50 d-block text-center">Google</span>
                   </a>
-                  <a href="#" class="btn btn-social btn-block mt-0 btn-facebook font-small-3">
+                  <a href="/login/facebook" class="btn btn-social btn-block mt-0 btn-facebook font-small-3">
                     <i class="bx bxl-facebook-square font-medium-3"></i>
                     <span class="pl-50 d-block text-center">Facebook</span>
                   </a>

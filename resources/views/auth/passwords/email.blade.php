@@ -72,10 +72,10 @@
                   <div class="divider-text">Or Sign in as</div>
                 </div>
                 <div class="d-flex flex-md-row flex-column">
-                  <a href="#" class="btn btn-social btn-google btn-block font-small-3 mb-1 mb-sm-1 mb-md-0 mr-md-1 text-center">
+                  <a href="/login/google" class="btn btn-social btn-google btn-block font-small-3 mb-1 mb-sm-1 mb-md-0 mr-md-1 text-center">
                     <i class="bx bxl-google font-medium-3"></i><span class="pl-1">Google</span>
                   </a>
-                  <a href="#" class="btn btn-social btn-facebook btn-block font-small-3 text-center mt-0">
+                  <a href="/login/facebook" class="btn btn-social btn-facebook btn-block font-small-3 text-center mt-0">
                     <i class="bx bxl-facebook-square font-medium-3"></i><span class="pl-1">Facebook</span>
                   </a>
                 </div>

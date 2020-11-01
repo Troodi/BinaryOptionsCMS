@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Models\Referral;
@@ -69,35 +70,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-      $token = new Token();
-      $token_string = $token->unique('users', 'token', 10);
-      $referer_id = null;
-      if(Cookie::get('offer')){
-        $token = Cookie::get('offer');
-        $referer = User::where('token', $token)->first();
-        if($referer){
-          $referer_id = $referer->id;
-        }
-      }
-      $create = User::create([
-        'email' => $data['email'],
-        'password' => Hash::make($data['password']),
-        'token' => $token_string,
-        'referer_id' => $referer_id,
-      ]);
-      if($referer_id) {
-        Referral::where('user_id', $referer_id)->update(['total_referrals' => DB::raw('total_referrals+1')]);
-      }
-
-      $profile = new Profile();
-      $profile->user_id = $create->id;
-      $profile->save();
-
-      $referral = new Referral();
-      $referral->user_id = $create->id;
-      $referral->save();
-
-      return $create;
+      return Helper::createUser($data);
     }
 
     // Register
