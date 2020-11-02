@@ -85,7 +85,14 @@ class TradingController extends Controller
         'type' => 'numeric|min:0|max:1',
         'demo' => 'numeric|min:0|max:1',
       ]);
+      $symbol = Symbol::where('id', $request->symbol)->firstOrFail();
+      if((Carbon::now()->hour >= $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
+        return response()->json(['message' => 'В данное время текущий символ не торгуется!'], 422);
+      }
       $seconds = $request->hours * 60 * 60 + $request->minutes * 60 + $request->seconds;
+      if((Carbon::now()->addSeconds($seconds)->hour > $symbol->work_to or Carbon::now()->addSeconds($seconds)->hour <= $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
+        return response()->json(['message' => 'Время окончания экспирации не может быть позднее времени работы символа!'], 422);
+      }
       if($seconds < 30){
         return response()->json(['message' => 'Min 30 seconds'], 422);
       }
@@ -100,7 +107,7 @@ class TradingController extends Controller
       }
       $market = MarketStatus::where('symbol_id', $request->symbol);
       if(!isset($market) || !$market->count()){
-        return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее!'], 422);
+        return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее! Ошибка #645.'], 422);
       }
       if($market->first()->market_status != 'market'){
         return response()->json(['message' => 'Данный инструмент закрыт для торговли, т.к. его рабочая сессия окончена!'], 422);
@@ -112,7 +119,7 @@ class TradingController extends Controller
       if($fisrt){
         $price = $fisrt->price;
       } else {
-        return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее!'], 422);
+        return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее! Ошибка #637.'], 422);
       }
       $hedge = 0;
       if(OpenOrders::where('user_id', Auth::user()->id)->where('symbol_id', $request->symbol)->where('type', '<>', $request->type)->count()){
