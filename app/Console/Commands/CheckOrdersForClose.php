@@ -76,12 +76,12 @@ class CheckOrdersForClose extends Command
         $profit = 0;
         $success = false;
         if(!isset($closed_price_obj) or !$closed_price_obj->count()){
-          $closed_price = -1;
+          continue;
         } else {
           $closed_price = $closed_price_obj->price;
         }
         $current_market = $market->where('symbol_id', $open->symbol_id)->first();
-        if(!Cache::has('latest_websocket_update') or time() - 5 > Cache::get('latest_websocket_update') or $closed_price == -1 or !isset($current_market) or !$current_market->count() or $current_market->market_status != 'market'){ // Проверка на закрытие рынка на момент закрытия сделки
+        if(((Carbon::now()->hour >= $closed_price_obj->work_to or Carbon::now()->hour < $closed_price_obj->work_from) and ($closed_price_obj->work_from != $closed_price_obj->work_to)) or !Cache::has('latest_websocket_update') or time() - 5 > Cache::get('latest_websocket_update') or $closed_price == -1 or !isset($current_market) or !$current_market->count() or $current_market->market_status != 'market'){ // Проверка на закрытие рынка на момент закрытия сделки
           $closed_price = $open->open_price;
           $profit = $open->amount;
           $success = true;

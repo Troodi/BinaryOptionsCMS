@@ -142804,7 +142804,7 @@ var configurationData = {
   supported_resolutions: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H'],
   exchanges: [{
     value: 'Binary',
-    name: 'Binary Option',
+    name: 'Options',
     desc: 'Бинарные опционы'
   }],
   symbols_types: [{
@@ -142849,7 +142849,7 @@ function _getAllSymbols() {
                       symbol: symbol.symbol,
                       full_name: "Binary:" + symbol.symbol,
                       broker: symbol.broker,
-                      description: symbol.percent.toString() + '%',
+                      description: symbol.percent === 0 ? 'Закрыто' : symbol.percent.toString() + '%',
                       percent: symbol.percent,
                       exchange: exchange.value,
                       type: 'forex'
