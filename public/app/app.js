@@ -4933,6 +4933,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -127458,8 +127466,36 @@ var render = function() {
                           {
                             name: "show",
                             rawName: "v-show",
-                            value: _vm.percent !== "",
-                            expression: "percent !== ''"
+                            value:
+                              isNaN(parseInt(_vm.percent)) &&
+                              _vm.percent !== "",
+                            expression:
+                              "isNaN(parseInt(percent)) && percent !== ''"
+                          }
+                        ],
+                        staticClass:
+                          "disabled btn btn-success mb-1 w-100 btn-lg",
+                        attrs: { type: "button", disabled: "disabled" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                      Рынок закрыт\n                                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value:
+                              _vm.percent !== "" &&
+                              !isNaN(parseInt(_vm.percent)),
+                            expression:
+                              "percent !== '' && !isNaN(parseInt(percent))"
                           }
                         ],
                         staticClass: "btn btn-success glow w-100 btn-lg",
@@ -127511,8 +127547,36 @@ var render = function() {
                           {
                             name: "show",
                             rawName: "v-show",
-                            value: _vm.percent !== "",
-                            expression: "percent !== ''"
+                            value:
+                              isNaN(parseInt(_vm.percent)) &&
+                              _vm.percent !== "",
+                            expression:
+                              "isNaN(parseInt(percent)) && percent !== ''"
+                          }
+                        ],
+                        staticClass:
+                          "disabled btn btn-danger mb-1 w-100 btn-lg",
+                        attrs: { type: "button", disabled: "disabled" }
+                      },
+                      [
+                        _vm._v(
+                          "\n                                      Рынок закрыт\n                                    "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value:
+                              _vm.percent !== "" &&
+                              !isNaN(parseInt(_vm.percent)),
+                            expression:
+                              "percent !== '' && !isNaN(parseInt(percent))"
                           }
                         ],
                         staticClass: "btn btn-danger glow w-100 mt-1 btn-lg",

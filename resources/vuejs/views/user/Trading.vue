@@ -134,7 +134,11 @@
                                         Загрузка...
                                     </button>
 
-                                    <button v-show="percent !== ''" type="button" @click="buy" class="btn btn-success glow w-100 btn-lg" v-bind:disabled="isButtonDisabled">
+                                    <button v-show="isNaN(parseInt(percent)) && percent !== ''" class="disabled btn btn-success mb-1 w-100 btn-lg" type="button" disabled="disabled">
+                                      Рынок закрыт
+                                    </button>
+
+                                    <button v-show="percent !== '' && !isNaN(parseInt(percent))" type="button" @click="buy" class="btn btn-success glow w-100 btn-lg" v-bind:disabled="isButtonDisabled">
                                         <i class="bx bx-trending-up"></i> <span class="align-middle ml-25" v-text="percent"></span>
                                     </button>
 
@@ -143,7 +147,11 @@
                                         Загрузка...
                                     </button>
 
-                                    <button v-show="percent !== ''" @click="sell" type="button" class="btn btn-danger glow w-100 mt-1 btn-lg" v-bind:disabled="isButtonDisabled">
+                                    <button v-show="isNaN(parseInt(percent)) && percent !== ''" class="disabled btn btn-danger mb-1 w-100 btn-lg" type="button" disabled="disabled">
+                                      Рынок закрыт
+                                    </button>
+
+                                    <button v-show="percent !== '' && !isNaN(parseInt(percent))" @click="sell" type="button" class="btn btn-danger glow w-100 mt-1 btn-lg" v-bind:disabled="isButtonDisabled">
                                         <i class="bx bx-trending-down"></i><span class="align-middle ml-25" v-text="percent"></span>
                                     </button>
                                     <hr class="mt-2" id="line">
