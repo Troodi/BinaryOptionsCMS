@@ -21,7 +21,9 @@
 
   <div class="sidenav-overlay"></div>
   <div class="drag-target"></div>
-
+  <button class="btn btn-primary btn-icon scroll-top" type="button">
+    <i class="bx bx-up-arrow-alt"></i>
+  </button>
   <!-- BEGIN: Footer-->
   <footer-component></footer-component>
   <!-- END: Footer-->
