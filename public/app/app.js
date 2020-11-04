@@ -3631,6 +3631,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3723,6 +3747,7 @@ __webpack_require__.r(__webpack_exports__);
         self.document_second_page_verify_at = response.data.profile.document_second_page_verify_at;
         self.document_additional_verify_at = response.data.profile.document_additional_verify_at;
         self.user_verify_at = response.data.profile.user_verify_at;
+        self.provider = response.data.provider;
       });
     },
     changePassword: function changePassword() {
@@ -3941,10 +3966,21 @@ __webpack_require__.r(__webpack_exports__);
       main_success: [],
       general_success: [],
       password_success: [],
-      user_verify_at: null
+      user_verify_at: null,
+      provider: []
     };
   },
   computed: {
+    disable_google: function disable_google() {
+      return typeof this.provider.find(function (x) {
+        return x.provider === 'google';
+      }) !== 'undefined';
+    },
+    disable_facebook: function disable_facebook() {
+      return typeof this.provider.find(function (x) {
+        return x.provider === 'facebook';
+      }) !== 'undefined';
+    },
     main_error: function main_error() {
       // Проверка валидности полей личных данных
       var errors = [];
@@ -124584,6 +124620,103 @@ var render = function() {
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "d-flex flex-md-row flex-column justify-content-around"
+                    },
+                    [
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "btn btn-social btn-google btn-block font-small-3 mr-md-1 mb-md-0 mb-1",
+                          class: { disabled: _vm.disable_google },
+                          attrs: { href: "/login/google" }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "bx bxl-google font-medium-3"
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { staticClass: "pl-50 d-block text-center" },
+                            [
+                              _vm._v("Google "),
+                              _c(
+                                "small",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.disable_google,
+                                      expression: "disable_google"
+                                    }
+                                  ],
+                                  staticClass: "text-white"
+                                },
+                                [_vm._v("(прикреплено)")]
+                              )
+                            ]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "btn btn-social btn-block mt-0 btn-facebook font-small-3",
+                          class: { disabled: _vm.disable_facebook },
+                          attrs: { href: "/login/facebook" }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "bx bxl-facebook-square font-medium-3"
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "span",
+                            { staticClass: "pl-50 d-block text-center" },
+                            [
+                              _vm._v("Facebook "),
+                              _c(
+                                "small",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: _vm.disable_facebook,
+                                      expression: "disable_facebook"
+                                    }
+                                  ],
+                                  staticClass: "text-white"
+                                },
+                                [_vm._v("(прикреплено)")]
+                              )
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("div", { staticClass: "card" }, [
+              _vm._m(16),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
@@ -124669,7 +124802,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(16),
+                    _vm._m(17),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c(
@@ -124717,7 +124850,7 @@ var render = function() {
             staticClass: "alert bg-rgba-warning mb-2",
             attrs: { role: "alert" }
           },
-          [_vm._m(17)]
+          [_vm._m(18)]
         ),
         _vm._v(" "),
         _c(
@@ -124734,7 +124867,7 @@ var render = function() {
             staticClass: "alert bg-rgba-success mb-2",
             attrs: { role: "alert" }
           },
-          [_vm._m(18)]
+          [_vm._m(19)]
         ),
         _vm._v(" "),
         _vm._l(_vm.main_error, function(value) {
@@ -124745,7 +124878,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(19, true),
+              _vm._m(20, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -124770,7 +124903,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(20, true),
+              _vm._m(21, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -124790,7 +124923,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(21),
+              _vm._m(22),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -124859,7 +124992,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _vm._m(22),
+                        _vm._m(23),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -124989,7 +125122,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(23),
+                    _vm._m(24),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c(
@@ -125047,7 +125180,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(24, true),
+              _vm._m(25, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -125072,7 +125205,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(25, true),
+              _vm._m(26, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -125092,7 +125225,7 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(26),
+              _vm._m(27),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -125110,7 +125243,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(27)]
+                    [_vm._m(28)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -125131,7 +125264,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(28)]
+                    [_vm._m(29)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -125148,7 +125281,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(29)]
+                    [_vm._m(30)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -125200,7 +125333,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(30),
+              _vm._m(31),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -125218,7 +125351,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(31)]
+                    [_vm._m(32)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -125239,7 +125372,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(32)]
+                    [_vm._m(33)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -125256,7 +125389,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(33)]
+                    [_vm._m(34)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -125308,7 +125441,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(34),
+              _vm._m(35),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -125326,7 +125459,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(35)]
+                    [_vm._m(36)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -125347,7 +125480,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(36)]
+                    [_vm._m(37)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -125364,7 +125497,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(37)]
+                    [_vm._m(38)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -125673,6 +125806,14 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("Подключить соц. сети")])
+    ])
   },
   function() {
     var _vm = this
