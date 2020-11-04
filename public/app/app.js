@@ -2183,14 +2183,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Footer",
-  created: function created() {
-    console.log(); //this.$router.options.routes.meta.hideFooter
-  }
+  name: "Footer"
 });
 
 /***/ }),
@@ -120470,16 +120464,7 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("span", { staticClass: "float-right d-sm-inline-block d-none" }, [
         _vm._v("info@getoption.pro")
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary btn-icon scroll-top",
-          attrs: { type: "button" }
-        },
-        [_c("i", { staticClass: "bx bx-up-arrow-alt" })]
-      )
+      ])
     ])
   }
 ]
