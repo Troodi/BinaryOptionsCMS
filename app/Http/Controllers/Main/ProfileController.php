@@ -81,7 +81,7 @@ class ProfileController extends Controller
 
   //Загружаем информацию о профиле
   public function loadAllProfileData(Request $request){
-    return User::where('id', Auth::user()->id)->with('profile')->first();
+    return User::where('id', Auth::user()->id)->with('profile', 'provider')->first();
   }
 
   // Верификация телефона

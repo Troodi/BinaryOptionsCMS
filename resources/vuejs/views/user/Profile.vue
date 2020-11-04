@@ -250,6 +250,30 @@
             </div>
 
             <div class="row">
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Подключить соц. сети</h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <div class="d-flex flex-md-row flex-column justify-content-around">
+                        <a v-bind:class="{ 'disabled': disable_google }" href="/login/google" class="btn btn-social btn-google btn-block font-small-3 mr-md-1 mb-md-0 mb-1">
+                          <i class="bx bxl-google font-medium-3"></i>
+                          <span class="pl-50 d-block text-center">Google <small class="text-white" v-show="disable_google">(прикреплено)</small></span>
+                        </a>
+                        <a v-bind:class="{ 'disabled': disable_facebook }" href="/login/facebook" class="btn btn-social btn-block mt-0 btn-facebook font-small-3">
+                          <i class="bx bxl-facebook-square font-medium-3"></i>
+                          <span class="pl-50 d-block text-center">Facebook <small class="text-white" v-show="disable_facebook">(прикреплено)</small></span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
@@ -639,6 +663,7 @@
                         self.document_second_page_verify_at = response.data.profile.document_second_page_verify_at;
                         self.document_additional_verify_at = response.data.profile.document_additional_verify_at;
                         self.user_verify_at = response.data.profile.user_verify_at;
+                        self.provider = response.data.provider;
                     });
             },
             changePassword: function () {
@@ -827,9 +852,16 @@
                 general_success: [],
                 password_success: [],
                 user_verify_at: null,
+                provider: [],
             }
         },
         computed: {
+            disable_google: function (){
+              return typeof this.provider.find(x => x.provider === 'google') !== 'undefined';
+            },
+            disable_facebook: function (){
+              return typeof this.provider.find(x => x.provider === 'facebook') !== 'undefined';
+            },
             main_error: function () { // Проверка валидности полей личных данных
                 let errors = [];
                 if(this.name.length > 0 && this.name.length < 2){
