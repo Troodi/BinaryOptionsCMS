@@ -1,7 +1,6 @@
 <template>
     <div class="content-wrapper">
         <div class="content-body">
-
             <div v-for="value in error" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
@@ -49,20 +48,77 @@
                     </section>
                 </div>
             </div>
+
+            <div class="row">
+              <div class="col-md-4">
+                <section class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Контакты</h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <div class="card-text">
+                        <p>
+                          <strong>Наш email</strong>: <a href="mailto:info@go-trade.xyz">info@go-trade.xyz</a>
+                        </p>
+                        <p>
+                          <strong>Время работы</strong>: 09:00 - 23:00
+                        </p>
+                        <p>
+                          <strong>Телефон</strong>: скоро
+                        </p>
+                        <p>
+                          <strong>Адрес</strong>: Tartu maantee 13, 10117 Tallinn, Эстония
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Информация</h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <div class="card-text">
+                        <p style="margin-bottom: 7px;">
+                          Обратите внимание, что в текущей эпидемиологической ситуации сотрудники компании работают в удаленном режиме.
+                          В связи с этим обращения обрабатываются в письменном виде в штатном режиме.
+                        </p>
+                        <p>Благодарим за понимание!</p>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+              <div class="col-8">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Местоположение</h4>
+                  </div>
+                  <div class="card-content">
+                    <div class="card-body">
+                      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2028.9795209859203!2d24.760501722233876!3d59.43341610207085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4692935fa172bce7%3A0x7b478f8bf92430aa!2sTartu%20Invest%20O%C3%9C!5e0!3m2!1sru!2sru!4v1604776694925!5m2!1sru!2sru" width="100%" height="400" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Support",
-        data: function () {
-            return {
-                question: '',
-                success: []
-            }
-        },
-        methods: {
+      name: "Support",
+      data: function () {
+          return {
+              question: '',
+              success: []
+          }
+      },
+      methods: {
             clearForm: function () {
                 this.question = '';
             },

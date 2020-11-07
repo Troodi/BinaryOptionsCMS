@@ -4367,6 +4367,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Support",
   data: function data() {
@@ -126524,7 +126580,9 @@ var render = function() {
               ])
             ])
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _vm._m(3)
       ],
       2
     )
@@ -126572,6 +126630,97 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _c("h4", { staticClass: "card-title" }, [
         _vm._v("Обращение в техническую поддержку")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("section", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", { staticClass: "card-title" }, [_vm._v("Контакты")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "card-text" }, [
+                _c("p", [
+                  _c("strong", [_vm._v("Наш email")]),
+                  _vm._v(": "),
+                  _c("a", { attrs: { href: "mailto:info@go-trade.xyz" } }, [
+                    _vm._v("info@go-trade.xyz")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _c("strong", [_vm._v("Время работы")]),
+                  _vm._v(": 09:00 - 23:00\n                    ")
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _c("strong", [_vm._v("Телефон")]),
+                  _vm._v(": скоро\n                    ")
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _c("strong", [_vm._v("Адрес")]),
+                  _vm._v(
+                    ": Tartu maantee 13, 10117 Tallinn, Эстония\n                    "
+                  )
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("section", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", { staticClass: "card-title" }, [_vm._v("Информация")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "card-text" }, [
+                _c("p", { staticStyle: { "margin-bottom": "7px" } }, [
+                  _vm._v(
+                    "\n                      Обратите внимание, что в текущей эпидемиологической ситуации сотрудники компании работают в удаленном режиме.\n                      В связи с этим обращения обрабатываются в письменном виде в штатном режиме.\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", [_vm._v("Благодарим за понимание!")])
+              ])
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-8" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", { staticClass: "card-title" }, [_vm._v("Местоположение")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("iframe", {
+                staticStyle: { border: "0" },
+                attrs: {
+                  src:
+                    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2028.9795209859203!2d24.760501722233876!3d59.43341610207085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4692935fa172bce7%3A0x7b478f8bf92430aa!2sTartu%20Invest%20O%C3%9C!5e0!3m2!1sru!2sru!4v1604776694925!5m2!1sru!2sru",
+                  width: "100%",
+                  height: "400",
+                  frameborder: "0",
+                  allowfullscreen: "",
+                  "aria-hidden": "false",
+                  tabindex: "0"
+                }
+              })
+            ])
+          ])
+        ])
       ])
     ])
   }
@@ -152756,17 +152905,10 @@ var routes = [{
   }
 }, {
   path: '/support',
-  name: 'Поддержка',
+  name: 'Поддержка и контакты',
   component: _views_user_Support__WEBPACK_IMPORTED_MODULE_7__["default"],
   meta: {
     icon: 'help'
-  }
-}, {
-  path: '/contacts',
-  name: 'Контакты',
-  component: _views_user_Support__WEBPACK_IMPORTED_MODULE_7__["default"],
-  meta: {
-    icon: 'phone-alt'
   }
 }, {
   path: '/logout',
