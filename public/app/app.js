@@ -127601,10 +127601,8 @@ var render = function() {
                             name: "show",
                             rawName: "v-show",
                             value:
-                              isNaN(parseInt(_vm.percent)) &&
-                              _vm.percent !== "",
-                            expression:
-                              "isNaN(parseInt(percent)) && percent !== ''"
+                              _vm.number_percent === 0 && _vm.percent !== "",
+                            expression: "number_percent === 0 && percent !== ''"
                           }
                         ],
                         staticClass:
@@ -127626,10 +127624,8 @@ var render = function() {
                             name: "show",
                             rawName: "v-show",
                             value:
-                              _vm.percent !== "" &&
-                              !isNaN(parseInt(_vm.percent)),
-                            expression:
-                              "percent !== '' && !isNaN(parseInt(percent))"
+                              _vm.percent !== "" && _vm.number_percent !== 0,
+                            expression: "percent !== '' && number_percent !== 0"
                           }
                         ],
                         staticClass: "btn btn-success glow w-100 btn-lg",
@@ -127682,10 +127678,8 @@ var render = function() {
                             name: "show",
                             rawName: "v-show",
                             value:
-                              isNaN(parseInt(_vm.percent)) &&
-                              _vm.percent !== "",
-                            expression:
-                              "isNaN(parseInt(percent)) && percent !== ''"
+                              _vm.number_percent === 0 && _vm.percent !== "",
+                            expression: "number_percent === 0 && percent !== ''"
                           }
                         ],
                         staticClass:
@@ -127707,10 +127701,8 @@ var render = function() {
                             name: "show",
                             rawName: "v-show",
                             value:
-                              _vm.percent !== "" &&
-                              !isNaN(parseInt(_vm.percent)),
-                            expression:
-                              "percent !== '' && !isNaN(parseInt(percent))"
+                              _vm.percent !== "" && _vm.number_percent !== 0,
+                            expression: "percent !== '' && number_percent !== 0"
                           }
                         ],
                         staticClass: "btn btn-danger glow w-100 mt-1 btn-lg",

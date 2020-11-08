@@ -12,6 +12,7 @@ use App\Models\OpenDemoOrders;
 use App\Models\OpenOrders;
 use App\Models\Symbols\Options\Symbol;
 use App\Models\Symbols\Options\Ticks;
+use App\Models\SymbolShortStatistic;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -125,7 +126,7 @@ class TradingController extends Controller
       if(OpenOrders::where('user_id', Auth::user()->id)->where('symbol_id', $request->symbol)->where('type', '<>', $request->type)->count()){
         $hedge = 1;
       }
-      if(!$request->demo) {
+      if(!$request->demo) { // Если реальный счет
         $model = new OpenOrders();
         $model->symbol_id = $request->symbol;
         $model->user_id = Auth::user()->id;

@@ -20,6 +20,7 @@ location / {
 2. php artisan check:orders - запускает проверку на закрытие ордеров
 3. php artisan schedule:run - запускает выполнение задач по крону (прописать в крон)
 4. laravel-echo-server start - запускает вебсокет
+5. npm run watch - компиллирует все ресурсы
 
 ## Необходимые зависимости
 1. nodejs, npm
