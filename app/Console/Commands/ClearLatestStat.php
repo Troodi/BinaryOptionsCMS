@@ -4,17 +4,18 @@ namespace App\Console\Commands;
 
 use App\Models\Symbols\Options\Symbol;
 use App\Models\Symbols\Options\Ticks;
+use App\Models\SymbolShortStatistic;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
-class ClearTicksTable extends Command
+class ClearLatestStat extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'clear:ticks';
+    protected $signature = 'clear:stat';
 
     /**
      * The console command description.
@@ -40,16 +41,16 @@ class ClearTicksTable extends Command
      */
     public function handle()
     {
-      foreach(Symbol::all() as $symbol){
-        $count = Ticks::where('symbol_id', $symbol->id)->get();
-        if($count){
-          $id = Ticks::where('symbol_id', $symbol->id)->latest()->first()->id;
-          Ticks::where('symbol_id', $symbol->id)
-            ->where('created_at', '<', Carbon::now()->subMinutes(2))
-            ->where('id', '<', $id)
-            ->delete();
+        foreach(Symbol::all() as $symbol){
+          $count = SymbolShortStatistic::where('symbol_id', $symbol->id)->count();
+          if($count){
+            $id = SymbolShortStatistic::where('symbol_id', $symbol->id)->latest()->first()->id;
+            SymbolShortStatistic::where('symbol_id', $symbol->id)
+              ->where('created_at', '<', Carbon::now()->subMinutes(10))
+              ->where('id', '<', $id)
+              ->delete();
+          }
         }
-      }
-      return 0;
+        return 0;
     }
 }

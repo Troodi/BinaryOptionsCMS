@@ -19,6 +19,9 @@ class CreateSymbolsTable extends Migration
             $table->integer('type')->nullable();
             $table->string('broker')->default('FX');
             $table->integer('percent')->default(0);
+            $table->integer('min_percent')->default(25);
+            $table->integer('fixed_percent')->default(65);
+            $table->integer('max_percent')->default(85);
             $table->integer('work_from')->default(0);
             $table->integer('work_to')->default(0);
             $table->integer('status')->nullable();

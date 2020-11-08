@@ -12,6 +12,7 @@ use App\Models\OpenDemoOrders;
 use App\Models\OpenOrders;
 use App\Models\Referral;
 use App\Models\Symbols\Options\Ticks;
+use App\Models\SymbolShortStatistic;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -175,6 +176,13 @@ class CheckOrdersForClose extends Command
         $last_id = $latest_order_table_instance->take(10)->latest()->get()->last();
         if($latest_order_table_instance->count() >= 10) {
           DB::table($latest_order_table)->where('id', '<=', $last_id->id)->delete();
+        }
+        if(!$demo){
+          $model = new SymbolShortStatistic();
+          $model->symbol_id = $open->symbol_id;
+          $model->amount = $open->amount;
+          $model->profit = $profit;
+          $model->save();
         }
       }
     }
