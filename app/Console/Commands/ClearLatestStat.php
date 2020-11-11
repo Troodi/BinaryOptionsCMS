@@ -42,14 +42,9 @@ class ClearLatestStat extends Command
     public function handle()
     {
         foreach(Symbol::all() as $symbol){
-          $count = SymbolShortStatistic::where('symbol_id', $symbol->id)->count();
-          if($count){
-            $id = SymbolShortStatistic::where('symbol_id', $symbol->id)->latest()->first()->id;
-            SymbolShortStatistic::where('symbol_id', $symbol->id)
-              ->where('created_at', '<', Carbon::now()->subMinutes(10))
-              ->where('id', '<', $id)
-              ->delete();
-          }
+          SymbolShortStatistic::where('symbol_id', $symbol->id)
+            ->where('created_at', '<', Carbon::now()->subMinutes(10))
+            ->delete();
         }
         return 0;
     }

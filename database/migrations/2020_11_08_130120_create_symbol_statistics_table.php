@@ -18,8 +18,8 @@ class CreateSymbolStatisticsTable extends Migration
             $table->integer('symbol_id')->nullable()->index();
             $table->integer('daily_orders_count')->default(0);
             $table->integer('daily_orders_amount')->default(0);
-            $table->integer('daily_profit')->default(0);
-            $table->integer('daily_loss')->default(0);
+            $table->decimal('daily_profit', 15, 5)->default(0);
+            $table->decimal('daily_loss', 15, 5)->default(0);
             $table->integer('daily_profit_count')->default(0);
             $table->integer('daily_loss_count')->default(0);
             $table->timestamps();
