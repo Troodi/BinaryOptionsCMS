@@ -11,6 +11,7 @@ use App\Models\LatestOrder;
 use App\Models\OpenDemoOrders;
 use App\Models\OpenOrders;
 use App\Models\Referral;
+use App\Models\SymbolDemoStatistic;
 use App\Models\Symbols\Options\Ticks;
 use App\Models\SymbolShortStatistic;
 use App\Models\SymbolStatistic;
@@ -78,7 +79,7 @@ class CheckOrdersForClose extends Command
         $profit = 0;
         $success = false;
         if(!isset($closed_price_obj) or !$closed_price_obj->count()){
-          continue;
+          $closed_price = $open->open_price;
         } else {
           $closed_price = $closed_price_obj->price;
         }
@@ -190,6 +191,19 @@ class CheckOrdersForClose extends Command
           }
 
           SymbolStatistic::where('symbol_id', $open->symbol_id)->where('created_at', '>=', Carbon::today())->update([
+            'daily_orders_count' => DB::raw('daily_orders_count+1'),
+            'daily_orders_amount' => DB::raw("daily_orders_amount+$open->amount"),
+            'daily_profit' => DB::raw("daily_profit+".($profit > 0 ? strval($profit - $open->amount) : '0')),
+            'daily_loss' => DB::raw("daily_loss+".($profit == 0 ? strval($open->amount) : '0')),
+            'daily_profit_count' => DB::raw("daily_profit_count+".($profit > 0 ? '1' : '0')),
+            'daily_loss_count' => DB::raw("daily_loss_count+".($profit == 0 ? '1' : '0')),
+          ]);
+        } else {
+          if(!SymbolDemoStatistic::where('symbol_id', $open->symbol_id)->where('created_at', '>=', Carbon::today())->count()){
+            SymbolDemoStatistic::create(['symbol_id' => $open->symbol_id]);
+          }
+
+          SymbolDemoStatistic::where('symbol_id', $open->symbol_id)->where('created_at', '>=', Carbon::today())->update([
             'daily_orders_count' => DB::raw('daily_orders_count+1'),
             'daily_orders_amount' => DB::raw("daily_orders_amount+$open->amount"),
             'daily_profit' => DB::raw("daily_profit+".($profit > 0 ? strval($profit - $open->amount) : '0')),
