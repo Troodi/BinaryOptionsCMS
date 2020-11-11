@@ -13,6 +13,7 @@ use App\Models\OpenOrders;
 use App\Models\Referral;
 use App\Models\Symbols\Options\Ticks;
 use App\Models\SymbolShortStatistic;
+use App\Models\SymbolStatistic;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -183,6 +184,19 @@ class CheckOrdersForClose extends Command
           $model->amount = $open->amount;
           $model->profit = $profit;
           $model->save();
+
+          if(!SymbolStatistic::where('symbol_id', $open->symbol_id)->where('created_at', '>=', Carbon::today())->count()){
+            SymbolStatistic::create(['symbol_id' => $open->symbol_id]);
+          }
+
+          SymbolStatistic::where('symbol_id', $open->symbol_id)->where('created_at', '>=', Carbon::today())->update([
+            'daily_orders_count' => DB::raw('daily_orders_count+1'),
+            'daily_orders_amount' => DB::raw("daily_orders_amount+$open->amount"),
+            'daily_profit' => DB::raw("daily_profit+".($profit > 0 ? strval($profit - $open->amount) : '0')),
+            'daily_loss' => DB::raw("daily_loss+".($profit == 0 ? strval($open->amount) : '0')),
+            'daily_profit_count' => DB::raw("daily_profit_count+".($profit > 0 ? '1' : '0')),
+            'daily_loss_count' => DB::raw("daily_loss_count+".($profit == 0 ? '1' : '0')),
+          ]);
         }
       }
     }

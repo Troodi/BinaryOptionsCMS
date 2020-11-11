@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
       $schedule->command('clear:ticks')->everyMinute();
       $schedule->command('clear:deposit')->everyMinute();
       $schedule->command('set:percent')->everyMinute();
+      $schedule->command('clear:stat')->everyMinute();
     }
 
     /**

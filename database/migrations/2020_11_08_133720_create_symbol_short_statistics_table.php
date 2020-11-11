@@ -16,8 +16,8 @@ class CreateSymbolShortStatisticsTable extends Migration
         Schema::create('symbol_short_statistics', function (Blueprint $table) {
             $table->id();
             $table->integer('symbol_id')->nullable()->index();
-            $table->integer('amount')->default(0);
-            $table->integer('profit')->default(0);
+            $table->decimal('amount', 15, 5)->default(0);
+            $table->decimal('profit', 15, 5)->default(0);
             $table->timestamps();
         });
     }
