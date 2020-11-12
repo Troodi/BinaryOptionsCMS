@@ -21,3 +21,4 @@ laravel-echo-server.lock
 app/Http/Controllers/Main/cookie.txt
 .env
 laravel-echo-server.json
+app/Console/Commands/cookie.txt

@@ -32,20 +32,24 @@
     @yield('page-scripts')
     <!-- END: Page JS-->
     @auth
-    <script src="{{asset('app/app.js')}}"></script>
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            statusCode: {
-                401: function(){
-                    window.location = '/login';
+        @if($is_admin)
+            <script src="{{ mix('app/admin.js') }}"></script>
+        @else
+            <script src="{{ mix('app/app.js') }}"></script>
+        @endif
+        <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                419: function () {
-                    location.reload();
+                statusCode: {
+                    401: function(){
+                        window.location = '/login';
+                    },
+                    419: function () {
+                        location.reload();
+                    }
                 }
-            }
-        });
-    </script>
+            });
+        </script>
     @endauth
