@@ -64,5 +64,6 @@ Route::middleware(['auth'])->group(function () {
   Route::post("/data/demo/refill", 'Main\TradingController@refillDemoBalance');
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
+  Route::get('/admin/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
 });

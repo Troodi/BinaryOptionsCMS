@@ -138,7 +138,7 @@
                 </template>
               </vue-countdown-timer>
               <div class="text-center">
-                Пополните сейчас, чтобы успеть испоьзовать промокод <code>START50BONUS</code> и начать уверенно торговать!
+                Пополните сейчас, чтобы успеть использовать промокод <code>START50BONUS</code> и начать уверенно торговать!
               </div>
             </div>
           </div>

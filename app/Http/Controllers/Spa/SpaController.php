@@ -14,6 +14,13 @@ class SpaController extends Controller
    */
   public function index()
   {
-    return view('pages.main');
+    $is_admin = false;
+    return view('pages.main', compact('is_admin'));
+  }
+
+  public function admin()
+  {
+    $is_admin = true;
+    return view('pages.main', compact('is_admin'));
   }
 }
