@@ -8,21 +8,21 @@ import VueRouter from 'vue-router';
 //  * Import Components
 //  */
 // //Students
-import Trading from "../../views/user/Trading";
+import Statistics from "../../views/admin/Statistics";
 import Profile from "../../views/user/Profile";
-import Deposit from "../../views/user/Deposit";
-import Withdrawal from "../../views/user/Withdrawal";
-import Promocode from "../../views/user/Promocode";
+import Deposit from "../../views/admin/Deposit";
+import Withdrawal from "../../views/admin/Withdrawal";
+import Promocode from "../../views/admin/Promocode";
 
 //
 // /**
 //  * Routes for vue components
 //  */
 export const routes = [
-    { path: '/admin', name: 'Статистика системы', component: Trading, meta: { icon: 'desktop', hideFooter: true } },
-    { path: '/admin/demo', name: 'Пользователи', component: Trading, meta: { icon: 'line-chart', hideFooter: true, demoPage: true } },
-    { path: '/deposit', name: 'Пополения', component: Deposit, meta: { icon: 'bank'} },
-    { path: '/withdrawal', name: 'Выводы', component: Withdrawal, meta: { icon: 'coins' } },
+    { path: '/admin', name: 'Статистика системы', component: Statistics, meta: { icon: 'desktop', hideFooter: true } },
+    { path: '/admin/demo', name: 'Промокоды', component: Promocode, meta: { icon: 'line-chart', hideFooter: true } },
+    { path: '/admin/deposit', name: 'Пополения', component: Deposit, meta: { icon: 'bank'} },
+    { path: '/admin/withdrawal', name: 'Выплаты', component: Withdrawal, meta: { icon: 'coins' } },
     { path: '/promocodes', name: 'Мультиаккаунты', component: Promocode, meta: { icon: 'bulb' } },
     { path: '/logout', name: 'Выйти', component: Profile, meta: { icon: 'close' }},
 ];
