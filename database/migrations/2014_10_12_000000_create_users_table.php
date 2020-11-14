@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->string('token')->nullable();
+            $table->string('banned')->nullable();
             $table->integer('banned')->nullable();
             $table->integer('referer_id')->nullable();
             $table->decimal('balance', 15, 4)->default(0);

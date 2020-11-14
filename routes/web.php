@@ -20,7 +20,7 @@ Route::get('/offer/{code}', 'Main\ReferralController@setReferralCookie');
 Route::get('/test', 'Main\TestController@test');
 Route::post('/payeer/status', 'Main\DepositController@processPayeer');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'cheat'])->group(function () {
   // Трейдинг
   Route::post("/binary/buy", 'Main\TradingController@buySymbol');
   Route::get("/data/symbols", 'Main\SymbolsHistoryController@getExchanges');
@@ -64,6 +64,15 @@ Route::middleware(['auth'])->group(function () {
   Route::post("/data/demo/refill", 'Main\TradingController@refillDemoBalance');
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
-  Route::get('/admin/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
+
+  Route::middleware(['admin'])->prefix('admin')->group(function () {
+    Route::prefix('data')->group(function () {
+      Route::post("statistics", 'Admin\StatisticsController@getShortStatistics');
+      Route::post("users", 'Admin\StatisticsController@getAllUsers');
+      Route::post("daily", 'Admin\StatisticsController@getDailyStat');
+    });
+    Route::get('/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
+  });
+
   Route::get('/{uri}', 'Spa\SpaController@index')->where('uri', '.*');
 });

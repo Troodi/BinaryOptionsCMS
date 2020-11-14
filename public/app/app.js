@@ -151749,6 +151749,19 @@ __webpack_require__(/*! ./js/tv */ "./resources/vuejs/js/tv.js");
 
 
 
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+  statusCode: {
+    401: function _() {
+      window.location = '/login';
+    },
+    419: function _() {
+      location.reload();
+    }
+  }
+});
 
 var VueInputMask = __webpack_require__(/*! vue-inputmask */ "./node_modules/vue-inputmask/dist/vue-inputmask.js")["default"];
 

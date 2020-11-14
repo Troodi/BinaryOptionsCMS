@@ -2160,6 +2160,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -2447,11 +2451,184 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Statistics",
   mounted: function mounted() {
-    $('#users').DataTable();
-    $('#stat').DataTable();
+    var self = this;
+    axios.post('/admin/data/statistics').then(function (response) {
+      self.statistics = response.data;
+    });
+    $('#users').DataTable({
+      "iDisplayLength": 10,
+      "processing": true,
+      "serverSide": true,
+      "order": [[1, "desc"]],
+      "ajax": {
+        url: "/admin/data/users",
+        type: "POST"
+      },
+      "language": {
+        "url": "/locales/Russian.json"
+      },
+      columns: [{
+        data: 'id',
+        name: 'id'
+      }, {
+        data: 'email',
+        name: 'email',
+        render: function render(data, type, row) {
+          var email = '';
+
+          if (type === 'display') {
+            email = data;
+          }
+
+          return '<a href="/admin/user/' + row.id + '" target="_blank">' + email + '</a>';
+        }
+      }, {
+        data: 'geo',
+        name: 'geo',
+        render: function render(data, type, row) {
+          var geo = '';
+          var geo_code = '';
+
+          if (type === 'display') {
+            geo = data;
+            geo_code = row.geo_code;
+          }
+
+          return '<i data-toggle="tooltip" data-placement="top" data-original-title="' + geo + '" class="flag-icon flag-icon-' + geo_code + '"></i>';
+        }
+      }, {
+        data: 'status',
+        searchable: false,
+        orderable: false,
+        name: 'users.status',
+        render: function render(data) {
+          if (data == 0) {
+            return '<span class="badge badge badge-danger text-white">Оффлайн</span>';
+          } else {
+            return '<span class="badge badge badge-success text-white">Онлайн</span>';
+          }
+        }
+      }, {
+        data: 'balance',
+        name: 'balance'
+      }, {
+        data: 'updated_at',
+        name: 'updated_at',
+        render: function render(data, type) {
+          var date = new Date();
+
+          if (type === 'display') {
+            date = new Date(data);
+          }
+
+          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
+        }
+      }, {
+        data: 'created_at',
+        name: 'created_at',
+        render: function render(data, type) {
+          var date = new Date();
+
+          if (type === 'display') {
+            date = new Date(data);
+          }
+
+          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
+        }
+      }]
+    });
+    $('#stat').DataTable({
+      "iDisplayLength": 10,
+      "processing": true,
+      "serverSide": true,
+      "order": [[1, "desc"]],
+      "ajax": {
+        url: "/admin/data/daily",
+        type: "POST"
+      },
+      "language": {
+        "url": "/locales/Russian.json"
+      },
+      columns: [{
+        data: 'daily_orders_count',
+        name: 'daily_orders_count'
+      }, {
+        data: 'daily_orders_amount',
+        name: 'daily_orders_amount',
+        render: function render(data, type, row) {
+          var text = '';
+
+          if (type === 'display') {
+            text = data;
+          }
+
+          return '$ ' + text;
+        }
+      }, {
+        data: 'daily_profit',
+        name: 'daily_profit',
+        render: function render(data, type, row) {
+          var text = '';
+
+          if (type === 'display') {
+            text = data;
+          }
+
+          return '$ ' + text;
+        }
+      }, {
+        data: 'daily_loss',
+        name: 'daily_loss',
+        render: function render(data, type, row) {
+          var text = '';
+
+          if (type === 'display') {
+            text = data;
+          }
+
+          return '$ ' + text;
+        }
+      }, {
+        data: 'daily_profit_count',
+        name: 'daily_profit_count'
+      }, {
+        data: 'daily_loss_count',
+        name: 'daily_loss_count'
+      }, {
+        data: 'created_at',
+        name: 'created_at',
+        render: function render(data, type) {
+          var date = new Date();
+
+          if (type === 'display') {
+            date = new Date(data);
+          }
+
+          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'dd-mm-yyyy');
+        }
+      }]
+    });
+  },
+  data: function data() {
+    return {
+      statistics: {}
+    };
   }
 });
 
@@ -119977,639 +120154,891 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "content-wrapper" }, [
+    _c("div", { staticClass: "content-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v(_vm._s(_vm.statistics.user_count))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Всего пользователей")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v(_vm._s(_vm.statistics.banned_users))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Заблокировано пользователей")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v(_vm._s(_vm.statistics.deposit_count))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Пополнений")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v(_vm._s(_vm.statistics.withdrawal_count))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Выплат")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v(_vm._s(_vm.statistics.referral_count))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Рефералов")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(5),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v("$ " + _vm._s(_vm.statistics.profit))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Прибыль")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(6),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v(_vm._s(_vm.statistics.deals))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Всего сделок")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(7),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v("$ " + _vm._s(_vm.statistics.turnover))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Общий оборот")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(8),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v("$ " + _vm._s(_vm.statistics.bonus))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Сумма бонусов")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(9),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v("$ " + _vm._s(_vm.statistics.clear_balance))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Баланс без бонусов")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(10),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v(_vm._s(_vm.statistics.total_profit_count))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Прибыльных сделок")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-3" }, [
+          _c("div", { staticClass: "card" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "card-body d-flex align-items-center justify-content-between",
+                staticStyle: { position: "relative" }
+              },
+              [
+                _c("div", { staticClass: "d-flex align-items-center" }, [
+                  _vm._m(11),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "total-amount" }, [
+                    _c(
+                      "h5",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm._.isEmpty(_vm.statistics),
+                            expression: "_.isEmpty(statistics)"
+                          }
+                        ],
+                        staticClass: "mb-0"
+                      },
+                      [
+                        _c("span", {
+                          staticClass: "spinner-border spinner-border-sm",
+                          staticStyle: { "margin-bottom": "3px" },
+                          attrs: { role: "status", "aria-hidden": "true" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    !_vm._.isEmpty(_vm.statistics)
+                      ? _c("h5", { staticClass: "mb-0" }, [
+                          _vm._v(_vm._s(_vm.statistics.total_loss_count))
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _vm._v("Убыточных сделок")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(12),
+      _vm._v(" "),
+      _vm._m(13)
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content-wrapper" }, [
-      _c("div", { staticClass: "content-body" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Всего пользователей")
-                      ])
-                    ])
-                  ])
-                ]
-              )
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2" },
+      [
+        _c("div", { staticClass: "avatar-content" }, [
+          _c("i", { staticClass: "bx bx-user text-primary font-medium-2" })
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("section", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", { staticClass: "card-title" }, [
+              _vm._v("Список пользователей")
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "card-text" }, [
+                _c("div", { staticClass: "table-responsive" }, [
+                  _c(
+                    "table",
+                    { staticClass: "table", attrs: { id: "users" } },
+                    [
+                      _c("thead", [
+                        _c("tr", [
+                          _c("th", [_vm._v("ID")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("E-mail")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Гео")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Статус")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Баланс USD")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Последняя активность")]),
+                          _vm._v(" "),
+                          _c("th", [_vm._v("Зарегистрирован")])
                         ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Заблокировано пользователей")
                       ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Пополнений")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Выплат")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Рефералов")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Прибыль")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Всего сделок")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Общий оборот")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Сумма бонусов")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Баланс без бонусов")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Прибыльных сделок")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-3" }, [
-            _c("div", { staticClass: "card" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "card-body d-flex align-items-center justify-content-between",
-                  staticStyle: { position: "relative" }
-                },
-                [
-                  _c("div", { staticClass: "d-flex align-items-center" }, [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "avatar bg-rgba-primary m-0 p-25 mr-75 mr-xl-2"
-                      },
-                      [
-                        _c("div", { staticClass: "avatar-content" }, [
-                          _c("i", {
-                            staticClass: "bx bx-user text-primary font-medium-2"
-                          })
-                        ])
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "total-amount" }, [
-                      _c("h5", { staticClass: "mb-0" }, [
-                        _c("span", {
-                          staticClass: "spinner-border spinner-border-sm",
-                          staticStyle: { "margin-bottom": "3px" },
-                          attrs: { role: "status", "aria-hidden": "true" }
-                        })
-                      ]),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "text-muted" }, [
-                        _vm._v("Убыточных сделок")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("section", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h4", { staticClass: "card-title" }, [
-                  _vm._v("Список пользователей")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-text" }, [
-                    _c("div", { staticClass: "table-responsive" }, [
-                      _c(
-                        "table",
-                        { staticClass: "table", attrs: { id: "users" } },
-                        [
-                          _c("thead", [
-                            _c("tr", [
-                              _c("th", [_vm._v("ID")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Имя")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("E-mail")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Гео")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Статус")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Баланс USD")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Последняя активность")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Зарегистрирован")])
-                            ])
-                          ])
-                        ]
-                      )
-                    ])
-                  ])
+                    ]
+                  )
                 ])
               ])
             ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("section", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h4", { staticClass: "card-title" }, [
-                  _vm._v("Статистика системы по дням")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-text" }, [
-                    _c("div", { staticClass: "table-responsive" }, [
-                      _c(
-                        "table",
-                        { staticClass: "table", attrs: { id: "stat" } },
-                        [
-                          _c("thead", [
-                            _c("tr", [
-                              _c("th", [_vm._v("Сделок")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Прибыль")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Бонусы")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Зарегистрировано")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Пополнений")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Выплат")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Дата")])
-                            ])
-                          ])
-                        ]
-                      )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("section", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", { staticClass: "card-title" }, [
+              _vm._v("Статистика системы по дням")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "card-text" }, [
+                _c("div", { staticClass: "table-responsive" }, [
+                  _c("table", { staticClass: "table", attrs: { id: "stat" } }, [
+                    _c("thead", [
+                      _c("tr", [
+                        _c("th", [_vm._v("Всего сделок")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Сумма сделок")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Профит сделок")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Убыток сделок")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Профитных")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Убыточных")]),
+                        _vm._v(" "),
+                        _c("th", [_vm._v("Дата")])
+                      ])
                     ])
                   ])
                 ])
@@ -144425,6 +144854,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sass_bootstrap_scss__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_sass_bootstrap_scss__WEBPACK_IMPORTED_MODULE_9__);
 /* harmony import */ var _sass_bootstrap_extended_scss__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../sass/bootstrap-extended.scss */ "./resources/sass/bootstrap-extended.scss");
 /* harmony import */ var _sass_bootstrap_extended_scss__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_sass_bootstrap_extended_scss__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_11__);
 __webpack_require__(/*! ./bootstrap */ "./resources/vuejs/bootstrap.js");
 
 __webpack_require__(/*! ./js/tv */ "./resources/vuejs/js/tv.js");
@@ -144440,6 +144871,21 @@ __webpack_require__(/*! ./js/tv */ "./resources/vuejs/js/tv.js");
 
 
 
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype._ = lodash__WEBPACK_IMPORTED_MODULE_11___default.a;
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+  statusCode: {
+    401: function _() {
+      window.location = '/login';
+    },
+    419: function _() {
+      location.reload();
+    }
+  }
+});
 
 var VueInputMask = __webpack_require__(/*! vue-inputmask */ "./node_modules/vue-inputmask/dist/vue-inputmask.js")["default"];
 

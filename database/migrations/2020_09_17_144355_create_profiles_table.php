@@ -34,6 +34,9 @@ class CreateProfilesTable extends Migration
         $table->string('document_additional')->nullable();
         $table->timestamp('document_additional_verify_at')->nullable();
         $table->timestamp('user_verify_at')->nullable();
+        $table->text('http_referer')->nullable();
+        $table->text('http_user_agent')->nullable();
+        $table->text('ip')->nullable();
         $table->timestamps();
       });
     }

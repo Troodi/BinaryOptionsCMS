@@ -11,6 +11,22 @@ import select2 from 'v-select2-component';
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '../sass/bootstrap.scss'
 import '../sass/bootstrap-extended.scss'
+import _ from 'lodash'
+Vue.prototype._ = _
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    statusCode: {
+        401: function(){
+            window.location = '/login';
+        },
+        419: function () {
+            location.reload();
+        }
+    }
+});
 
 const VueInputMask = require('vue-inputmask').default
 window.axios = require('axios');
