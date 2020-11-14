@@ -333,7 +333,7 @@ export default {
             if (type === 'display') {
               email = data;
             }
-            return '<a href="/admin/user/' + row.id + '" target="_blank">' + email + '</a>';
+            return '<a href="/admin/user/' + row.id + '" target="_blank">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
           }
         },
         {
@@ -371,7 +371,7 @@ export default {
             if (type === 'display') {
               date = new Date(data);
             }
-            return dateformat(date, 'HH:MM:ss dd-mm-yyyy');
+            return dateformat(date, 'HH:MM dd-mm-yyyy');
           }
         },
         {
@@ -382,7 +382,7 @@ export default {
             if (type === 'display') {
               date = new Date(data);
             }
-            return dateformat(date, 'HH:MM:ss dd-mm-yyyy');
+            return dateformat(date, 'HH:MM dd-mm-yyyy');
           }
         },
       ]
@@ -392,7 +392,7 @@ export default {
       "iDisplayLength": 10,
       "processing": true,
       "serverSide": true,
-      "order": [[1, "desc"]],
+      "order": [[6, "desc"]],
       "ajax": {
         url: "/admin/data/daily",
         type: "POST"
