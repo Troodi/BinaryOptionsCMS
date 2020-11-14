@@ -2496,7 +2496,7 @@ __webpack_require__.r(__webpack_exports__);
             email = data;
           }
 
-          return '<a href="/admin/user/' + row.id + '" target="_blank">' + email + '</a>';
+          return '<a href="/admin/user/' + row.id + '" target="_blank">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
         }
       }, {
         data: 'geo',
@@ -2537,7 +2537,7 @@ __webpack_require__.r(__webpack_exports__);
             date = new Date(data);
           }
 
-          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
+          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM dd-mm-yyyy');
         }
       }, {
         data: 'created_at',
@@ -2549,7 +2549,7 @@ __webpack_require__.r(__webpack_exports__);
             date = new Date(data);
           }
 
-          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
+          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM dd-mm-yyyy');
         }
       }]
     });
@@ -2557,7 +2557,7 @@ __webpack_require__.r(__webpack_exports__);
       "iDisplayLength": 10,
       "processing": true,
       "serverSide": true,
-      "order": [[1, "desc"]],
+      "order": [[6, "desc"]],
       "ajax": {
         url: "/admin/data/daily",
         type: "POST"
