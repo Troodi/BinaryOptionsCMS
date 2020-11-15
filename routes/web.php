@@ -71,7 +71,8 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("users", 'Admin\StatisticsController@getAllUsers');
       Route::post("daily", 'Admin\StatisticsController@getDailyStat');
       Route::post("verify", 'Admin\VerifyController@listRequestVerify');
-      Route::get("cheat", 'Admin\CheatController@getAllCheaters');
+      Route::post("cheat", 'Admin\CheatController@getAllCheaters');
+      Route::post("history", 'Admin\TradeHistoryController@getHistory');
     });
     Route::get('/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
   });
