@@ -449,12 +449,12 @@ export default {
         {
           data: 'created_at',
           name: 'created_at',
-          render: function(data, type) {
+          render: function(data, type, row) {
             let date = new Date();
             if (type === 'display') {
               date = new Date(data);
             }
-            return dateformat(date, 'dd-mm-yyyy');
+            return '<a href="/admin/day/' + dateformat(date, 'dd-mm-yyyy') + '" target="_blank">' + dateformat(date, 'dd-mm-yyyy') + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
           }
         },
       ]
