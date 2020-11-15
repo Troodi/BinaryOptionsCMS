@@ -13,6 +13,8 @@ import Profile from "../../views/user/Profile";
 import Deposit from "../../views/admin/Deposit";
 import Withdrawal from "../../views/admin/Withdrawal";
 import Promocode from "../../views/admin/Promocode";
+import Verify from "../../views/admin/Verify";
+import TradeHistory from "../../../../app/Http/Controllers/Admin/TradeHistory";
 
 //
 // /**
@@ -23,7 +25,9 @@ export const routes = [
     { path: '/admin/demo', name: 'Промокоды', component: Promocode, meta: { icon: 'line-chart', hideFooter: true } },
     { path: '/admin/deposit', name: 'Пополения', component: Deposit, meta: { icon: 'bank'} },
     { path: '/admin/withdrawal', name: 'Выплаты', component: Withdrawal, meta: { icon: 'coins' } },
-    { path: '/promocodes', name: 'Мультиаккаунты', component: Promocode, meta: { icon: 'bulb' } },
+    { path: '/admin/verify', name: 'Верификация', component: Verify, meta: { icon: 'bulb' } },
+    { path: '/admin/promocodes', name: 'Мультиаккаунты', component: Promocode, meta: { icon: 'bulb' } },
+    { path: '/admin/history', name: 'История торговли', component: TradeHistory, meta: { icon: 'bulb' } },
     { path: '/logout', name: 'Выйти', component: Profile, meta: { icon: 'close' }},
 ];
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Main;
 use App\Helpers\Helper;
 use App\Models\EmailAttempts;
 use App\Http\Controllers\Controller;
+use App\Models\Models\VerifyRequest;
 use App\Models\Profile;
 use App\Models\PhoneAttempts;
 use App\Models\Referral;
@@ -263,6 +264,10 @@ class ProfileController extends Controller
     } catch (\Exception $ex){
       return response()->json(['success' => false, 'message' => 'Произошла непредвиденная ошибка при сохранении файла!', 'page' => $request->page]);
     }
+    $model = new VerifyRequest();
+    $model->user_id = Auth::user()->id;
+    $model->page = $request->page;
+    $model->save();
     return response()->json(['success' => true, 'message' => 'Файл успешно отправлен на проверку, ожидайте результата!', 'page' => $request->page]);
   }
 }
