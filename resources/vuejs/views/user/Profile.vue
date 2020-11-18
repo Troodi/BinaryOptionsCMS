@@ -173,9 +173,9 @@
                                         <fieldset class="form-group">
                                             <label>Email</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" v-model="email" v-bind:disabled="email_verified_at" v-mask="'*{1,25}@*{1,15}.*{1,7}'">
+                                                <input type="text" class="form-control" v-model="email" v-bind:disabled="email_verified_at && !isAdmin" v-mask="'*{1,25}@*{1,15}.*{1,7}'">
                                                 <div class="input-group-append">
-                                                    <button v-show="!email_verified_at" v-bind:disabled="emailSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#email">Подтвердить</button>
+                                                    <button v-show="!email_verified_at || isAdmin" v-bind:disabled="emailSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#email">Подтвердить</button>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -184,9 +184,9 @@
                                         <fieldset class="form-group">
                                             <label>Телефон*</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" v-model="phone" v-bind:disabled="phone_verify_at" v-mask="'+9{9,20}'">
+                                                <input type="text" class="form-control" v-model="phone" v-bind:disabled="phone_verify_at && !isAdmin" v-mask="'+9{9,20}'">
                                                 <div class="input-group-append">
-                                                    <button v-show="!phone_verify_at" v-bind:disabled="phoneSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#phone">Подтвердить</button>
+                                                    <button v-show="!phone_verify_at || isAdmin" v-bind:disabled="phoneSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#phone">Подтвердить</button>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -225,30 +225,6 @@
                 </div>
             </div>
 
-            <div v-for="value in password_error" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <div class="d-flex align-items-center">
-                    <i class="bx bx-error"></i>
-                    <span>
-                      {{ value }}
-                    </span>
-                </div>
-            </div>
-
-            <div v-for="value in password_success" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-                <div class="d-flex align-items-center">
-                    <i class="bx bx-error"></i>
-                    <span>
-                      {{ value }}
-                    </span>
-                </div>
-            </div>
-
             <div class="row">
               <div class="col-md-12">
                 <div class="card">
@@ -270,6 +246,30 @@
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div v-for="value in password_error" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <div class="d-flex align-items-center">
+                <i class="bx bx-error"></i>
+                <span>
+                        {{ value }}
+                      </span>
+              </div>
+            </div>
+
+            <div v-for="value in password_success" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <div class="d-flex align-items-center">
+                <i class="bx bx-error"></i>
+                <span>
+                        {{ value }}
+                      </span>
               </div>
             </div>
 
@@ -478,6 +478,19 @@
                                     </div>
                                 </div>
 
+                                <div v-if="document_first_page && isAdmin" class="row">
+                                  <div class="col-md-12">
+                                    <a :href="'/admin/image/'+document_first_page" target="_blank">
+                                      <img :src="'/admin/image/'+document_first_page" class="w-100 mt-1" style="border-radius: 3px;">
+                                    </a>
+                                  </div>
+                                  <div class="col-md-6 mt-1">
+                                    <button type="button" class="btn btn-outline-danger w-100">Отклонить</button>
+                                  </div>
+                                  <div class="col-md-6 mt-1">
+                                    <button type="button" class="btn btn-outline-primary w-100">Подтвердить</button>
+                                  </div>
+                                </div>
                                 <fieldset v-show="!document_first_page && !document_first_page_verify_at">
                                     <div class="input-group">
                                         <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="firstUpload" v-model="document_first_page" :state="Boolean(document_first_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
@@ -885,9 +898,15 @@
                 return errors;
             },
             privateSaveDisabled: function () {
+                if(this.isAdmin){
+                  return false;
+                }
                 return this.name.length < 2 || this.last_name.length < 2 || this.patronymic.length < 2 || this.address.length < 10 || this.document_number.length < 5 || !(/[0-9]{2}-[0-9]{2}-[0-9]{4}/.test(this.birth));
             },
             privateDataIsset: function () { // Проверка блокировать ли поля личных данных
+                if(this.isAdmin){
+                  return false;
+                }
                 return this.document_first_page_verify_at || this.document_second_page_verify_at || this.document_additional_verify_at || this.document_first_page || this.document_second_page || this.document_additional;
             },
             documentsLoading: function (){
@@ -895,7 +914,7 @@
             },
             password_error: function () { // Проверка блокировать ли поля личных данных
                 let errors = [];
-                if(this.current_password.length > 0 && this.current_password.length < 6){
+                if(this.current_password.length > 0 && this.current_password.length < 6 && !this.isAdmin){
                     errors.push('Текущий пароль не может быть короче 6 символов!');
                 }
                 if(this.new_password.length > 0 && this.new_password.length < 8){
@@ -904,7 +923,7 @@
                 if(this.repeat_password.length > 0 && this.repeat_password.length < 8){
                     errors.push('Повтор нового пароля не может быть короче 8 символов!');
                 }
-                if(this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8){
+                if(this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8 && !this.isAdmin){
                     errors.push('Новый пароль совпадает со старым!');
                 }
                 if(this.new_password.length >= 8 && this.repeat_password.length >= 8 && this.new_password !== this.repeat_password){
@@ -913,7 +932,14 @@
                 return errors;
             },
             passwordSaveDisabled: function () {
-                return this.current_password.length < 6 || this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password || this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8;
+                if(this.isAdmin){
+                  return this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password;
+                } else {
+                  return this.current_password.length < 6 || this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password || this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8;
+                }
+            },
+            isAdmin: function (){
+              return this.$route.meta.isAdmin;
             },
             general_error: function () { // Проверка правильности ввода оснровных параметров профиля
                 let errors = [];
@@ -934,7 +960,7 @@
             emailSendDisabled: function(){
                 return !(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email));
             },
-            mainSaveDisabled: function () {
+            mainSaveDisabled: function () { // Информация никнейм
                 return this.nickname.length < 3 || !(/\+\d{6,20}/.test(this.phone)) || !(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email));
             },
             checkPhoneCodeDisabled: function () {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Main;
 use App\Helpers\Helper;
 use App\Models\EmailAttempts;
 use App\Http\Controllers\Controller;
+use App\Models\Models\File;
 use App\Models\Models\VerifyRequest;
 use App\Models\Profile;
 use App\Models\PhoneAttempts;
@@ -259,8 +260,12 @@ class ProfileController extends Controller
     try {
       $path = Helper::createPathForVerifyPhotos();
       $fileName = time() . '_' . $request->file->getClientOriginalName();
-      $filePath = $request->file('file')->storeAs($path, $fileName);
-      Profile::where('user_id', Auth::user()->id)->update([$pages[$request->page] => $filePath]);
+      $filePath = 'storage/app/'.$request->file('file')->storeAs($path, $fileName);
+      $model = new File();
+      $model->user_id = Auth::user()->id;
+      $model->path = $filePath;
+      $model->save();
+      Profile::where('user_id', Auth::user()->id)->update([$pages[$request->page] => $model->id]);
     } catch (\Exception $ex){
       return response()->json(['success' => false, 'message' => 'Произошла непредвиденная ошибка при сохранении файла!', 'page' => $request->page]);
     }

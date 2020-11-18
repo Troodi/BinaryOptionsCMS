@@ -24,7 +24,7 @@ class Helper
     if(!File::isDirectory(storage_path('app/private/'.date('Y/m/d')))){
       File::makeDirectory(storage_path('app/private/'.date('Y/m/d')));
     }
-    return 'storage/app/private/'.date('Y/m/d');
+    return 'private/'.date('Y/m/d');
   }
 
   /**
