@@ -3649,6 +3649,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4006,10 +4019,18 @@ __webpack_require__.r(__webpack_exports__);
       return errors;
     },
     privateSaveDisabled: function privateSaveDisabled() {
+      if (this.isAdmin) {
+        return false;
+      }
+
       return this.name.length < 2 || this.last_name.length < 2 || this.patronymic.length < 2 || this.address.length < 10 || this.document_number.length < 5 || !/[0-9]{2}-[0-9]{2}-[0-9]{4}/.test(this.birth);
     },
     privateDataIsset: function privateDataIsset() {
       // Проверка блокировать ли поля личных данных
+      if (this.isAdmin) {
+        return false;
+      }
+
       return this.document_first_page_verify_at || this.document_second_page_verify_at || this.document_additional_verify_at || this.document_first_page || this.document_second_page || this.document_additional;
     },
     documentsLoading: function documentsLoading() {
@@ -4019,7 +4040,7 @@ __webpack_require__.r(__webpack_exports__);
       // Проверка блокировать ли поля личных данных
       var errors = [];
 
-      if (this.current_password.length > 0 && this.current_password.length < 6) {
+      if (this.current_password.length > 0 && this.current_password.length < 6 && !this.isAdmin) {
         errors.push('Текущий пароль не может быть короче 6 символов!');
       }
 
@@ -4031,7 +4052,7 @@ __webpack_require__.r(__webpack_exports__);
         errors.push('Повтор нового пароля не может быть короче 8 символов!');
       }
 
-      if (this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8) {
+      if (this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8 && !this.isAdmin) {
         errors.push('Новый пароль совпадает со старым!');
       }
 
@@ -4042,7 +4063,14 @@ __webpack_require__.r(__webpack_exports__);
       return errors;
     },
     passwordSaveDisabled: function passwordSaveDisabled() {
-      return this.current_password.length < 6 || this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password || this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8;
+      if (this.isAdmin) {
+        return this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password;
+      } else {
+        return this.current_password.length < 6 || this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password || this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8;
+      }
+    },
+    isAdmin: function isAdmin() {
+      return this.$route.meta.isAdmin;
     },
     general_error: function general_error() {
       // Проверка правильности ввода оснровных параметров профиля
@@ -4069,6 +4097,7 @@ __webpack_require__.r(__webpack_exports__);
       return !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email);
     },
     mainSaveDisabled: function mainSaveDisabled() {
+      // Информация никнейм
       return this.nickname.length < 3 || !/\+\d{6,20}/.test(this.phone) || !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email);
     },
     checkPhoneCodeDisabled: function checkPhoneCodeDisabled() {
@@ -5398,6 +5427,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
 //
 //
 //
@@ -122935,7 +122967,7 @@ var render = function() {
                               staticClass: "form-control",
                               attrs: {
                                 type: "text",
-                                disabled: _vm.email_verified_at
+                                disabled: _vm.email_verified_at && !_vm.isAdmin
                               },
                               domProps: { value: _vm.email },
                               on: {
@@ -122956,8 +122988,10 @@ var render = function() {
                                     {
                                       name: "show",
                                       rawName: "v-show",
-                                      value: !_vm.email_verified_at,
-                                      expression: "!email_verified_at"
+                                      value:
+                                        !_vm.email_verified_at || _vm.isAdmin,
+                                      expression:
+                                        "!email_verified_at || isAdmin"
                                     }
                                   ],
                                   staticClass: "btn btn-primary",
@@ -122998,7 +123032,7 @@ var render = function() {
                               staticClass: "form-control",
                               attrs: {
                                 type: "text",
-                                disabled: _vm.phone_verify_at
+                                disabled: _vm.phone_verify_at && !_vm.isAdmin
                               },
                               domProps: { value: _vm.phone },
                               on: {
@@ -123019,8 +123053,9 @@ var render = function() {
                                     {
                                       name: "show",
                                       rawName: "v-show",
-                                      value: !_vm.phone_verify_at,
-                                      expression: "!phone_verify_at"
+                                      value:
+                                        !_vm.phone_verify_at || _vm.isAdmin,
+                                      expression: "!phone_verify_at || isAdmin"
                                     }
                                   ],
                                   staticClass: "btn btn-primary",
@@ -123170,60 +123205,10 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._l(_vm.password_error, function(value) {
-          return _c(
-            "div",
-            {
-              staticClass: "alert bg-rgba-danger alert-dismissible mb-2",
-              attrs: { role: "alert" }
-            },
-            [
-              _vm._m(13, true),
-              _vm._v(" "),
-              _c("div", { staticClass: "d-flex align-items-center" }, [
-                _c("i", { staticClass: "bx bx-error" }),
-                _vm._v(" "),
-                _c("span", [
-                  _vm._v(
-                    "\n                  " +
-                      _vm._s(value) +
-                      "\n                "
-                  )
-                ])
-              ])
-            ]
-          )
-        }),
-        _vm._v(" "),
-        _vm._l(_vm.password_success, function(value) {
-          return _c(
-            "div",
-            {
-              staticClass: "alert bg-rgba-success alert-dismissible mb-2",
-              attrs: { role: "alert" }
-            },
-            [
-              _vm._m(14, true),
-              _vm._v(" "),
-              _c("div", { staticClass: "d-flex align-items-center" }, [
-                _c("i", { staticClass: "bx bx-error" }),
-                _vm._v(" "),
-                _c("span", [
-                  _vm._v(
-                    "\n                  " +
-                      _vm._s(value) +
-                      "\n                "
-                  )
-                ])
-              ])
-            ]
-          )
-        }),
-        _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(15),
+              _vm._m(13),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123316,6 +123301,56 @@ var render = function() {
             ])
           ])
         ]),
+        _vm._v(" "),
+        _vm._l(_vm.password_error, function(value) {
+          return _c(
+            "div",
+            {
+              staticClass: "alert bg-rgba-danger alert-dismissible mb-2",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._m(14, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex align-items-center" }, [
+                _c("i", { staticClass: "bx bx-error" }),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(value) +
+                      "\n                  "
+                  )
+                ])
+              ])
+            ]
+          )
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.password_success, function(value) {
+          return _c(
+            "div",
+            {
+              staticClass: "alert bg-rgba-success alert-dismissible mb-2",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._m(15, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex align-items-center" }, [
+                _c("i", { staticClass: "bx bx-error" }),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(value) +
+                      "\n                  "
+                  )
+                ])
+              ])
+            ]
+          )
+        }),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
@@ -123891,6 +123926,35 @@ var render = function() {
                     [_vm._m(30)]
                   ),
                   _vm._v(" "),
+                  _vm.document_first_page && _vm.isAdmin
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: {
+                                href: "/admin/image/" + _vm.document_first_page,
+                                target: "_blank"
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "w-100 mt-1",
+                                staticStyle: { "border-radius": "3px" },
+                                attrs: {
+                                  src: "/admin/image/" + _vm.document_first_page
+                                }
+                              })
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(31),
+                        _vm._v(" "),
+                        _vm._m(32)
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
                     "fieldset",
                     {
@@ -123940,7 +124004,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(31),
+              _vm._m(33),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -123958,7 +124022,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(32)]
+                    [_vm._m(34)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123979,7 +124043,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(33)]
+                    [_vm._m(35)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123996,7 +124060,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(34)]
+                    [_vm._m(36)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -124048,7 +124112,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(35),
+              _vm._m(37),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -124066,7 +124130,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(36)]
+                    [_vm._m(38)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -124087,7 +124151,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(37)]
+                    [_vm._m(39)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -124104,7 +124168,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(38)]
+                    [_vm._m(40)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -124384,43 +124448,43 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "alert",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "alert",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h4", { staticClass: "card-title" }, [_vm._v("Подключить соц. сети")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   },
   function() {
     var _vm = this
@@ -124618,6 +124682,36 @@ var staticRenderFns = [
           "\n                                      Документ успешно подтвержден!\n                                    "
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 mt-1" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-danger w-100",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Отклонить")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 mt-1" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-primary w-100",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Подтвердить")]
+      )
     ])
   },
   function() {
@@ -127246,192 +127340,349 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "content-wrapper" }, [
-    _c(
-      "div",
-      { staticClass: "content-body" },
-      [
-        _vm._l(_vm.errors, function(value) {
-          return _c(
-            "div",
-            {
-              staticClass: "alert bg-rgba-danger alert-dismissible mb-2",
-              attrs: { role: "alert" }
-            },
-            [
-              _vm._m(0, true),
-              _vm._v(" "),
-              _c("div", { staticClass: "d-flex align-items-center" }, [
-                _c("i", { staticClass: "bx bx-error" }),
-                _vm._v(" "),
-                _c("span", [
-                  _vm._v(
-                    "\n                  " +
-                      _vm._s(value) +
-                      "\n                "
-                  )
-                ])
-              ])
-            ]
-          )
-        }),
-        _vm._v(" "),
-        _vm._l(_vm.success, function(value) {
-          return _c(
-            "div",
-            {
-              staticClass: "alert bg-rgba-success alert-dismissible mb-2",
-              attrs: { role: "alert" }
-            },
-            [
-              _vm._m(1, true),
-              _vm._v(" "),
-              _c("div", { staticClass: "d-flex align-items-center" }, [
-                _c("i", { staticClass: "bx bx-error" }),
-                _vm._v(" "),
-                _c("span", [
-                  _vm._v(
-                    "\n                  " +
-                      _vm._s(value) +
-                      "\n                "
-                  )
-                ])
-              ])
-            ]
-          )
-        }),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-7" }, [
-            _c("section", { staticClass: "card" }, [
-              _vm._m(2),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-text" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-12 pt-3" }, [
-                        _vm._m(3),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "row mt-3" }, [
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "fieldset",
-                              {
-                                staticClass: "form-group",
-                                staticStyle: { "margin-bottom": "3px" }
-                              },
+    _c("div", { staticClass: "content-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
+          [
+            _vm._l(_vm.errors, function(value) {
+              return _c(
+                "div",
+                {
+                  staticClass:
+                    "alert bg-rgba-danger alert-dismissible mb-2 w-100",
+                  attrs: { role: "alert" }
+                },
+                [
+                  _vm._m(0, true),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "d-flex align-items-center" }, [
+                    _c("i", { staticClass: "bx bx-error" }),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "\n                  " +
+                          _vm._s(value) +
+                          "\n                "
+                      )
+                    ])
+                  ])
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _vm._l(_vm.success, function(value) {
+              return _c(
+                "div",
+                {
+                  staticClass:
+                    "alert bg-rgba-success alert-dismissible mb-2 w-100",
+                  attrs: { role: "alert" }
+                },
+                [
+                  _vm._m(1, true),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "d-flex align-items-center" }, [
+                    _c("i", { staticClass: "bx bx-error" }),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "\n                  " +
+                          _vm._s(value) +
+                          "\n                "
+                      )
+                    ])
+                  ])
+                ]
+              )
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-7" }, [
+          _c("section", { staticClass: "card" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-12 pt-3" }, [
+                      _vm._m(3),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row mt-3" }, [
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "fieldset",
+                            {
+                              staticClass: "form-group",
+                              staticStyle: { "margin-bottom": "3px" }
+                            },
+                            [
+                              _vm._m(4),
+                              _vm._v(" "),
                               [
-                                _vm._m(4),
-                                _vm._v(" "),
-                                [
-                                  _c("input", {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: _vm.amount,
-                                        expression: "amount"
-                                      },
-                                      {
-                                        name: "currency",
-                                        rawName: "v-currency",
-                                        value: {
-                                          currency: null,
-                                          autoDecimalMode: true,
-                                          valueRange: { min: 10, max: 100000 }
-                                        },
-                                        expression:
-                                          "{currency: null, autoDecimalMode: true, valueRange: {min: 10, max: 100000}}"
-                                      }
-                                    ],
-                                    ref: "ci",
-                                    staticClass: "form-control",
-                                    attrs: { type: "text" },
-                                    domProps: { value: _vm.amount },
-                                    on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
-                                        _vm.amount = $event.target.value
-                                      }
-                                    }
-                                  })
-                                ]
-                              ],
-                              2
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-md-6" }, [
-                            _c(
-                              "fieldset",
-                              { staticClass: "form-group" },
-                              [
-                                _vm._m(5),
-                                _vm._v(" "),
-                                _c("select2", {
-                                  attrs: {
-                                    options: _vm.systems,
-                                    settings: {
-                                      settingOption: "value",
-                                      settingOption: "value",
-                                      minimumResultsForSearch: Infinity
-                                    }
-                                  },
-                                  model: {
-                                    value: _vm.system,
-                                    callback: function($$v) {
-                                      _vm.system = $$v
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.amount,
+                                      expression: "amount"
                                     },
-                                    expression: "system"
+                                    {
+                                      name: "currency",
+                                      rawName: "v-currency",
+                                      value: {
+                                        currency: null,
+                                        autoDecimalMode: true,
+                                        valueRange: { min: 10, max: 100000 }
+                                      },
+                                      expression:
+                                        "{currency: null, autoDecimalMode: true, valueRange: {min: 10, max: 100000}}"
+                                    }
+                                  ],
+                                  ref: "ci",
+                                  staticClass: "form-control",
+                                  attrs: { type: "text" },
+                                  domProps: { value: _vm.amount },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.amount = $event.target.value
+                                    }
                                   }
                                 })
-                              ],
-                              1
-                            )
-                          ])
+                              ]
+                            ],
+                            2
+                          )
                         ]),
                         _vm._v(" "),
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-6 pt-2" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass:
-                                  "btn btn-outline-secondary mr-1 mb-1",
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c(
+                            "fieldset",
+                            { staticClass: "form-group" },
+                            [
+                              _vm._m(5),
+                              _vm._v(" "),
+                              _c("select2", {
                                 attrs: {
-                                  disabled: _vm.continueButtonDisabled,
-                                  type: "button"
+                                  options: _vm.systems,
+                                  settings: {
+                                    settingOption: "value",
+                                    settingOption: "value",
+                                    minimumResultsForSearch: Infinity
+                                  }
                                 },
-                                on: { click: _vm.processPayout }
+                                model: {
+                                  value: _vm.system,
+                                  callback: function($$v) {
+                                    _vm.system = $$v
+                                  },
+                                  expression: "system"
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-6 pt-2" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-outline-secondary mr-1 mb-1",
+                              attrs: {
+                                disabled: _vm.continueButtonDisabled,
+                                type: "button"
                               },
-                              [_vm._v("Продолжить")]
+                              on: { click: _vm.processPayout }
+                            },
+                            [_vm._v("Продолжить")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "col-md-6 pt-2 text-right align-bottom"
+                          },
+                          [
+                            _c(
+                              "p",
+                              { staticStyle: { "padding-top": "10px" } },
+                              [
+                                _vm._v("Вы получите "),
+                                _c(
+                                  "span",
+                                  {
+                                    staticClass: "text-white",
+                                    staticStyle: { "font-size": "1.3rem" }
+                                  },
+                                  [_vm._v("$ " + _vm._s(_vm.amount))]
+                                )
+                              ]
                             )
-                          ]),
-                          _vm._v(" "),
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-5" }, [
+          _c("section", { staticClass: "card" }, [
+            _vm._m(6),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
                           _c(
                             "div",
                             {
                               staticClass:
-                                "col-md-6 pt-2 text-right align-bottom"
+                                "d-flex justify-content-between align-items-end"
                             },
                             [
                               _c(
-                                "p",
-                                { staticStyle: { "padding-top": "10px" } },
+                                "div",
+                                { staticClass: "dashboard-content-left" },
                                 [
-                                  _vm._v("Вы получите "),
-                                  _c(
-                                    "span",
-                                    {
-                                      staticClass: "text-white",
-                                      staticStyle: { "font-size": "1.3rem" }
+                                  _c("span", {
+                                    directives: [
+                                      {
+                                        name: "show",
+                                        rawName: "v-show",
+                                        value: !_vm.account,
+                                        expression: "!account"
+                                      }
+                                    ],
+                                    staticClass:
+                                      "mb-2 spinner-border spinner-grow-sm text-primary",
+                                    staticStyle: {
+                                      width: "3rem",
+                                      height: "3rem"
                                     },
-                                    [_vm._v("$ " + _vm._s(_vm.amount))]
-                                  )
+                                    attrs: {
+                                      role: "status",
+                                      "aria-hidden": "true"
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _vm.account
+                                    ? _c(
+                                        "h1",
+                                        {
+                                          staticClass:
+                                            "text-primary font-large-2 text-bold-500"
+                                        },
+                                        [
+                                          _vm._v(
+                                            "$ " +
+                                              _vm._s(
+                                                parseFloat(
+                                                  _vm.account.left_turnover
+                                                ).toFixed(2)
+                                              )
+                                          )
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("p", [
+                                    _vm._v(
+                                      "Вам осталось отработать\n                                                            "
+                                    ),
+                                    _c("span", {
+                                      directives: [
+                                        {
+                                          name: "show",
+                                          rawName: "v-show",
+                                          value: !_vm.account,
+                                          expression: "!account"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "spinner-border spinner-grow-sm",
+                                      attrs: {
+                                        role: "status",
+                                        "aria-hidden": "true"
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.account
+                                      ? _c("code", [
+                                          _vm._v(
+                                            _vm._s(_vm.left_turnover) + " %"
+                                          )
+                                        ])
+                                      : _vm._e(),
+                                    _vm._v(
+                                      "\n                                                            от общей суммы бонуса."
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-primary glow",
+                                      attrs: {
+                                        disabled: _vm.discardButtunDisabled,
+                                        type: "button"
+                                      },
+                                      on: { click: _vm.discardBonus }
+                                    },
+                                    [_vm._v("Отказаться от бонуса")]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm.account && _vm.account.left_turnover > 0
+                                    ? _c(
+                                        "small",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value: _vm.account,
+                                              expression: "account"
+                                            }
+                                          ],
+                                          staticClass: "ml-1"
+                                        },
+                                        [
+                                          _vm._v("Баланс будет "),
+                                          _c("code", [
+                                            _vm._v(
+                                              _vm._s(_vm.afterDiscardBonus) +
+                                                " $"
+                                            )
+                                          ]),
+                                          _vm._v(" после отказа")
+                                        ]
+                                      )
+                                    : _vm._e()
                                 ]
-                              )
+                              ),
+                              _vm._v(" "),
+                              _vm._m(7)
                             ]
                           )
                         ])
@@ -127443,162 +127694,10 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "col-md-5" }, [
-            _c("section", { staticClass: "card" }, [
-              _vm._m(6),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-text" }, [
-                    _c("div", { staticClass: "row" }, [
-                      _c("div", { staticClass: "col-md-12" }, [
-                        _c("div", { staticClass: "row" }, [
-                          _c("div", { staticClass: "col-md-12" }, [
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "d-flex justify-content-between align-items-end"
-                              },
-                              [
-                                _c(
-                                  "div",
-                                  { staticClass: "dashboard-content-left" },
-                                  [
-                                    _c("span", {
-                                      directives: [
-                                        {
-                                          name: "show",
-                                          rawName: "v-show",
-                                          value: !_vm.account,
-                                          expression: "!account"
-                                        }
-                                      ],
-                                      staticClass:
-                                        "mb-2 spinner-border spinner-grow-sm text-primary",
-                                      staticStyle: {
-                                        width: "3rem",
-                                        height: "3rem"
-                                      },
-                                      attrs: {
-                                        role: "status",
-                                        "aria-hidden": "true"
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _vm.account
-                                      ? _c(
-                                          "h1",
-                                          {
-                                            staticClass:
-                                              "text-primary font-large-2 text-bold-500"
-                                          },
-                                          [
-                                            _vm._v(
-                                              "$ " +
-                                                _vm._s(
-                                                  parseFloat(
-                                                    _vm.account.left_turnover
-                                                  ).toFixed(2)
-                                                )
-                                            )
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _c("p", [
-                                      _vm._v(
-                                        "Вам осталось отработать\n                                                            "
-                                      ),
-                                      _c("span", {
-                                        directives: [
-                                          {
-                                            name: "show",
-                                            rawName: "v-show",
-                                            value: !_vm.account,
-                                            expression: "!account"
-                                          }
-                                        ],
-                                        staticClass:
-                                          "spinner-border spinner-grow-sm",
-                                        attrs: {
-                                          role: "status",
-                                          "aria-hidden": "true"
-                                        }
-                                      }),
-                                      _vm._v(" "),
-                                      _vm.account
-                                        ? _c("code", [
-                                            _vm._v(
-                                              _vm._s(_vm.left_turnover) + " %"
-                                            )
-                                          ])
-                                        : _vm._e(),
-                                      _vm._v(
-                                        "\n                                                            от общей суммы бонуса."
-                                      )
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass: "btn btn-primary glow",
-                                        attrs: {
-                                          disabled: _vm.discardButtunDisabled,
-                                          type: "button"
-                                        },
-                                        on: { click: _vm.discardBonus }
-                                      },
-                                      [_vm._v("Отказаться от бонуса")]
-                                    ),
-                                    _vm._v(" "),
-                                    _vm.account && _vm.account.left_turnover > 0
-                                      ? _c(
-                                          "small",
-                                          {
-                                            directives: [
-                                              {
-                                                name: "show",
-                                                rawName: "v-show",
-                                                value: _vm.account,
-                                                expression: "account"
-                                              }
-                                            ],
-                                            staticClass: "ml-1"
-                                          },
-                                          [
-                                            _vm._v("Баланс будет "),
-                                            _c("code", [
-                                              _vm._v(
-                                                _vm._s(_vm.afterDiscardBonus) +
-                                                  " $"
-                                              )
-                                            ]),
-                                            _vm._v(" после отказа")
-                                          ]
-                                        )
-                                      : _vm._e()
-                                  ]
-                                ),
-                                _vm._v(" "),
-                                _vm._m(7)
-                              ]
-                            )
-                          ])
-                        ])
-                      ])
-                    ])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._m(8)
-          ])
+          _vm._m(8)
         ])
-      ],
-      2
-    ),
+      ])
+    ]),
     _vm._v(" "),
     _vm._m(9)
   ])

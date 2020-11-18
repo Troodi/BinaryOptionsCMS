@@ -2475,7 +2475,7 @@ __webpack_require__.r(__webpack_exports__);
       "iDisplayLength": 10,
       "processing": true,
       "serverSide": true,
-      "order": [[1, "desc"]],
+      "order": [[0, "asc"]],
       "ajax": {
         url: "/admin/data/users",
         type: "POST"
@@ -4035,6 +4035,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4392,10 +4405,18 @@ __webpack_require__.r(__webpack_exports__);
       return errors;
     },
     privateSaveDisabled: function privateSaveDisabled() {
+      if (this.isAdmin) {
+        return false;
+      }
+
       return this.name.length < 2 || this.last_name.length < 2 || this.patronymic.length < 2 || this.address.length < 10 || this.document_number.length < 5 || !/[0-9]{2}-[0-9]{2}-[0-9]{4}/.test(this.birth);
     },
     privateDataIsset: function privateDataIsset() {
       // Проверка блокировать ли поля личных данных
+      if (this.isAdmin) {
+        return false;
+      }
+
       return this.document_first_page_verify_at || this.document_second_page_verify_at || this.document_additional_verify_at || this.document_first_page || this.document_second_page || this.document_additional;
     },
     documentsLoading: function documentsLoading() {
@@ -4405,7 +4426,7 @@ __webpack_require__.r(__webpack_exports__);
       // Проверка блокировать ли поля личных данных
       var errors = [];
 
-      if (this.current_password.length > 0 && this.current_password.length < 6) {
+      if (this.current_password.length > 0 && this.current_password.length < 6 && !this.isAdmin) {
         errors.push('Текущий пароль не может быть короче 6 символов!');
       }
 
@@ -4417,7 +4438,7 @@ __webpack_require__.r(__webpack_exports__);
         errors.push('Повтор нового пароля не может быть короче 8 символов!');
       }
 
-      if (this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8) {
+      if (this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8 && !this.isAdmin) {
         errors.push('Новый пароль совпадает со старым!');
       }
 
@@ -4428,7 +4449,14 @@ __webpack_require__.r(__webpack_exports__);
       return errors;
     },
     passwordSaveDisabled: function passwordSaveDisabled() {
-      return this.current_password.length < 6 || this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password || this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8;
+      if (this.isAdmin) {
+        return this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password;
+      } else {
+        return this.current_password.length < 6 || this.new_password.length < 8 || this.repeat_password.length < 8 || this.new_password !== this.repeat_password || this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8;
+      }
+    },
+    isAdmin: function isAdmin() {
+      return this.$route.meta.isAdmin;
     },
     general_error: function general_error() {
       // Проверка правильности ввода оснровных параметров профиля
@@ -4455,6 +4483,7 @@ __webpack_require__.r(__webpack_exports__);
       return !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email);
     },
     mainSaveDisabled: function mainSaveDisabled() {
+      // Информация никнейм
       return this.nickname.length < 3 || !/\+\d{6,20}/.test(this.phone) || !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email);
     },
     checkPhoneCodeDisabled: function checkPhoneCodeDisabled() {
@@ -121641,7 +121670,7 @@ var render = function() {
                               staticClass: "form-control",
                               attrs: {
                                 type: "text",
-                                disabled: _vm.email_verified_at
+                                disabled: _vm.email_verified_at && !_vm.isAdmin
                               },
                               domProps: { value: _vm.email },
                               on: {
@@ -121662,8 +121691,10 @@ var render = function() {
                                     {
                                       name: "show",
                                       rawName: "v-show",
-                                      value: !_vm.email_verified_at,
-                                      expression: "!email_verified_at"
+                                      value:
+                                        !_vm.email_verified_at || _vm.isAdmin,
+                                      expression:
+                                        "!email_verified_at || isAdmin"
                                     }
                                   ],
                                   staticClass: "btn btn-primary",
@@ -121704,7 +121735,7 @@ var render = function() {
                               staticClass: "form-control",
                               attrs: {
                                 type: "text",
-                                disabled: _vm.phone_verify_at
+                                disabled: _vm.phone_verify_at && !_vm.isAdmin
                               },
                               domProps: { value: _vm.phone },
                               on: {
@@ -121725,8 +121756,9 @@ var render = function() {
                                     {
                                       name: "show",
                                       rawName: "v-show",
-                                      value: !_vm.phone_verify_at,
-                                      expression: "!phone_verify_at"
+                                      value:
+                                        !_vm.phone_verify_at || _vm.isAdmin,
+                                      expression: "!phone_verify_at || isAdmin"
                                     }
                                   ],
                                   staticClass: "btn btn-primary",
@@ -121876,60 +121908,10 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._l(_vm.password_error, function(value) {
-          return _c(
-            "div",
-            {
-              staticClass: "alert bg-rgba-danger alert-dismissible mb-2",
-              attrs: { role: "alert" }
-            },
-            [
-              _vm._m(13, true),
-              _vm._v(" "),
-              _c("div", { staticClass: "d-flex align-items-center" }, [
-                _c("i", { staticClass: "bx bx-error" }),
-                _vm._v(" "),
-                _c("span", [
-                  _vm._v(
-                    "\n                  " +
-                      _vm._s(value) +
-                      "\n                "
-                  )
-                ])
-              ])
-            ]
-          )
-        }),
-        _vm._v(" "),
-        _vm._l(_vm.password_success, function(value) {
-          return _c(
-            "div",
-            {
-              staticClass: "alert bg-rgba-success alert-dismissible mb-2",
-              attrs: { role: "alert" }
-            },
-            [
-              _vm._m(14, true),
-              _vm._v(" "),
-              _c("div", { staticClass: "d-flex align-items-center" }, [
-                _c("i", { staticClass: "bx bx-error" }),
-                _vm._v(" "),
-                _c("span", [
-                  _vm._v(
-                    "\n                  " +
-                      _vm._s(value) +
-                      "\n                "
-                  )
-                ])
-              ])
-            ]
-          )
-        }),
-        _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(15),
+              _vm._m(13),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -122022,6 +122004,56 @@ var render = function() {
             ])
           ])
         ]),
+        _vm._v(" "),
+        _vm._l(_vm.password_error, function(value) {
+          return _c(
+            "div",
+            {
+              staticClass: "alert bg-rgba-danger alert-dismissible mb-2",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._m(14, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex align-items-center" }, [
+                _c("i", { staticClass: "bx bx-error" }),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(value) +
+                      "\n                  "
+                  )
+                ])
+              ])
+            ]
+          )
+        }),
+        _vm._v(" "),
+        _vm._l(_vm.password_success, function(value) {
+          return _c(
+            "div",
+            {
+              staticClass: "alert bg-rgba-success alert-dismissible mb-2",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._m(15, true),
+              _vm._v(" "),
+              _c("div", { staticClass: "d-flex align-items-center" }, [
+                _c("i", { staticClass: "bx bx-error" }),
+                _vm._v(" "),
+                _c("span", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(value) +
+                      "\n                  "
+                  )
+                ])
+              ])
+            ]
+          )
+        }),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
@@ -122597,6 +122629,35 @@ var render = function() {
                     [_vm._m(30)]
                   ),
                   _vm._v(" "),
+                  _vm.document_first_page && _vm.isAdmin
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: {
+                                href: "/admin/image/" + _vm.document_first_page,
+                                target: "_blank"
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "w-100 mt-1",
+                                staticStyle: { "border-radius": "3px" },
+                                attrs: {
+                                  src: "/admin/image/" + _vm.document_first_page
+                                }
+                              })
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(31),
+                        _vm._v(" "),
+                        _vm._m(32)
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
                     "fieldset",
                     {
@@ -122646,7 +122707,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(31),
+              _vm._m(33),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -122664,7 +122725,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(32)]
+                    [_vm._m(34)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -122685,7 +122746,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(33)]
+                    [_vm._m(35)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -122702,7 +122763,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(34)]
+                    [_vm._m(36)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -122754,7 +122815,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(35),
+              _vm._m(37),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -122772,7 +122833,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(36)]
+                    [_vm._m(38)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -122793,7 +122854,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(37)]
+                    [_vm._m(39)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -122810,7 +122871,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(38)]
+                    [_vm._m(40)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -123090,43 +123151,43 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "alert",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "alert",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h4", { staticClass: "card-title" }, [_vm._v("Подключить соц. сети")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   },
   function() {
     var _vm = this
@@ -123324,6 +123385,36 @@ var staticRenderFns = [
           "\n                                      Документ успешно подтвержден!\n                                    "
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 mt-1" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-danger w-100",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Отклонить")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 mt-1" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-primary w-100",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Подтвердить")]
+      )
     ])
   },
   function() {
@@ -146532,6 +146623,14 @@ var routes = [{
     hideFooter: true
   }
 }, {
+  path: '/admin/profile',
+  name: 'Профиль',
+  component: _views_user_Profile__WEBPACK_IMPORTED_MODULE_3__["default"],
+  meta: {
+    icon: 'line-chart',
+    isAdmin: true
+  }
+}, {
   path: '/admin/deposit',
   name: 'Пополения',
   component: _views_admin_Deposit__WEBPACK_IMPORTED_MODULE_4__["default"],
@@ -146851,15 +146950,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!************************************************!*\
   !*** ./resources/vuejs/views/admin/Verify.vue ***!
   \************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Verify_vue_vue_type_template_id_5dc6eed2_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Verify.vue?vue&type=template&id=5dc6eed2&scoped=true& */ "./resources/vuejs/views/admin/Verify.vue?vue&type=template&id=5dc6eed2&scoped=true&");
 /* harmony import */ var _Verify_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Verify.vue?vue&type=script&lang=js& */ "./resources/vuejs/views/admin/Verify.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _Verify_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _Verify_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 /* normalize component */
 
@@ -146885,7 +146983,7 @@ component.options.__file = "resources/vuejs/views/admin/Verify.vue"
 /*!*************************************************************************!*\
   !*** ./resources/vuejs/views/admin/Verify.vue?vue&type=script&lang=js& ***!
   \*************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

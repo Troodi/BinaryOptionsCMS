@@ -66,6 +66,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post("/ping", 'Main\TradingController@ping');
 
   Route::middleware(['admin'])->prefix('admin')->group(function () {
+    Route::get("image/{file}", 'Main\FileController@showImage');
     Route::prefix('data')->group(function () {
       Route::post("statistics", 'Admin\StatisticsController@getShortStatistics');
       Route::post("users", 'Admin\StatisticsController@getAllUsers');

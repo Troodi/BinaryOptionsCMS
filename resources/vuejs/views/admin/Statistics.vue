@@ -312,7 +312,7 @@ export default {
       "iDisplayLength": 10,
       "processing": true,
       "serverSide": true,
-      "order": [[1, "desc"]],
+      "order": [[0, "asc"]],
       "ajax": {
         url: "/admin/data/users",
         type: "POST"

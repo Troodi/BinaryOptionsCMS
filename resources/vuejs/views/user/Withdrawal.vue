@@ -1,30 +1,33 @@
 <template>
     <div class="content-wrapper">
         <div class="content-body">
-            <div v-for="value in errors" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <div class="row">
+              <div class="col-md-12">
+                <div v-for="value in errors" class="alert bg-rgba-danger alert-dismissible mb-2 w-100" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
-                </button>
-                <div class="d-flex align-items-center">
+                  </button>
+                  <div class="d-flex align-items-center">
                     <i class="bx bx-error"></i>
                     <span>
                       {{ value }}
                     </span>
+                  </div>
                 </div>
-            </div>
 
-            <div v-for="value in success" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <div v-for="value in success" class="alert bg-rgba-success alert-dismissible mb-2 w-100" role="alert">
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">×</span>
-                </button>
-                <div class="d-flex align-items-center">
+                  </button>
+                  <div class="d-flex align-items-center">
                     <i class="bx bx-error"></i>
                     <span>
                       {{ value }}
                     </span>
+                  </div>
                 </div>
+              </div>
             </div>
-
             <div class="row">
                 <div class="col-md-7">
                     <section class="card">
