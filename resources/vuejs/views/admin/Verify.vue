@@ -38,10 +38,18 @@ import dateformat from "dateformat";
 export default {
   name: "Verify",
   mounted: function (){
+    let self = this;
     $('#verify').DataTable({
       "iDisplayLength": 25,
       "processing": true,
       "serverSide": true,
+      "drawCallback": function() {
+        $('.router-push').on('click', function (){
+          let url = $(this).attr('data-url');
+          self.$router.push({ path: url });
+          return false;
+        });
+      },
       //"order": [[0, "desc"]],
       "ajax": {
         url: "/admin/data/verify",
@@ -77,7 +85,7 @@ export default {
           data: 'page',
           name: 'page',
           render: function(data, type, row) {
-            return '<a href="/admin/verify/' + row.user.id + '" target="_blank" class="w-100"><button type="button" class="btn btn-outline-primary btn-sm w-100">Проверить</button></a>';
+            return '<a data-url="/admin/user/' + row.id + '" href="/admin/user/' + row.user.id + '" class="router-push w-100"><button type="button" class="btn btn-outline-primary btn-sm w-100">Проверить</button></a>';
           }
         },
         {

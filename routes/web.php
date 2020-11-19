@@ -41,6 +41,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post("/data/demo/opened", 'Main\TradingController@getOpenDemoOrders');
   // Профиль
   Route::post("/data/profile", 'Main\ProfileController@loadAllProfileData');
+  Route::post("/data/profile/{id}", 'Main\ProfileController@loadAllProfileData')->middleware('admin');
   Route::post("/data/changePassword", 'Main\ProfileController@changePassword');
   Route::post('/data/upload-additional','Main\ProfileController@additionalDocument');
   Route::post('/data/verifyPhone', 'Main\ProfileController@sendPhoneCode');
@@ -49,7 +50,9 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post('/data/checkEmailCode', 'Main\ProfileController@approveEmail');
   Route::post('/data/sendPhoto', 'Main\ProfileController@passportFirstPage');
   Route::post('/data/changeGeneralData', 'Main\ProfileController@changeGeneralData');
+  Route::post('/data/changeGeneralData/{id}', 'Main\ProfileController@changeGeneralData')->middleware('admin');
   Route::post('/data/changeMainData', 'Main\ProfileController@changeMainData');
+  Route::post('/data/changeMainData/{id}', 'Main\ProfileController@changeMainData')->middleware('admin');
   //Поддержка
   Route::post('/data/support', 'Main\SupportController@sendQuestion');
   //Вывод
@@ -74,6 +77,10 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("verify", 'Admin\VerifyController@listRequestVerify');
       Route::post("cheat", 'Admin\CheatController@getAllCheaters');
       Route::post("history", 'Admin\TradeHistoryController@getHistory');
+      Route::post("updatePhone", 'Admin\UserController@updatePhone');
+      Route::post("updateEmail", 'Admin\UserController@updateEmail');
+      Route::post("updatePassword", 'Admin\UserController@updatePassword');
+      Route::post("verifyAccount", 'Admin\UserController@verifyAccount');
     });
     Route::get('/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
   });

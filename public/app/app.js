@@ -3662,6 +3662,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3732,7 +3768,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     getProfile: function getProfile() {
       var self = this;
-      axios.post('/data/profile').then(function (response) {
+      var url = '/data/profile';
+
+      if (this.isAdmin) {
+        url = '/data/profile/' + this.$route.params.id;
+      }
+
+      axios.post(url).then(function (response) {
         self.email = response.data.email ? response.data.email : '';
         self.nickname = response.data.name ? response.data.name : '';
         self.address = response.data.profile.address ? response.data.profile.address : '';
@@ -3759,11 +3801,22 @@ __webpack_require__.r(__webpack_exports__);
     },
     changePassword: function changePassword() {
       var self = this;
-      axios.post('/data/changePassword', {
+      var url = '/data/changePassword';
+      var data = {
         old_password: self.current_password,
         new_password: self.new_password,
         repeat_password: self.repeat_password
-      }).then(function (response) {
+      };
+
+      if (this.isAdmin) {
+        url = '/admin/data/updatePassword';
+        data = {
+          password: self.new_password,
+          id: this.$route.params.id
+        };
+      }
+
+      axios.post(url, data).then(function (response) {
         self.password_error = [];
         self.password_success = [];
 
@@ -3776,7 +3829,13 @@ __webpack_require__.r(__webpack_exports__);
     },
     saveGeneral: function saveGeneral() {
       var self = this;
-      axios.post('/data/changeGeneralData', {
+      var url = '/data/changeGeneralData';
+
+      if (this.isAdmin) {
+        url = '/data/changeGeneralData/' + this.$route.params.id;
+      }
+
+      axios.post(url, {
         nickname: self.nickname,
         telegram: self.telegram,
         gender: self.gender,
@@ -3887,6 +3946,61 @@ __webpack_require__.r(__webpack_exports__);
           _this3.getProfile();
         } else {
           _this3.emailModalErrors.push(response.data.message);
+        }
+      });
+    },
+    verifyAccount: function verifyAccount() {
+      var self = this;
+      axios.post('/admin/data/verifyAccount', {
+        id: this.$route.params.id
+      }).then(function (response) {
+        if (response.data.success === true) {
+          toastr.success(response.data.message, 'Успешно!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+          self.getProfile();
+        } else {
+          toastr.error(response.data.message, 'Ошибка!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        }
+      });
+    },
+    updatePhone: function updatePhone() {
+      axios.post('/admin/data/updatePhone', {
+        phone: this.phone,
+        id: this.$route.params.id
+      }).then(function (response) {
+        if (response.data.success === true) {
+          toastr.success(response.data.message, 'Успешно!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        } else {
+          toastr.error(response.data.message, 'Ошибка!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        }
+      });
+    },
+    updateEmail: function updateEmail() {
+      axios.post('/admin/data/updateEmail', {
+        email: this.email,
+        id: this.$route.params.id
+      }).then(function (response) {
+        if (response.data.success === true) {
+          toastr.success(response.data.message, 'Успешно!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        } else {
+          toastr.error(response.data.message, 'Ошибка!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
         }
       });
     },
@@ -4098,7 +4212,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     mainSaveDisabled: function mainSaveDisabled() {
       // Информация никнейм
-      return this.nickname.length < 3 || !/\+\d{6,20}/.test(this.phone) || !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email);
+      return this.nickname.length < 3;
     },
     checkPhoneCodeDisabled: function checkPhoneCodeDisabled() {
       return !/\d{4}/.test(this.phoneCode);
@@ -121206,43 +121320,45 @@ var render = function() {
                       var isActive = ref.isActive
                       var isExactActive = ref.isExactActive
                       return [
-                        _c(
-                          "li",
-                          {
-                            staticClass: "nav-item",
-                            class: [isExactActive && "active"]
-                          },
-                          [
-                            _c(
-                              "a",
+                        !route.meta.hide
+                          ? _c(
+                              "li",
                               {
-                                attrs: { href: href },
-                                on: { click: navigate }
+                                staticClass: "nav-item",
+                                class: [isExactActive && "active"]
                               },
                               [
-                                _c("i", {
-                                  staticClass: "menu-livicon",
-                                  attrs: { "data-icon": route.meta.icon }
-                                }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "menu-title" }, [
-                                  _vm._v(_vm._s(route.name))
-                                ]),
-                                _vm._v(" "),
-                                route.meta.badge
-                                  ? _c(
-                                      "span",
-                                      {
-                                        staticClass:
-                                          "badge badge-primary badge-round float-right text-white"
-                                      },
-                                      [_vm._v(_vm._s(route.meta.badge))]
-                                    )
-                                  : _vm._e()
+                                _c(
+                                  "a",
+                                  {
+                                    attrs: { href: href },
+                                    on: { click: navigate }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "menu-livicon",
+                                      attrs: { "data-icon": route.meta.icon }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("span", { staticClass: "menu-title" }, [
+                                      _vm._v(_vm._s(route.name))
+                                    ]),
+                                    _vm._v(" "),
+                                    route.meta.badge
+                                      ? _c(
+                                          "span",
+                                          {
+                                            staticClass:
+                                              "badge badge-primary badge-round float-right text-white"
+                                          },
+                                          [_vm._v(_vm._s(route.meta.badge))]
+                                        )
+                                      : _vm._e()
+                                  ]
+                                )
                               ]
                             )
-                          ]
-                        )
+                          : _vm._e()
                       ]
                     }
                   }
@@ -122980,31 +123096,48 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _c("div", { staticClass: "input-group-append" }, [
-                              _c(
-                                "button",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value:
-                                        !_vm.email_verified_at || _vm.isAdmin,
-                                      expression:
-                                        "!email_verified_at || isAdmin"
-                                    }
-                                  ],
-                                  staticClass: "btn btn-primary",
-                                  attrs: {
-                                    disabled: _vm.emailSendDisabled,
-                                    type: "button",
-                                    "data-toggle": "modal",
-                                    "data-target": "#email"
-                                  }
-                                },
-                                [_vm._v("Подтвердить")]
-                              )
-                            ])
+                            _vm.isAdmin
+                              ? _c(
+                                  "div",
+                                  { staticClass: "input-group-append" },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-primary",
+                                        attrs: {
+                                          disabled: _vm.emailSendDisabled,
+                                          type: "button"
+                                        },
+                                        on: { click: _vm.updateEmail }
+                                      },
+                                      [_vm._v("Обновить")]
+                                    )
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.email_verified_at && !_vm.isAdmin
+                              ? _c(
+                                  "div",
+                                  { staticClass: "input-group-append" },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-primary",
+                                        attrs: {
+                                          disabled: _vm.emailSendDisabled,
+                                          type: "button",
+                                          "data-toggle": "modal",
+                                          "data-target": "#email"
+                                        }
+                                      },
+                                      [_vm._v("Подтвердить")]
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       ]),
@@ -123045,30 +123178,48 @@ var render = function() {
                               }
                             }),
                             _vm._v(" "),
-                            _c("div", { staticClass: "input-group-append" }, [
-                              _c(
-                                "button",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value:
-                                        !_vm.phone_verify_at || _vm.isAdmin,
-                                      expression: "!phone_verify_at || isAdmin"
-                                    }
-                                  ],
-                                  staticClass: "btn btn-primary",
-                                  attrs: {
-                                    disabled: _vm.phoneSendDisabled,
-                                    type: "button",
-                                    "data-toggle": "modal",
-                                    "data-target": "#phone"
-                                  }
-                                },
-                                [_vm._v("Подтвердить")]
-                              )
-                            ])
+                            _vm.isAdmin
+                              ? _c(
+                                  "div",
+                                  { staticClass: "input-group-append" },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-primary",
+                                        attrs: {
+                                          disabled: _vm.phoneSendDisabled,
+                                          type: "button"
+                                        },
+                                        on: { click: _vm.updatePhone }
+                                      },
+                                      [_vm._v("Обновить")]
+                                    )
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.phone_verify_at && !_vm.isAdmin
+                              ? _c(
+                                  "div",
+                                  { staticClass: "input-group-append" },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-primary",
+                                        attrs: {
+                                          disabled: _vm.phoneSendDisabled,
+                                          type: "button",
+                                          "data-toggle": "modal",
+                                          "data-target": "#phone"
+                                        }
+                                      },
+                                      [_vm._v("Подтвердить")]
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
                           ])
                         ])
                       ]),
@@ -123766,7 +123917,7 @@ var render = function() {
                     _vm._v(" "),
                     _vm._m(24),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-md-4" }, [
+                    _c("div", { staticClass: "col-md-5" }, [
                       _c(
                         "button",
                         {
@@ -123786,6 +123937,25 @@ var render = function() {
                           on: { click: _vm.saveMain }
                         },
                         [_vm._v("Сохранить изменения")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.privateDataIsset && _vm.isAdmin,
+                              expression: "!privateDataIsset && isAdmin"
+                            }
+                          ],
+                          staticClass:
+                            "btn btn-outline-success float-right mr-1",
+                          attrs: { type: "button" },
+                          on: { click: _vm.verifyAccount }
+                        },
+                        [_vm._v("Верифицировать")]
                       ),
                       _vm._v(" "),
                       _c(
@@ -124063,6 +124233,37 @@ var render = function() {
                     [_vm._m(36)]
                   ),
                   _vm._v(" "),
+                  _vm.document_second_page && _vm.isAdmin
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: {
+                                href:
+                                  "/admin/image/" + _vm.document_second_page,
+                                target: "_blank"
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "w-100 mt-1",
+                                staticStyle: { "border-radius": "3px" },
+                                attrs: {
+                                  src:
+                                    "/admin/image/" + _vm.document_second_page
+                                }
+                              })
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(37),
+                        _vm._v(" "),
+                        _vm._m(38)
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
                   _c(
                     "fieldset",
                     {
@@ -124112,7 +124313,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(37),
+              _vm._m(39),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -124130,7 +124331,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(38)]
+                    [_vm._m(40)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -124151,7 +124352,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(39)]
+                    [_vm._m(41)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -124168,8 +124369,37 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(40)]
+                    [_vm._m(42)]
                   ),
+                  _vm._v(" "),
+                  _vm.document_additional && _vm.isAdmin
+                    ? _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _c(
+                            "a",
+                            {
+                              attrs: {
+                                href: "/admin/image/" + _vm.document_additional,
+                                target: "_blank"
+                              }
+                            },
+                            [
+                              _c("img", {
+                                staticClass: "w-100 mt-1",
+                                staticStyle: { "border-radius": "3px" },
+                                attrs: {
+                                  src: "/admin/image/" + _vm.document_additional
+                                }
+                              })
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(43),
+                        _vm._v(" "),
+                        _vm._m(44)
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c(
                     "fieldset",
@@ -124590,7 +124820,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8" }, [
+    return _c("div", { staticClass: "col-md-7" }, [
       _c("p", [
         _vm._v(
           "\n                                        Используются только для верификации личности, это необходимо для защиты от отмывания денег.\n                                    "
@@ -124770,6 +125000,36 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 mt-1" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-danger w-100",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Отклонить")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 mt-1" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-primary w-100",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Подтвердить")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h4", { staticClass: "card-title" }, [
         _vm._v("Допольнительный документ")
@@ -124816,6 +125076,36 @@ var staticRenderFns = [
           "\n                                      Документ успешно подтвержден!\n                                    "
         )
       ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 mt-1" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-danger w-100",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Отклонить")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-6 mt-1" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-outline-primary w-100",
+          attrs: { type: "button" }
+        },
+        [_vm._v("Подтвердить")]
+      )
     ])
   }
 ]
