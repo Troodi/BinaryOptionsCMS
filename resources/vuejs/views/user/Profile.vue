@@ -174,8 +174,11 @@
                                             <label>Email</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" v-model="email" v-bind:disabled="email_verified_at && !isAdmin" v-mask="'*{1,25}@*{1,15}.*{1,7}'">
-                                                <div class="input-group-append">
-                                                    <button v-show="!email_verified_at || isAdmin" v-bind:disabled="emailSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#email">Подтвердить</button>
+                                                <div class="input-group-append" v-if="isAdmin">
+                                                  <button v-bind:disabled="emailSendDisabled" class="btn btn-primary" type="button" @click="updateEmail">Обновить</button>
+                                                </div>
+                                                <div class="input-group-append" v-if="!email_verified_at && !isAdmin">
+                                                    <button v-bind:disabled="emailSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#email">Подтвердить</button>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -185,8 +188,11 @@
                                             <label>Телефон*</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" v-model="phone" v-bind:disabled="phone_verify_at && !isAdmin" v-mask="'+9{9,20}'">
-                                                <div class="input-group-append">
-                                                    <button v-show="!phone_verify_at || isAdmin" v-bind:disabled="phoneSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#phone">Подтвердить</button>
+                                                <div class="input-group-append" v-if="isAdmin">
+                                                  <button v-bind:disabled="phoneSendDisabled" @click="updatePhone" class="btn btn-primary" type="button">Обновить</button>
+                                                </div>
+                                                <div class="input-group-append" v-if="!phone_verify_at && !isAdmin">
+                                                  <button v-bind:disabled="phoneSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#phone">Подтвердить</button>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -403,13 +409,14 @@
                                             <input type="text" class="form-control" v-model="document_number" v-bind:disabled="privateDataIsset">
                                         </fieldset>
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-7">
                                         <p>
                                             Используются только для верификации личности, это необходимо для защиты от отмывания денег.
                                         </p>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <button v-show="!privateDataIsset" @click="saveMain" v-bind:disabled="privateSaveDisabled" type="button" class="btn btn-outline-primary float-right">Сохранить изменения</button>
+                                        <button v-show="!privateDataIsset && isAdmin" @click="verifyAccount" type="button" class="btn btn-outline-success float-right mr-1">Верифицировать</button>
                                         <button v-show="!privateDataIsset" @click="clearPrivate" type="button" class="btn btn-outline-danger float-right mr-1">Очистить поля</button>
                                     </div>
                                 </div>
@@ -491,6 +498,7 @@
                                     <button type="button" class="btn btn-outline-primary w-100">Подтвердить</button>
                                   </div>
                                 </div>
+
                                 <fieldset v-show="!document_first_page && !document_first_page_verify_at">
                                     <div class="input-group">
                                         <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="firstUpload" v-model="document_first_page" :state="Boolean(document_first_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
@@ -534,6 +542,20 @@
                                     </div>
                                 </div>
 
+                                <div v-if="document_second_page && isAdmin" class="row">
+                                  <div class="col-md-12">
+                                    <a :href="'/admin/image/'+document_second_page" target="_blank">
+                                      <img :src="'/admin/image/'+document_second_page" class="w-100 mt-1" style="border-radius: 3px;">
+                                    </a>
+                                  </div>
+                                  <div class="col-md-6 mt-1">
+                                    <button type="button" class="btn btn-outline-danger w-100">Отклонить</button>
+                                  </div>
+                                  <div class="col-md-6 mt-1">
+                                    <button type="button" class="btn btn-outline-primary w-100">Подтвердить</button>
+                                  </div>
+                                </div>
+
                                 <fieldset v-show="!document_second_page && !document_second_page_verify_at">
                                     <div class="input-group">
                                         <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="secondUpload" v-model="document_second_page" :state="Boolean(document_second_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
@@ -575,6 +597,20 @@
                                           Документ успешно подтвержден!
                                         </span>
                                     </div>
+                                </div>
+
+                                <div v-if="document_additional && isAdmin" class="row">
+                                  <div class="col-md-12">
+                                    <a :href="'/admin/image/'+document_additional" target="_blank">
+                                      <img :src="'/admin/image/'+document_additional" class="w-100 mt-1" style="border-radius: 3px;">
+                                    </a>
+                                  </div>
+                                  <div class="col-md-6 mt-1">
+                                    <button type="button" class="btn btn-outline-danger w-100">Отклонить</button>
+                                  </div>
+                                  <div class="col-md-6 mt-1">
+                                    <button type="button" class="btn btn-outline-primary w-100">Подтвердить</button>
+                                  </div>
                                 </div>
 
                                 <fieldset v-show="!document_additional && !document_additional_verify_at">
@@ -653,7 +689,11 @@
             },
             getProfile: function(){
                 let self = this;
-                axios.post('/data/profile')
+                let url = '/data/profile';
+                if(this.isAdmin){
+                  url = '/data/profile/'+this.$route.params.id;
+                }
+                axios.post(url)
                     .then(function (response) {
                         self.email = response.data.email ? response.data.email : '';
                         self.nickname = response.data.name ? response.data.name : '';
@@ -681,11 +721,20 @@
             },
             changePassword: function () {
                 let self = this;
-                axios.post('/data/changePassword', {
-                    old_password: self.current_password,
-                    new_password: self.new_password,
-                    repeat_password: self.repeat_password
-                }).then(function (response) {
+                let url = '/data/changePassword';
+                let data = {
+                  old_password: self.current_password,
+                  new_password: self.new_password,
+                  repeat_password: self.repeat_password
+                };
+                if(this.isAdmin){
+                  url = '/admin/data/updatePassword';
+                  data = {
+                    password: self.new_password,
+                    id: this.$route.params.id
+                  };
+                }
+                axios.post(url, data).then(function (response) {
                     self.password_error = [];
                     self.password_success = [];
                     if(response.data.success === true) {
@@ -697,7 +746,11 @@
             },
             saveGeneral: function(){
                 let self = this;
-                axios.post('/data/changeGeneralData', {
+                let url = '/data/changeGeneralData';
+                if(this.isAdmin){
+                  url = '/data/changeGeneralData/'+this.$route.params.id;
+                }
+                axios.post(url, {
                     nickname: self.nickname,
                     telegram: self.telegram,
                     gender: self.gender,
@@ -792,6 +845,53 @@
                         this.emailModalErrors.push(response.data.message);
                     }
                 });
+            },
+            verifyAccount: function (){
+              let self = this;
+              axios.post('/admin/data/verifyAccount', { id: this.$route.params.id }).then((response) => {
+                if(response.data.success === true) {
+                  toastr.success(response.data.message, 'Успешно!', {
+                    positionClass: 'toast-bottom-left',
+                    containerId: 'toast-bottom-left'
+                  });
+                  self.getProfile();
+                } else {
+                  toastr.error(response.data.message, 'Ошибка!', {
+                    positionClass: 'toast-bottom-left',
+                    containerId: 'toast-bottom-left'
+                  });
+                }
+              });
+            },
+            updatePhone: function (){
+              axios.post('/admin/data/updatePhone', { phone: this.phone, id: this.$route.params.id }).then((response) => {
+                if(response.data.success === true) {
+                  toastr.success(response.data.message, 'Успешно!', {
+                    positionClass: 'toast-bottom-left',
+                    containerId: 'toast-bottom-left'
+                  });
+                } else {
+                  toastr.error(response.data.message, 'Ошибка!', {
+                    positionClass: 'toast-bottom-left',
+                    containerId: 'toast-bottom-left'
+                  });
+                }
+              });
+            },
+            updateEmail: function (){
+              axios.post('/admin/data/updateEmail', { email: this.email, id: this.$route.params.id }).then((response) => {
+                if(response.data.success === true) {
+                  toastr.success(response.data.message, 'Успешно!', {
+                    positionClass: 'toast-bottom-left',
+                    containerId: 'toast-bottom-left'
+                  });
+                } else {
+                  toastr.error(response.data.message, 'Ошибка!', {
+                    positionClass: 'toast-bottom-left',
+                    containerId: 'toast-bottom-left'
+                  });
+                }
+              });
             },
             sendEmailCode: function () {
                 this.emailModalErrors = [];
@@ -961,7 +1061,7 @@
                 return !(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email));
             },
             mainSaveDisabled: function () { // Информация никнейм
-                return this.nickname.length < 3 || !(/\+\d{6,20}/.test(this.phone)) || !(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email));
+                return this.nickname.length < 3;
             },
             checkPhoneCodeDisabled: function () {
                 return !(/\d{4}/.test(this.phoneCode));

@@ -21,7 +21,7 @@
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="lines">
                 <router-link v-for="(route,index) in this.$router.options.routes" :key="index" :to="route.path" v-slot="{ href, route, navigate, isActive, isExactActive }">
-                    <li class="nav-item" :class="[isExactActive && 'active']">
+                    <li v-if="!route.meta.hide" class="nav-item" :class="[isExactActive && 'active']">
                         <a :href="href" @click="navigate">
                             <i class="menu-livicon" :data-icon="route.meta.icon"></i>
                             <span class="menu-title">{{ route.name }}</span>

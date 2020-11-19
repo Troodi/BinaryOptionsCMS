@@ -23,7 +23,7 @@ import TradeHistory from "../../views/admin/TradeHistory";
 export const routes = [
     { path: '/admin', name: 'Статистика системы', component: Statistics, meta: { icon: 'desktop', hideFooter: true } },
     { path: '/admin/demo', name: 'Промокоды', component: Promocode, meta: { icon: 'line-chart', hideFooter: true } },
-    { path: '/admin/profile', name: 'Профиль', component: Profile, meta: { icon: 'line-chart', isAdmin: true } },
+    { path: '/admin/user/:id', name: 'Профиль', component: Profile, meta: { icon: 'line-chart', isAdmin: true, hide: true } },
     { path: '/admin/deposit', name: 'Пополения', component: Deposit, meta: { icon: 'bank'} },
     { path: '/admin/withdrawal', name: 'Выплаты', component: Withdrawal, meta: { icon: 'coins' } },
     { path: '/admin/verify', name: 'Верификация', component: Verify, meta: { icon: 'bulb' } },

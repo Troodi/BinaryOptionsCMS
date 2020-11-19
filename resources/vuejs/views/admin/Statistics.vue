@@ -313,6 +313,13 @@ export default {
       "processing": true,
       "serverSide": true,
       "order": [[0, "asc"]],
+      "drawCallback": function() {
+        $('.router-push').on('click', function (){
+          let url = $(this).attr('data-url');
+          self.$router.push({ path: url });
+          return false;
+        });
+      },
       "ajax": {
         url: "/admin/data/users",
         type: "POST"
@@ -333,7 +340,7 @@ export default {
             if (type === 'display') {
               email = data;
             }
-            return '<a href="/admin/user/' + row.id + '" target="_blank">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+            return '<a class="router-push" data-url="/admin/user/' + row.id + '" href="/admin/user/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
           }
         },
         {

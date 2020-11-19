@@ -26,10 +26,10 @@ class ProfileController extends Controller
   public function changePassword(Request $request){
     $request->validate([
       'old_password' =>  'string|min:6|max:255',
-      'new_password' =>  'string|min:6|max:255',
-      'repeat_password' =>  'string|min:6|max:255',
+      'new_password' =>  'string|min:8|max:255',
+      'repeat_password' =>  'string|min:8|max:255',
     ]);
-    if(!Hash::check(Hash::make($request->old_password), Auth::user()->password)){
+    if(!Hash::check($request->old_password, Auth::user()->password)){
       return response()->json(['success' => false, 'message' => 'Текущий пароль введен неверно!'], 200);
     }
     if($request->new_password != $request->repeat_password){
@@ -41,14 +41,19 @@ class ProfileController extends Controller
 
   // Изменение основных данных
   public function changeGeneralData(Request $request){
+    $id = Auth::user()->id;
+    if($request->id && Helper::isAdmin()){
+      $request->validate(['id' => 'numeric']);
+      $id = $request->id;
+    }
     $request->validate([
-      'nickname' => 'string|min:3|max:50',
-      'telegram' => 'string|min:3|max:50',
+      'nickname' => 'string|min:3|max:50|nullable',
+      'telegram' => 'string|min:3|max:50|nullable',
       'gender' => 'numeric|min:0|max:1',
       'language' => 'string|min:2|max:50',
     ]);
-    User::where('id', Auth::user()->id)->update(['name' => $request->nickname]);
-    ProFile::where('user_id', Auth::user()->id)->update([
+    User::where('id', $id)->update(['name' => $request->nickname]);
+    ProFile::where('user_id', $id)->update([
       'telegram' => $request->telegram,
       'gender' => $request->gender,
       'language' => $request->language
@@ -58,23 +63,29 @@ class ProfileController extends Controller
 
   // Изменение личных данных
   public function changeMainData(Request $request){
+    $admin = false;
+    if($request->id && Helper::isAdmin()){
+      $admin = true;
+      $request->validate(['id' => 'numeric|min:1']);
+    }
     $request->validate([
-      'name' => 'string|min:3|max:50',
-      'last_name' => 'string|min:3|max:50',
-      'patronymic' => 'string|min:3|max:50',
-      'birth' => 'regex:/\d{2}\-\d{2}\-\d{4}/',
-      'address' => 'string|min:10|max:250',
-      'document_number' => 'string|min:3|max:250',
+      'name' => 'string|min:3|max:50'.$admin ? '|nullable' : '',
+      'last_name' => 'string|min:3|max:50'.$admin ? '|nullable' : '',
+      'patronymic' => 'string|min:3|max:50'.$admin ? '|nullable' : '',
+      'birth' => 'regex:/\d{2}\-\d{2}\-\d{4}/'.$admin ? '|nullable' : '',
+      'address' => 'string|min:10|max:250'.$admin ? '|nullable' : '',
+      'document_number' => 'string|min:3|max:250'.$admin ? '|nullable' : '',
     ]);
-    $profile = Profile::where('user_id', Auth::user()->id)->first();
-    if($profile->document_first_page or $profile->document_first_page_verify_at or $profile->document_second_page or $profile->document_second_page_verify_at or $profile->document_additional or $profile->document_document_additional_verify_at){
+    $id = $admin ? $request->id : Auth::user()->id;
+    $profile = Profile::where('user_id', $id)->first();
+    if(($profile->document_first_page or $profile->document_first_page_verify_at or $profile->document_second_page or $profile->document_second_page_verify_at or $profile->document_additional or $profile->document_document_additional_verify_at) and $admin){
       return response()->json(['success' => false, 'message' => 'Невозможно обновить т.к. документы уже находятся на проверке!'], 200);
     }
-    Profile::where('user_id', Auth::user()->id)->update([
+    Profile::where('user_id', $id)->update([
       'name' => $request->name,
       'last_name' => $request->last_name,
       'patronymic' => $request->patronymic,
-      'birth' => Carbon::parse($request->birth),
+      'birth' => $request->birth ? Carbon::parse($request->birth) : null,
       'address' => $request->address,
       'document_number' => $request->document_number,
     ]);
@@ -83,7 +94,12 @@ class ProfileController extends Controller
 
   //Загружаем информацию о профиле
   public function loadAllProfileData(Request $request){
-    return User::where('id', Auth::user()->id)->with('profile', 'provider')->first();
+    if(isset($request->id) && Helper::isAdmin()){
+      $request->validate(['id' => 'numeric|min:1']);
+      return User::where('id', $request->id)->with('profile', 'provider')->first();
+    } else {
+      return User::where('id', Auth::user()->id)->with('profile', 'provider')->first();
+    }
   }
 
   // Верификация телефона

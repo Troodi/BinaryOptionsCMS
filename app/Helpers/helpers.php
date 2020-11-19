@@ -2,8 +2,10 @@
 namespace App\Helpers;
 use App\Models\Profile;
 use App\Models\Referral;
+use App\Models\Role;
 use App\User;
 use Dirape\Token\Token;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -25,6 +27,10 @@ class Helper
       File::makeDirectory(storage_path('app/private/'.date('Y/m/d')));
     }
     return 'private/'.date('Y/m/d');
+  }
+
+  public static function isAdmin(){
+    return Auth::check() and Role::where('user_id', Auth::user()->id)->where('role', 1)->count();
   }
 
   /**
