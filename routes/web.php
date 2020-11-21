@@ -33,8 +33,8 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   // Промокоды
   Route::post("/promocodes", 'Main\PromocodeController@getAvailablePromocodes');
   Route::post("/promocode", 'Main\PromocodeController@checkPromocode');
-  Route::post("/promocode/{id}", 'Main\PromocodeController@checkPromocode')->middleware('admin');
   Route::post("/promocode/history", 'Main\PromocodeController@promocodeHistory');
+  Route::post("/promocode/{id}", 'Main\PromocodeController@checkPromocode')->middleware('admin');
   Route::post("/promocode/history/{id}", 'Main\PromocodeController@promocodeHistory')->middleware('admin');
   // История сделок
   Route::post("/trading/history", 'Main\TradingController@tradingHistory');
@@ -93,6 +93,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("updateEmail", 'Admin\UserController@updateEmail');
       Route::post("updatePassword", 'Admin\UserController@updatePassword');
       Route::post("verifyAccount", 'Admin\UserController@verifyAccount');
+      Route::post("checkDocument", 'Admin\UserController@checkDocument');
     });
     Route::get('/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
   });

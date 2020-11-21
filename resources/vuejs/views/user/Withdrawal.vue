@@ -159,19 +159,20 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="card-text">
-                                    <div class="table-responsive">
-                                        <table class="table" id="withdrawalHistory">
-                                            <thead>
-                                            <tr>
-                                                <th>Сумма</th>
-                                                <th>Платежная система</th>
-                                                <th>Статус</th>
-                                                <th v-show="isAdmin">Действие</th>
-                                                <th>Дата</th>
-                                            </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
+                                  <div class="table-responsive">
+                                      <table class="table" id="withdrawalHistory">
+                                          <thead>
+                                          <tr>
+                                              <th>Сумма</th>
+                                              <th>Платежная система</th>
+                                              <th>Реквизиты</th>
+                                              <th>Статус</th>
+                                              <th id="hide">Действие</th>
+                                              <th>Дата</th>
+                                          </tr>
+                                          </thead>
+                                      </table>
+                                  </div>
                                 </div>
                             </div>
                         </div>
@@ -238,7 +239,7 @@
                 if(this.isAdmin){
                   url = '/data/processPayout/'+this.userId;
                 }
-                axios.post(url, { amount: self.amount_formatted, system_id: self.system }).then(function(response){
+                axios.post(url, { amount: self.amount_formatted, system_id: self.system, address: this.wallet_address }).then(function(response){
                     self.getAccountData();
                     if(response.data.success === true){
                         self.success.push(response.data.message);
@@ -254,13 +255,15 @@
               if(this.isAdmin){
                 url = '/data/withdrawalHistory/'+this.userId;
               }
+              let self = this;
                 $('#withdrawalHistory').DataTable({
                     "iDisplayLength": 10,
                     "processing": true,
                     "serverSide": true,
-                    "order": [[3, "desc"]],
+                    "order": [[4, "desc"]],
                     "drawCallback": function(settings) {
                         $('[data-toggle="popover"]').popover({ html : true });
+                        $('[data-toggle="tooltip"]').popover({ html : true });
                     },
                     "ajax": {
                         url: url,
@@ -268,6 +271,12 @@
                     },
                     "language": {
                         "url": "/locales/Russian.json"
+                    },
+                    "createdRow": function (row, data, index) {
+                      if(!self.isAdmin) {
+                        $('td', row).eq(4).addClass("d-none");
+                        $('#hide').hide();
+                      }
                     },
                     columns: [
                         {
@@ -289,26 +298,30 @@
                             }
                         },
                         {
+                          data: 'address',
+                          name: 'address',
+                        },
+                        {
                             data: 'status',
                             name: 'status',
                             orderable: false,
                             searchable: false,
-                            render: function(data, type) {
-                                let classname = 'info';
-                                let text = 'Обрабатывается';
+                            render: function(data, type, row) {
+                                let text = '<div class="badge badge-info">Обрабатывается</div>';
                                 if (type === 'display') {
                                     if(data == 0){
-                                        classname = 'info';
-                                        text = 'Обрабатывается';
+                                        text = '<div class="badge badge-info">Обрабатывается</div>';
                                     } else if (data == 1){
-                                        classname = 'success';
-                                        text = 'Выплачено';
+                                        text = '<div class="badge badge-success">Выплачено</div>';
                                     } else if (data == 2){
-                                        classname = 'danger';
-                                        text = 'Отклонено';
+                                        let message = 'Причина отклонения выплаты не была указана';
+                                        if(row.message){
+                                          message = row.message;
+                                        }
+                                        text = '<div class="badge badge-danger cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="Причина отклонения" data-content="'+message+'">Отклонено <i class="bx bx-help-circle cursor-pointer" style="font-size: 12px;"></i></div>';
                                     }
                                 }
-                                return '<div class="badge badge-'+classname+'">' + text + '</div>';
+                                return text;
                             }
                         },
                         {
@@ -343,6 +356,7 @@
             this.getAccountData();
             this.initDatatable();
         },
+        // watch:
         computed: {
             isAdmin: function (){
               return this.$route.meta.isAdmin;
@@ -362,6 +376,9 @@
                     let errors = [];
                     if(this.amount_formatted < 10){
                         errors.push('Минимальная сумма вывода составляет 10$!');
+                    }
+                    if(this.wallet_address.length < 5 && this.wallet_address.length > 0){
+                      errors.push('Введите корректный адрес выплаты!');
                     }
                     return errors;
                 },
@@ -396,7 +413,7 @@
                 if(!this.account){
                     return true;
                 }
-                return this.amount_formatted < 10;
+                return this.amount_formatted < 10 || this.wallet_address.length < 5;
             }
         }
     }

@@ -3728,6 +3728,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3736,6 +3748,29 @@ __webpack_require__.r(__webpack_exports__);
     this.getProfile();
   },
   methods: {
+    actionVerify: function actionVerify(message, status, page) {
+      // 0 - отклонить без удаления файлов, 1 - подтвердить, 2 - удалить
+      var self = this;
+      axios.post('/admin/data/checkDocument', {
+        id: self.userId,
+        comment: message,
+        status: status,
+        page: page
+      }).then(function (response) {
+        if (response.data.success === true) {
+          toastr.success(response.data.message, 'Успешно!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+          self.getProfile();
+        } else {
+          toastr.error(response.data.message, 'Ошибка!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        }
+      });
+    },
     sendDocument: function sendDocument(event, page) {
       this.fileError = [];
       this.fileSuccess = [];
@@ -4118,7 +4153,10 @@ __webpack_require__.r(__webpack_exports__);
       general_success: [],
       password_success: [],
       user_verify_at: null,
-      provider: []
+      provider: [],
+      comment_first: '',
+      comment_second: '',
+      comment_third: ''
     };
   },
   computed: {
@@ -5784,6 +5822,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Deposit",
@@ -5857,7 +5896,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post(url, {
         amount: self.amount_formatted,
-        system_id: self.system
+        system_id: self.system,
+        address: this.wallet_address
       }).then(function (response) {
         self.getAccountData();
 
@@ -5877,13 +5917,17 @@ __webpack_require__.r(__webpack_exports__);
         url = '/data/withdrawalHistory/' + this.userId;
       }
 
+      var self = this;
       $('#withdrawalHistory').DataTable({
         "iDisplayLength": 10,
         "processing": true,
         "serverSide": true,
-        "order": [[3, "desc"]],
+        "order": [[4, "desc"]],
         "drawCallback": function drawCallback(settings) {
           $('[data-toggle="popover"]').popover({
+            html: true
+          });
+          $('[data-toggle="tooltip"]').popover({
             html: true
           });
         },
@@ -5893,6 +5937,12 @@ __webpack_require__.r(__webpack_exports__);
         },
         "language": {
           "url": "/locales/Russian.json"
+        },
+        "createdRow": function createdRow(row, data, index) {
+          if (!self.isAdmin) {
+            $('td', row).eq(4).addClass("d-none");
+            $('#hide').hide();
+          }
         },
         columns: [{
           orderable: false,
@@ -5911,28 +5961,33 @@ __webpack_require__.r(__webpack_exports__);
             return '<div class="badge badge-primary">Payeer</div>';
           }
         }, {
+          data: 'address',
+          name: 'address'
+        }, {
           data: 'status',
           name: 'status',
           orderable: false,
           searchable: false,
-          render: function render(data, type) {
-            var classname = 'info';
-            var text = 'Обрабатывается';
+          render: function render(data, type, row) {
+            var text = '<div class="badge badge-info">Обрабатывается</div>';
 
             if (type === 'display') {
               if (data == 0) {
-                classname = 'info';
-                text = 'Обрабатывается';
+                text = '<div class="badge badge-info">Обрабатывается</div>';
               } else if (data == 1) {
-                classname = 'success';
-                text = 'Выплачено';
+                text = '<div class="badge badge-success">Выплачено</div>';
               } else if (data == 2) {
-                classname = 'danger';
-                text = 'Отклонено';
+                var message = 'Причина отклонения выплаты не была указана';
+
+                if (row.message) {
+                  message = row.message;
+                }
+
+                text = '<div class="badge badge-danger cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="Причина отклонения" data-content="' + message + '">Отклонено <i class="bx bx-help-circle cursor-pointer" style="font-size: 12px;"></i></div>';
               }
             }
 
-            return '<div class="badge badge-' + classname + '">' + text + '</div>';
+            return text;
           }
         }, {
           data: 'id',
@@ -5964,6 +6019,7 @@ __webpack_require__.r(__webpack_exports__);
     this.getAccountData();
     this.initDatatable();
   },
+  // watch:
   computed: {
     isAdmin: function isAdmin() {
       return this.$route.meta.isAdmin;
@@ -5986,6 +6042,10 @@ __webpack_require__.r(__webpack_exports__);
 
         if (this.amount_formatted < 10) {
           errors.push('Минимальная сумма вывода составляет 10$!');
+        }
+
+        if (this.wallet_address.length < 5 && this.wallet_address.length > 0) {
+          errors.push('Введите корректный адрес выплаты!');
         }
 
         return errors;
@@ -6027,7 +6087,7 @@ __webpack_require__.r(__webpack_exports__);
         return true;
       }
 
-      return this.amount_formatted < 10;
+      return this.amount_formatted < 10 || this.wallet_address.length < 5;
     }
   }
 });
@@ -124238,13 +124298,92 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(31),
+                        _c("div", { staticClass: "col-md-12 mt-1" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.comment_first,
+                                expression: "comment_first"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            staticStyle: { height: "100px" },
+                            attrs: {
+                              placeholder: "Комментарий для пользователя..."
+                            },
+                            domProps: { value: _vm.comment_first },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.comment_first = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
                         _vm._v(" "),
-                        _vm._m(32),
+                        _c("div", { staticClass: "col-md-4 mt-1" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-warning w-100",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.actionVerify(
+                                    _vm.comment_first,
+                                    0,
+                                    1
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Отклонить")]
+                          )
+                        ]),
                         _vm._v(" "),
-                        _vm._m(33),
+                        _c("div", { staticClass: "col-md-4 mt-1" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-danger w-100",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.actionVerify(
+                                    _vm.comment_first,
+                                    2,
+                                    1
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Удалить")]
+                          )
+                        ]),
                         _vm._v(" "),
-                        _vm._m(34)
+                        _c("div", { staticClass: "col-md-4 mt-1" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-primary w-100",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.actionVerify(
+                                    _vm.comment_first,
+                                    1,
+                                    1
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Проверено")]
+                          )
+                        ])
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -124297,7 +124436,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(35),
+              _vm._m(31),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -124315,7 +124454,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(36)]
+                    [_vm._m(32)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -124336,7 +124475,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(37)]
+                    [_vm._m(33)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -124353,7 +124492,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(38)]
+                    [_vm._m(34)]
                   ),
                   _vm._v(" "),
                   _vm.document_second_page && _vm.isAdmin
@@ -124381,9 +124520,92 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(39),
+                        _c("div", { staticClass: "col-md-12 mt-1" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.comment_second,
+                                expression: "comment_second"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            staticStyle: { height: "100px" },
+                            attrs: {
+                              placeholder: "Комментарий для пользователя..."
+                            },
+                            domProps: { value: _vm.comment_second },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.comment_second = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
                         _vm._v(" "),
-                        _vm._m(40)
+                        _c("div", { staticClass: "col-md-4 mt-1" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-warning w-100",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.actionVerify(
+                                    _vm.comment_second,
+                                    0,
+                                    2
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Отклонить")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-4 mt-1" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-danger w-100",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.actionVerify(
+                                    _vm.comment_second,
+                                    2,
+                                    2
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Удалить")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-4 mt-1" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-primary w-100",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.actionVerify(
+                                    _vm.comment_second,
+                                    1,
+                                    2
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Проверено")]
+                          )
+                        ])
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -124436,7 +124658,7 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(41),
+              _vm._m(35),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -124454,7 +124676,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(42)]
+                    [_vm._m(36)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -124475,7 +124697,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(43)]
+                    [_vm._m(37)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -124492,7 +124714,7 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(44)]
+                    [_vm._m(38)]
                   ),
                   _vm._v(" "),
                   _vm.document_additional && _vm.isAdmin
@@ -124518,9 +124740,92 @@ var render = function() {
                           )
                         ]),
                         _vm._v(" "),
-                        _vm._m(45),
+                        _c("div", { staticClass: "col-md-12 mt-1" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.comment_third,
+                                expression: "comment_third"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            staticStyle: { height: "100px" },
+                            attrs: {
+                              placeholder: "Комментарий для пользователя..."
+                            },
+                            domProps: { value: _vm.comment_third },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.comment_third = $event.target.value
+                              }
+                            }
+                          })
+                        ]),
                         _vm._v(" "),
-                        _vm._m(46)
+                        _c("div", { staticClass: "col-md-4 mt-1" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-warning w-100",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.actionVerify(
+                                    _vm.comment_third,
+                                    0,
+                                    3
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Отклонить")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-4 mt-1" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-danger w-100",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.actionVerify(
+                                    _vm.comment_third,
+                                    2,
+                                    3
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Удалить")]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-4 mt-1" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-outline-primary w-100",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.actionVerify(
+                                    _vm.comment_third,
+                                    1,
+                                    3
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Проверено")]
+                          )
+                        ])
                       ])
                     : _vm._e(),
                   _vm._v(" "),
@@ -125041,63 +125346,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12 mt-1" }, [
-      _c("textarea", {
-        staticClass: "form-control",
-        staticStyle: { height: "100px" },
-        attrs: { placeholder: "Комментарий для пользователя..." }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 mt-1" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-outline-warning w-100",
-          attrs: { type: "button" }
-        },
-        [_vm._v("Отклонить")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 mt-1" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-outline-danger w-100",
-          attrs: { type: "button" }
-        },
-        [_vm._v("Удалить")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4 mt-1" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-outline-primary w-100",
-          attrs: { type: "button" }
-        },
-        [_vm._v("Проверено")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h4", { staticClass: "card-title" }, [
         _vm._v("Страница с пропиской или обратная сторона ID")
@@ -125150,36 +125398,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 mt-1" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-outline-danger w-100",
-          attrs: { type: "button" }
-        },
-        [_vm._v("Отклонить")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 mt-1" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-outline-primary w-100",
-          attrs: { type: "button" }
-        },
-        [_vm._v("Подтвердить")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h4", { staticClass: "card-title" }, [
         _vm._v("Допольнительный документ")
@@ -125226,36 +125444,6 @@ var staticRenderFns = [
           "\n                                      Документ успешно подтвержден!\n                                    "
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 mt-1" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-outline-danger w-100",
-          attrs: { type: "button" }
-        },
-        [_vm._v("Отклонить")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6 mt-1" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-outline-primary w-100",
-          attrs: { type: "button" }
-        },
-        [_vm._v("Подтвердить")]
-      )
     ])
   }
 ]
@@ -128181,59 +128369,7 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "content-body" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("section", { staticClass: "card" }, [
-            _vm._m(10),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "card-text" }, [
-                  _c("div", { staticClass: "table-responsive" }, [
-                    _c(
-                      "table",
-                      {
-                        staticClass: "table",
-                        attrs: { id: "withdrawalHistory" }
-                      },
-                      [
-                        _c("thead", [
-                          _c("tr", [
-                            _c("th", [_vm._v("Сумма")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Платежная система")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Статус")]),
-                            _vm._v(" "),
-                            _c(
-                              "th",
-                              {
-                                directives: [
-                                  {
-                                    name: "show",
-                                    rawName: "v-show",
-                                    value: _vm.isAdmin,
-                                    expression: "isAdmin"
-                                  }
-                                ]
-                              },
-                              [_vm._v("Действие")]
-                            ),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Дата")])
-                          ])
-                        ])
-                      ]
-                    )
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
+    _vm._m(10)
   ])
 }
 var staticRenderFns = [
@@ -128399,9 +128535,52 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v("История заявок на вывод средств")
+    return _c("div", { staticClass: "content-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("section", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v("История заявок на вывод средств")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c(
+                      "table",
+                      {
+                        staticClass: "table",
+                        attrs: { id: "withdrawalHistory" }
+                      },
+                      [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [_vm._v("Сумма")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Платежная система")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Реквизиты")]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Статус")]),
+                            _vm._v(" "),
+                            _c("th", { attrs: { id: "hide" } }, [
+                              _vm._v("Действие")
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [_vm._v("Дата")])
+                          ])
+                        ])
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
       ])
     ])
   }
