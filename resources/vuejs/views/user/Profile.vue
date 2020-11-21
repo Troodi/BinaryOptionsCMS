@@ -492,16 +492,16 @@
                                     </a>
                                   </div>
                                   <div class="col-md-12 mt-1">
-                                    <textarea placeholder="Комментарий для пользователя..." class="form-control" style="height: 100px;"></textarea>
+                                    <textarea placeholder="Комментарий для пользователя..." class="form-control" style="height: 100px;" v-model="comment_first"></textarea>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button type="button" class="btn btn-outline-warning w-100">Отклонить</button>
+                                    <button @click="actionVerify(comment_first, 0, 1)" type="button" class="btn btn-outline-warning w-100">Отклонить</button>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button type="button" class="btn btn-outline-danger w-100">Удалить</button>
+                                    <button @click="actionVerify(comment_first, 2, 1)" type="button" class="btn btn-outline-danger w-100">Удалить</button>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button type="button" class="btn btn-outline-primary w-100">Проверено</button>
+                                    <button @click="actionVerify(comment_first, 1, 1)" type="button" class="btn btn-outline-primary w-100">Проверено</button>
                                   </div>
                                 </div>
 
@@ -554,11 +554,17 @@
                                       <img :src="'/admin/image/'+document_second_page" class="w-100 mt-1" style="border-radius: 3px;">
                                     </a>
                                   </div>
-                                  <div class="col-md-6 mt-1">
-                                    <button type="button" class="btn btn-outline-danger w-100">Отклонить</button>
+                                  <div class="col-md-12 mt-1">
+                                    <textarea placeholder="Комментарий для пользователя..." class="form-control" style="height: 100px;" v-model="comment_second"></textarea>
                                   </div>
-                                  <div class="col-md-6 mt-1">
-                                    <button type="button" class="btn btn-outline-primary w-100">Подтвердить</button>
+                                  <div class="col-md-4 mt-1">
+                                    <button @click="actionVerify(comment_second, 0, 2)" type="button" class="btn btn-outline-warning w-100">Отклонить</button>
+                                  </div>
+                                  <div class="col-md-4 mt-1">
+                                    <button @click="actionVerify(comment_second, 2, 2)" type="button" class="btn btn-outline-danger w-100">Удалить</button>
+                                  </div>
+                                  <div class="col-md-4 mt-1">
+                                    <button @click="actionVerify(comment_second, 1, 2)" type="button" class="btn btn-outline-primary w-100">Проверено</button>
                                   </div>
                                 </div>
 
@@ -611,11 +617,17 @@
                                       <img :src="'/admin/image/'+document_additional" class="w-100 mt-1" style="border-radius: 3px;">
                                     </a>
                                   </div>
-                                  <div class="col-md-6 mt-1">
-                                    <button type="button" class="btn btn-outline-danger w-100">Отклонить</button>
+                                  <div class="col-md-12 mt-1">
+                                    <textarea placeholder="Комментарий для пользователя..." class="form-control" style="height: 100px;" v-model="comment_third"></textarea>
                                   </div>
-                                  <div class="col-md-6 mt-1">
-                                    <button type="button" class="btn btn-outline-primary w-100">Подтвердить</button>
+                                  <div class="col-md-4 mt-1">
+                                    <button @click="actionVerify(comment_third, 0, 3)" type="button" class="btn btn-outline-warning w-100">Отклонить</button>
+                                  </div>
+                                  <div class="col-md-4 mt-1">
+                                    <button @click="actionVerify(comment_third, 2, 3)" type="button" class="btn btn-outline-danger w-100">Удалить</button>
+                                  </div>
+                                  <div class="col-md-4 mt-1">
+                                    <button @click="actionVerify(comment_third, 1, 3)" type="button" class="btn btn-outline-primary w-100">Проверено</button>
                                   </div>
                                 </div>
 
@@ -642,6 +654,28 @@
             this.getProfile();
         },
         methods: {
+            actionVerify: function(message, status, page){ // 0 - отклонить без удаления файлов, 1 - подтвердить, 2 - удалить
+              let self = this;
+              axios.post('/admin/data/checkDocument', {
+                id: self.userId,
+                comment: message,
+                status: status,
+                page: page
+              }).then((response) => {
+                if(response.data.success === true) {
+                  toastr.success(response.data.message, 'Успешно!', {
+                    positionClass: 'toast-bottom-left',
+                    containerId: 'toast-bottom-left'
+                  });
+                  self.getProfile();
+                } else {
+                  toastr.error(response.data.message, 'Ошибка!', {
+                    positionClass: 'toast-bottom-left',
+                    containerId: 'toast-bottom-left'
+                  });
+                }
+              });
+            },
             sendDocument: function (event, page){
                 this.fileError = [];
                 this.fileSuccess = [];
@@ -973,6 +1007,9 @@
                 password_success: [],
                 user_verify_at: null,
                 provider: [],
+                comment_first: '',
+                comment_second: '',
+                comment_third: '',
             }
         },
         computed: {

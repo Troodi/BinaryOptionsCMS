@@ -29,7 +29,8 @@ class WithdrawalController extends Controller
     public function processPayout(Request $request){
       $request->validate([
         'amount' => 'required|numeric|min:10|max:100000',
-        'system_id' => 'required|numeric|min:0|max:3'
+        'system_id' => 'required|numeric|min:0|max:3',
+        'address' => 'required|string|min:5|max:155',
       ]);
       $admin = false;
       if($request->id && Helper::isAdmin()){
@@ -51,6 +52,7 @@ class WithdrawalController extends Controller
       $model->user_id = $user->id;
       $model->status = 0;
       $model->system_id = $request->system_id;
+      $model->address = $request->address;
       $model->amount = $request->amount;
       $model->save();
       User::where('id', $user->id)->update(['balance' => DB::raw("balance-$request->amount")]);

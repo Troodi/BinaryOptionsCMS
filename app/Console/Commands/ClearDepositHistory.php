@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Deposit;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class ClearDepositHistory extends Command
