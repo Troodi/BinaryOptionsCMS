@@ -55,9 +55,9 @@ Vue.use(VueCountdownTimer)
 Vue.use(VueCurrencyInput);
 Vue.component('select2', select2);
 Vue.component('deposit-history', require('./views/user/DepositHistory').default);
-Vue.component('menu-component', require('./views/layouts/Menu').default);
+Vue.component('menu-component', require('./views/admin/layouts/Menu').default);
 Vue.component('footer-component', require('./views/layouts/Footer').default);
-Vue.component('header-component', require('./views/layouts/Header').default);
+Vue.component('header-component', require('./views/admin/layouts/Header').default);
 Vue.component('ping-component', require('./components/PingComponent').default);
 
 Vue.use(VueEcho, {

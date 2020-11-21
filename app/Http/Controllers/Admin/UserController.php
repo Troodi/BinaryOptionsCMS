@@ -53,4 +53,11 @@ class UserController extends Controller
     //TODO Добавить сообщение о верификации пользователю
     return response()->json(['success' => true, 'message' => 'Пользователь успешно верифицирован!']);
   }
+
+  public function getUser(Request $request){
+    $request->validate([
+      'id' => 'numeric|min:1'
+    ]);
+    return User::where('id', $request->id)->first();
+  }
 }

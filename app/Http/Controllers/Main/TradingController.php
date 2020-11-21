@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Events\ChangeBalance;
 use App\Events\ChangeDemoBalance;
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\MarketStatus;
 use App\Models\LatestDemoOrder;
@@ -203,12 +204,24 @@ class TradingController extends Controller
   }
 
   public function tradingHistory(Request $request){
-    $history = DB::table('order_history_1')->where('user_id', Auth::user()->id)->get();
+    $admin = false;
+    if($request->id && Helper::isAdmin()){
+      $admin = true;
+      $request->validate(['id' => 'numeric|min:1']);
+    }
+    $id = $admin ? $request->id : Auth::user()->id;
+    $history = DB::table('order_history_1')->where('user_id', $id)->get();
     return Datatables::of($history)->make();
   }
 
   public function demoTradingHistory(Request $request){
-    $history = DB::table('order_demo_history_1')->where('user_id', Auth::user()->id)->get();
+    $admin = false;
+    if($request->id && Helper::isAdmin()){
+      $admin = true;
+      $request->validate(['id' => 'numeric|min:1']);
+    }
+    $id = $admin ? $request->id : Auth::user()->id;
+    $history = DB::table('order_demo_history_1')->where('user_id', $id)->get();
     return Datatables::of($history)->make();
   }
 

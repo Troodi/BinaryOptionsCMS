@@ -160,6 +160,9 @@
             AnimatedNumber
         },
         mounted() {
+            $(document).ready(function (){
+              $('.dropdown-toggle').dropdown();
+            });
             setTimeout(() => {
               //$('#discountModal').modal('show');
             }, 5000);
@@ -212,7 +215,7 @@
     }
 </script>
 
-<style scoped>
+<style>
     @media screen and (max-width: 1000px) {
         .lang-padding {
             padding: 17px 0 !important;

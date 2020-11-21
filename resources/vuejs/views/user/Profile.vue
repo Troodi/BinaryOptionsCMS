@@ -240,11 +240,11 @@
                   <div class="card-content">
                     <div class="card-body">
                       <div class="d-flex flex-md-row flex-column justify-content-around">
-                        <a v-bind:class="{ 'disabled': disable_google }" href="/login/google" class="btn btn-social btn-google btn-block font-small-3 mr-md-1 mb-md-0 mb-1">
+                        <a v-bind:class="{ 'disabled': disable_google || isAdmin }" href="/login/google" class="btn btn-social btn-google btn-block font-small-3 mr-md-1 mb-md-0 mb-1">
                           <i class="bx bxl-google font-medium-3"></i>
                           <span class="pl-50 d-block text-center">Google <small class="text-white" v-show="disable_google">(прикреплено)</small></span>
                         </a>
-                        <a v-bind:class="{ 'disabled': disable_facebook }" href="/login/facebook" class="btn btn-social btn-block mt-0 btn-facebook font-small-3">
+                        <a v-bind:class="{ 'disabled': disable_facebook || isAdmin }" href="/login/facebook" class="btn btn-social btn-block mt-0 btn-facebook font-small-3">
                           <i class="bx bxl-facebook-square font-medium-3"></i>
                           <span class="pl-50 d-block text-center">Facebook <small class="text-white" v-show="disable_facebook">(прикреплено)</small></span>
                         </a>
@@ -491,11 +491,17 @@
                                       <img :src="'/admin/image/'+document_first_page" class="w-100 mt-1" style="border-radius: 3px;">
                                     </a>
                                   </div>
-                                  <div class="col-md-6 mt-1">
-                                    <button type="button" class="btn btn-outline-danger w-100">Отклонить</button>
+                                  <div class="col-md-12 mt-1">
+                                    <textarea placeholder="Комментарий для пользователя..." class="form-control" style="height: 100px;"></textarea>
                                   </div>
-                                  <div class="col-md-6 mt-1">
-                                    <button type="button" class="btn btn-outline-primary w-100">Подтвердить</button>
+                                  <div class="col-md-4 mt-1">
+                                    <button type="button" class="btn btn-outline-warning w-100">Отклонить</button>
+                                  </div>
+                                  <div class="col-md-4 mt-1">
+                                    <button type="button" class="btn btn-outline-danger w-100">Удалить</button>
+                                  </div>
+                                  <div class="col-md-4 mt-1">
+                                    <button type="button" class="btn btn-outline-primary w-100">Проверено</button>
                                   </div>
                                 </div>
 
@@ -650,7 +656,8 @@
                 } else if (page === '3') {
                     this.additionalDocumentLoading = true;
                 }
-                axios.post( '/data/sendPhoto', formData, { headers: { 'Content-Type': 'multipart/form-data' }})
+
+                axios.post( this.isAdmin ? '/data/sendPhoto/'+this.userId : '/data/sendPhoto', formData, { headers: { 'Content-Type': 'multipart/form-data' }})
                     .then(function(response){
                         let page = response.data.page;
                         if(response.data.success === true) {
@@ -767,7 +774,7 @@
             },
             saveMain: function(){
                 let self = this;
-                axios.post('/data/changeMainData', {
+                axios.post(this.isAdmin ? '/data/changeMainData/'+this.userId : '/data/changeMainData', {
                     name: self.name,
                     last_name: self.last_name,
                     patronymic: self.patronymic,
@@ -1040,6 +1047,9 @@
             },
             isAdmin: function (){
               return this.$route.meta.isAdmin;
+            },
+            userId: function (){
+              return this.$route.params.id;
             },
             general_error: function () { // Проверка правильности ввода оснровных параметров профиля
                 let errors = [];
