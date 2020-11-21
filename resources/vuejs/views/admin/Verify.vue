@@ -85,7 +85,7 @@ export default {
           data: 'page',
           name: 'page',
           render: function(data, type, row) {
-            return '<a data-url="/admin/user/' + row.id + '" href="/admin/user/' + row.user.id + '" class="router-push w-100"><button type="button" class="btn btn-outline-primary btn-sm w-100">Проверить</button></a>';
+            return '<a data-url="/admin/user/profile/' + row.id + '" href="/admin/user/profile/' + row.user.id + '" class="router-push w-100"><button type="button" class="btn btn-outline-primary btn-sm w-100">Проверить</button></a>';
           }
         },
         {

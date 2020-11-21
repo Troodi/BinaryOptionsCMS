@@ -28,6 +28,7 @@
                 </div>
               </div>
             </div>
+
             <div class="row">
                 <div class="col-md-7">
                     <section class="card">
@@ -60,11 +61,21 @@
                                                     </fieldset>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <fieldset class="form-group">
-                                                        <label class="align-top">Платежная система<small class="text-muted"><i>(может взиматься комиссия)</i></small></label>
-                                                        <select2 v-model="system" :options="systems" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
-                                                    </fieldset>
+                                                  <fieldset class="form-group" style="margin-bottom: 3px;">
+                                                    <label>Кошелек для выплаты <small class="text-muted">(проверяйте правильность)</small></label>
+                                                    <template>
+                                                      <input ref="ci" type="text" class="form-control" v-model="wallet_address">
+                                                    </template>
+                                                  </fieldset>
                                                 </div>
+                                            </div>
+                                            <div class="row mt-1">
+                                              <div class="col-md-12">
+                                                <fieldset class="form-group">
+                                                  <label class="align-top">Платежная система<small class="text-muted"><i>(может взиматься комиссия)</i></small></label>
+                                                  <select2 v-model="system" :style="'width: 100%;'" :options="systems" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
+                                                </fieldset>
+                                              </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 pt-2">
@@ -155,6 +166,7 @@
                                                 <th>Сумма</th>
                                                 <th>Платежная система</th>
                                                 <th>Статус</th>
+                                                <th v-show="isAdmin">Действие</th>
                                                 <th>Дата</th>
                                             </tr>
                                             </thead>
@@ -181,6 +193,7 @@
                 account: null,
                 system: '0',
                 success: [],
+                wallet_address: '',
                 systems: [
                     { id: "0", text: "Payeer (0%)" },
                     { id: "1", text: "Visa/Mastercard (скоро)", disabled: true },
@@ -192,7 +205,11 @@
         methods: {
             getAccountData: function(){
                 let self = this;
-                axios.post('/data/getAccountData').then(function(response){
+                let url = '/data/getAccountData';
+                if(this.isAdmin){
+                  url = '/data/getAccountData/'+this.userId;
+                }
+                axios.post(url).then(function(response){
                     self.account = response.data;
                 });
             },
@@ -200,7 +217,11 @@
                 let self = this;
                 this.success = [];
                 this.errors = [];
-                axios.post('/data/discardBonus').then(function(response){
+                let url = '/data/discardBonus';
+                if(this.isAdmin){
+                  url = '/data/discardBonus/'+this.userId;
+                }
+                axios.post(url).then(function(response){
                     self.getAccountData();
                     if(response.data.success === true){
                         self.success.push(response.data.message);
@@ -213,7 +234,11 @@
                 let self = this;
                 this.success = [];
                 this.errors = [];
-                axios.post('/data/processPayout', { amount: self.amount_formatted, system_id: self.system }).then(function(response){
+                let url = '/data/processPayout';
+                if(this.isAdmin){
+                  url = '/data/processPayout/'+this.userId;
+                }
+                axios.post(url, { amount: self.amount_formatted, system_id: self.system }).then(function(response){
                     self.getAccountData();
                     if(response.data.success === true){
                         self.success.push(response.data.message);
@@ -225,6 +250,10 @@
                 });
             },
             initDatatable: function () {
+              let url = '/data/withdrawalHistory';
+              if(this.isAdmin){
+                url = '/data/withdrawalHistory/'+this.userId;
+              }
                 $('#withdrawalHistory').DataTable({
                     "iDisplayLength": 10,
                     "processing": true,
@@ -234,7 +263,7 @@
                         $('[data-toggle="popover"]').popover({ html : true });
                     },
                     "ajax": {
-                        url: "/data/withdrawalHistory",
+                        url: url,
                         type: "POST"
                     },
                     "language": {
@@ -283,6 +312,19 @@
                             }
                         },
                         {
+                          data: 'id',
+                          name: 'id',
+                          orderable: false,
+                          searchable: false,
+                          render: function(data, type, row) {
+                            if (type === 'display') {
+
+                            }
+                            return '<button type="button" class="btn btn-sm btn-outline-danger mr-1">Отменить</button>' +
+                                   '<button type="button" class="btn btn-sm btn-outline-success">Выплатить</button>';
+                          }
+                        },
+                        {
                             data: 'created_at',
                             name: 'created_at',
                             render: function(data, type) {
@@ -302,6 +344,12 @@
             this.initDatatable();
         },
         computed: {
+            isAdmin: function (){
+              return this.$route.meta.isAdmin;
+            },
+            userId: function (){
+              return this.$route.params.id;
+            },
             amount_formatted: function () {
                 let amount = this.$ci.parse(this.amount);
                 if(isNaN(amount)){

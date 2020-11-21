@@ -113,8 +113,18 @@
                 show: false
             }
         },
+        computed: {
+          isAdmin: function (){
+            return this.$route.meta.isAdmin;
+          },
+        },
         methods: {
             updateDatatable: function(){
+                let self = this;
+                let url = '/promocode/history';
+                if(this.isAdmin){
+                  url = '/promocode/history/'+this.$route.params.id;
+                }
                 $("#promocode").dataTable().fnDestroy()
                 $('#promocode').DataTable({
                     "iDisplayLength": 10,
@@ -122,7 +132,7 @@
                     "serverSide": true,
                     "order": [[3, "desc"]],
                     "ajax": {
-                        url: "/promocode/history",
+                        url: url,
                         type: "POST"
                     },
                     "language": {
@@ -183,7 +193,11 @@
             },
             checkPromocode: function(){
                 let self = this;
-                axios.post('/promocode', { code: this.promocode})
+                let url = '/promocode';
+                if(this.isAdmin){
+                  url = '/promocode/'+this.$route.params.id;
+                }
+                axios.post(url, { code: this.promocode})
                     .then(function (response) {
                         self.success = response.data.success;
                         self.message = response.data.message;

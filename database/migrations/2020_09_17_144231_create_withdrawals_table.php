@@ -16,6 +16,7 @@ class CreateWithdrawalsTable extends Migration
         Schema::create('withdrawals', function (Blueprint $table) {
           $table->id();
           $table->integer('user_id')->index();
+          $table->string('address')->nullable();
           $table->decimal('amount', 10, 2);
           $table->integer('system_id');
           $table->integer('status');

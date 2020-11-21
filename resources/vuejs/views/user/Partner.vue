@@ -112,7 +112,7 @@
         name: "Partner",
         mounted() {
             let self = this;
-            axios.post('/data/referralsInfo')
+            axios.post(this.isAdmin ? '/data/referralsInfo/'+this.userId : '/data/referralsInfo')
                 .then(function (response) {
                     self.count = response.data.total_referrals;
                     self.reward = response.data.reward;
@@ -120,13 +120,22 @@
                     self.deposit_count = response.data.deposit_count;
                     self.tracked = response.data.tracked;
                 });
+            if(this.isAdmin) {
+              axios.post('/admin/data/userinfo/' + this.userId)
+                  .then(function (response) {
+                    self.link = window.location.origin + '/offer/' + response.data.token;
+                  });
+            } else {
+              self.link = window.location.origin + '/offer/' + window.user_data.token;
+            }
+            let url = this.isAdmin ? '/data/referrals/'+this.userId : '/data/referrals';
             $('#referrals').DataTable({
                 "iDisplayLength": 10,
                 "processing": true,
                 "serverSide": true,
                 "order": [[1, "desc"]],
                 "ajax": {
-                    url: "/data/referrals",
+                    url: url,
                     type: "POST"
                 },
                 "language": {
@@ -151,6 +160,14 @@
                 ]
             });
         },
+        computed: {
+          isAdmin: function (){
+            return this.$route.meta.isAdmin;
+          },
+          userId: function (){
+            return this.$route.params.id;
+          }
+        },
         data: function () {
             return {
                 count: 0,
@@ -158,7 +175,7 @@
                 active: 0,
                 deposit_count: 0,
                 tracked: 0,
-                link: window.location.origin + '/offer/' + window.user_data.token,
+                link: '',
             }
         }
     }

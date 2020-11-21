@@ -79,14 +79,22 @@
             axios.get('/data/symbols')
                 .then(function (response) {
                   self.symbols = response.data;
-                  self.fillDT('#history', "/trading/history");
-                  self.fillDT('#demo-history', "/trading/demo/history");
+                  self.fillDT('#history', self.isAdmin ? "/trading/history/"+self.userId : "/trading/history");
+                  self.fillDT('#demo-history', self.isAdmin ? "/trading/demo/history/"+self.userId : "/trading/demo/history");
                 });
         },
         data: function () {
             return {
 
             }
+        },
+        computed: {
+          isAdmin: function (){
+            return this.$route.meta.isAdmin;
+          },
+          userId: function (){
+            return this.$route.params.id;
+          },
         },
         methods: {
           fillDT: function (element, url){

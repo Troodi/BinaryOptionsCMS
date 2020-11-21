@@ -340,7 +340,7 @@ export default {
             if (type === 'display') {
               email = data;
             }
-            return '<a class="router-push" data-url="/admin/user/' + row.id + '" href="/admin/user/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+            return '<a class="router-push" data-url="/admin/user/profile/' + row.id + '" href="/admin/user/profile/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
           }
         },
         {

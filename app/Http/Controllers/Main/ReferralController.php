@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Main;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Referral;
 use App\User;
@@ -15,11 +16,23 @@ use Yajra\DataTables\DataTables;
 class ReferralController extends Controller
 {
     public function getUserReferralInfo(Request $request){
-      return Referral::where('user_id', Auth::user()->id)->first();
+      $admin = false;
+      if($request->id && Helper::isAdmin()){
+        $admin = true;
+        $request->validate(['id' => 'numeric|min:1']);
+      }
+      $id = $admin ? $request->id : Auth::user()->id;
+      return Referral::where('user_id', $id)->first();
     }
 
     public function getUserReferrals(Request $request){
-      $referrals = User::select('token', 'created_at')->where('referer_id', Auth::user()->id)->get();
+      $admin = false;
+      if($request->id && Helper::isAdmin()){
+        $admin = true;
+        $request->validate(['id' => 'numeric|min:1']);
+      }
+      $id = $admin ? $request->id : Auth::user()->id;
+      $referrals = User::select('token', 'created_at')->where('referer_id', $id)->get();
       return Datatables::of($referrals)->make();
     }
 

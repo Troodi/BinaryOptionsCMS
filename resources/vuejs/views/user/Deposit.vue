@@ -89,7 +89,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 pt-2">
-                                                    <button @click="proccess" type="button" class="btn btn-outline-secondary mr-1 mb-1">Продолжить</button>
+                                                    <button v-bind:disabled="isAdmin" @click="proccess" type="button" class="btn btn-outline-secondary mr-1 mb-1">Продолжить</button>
                                                 </div>
                                                 <div class="col-md-6 pt-2 text-right align-bottom">
                                                     <p style="padding-top:10px;">
@@ -229,6 +229,9 @@
             }
         },
         computed: {
+            isAdmin: function (){
+              return this.$route.meta.isAdmin;
+            },
             numericAmount: function () {
                 return this.$ci.parse(this.amount);
             },

@@ -28,13 +28,19 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   // Реферралы
   Route::post('/data/referralsInfo', 'Main\ReferralController@getUserReferralInfo');
   Route::post('/data/referrals', 'Main\ReferralController@getUserReferrals');
+  Route::post('/data/referralsInfo/{id}', 'Main\ReferralController@getUserReferralInfo')->middleware('admin');
+  Route::post('/data/referrals/{id}', 'Main\ReferralController@getUserReferrals')->middleware('admin');
   // Промокоды
   Route::post("/promocodes", 'Main\PromocodeController@getAvailablePromocodes');
   Route::post("/promocode", 'Main\PromocodeController@checkPromocode');
+  Route::post("/promocode/{id}", 'Main\PromocodeController@checkPromocode')->middleware('admin');
   Route::post("/promocode/history", 'Main\PromocodeController@promocodeHistory');
+  Route::post("/promocode/history/{id}", 'Main\PromocodeController@promocodeHistory')->middleware('admin');
   // История сделок
   Route::post("/trading/history", 'Main\TradingController@tradingHistory');
   Route::post("/trading/demo/history", 'Main\TradingController@demoTradingHistory');
+  Route::post("/trading/history/{id}", 'Main\TradingController@tradingHistory')->middleware('admin');
+  Route::post("/trading/demo/history/{id}", 'Main\TradingController@demoTradingHistory')->middleware('admin');
   Route::post("/data/latest", 'Main\TradingController@getLatestOrders');
   Route::post("/data/opened", 'Main\TradingController@getOpenOrders');
   Route::post("/data/demo/latest", 'Main\TradingController@getLatestDemoOrders');
@@ -49,6 +55,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post('/data/verifyEmail', 'Main\ProfileController@sendEmailCode');
   Route::post('/data/checkEmailCode', 'Main\ProfileController@approveEmail');
   Route::post('/data/sendPhoto', 'Main\ProfileController@passportFirstPage');
+  Route::post('/data/sendPhoto/{id}', 'Main\ProfileController@passportFirstPage')->middleware('admin');
   Route::post('/data/changeGeneralData', 'Main\ProfileController@changeGeneralData');
   Route::post('/data/changeGeneralData/{id}', 'Main\ProfileController@changeGeneralData')->middleware('admin');
   Route::post('/data/changeMainData', 'Main\ProfileController@changeMainData');
@@ -60,6 +67,10 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post('/data/discardBonus', 'Main\PromocodeController@discardBonus');
   Route::post('/data/processPayout', 'Main\WithdrawalController@processPayout');
   Route::post('/data/withdrawalHistory', 'Main\WithdrawalController@withdrawalHistory');
+  Route::post('/data/getAccountData/{id}', 'Main\WithdrawalController@getAccountData')->middleware('admin');
+  Route::post('/data/discardBonus/{id}', 'Main\PromocodeController@discardBonus')->middleware('admin');
+  Route::post('/data/processPayout/{id}', 'Main\WithdrawalController@processPayout')->middleware('admin');
+  Route::post('/data/withdrawalHistory/{id}', 'Main\WithdrawalController@withdrawalHistory')->middleware('admin');
   // Пополнение
   Route::post('/data/getDepositPromocodes', 'Main\PromocodeController@getDepositPromocodes');
   Route::post('/data/deposit', 'Main\DepositController@startDeposit');
@@ -72,6 +83,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
     Route::get("image/{file}", 'Main\FileController@showImage');
     Route::prefix('data')->group(function () {
       Route::post("statistics", 'Admin\StatisticsController@getShortStatistics');
+      Route::post("userinfo/{id}", 'Admin\UserController@getUser');
       Route::post("users", 'Admin\StatisticsController@getAllUsers');
       Route::post("daily", 'Admin\StatisticsController@getDailyStat');
       Route::post("verify", 'Admin\VerifyController@listRequestVerify');

@@ -263,8 +263,14 @@ class ProfileController extends Controller
       'page' => 'required|min:1|max:3',
       'file' => 'required|image|max:4096'
     ]);
+    $admin = false;
+    if($request->id && Helper::isAdmin()){
+      $admin = true;
+      $request->validate(['id' => 'numeric|min:1']);
+    }
+    $id = $admin ? $request->id : Auth::user()->id;
     $pages = ['1' => 'document_first_page', '2' => 'document_second_page', '3' => 'document_additional'];
-    $profile = Profile::where('user_id', Auth::user()->id)->first();
+    $profile = Profile::where('user_id', $id)->first();
     if(!$profile->name or !$profile->last_name or !$profile->patronymic or !$profile->birth or !$profile->address or !$profile->document_number){
       return response()->json(['success' => false, 'message' => 'Перед загрузкой документов необходимо заполнить личные данные!', 'page' => $request->page]);
     }
@@ -281,12 +287,12 @@ class ProfileController extends Controller
       $model->user_id = Auth::user()->id;
       $model->path = $filePath;
       $model->save();
-      Profile::where('user_id', Auth::user()->id)->update([$pages[$request->page] => $model->id]);
+      Profile::where('user_id', $id)->update([$pages[$request->page] => $model->id]);
     } catch (\Exception $ex){
       return response()->json(['success' => false, 'message' => 'Произошла непредвиденная ошибка при сохранении файла!', 'page' => $request->page]);
     }
     $model = new VerifyRequest();
-    $model->user_id = Auth::user()->id;
+    $model->user_id = $id;
     $model->page = $request->page;
     $model->save();
     return response()->json(['success' => true, 'message' => 'Файл успешно отправлен на проверку, ожидайте результата!', 'page' => $request->page]);
