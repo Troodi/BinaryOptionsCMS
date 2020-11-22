@@ -75,6 +75,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post('/data/getDepositPromocodes', 'Main\PromocodeController@getDepositPromocodes');
   Route::post('/data/deposit', 'Main\DepositController@startDeposit');
   Route::post('/data/depositHistory', 'Main\DepositController@depositHistory');
+  Route::post('/data/depositHistory/{id}', 'Main\DepositController@depositHistory')->middleware('admin');
   Route::post("/data/demo/refill", 'Main\TradingController@refillDemoBalance');
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
@@ -89,11 +90,13 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("verify", 'Admin\VerifyController@listRequestVerify');
       Route::post("cheat", 'Admin\CheatController@getAllCheaters');
       Route::post("history", 'Admin\TradeHistoryController@getHistory');
+      Route::post("history/demo", 'Admin\TradeHistoryController@getHistoryDemo');
       Route::post("updatePhone", 'Admin\UserController@updatePhone');
       Route::post("updateEmail", 'Admin\UserController@updateEmail');
       Route::post("updatePassword", 'Admin\UserController@updatePassword');
-      Route::post("verifyAccount", 'Admin\UserController@verifyAccount');
-      Route::post("checkDocument", 'Admin\UserController@checkDocument');
+      Route::post("verifyAccount", 'Admin\VerifyController@verifyAccount');
+      Route::post("checkDocument", 'Admin\VerifyController@checkDocument');
+      Route::post("processWithdrawal", 'Admin\WithdrawalController@processWithdrawal');
     });
     Route::get('/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
   });

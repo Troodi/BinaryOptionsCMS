@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Main;
 
 use App\Events\ChangeBalance;
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
 use App\Models\LatestOrder;
@@ -132,7 +133,13 @@ class DepositController extends Controller
     }
 
     public function depositHistory(Request $request){
-      $history = Deposit::where('user_id', Auth::user()->id)->get();
+      $admin = false;
+      if($request->id && Helper::isAdmin()){
+        $admin = true;
+        $request->validate(['id' => 'numeric|min:1']);
+      }
+      $id = $admin ? $request->id : Auth::user()->id;
+      $history = Deposit::where('user_id', $id)->get();
       return Datatables::of($history)->make();
     }
 }

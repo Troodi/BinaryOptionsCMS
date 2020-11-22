@@ -185,6 +185,7 @@
 
 <script>
     import dateformat from "dateformat";
+    import Swal from '../../../vendors/js/extensions/sweetalert2.all.min.js';
 
     export default {
         name: "Deposit",
@@ -260,10 +261,66 @@
                     "iDisplayLength": 10,
                     "processing": true,
                     "serverSide": true,
-                    "order": [[4, "desc"]],
+                    "order": [[self.isAdmin ? 5 : 4, "desc"]],
                     "drawCallback": function(settings) {
                         $('[data-toggle="popover"]').popover({ html : true });
                         $('[data-toggle="tooltip"]').popover({ html : true });
+                        $('.decline-withdrawal').on('click', function (){
+                          let id = $(this).attr('data-id');
+                          Swal.fire({
+                            title: 'Укажите комментарий',
+                            input: 'text',
+                            inputAttributes: {
+                              autocapitalize: 'off'
+                            },
+                            showCancelButton: true,
+                            confirmButtonText: 'Отменить выплату',
+                            cancelButtonText: 'Закрыть',
+                            showLoaderOnConfirm: true,
+                            preConfirm: (comment) => {
+                              return axios.post('/admin/data/processWithdrawal', { id: id, comment: comment, status: 2 }).then((response) => {
+                                if(!response.data.success){
+                                  throw new Error(response.data.message)
+                                }
+                                return response;
+                              }).catch((error) => {
+                                console.log(error);
+                                Swal.showValidationMessage(error.message)
+                              });
+                            },
+                            allowOutsideClick: () => !Swal.isLoading()
+                          }).then((result) => {
+                            console.log(result);
+                            if (!result.dismiss) {
+                              Swal.fire('Успешно!', result.value.data.message, 'success');
+                              $("#withdrawalHistory").dataTable().fnDestroy()
+                              self.getAccountData();
+                              self.initDatatable();
+                            }
+                          });
+                          return false;
+                        });
+
+                      $('.accept-withdrawal').on('click', function (){
+                        let id = $(this).attr('data-id');
+                        axios.post('/admin/data/processWithdrawal', { id: id, comment: '', status: 1 }).then((response) => {
+                          if(response.data.success === true) {
+                            toastr.success(response.data.message, 'Успешно!', {
+                              positionClass: 'toast-bottom-left',
+                              containerId: 'toast-bottom-left'
+                            });
+                            $("#withdrawalHistory").dataTable().fnDestroy()
+                            self.getAccountData();
+                            self.initDatatable();
+                          } else {
+                            toastr.error(response.data.message, 'Ошибка!', {
+                              positionClass: 'toast-bottom-left',
+                              containerId: 'toast-bottom-left'
+                            });
+                          }
+                        });
+                        return false;
+                      });
                     },
                     "ajax": {
                         url: url,
@@ -280,8 +337,6 @@
                     },
                     columns: [
                         {
-                            orderable: false,
-                            searchable: false,
                             data: 'amount',
                             name: 'amount',
                             render: function(data, type) {
@@ -333,8 +388,8 @@
                             if (type === 'display') {
 
                             }
-                            return '<button type="button" class="btn btn-sm btn-outline-danger mr-1">Отменить</button>' +
-                                   '<button type="button" class="btn btn-sm btn-outline-success">Выплатить</button>';
+                            return '<button type="button" class="btn btn-sm btn-outline-danger mr-1 decline-withdrawal" data-id="'+row.id+'">Отменить</button>' +
+                                   '<button type="button" class="btn btn-sm btn-outline-success accept-withdrawal" data-id="'+row.id+'">Выплатить</button>';
                           }
                         },
                         {

@@ -14,7 +14,7 @@ import Deposit from "../../views/user/Deposit";
 import Withdrawal from "../../views/user/Withdrawal";
 import Promocode from "../../views/user/Promocode";
 import Verify from "../../views/admin/Verify";
-import TradeHistory from "../../views/user/TradeHistory";
+import TradeHistory from "../../views/admin/TradeHistory";
 import UserLayout from "../../views/admin/layouts/User";
 import Partner from "../../views/user/Partner";
 //

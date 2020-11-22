@@ -41,9 +41,19 @@
       mounted() {
         this.updateDatatables();
       },
+      computed: {
+        isAdmin: function (){
+          console.log(this.$route.meta.isAdmin);
+          return this.$route.meta.isAdmin;
+        },
+        userId: function (){
+          return this.$route.params.id;
+        },
+      },
       methods: {
         updateDatatables: function(){
-          $("#historyDeposit").dataTable().fnDestroy()
+          $("#historyDeposit").dataTable().fnDestroy();
+          let self = this;
           $('#historyDeposit').DataTable({
             "iDisplayLength": 10,
             "processing": true,
@@ -53,7 +63,7 @@
               $('[data-toggle="popover"]').popover({ html : true });
             },
             "ajax": {
-              url: "/data/depositHistory",
+              url: self.isAdmin ? "/data/depositHistory/"+self.userId : "/data/depositHistory",
               type: "POST"
             },
             "language": {
