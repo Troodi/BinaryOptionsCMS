@@ -32,6 +32,38 @@
           </section>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <section class="card">
+            <div class="card-header">
+              <h4 class="card-title">История торговли</h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <div class="card-text">
+                  <div class="table-responsive">
+                    <table class="table" id="historyDemo">
+                      <thead>
+                      <tr>
+                        <th>Пользователь</th>
+                        <th>Сумма</th>
+                        <th>Информация</th>
+                        <th>Прибыль</th>
+                        <th>Инструмент</th>
+                        <th>Процент</th>
+                        <th>Экспирация</th>
+                        <th>Дата</th>
+                      </tr>
+                      </thead>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -50,6 +82,7 @@ export default {
         .then(function (response) {
           self.symbols = response.data;
           self.fillDT('#history', "/admin/data/history");
+          self.fillDT('#historyDemo', "/admin/data/history/demo");
         });
   },
   data: function () {
@@ -67,6 +100,11 @@ export default {
         "order": [[7, "desc"]],
         "drawCallback": function(settings) {
           $('[data-toggle="popover"]').popover({ html : true });
+          $('.router-push').on('click', function (){
+            let url = $(this).attr('data-url');
+            self.$router.push({ path: url });
+            return false;
+          });
         },
         "ajax": {
           url: url,
@@ -82,9 +120,9 @@ export default {
             render: function(data, type, row) {
               let email ='';
               if (type === 'display') {
-                email = data;
+                email = row.email;
               }
-              return '<a href="/admin/user/' + row.user_id + '" target="_blank">' + row.email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+              return '<a class="router-push" data-url="/admin/user/history/' + row.user_id + '" href="/admin/user/history/' + row.user_id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
             }
           },
           {
