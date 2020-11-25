@@ -212,6 +212,9 @@ class CheckOrdersForClose extends Command
             'daily_loss_count' => DB::raw("daily_loss_count+".($profit == 0 ? '1' : '0')),
           ]);
         }
+        if(!$demo and  User::where('id', $open->user_id)->first()->balance < 1 and !OpenOrders::where('user_id', $open->user_id)->count()){
+          User::where('id', $open->user_id)->update(['bonus' => 0, 'all_turnover' => 0, 'left_turnover' => 0]);
+        }
       }
     }
 }
