@@ -3012,6 +3012,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
@@ -3079,11 +3126,28 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
   },
   data: function data() {
     return {
-      count: 0,
-      reward: '0.0000000000',
-      active: 0,
-      deposit_count: 0,
-      tracked: 0,
+      traficQuantity: 0,
+      traficQuantityOptions: [{
+        id: "0",
+        text: "1-5 человек"
+      }, {
+        id: "1",
+        text: "5-15 человек"
+      }, {
+        id: "2",
+        text: "15-50 человек"
+      }, {
+        id: "3",
+        text: "50+ человек"
+      }, {
+        id: "4",
+        text: "Не известно"
+      }],
+      count: '-',
+      reward: '-',
+      active: '-',
+      deposit_count: '-',
+      tracked: '-',
       link: ''
     };
   }
@@ -123997,7 +124061,7 @@ var render = function() {
     _c("div", { staticClass: "content-body" }, [
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-6" }, [
-          _c("section", { staticClass: "card" }, [
+          _c("section", { staticClass: "card mb-2" }, [
             _vm._m(0),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
@@ -124027,15 +124091,114 @@ var render = function() {
         _vm._m(1),
         _vm._v(" "),
         _c("div", { staticClass: "col-md-12" }, [
+          _vm._m(2),
+          _vm._v(" "),
           _c("section", { staticClass: "card" }, [
-            _vm._m(2),
+            _vm._m(3),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _vm._m(4),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Telegram для связи:")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.amount,
+                              expression: "amount"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.amount },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.amount = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-6" }, [
+                      _c(
+                        "fieldset",
+                        { staticClass: "form-group" },
+                        [
+                          _c("label", { staticClass: "align-top" }, [
+                            _vm._v(
+                              "Планируемое количество приглашенных в день:"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("select2", {
+                            attrs: {
+                              options: _vm.traficQuantityOptions,
+                              settings: {
+                                settingOption: "value",
+                                settingOption: "value",
+                                minimumResultsForSearch: Infinity
+                              }
+                            },
+                            model: {
+                              value: _vm.traficQuantity,
+                              callback: function($$v) {
+                                _vm.traficQuantity = $$v
+                              },
+                              expression: "traficQuantity"
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(5)
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-secondary mt-0",
+                      attrs: { type: "button" }
+                    },
+                    [_vm._v("Очистить")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary mt-0 float-right",
+                      attrs: { type: "button" }
+                    },
+                    [_vm._v("Отправить")]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("section", { staticClass: "card" }, [
+            _vm._m(6),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "card-text" }, [
                   _c("div", { staticClass: "table-responsive" }, [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(3),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c("tbody", [
                         _c("tr", [
@@ -124073,7 +124236,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(4)
+        _vm._m(8)
       ])
     ])
   ])
@@ -124094,7 +124257,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-6" }, [
-      _c("section", { staticClass: "card" }, [
+      _c("section", { staticClass: "card mb-2" }, [
         _c("div", { staticClass: "card-header" }, [
           _c("h4", { staticClass: "card-title" }, [
             _vm._v("Условия партнерской программы")
@@ -124116,6 +124279,77 @@ var staticRenderFns = [
             ])
           ])
         ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "alert bg-rgba-primary mb-2", attrs: { role: "alert" } },
+      [
+        _c("div", { staticClass: "d-flex align-items-center" }, [
+          _c("i", { staticClass: "bx bx-error-circle" }),
+          _vm._v(" "),
+          _c("span", [
+            _vm._v(
+              '\n                        У вас обычный статус партнера, но вы можете его улучшить отправив заявку для получение "премиум" статуса.\n                      '
+            )
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h4", { staticClass: "card-title" }, [_vm._v("«Премиум» партнер")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v(
+        "\n                            Станьте «премиум» партнером чтобы получать повышенные выплаты за приглашенных пользователей. Вы сможете получать "
+      ),
+      _c("span", { staticClass: "badge badge-warning text-white" }, [
+        _vm._v("10 процентов")
+      ]),
+      _vm._v(" с пополнения баланса приглашенного пользователя, "),
+      _c("span", { staticClass: "badge badge-primary text-white" }, [
+        _vm._v("5 центов")
+      ]),
+      _vm._v(
+        " за подтвержденную регистрацию (аккаунт на котором подтверждена почта) и "
+      ),
+      _c("span", { staticClass: "badge badge-success text-white" }, [
+        _vm._v("3 процента")
+      ]),
+      _vm._v(
+        ' с торгового оборота приглашенного пользователя. Для получения статуса "премиум" партнера необходимо отправить заявку на рассмотрение.\n                          '
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-12" }, [
+      _c("fieldset", { staticClass: "form-group" }, [
+        _c("textarea", {
+          staticClass: "form-control",
+          staticStyle: { height: "150px" },
+          attrs: {
+            placeholder:
+              "Опишите максимально подробно источники трафика, потенциальный охват, предложения"
+          }
+        })
       ])
     ])
   },
