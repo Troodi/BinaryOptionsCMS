@@ -97,6 +97,9 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("verifyAccount", 'Admin\VerifyController@verifyAccount');
       Route::post("checkDocument", 'Admin\VerifyController@checkDocument');
       Route::post("processWithdrawal", 'Admin\WithdrawalController@processWithdrawal');
+      Route::post("getControlInfo", 'Admin\ControlController@getControlInfo');
+      Route::post("changeBalance", 'Admin\ControlController@changeBalance');
+      Route::post("banAction", 'Admin\ControlController@banAction');
     });
     Route::get('/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
   });
