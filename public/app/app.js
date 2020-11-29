@@ -3059,6 +3059,68 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
@@ -3067,54 +3129,119 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Partner",
-  mounted: function mounted() {
-    var self = this;
-    axios.post(this.isAdmin ? '/data/referralsInfo/' + this.userId : '/data/referralsInfo').then(function (response) {
-      self.count = response.data.total_referrals;
-      self.reward = response.data.reward;
-      self.active = response.data.active;
-      self.deposit_count = response.data.deposit_count;
-      self.tracked = response.data.tracked;
-    });
+  methods: {
+    changePartner: function changePartner(action) {
+      var self = this;
+      axios.post('/admin/data/' + action, {
+        id: self.userId
+      }).then(function (response) {
+        self.initPartner();
 
-    if (this.isAdmin) {
-      axios.post('/admin/data/userinfo/' + this.userId).then(function (response) {
-        self.link = window.location.origin + '/offer/' + response.data.token;
-      });
-    } else {
-      self.link = window.location.origin + '/offer/' + window.user_data.token;
-    }
-
-    var url = this.isAdmin ? '/data/referrals/' + this.userId : '/data/referrals';
-    $('#referrals').DataTable({
-      "iDisplayLength": 10,
-      "processing": true,
-      "serverSide": true,
-      "order": [[1, "desc"]],
-      "ajax": {
-        url: url,
-        type: "POST"
-      },
-      "language": {
-        "url": "/locales/Russian.json"
-      },
-      columns: [{
-        data: 'token',
-        name: 'token'
-      }, {
-        data: 'created_at',
-        name: 'created_at',
-        render: function render(data, type) {
-          var date = new Date();
-
-          if (type === 'display') {
-            date = new Date(data);
-          }
-
-          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
+        if (response.data.success === true) {
+          toastr.success(response.data.message, 'Успешно!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        } else {
+          toastr.error(response.data.message, 'Ошибка!', {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
         }
-      }]
-    });
+      });
+    },
+    requestAgain: function requestAgain() {
+      var self = this;
+      self.success = [];
+      self.errors = [];
+      axios.post(this.isAdmin ? '/data/requestAgain/' + this.userId : '/data/requestAgain').then(function (response) {
+        if (response.data.success === true) {
+          self.success.push(response.data.message);
+          self.initPartner();
+        } else {
+          self.errors.push(response.data.message);
+        }
+      });
+    },
+    sendRequest: function sendRequest() {
+      var self = this;
+      self.success = [];
+      self.errors = [];
+      axios.post(this.isAdmin ? '/data/sendPartnerRequest/' + this.userId : '/data/sendPartnerRequest', {
+        telegram: self.telegram,
+        comment: self.comment,
+        traffic: self.traficQuantity
+      }).then(function (response) {
+        if (response.data.success === true) {
+          self.success.push(response.data.message);
+          self.initPartner();
+        } else {
+          self.errors.push(response.data.message);
+        }
+      });
+    },
+    clearRequest: function clearRequest() {
+      this.comment = '';
+      this.telegram = '';
+    },
+    initPartner: function initPartner() {
+      var self = this;
+      axios.post(this.isAdmin ? '/data/referralsInfo/' + this.userId : '/data/referralsInfo').then(function (response) {
+        self.count = response.data.total_referrals;
+        self.reward = response.data.reward;
+        self.active = response.data.active;
+        self.deposit_count = response.data.deposit_count;
+        self.tracked = response.data.tracked;
+        self.user = response.data.user;
+        self.request = response.data.request;
+        self.traficQuantity = self.request.traffic;
+        self.comment = self.request.comment;
+        self.telegram = self.request.telegram;
+      });
+
+      if (this.isAdmin) {
+        axios.post('/admin/data/userinfo/' + this.userId).then(function (response) {
+          self.link = window.location.origin + '/offer/' + response.data.token;
+        });
+      } else {
+        self.link = window.location.origin + '/offer/' + window.user_data.token;
+      }
+
+      var url = this.isAdmin ? '/data/referrals/' + this.userId : '/data/referrals';
+      $("#referrals").dataTable().fnDestroy();
+      $('#referrals').DataTable({
+        "iDisplayLength": 10,
+        "processing": true,
+        "serverSide": true,
+        "order": [[1, "desc"]],
+        "ajax": {
+          url: url,
+          type: "POST"
+        },
+        "language": {
+          "url": "/locales/Russian.json"
+        },
+        columns: [{
+          data: 'token',
+          name: 'token'
+        }, {
+          data: 'created_at',
+          name: 'created_at',
+          render: function render(data, type) {
+            var date = new Date();
+
+            if (type === 'display') {
+              date = new Date(data);
+            }
+
+            return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss dd-mm-yyyy');
+          }
+        }]
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.initPartner();
   },
   computed: {
     isAdmin: function isAdmin() {
@@ -3122,6 +3249,26 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
     },
     userId: function userId() {
       return this.$route.params.id;
+    },
+    errors: function errors() {
+      var errors = [];
+
+      if (this.telegram.length > 0 && this.telegram.length < 4) {
+        errors.push('Никнейм telegram не может быть менее 4х символов');
+      }
+
+      if (this.comment.length > 0 && this.comment.length < 20) {
+        errors.push('Комментарий не может быть менее 20 символов');
+      }
+
+      if (this.comment.length > 500) {
+        errors.push('Комментарий не может быть более 500 символов');
+      }
+
+      return errors;
+    },
+    buttonEnable: function buttonEnable() {
+      return this.telegram.length > 3 && this.comment.length > 20 && this.comment.length < 500;
     }
   },
   data: function data() {
@@ -3143,12 +3290,18 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
         id: "4",
         text: "Не известно"
       }],
-      count: '-',
-      reward: '-',
-      active: '-',
-      deposit_count: '-',
-      tracked: '-',
-      link: ''
+      count: 'Загружается...',
+      reward: 'Загружается...',
+      active: 'Загружается...',
+      deposit_count: 'Загружается...',
+      tracked: 'Загружается...',
+      link: 'Загружается...',
+      telegram: '',
+      comment: '',
+      user: {},
+      request: {},
+      success: [],
+      errors: []
     };
   }
 });
@@ -4046,21 +4199,17 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     sendPhoneCode: function sendPhoneCode() {
-      var _this2 = this;
-
       this.phoneModalErrors = [];
       this.phoneModalSuccess = [];
       axios.post('/data/verifyPhone', {
         phone: this.phone
       }).then(function (response) {
         if (response.data.success === false) {
-          _this2.phoneModalErrors = [];
-
-          _this2.phoneModalErrors.push(response.data.message);
+          self.phoneModalErrors = [];
+          self.phoneModalErrors.push(response.data.message);
         } else {
-          _this2.phoneModalSuccess = [];
-
-          _this2.phoneModalSuccess.push(response.data.message);
+          self.phoneModalSuccess = [];
+          self.phoneModalSuccess.push(response.data.message);
         }
       });
       this.phoneCodeEnabled = false;
@@ -4071,7 +4220,7 @@ __webpack_require__.r(__webpack_exports__);
       }, 60000);
     },
     checkEmailCode: function checkEmailCode() {
-      var _this3 = this;
+      var _this2 = this;
 
       this.emailModalSuccess = [];
       this.emailModalErrors = [];
@@ -4082,9 +4231,9 @@ __webpack_require__.r(__webpack_exports__);
           $('#email').modal('hide');
           $('.modal-backdrop').remove();
 
-          _this3.getProfile();
+          _this2.getProfile();
         } else {
-          _this3.emailModalErrors.push(response.data.message);
+          _this2.emailModalErrors.push(response.data.message);
         }
       });
     },
@@ -4144,7 +4293,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     sendEmailCode: function sendEmailCode() {
-      var _this4 = this;
+      var _this3 = this;
 
       this.emailModalErrors = [];
       this.emailModalSuccess = [];
@@ -4152,13 +4301,13 @@ __webpack_require__.r(__webpack_exports__);
         email: this.email
       }).then(function (response) {
         if (response.data.success === false) {
-          _this4.emailModalErrors = [];
+          _this3.emailModalErrors = [];
 
-          _this4.emailModalErrors.push(response.data.message);
+          _this3.emailModalErrors.push(response.data.message);
         } else {
-          _this4.emailModalSuccess = [];
+          _this3.emailModalSuccess = [];
 
-          _this4.emailModalSuccess.push(response.data.message);
+          _this3.emailModalSuccess.push(response.data.message);
         }
       });
       this.emailCodeEnabled = false;
@@ -122650,115 +122799,360 @@ var render = function() {
         _vm._v(" "),
         _vm._m(1),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-12" }, [
-          _vm._m(2),
-          _vm._v(" "),
-          _c("section", { staticClass: "card" }, [
-            _vm._m(3),
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
+          [
+            "partner_status" in _vm.user &&
+            _vm.user.partner_status === null &&
+            typeof _vm.request !== "undefined" &&
+            _vm.request === null
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "alert bg-rgba-primary mb-2",
+                    attrs: { role: "alert" }
+                  },
+                  [_vm._m(2)]
+                )
+              : _vm._e(),
             _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "card-text" }, [
-                  _vm._m(4),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-6" }, [
-                      _c("fieldset", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Telegram для связи:")]),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.amount,
-                              expression: "amount"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          attrs: { type: "text" },
-                          domProps: { value: _vm.amount },
-                          on: {
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.amount = $event.target.value
-                            }
-                          }
-                        })
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-6" }, [
-                      _c(
-                        "fieldset",
-                        { staticClass: "form-group" },
-                        [
-                          _c("label", { staticClass: "align-top" }, [
+            "partner_status" in _vm.user &&
+            _vm.user.partner_status === null &&
+            typeof _vm.request !== "undefined" &&
+            _vm.request !== null &&
+            _vm.request.status === 0
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "alert bg-rgba-info mb-2",
+                    attrs: { role: "alert" }
+                  },
+                  [_vm._m(3)]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            "partner_status" in _vm.user && _vm.user.partner_status === 1
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "alert bg-rgba-warning mb-2",
+                    attrs: { role: "alert" }
+                  },
+                  [_vm._m(4)]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            "partner_status" in _vm.user &&
+            _vm.user.partner_status === null &&
+            typeof _vm.request !== "undefined" &&
+            _vm.request !== null &&
+            _vm.request.status === 2
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "alert bg-rgba-danger mb-2",
+                    attrs: { role: "alert" }
+                  },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-8" }, [
+                        _c(
+                          "div",
+                          { staticClass: "d-flex align-items-center" },
+                          [
+                            _c("i", { staticClass: "bx bx-error-circle" }),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v(
+                                "\n                            Ваша заявка была отклонена. " +
+                                  _vm._s(_vm.request.message) +
+                                  "\n                          "
+                              )
+                            ])
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-danger float-right",
+                            staticStyle: {
+                              "padding-top": "2.5px",
+                              "padding-bottom": "2.5px"
+                            },
+                            attrs: { type: "button" },
+                            on: { click: _vm.requestAgain }
+                          },
+                          [
                             _vm._v(
-                              "Планируемое количество приглашенных в день:"
+                              "\n                          Подать заявку ещё раз\n                        "
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm._l(_vm.errors, function(value) {
+              return _c(
+                "div",
+                {
+                  staticClass: "alert bg-rgba-danger alert-dismissible mb-2",
+                  attrs: { role: "alert" }
+                },
+                [
+                  _vm._m(5, true),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "d-flex align-items-center" }, [
+                    _c("i", { staticClass: "bx bx-error" }),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(value) +
+                          "\n                      "
+                      )
+                    ])
+                  ])
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _vm._l(_vm.success, function(value) {
+              return _c(
+                "div",
+                {
+                  staticClass: "alert bg-rgba-success alert-dismissible mb-2",
+                  attrs: { role: "alert" }
+                },
+                [
+                  _vm._m(6, true),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "d-flex align-items-center" }, [
+                    _c("i", { staticClass: "bx bx-error" }),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(value) +
+                          "\n                      "
+                      )
+                    ])
+                  ])
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _c("section", { staticClass: "card" }, [
+              _vm._m(7),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "card-text" }, [
+                    _vm._m(8),
+                    _vm._v(" "),
+                    _vm.isAdmin ||
+                    ("partner_status" in _vm.user &&
+                      _vm.user.partner_status === null &&
+                      typeof _vm.request !== "undefined" &&
+                      _vm.request === null)
+                      ? _c("div", { staticClass: "row" }, [
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c("fieldset", { staticClass: "form-group" }, [
+                              _c("label", [_vm._v("Telegram для связи:")]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.telegram,
+                                    expression: "telegram"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text", placeholder: "@___" },
+                                domProps: { value: _vm.telegram },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.telegram = $event.target.value
+                                  }
+                                }
+                              })
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-6" }, [
+                            _c(
+                              "fieldset",
+                              { staticClass: "form-group" },
+                              [
+                                _c("label", { staticClass: "align-top" }, [
+                                  _vm._v(
+                                    "Планируемое количество приглашенных в день:"
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("select2", {
+                                  attrs: {
+                                    options: _vm.traficQuantityOptions,
+                                    settings: {
+                                      settingOption: "value",
+                                      settingOption: "value",
+                                      minimumResultsForSearch: Infinity
+                                    }
+                                  },
+                                  model: {
+                                    value: _vm.traficQuantity,
+                                    callback: function($$v) {
+                                      _vm.traficQuantity = $$v
+                                    },
+                                    expression: "traficQuantity"
+                                  }
+                                })
+                              ],
+                              1
                             )
                           ]),
                           _vm._v(" "),
-                          _c("select2", {
-                            attrs: {
-                              options: _vm.traficQuantityOptions,
-                              settings: {
-                                settingOption: "value",
-                                settingOption: "value",
-                                minimumResultsForSearch: Infinity
-                              }
-                            },
-                            model: {
-                              value: _vm.traficQuantity,
-                              callback: function($$v) {
-                                _vm.traficQuantity = $$v
-                              },
-                              expression: "traficQuantity"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
+                          _c("div", { staticClass: "col-md-12" }, [
+                            _c("fieldset", { staticClass: "form-group" }, [
+                              _c("textarea", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.comment,
+                                    expression: "comment"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                staticStyle: { height: "150px" },
+                                attrs: {
+                                  placeholder:
+                                    "Опишите максимально подробно источники трафика, потенциальный охват, предложения"
+                                },
+                                domProps: { value: _vm.comment },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.comment = $event.target.value
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        ])
+                      : _vm._e(),
                     _vm._v(" "),
-                    _vm._m(5)
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-secondary mt-0",
-                      attrs: { type: "button" }
-                    },
-                    [_vm._v("Очистить")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary mt-0 float-right",
-                      attrs: { type: "button" }
-                    },
-                    [_vm._v("Отправить")]
-                  )
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value:
+                              _vm.isAdmin ||
+                              ("partner_status" in _vm.user &&
+                                _vm.user.partner_status === null &&
+                                typeof _vm.request !== "undefined" &&
+                                _vm.request === null),
+                            expression:
+                              "isAdmin || 'partner_status' in user && user.partner_status === null && typeof request !== 'undefined' && request === null"
+                          }
+                        ],
+                        staticClass: "btn btn-secondary mt-0",
+                        attrs: { type: "button" },
+                        on: { click: _vm.clearRequest }
+                      },
+                      [_vm._v("Очистить")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value:
+                              _vm.isAdmin ||
+                              ("partner_status" in _vm.user &&
+                                _vm.user.partner_status === null &&
+                                typeof _vm.request !== "undefined" &&
+                                _vm.request === null),
+                            expression:
+                              "isAdmin || 'partner_status' in user && user.partner_status === null && typeof request !== 'undefined' && request === null"
+                          }
+                        ],
+                        staticClass: "btn btn-primary mt-0 float-right",
+                        attrs: { disabled: !_vm.buttonEnable, type: "button" },
+                        on: { click: _vm.sendRequest }
+                      },
+                      [_vm._v("Отправить")]
+                    ),
+                    _vm._v(" "),
+                    _vm.isAdmin
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger mt-0",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.changePartner("discardPartner")
+                              }
+                            }
+                          },
+                          [_vm._v("Исключение партнера")]
+                        )
+                      : _vm._e(),
+                    _vm._v(" "),
+                    _vm.isAdmin
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success mt-0 float-right",
+                            staticStyle: { "margin-right": "3px" },
+                            attrs: { type: "button" },
+                            on: {
+                              click: function($event) {
+                                return _vm.changePartner("approvePartner")
+                              }
+                            }
+                          },
+                          [_vm._v("Сделать партнером")]
+                        )
+                      : _vm._e()
+                  ])
                 ])
               ])
             ])
-          ])
-        ]),
+          ],
+          2
+        ),
         _vm._v(" "),
         _c("div", { staticClass: "col-md-12" }, [
           _c("section", { staticClass: "card" }, [
-            _vm._m(6),
+            _vm._m(9),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "card-text" }, [
                   _c("div", { staticClass: "table-responsive" }, [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(7),
+                      _vm._m(10),
                       _vm._v(" "),
                       _c("tbody", [
                         _c("tr", [
@@ -122796,7 +123190,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(8)
+        _vm._m(11)
       ])
     ])
   ])
@@ -122846,20 +123240,76 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("i", { staticClass: "bx bx-error-circle" }),
+      _vm._v(" "),
+      _c("span", [
+        _vm._v(
+          '\n                        У вас обычный статус партнера, но вы можете его улучшить отправив заявку для получение "премиум" статуса.\n                      '
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("i", { staticClass: "bx bx-error-circle" }),
+      _vm._v(" "),
+      _c("span", [
+        _vm._v(
+          "\n                        Заявка на подключение премиум статуса партнера находится на рассмотрении.\n                      "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("i", { staticClass: "bx bx-error-circle" }),
+      _vm._v(" "),
+      _c("span", [
+        _vm._v(
+          "\n                        Вы успешно стали премиум партнером, теперь вам зачисляются повышенные выплаты за приглашенных пользователей.\n                      "
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
-      "div",
-      { staticClass: "alert bg-rgba-primary mb-2", attrs: { role: "alert" } },
-      [
-        _c("div", { staticClass: "d-flex align-items-center" }, [
-          _c("i", { staticClass: "bx bx-error-circle" }),
-          _vm._v(" "),
-          _c("span", [
-            _vm._v(
-              '\n                        У вас обычный статус партнера, но вы можете его улучшить отправив заявку для получение "премиум" статуса.\n                      '
-            )
-          ])
-        ])
-      ]
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
   },
   function() {
@@ -122894,23 +123344,6 @@ var staticRenderFns = [
       _vm._v(
         ' с торгового оборота приглашенного пользователя. Для получения статуса "премиум" партнера необходимо отправить заявку на рассмотрение.\n                          '
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("fieldset", { staticClass: "form-group" }, [
-        _c("textarea", {
-          staticClass: "form-control",
-          staticStyle: { height: "150px" },
-          attrs: {
-            placeholder:
-              "Опишите максимально подробно источники трафика, потенциальный охват, предложения"
-          }
-        })
-      ])
     ])
   },
   function() {

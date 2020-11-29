@@ -22,7 +22,7 @@ class ReferralController extends Controller
         $request->validate(['id' => 'numeric|min:1']);
       }
       $id = $admin ? $request->id : Auth::user()->id;
-      return Referral::where('user_id', $id)->first();
+      return Referral::where('user_id', $id)->with(['user', 'request'])->first();
     }
 
     public function getUserReferrals(Request $request){

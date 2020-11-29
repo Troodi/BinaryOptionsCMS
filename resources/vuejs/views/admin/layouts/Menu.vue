@@ -96,6 +96,12 @@
             <span class="menu-title">Выплаты</span>
           </router-link>
         </li>
+        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/withdrawal'}">
+          <router-link :to="'/admin/withdrawal'">
+            <i class="menu-livicon" :data-icon="'coins'"></i>
+            <span class="menu-title">Заявки партнеров</span>
+          </router-link>
+        </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/verify'}">
           <router-link :to="'/admin/verify'">
             <i class="menu-livicon" :data-icon="'bulb'"></i>

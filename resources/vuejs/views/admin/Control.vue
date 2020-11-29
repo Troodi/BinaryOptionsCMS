@@ -113,10 +113,10 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6">
-                    <button @click="banClick" type="button" class="btn btn-outline-primary w-100">Сделать партнером</button>
+                    <button v-bind:disabled="'user' in info && info.user.partner_status || !('user' in info)" @click="changePartner('approvePartner')" type="button" class="btn btn-outline-primary w-100">Сделать партнером</button>
                   </div>
                   <div class="col-md-6">
-                    <button @click="banClick" type="button" class="btn btn-outline-warning w-100">Исключить из партнерской программы</button>
+                    <button v-bind:disabled="'user' in info && !info.user.partner_status || !('user' in info)" @click="changePartner('discardPartner')" type="button" class="btn btn-outline-warning w-100">Исключить из партнерской программы</button>
                   </div>
                 </div>
               </div>
@@ -156,6 +156,24 @@ export default {
     this.loadUserInfo();
   },
   methods: {
+    changePartner: function(action){
+      let self = this;
+      axios.post('/admin/data/'+action, { id: self.userId })
+          .then(function (response) {
+            self.loadUserInfo();
+            if(response.data.success === true) {
+              toastr.success(response.data.message, 'Успешно!', {
+                positionClass: 'toast-bottom-left',
+                containerId: 'toast-bottom-left'
+              });
+            } else {
+              toastr.error(response.data.message, 'Ошибка!', {
+                positionClass: 'toast-bottom-left',
+                containerId: 'toast-bottom-left'
+              });
+            }
+          });
+    },
     balanceClick: function (){
       let self = this;
       axios.post('/admin/data/changeBalance', {id: self.userId, balance: self.amount, action: self.balanceAction})
@@ -166,7 +184,6 @@ export default {
                 positionClass: 'toast-bottom-left',
                 containerId: 'toast-bottom-left'
               });
-              self.getProfile();
             } else {
               toastr.error(response.data.message, 'Ошибка!', {
                 positionClass: 'toast-bottom-left',
@@ -185,7 +202,6 @@ export default {
                 positionClass: 'toast-bottom-left',
                 containerId: 'toast-bottom-left'
               });
-              self.getProfile();
             } else {
               toastr.error(response.data.message, 'Ошибка!', {
                 positionClass: 'toast-bottom-left',
