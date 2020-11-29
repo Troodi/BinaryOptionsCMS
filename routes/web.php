@@ -28,8 +28,12 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   // Реферралы
   Route::post('/data/referralsInfo', 'Main\ReferralController@getUserReferralInfo');
   Route::post('/data/referrals', 'Main\ReferralController@getUserReferrals');
+  Route::post('/data/sendPartnerRequest', 'Main\PartnerController@sendPartnerRequest');
+  Route::post('/data/requestAgain', 'Main\PartnerController@requestAgain');
   Route::post('/data/referralsInfo/{id}', 'Main\ReferralController@getUserReferralInfo')->middleware('admin');
   Route::post('/data/referrals/{id}', 'Main\ReferralController@getUserReferrals')->middleware('admin');
+  Route::post('/data/sendPartnerRequest/{id}', 'Main\PartnerController@sendPartnerRequest')->middleware('admin');
+  Route::post('/data/requestAgain/{id}', 'Main\PartnerController@requestAgain')->middleware('admin');
   // Промокоды
   Route::post("/promocodes", 'Main\PromocodeController@getAvailablePromocodes');
   Route::post("/promocode", 'Main\PromocodeController@checkPromocode');
@@ -100,6 +104,8 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("getControlInfo", 'Admin\ControlController@getControlInfo');
       Route::post("changeBalance", 'Admin\ControlController@changeBalance');
       Route::post("banAction", 'Admin\ControlController@banAction');
+      Route::post("approvePartner", 'Admin\PartnerController@approvePartner');
+      Route::post("discardPartner", 'Admin\PartnerController@discardPartner');
     });
     Route::get('/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
   });

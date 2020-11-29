@@ -860,11 +860,11 @@
                 this.phoneModalSuccess = [];
                 axios.post('/data/verifyPhone', { phone: this.phone }).then((response) => {
                     if(response.data.success === false) {
-                        this.phoneModalErrors = [];
-                        this.phoneModalErrors.push(response.data.message);
+                      self.phoneModalErrors = [];
+                      self.phoneModalErrors.push(response.data.message);
                     } else {
-                        this.phoneModalSuccess = [];
-                        this.phoneModalSuccess.push(response.data.message);
+                      self.phoneModalSuccess = [];
+                      self.phoneModalSuccess.push(response.data.message);
                     }
                 });
                 this.phoneCodeEnabled = false;
