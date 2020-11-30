@@ -105,7 +105,7 @@
             </div>
         </div>
     </nav>
-    <!-- Modal -->
+    <!-- Modal discount -->
     <div class="modal fade" id="discountModal" tabindex="-1" role="dialog" aria-labelledby="discountModalLabel" aria-hidden="true">
       <div class="modal-dialog gradient-border" role="document" style="top:25vh">
         <div class="modal-content">
@@ -120,7 +120,7 @@
               <div class="text-center mb-2">
                 Специально для Вас мы подготовили скидку 50% на первое пополнение, используйте её чтобы получить больше прибыли.
               </div>
-              <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="new Date().getTime() + 3600 * 4 * 1000" :interval="1000">
+              <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="new Date(user.created_at).getTime() + 24 * 60 * 60 * 1000" :interval="1000">
                 <template slot="countdown" slot-scope="scope">
                   <div class="row">
                     <div class="col-md-3"></div>
@@ -143,11 +143,12 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-warning">Пополнить баланс</button>
+            <button type="button" @click="moveToBalance" class="btn btn-warning">Пополнить баланс</button>
           </div>
         </div>
       </div>
     </div>
+    <!-- End modal -->
   </div>
 </template>
 
@@ -163,9 +164,16 @@
             $(document).ready(function (){
               $('.dropdown-toggle').dropdown();
             });
-            setTimeout(() => {
-              //$('#discountModal').modal('show');
-            }, 5000);
+            if(new Date(this.user.created_at).getTime() + 24*60*60*1000 > new Date().getTime() && parseInt(this.user.balance) === 0){
+              if(localStorage.getItem('popupWindowDiscount') === null){
+                localStorage.setItem('popupWindowDiscount', (new Date().getTime() + 60*60*1000).toString());
+                $('#discountModal').modal('show');
+              }
+              if(parseFloat(localStorage.getItem('popupWindowDiscount')) < new Date().getTime()){
+                localStorage.setItem('popupWindowDiscount', (new Date().getTime() + 60*60*1000).toString());
+                $('#discountModal').modal('show');
+              }
+            }
             this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
             this.$echo.private('balance.'+this.user.id).listen('ChangeBalance', (payload) => {
                 this.balance = parseFloat(payload.balance).toFixed(2);
@@ -176,6 +184,7 @@
             setInterval(() => {
                 axios.post('/ping');
             }, 30000);
+
         },
         data: function() {
             return {
@@ -186,6 +195,10 @@
             }
         },
         methods: {
+            moveToBalance: function (){
+              this.$router.push('/deposit');
+              $('#discountModal').modal('hide')
+            },
             formatToPrice(value) {
                 return `${value.toFixed(2)} $`;
             },

@@ -3835,7 +3835,6 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
   },
   computed: {
     isAdmin: function isAdmin() {
-      console.log(this.$route.meta.isAdmin);
       return this.$route.meta.isAdmin;
     },
     userId: function userId() {
