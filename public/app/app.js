@@ -2353,6 +2353,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Header",
@@ -2366,8 +2367,19 @@ __webpack_require__.r(__webpack_exports__);
     $(document).ready(function () {
       $('.dropdown-toggle').dropdown();
     });
-    setTimeout(function () {//$('#discountModal').modal('show');
-    }, 5000);
+
+    if (new Date(this.user.created_at).getTime() + 24 * 60 * 60 * 1000 > new Date().getTime() && parseInt(this.user.balance) === 0) {
+      if (localStorage.getItem('popupWindowDiscount') === null) {
+        localStorage.setItem('popupWindowDiscount', (new Date().getTime() + 60 * 60 * 1000).toString());
+        $('#discountModal').modal('show');
+      }
+
+      if (parseFloat(localStorage.getItem('popupWindowDiscount')) < new Date().getTime()) {
+        localStorage.setItem('popupWindowDiscount', (new Date().getTime() + 60 * 60 * 1000).toString());
+        $('#discountModal').modal('show');
+      }
+    }
+
     this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
     this.$echo["private"]('balance.' + this.user.id).listen('ChangeBalance', function (payload) {
       _this.balance = parseFloat(payload.balance).toFixed(2);
@@ -2388,6 +2400,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    moveToBalance: function moveToBalance() {
+      this.$router.push('/deposit');
+      $('#discountModal').modal('hide');
+    },
     formatToPrice: function formatToPrice(value) {
       return "".concat(value.toFixed(2), " $");
     },
@@ -2812,7 +2828,6 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
   },
   computed: {
     isAdmin: function isAdmin() {
-      console.log(this.$route.meta.isAdmin);
       return this.$route.meta.isAdmin;
     },
     userId: function userId() {
@@ -5527,6 +5542,8 @@ __webpack_require__.r(__webpack_exports__);
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
+
+        _this.showDemoModal();
       } else {
         toastr.error('Сделка закрыта без прибыли!', 'Сделка закрыта', {
           positionClass: 'toast-bottom-left',
@@ -5598,6 +5615,19 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    showDemoModal: function showDemoModal() {
+      if (this.canVisibleDemoModal && this.getRnd(0, 20) === 10 && this.isDemo) {
+        jquery__WEBPACK_IMPORTED_MODULE_1___default()('#discountModal').modal('show');
+        this.canVisibleDemoModal = false;
+        var self = this;
+        setTimeout(function () {
+          self.canVisibleDemoModal = true;
+        }, 60 * 5 * 1000);
+      }
+    },
+    getRnd: function getRnd(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    },
     openedDate: function openedDate(date) {
       return dateformat__WEBPACK_IMPORTED_MODULE_4__(new Date(date), 'HH:MM:ss');
     },
@@ -5652,6 +5682,10 @@ __webpack_require__.r(__webpack_exports__);
         var order = window.tvWidget.chart().createOrderLine().setText("Ниже").setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#FF5B5C').setQuantityBackgroundColor('#FF5B5C').setQuantityBorderColor('#FF5B5C').setBodyBorderColor('#FF5B5C').setBodyTextColor('#FF5B5C');
         order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
+        toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', {
+          positionClass: 'toast-bottom-left',
+          containerId: 'toast-bottom-left'
+        });
         toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
@@ -5746,7 +5780,8 @@ __webpack_require__.r(__webpack_exports__);
       fastData: [],
       latest: [],
       historyLoaded: false,
-      isDemo: false
+      isDemo: false,
+      canVisibleDemoModal: true
     };
   },
   computed: {
@@ -121401,7 +121436,9 @@ var render = function() {
                     _c("vue-countdown-timer", {
                       attrs: {
                         "start-time": "2020-01-01 00:00:00",
-                        "end-time": new Date().getTime() + 3600 * 4 * 1000,
+                        "end-time":
+                          new Date(_vm.user.created_at).getTime() +
+                          24 * 60 * 60 * 1000,
                         interval: 1000
                       },
                       scopedSlots: _vm._u([
@@ -121453,7 +121490,17 @@ var render = function() {
                 )
               ]),
               _vm._v(" "),
-              _vm._m(7)
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-warning",
+                    attrs: { type: "button" },
+                    on: { click: _vm.moveToBalance }
+                  },
+                  [_vm._v("Пополнить баланс")]
+                )
+              ])
             ])
           ]
         )
@@ -121712,18 +121759,6 @@ var staticRenderFns = [
       ),
       _c("code", [_vm._v("START50BONUS")]),
       _vm._v(" и начать уверенно торговать!\n            ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        { staticClass: "btn btn-warning", attrs: { type: "button" } },
-        [_vm._v("Пополнить баланс")]
-      )
     ])
   }
 ]

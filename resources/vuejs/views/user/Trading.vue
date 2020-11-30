@@ -352,6 +352,7 @@
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
                     });
+                    this.showDemoModal();
                 } else {
                     toastr.error('Сделка закрыта без прибыли!', 'Сделка закрыта', {
                         positionClass: 'toast-bottom-left',
@@ -425,6 +426,17 @@
             });
         },
         methods: {
+            showDemoModal: function (){
+              if(this.canVisibleDemoModal && this.getRnd(0, 20) === 10 && this.isDemo){
+                $('#discountModal').modal('show');
+                this.canVisibleDemoModal = false;
+                let self = this;
+                setTimeout(() => { self.canVisibleDemoModal = true; }, 60*5*1000);
+              }
+            },
+            getRnd: function(min, max){
+              return Math.floor(Math.random() * (max - min)) + min;
+            },
             openedDate: function(date){
               return dateformat(new Date(date), 'HH:MM:ss');
             },
@@ -493,6 +505,7 @@
                         .setBodyTextColor('#FF5B5C')
                     order.setPrice(response.data.open_price);
                     self.lines[response.data.id] = order;
+                    toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                     toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 })
                 .catch(error => {
@@ -581,6 +594,7 @@
                 latest: [],
                 historyLoaded: false,
                 isDemo: false,
+                canVisibleDemoModal: true,
             }
         },
         computed: {

@@ -43,7 +43,6 @@
       },
       computed: {
         isAdmin: function (){
-          console.log(this.$route.meta.isAdmin);
           return this.$route.meta.isAdmin;
         },
         userId: function (){
