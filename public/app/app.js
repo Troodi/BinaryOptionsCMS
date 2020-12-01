@@ -5469,6 +5469,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Trading",
@@ -5615,6 +5646,10 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    moveToReal: function moveToReal() {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('#greatWorkModal').modal('hide');
+      this.$router.push('/');
+    },
     showDemoModal: function showDemoModal() {
       if (this.canVisibleDemoModal && this.getRnd(0, 20) === 10 && this.isDemo) {
         jquery__WEBPACK_IMPORTED_MODULE_1___default()('#discountModal').modal('show');
@@ -126923,6 +126958,49 @@ var render = function() {
     "div",
     { staticClass: "content-fluld", style: { "margin-top": "4.6rem" } },
     [
+      _c(
+        "div",
+        {
+          staticClass: "modal fade",
+          attrs: {
+            id: "greatWorkModal",
+            tabindex: "-1",
+            role: "dialog",
+            "aria-labelledby": "discountModalLabel",
+            "aria-hidden": "true"
+          }
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass: "modal-dialog gradient-border",
+              staticStyle: { top: "25vh" },
+              attrs: { role: "document" }
+            },
+            [
+              _c("div", { staticClass: "modal-content" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._m(1),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-warning w-100",
+                      attrs: { type: "button" },
+                      on: { click: _vm.moveToReal }
+                    },
+                    [_vm._v("Перейти к торговле на реальном счете")]
+                  )
+                ])
+              ])
+            ]
+          )
+        ]
+      ),
+      _vm._v(" "),
       _c("div", { staticClass: "content-body" }, [
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-lg-8 col-xxl-10 pr-0 pb-0" }, [
@@ -126945,7 +127023,7 @@ var render = function() {
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "card-text" }, [
-                    _vm._m(0),
+                    _vm._m(2),
                     _vm._v(" "),
                     _c(
                       "fieldset",
@@ -127008,7 +127086,7 @@ var render = function() {
                       },
                       [
                         _c("div", { staticClass: "col-4 pr-0" }, [
-                          _vm._m(1),
+                          _vm._m(3),
                           _vm._v(" "),
                           _c("div", { staticClass: "d-inline-block w-100" }, [
                             _c(
@@ -127091,7 +127169,7 @@ var render = function() {
                             }
                           },
                           [
-                            _vm._m(2),
+                            _vm._m(4),
                             _vm._v(" "),
                             _c("div", { staticClass: "d-inline-block w-100" }, [
                               _c(
@@ -127166,7 +127244,7 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-4 pl-0" }, [
-                          _vm._m(3),
+                          _vm._m(5),
                           _vm._v(" "),
                           _c("div", { staticClass: "d-inline-block w-100" }, [
                             _c(
@@ -127261,7 +127339,7 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _vm._m(4),
+                    _vm._m(6),
                     _vm._v(" "),
                     _c(
                       "fieldset",
@@ -127541,7 +127619,7 @@ var render = function() {
                       2
                     ),
                     _vm._v(" "),
-                    _vm._m(5),
+                    _vm._m(7),
                     _vm._v(" "),
                     _c(
                       "fieldset",
@@ -128292,7 +128370,7 @@ var render = function() {
                                   }
                                 ]
                               },
-                              [_vm._m(6)]
+                              [_vm._m(8)]
                             ),
                             _vm._v(" "),
                             _vm._l(_vm.latest, function(open, index) {
@@ -128648,6 +128726,58 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
+        [_vm._v("Отличная работа!")]
+      ),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-body" }, [
+      _c("div", { staticClass: "text-center" }, [
+        _c("div", { staticClass: "text-center mb-2" }, [
+          _vm._v(
+            "\n                  Вы получаете прибыль на демо счете, попробуйте торговлю на реальном счете и зарабатывайте настоящие деньги!\n                "
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "text-center mb-2" }, [
+          _c("img", {
+            staticClass: "img-fluid",
+            attrs: { src: "/images/icon/cup.png", height: "155", width: "155" }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "text-center mb-2" }, [
+          _vm._v(
+            "\n                  Обратите внимание что демо счет ничем не отличается от реального (движение цены, прибыльность, скорость обработки), поэтому вы можете преуспеть в торговле после тренировок.\n                "
+          )
+        ])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

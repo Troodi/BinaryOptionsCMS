@@ -15,6 +15,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Twilio\Exceptions\ConfigurationException;
@@ -249,6 +250,9 @@ class ProfileController extends Controller
       User::where('id', Auth::user()->id)->update(['email' => $email, 'email_verified_at' => Carbon::now()]);
       EmailAttempts::where('email', $email)->where('user_id', Auth::user()->id)->delete();
       if(Auth::user()->referer_id){
+        if(User::where('id', Auth::user()->referer_id)->first()->partner_status){
+          User::where('id', Auth::user()->referer_id)->update(['balance' => DB::raw('balance+0.05')]);
+        }
         Referral::where('user_id', Auth::user()->referer_id)->increment('active');
       }
       return response()->json(['success' => true]);
