@@ -129470,9 +129470,11 @@ var render = function() {
                                       expression: "wallet_address"
                                     }
                                   ],
-                                  ref: "ci",
                                   staticClass: "form-control",
-                                  attrs: { type: "text" },
+                                  attrs: {
+                                    type: "text",
+                                    placeholder: "P______"
+                                  },
                                   domProps: { value: _vm.wallet_address },
                                   on: {
                                     input: function($event) {

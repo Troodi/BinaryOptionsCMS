@@ -64,7 +64,7 @@
                                                   <fieldset class="form-group" style="margin-bottom: 3px;">
                                                     <label>Кошелек для выплаты <small class="text-muted">(проверяйте правильность)</small></label>
                                                     <template>
-                                                      <input ref="ci" type="text" class="form-control" v-model="wallet_address">
+                                                      <input type="text" class="form-control" placeholder="P______" v-model="wallet_address">
                                                     </template>
                                                   </fieldset>
                                                 </div>

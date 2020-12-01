@@ -6,6 +6,10 @@ body.dark-layout {
   background-color: #1a233a;
 }
 
+body.dark-layout .select2 {
+  width: 100% !important;
+}
+
 body.dark-layout h1,
 body.dark-layout h2,
 body.dark-layout h3,
