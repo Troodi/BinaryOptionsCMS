@@ -127286,7 +127286,7 @@ var staticRenderFns = [
                 _vm._v(" "),
                 _c("p", [
                   _c("strong", [_vm._v("Телефон")]),
-                  _vm._v(": скоро\n                    ")
+                  _vm._v(": временно отсутсвует\n                    ")
                 ]),
                 _vm._v(" "),
                 _c("p", [
@@ -129556,9 +129556,11 @@ var render = function() {
                                       expression: "wallet_address"
                                     }
                                   ],
-                                  ref: "ci",
                                   staticClass: "form-control",
-                                  attrs: { type: "text" },
+                                  attrs: {
+                                    type: "text",
+                                    placeholder: "P______"
+                                  },
                                   domProps: { value: _vm.wallet_address },
                                   on: {
                                     input: function($event) {

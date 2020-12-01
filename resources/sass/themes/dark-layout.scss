@@ -24,6 +24,10 @@
 /* ----------- */
 body {
   &.dark-layout {
+    .select2 {
+      width: 100% !important;
+    }
+
     background-color: $theme-dark-bg;
 
     // Universal elements 

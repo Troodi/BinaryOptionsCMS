@@ -65,7 +65,7 @@
                           <strong>Время работы</strong>: 09:00 - 23:00
                         </p>
                         <p>
-                          <strong>Телефон</strong>: скоро
+                          <strong>Телефон</strong>: временно отсутсвует
                         </p>
                         <p>
                           <strong>Адрес</strong>: Tartu maantee 13, 10117 Tallinn, Эстония
