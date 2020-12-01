@@ -125069,7 +125069,35 @@ var render = function() {
                                     attrs: { for: "customSwitch1" }
                                   }),
                                   _vm._v(" "),
-                                  _vm._m(6)
+                                  _c("span", [
+                                    _vm._v("Использовать бонус "),
+                                    _c(
+                                      "small",
+                                      {
+                                        directives: [
+                                          {
+                                            name: "show",
+                                            rawName: "v-show",
+                                            value: _vm.use_promocode,
+                                            expression: "use_promocode"
+                                          },
+                                          {
+                                            name: "b-tooltip",
+                                            rawName: "v-b-tooltip.hover",
+                                            modifiers: { hover: true }
+                                          }
+                                        ],
+                                        staticClass: "cursor-pointer",
+                                        attrs: {
+                                          title:
+                                            "Необходимо отработать бонус в размере " +
+                                            _vm.promocode_info.turnover +
+                                            " раз от суммы бонуса"
+                                        }
+                                      },
+                                      [_vm._v("(условия)")]
+                                    )
+                                  ])
                                 ]
                               )
                             ]),
@@ -125476,15 +125504,6 @@ var staticRenderFns = [
     return _c("small", { staticClass: "text-muted" }, [
       _vm._v("мин. "),
       _c("i", [_vm._v("5$")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", [
-      _vm._v("Использовать бонус "),
-      _c("small", [_vm._v("(условия)")])
     ])
   }
 ]
