@@ -2501,8 +2501,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Menu"
+  name: "Menu",
+  mounted: function mounted() {
+    window.addEventListener("resize", this.myEventHandler);
+    this.myEventHandler();
+  },
+  destroyed: function destroyed() {
+    window.removeEventListener("resize", this.myEventHandler);
+  },
+  methods: {
+    myEventHandler: function myEventHandler() {
+      var selector = $('#connectUs');
+
+      if ($('#connectUsTop').offset().top < $('#latestElement').offset().top + 100) {
+        selector.hide();
+      } else {
+        selector.show();
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -121861,77 +121881,93 @@ var render = function() {
               "data-icon-style": "lines"
             }
           },
-          _vm._l(this.$router.options.routes, function(route, index) {
-            return _c("router-link", {
-              key: index,
-              attrs: { to: route.path },
-              scopedSlots: _vm._u(
-                [
-                  {
-                    key: "default",
-                    fn: function(ref) {
-                      var href = ref.href
-                      var route = ref.route
-                      var navigate = ref.navigate
-                      var isActive = ref.isActive
-                      var isExactActive = ref.isExactActive
-                      return [
-                        !route.meta.hide
-                          ? _c(
-                              "li",
-                              {
-                                staticClass: "nav-item",
-                                class: [isExactActive && "active"]
-                              },
-                              [
-                                _c(
-                                  "a",
-                                  {
-                                    attrs: { href: href },
-                                    on: { click: navigate }
-                                  },
-                                  [
-                                    _c("i", {
-                                      staticClass: "menu-livicon",
-                                      attrs: { "data-icon": route.meta.icon }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("span", { staticClass: "menu-title" }, [
-                                      _vm._v(_vm._s(route.name))
-                                    ]),
-                                    _vm._v(" "),
-                                    route.meta.badge
-                                      ? _c(
-                                          "span",
-                                          {
-                                            staticClass:
-                                              "badge badge-primary badge-round float-right text-white"
-                                          },
-                                          [_vm._v(_vm._s(route.meta.badge))]
-                                        )
-                                      : _vm._e()
-                                  ]
-                                )
-                              ]
-                            )
-                          : _vm._e()
-                      ]
+          [
+            _vm._l(this.$router.options.routes, function(route, index) {
+              return _c("router-link", {
+                key: index,
+                attrs: { to: route.path },
+                scopedSlots: _vm._u(
+                  [
+                    {
+                      key: "default",
+                      fn: function(ref) {
+                        var href = ref.href
+                        var route = ref.route
+                        var navigate = ref.navigate
+                        var isActive = ref.isActive
+                        var isExactActive = ref.isExactActive
+                        return [
+                          !route.meta.hide
+                            ? _c(
+                                "li",
+                                {
+                                  staticClass: "nav-item",
+                                  class: [isExactActive && "active"]
+                                },
+                                [
+                                  _c(
+                                    "a",
+                                    {
+                                      attrs: { href: href },
+                                      on: { click: navigate }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "menu-livicon",
+                                        attrs: { "data-icon": route.meta.icon }
+                                      }),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "menu-title" },
+                                        [_vm._v(_vm._s(route.name))]
+                                      ),
+                                      _vm._v(" "),
+                                      route.meta.badge
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "badge badge-primary badge-round float-right text-white"
+                                            },
+                                            [_vm._v(_vm._s(route.meta.badge))]
+                                          )
+                                        : _vm._e()
+                                    ]
+                                  )
+                                ]
+                              )
+                            : _vm._e()
+                        ]
+                      }
                     }
-                  }
-                ],
-                null,
-                true
-              )
-            })
-          }),
-          1
+                  ],
+                  null,
+                  true
+                )
+              })
+            }),
+            _vm._v(" "),
+            _c("li", { attrs: { id: "latestElement" } })
+          ],
+          2
         ),
+        _vm._v(" "),
+        _c("div", {
+          staticStyle: {
+            position: "absolute",
+            bottom: "0px",
+            visibility: "hidden"
+          },
+          attrs: { id: "connectUsTop" }
+        }),
         _vm._v(" "),
         _c(
           "ul",
           {
             staticClass: "navigation navigation-main",
-            staticStyle: { position: "absolute", bottom: "0px" }
+            staticStyle: { position: "absolute", bottom: "0px" },
+            attrs: { id: "connectUs" }
           },
           [
             _vm._m(1),
@@ -122809,32 +122845,34 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("span", [
                                     _vm._v("Использовать бонус "),
-                                    _c(
-                                      "small",
-                                      {
-                                        directives: [
+                                    _vm.promocode_info
+                                      ? _c(
+                                          "small",
                                           {
-                                            name: "show",
-                                            rawName: "v-show",
-                                            value: _vm.use_promocode,
-                                            expression: "use_promocode"
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value: _vm.use_promocode,
+                                                expression: "use_promocode"
+                                              },
+                                              {
+                                                name: "b-tooltip",
+                                                rawName: "v-b-tooltip.hover",
+                                                modifiers: { hover: true }
+                                              }
+                                            ],
+                                            staticClass: "cursor-pointer",
+                                            attrs: {
+                                              title:
+                                                "Необходимо отработать бонус в размере " +
+                                                _vm.promocode_info.turnover +
+                                                " раз от суммы бонуса"
+                                            }
                                           },
-                                          {
-                                            name: "b-tooltip",
-                                            rawName: "v-b-tooltip.hover",
-                                            modifiers: { hover: true }
-                                          }
-                                        ],
-                                        staticClass: "cursor-pointer",
-                                        attrs: {
-                                          title:
-                                            "Необходимо отработать бонус в размере " +
-                                            _vm.promocode_info.turnover +
-                                            " раз от суммы бонуса"
-                                        }
-                                      },
-                                      [_vm._v("(условия)")]
-                                    )
+                                          [_vm._v("(условия)")]
+                                        )
+                                      : _vm._e()
                                   ])
                                 ]
                               )
