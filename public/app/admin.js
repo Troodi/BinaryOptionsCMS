@@ -125071,32 +125071,34 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("span", [
                                     _vm._v("Использовать бонус "),
-                                    _c(
-                                      "small",
-                                      {
-                                        directives: [
+                                    _vm.promocode_info
+                                      ? _c(
+                                          "small",
                                           {
-                                            name: "show",
-                                            rawName: "v-show",
-                                            value: _vm.use_promocode,
-                                            expression: "use_promocode"
+                                            directives: [
+                                              {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value: _vm.use_promocode,
+                                                expression: "use_promocode"
+                                              },
+                                              {
+                                                name: "b-tooltip",
+                                                rawName: "v-b-tooltip.hover",
+                                                modifiers: { hover: true }
+                                              }
+                                            ],
+                                            staticClass: "cursor-pointer",
+                                            attrs: {
+                                              title:
+                                                "Необходимо отработать бонус в размере " +
+                                                _vm.promocode_info.turnover +
+                                                " раз от суммы бонуса"
+                                            }
                                           },
-                                          {
-                                            name: "b-tooltip",
-                                            rawName: "v-b-tooltip.hover",
-                                            modifiers: { hover: true }
-                                          }
-                                        ],
-                                        staticClass: "cursor-pointer",
-                                        attrs: {
-                                          title:
-                                            "Необходимо отработать бонус в размере " +
-                                            _vm.promocode_info.turnover +
-                                            " раз от суммы бонуса"
-                                        }
-                                      },
-                                      [_vm._v("(условия)")]
-                                    )
+                                          [_vm._v("(условия)")]
+                                        )
+                                      : _vm._e()
                                   ])
                                 ]
                               )
