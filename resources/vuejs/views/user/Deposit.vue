@@ -85,7 +85,7 @@
                                                         <input v-model="use_promocode" type="checkbox" class="custom-control-input" id="customSwitch1">
                                                         <label class="custom-control-label mr-1" for="customSwitch1">
                                                         </label>
-                                                        <span>Использовать бонус <small>(условия)</small></span>
+                                                        <span>Использовать бонус <small v-show="use_promocode" class="cursor-pointer" v-b-tooltip.hover v-bind:title="'Необходимо отработать бонус в размере ' + promocode_info.turnover + ' раз от суммы бонуса'">(условия)</small></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 pt-2">
