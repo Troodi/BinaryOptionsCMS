@@ -20,6 +20,11 @@
         {{ $errors->first('social') }}
       </div>
     @endif
+    @if($errors->has('cheat'))
+      <div class="alert alert-danger">
+        {{ $errors->first('cheat') }}
+      </div>
+    @endif
     <div class="card bg-authentication mb-0">
       <div class="row m-0">
         <!-- left section-login -->

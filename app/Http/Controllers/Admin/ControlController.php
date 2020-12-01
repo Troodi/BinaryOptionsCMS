@@ -43,9 +43,12 @@ class ControlController extends Controller
   {
     $request->validate([
       'id' => 'numeric|required|min:1',
-      'action' => 'numeric|required|min:0|max:2'
+      'action' => 'numeric|required|min:0|max:4'
     ]);
     $action = $request->action ? $request->action : null;
+    if($action == 4){
+      $action = 3;
+    }
     User::where('id', $request->id)->update(['banned' => $action, 'banned_at' => Carbon::now()]);
     return response()->json(['success' => true, 'message' => 'Бан для пользователя обновлен!']);
   }

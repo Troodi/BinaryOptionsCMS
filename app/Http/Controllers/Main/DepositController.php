@@ -120,6 +120,10 @@ class DepositController extends Controller
             $deposit->update(['status' => 1]);
             $user = User::where('id', $deposit->user_id)->first();
             if($user->referer_id) {
+              if(User::where('id', $user->referer_id)->first()->partner_status){
+                $amount_percent = $deposit->amount * 0.1;
+                User::where('id', $user->referer_id)->update(['balance' => DB::raw("balance+$amount_percent")]);
+              }
               Referral::where('user_id', $user->referer_id)->update(['deposit_count' => DB::raw("deposit_count+$deposit->amount")]);
             }
             return $request->m_orderid.'|success';

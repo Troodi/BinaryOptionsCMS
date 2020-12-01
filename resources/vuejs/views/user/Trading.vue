@@ -1,5 +1,36 @@
 <template>
     <div class="content-fluld" :style="{ 'margin-top': '4.6rem' }">
+      <!-- Modal discount -->
+      <div class="modal fade" id="greatWorkModal" tabindex="-1" role="dialog" aria-labelledby="discountModalLabel" aria-hidden="true">
+        <div class="modal-dialog gradient-border" role="document" style="top:25vh">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Отличная работа!</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="text-center">
+                <div class="text-center mb-2">
+                  Вы получаете прибыль на демо счете, попробуйте торговлю на реальном счете и зарабатывайте настоящие деньги!
+                </div>
+                <div class="text-center mb-2">
+                  <img src="/images/icon/cup.png" height="155" width="155" class="img-fluid">
+                </div>
+                <div class="text-center mb-2">
+                  Обратите внимание что демо счет ничем не отличается от реального (движение цены, прибыльность, скорость обработки), поэтому вы можете преуспеть в торговле после тренировок.
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" @click="moveToReal" class="btn btn-warning w-100">Перейти к торговле на реальном счете</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End modal -->
+
         <div class="content-body">
             <div class="row">
                 <div class="col-lg-8 col-xxl-10 pr-0 pb-0">
@@ -426,6 +457,10 @@
             });
         },
         methods: {
+            moveToReal: function (){
+              $('#greatWorkModal').modal('hide');
+              this.$router.push('/');
+            },
             showDemoModal: function (){
               if(this.canVisibleDemoModal && this.getRnd(0, 20) === 10 && this.isDemo){
                 $('#discountModal').modal('show');

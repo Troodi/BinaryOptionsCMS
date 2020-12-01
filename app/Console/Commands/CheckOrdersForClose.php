@@ -159,6 +159,9 @@ class CheckOrdersForClose extends Command
           $referer_id = $user->referer_id;
           if($referer_id and !$user->left_turnover){ // Если бонус отработан, даем рефереру процент
             $balance_to_referer = $model->amount * 0.02;
+            if(User::where('id', $referer_id)->first()->partner_status){
+              $balance_to_referer = $model->amount * 0.03;
+            }
             User::where('id', $referer_id)->update(['balance' => DB::raw("balance+$balance_to_referer")]);
             Referral::where('user_id', $referer_id)->update(['balance' => DB::raw("reward+$balance_to_referer")]);
           }

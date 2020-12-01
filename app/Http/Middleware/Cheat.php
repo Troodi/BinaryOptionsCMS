@@ -43,11 +43,15 @@ class Cheat
 
       if(Auth::user()->banned == 1){
         Auth::logout();
-        return redirect('/login')->withErrors([__('banned.multi')]);
+        return redirect('/login')->withErrors(['cheat' => 'Ваш аккаунт был заблокирован за использование мультиаккаунтов!']);
       }
       else if(Auth::user()->banned == 2){
         Auth::logout();
-        return redirect('/login')->withErrors([__('banned.mounth')]);
+        return redirect('/login')->withErrors(['cheat' => 'Ваш аккаунт был заблокирован по неактивности!']);
+      }
+      else if(Auth::user()->banned == 3){
+        Auth::logout();
+        return redirect('/login')->withErrors(['cheat' => 'Ваш аккаунт был заблокирован за нарушение правил!']);
       }
 
       if (Cache::remember('coincidence_ip_'.Auth::user()->id, 3600, function () { return SameIp::where('user_id', Auth::user()->id)->count(); })) { // Если пользователь есть в таблице SameIp
