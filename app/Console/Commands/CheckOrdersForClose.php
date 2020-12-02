@@ -15,6 +15,7 @@ use App\Models\SymbolDemoStatistic;
 use App\Models\Symbols\Options\Ticks;
 use App\Models\SymbolShortStatistic;
 use App\Models\SymbolStatistic;
+use App\Models\UserTodayStatistic;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -201,6 +202,20 @@ class CheckOrdersForClose extends Command
             'daily_profit_count' => DB::raw("daily_profit_count+".($profit > 0 ? '1' : '0')),
             'daily_loss_count' => DB::raw("daily_loss_count+".($profit == 0 ? '1' : '0')),
           ]);
+          if(!UserTodayStatistic::where('user_id', $open->user_id)->count()){
+            $model = new UserTodayStatistic();
+            $model->user_id = $open->user_id;
+            $model->profit = $profit > 0 ? 1 : 0;
+            $model->loss = $profit == 0 ? 1 : 0;
+            $model->save();
+          } else {
+            if($profit > 0){
+              UserTodayStatistic::where('user_id', $open->user_id)->increment('profit');
+            } else {
+              UserTodayStatistic::where('user_id', $open->user_id)->increment('loss');
+            }
+          }
+
         } else {
           if(!SymbolDemoStatistic::where('symbol_id', $open->symbol_id)->where('created_at', '>=', Carbon::today())->count()){
             SymbolDemoStatistic::create(['symbol_id' => $open->symbol_id]);

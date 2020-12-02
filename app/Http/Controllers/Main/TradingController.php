@@ -14,6 +14,7 @@ use App\Models\OpenOrders;
 use App\Models\Symbols\Options\Symbol;
 use App\Models\Symbols\Options\Ticks;
 use App\Models\SymbolShortStatistic;
+use App\Models\UserTodayStatistic;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -113,6 +114,18 @@ class TradingController extends Controller
       }
       if($market->first()->market_status != 'market'){
         return response()->json(['message' => 'Данный инструмент закрыт для торговли, т.к. его рабочая сессия окончена!'], 422);
+      }
+      if(!$request->demo) { // Если у человека высокая прибыль немного замедляем выставление сделки
+        $todayStat = UserTodayStatistic::where('user_id', Auth::user()->id)->first();
+        if ($todayStat !== null) {
+          $profit = $todayStat->profit;
+          $loss = $todayStat->loss;
+          $total = $profit + $loss;
+          $percent = ($profit / $total) * 100;
+          if ($total > 10 and $percent >= 65) {
+            usleep(mt_rand(500000, 3000000));
+          }
+        }
       }
       $symbols_all = Cache::remember('symbols_all', 60, function () {
         return Symbol::orderBy('percent', 'desc')->get();

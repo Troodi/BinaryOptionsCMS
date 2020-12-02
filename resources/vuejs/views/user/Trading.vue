@@ -485,6 +485,7 @@
                 this.ps = new PerfectScrollbar("#accordionWrapa2");
             },
             buy: function () {
+              toastr.warning(null, 'Заявка обратывается...', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 let self = this;
                 axios.post('/binary/buy', {
                     symbol: this.symbol,
@@ -516,6 +517,7 @@
                 });
             },
             sell: function(){
+                toastr.warning(null, 'Заявка обратывается...', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 let self = this;
                 axios.post('/binary/buy', {
                     symbol: this.symbol,
@@ -540,7 +542,6 @@
                         .setBodyTextColor('#FF5B5C')
                     order.setPrice(response.data.open_price);
                     self.lines[response.data.id] = order;
-                    toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                     toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 })
                 .catch(error => {
