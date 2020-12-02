@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMarketStatusesTable extends Migration
+class CreateUserTodayStatisticsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateMarketStatusesTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('market_statuses', function (Blueprint $table) {
-            $table->engine = 'MEMORY';
+        Schema::create('user_today_statistics', function (Blueprint $table) {
             $table->id();
-            $table->integer('symbol_id')->index()->nullable();
-            $table->string('market_status')->nullable();
-            $table->timestamps(6);
+            $table->integer('user_id')->index();
+            $table->integer('profit')->default(0);
+            $table->integer('loss')->default(0);
+            $table->timestamps();
         });
     }
 
@@ -29,6 +29,6 @@ class CreateMarketStatusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('market_statuses');
+        Schema::dropIfExists('user_today_statistics');
     }
 }

@@ -5724,6 +5724,10 @@ __webpack_require__.r(__webpack_exports__);
       this.ps = new PerfectScrollbar("#accordionWrapa2");
     },
     buy: function buy() {
+      toastr.warning(null, 'Заявка обратывается...', {
+        positionClass: 'toast-bottom-left',
+        containerId: 'toast-bottom-left'
+      });
       var self = this;
       axios.post('/binary/buy', {
         symbol: this.symbol,
@@ -5750,6 +5754,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     sell: function sell() {
+      toastr.warning(null, 'Заявка обратывается...', {
+        positionClass: 'toast-bottom-left',
+        containerId: 'toast-bottom-left'
+      });
       var self = this;
       axios.post('/binary/buy', {
         symbol: this.symbol,
@@ -5764,10 +5772,6 @@ __webpack_require__.r(__webpack_exports__);
         var order = window.tvWidget.chart().createOrderLine().setText("Ниже").setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#FF5B5C').setQuantityBackgroundColor('#FF5B5C').setQuantityBorderColor('#FF5B5C').setBodyBorderColor('#FF5B5C').setBodyTextColor('#FF5B5C');
         order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
-        toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', {
-          positionClass: 'toast-bottom-left',
-          containerId: 'toast-bottom-left'
-        });
         toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
