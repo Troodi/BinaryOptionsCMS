@@ -106,6 +106,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("banAction", 'Admin\ControlController@banAction');
       Route::post("approvePartner", 'Admin\PartnerController@approvePartner');
       Route::post("discardPartner", 'Admin\PartnerController@discardPartner');
+      Route::post("partner", 'Admin\PartnerController@listRequestPartner');
     });
     Route::get('/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
   });

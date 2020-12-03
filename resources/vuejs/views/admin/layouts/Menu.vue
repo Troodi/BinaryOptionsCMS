@@ -96,8 +96,8 @@
             <span class="menu-title">Выплаты</span>
           </router-link>
         </li>
-        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/withdrawal'}">
-          <router-link :to="'/admin/withdrawal'">
+        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/partner'}">
+          <router-link :to="'/admin/partner'">
             <i class="menu-livicon" :data-icon="'coins'"></i>
             <span class="menu-title">Заявки партнеров</span>
           </router-link>
