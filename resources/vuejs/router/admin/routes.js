@@ -12,11 +12,13 @@ import Statistics from "../../views/admin/Statistics";
 import Profile from "../../views/user/Profile";
 import Deposit from "../../views/user/Deposit";
 import Withdrawal from "../../views/user/Withdrawal";
+import Withdrawals from "../../views/admin/Withdrawal";
 import Promocode from "../../views/user/Promocode";
 import Verify from "../../views/admin/Verify";
 import TradeHistory from "../../views/admin/TradeHistory";
 import UserLayout from "../../views/admin/layouts/User";
 import Partner from "../../views/user/Partner";
+import Partners from "../../views/admin/Partner";
 import Control from "../../views/admin/Control";
 //
 // /**
@@ -37,7 +39,8 @@ export const routes = [
     },
     { path: '/admin/demo', name: 'Промокоды', component: Promocode },
     { path: '/admin/deposit', name: 'Пополения', component: Deposit },
-    { path: '/admin/withdrawal', name: 'Выплаты', component: Withdrawal },
+    { path: '/admin/withdrawal', name: 'Выплаты', component: Withdrawals },
+    { path: '/admin/partner', name: 'Заявки на партнерство', component: Partners },
     { path: '/admin/verify', name: 'Верификация', component: Verify },
     { path: '/admin/promocodes', name: 'Мультиаккаунты', component: Promocode },
     { path: '/admin/history', name: 'История торговли', component: TradeHistory },

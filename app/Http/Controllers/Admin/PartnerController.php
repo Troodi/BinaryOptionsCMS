@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PartnerRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class PartnerController extends Controller
 {
@@ -37,5 +38,10 @@ class PartnerController extends Controller
     }
     User::where('id', $request->id)->update(['partner_status' => null]);
     return response()->json(['success' => true, 'message' => 'Пользователь исключен (не подтвержден) в партнерской программе!']);
+  }
+
+  public function listRequestPartner(Request $request){
+    $requests = PartnerRequest::with(['user'])->get();
+    return Datatables::of($requests)->make();
   }
 }
