@@ -11,6 +11,7 @@ import VueRouter from 'vue-router';
 import Statistics from "../../views/admin/Statistics";
 import Profile from "../../views/user/Profile";
 import Deposit from "../../views/user/Deposit";
+import Deposits from "../../views/admin/Deposit";
 import Withdrawal from "../../views/user/Withdrawal";
 import Withdrawals from "../../views/admin/Withdrawal";
 import Promocode from "../../views/user/Promocode";
@@ -38,7 +39,7 @@ export const routes = [
         ]
     },
     { path: '/admin/demo', name: 'Промокоды', component: Promocode },
-    { path: '/admin/deposit', name: 'Пополения', component: Deposit },
+    { path: '/admin/deposit', name: 'Пополения', component: Deposits },
     { path: '/admin/withdrawal', name: 'Выплаты', component: Withdrawals },
     { path: '/admin/partner', name: 'Заявки на партнерство', component: Partners },
     { path: '/admin/verify', name: 'Верификация', component: Verify },
