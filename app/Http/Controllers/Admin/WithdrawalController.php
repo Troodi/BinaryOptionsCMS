@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Ixudra\Curl\Facades\Curl;
+use Yajra\DataTables\DataTables;
 
 class WithdrawalController extends Controller
 {
@@ -108,5 +109,10 @@ class WithdrawalController extends Controller
         });
       }
       return response()->json(['success' => true, 'message' => 'Заявка успешно обработана!']);
+    }
+
+    public function allWithdrawals(Request $request){
+      $requests = Withdrawal::with(['user'])->get();
+      return Datatables::of($requests)->make();
     }
 }

@@ -2319,6 +2319,138 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/views/admin/Deposit.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/vuejs/views/admin/Deposit.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Deposit",
+  mounted: function mounted() {
+    var self = this;
+    $('#verify').DataTable({
+      "iDisplayLength": 25,
+      "processing": true,
+      "serverSide": true,
+      "drawCallback": function drawCallback() {
+        $('.router-push').on('click', function () {
+          var url = $(this).attr('data-url');
+          self.$router.push({
+            path: url
+          });
+          return false;
+        });
+      },
+      "order": [[2, "asc"]],
+      "ajax": {
+        url: "/admin/data/deposits",
+        type: "POST"
+      },
+      "language": {
+        "url": "/locales/Russian.json"
+      },
+      columns: [{
+        data: 'user_id',
+        name: 'user_id',
+        render: function render(data, type, row) {
+          var email = '';
+
+          if (type === 'display') {
+            email = row.user.email;
+          }
+
+          return '<a class="router-push" data-url="/admin/user/deposit/' + row.user_id + '" href="/admin/user/deposit/' + row.user_id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+        }
+      }, {
+        data: 'amount',
+        name: 'amount',
+        render: function render(data, type, row) {
+          var amount = '';
+
+          if (type === 'display') {
+            amount = data;
+          }
+
+          return data + ' $';
+        }
+      }, {
+        data: 'status',
+        name: 'status',
+        render: function render(data, type, row) {
+          var text = '';
+
+          if (type === 'display') {
+            if (data == 0) {
+              text = '<span class="badge badge-primary text-white">Ожидание платежа</span>';
+            } else if (data == 1) {
+              text = '<span class="badge badge-success text-white">Подтверждена</span>';
+            } else if (data == 2) {
+              text = '<span class="badge badge-danger text-white">Отклонена</span>';
+            }
+          }
+
+          return text;
+        }
+      }, {
+        data: 'created_at',
+        name: 'created_at',
+        render: function render(data, type, row) {
+          var date = new Date();
+
+          if (type === 'display') {
+            date = new Date(data);
+          }
+
+          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'dd-mm-yyyy');
+        }
+      }]
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/views/admin/Partner.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/vuejs/views/admin/Partner.vue?vue&type=script&lang=js& ***!
@@ -3300,6 +3432,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -3334,8 +3468,89 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Withdrawal"
+  name: "Partner",
+  mounted: function mounted() {
+    var self = this;
+    $('#verify').DataTable({
+      "iDisplayLength": 25,
+      "processing": true,
+      "serverSide": true,
+      "drawCallback": function drawCallback() {
+        $('.router-push').on('click', function () {
+          var url = $(this).attr('data-url');
+          self.$router.push({
+            path: url
+          });
+          return false;
+        });
+      },
+      "order": [[2, "asc"]],
+      "ajax": {
+        url: "/admin/data/withdrawal",
+        type: "POST"
+      },
+      "language": {
+        "url": "/locales/Russian.json"
+      },
+      columns: [{
+        data: 'user_id',
+        name: 'user_id',
+        render: function render(data, type, row) {
+          var email = '';
+
+          if (type === 'display') {
+            email = row.user.email;
+          }
+
+          return '<a class="router-push" data-url="/admin/user/withdrawal/' + row.user_id + '" href="/admin/user/withdrawal/' + row.user_id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+        }
+      }, {
+        data: 'amount',
+        name: 'amount',
+        render: function render(data, type, row) {
+          var amount = '';
+
+          if (type === 'display') {
+            amount = data;
+          }
+
+          return data + ' $';
+        }
+      }, {
+        data: 'status',
+        name: 'status',
+        render: function render(data, type, row) {
+          var text = '';
+
+          if (type === 'display') {
+            if (data == 0) {
+              text = '<span class="badge badge-primary text-white">На рассмотрении</span>';
+            } else if (data == 1) {
+              text = '<span class="badge badge-success text-white">Подтверждена</span>';
+            } else if (data == 2) {
+              text = '<span class="badge badge-danger text-white">Отклонена</span>';
+            }
+          }
+
+          return text;
+        }
+      }, {
+        data: 'created_at',
+        name: 'created_at',
+        render: function render(data, type, row) {
+          var date = new Date();
+
+          if (type === 'display') {
+            date = new Date(data);
+          }
+
+          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'dd-mm-yyyy');
+        }
+      }]
+    });
+  }
 });
 
 /***/ }),
@@ -121426,6 +121641,75 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/views/admin/Deposit.vue?vue&type=template&id=7c448bd6&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/vuejs/views/admin/Deposit.vue?vue&type=template&id=7c448bd6&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "content-wrapper" }, [
+      _c("div", { staticClass: "content-body" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("section", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v("Статистика пополнений")
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "card-text" }, [
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c(
+                        "table",
+                        { staticClass: "table", attrs: { id: "verify" } },
+                        [
+                          _c("thead", [
+                            _c("tr", [
+                              _c("th", [_vm._v("Пользователь")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Сумма")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Статус")]),
+                              _vm._v(" "),
+                              _c("th", [_vm._v("Дата")])
+                            ])
+                          ])
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/views/admin/Partner.vue?vue&type=template&id=0bf05b3f&scoped=true&":
 /*!**************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/vuejs/views/admin/Partner.vue?vue&type=template&id=0bf05b3f&scoped=true& ***!
@@ -122628,7 +122912,9 @@ var staticRenderFns = [
           _c("div", { staticClass: "col-md-12" }, [
             _c("section", { staticClass: "card" }, [
               _c("div", { staticClass: "card-header" }, [
-                _c("h4", { staticClass: "card-title" }, [_vm._v("Выплаты")])
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v("Заявки на выплаты")
+                ])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
@@ -122637,16 +122923,13 @@ var staticRenderFns = [
                     _c("div", { staticClass: "table-responsive" }, [
                       _c(
                         "table",
-                        {
-                          staticClass: "table",
-                          attrs: { id: "withdrawalHistory" }
-                        },
+                        { staticClass: "table", attrs: { id: "verify" } },
                         [
                           _c("thead", [
                             _c("tr", [
-                              _c("th", [_vm._v("Сумма")]),
+                              _c("th", [_vm._v("Пользователь")]),
                               _vm._v(" "),
-                              _c("th", [_vm._v("Платежная система")]),
+                              _c("th", [_vm._v("Сумма")]),
                               _vm._v(" "),
                               _c("th", [_vm._v("Статус")]),
                               _vm._v(" "),
@@ -153114,15 +153397,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_admin_Statistics__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../views/admin/Statistics */ "./resources/vuejs/views/admin/Statistics.vue");
 /* harmony import */ var _views_user_Profile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../views/user/Profile */ "./resources/vuejs/views/user/Profile.vue");
 /* harmony import */ var _views_user_Deposit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../views/user/Deposit */ "./resources/vuejs/views/user/Deposit.vue");
-/* harmony import */ var _views_user_Withdrawal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../views/user/Withdrawal */ "./resources/vuejs/views/user/Withdrawal.vue");
-/* harmony import */ var _views_admin_Withdrawal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../views/admin/Withdrawal */ "./resources/vuejs/views/admin/Withdrawal.vue");
-/* harmony import */ var _views_user_Promocode__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../views/user/Promocode */ "./resources/vuejs/views/user/Promocode.vue");
-/* harmony import */ var _views_admin_Verify__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../views/admin/Verify */ "./resources/vuejs/views/admin/Verify.vue");
-/* harmony import */ var _views_admin_TradeHistory__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../views/admin/TradeHistory */ "./resources/vuejs/views/admin/TradeHistory.vue");
-/* harmony import */ var _views_admin_layouts_User__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../views/admin/layouts/User */ "./resources/vuejs/views/admin/layouts/User.vue");
-/* harmony import */ var _views_user_Partner__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../views/user/Partner */ "./resources/vuejs/views/user/Partner.vue");
-/* harmony import */ var _views_admin_Partner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../views/admin/Partner */ "./resources/vuejs/views/admin/Partner.vue");
-/* harmony import */ var _views_admin_Control__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../views/admin/Control */ "./resources/vuejs/views/admin/Control.vue");
+/* harmony import */ var _views_admin_Deposit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../views/admin/Deposit */ "./resources/vuejs/views/admin/Deposit.vue");
+/* harmony import */ var _views_user_Withdrawal__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../views/user/Withdrawal */ "./resources/vuejs/views/user/Withdrawal.vue");
+/* harmony import */ var _views_admin_Withdrawal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../views/admin/Withdrawal */ "./resources/vuejs/views/admin/Withdrawal.vue");
+/* harmony import */ var _views_user_Promocode__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../views/user/Promocode */ "./resources/vuejs/views/user/Promocode.vue");
+/* harmony import */ var _views_admin_Verify__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../views/admin/Verify */ "./resources/vuejs/views/admin/Verify.vue");
+/* harmony import */ var _views_admin_TradeHistory__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../views/admin/TradeHistory */ "./resources/vuejs/views/admin/TradeHistory.vue");
+/* harmony import */ var _views_admin_layouts_User__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../views/admin/layouts/User */ "./resources/vuejs/views/admin/layouts/User.vue");
+/* harmony import */ var _views_user_Partner__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../views/user/Partner */ "./resources/vuejs/views/user/Partner.vue");
+/* harmony import */ var _views_admin_Partner__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../views/admin/Partner */ "./resources/vuejs/views/admin/Partner.vue");
+/* harmony import */ var _views_admin_Control__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../views/admin/Control */ "./resources/vuejs/views/admin/Control.vue");
 /**
  * Import libs
  */
@@ -153145,7 +153429,7 @@ var routes = [{
 }, {
   path: '/admin/user/',
   name: 'Пользователь',
-  component: _views_admin_layouts_User__WEBPACK_IMPORTED_MODULE_10__["default"],
+  component: _views_admin_layouts_User__WEBPACK_IMPORTED_MODULE_11__["default"],
   meta: {
     isAdmin: true
   },
@@ -153159,7 +153443,7 @@ var routes = [{
   }, {
     path: '/admin/user/control/:id',
     name: 'Управление пользователем',
-    component: _views_admin_Control__WEBPACK_IMPORTED_MODULE_13__["default"],
+    component: _views_admin_Control__WEBPACK_IMPORTED_MODULE_14__["default"],
     meta: {
       isAdmin: true
     }
@@ -153173,28 +153457,28 @@ var routes = [{
   }, {
     path: '/admin/user/withdrawal/:id',
     name: 'Выплаты пользователя',
-    component: _views_user_Withdrawal__WEBPACK_IMPORTED_MODULE_5__["default"],
+    component: _views_user_Withdrawal__WEBPACK_IMPORTED_MODULE_6__["default"],
     meta: {
       isAdmin: true
     }
   }, {
     path: '/admin/user/history/:id',
     name: 'История торговли пользователя',
-    component: _views_admin_TradeHistory__WEBPACK_IMPORTED_MODULE_9__["default"],
+    component: _views_admin_TradeHistory__WEBPACK_IMPORTED_MODULE_10__["default"],
     meta: {
       isAdmin: true
     }
   }, {
     path: '/admin/user/partner/:id',
     name: 'Рефералы пользователя',
-    component: _views_user_Partner__WEBPACK_IMPORTED_MODULE_11__["default"],
+    component: _views_user_Partner__WEBPACK_IMPORTED_MODULE_12__["default"],
     meta: {
       isAdmin: true
     }
   }, {
     path: '/admin/user/promocode/:id',
     name: 'Промокоды пользователя',
-    component: _views_user_Promocode__WEBPACK_IMPORTED_MODULE_7__["default"],
+    component: _views_user_Promocode__WEBPACK_IMPORTED_MODULE_8__["default"],
     meta: {
       isAdmin: true
     }
@@ -153202,31 +153486,31 @@ var routes = [{
 }, {
   path: '/admin/demo',
   name: 'Промокоды',
-  component: _views_user_Promocode__WEBPACK_IMPORTED_MODULE_7__["default"]
+  component: _views_user_Promocode__WEBPACK_IMPORTED_MODULE_8__["default"]
 }, {
   path: '/admin/deposit',
   name: 'Пополения',
-  component: _views_user_Deposit__WEBPACK_IMPORTED_MODULE_4__["default"]
+  component: _views_admin_Deposit__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
   path: '/admin/withdrawal',
   name: 'Выплаты',
-  component: _views_admin_Withdrawal__WEBPACK_IMPORTED_MODULE_6__["default"]
+  component: _views_admin_Withdrawal__WEBPACK_IMPORTED_MODULE_7__["default"]
 }, {
   path: '/admin/partner',
   name: 'Заявки на партнерство',
-  component: _views_admin_Partner__WEBPACK_IMPORTED_MODULE_12__["default"]
+  component: _views_admin_Partner__WEBPACK_IMPORTED_MODULE_13__["default"]
 }, {
   path: '/admin/verify',
   name: 'Верификация',
-  component: _views_admin_Verify__WEBPACK_IMPORTED_MODULE_8__["default"]
+  component: _views_admin_Verify__WEBPACK_IMPORTED_MODULE_9__["default"]
 }, {
   path: '/admin/promocodes',
   name: 'Мультиаккаунты',
-  component: _views_user_Promocode__WEBPACK_IMPORTED_MODULE_7__["default"]
+  component: _views_user_Promocode__WEBPACK_IMPORTED_MODULE_8__["default"]
 }, {
   path: '/admin/history',
   name: 'История торговли',
-  component: _views_admin_TradeHistory__WEBPACK_IMPORTED_MODULE_9__["default"]
+  component: _views_admin_TradeHistory__WEBPACK_IMPORTED_MODULE_10__["default"]
 }, {
   path: '/logout',
   name: 'Выйти',
@@ -153313,6 +153597,69 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Control_vue_vue_type_template_id_6b9a9154_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Control_vue_vue_type_template_id_6b9a9154_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+/***/ }),
+
+/***/ "./resources/vuejs/views/admin/Deposit.vue":
+/*!*************************************************!*\
+  !*** ./resources/vuejs/views/admin/Deposit.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Deposit_vue_vue_type_template_id_7c448bd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Deposit.vue?vue&type=template&id=7c448bd6&scoped=true& */ "./resources/vuejs/views/admin/Deposit.vue?vue&type=template&id=7c448bd6&scoped=true&");
+/* harmony import */ var _Deposit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Deposit.vue?vue&type=script&lang=js& */ "./resources/vuejs/views/admin/Deposit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Deposit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Deposit_vue_vue_type_template_id_7c448bd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Deposit_vue_vue_type_template_id_7c448bd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "7c448bd6",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/vuejs/views/admin/Deposit.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/vuejs/views/admin/Deposit.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/vuejs/views/admin/Deposit.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Deposit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./Deposit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/views/admin/Deposit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Deposit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/vuejs/views/admin/Deposit.vue?vue&type=template&id=7c448bd6&scoped=true&":
+/*!********************************************************************************************!*\
+  !*** ./resources/vuejs/views/admin/Deposit.vue?vue&type=template&id=7c448bd6&scoped=true& ***!
+  \********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Deposit_vue_vue_type_template_id_7c448bd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./Deposit.vue?vue&type=template&id=7c448bd6&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/vuejs/views/admin/Deposit.vue?vue&type=template&id=7c448bd6&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Deposit_vue_vue_type_template_id_7c448bd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Deposit_vue_vue_type_template_id_7c448bd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 /***/ }),
 
