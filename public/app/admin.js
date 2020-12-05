@@ -6625,6 +6625,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   // watch:
   computed: {
+    account_left_turnover: function account_left_turnover() {
+      return parseFloat(this.account.left_turnover).toFixed(2) >= 0 ? parseFloat(this.account.left_turnover).toFixed(2) : 0;
+    },
     isAdmin: function isAdmin() {
       return this.$route.meta.isAdmin;
     },
@@ -130220,11 +130223,7 @@ var render = function() {
                                         [
                                           _vm._v(
                                             "$ " +
-                                              _vm._s(
-                                                parseFloat(
-                                                  _vm.account.left_turnover
-                                                ).toFixed(2)
-                                              )
+                                              _vm._s(_vm.account_left_turnover)
                                           )
                                         ]
                                       )
@@ -130276,7 +130275,7 @@ var render = function() {
                                     [_vm._v("Отказаться от бонуса")]
                                   ),
                                   _vm._v(" "),
-                                  _vm.account && _vm.account.left_turnover > 0
+                                  _vm.account && _vm.account_left_turnover > 0
                                     ? _c(
                                         "small",
                                         {

@@ -22,7 +22,9 @@ class WithdrawalController extends Controller
         $admin = true;
         $request->validate(['id' => 'numeric|min:1']);
       }
+
       $id = $admin ? $request->id : Auth::user()->id;
+      User::where('id', $id)->where('left_turnover', '<', 0)->update(['left_turnover' => 0]);
       return $admin ? User::where('id', $id)->first() : Auth::user();
     }
 

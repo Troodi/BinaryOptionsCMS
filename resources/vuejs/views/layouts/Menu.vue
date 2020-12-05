@@ -29,6 +29,13 @@
                         </a>
                     </li>
                 </router-link>
+
+              <li class="nav-item">
+                <a href="/logout" @click.prevent="logout">
+                  <i class="menu-livicon" data-icon="close"></i>
+                  <span class="menu-title">Выйти из аккаунта</span>
+                </a>
+              </li>
               <li id="latestElement"></li>
             </ul>
             <div id="connectUsTop" style="position: absolute; bottom: 0px; visibility:hidden;"></div>
@@ -77,6 +84,12 @@
             } else {
               selector.show();
             }
+          },
+          logout: function (){
+            axios.post('/logout').then((response) => {
+              window.location.href = '';
+            });
+            return false;
           }
         }
     }

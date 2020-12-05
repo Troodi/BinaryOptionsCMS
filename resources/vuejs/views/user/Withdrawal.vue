@@ -108,13 +108,13 @@
                                                     <div class="d-flex justify-content-between align-items-end">
                                                         <div class="dashboard-content-left">
                                                             <span v-show="!account" role="status" aria-hidden="true" class="mb-2 spinner-border spinner-grow-sm text-primary" style="width:3rem;height:3rem;"></span>
-                                                            <h1 v-if="account" class="text-primary font-large-2 text-bold-500">$ {{ parseFloat(account.left_turnover).toFixed(2) }}</h1>
+                                                            <h1 v-if="account" class="text-primary font-large-2 text-bold-500">$ {{ account_left_turnover }}</h1>
                                                             <p>Вам осталось отработать
                                                                 <span v-show="!account" role="status" aria-hidden="true" class="spinner-border spinner-grow-sm"></span>
                                                                 <code v-if="account">{{ left_turnover }} %</code>
                                                                 от общей суммы бонуса.</p>
                                                             <button v-bind:disabled="discardButtunDisabled" @click="discardBonus" type="button" class="btn btn-primary glow">Отказаться от бонуса</button>
-                                                            <small v-if="account && account.left_turnover > 0" v-show="account" class="ml-1">Баланс будет <code>{{ afterDiscardBonus }} $</code> после отказа</small>
+                                                            <small v-if="account && account_left_turnover > 0" v-show="account" class="ml-1">Баланс будет <code>{{ afterDiscardBonus }} $</code> после отказа</small>
                                                         </div>
                                                         <div class="dashboard-content-right">
                                                             <img src="/images/icon/cup.png" height="155" width="155" class="img-fluid" style="float-right"/>
@@ -413,6 +413,9 @@
         },
         // watch:
         computed: {
+            account_left_turnover: function (){
+              return parseFloat(this.account.left_turnover).toFixed(2) >= 0 ? parseFloat(this.account.left_turnover).toFixed(2) : 0;
+            },
             isAdmin: function (){
               return this.$route.meta.isAdmin;
             },

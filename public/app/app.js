@@ -2400,6 +2400,12 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    logout: function logout() {
+      axios.post('/logout').then(function (response) {
+        window.location.href = '';
+      });
+      return false;
+    },
     moveToBalance: function moveToBalance() {
       this.$router.push('/deposit');
       $('#discountModal').modal('hide');
@@ -2503,6 +2509,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Menu",
   mounted: function mounted() {
@@ -2521,6 +2534,12 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         selector.show();
       }
+    },
+    logout: function logout() {
+      axios.post('/logout').then(function (response) {
+        window.location.href = '';
+      });
+      return false;
     }
   }
 });
@@ -6433,6 +6452,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   // watch:
   computed: {
+    account_left_turnover: function account_left_turnover() {
+      return parseFloat(this.account.left_turnover).toFixed(2) >= 0 ? parseFloat(this.account.left_turnover).toFixed(2) : 0;
+    },
     isAdmin: function isAdmin() {
       return this.$route.meta.isAdmin;
     },
@@ -122903,7 +122925,43 @@ var render = function() {
                   _vm._v(" "),
                   _vm._m(3),
                   _vm._v(" "),
-                  _vm._m(4)
+                  _c("li", { staticClass: "dropdown dropdown-user nav-item" }, [
+                    _vm._m(4),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "dropdown-menu dropdown-menu-right pb-0" },
+                      [
+                        _vm._m(5),
+                        _vm._v(" "),
+                        _vm._m(6),
+                        _vm._v(" "),
+                        _vm._m(7),
+                        _vm._v(" "),
+                        _vm._m(8),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "dropdown-divider mb-0" }),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "/logout" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                                return _vm.logout($event)
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "bx bx-power-off mr-50" }),
+                            _vm._v(" Выйти")
+                          ]
+                        )
+                      ]
+                    )
+                  ])
                 ])
               ]
             )
@@ -122934,7 +122992,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(5),
+              _vm._m(9),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c(
@@ -122998,7 +123056,7 @@ var render = function() {
                       ])
                     }),
                     _vm._v(" "),
-                    _vm._m(6)
+                    _vm._m(10)
                   ],
                   1
                 )
@@ -123178,64 +123236,69 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "dropdown dropdown-user nav-item" }, [
-      _c(
-        "a",
-        {
-          staticClass: "dropdown-toggle nav-link dropdown-user-link",
-          attrs: { href: "#", "data-toggle": "dropdown" }
-        },
-        [
-          _c("div", { staticClass: "user-nav d-sm-flex d-none" }, [
-            _c("span", { staticClass: "user-name" }, [_vm._v("Трейдер")]),
-            _vm._v(" "),
-            _c("span", { staticClass: "user-status text-muted" }, [
-              _vm._v("гость")
-            ])
-          ]),
+    return _c(
+      "a",
+      {
+        staticClass: "dropdown-toggle nav-link dropdown-user-link",
+        attrs: { href: "#", "data-toggle": "dropdown" }
+      },
+      [
+        _c("div", { staticClass: "user-nav d-sm-flex d-none" }, [
+          _c("span", { staticClass: "user-name" }, [_vm._v("Трейдер")]),
           _vm._v(" "),
-          _c("span", [
-            _c("img", {
-              staticClass: "round",
-              attrs: {
-                src: "/images/portrait/small/avatar-s-11.jpg",
-                alt: "avatar",
-                height: "40",
-                width: "40"
-              }
-            })
+          _c("span", { staticClass: "user-status text-muted" }, [
+            _vm._v("гость")
           ])
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "dropdown-menu dropdown-menu-right pb-0" }, [
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _c("i", { staticClass: "bx bx-user mr-50" }),
-          _vm._v(" Edit Profile\n                              ")
         ]),
         _vm._v(" "),
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _c("i", { staticClass: "bx bx-envelope mr-50" }),
-          _vm._v(" My Inbox\n                              ")
-        ]),
-        _vm._v(" "),
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _c("i", { staticClass: "bx bx-check-square mr-50" }),
-          _vm._v(" Task")
-        ]),
-        _vm._v(" "),
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _c("i", { staticClass: "bx bx-message mr-50" }),
-          _vm._v(" Chats\n                              ")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "dropdown-divider mb-0" }),
-        _vm._v(" "),
-        _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-          _c("i", { staticClass: "bx bx-power-off mr-50" }),
-          _vm._v(" Logout")
+        _c("span", [
+          _c("img", {
+            staticClass: "round",
+            attrs: {
+              src: "/images/portrait/small/avatar-s-11.jpg",
+              alt: "avatar",
+              height: "40",
+              width: "40"
+            }
+          })
         ])
-      ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+      _c("i", { staticClass: "bx bx-user mr-50" }),
+      _vm._v(" Профиль\n                              ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+      _c("i", { staticClass: "bx bx-envelope mr-50" }),
+      _vm._v(" Пополнить\n                              ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+      _c("i", { staticClass: "bx bx-check-square mr-50" }),
+      _vm._v(" Вывести")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
+      _c("i", { staticClass: "bx bx-message mr-50" }),
+      _vm._v(" Поддержка\n                              ")
     ])
   },
   function() {
@@ -123385,6 +123448,31 @@ var render = function() {
                 )
               })
             }),
+            _vm._v(" "),
+            _c("li", { staticClass: "nav-item" }, [
+              _c(
+                "a",
+                {
+                  attrs: { href: "/logout" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.logout($event)
+                    }
+                  }
+                },
+                [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "close" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [
+                    _vm._v("Выйти из аккаунта")
+                  ])
+                ]
+              )
+            ]),
             _vm._v(" "),
             _c("li", { attrs: { id: "latestElement" } })
           ],
@@ -131168,11 +131256,7 @@ var render = function() {
                                         [
                                           _vm._v(
                                             "$ " +
-                                              _vm._s(
-                                                parseFloat(
-                                                  _vm.account.left_turnover
-                                                ).toFixed(2)
-                                              )
+                                              _vm._s(_vm.account_left_turnover)
                                           )
                                         ]
                                       )
@@ -131224,7 +131308,7 @@ var render = function() {
                                     [_vm._v("Отказаться от бонуса")]
                                   ),
                                   _vm._v(" "),
-                                  _vm.account && _vm.account.left_turnover > 0
+                                  _vm.account && _vm.account_left_turnover > 0
                                     ? _c(
                                         "small",
                                         {
@@ -156395,13 +156479,6 @@ var routes = [{
   component: _views_user_Support__WEBPACK_IMPORTED_MODULE_7__["default"],
   meta: {
     icon: 'help'
-  }
-}, {
-  path: '/logout',
-  name: 'Выйти',
-  component: _views_user_Profile__WEBPACK_IMPORTED_MODULE_3__["default"],
-  meta: {
-    icon: 'close'
   }
 }];
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);

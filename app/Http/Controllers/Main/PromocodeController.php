@@ -97,7 +97,7 @@ class PromocodeController extends Controller
     }
     $id = $admin ? $request->id : Auth::user()->id;
     $user = $admin ? User::where('id', $id)->first() : Auth::user();
-    if($user->left_turnover == 0 or $user->all_turnover == 0){
+    if($user->left_turnover == 0 or $user->all_turnover <= 0){
       return response()->json(['success' => false, 'message' => 'У Вас нет бонусов!'], 200);
     }
     $percent_to_payout = 1 - ($user->left_turnover / $user->all_turnover); // Сколько процентов отработано

@@ -301,4 +301,9 @@ class ProfileController extends Controller
     $model->save();
     return response()->json(['success' => true, 'message' => 'Файл успешно отправлен на проверку, ожидайте результата!', 'page' => $request->page]);
   }
+
+  public function logout(Request $request){
+    Auth::logout();
+    return response()->json(['success' => true, 'message' => 'Выход из аккаунта успешен!', 'page' => $request->page]);
+  }
 }
