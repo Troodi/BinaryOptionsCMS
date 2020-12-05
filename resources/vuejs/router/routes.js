@@ -31,7 +31,6 @@ export const routes = [
     { path: '/profile', name: 'Профиль', component: Profile, meta: { icon: 'settings' }},
     { path: '/partner', name: 'Партнерский кабинет', component: Partner, meta: { icon: 'users' }},
     { path: '/support', name: 'Поддержка и контакты', component: Support, meta: { icon: 'help' } },
-    { path: '/logout', name: 'Выйти', component: Profile, meta: { icon: 'close' }},
 ];
 
 Vue.use(VueRouter);

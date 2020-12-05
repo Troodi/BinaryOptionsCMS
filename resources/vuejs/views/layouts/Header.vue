@@ -87,17 +87,17 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-right pb-0">
                                 <a class="dropdown-item" href="#">
-                                    <i class="bx bx-user mr-50"></i> Edit Profile
+                                    <i class="bx bx-user mr-50"></i> Профиль
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                    <i class="bx bx-envelope mr-50"></i> My Inbox
+                                    <i class="bx bx-envelope mr-50"></i> Пополнить
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                    <i class="bx bx-check-square mr-50"></i> Task</a>
-                                <a class="dropdown-item" href="#"><i class="bx bx-message mr-50"></i> Chats
+                                    <i class="bx bx-check-square mr-50"></i> Вывести</a>
+                                <a class="dropdown-item" href="#"><i class="bx bx-message mr-50"></i> Поддержка
                                 </a>
                                 <div class="dropdown-divider mb-0"></div>
-                                <a class="dropdown-item" href="#"><i class="bx bx-power-off mr-50"></i> Logout</a>
+                                <a class="dropdown-item" href="/logout" @click.prevent="logout"><i class="bx bx-power-off mr-50"></i> Выйти</a>
                             </div>
                         </li>
                     </ul>
@@ -195,6 +195,12 @@
             }
         },
         methods: {
+            logout: function (){
+              axios.post('/logout').then((response) => {
+                window.location.href = '';
+              });
+              return false;
+            },
             moveToBalance: function (){
               this.$router.push('/deposit');
               $('#discountModal').modal('hide')

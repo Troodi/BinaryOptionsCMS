@@ -151,7 +151,7 @@ class CheckOrdersForClose extends Command
         $model->expiration = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
         broadcast(new CloseOptionEvent($model, $open->id, $success, $open->user_id));
         if(!$open->hedging and !$demo){ // Если не хеджирование и не демо счет
-          User::where('id', $open->user_id)->update(['left_turnover' => DB::raw("left_turnover-$open->amount")]);
+          User::where('id', $open->user_id)->where('left_turnover', '>', 0)->update(['left_turnover' => DB::raw("left_turnover-$open->amount")]);
         }
         if($profit > 0 and !$demo){ // Если прибыль на реал счете
           $user = User::find($open->user_id);
