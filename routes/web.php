@@ -11,6 +11,7 @@
 */
 Auth::routes();
 
+Route::get('/', 'Main\LandingController@homePage');
 Route::get('login/{provider}', 'Main\SocialController@redirect');
 Route::get('login/{provider}/callback','Main\SocialController@Callback');
 
