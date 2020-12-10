@@ -257,7 +257,7 @@
                   Что мы предлагаем
               </span>
               <h2 class="mt-3 font-w-5">Необходимые условия для получения дохода</h2>
-              <p class="lead mb-0">мы</p>
+              <p class="lead mb-0">Наша платформа имеет всё самое необходимое как для начинающих трейдеров, так и для профессионалов. Если вдруг у Вас останутся вопросы - наши сотрудники всегда будут рады помочь!</p>
             </div>
           </div>
         </div>
@@ -265,7 +265,7 @@
         <div class="row align-items-center">
           <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0">
             <div class="card d-flex flex-column" style="background-color: black;border-radius: 20px;">
-              <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.8;border-radius: 15px;" src="https://pocketoption.com/themes/2017-09/img/signals-bg.jpg" alt="Card image">
+              <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="/templates/landing/assets/images/about/first.png" alt="Card image">
               <div class="card-img-overlay p-0">
                 <div class="card-body">
                 <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Условия торговли</h4>
@@ -278,7 +278,7 @@
 
           <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0">
             <div class="card d-flex flex-column" style="background-color: black;border-radius: 20px;">
-              <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.8;border-radius: 15px;" src="https://pocketoption.com/themes/2017-09/img/tech-analysis-bg.jpg" alt="Card image">
+              <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="https://image.freepik.com/free-vector/forex-trading-background-concept_23-2148590848.jpg" alt="Card image">
               <div class="card-img-overlay p-0">
                 <div class="card-body">
                   <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Условия торговли</h4>
@@ -291,7 +291,7 @@
 
           <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0">
             <div class="card d-flex flex-column" style="background-color: black;border-radius: 20px;">
-              <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.8;border-radius: 15px;" src="https://pocketoption.com/themes/2017-09/img/why-bg.jpg" alt="Card image">
+              <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="https://image.freepik.com/free-vector/illustration-two-hands-handshake-form-starry-sky-space_87494-75.jpg" alt="Card image">
               <div class="card-img-overlay p-0">
                 <div class="card-body">
                   <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Условия торговли</h4>
@@ -314,32 +314,32 @@
       <div class="container">
         <div class="row align-items-center justify-content-between">
           <div class="col-12 col-lg-6 mb-8 mb-lg-0">
-            <img src="/templates/landing/assets/images/about/05.png" alt="Image" class="img-fluid">
+            <img src="/templates/landing/assets/images/about/05.png" alt="Image" class="img-fluid" style="opacity: 0.8">
           </div>
           <div class="col-12 col-lg-6 col-xl-5">
             <div> <span class="badge badge-primary-soft p-2 font-w-6">
-                  About Bootsland
+                  Наша статистика
               </span>
-              <h2 class="mt-3 font-w-5">Bootsland Crafting Creative And Beautiful Experience</h2>
-              <p class="lead mb-0">We use the latest technologies it voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+              <h2 class="mt-3 font-w-5">Торгуйте с нами</h2>
+              <p class="lead mb-0">Мы предлагаем отличные условия для работы, минимальное время сделки 30 секунд, 85% доходности, быстрая обработка</p>
             </div>
             <div class="d-flex align-items-center justify-content-between mt-5">
               <div class="counter">
-                <div class="counter-desc"> <span class="count-number display-4" data-to="15" data-speed="1000">15</span>
+                <div class="counter-desc"> <span class="count-number display-4" data-to="3" data-speed="1000">3</span>
                   <span class="display-4 text-primary">k</span>
-                  <h6 class="text-muted mb-0">Project</h6>
+                  <h6 class="text-muted mb-0">Онлайн</h6>
                 </div>
               </div>
               <div class="counter">
-                <div class="counter-desc"> <span class="count-number display-4" data-to="29" data-speed="1000">29</span>
-                  <span class="display-4 text-primary">k</span>
-                  <h6 class="text-muted mb-0">Member</h6>
+                <div class="counter-desc"> <span class="count-number display-4" data-to="85" data-speed="1000">85</span>
+                  <span class="display-4 text-primary">%</span>
+                  <h6 class="text-muted mb-0">Прибыль</h6>
                 </div>
               </div>
               <div class="counter">
-                <div class="counter-desc"> <span class="count-number display-4" data-to="23" data-speed="1000">23</span>
-                  <span class="display-4 text-primary">k</span>
-                  <h6 class="text-muted mb-0">Happy Client</h6>
+                <div class="counter-desc"> <span class="count-number display-4" data-to="75" data-speed="1000">75</span>
+                  <span class="display-4 text-primary">+</span>
+                  <h6 class="text-muted mb-0">Пар</h6>
                 </div>
               </div>
             </div>
@@ -425,272 +425,6 @@
 
     <!--how it work end-->
 
-
-    <!--team start-->
-
-    <section class="pt-0">
-      <div class="container">
-        <div class="row justify-content-center text-center">
-          <div class="col-12 col-md-12 col-lg-8 mb-8 mb-lg-0">
-            <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6">
-                  Bootsland Team
-              </span>
-              <h2 class="mt-3 font-w-5">Meet Our Team Of Expert</h2>
-              <p class="lead mb-0">All types of businesses need access to development resources, so we give you the option to decide how much you need to use.</p>
-            </div>
-          </div>
-        </div>
-        <!-- / .row -->
-        <div class="row">
-          <div class="col-12 col-lg-3 col-md-6 mb-8 mb-lg-0">
-            <div class="text-center hover-translate p-5">
-              <div class="mb-3">
-                <img class="img-fluid rounded-top" src="/templates/landing/assets/images/team/01.png" alt="">
-              </div>
-              <div>
-                <h6 class="mb-1">Vinit Saw</h6>
-                <small class="text-muted mb-3 d-block">Manager</small>
-                <ul class="list-inline mb-0">
-                  <li class="list-inline-item"><a class="text-muted" href="index-4.html#"><i class="la la-facebook h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-dribbble h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-twitter h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-linkedin h4"></i></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-3 col-md-6 mb-8 mb-lg-0">
-            <div class="text-center shadow hover-translate p-5">
-              <div class="mb-3">
-                <img class="img-fluid rounded-top" src="/templates/landing/assets/images/team/02.png" alt="">
-              </div>
-              <div>
-                <h6 class="mb-1">Nina Loe</h6>
-                <small class="text-muted mb-3 d-block">Ceo</small>
-                <ul class="list-inline mb-0">
-                  <li class="list-inline-item"><a class="text-muted" href="index-4.html#"><i class="la la-facebook h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-dribbble h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-twitter h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-linkedin h4"></i></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-3 col-md-6 mb-8 mb-md-0">
-            <div class="text-center hover-translate p-5">
-              <div class="mb-3">
-                <img class="img-fluid rounded-top" src="/templates/landing/assets/images/team/03.png" alt="">
-              </div>
-              <div>
-                <h6 class="mb-1">Renut John</h6>
-                <small class="text-muted mb-3 d-block">Founder</small>
-                <ul class="list-inline mb-0">
-                  <li class="list-inline-item"><a class="text-muted" href="index-4.html#"><i class="la la-facebook h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-dribbble h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-twitter h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-linkedin h4"></i></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-3 col-md-6">
-            <div class="text-center hover-translate p-5">
-              <div class="mb-3">
-                <img class="img-fluid rounded-top" src="/templates/landing/assets/images/team/04.png" alt="">
-              </div>
-              <div>
-                <h6 class="mb-1">Biton Leeny</h6>
-                <small class="text-muted mb-3 d-block">Supervisor</small>
-                <ul class="list-inline mb-0">
-                  <li class="list-inline-item"><a class="text-muted" href="index-4.html#"><i class="la la-facebook h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-dribbble h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-twitter h4"></i></a>
-                  </li>
-                  <li class="list-inline-item"><a class="text-muted h6" href="index-4.html#"><i class="la la-linkedin h4"></i></a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!--team end-->
-
-
-    <!--pricing start-->
-
-    <section>
-      <div class="container-fluid">
-        <div class="row align-items-center">
-          <div class="col-12 col-md-12 col-lg-4 order-lg-1 mb-8 mb-lg-0">
-            <div class="mb-0"> <span class="badge badge-primary-soft p-2 font-w-6">
-                  Price Table
-              </span>
-              <h2 class="mt-3 font-w-5">Simple, Fair and affordable prices for all.</h2>
-              <p class="lead mb-0">All types of businesses need access to development resources, so we give you the option to decide how much you need to use.</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-12 col-lg-8">
-            <div class="row align-items-center">
-              <div class="col-12 col-md-6">
-                <!-- Card -->
-                <div class="card border-0">
-                  <!-- Body -->
-                  <div class="card-body py-11 px-6">
-                    <!-- Badge -->
-                    <div class="text-center mb-5"> <span class="badge shadow">
-                        <span class="h6 text-uppercase">Monthly</span>
-                  </span>
-                    </div>
-                    <!-- Price -->
-                    <div class="d-flex justify-content-center"> <span class="h2 mb-0 mt-2">$</span>
-                      <span class="price display-2">59</span>
-                      <span class="h2 align-self-end mb-1">/mo</span>
-                    </div>
-                    <!-- Text -->
-                    <p class="text-center text-muted mb-6 mb-md-8">Per user</p>
-                    <!-- Features -->
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Responsive landing pages</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Free Custom Domain</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Flexible, simple license</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Monthly updates</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Outstanding Support</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Happy Customers</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <!-- Button --> <a href="index-4.html#" class="btn btn-block btn-primary mt-5">
-                      Choose Packege
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-12 col-md-6">
-                <!-- Card -->
-                <div class="card shadow border-0">
-                  <!-- Body -->
-                  <div class="card-body py-11 px-6">
-                    <!-- Badge -->
-                    <div class="text-center mb-5"> <span class="badge shadow">
-                        <span class="h6 text-uppercase">Yearly</span>
-                  </span>
-                    </div>
-                    <!-- Price -->
-                    <div class="d-flex justify-content-center"> <span class="h2 mb-0 mt-2">$</span>
-                      <span class="price display-2">89</span>
-                      <span class="h2 align-self-end mb-1">/mo</span>
-                    </div>
-                    <!-- Text -->
-                    <p class="text-center text-muted mb-6 mb-md-8">Per user</p>
-                    <!-- Features -->
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Responsive landing pages</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Free Custom Domain</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Flexible, simple license</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Monthly updates</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Outstanding Support</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <div class="d-flex align-items-start justify-content-between">
-                      <!-- Text -->
-                      <p>Happy Customers</p>
-                      <!-- Check -->
-                      <div class="ml-4"> <i class="la la-check text-primary font-weight-bold"></i>
-                      </div>
-                    </div>
-                    <!-- Button --> <a href="index-4.html#" class="btn btn-block btn-primary mt-5">
-                      Choose Package
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- / .row -->
-      </div>
-      <!-- / .container -->
-    </section>
-
-    <!--pricing end-->
-
-
     <!--blog start-->
 
     <section>
@@ -698,9 +432,9 @@
         <div class="row justify-content-center text-center">
           <div class="col-12 col-md-12 col-lg-8 mb-8 mb-lg-0">
             <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6">
-                  Latest News
+                  Предложения
               </span>
-              <h2 class="mt-3 font-w-5">From Our Blog List Latest Feed</h2>
+              <h2 class="mt-3 font-w-5">Наши акции и предложения</h2>
               <p class="lead mb-0">All types of businesses need access to development resources, so we give you the option to decide how much you need to use.</p>
             </div>
           </div>
@@ -764,92 +498,44 @@
 
   <!--footer start-->
 
-  <footer class="py-11 bg-primary position-relative" data-bg-img="/templates/landing/assets/images/bg/03.png">
+  <footer class="py-11 bg-primary position-relative" data-bg-img="/templates/landing/assets/images/bg/03.png" style="background-color: #000c2d !important">
     <div class="shape-1" style="height: 150px; overflow: hidden;">
       <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
         <path d="M0.00,49.98 C150.00,150.00 271.49,-50.00 500.00,49.98 L500.00,0.00 L0.00,0.00 Z" style="stroke: none; fill: #fff;"></path>
       </svg>
     </div>
     <div class="container mt-11">
-      <div class="row">
-        <div class="col-12 col-lg-5 col-xl-4 mr-auto mb-6 mb-lg-0">
-          <div class="subscribe-form bg-warning-soft p-5 rounded">
-            <h5 class="mb-4 text-white">Newsletter</h5>
-            <h6 class="text-light">Subscribe Our Newsletter</h6>
-            <form id="mc-form" class="group">
-              <input type="email" value="" name="EMAIL" class="email form-control" id="mc-email" placeholder="Email Address" required="" style="height: 60px;">
-              <input class="btn btn-outline-light btn-block mt-3 mb-2" type="submit" name="subscribe" value="Subscribe">
-            </form> <small class="text-light">Get started for 1 Month free trial No Purchace required.</small>
-          </div>
-        </div>
-        <div class="col-12 col-lg-6 col-xl-7">
-          <div class="row">
-            <div class="col-12 col-sm-4 navbar-dark">
-              <h5 class="mb-4 text-white">Pages</h5>
-              <ul class="navbar-nav list-unstyled mb-0">
-                <li class="mb-3 nav-item"><a class="nav-link" href="about-us-1.html">About</a>
-                </li>
-                <li class="mb-3 nav-item"><a class="nav-link" href="product-grid.html">Shop</a>
-                </li>
-                <li class="mb-3 nav-item"><a class="nav-link" href="faq.html">Faq</a>
-                </li>
-                <li class="mb-3 nav-item"><a class="nav-link" href="blog-card.html">Blogs</a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact Us</a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-12 col-sm-4 mt-6 mt-sm-0 navbar-dark">
-              <h5 class="mb-4 text-white">Service</h5>
-              <ul class="navbar-nav list-unstyled mb-0">
-                <li class="mb-3 nav-item"><a class="nav-link" href="index-4.html#">Content Writing</a>
-                </li>
-                <li class="mb-3 nav-item"><a class="nav-link" href="index-4.html#">Documentation</a>
-                </li>
-                <li class="mb-3 nav-item"><a class="nav-link" href="login.html">Account</a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="career.html">Careers</a>
-                </li>
-              </ul>
-            </div>
-            <div class="col-12 col-sm-4 mt-6 mt-sm-0 navbar-dark">
-              <h5 class="mb-4 text-white">Legal</h5>
-              <ul class="navbar-nav list-unstyled mb-0">
-                <li class="mb-3 nav-item"><a class="nav-link" href="terms-and-conditions.html">Term Of Service</a>
-                </li>
-                <li class="mb-3 nav-item"><a class="nav-link" href="privacy-policy.html">Privacy Policy</a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="index-4.html#">Support</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="row mt-5">
-            <div class="col-12 col-sm-6">
-              <a class="footer-logo text-white h2 mb-0" href="index.html">
-                Boots<span class="font-weight-bold">Land.</span>
-              </a>
-            </div>
-            <div class="col-12 col-sm-6 mt-6 mt-sm-0">
-              <ul class="list-inline mb-0">
-                <li class="list-inline-item"><a class="text-light ic-2x" href="index-4.html#"><i class="la la-facebook"></i></a>
-                </li>
-                <li class="list-inline-item"><a class="text-light ic-2x" href="index-4.html#"><i class="la la-dribbble"></i></a>
-                </li>
-                <li class="list-inline-item"><a class="text-light ic-2x" href="index-4.html#"><i class="la la-instagram"></i></a>
-                </li>
-                <li class="list-inline-item"><a class="text-light ic-2x" href="index-4.html#"><i class="la la-twitter"></i></a>
-                </li>
-                <li class="list-inline-item"><a class="text-light ic-2x" href="index-4.html#"><i class="la la-linkedin"></i></a>
-                </li>
-              </ul>
-            </div>
-          </div>
+      <div class="row mt-8">
+        <div class="col-md-12">
+        <p class="text-white" style="font-size: 12px; color: rgba(255, 255, 255, 0.5)!important;">
+          <strong class="text-left" style="font-size: 16px;">Предупреждение о рисках</strong><br>
+          Торговля на финансовых рынках сопряжена с риском. Forex и другие финансовые контракты являются сложными финансовыми инструментами, используемыми для маржинальной торговли. Торговля имеет высокий уровень риска, так как кредитное плечо может работать как в Вашу пользу, так и против Вас. Вследствие этого торговля подходит не всем инвесторам из-за высокого риска потери инвестированного капитала. Вы не должны рисковать большими средствами, чем Вы готовы потерять. Перед началом торговли Вы должны убедиться, что Вы понимаете все риски и учитываете их в совокупности с уровнем Вашего опыта при постановке Ваших инвестиционных целей.
+        </p>
         </div>
       </div>
-      <div class="row text-white text-center mt-8">
-        <div class="col">
-          <hr class="mb-8">Copyright 2019 Bootsland Theme by <u><a class="text-white" href="index-4.html#">ThemeHt</a></u> | All Rights Reserved</div>
+      <div class="row">
+        <div class="col"><hr class="mb-5"></div>
+        <div class="col-md-12">
+        <p class="text-white" style="font-size: 12px;color: rgba(255, 255, 255, 0.5)!important;">
+          Все права на копирование материалов данного сайта защищены и принадлежат «GetOption». Любое использование материалов данного сайта должно быть согласовано с уполномоченным представителем «GetOption», и содержать соответствующую ссылку на настоящий ресурс. Любые сторонние Компании, относящиеся к категориям «Online - broker» или «Online trading», не имеют права использовать как материалы данного сайта, так и любые, в том числе и искаженные написания «GetOption», и в случае нарушения подлежат преследованию в соответствии с нормами законодательных актов о защите интеллектуальной собственности.
+        </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col"><hr class="mb-8"></div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <!--menu start-->
+          <div class="col d-flex align-items-center justify-content-between p-0">
+            <a class="navbar-brand logo text-white h2 mb-0" href="index.html">
+              Get<span class="text-white font-weight-bold">Option</span>
+            </a>
+            <span class="text-white">Copyright ©2020 Pocket Option</span>
+          </div>
+          <!--menu end-->
+        </div>
       </div>
     </div>
   </footer>
