@@ -9,10 +9,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Title -->
-  <title>Bootsland - Creative Bootstrap 4 Landing Page</title>
+  <title>Get Option - бинарные опционы</title>
 
   <!-- Favicon Icon -->
-  <link rel="shortcut icon" href="/templates/landing/assets/images/favicon.ico" />
+  <link rel="shortcut icon" type="image/png" href="{{asset('images/logo/icon.png')}}">
 
   <!-- inject css start -->
 
@@ -216,7 +216,7 @@
         <div class="col-12 col-lg-10 col-xl-8">
           <!-- Heading -->
           <h1 class="display-4 text-white font-weight-bold">
-            Отличная платформа бинарных опционов
+            Современная платформа бинарных опционов
           </h1>
           <!-- Text -->
           <p class="lead text-light mb-5">Множество торговых инструментов с высокой доходностью - до 85% за 30 секунд, работа по выходным дням по криптовалютным парам, быстрые выплаты</p>
@@ -226,7 +226,7 @@
           <a href="index-4.html#" class="btn btn-light">
             Авторизоваться
           </a>
-          <p class="lead text-light mt-5">Зарегистрируйтесь сейчас и получите <strong>10$</strong> для торговли</p>
+          <p class="lead text-light mt-5" style="font-size:1.4em;font-weight: 700">Зарегистрируйтесь сейчас и получите <strong>10$</strong> для торговли</p>
         </div>
       </div>
       <!-- / .row -->
@@ -314,7 +314,7 @@
       <div class="container">
         <div class="row align-items-center justify-content-between">
           <div class="col-12 col-lg-6 mb-8 mb-lg-0">
-            <img src="/templates/landing/assets/images/about/05.png" alt="Image" class="img-fluid" style="opacity: 0.8">
+            <img src="/templates/landing/assets/images/about/05.png" alt="Image" class="img-fluid">
           </div>
           <div class="col-12 col-lg-6 col-xl-5">
             <div> <span class="badge badge-primary-soft p-2 font-w-6">
@@ -367,7 +367,7 @@
         <!-- / .row -->
         <div class="row align-items-center justify-content-between mb-10">
           <div class="col-12 col-lg-6 mb-6 mb-lg-0">
-            <img src="/templates/landing/assets/images/svg/04.svg" alt="Image" class="img-fluid">
+            <img src="/templates/landing/assets/images/new/idea.png" alt="Image" class="img-fluid pt-5">
           </div>
           <div class="col-12 col-lg-6 col-xl-5">
             <div>
@@ -382,7 +382,7 @@
         </div>
         <div class="row align-items-center justify-content-between mb-10">
           <div class="col-12 col-lg-6 order-lg-1 mb-6 mb-lg-0">
-            <img src="/templates/landing/assets/images/svg/05.svg" alt="Image" class="img-fluid">
+            <img src="/templates/landing/assets/images/new/idea2.png" alt="Image" class="img-fluid pl-5">
           </div>
           <div class="col-12 col-lg-6 col-xl-5">
             <div>
@@ -397,7 +397,7 @@
         </div>
         <div class="row align-items-center justify-content-between">
           <div class="col-12 col-lg-6 mb-6 mb-lg-0">
-            <img src="/templates/landing/assets/images/svg/06.svg" alt="Image" class="img-fluid">
+            <img src="/templates/landing/assets/images/new/idea3.png" alt="Image" class="img-fluid зе-5">
           </div>
           <div class="col-12 col-lg-6 col-xl-5">
             <div>
@@ -444,11 +444,11 @@
           <div class="col-12 col-lg-6 mb-8 mb-lg-0">
             <!-- Blog Card -->
             <div class="card border-0 shadow">
-              <div class="position-absolute bg-white shadow-primary text-center p-2 rounded ml-3 mt-3 z-index-1">15
-                <br>July</div>
+              <div class="position-absolute bg-white shadow-primary text-center p-2 rounded ml-3 mt-3 z-index-1">10
+                <br>$</div>
               <div class="row no-gutters align-items-center">
                 <div class="col-md-5">
-                  <img src="/templates/landing/assets/images/blog/01.png" class="img-fluid" alt="...">
+                  <img src="/templates/landing/assets/images/new/deal2.png" class="img-fluid p-5" alt="...">
                 </div>
                 <div class="col-md-7">
                   <div class="card-body"> <a class="d-inline-block text-muted mb-2" href="index-4.html#">Sass</a>
@@ -466,11 +466,11 @@
           <div class="col-12 col-lg-6 mb-8 mb-lg-0">
             <!-- Blog Card -->
             <div class="card border-0 shadow">
-              <div class="position-absolute bg-white shadow-primary text-center p-2 rounded ml-3 mt-3 z-index-1">15
-                <br>July</div>
+              <div class="position-absolute bg-white shadow-primary text-center p-2 rounded ml-3 mt-3 z-index-1">50
+                <br>%</div>
               <div class="row no-gutters align-items-center">
                 <div class="col-md-5">
-                  <img src="/templates/landing/assets/images/blog/02.png" class="img-fluid" alt="...">
+                  <img src="/templates/landing/assets/images/new/deal.png" class="img-fluid p-5" alt="...">
                 </div>
                 <div class="col-md-7">
                   <div class="card-body"> <a class="d-inline-block text-muted mb-2" href="index-4.html#">Marketing</a>
