@@ -27,7 +27,7 @@ const configurationData = {
 	exchanges: [{
 		value: 'Binary',
 		name: 'Options',
-		desc: 'Бинарные опционы',
+		desc: 'Binary Options',
 	}
 	],
 	symbols_types: [{
@@ -39,6 +39,13 @@ const configurationData = {
 	// ...
 	],
 };
+
+function getCookie(name) {
+	let matches = document.cookie.match(new RegExp(
+		"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+	))
+	return matches ? decodeURIComponent(matches[1]) : undefined
+}
 
 async function getAllSymbols() {
 	const data = await makeApiRequest('data/symbols');
@@ -52,7 +59,7 @@ async function getAllSymbols() {
 				symbol: symbol.symbol,
 				full_name: "Binary:" + symbol.symbol,
 				broker: symbol.broker,
-				description: symbol.percent === 0 ? 'Закрыто' : symbol.percent.toString() + '%',
+				description: symbol.percent === 0 ? '-' : symbol.percent.toString() + '%',
 				percent: symbol.percent,
 				exchange: exchange.value,
 				type: 'forex',

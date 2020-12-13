@@ -5,7 +5,7 @@
         <div class="modal-dialog gradient-border" role="document" style="top:25vh">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Отличная работа!</h5>
+              <h5 class="modal-title" id="exampleModalLabel">{{ $i18n.t('trade_good_work') }}</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -13,18 +13,18 @@
             <div class="modal-body">
               <div class="text-center">
                 <div class="text-center mb-2">
-                  Вы получаете прибыль на демо счете, попробуйте торговлю на реальном счете и зарабатывайте настоящие деньги!
+                  {{ $i18n.t('trade_profit_modal') }}
                 </div>
                 <div class="text-center mb-2">
                   <img src="/images/icon/cup.png" height="155" width="155" class="img-fluid">
                 </div>
                 <div class="text-center mb-2">
-                  Обратите внимание что демо счет ничем не отличается от реального (движение цены, прибыльность, скорость обработки), поэтому вы можете преуспеть в торговле после тренировок.
+                  {{ $i18n.t('trade_profit_modal_desc') }}
                 </div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="button" @click="moveToReal" class="btn btn-warning w-100">Перейти к торговле на реальном счете</button>
+              <button type="button" @click="moveToReal" class="btn btn-warning w-100">{{ $i18n.t('trade_go_real') }}</button>
             </div>
           </div>
         </div>
@@ -59,7 +59,7 @@
 
                                     <div class="row pb-1" v-show="clicked">
                                         <div class="col-4 pr-0">
-                                            <small class="text-muted"><i>Часы</i></small>
+                                            <small class="text-muted"><i>{{ $i18n.t('trade_hours') }}</i></small>
                                             <div class="d-inline-block w-100">
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                                                     <input @focus="$event.target.select()" @click="$event.target.select()" type="number" class="touchspin-vertical form-control" v-model="hours">
@@ -71,7 +71,7 @@
                                             </div>
                                         </div>
                                         <div class="col-4 pr-0" style="padding-left:7.5px;padding-right:7.5px !important;">
-                                            <small class="text-muted"><i>Минуты</i></small>
+                                            <small class="text-muted"><i>{{ $i18n.t('trade_minutes') }}</i></small>
                                             <div class="d-inline-block w-100">
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                                                     <input @focus="$event.target.select()" @click="$event.target.select()" type="number" class="touchspin-vertical form-control" v-model="minutes">
@@ -83,7 +83,7 @@
                                             </div>
                                         </div>
                                         <div class="col-4 pl-0">
-                                            <small class="text-muted"><i>Секунды</i></small>
+                                            <small class="text-muted"><i>{{ $i18n.t('trade_seconds') }}</i></small>
                                             <div class="d-inline-block w-100">
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                                                     <input @focus="$event.target.select()" @click="$event.target.select()" type="number" class="touchspin-vertical form-control" v-model="seconds">
@@ -96,11 +96,11 @@
                                         </div>
 
                                         <div class="col-md-12" style="padding-top: 5px;">
-                                            <button type="button" @click="closeClick" class="btn btn-outline-primary btn-sm w-100">Закрыть</button>
+                                            <button type="button" @click="closeClick" class="btn btn-outline-primary btn-sm w-100">{{ $i18n.t('trade_close') }}</button>
                                         </div>
                                     </div>
 
-                                    <small class="text-muted"><i>Сумма сделки</i></small>
+                                    <small class="text-muted"><i>{{ $i18n.t('trade_amount') }}</i></small>
                                     <fieldset :style="{ 'margin-bottom': '0.3rem !important'}" class="form-group position-relative">
                                         <template>
                                             <input ref="ci" @click="amountClick" type="text" class="form-control form-control-lg" v-model="amount" v-currency="{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 1000}}">
@@ -145,9 +145,9 @@
                                         </div>
                                     </fieldset>
 
-                                    <small class="text-muted"><i>Потенциальная прибыль</i></small>
+                                    <small class="text-muted"><i>{{ $i18n.t('trade_potential') }}</i></small>
                                     <fieldset class="form-group position-relative" v-show="number_percent === null">
-                                        <input type="text" disabled class="form-control form-control-lg" placeholder="Загрузка..." aria-describedby="basic-addon2">
+                                        <input type="text" disabled class="form-control form-control-lg" :placeholder="$i18n.t('trade_loading')" aria-describedby="basic-addon2">
                                         <div class="form-control-position" :style="{ 'top' : '14px'}">
                                             <span class="spinner-border spinner-grow-sm" role="status" aria-hidden="true"></span>
                                         </div>
@@ -162,11 +162,11 @@
 
                                     <button v-show="percent === ''" class="btn btn-success mb-1 w-100 btn-lg" type="button" disabled="">
                                         <span class="spinner-border spinner-grow-sm" role="status" aria-hidden="true"></span>
-                                        Загрузка...
+                                        {{ $i18n.t('trade_loading') }}
                                     </button>
 
                                     <button v-show="number_percent === 0 && percent !== ''" class="disabled btn btn-success mb-1 w-100 btn-lg" type="button" disabled="disabled">
-                                      Рынок закрыт
+                                      {{ $i18n.t('trade_closed_market') }}
                                     </button>
 
                                     <button v-show="percent !== '' && number_percent !== 0" type="button" @click="buy" class="btn btn-success glow w-100 btn-lg" v-bind:disabled="isButtonDisabled">
@@ -175,11 +175,11 @@
 
                                     <button v-show="percent === ''" class="btn btn-danger mb-1 w-100 btn-lg" type="button" disabled="">
                                         <span class="spinner-border spinner-grow-sm" role="status" aria-hidden="true"></span>
-                                        Загрузка...
+                                        {{ $i18n.t('trade_loading') }}
                                     </button>
 
                                     <button v-show="number_percent === 0 && percent !== ''" class="disabled btn btn-danger mb-1 w-100 btn-lg" type="button" disabled="disabled">
-                                      Рынок закрыт
+                                      {{ $i18n.t('trade_closed_market') }}
                                     </button>
 
                                     <button v-show="percent !== '' && number_percent !== 0" @click="sell" type="button" class="btn btn-danger glow w-100 mt-1 btn-lg" v-bind:disabled="isButtonDisabled">
@@ -191,7 +191,7 @@
                                     <div class="col-md-12" id="history">
                                         <div :style="{ height: historyHeight }" class="accordion collapse-icon accordion-icon-rotate ps ps--active-y" id="accordionWrapa2">
 <!--                                            Opened orders-->
-                                            <p v-show="opened.length > 0" class="text-center">Открытые сделки</p>
+                                            <p v-show="opened.length > 0" class="text-center">{{ $i18n.t('trade_open_orders') }}</p>
 
                                             <b-card no-body v-for="(open, index) in opened" :key="index" class="collapse-header">
                                               <div v-b-toggle="'opened-orders' + index" data-toggle="collapse" class="card-header p-1">
@@ -236,19 +236,19 @@
                                               <b-collapse :id="'opened-orders' + index" accordion="opened-orders" role="tabpanel">
                                                 <div class="card-content">
                                                   <div class="card-body" style="padding: 15px; background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
-                                                    Открыто: {{ openedDate(open.created_at) }}<br>
-                                                    Цена открытия: {{ parseFloat(open.open_price) }}<br>
-                                                    Направление: <div v-show="open.type === 1" class="badge badge-success">выше</div><div v-show="open.type === 0" class="badge badge-danger">ниже</div>
+                                                    {{ $i18n.t('trade_open') }}: {{ openedDate(open.created_at) }}<br>
+                                                    {{ $i18n.t('trade_opened_price') }}: {{ parseFloat(open.open_price) }}<br>
+                                                    {{ $i18n.t('trade_path') }}: <div v-show="open.type === 1" class="badge badge-success">{{ $i18n.t('trade_up') }}</div><div v-show="open.type === 0" class="badge badge-danger">{{ $i18n.t('trade_down') }}</div>
                                                   </div>
                                                 </div>
                                               </b-collapse>
                                             </b-card>
 <!--                                            End opened orders-->
-                                            <p class="text-center">История сделок</p>
+                                            <p class="text-center">{{ $i18n.t('trade_orders_history') }}</p>
                                             <div v-show="latest.length === 0 && historyLoaded">
                                               <ul class="list-group">
                                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                                  <span> Нет сделок</span>
+                                                  <span> {{ $i18n.t('trade_no_orders') }}</span>
                                                   <span class="badge-circle badge-circle-warning badge-circle-sm text-white">
                                                     <i class="bx bx-info-circle font-size-base" style="font-size: 1rem;margin-left: -1.5px;"></i>
                                                   </span>
@@ -285,10 +285,10 @@
                                                 <b-collapse :id="'latest-orders' + index" accordion="latest-orders" role="tabpanel">
                                                   <div class="card-content">
                                                     <div class="card-body" style="padding: 15px; background-color: #22283e !important; border: 1px solid; border-top: 1px;border-bottom-left-radius: 5px; border-bottom-right-radius: 5px;">
-                                                      Открыто: {{ openedDate(open.open_at) }}<br>
-                                                      Цена открытия: {{ parseFloat(open.open_price) }}<br>
-                                                      Время: {{ open.expiration }}<br>
-                                                      Направление: <div v-show="open.type === 1" class="badge badge-success">выше</div><div v-show="open.type === 0" class="badge badge-danger">ниже</div>
+                                                      {{ $i18n.t('trade_open') }}: {{ openedDate(open.open_at) }}<br>
+                                                      {{ $i18n.t('trade_opened_price') }}: {{ parseFloat(open.open_price) }}<br>
+                                                      {{ $i18n.t('trade_time') }}: {{ open.expiration }}<br>
+                                                      {{ $i18n.t('trade_path') }}: <div v-show="open.type === 1" class="badge badge-success">{{ $i18n.t('trade_up') }}</div><div v-show="open.type === 0" class="badge badge-danger">{{ $i18n.t('trade_down') }}</div>
                                                     </div>
                                                   </div>
                                                 </b-collapse>
@@ -298,7 +298,7 @@
                                             </div>
                                             <router-link to="/history">
                                               <template>
-                                                <button type="button" class="btn btn-outline-primary w-100">Полная история сделок</button>
+                                                <button type="button" class="btn btn-outline-primary w-100">{{ $i18n.t('trade_full_orders_history') }}</button>
                                               </template>
                                             </router-link>
 <!--                                        End latest orders-->
@@ -379,13 +379,13 @@
                 let model = payload.model;
                 self.latest.unshift(model);
                 if(payload.success === true) {
-                    toastr.success('Вы получили прибыль ' + model.profit + '$!', 'Сделка закрыта', {
+                    toastr.success(self.$i18n.t('trade_you_got_profit') + ' ' + model.profit + '$!', self.$i18n.t('trade_order_closed'), {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
                     });
                     this.showDemoModal();
                 } else {
-                    toastr.error('Сделка закрыта без прибыли!', 'Сделка закрыта', {
+                    toastr.error(self.$i18n.t('trade_order_closed_without_profit'), self.$i18n.t('trade_order_closed'), {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
                     });
@@ -425,7 +425,7 @@
                                     }
                                     let color = element.type === 1 ? '#23bd70' : '#FF5B5C';
                                     let order = window.tvWidget.chart().createOrderLine()
-                                        .setText("Выше")
+                                        .setText(self.$i18n.t('trade_up'))
                                         .setLineLength(1)
                                         .setLineStyle(0)
                                         .setQuantity(element.amount + '$')
@@ -485,7 +485,7 @@
                 this.ps = new PerfectScrollbar("#accordionWrapa2");
             },
             buy: function () {
-              toastr.warning(null, 'Заявка обратывается...', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+              toastr.warning(null, this.$i18n.t('trade_order_processing'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 let self = this;
                 axios.post('/binary/buy', {
                     symbol: this.symbol,
@@ -499,7 +499,7 @@
                 .then(function (response) {
                     self.opened.unshift(response.data);
                     let order = window.tvWidget.chart().createOrderLine()
-                        .setText("Выше")
+                        .setText(self.$i18n.t('trade_up'))
                         .setLineLength(1)
                         .setLineStyle(0)
                         .setQuantity(response.data.amount + '$')
@@ -510,14 +510,14 @@
                         .setBodyTextColor('#23bd70');
                     order.setPrice(response.data.open_price);
                     self.lines[response.data.id] = order;
-                    toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                    toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 })
                 .catch(error => {
-                    toastr.error(error.response.data.message, 'Ошибка!', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                    toastr.error(error.response.data.message, this.$i18n.t('trade_error'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 });
             },
             sell: function(){
-                toastr.warning(null, 'Заявка обратывается...', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                toastr.warning(null, this.$i18n.t('trade_order_processing'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 let self = this;
                 axios.post('/binary/buy', {
                     symbol: this.symbol,
@@ -531,7 +531,7 @@
                 .then(function (response) {
                     self.opened.unshift(response.data);
                     let order = window.tvWidget.chart().createOrderLine()
-                        .setText("Ниже")
+                        .setText(self.$i18n.t('trade_down'))
                         .setLineLength(1)
                         .setLineStyle(0)
                         .setQuantity(response.data.amount + '$')
@@ -542,7 +542,7 @@
                         .setBodyTextColor('#FF5B5C')
                     order.setPrice(response.data.open_price);
                     self.lines[response.data.id] = order;
-                    toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                    toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 })
                 .catch(error => {
                     toastr.error(error.response.data.message, 'Ошибка!', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
@@ -553,7 +553,7 @@
             },
             closeClick: function () {
                 if(parseInt(this.seconds) < 30 && parseInt(this.minutes) === 0 && parseInt(this.hours) === 0) {
-                    toastr.error('Минимальная продолжительность сделки должна быть от 30 секунд', 'Ошибка!', {
+                    toastr.error(this.$i18n.t('trade_minimal_expiration'), this.$i18n.t('trade_error'), {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
                     })

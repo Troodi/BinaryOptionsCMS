@@ -27,7 +27,7 @@ export const routes = [
     { path: '/demo', name: i18n.t('menu_demo'), component: Trading, meta: { icon: 'line-chart', hideFooter: true, demoPage: true } },
     { path: '/deposit', name: i18n.t('menu_deposit'), component: Deposit, meta: { icon: 'bank', badge : '50% OFF' } },
     { path: '/withdrawal', name: i18n.t('menu_withdrawal'), component: Withdrawal, meta: { icon: 'coins' } },
-    { path: '/promocodes', name: i18n.t('menu_promocodes'), component: Promocode, meta: { icon: 'bulb', badge : '10$ GIFT' } },
+    { path: '/promocodes', name: i18n.t('menu_promo_codes'), component: Promocode, meta: { icon: 'bulb', badge : '10$ GIFT' } },
     { path: '/history', name: i18n.t('menu_history'), component: History, meta: {icon: 'calendar'}},
     { path: '/profile', name: i18n.t('menu_profile'), component: Profile, meta: { icon: 'settings' }},
     { path: '/partner', name: i18n.t('menu_partner'), component: Partner, meta: { icon: 'users' }},

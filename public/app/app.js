@@ -2075,7 +2075,12 @@ window.dataLoaded = false;
     this.initChart();
   },
   methods: {
+    getCookie: function getCookie(name) {
+      var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+      return matches ? decodeURIComponent(matches[1]) : undefined;
+    },
     initChart: function initChart() {
+      var self = this;
       var symbol = '',
           tabSymbol = '',
           resolution = '';
@@ -2098,7 +2103,7 @@ window.dataLoaded = false;
         if (typeof window.Datafeed !== 'undefined') {
           clearInterval(interval);
           window.tvWidget = new window.TradingView.widget({
-            locale: "ru",
+            locale: self.getCookie('currentLanguage') ? self.getCookie('currentLanguage') : 'en',
             symbol: symbol,
             // default symbol
             interval: resolution,
@@ -2417,12 +2422,12 @@ __webpack_require__.r(__webpack_exports__);
       var self = this;
       axios.post('/data/demo/refill').then(function (response) {
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('header_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
         } else {
-          toastr.error(response.data.message, 'Ошибка!', {
+          toastr.error(response.data.message, self.$i18n.t('header_error'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -5673,14 +5678,14 @@ __webpack_require__.r(__webpack_exports__);
       self.latest.unshift(model);
 
       if (payload.success === true) {
-        toastr.success('Вы получили прибыль ' + model.profit + '$!', 'Сделка закрыта', {
+        toastr.success(self.$i18n.t('trade_you_got_profit') + ' ' + model.profit + '$!', self.$i18n.t('trade_order_closed'), {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
 
         _this.showDemoModal();
       } else {
-        toastr.error('Сделка закрыта без прибыли!', 'Сделка закрыта', {
+        toastr.error(self.$i18n.t('trade_order_closed_without_profit'), self.$i18n.t('trade_order_closed'), {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -5724,7 +5729,7 @@ __webpack_require__.r(__webpack_exports__);
               } catch (e) {}
 
               var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
-              var order = window.tvWidget.chart().createOrderLine().setText("Выше").setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
+              var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
               order.setPrice(element.open_price);
               self.lines[element.id] = order;
             });
@@ -5781,7 +5786,9 @@ __webpack_require__.r(__webpack_exports__);
       this.ps = new PerfectScrollbar("#accordionWrapa2");
     },
     buy: function buy() {
-      toastr.warning(null, 'Заявка обратывается...', {
+      var _this2 = this;
+
+      toastr.warning(null, this.$i18n.t('trade_order_processing'), {
         positionClass: 'toast-bottom-left',
         containerId: 'toast-bottom-left'
       });
@@ -5796,22 +5803,22 @@ __webpack_require__.r(__webpack_exports__);
         demo: self.isDemo ? 1 : 0
       }).then(function (response) {
         self.opened.unshift(response.data);
-        var order = window.tvWidget.chart().createOrderLine().setText("Выше").setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#23bd70').setQuantityBackgroundColor('#23bd70').setQuantityBorderColor('#23bd70').setBodyBorderColor('#23bd70').setBodyTextColor('#23bd70');
+        var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#23bd70').setQuantityBackgroundColor('#23bd70').setQuantityBorderColor('#23bd70').setBodyBorderColor('#23bd70').setBodyTextColor('#23bd70');
         order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
-        toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', {
+        toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
       })["catch"](function (error) {
-        toastr.error(error.response.data.message, 'Ошибка!', {
+        toastr.error(error.response.data.message, _this2.$i18n.t('trade_error'), {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
       });
     },
     sell: function sell() {
-      toastr.warning(null, 'Заявка обратывается...', {
+      toastr.warning(null, this.$i18n.t('trade_order_processing'), {
         positionClass: 'toast-bottom-left',
         containerId: 'toast-bottom-left'
       });
@@ -5826,10 +5833,10 @@ __webpack_require__.r(__webpack_exports__);
         demo: self.isDemo ? 1 : 0
       }).then(function (response) {
         self.opened.unshift(response.data);
-        var order = window.tvWidget.chart().createOrderLine().setText("Ниже").setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#FF5B5C').setQuantityBackgroundColor('#FF5B5C').setQuantityBorderColor('#FF5B5C').setBodyBorderColor('#FF5B5C').setBodyTextColor('#FF5B5C');
+        var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_down')).setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#FF5B5C').setQuantityBackgroundColor('#FF5B5C').setQuantityBorderColor('#FF5B5C').setBodyBorderColor('#FF5B5C').setBodyTextColor('#FF5B5C');
         order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
-        toastr.info('Открыта сделка по цене ' + response.data.open_price, 'Сделка открыта', {
+        toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -5845,7 +5852,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     closeClick: function closeClick() {
       if (parseInt(this.seconds) < 30 && parseInt(this.minutes) === 0 && parseInt(this.hours) === 0) {
-        toastr.error('Минимальная продолжительность сделки должна быть от 30 секунд', 'Ошибка!', {
+        toastr.error(this.$i18n.t('trade_minimal_expiration'), this.$i18n.t('trade_error'), {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -6002,7 +6009,7 @@ __webpack_require__.r(__webpack_exports__);
       localStorage.setItem('amount', this.amount);
     },
     latest: function latest() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.latest.forEach(function (last) {
         try {
@@ -6016,7 +6023,7 @@ __webpack_require__.r(__webpack_exports__);
             color = 'danger';
           }
 
-          _this2.$set(last, 'textColor', color);
+          _this3.$set(last, 'textColor', color);
         } catch (e) {}
       });
     }
@@ -124846,7 +124853,15 @@ var render = function() {
       staticClass: "p-0",
       staticStyle: { "margin-top": "10.5px", "margin-left": "20px" }
     },
-    [_vm._v("Пинг: " + _vm._s(_vm.ping) + " мс")]
+    [
+      _vm._v(
+        _vm._s(_vm.$i18n.t("header_ping")) +
+          ": " +
+          _vm._s(_vm.ping) +
+          " " +
+          _vm._s(_vm.$i18n.t("header_ms"))
+      )
+    ]
   )
 }
 var staticRenderFns = []
@@ -124993,7 +125008,25 @@ var render = function() {
                     _vm._m(0),
                     _vm._v(" "),
                     _c("ul", { staticClass: "nav navbar-nav bookmark-icons" }, [
-                      _vm._m(1),
+                      _c("li", { staticClass: "nav-item d-none d-lg-block" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link nav-link-expand",
+                            staticStyle: {
+                              padding: "0.567rem 1.33rem",
+                              "padding-right": "0.5rem",
+                              "padding-left": "0.5rem"
+                            },
+                            attrs: {
+                              "data-toggle": "tooltip",
+                              "data-placement": "top",
+                              title: _vm.$i18n.t("header_fullpage")
+                            }
+                          },
+                          [_c("i", { staticClass: "ficon bx bx-fullscreen" })]
+                        )
+                      ]),
                       _vm._v(" "),
                       _c("li", { staticClass: "nav-item d-none d-lg-block" }, [
                         _c("a", [_c("ping-component")], 1)
@@ -125022,13 +125055,18 @@ var render = function() {
                             }
                           ],
                           staticClass: "btn btn-success glow w-100",
-                          attrs: { type: "button" }
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push("/deposit")
+                            }
+                          }
                         },
                         [
                           _c("i", { staticClass: "bx bx-trending-up" }),
                           _vm._v(" "),
                           _c("span", { staticClass: "align-middle ml-25" }, [
-                            _vm._v("Пополнить счет")
+                            _vm._v(_vm._s(_vm.$i18n.t("header_deposit")))
                           ])
                         ]
                       ),
@@ -125049,7 +125087,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: {
                             click: function($event) {
-                              return _vm.$router.push("/")
+                              return _vm.$router.push("/trading")
                             },
                             mouseover: function($event) {
                               _vm.realButtonColor = "#FFF !important"
@@ -125065,7 +125103,11 @@ var render = function() {
                           _c(
                             "span",
                             { staticClass: "align-middle ml-25 text-warning" },
-                            [_vm._v("Торговать на реальном счете")]
+                            [
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("header_trade_on_real"))
+                              )
+                            ]
                           )
                         ]
                       )
@@ -125154,33 +125196,119 @@ var render = function() {
                       on: { click: _vm.refillDemoBalance }
                     },
                     [
-                      _vm._m(2),
+                      _vm._m(1),
                       _vm._v(" "),
                       _c(
                         "b-tooltip",
                         { attrs: { target: "disabled-wrapper" } },
-                        [_vm._v("Сделать баланс равным 1000 $")]
+                        [
+                          _vm._v(
+                            _vm._s(_vm.$i18n.t("header_make_balance_1000"))
+                          )
+                        ]
                       )
                     ],
                     1
                   ),
                   _vm._v(" "),
-                  _vm._m(3),
+                  _vm._m(2),
                   _vm._v(" "),
                   _c("li", { staticClass: "dropdown dropdown-user nav-item" }, [
-                    _vm._m(4),
+                    _c(
+                      "a",
+                      {
+                        staticClass:
+                          "dropdown-toggle nav-link dropdown-user-link",
+                        attrs: { href: "#", "data-toggle": "dropdown" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "user-nav d-sm-flex d-none" },
+                          [
+                            _c("span", { staticClass: "user-name" }, [
+                              _vm._v(_vm._s(_vm.$i18n.t("header_trader")))
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "span",
+                              { staticClass: "user-status text-muted" },
+                              [_vm._v(_vm._s(_vm.$i18n.t("header_online")))]
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm._m(3)
+                      ]
+                    ),
                     _vm._v(" "),
                     _c(
                       "div",
                       { staticClass: "dropdown-menu dropdown-menu-right pb-0" },
                       [
-                        _vm._m(5),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "#" }
+                          },
+                          [
+                            _c("i", { staticClass: "bx bx-user mr-50" }),
+                            _vm._v(
+                              " " +
+                                _vm._s(_vm.$i18n.t("header_profile")) +
+                                "\n                              "
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
-                        _vm._m(6),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "#" }
+                          },
+                          [
+                            _c("i", { staticClass: "bx bx-envelope mr-50" }),
+                            _vm._v(
+                              " " +
+                                _vm._s(_vm.$i18n.t("header_make_deposit")) +
+                                "\n                              "
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
-                        _vm._m(7),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "#" }
+                          },
+                          [
+                            _c("i", {
+                              staticClass: "bx bx-check-square mr-50"
+                            }),
+                            _vm._v(
+                              " " + _vm._s(_vm.$i18n.t("header_withdrawal"))
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
-                        _vm._m(8),
+                        _c(
+                          "a",
+                          {
+                            staticClass: "dropdown-item",
+                            attrs: { href: "#" }
+                          },
+                          [
+                            _c("i", { staticClass: "bx bx-message mr-50" }),
+                            _vm._v(
+                              " " +
+                                _vm._s(_vm.$i18n.t("header_support")) +
+                                "\n                              "
+                            )
+                          ]
+                        ),
                         _vm._v(" "),
                         _c("div", { staticClass: "dropdown-divider mb-0" }),
                         _vm._v(" "),
@@ -125198,7 +125326,7 @@ var render = function() {
                           },
                           [
                             _c("i", { staticClass: "bx bx-power-off mr-50" }),
-                            _vm._v(" Выйти")
+                            _vm._v(" " + _vm._s(_vm.$i18n.t("header_logout")))
                           ]
                         )
                       ]
@@ -125234,7 +125362,18 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(9),
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLabel" }
+                  },
+                  [_vm._v(_vm._s(_vm.$i18n.t("header_special_offer")))]
+                ),
+                _vm._v(" "),
+                _vm._m(4)
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
                 _c(
@@ -125243,7 +125382,9 @@ var render = function() {
                   [
                     _c("div", { staticClass: "text-center mb-2" }, [
                       _vm._v(
-                        "\n              Специально для Вас мы подготовили скидку 50% на первое пополнение, используйте её чтобы получить больше прибыли.\n            "
+                        "\n              " +
+                          _vm._s(_vm.$i18n.t("header_special_offer_desc")) +
+                          "\n            "
                       )
                     ]),
                     _vm._v(" "),
@@ -125268,7 +125409,7 @@ var render = function() {
                                     _vm._v(_vm._s(scope.props.hours))
                                   ]),
                                   _c("p", { staticClass: "count-down" }, [
-                                    _vm._v("Часа")
+                                    _vm._v(_vm._s(_vm.$i18n.t("header_hours")))
                                   ])
                                 ]),
                                 _vm._v(" "),
@@ -125277,7 +125418,9 @@ var render = function() {
                                     _vm._v(_vm._s(scope.props.minutes))
                                   ]),
                                   _c("p", { staticClass: "count-down" }, [
-                                    _vm._v("Минут")
+                                    _vm._v(
+                                      _vm._s(_vm.$i18n.t("header_minutes"))
+                                    )
                                   ])
                                 ]),
                                 _vm._v(" "),
@@ -125286,7 +125429,9 @@ var render = function() {
                                     _vm._v(_vm._s(scope.props.seconds))
                                   ]),
                                   _c("p", { staticClass: "count-down" }, [
-                                    _vm._v("Секунд")
+                                    _vm._v(
+                                      _vm._s(_vm.$i18n.t("header_seconds"))
+                                    )
                                   ])
                                 ]),
                                 _vm._v(" "),
@@ -125298,7 +125443,13 @@ var render = function() {
                       ])
                     }),
                     _vm._v(" "),
-                    _vm._m(10)
+                    _c("div", { staticClass: "text-center" }, [
+                      _vm._v(
+                        "\n              " +
+                          _vm._s(_vm.$i18n.t("header_deposit_sub_desc")) +
+                          "\n            "
+                      )
+                    ])
                   ],
                   1
                 )
@@ -125312,7 +125463,7 @@ var render = function() {
                     attrs: { type: "button" },
                     on: { click: _vm.moveToBalance }
                   },
-                  [_vm._v("Пополнить баланс")]
+                  [_vm._v(_vm._s(_vm.$i18n.t("header_deposit_balance")))]
                 )
               ])
             ])
@@ -125338,30 +125489,6 @@ var staticRenderFns = [
           [_c("i", { staticClass: "ficon bx bx-menu" })]
         )
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "nav-item d-none d-lg-block" }, [
-      _c(
-        "a",
-        {
-          staticClass: "nav-link nav-link-expand",
-          staticStyle: {
-            padding: "0.567rem 1.33rem",
-            "padding-right": "0.5rem",
-            "padding-left": "0.5rem"
-          },
-          attrs: {
-            "data-toggle": "tooltip",
-            "data-placement": "top",
-            title: "На весь экран"
-          }
-        },
-        [_c("i", { staticClass: "ficon bx bx-fullscreen" })]
-      )
     ])
   },
   function() {
@@ -125478,107 +125605,34 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("img", {
+        staticClass: "round",
+        attrs: {
+          src: "/images/portrait/small/avatar-s-11.jpg",
+          alt: "avatar",
+          height: "40",
+          width: "40"
+        }
+      })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
-      "a",
+      "button",
       {
-        staticClass: "dropdown-toggle nav-link dropdown-user-link",
-        attrs: { href: "#", "data-toggle": "dropdown" }
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
       },
-      [
-        _c("div", { staticClass: "user-nav d-sm-flex d-none" }, [
-          _c("span", { staticClass: "user-name" }, [_vm._v("Трейдер")]),
-          _vm._v(" "),
-          _c("span", { staticClass: "user-status text-muted" }, [
-            _vm._v("гость")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("span", [
-          _c("img", {
-            staticClass: "round",
-            attrs: {
-              src: "/images/portrait/small/avatar-s-11.jpg",
-              alt: "avatar",
-              height: "40",
-              width: "40"
-            }
-          })
-        ])
-      ]
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-      _c("i", { staticClass: "bx bx-user mr-50" }),
-      _vm._v(" Профиль\n                              ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-      _c("i", { staticClass: "bx bx-envelope mr-50" }),
-      _vm._v(" Пополнить\n                              ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-      _c("i", { staticClass: "bx bx-check-square mr-50" }),
-      _vm._v(" Вывести")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-      _c("i", { staticClass: "bx bx-message mr-50" }),
-      _vm._v(" Поддержка\n                              ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Специальное предложение!")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "text-center" }, [
-      _vm._v(
-        "\n              Пополните сейчас, чтобы успеть использовать промокод "
-      ),
-      _c("code", [_vm._v("START50BONUS")]),
-      _vm._v(" и начать уверенно торговать!\n            ")
-    ])
   }
 ]
 render._withStripped = true
@@ -125710,7 +125764,7 @@ var render = function() {
                   }),
                   _vm._v(" "),
                   _c("span", { staticClass: "menu-title" }, [
-                    _vm._v("Выйти из аккаунта")
+                    _vm._v(_vm._s(_vm.$i18n.t("menu_logout")))
                   ])
                 ]
               )
@@ -125738,7 +125792,9 @@ var render = function() {
             attrs: { id: "connectUs" }
           },
           [
-            _vm._m(1),
+            _c("li", { staticClass: "navigation-header" }, [
+              _c("span", [_vm._v(_vm._s(_vm.$i18n.t("menu_be_in_touch")))])
+            ]),
             _vm._v(" "),
             _c("li", [
               _c(
@@ -125753,7 +125809,7 @@ var render = function() {
                   ],
                   staticStyle: { opacity: "0.8" },
                   attrs: {
-                    title: "Telegram канал",
+                    title: _vm.$i18n.t("menu_telegram_channel"),
                     xmlns: "http://www.w3.org/2000/svg",
                     viewBox: "0 0 100 100",
                     width: "50px",
@@ -125849,7 +125905,7 @@ var render = function() {
                   ],
                   staticStyle: { "margin-left": "-10px", opacity: "0.8" },
                   attrs: {
-                    title: "Facebook",
+                    title: _vm.$i18n.t("menu_facebook"),
                     xmlns: "http://www.w3.org/2000/svg",
                     viewBox: "0 0 100 100",
                     width: "50px",
@@ -125917,7 +125973,7 @@ var render = function() {
                   ],
                   staticStyle: { "margin-left": "-10px", opacity: "0.8" },
                   attrs: {
-                    title: "Написать нам",
+                    title: _vm.$i18n.t("menu_contact_us"),
                     xmlns: "http://www.w3.org/2000/svg",
                     viewBox: "0 0 100 100",
                     width: "50px",
@@ -126016,7 +126072,7 @@ var render = function() {
                   ],
                   staticStyle: { "margin-left": "-10px", opacity: "0.8" },
                   attrs: {
-                    title: "Поддержка в телеграм",
+                    title: _vm.$i18n.t("menu_telegram_support"),
                     xmlns: "http://www.w3.org/2000/svg",
                     "xmlns:xlink": "http://www.w3.org/1999/xlink",
                     width: "50px",
@@ -126232,14 +126288,6 @@ var staticRenderFns = [
           )
         ])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "navigation-header" }, [
-      _c("span", [_vm._v("Будь на связи")])
     ])
   }
 ]
@@ -131374,9 +131422,40 @@ var render = function() {
             },
             [
               _c("div", { staticClass: "modal-content" }, [
-                _vm._m(0),
+                _c("div", { staticClass: "modal-header" }, [
+                  _c(
+                    "h5",
+                    {
+                      staticClass: "modal-title",
+                      attrs: { id: "exampleModalLabel" }
+                    },
+                    [_vm._v(_vm._s(_vm.$i18n.t("trade_good_work")))]
+                  ),
+                  _vm._v(" "),
+                  _vm._m(0)
+                ]),
                 _vm._v(" "),
-                _vm._m(1),
+                _c("div", { staticClass: "modal-body" }, [
+                  _c("div", { staticClass: "text-center" }, [
+                    _c("div", { staticClass: "text-center mb-2" }, [
+                      _vm._v(
+                        "\n                  " +
+                          _vm._s(_vm.$i18n.t("trade_profit_modal")) +
+                          "\n                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-center mb-2" }, [
+                      _vm._v(
+                        "\n                  " +
+                          _vm._s(_vm.$i18n.t("trade_profit_modal_desc")) +
+                          "\n                "
+                      )
+                    ])
+                  ])
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "modal-footer" }, [
                   _c(
@@ -131386,7 +131465,7 @@ var render = function() {
                       attrs: { type: "button" },
                       on: { click: _vm.moveToReal }
                     },
-                    [_vm._v("Перейти к торговле на реальном счете")]
+                    [_vm._v(_vm._s(_vm.$i18n.t("trade_go_real")))]
                   )
                 ])
               ])
@@ -131482,7 +131561,11 @@ var render = function() {
                       },
                       [
                         _c("div", { staticClass: "col-4 pr-0" }, [
-                          _vm._m(2),
+                          _c("small", { staticClass: "text-muted" }, [
+                            _c("i", [
+                              _vm._v(_vm._s(_vm.$i18n.t("trade_hours")))
+                            ])
+                          ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "d-inline-block w-100" }, [
                             _c(
@@ -131565,7 +131648,11 @@ var render = function() {
                             }
                           },
                           [
-                            _vm._m(3),
+                            _c("small", { staticClass: "text-muted" }, [
+                              _c("i", [
+                                _vm._v(_vm._s(_vm.$i18n.t("trade_minutes")))
+                              ])
+                            ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "d-inline-block w-100" }, [
                               _c(
@@ -131640,7 +131727,11 @@ var render = function() {
                         ),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-4 pl-0" }, [
-                          _vm._m(4),
+                          _c("small", { staticClass: "text-muted" }, [
+                            _c("i", [
+                              _vm._v(_vm._s(_vm.$i18n.t("trade_seconds")))
+                            ])
+                          ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "d-inline-block w-100" }, [
                             _c(
@@ -131728,14 +131819,16 @@ var render = function() {
                                 attrs: { type: "button" },
                                 on: { click: _vm.closeClick }
                               },
-                              [_vm._v("Закрыть")]
+                              [_vm._v(_vm._s(_vm.$i18n.t("trade_close")))]
                             )
                           ]
                         )
                       ]
                     ),
                     _vm._v(" "),
-                    _vm._m(5),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _c("i", [_vm._v(_vm._s(_vm.$i18n.t("trade_amount")))])
+                    ]),
                     _vm._v(" "),
                     _c(
                       "fieldset",
@@ -132015,7 +132108,9 @@ var render = function() {
                       2
                     ),
                     _vm._v(" "),
-                    _vm._m(6),
+                    _c("small", { staticClass: "text-muted" }, [
+                      _c("i", [_vm._v(_vm._s(_vm.$i18n.t("trade_potential")))])
+                    ]),
                     _vm._v(" "),
                     _c(
                       "fieldset",
@@ -132036,7 +132131,7 @@ var render = function() {
                           attrs: {
                             type: "text",
                             disabled: "",
-                            placeholder: "Загрузка...",
+                            placeholder: _vm.$i18n.t("trade_loading"),
                             "aria-describedby": "basic-addon2"
                           }
                         }),
@@ -132114,7 +132209,9 @@ var render = function() {
                           attrs: { role: "status", "aria-hidden": "true" }
                         }),
                         _vm._v(
-                          "\n                                        Загрузка...\n                                    "
+                          "\n                                        " +
+                            _vm._s(_vm.$i18n.t("trade_loading")) +
+                            "\n                                    "
                         )
                       ]
                     ),
@@ -132137,7 +132234,9 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                                      Рынок закрыт\n                                    "
+                          "\n                                      " +
+                            _vm._s(_vm.$i18n.t("trade_closed_market")) +
+                            "\n                                    "
                         )
                       ]
                     ),
@@ -132191,7 +132290,9 @@ var render = function() {
                           attrs: { role: "status", "aria-hidden": "true" }
                         }),
                         _vm._v(
-                          "\n                                        Загрузка...\n                                    "
+                          "\n                                        " +
+                            _vm._s(_vm.$i18n.t("trade_loading")) +
+                            "\n                                    "
                         )
                       ]
                     ),
@@ -132214,7 +132315,9 @@ var render = function() {
                       },
                       [
                         _vm._v(
-                          "\n                                      Рынок закрыт\n                                    "
+                          "\n                                      " +
+                            _vm._s(_vm.$i18n.t("trade_closed_market")) +
+                            "\n                                    "
                         )
                       ]
                     ),
@@ -132277,7 +132380,7 @@ var render = function() {
                                 ],
                                 staticClass: "text-center"
                               },
-                              [_vm._v("Открытые сделки")]
+                              [_vm._v(_vm._s(_vm.$i18n.t("trade_open_orders")))]
                             ),
                             _vm._v(" "),
                             _vm._l(_vm.opened, function(open, index) {
@@ -132684,7 +132787,11 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                                    Открыто: " +
+                                                "\n                                                    " +
+                                                  _vm._s(
+                                                    _vm.$i18n.t("trade_open")
+                                                  ) +
+                                                  ": " +
                                                   _vm._s(
                                                     _vm.openedDate(
                                                       open.created_at
@@ -132693,14 +132800,24 @@ var render = function() {
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                    Цена открытия: " +
+                                                "\n                                                    " +
+                                                  _vm._s(
+                                                    _vm.$i18n.t(
+                                                      "trade_opened_price"
+                                                    )
+                                                  ) +
+                                                  ": " +
                                                   _vm._s(
                                                     parseFloat(open.open_price)
                                                   )
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                    Направление: "
+                                                "\n                                                    " +
+                                                  _vm._s(
+                                                    _vm.$i18n.t("trade_path")
+                                                  ) +
+                                                  ": "
                                               ),
                                               _c(
                                                 "div",
@@ -132717,7 +132834,13 @@ var render = function() {
                                                   staticClass:
                                                     "badge badge-success"
                                                 },
-                                                [_vm._v("выше")]
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$i18n.t("trade_up")
+                                                    )
+                                                  )
+                                                ]
                                               ),
                                               _c(
                                                 "div",
@@ -132734,7 +132857,13 @@ var render = function() {
                                                   staticClass:
                                                     "badge badge-danger"
                                                 },
-                                                [_vm._v("ниже")]
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$i18n.t("trade_down")
+                                                    )
+                                                  )
+                                                ]
                                               )
                                             ]
                                           )
@@ -132748,7 +132877,9 @@ var render = function() {
                             }),
                             _vm._v(" "),
                             _c("p", { staticClass: "text-center" }, [
-                              _vm._v("История сделок")
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("trade_orders_history"))
+                              )
                             ]),
                             _vm._v(" "),
                             _c(
@@ -132766,7 +132897,29 @@ var render = function() {
                                   }
                                 ]
                               },
-                              [_vm._m(7)]
+                              [
+                                _c("ul", { staticClass: "list-group" }, [
+                                  _c(
+                                    "li",
+                                    {
+                                      staticClass:
+                                        "list-group-item d-flex justify-content-between align-items-center"
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v(
+                                          " " +
+                                            _vm._s(
+                                              _vm.$i18n.t("trade_no_orders")
+                                            )
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm._m(2)
+                                    ]
+                                  )
+                                ])
+                              ]
                             ),
                             _vm._v(" "),
                             _vm._l(_vm.latest, function(open, index) {
@@ -133006,26 +133159,44 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                                      Открыто: " +
+                                                "\n                                                      " +
+                                                  _vm._s(
+                                                    _vm.$i18n.t("trade_open")
+                                                  ) +
+                                                  ": " +
                                                   _vm._s(
                                                     _vm.openedDate(open.open_at)
                                                   )
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                      Цена открытия: " +
+                                                "\n                                                      " +
+                                                  _vm._s(
+                                                    _vm.$i18n.t(
+                                                      "trade_opened_price"
+                                                    )
+                                                  ) +
+                                                  ": " +
                                                   _vm._s(
                                                     parseFloat(open.open_price)
                                                   )
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                      Время: " +
+                                                "\n                                                      " +
+                                                  _vm._s(
+                                                    _vm.$i18n.t("trade_time")
+                                                  ) +
+                                                  ": " +
                                                   _vm._s(open.expiration)
                                               ),
                                               _c("br"),
                                               _vm._v(
-                                                "\n                                                      Направление: "
+                                                "\n                                                      " +
+                                                  _vm._s(
+                                                    _vm.$i18n.t("trade_path")
+                                                  ) +
+                                                  ": "
                                               ),
                                               _c(
                                                 "div",
@@ -133042,7 +133213,13 @@ var render = function() {
                                                   staticClass:
                                                     "badge badge-success"
                                                 },
-                                                [_vm._v("выше")]
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$i18n.t("trade_up")
+                                                    )
+                                                  )
+                                                ]
                                               ),
                                               _c(
                                                 "div",
@@ -133059,7 +133236,13 @@ var render = function() {
                                                   staticClass:
                                                     "badge badge-danger"
                                                 },
-                                                [_vm._v("ниже")]
+                                                [
+                                                  _vm._v(
+                                                    _vm._s(
+                                                      _vm.$i18n.t("trade_down")
+                                                    )
+                                                  )
+                                                ]
                                               )
                                             ]
                                           )
@@ -133100,7 +133283,15 @@ var render = function() {
                                         "btn btn-outline-primary w-100",
                                       attrs: { type: "button" }
                                     },
-                                    [_vm._v("Полная история сделок")]
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.$i18n.t(
+                                            "trade_full_orders_history"
+                                          )
+                                        )
+                                      )
+                                    ]
                                   )
                                 ]
                               ],
@@ -133126,124 +133317,47 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "exampleModalLabel" } },
-        [_vm._v("Отличная работа!")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-      )
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-center mb-2" }, [
+      _c("img", {
+        staticClass: "img-fluid",
+        attrs: { src: "/images/icon/cup.png", height: "155", width: "155" }
+      })
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-body" }, [
-      _c("div", { staticClass: "text-center" }, [
-        _c("div", { staticClass: "text-center mb-2" }, [
-          _vm._v(
-            "\n                  Вы получаете прибыль на демо счете, попробуйте торговлю на реальном счете и зарабатывайте настоящие деньги!\n                "
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "text-center mb-2" }, [
-          _c("img", {
-            staticClass: "img-fluid",
-            attrs: { src: "/images/icon/cup.png", height: "155", width: "155" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "text-center mb-2" }, [
-          _vm._v(
-            "\n                  Обратите внимание что демо счет ничем не отличается от реального (движение цены, прибыльность, скорость обработки), поэтому вы можете преуспеть в торговле после тренировок.\n                "
-          )
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("small", { staticClass: "text-muted" }, [
-      _c("i", [_vm._v("Часы")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("small", { staticClass: "text-muted" }, [
-      _c("i", [_vm._v("Минуты")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("small", { staticClass: "text-muted" }, [
-      _c("i", [_vm._v("Секунды")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("small", { staticClass: "text-muted" }, [
-      _c("i", [_vm._v("Сумма сделки")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("small", { staticClass: "text-muted" }, [
-      _c("i", [_vm._v("Потенциальная прибыль")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "list-group" }, [
-      _c(
-        "li",
-        {
-          staticClass:
-            "list-group-item d-flex justify-content-between align-items-center"
-        },
-        [
-          _c("span", [_vm._v(" Нет сделок")]),
-          _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass:
-                "badge-circle badge-circle-warning badge-circle-sm text-white"
-            },
-            [
-              _c("i", {
-                staticClass: "bx bx-info-circle font-size-base",
-                staticStyle: { "font-size": "1rem", "margin-left": "-1.5px" }
-              })
-            ]
-          )
-        ]
-      )
-    ])
+    return _c(
+      "span",
+      {
+        staticClass:
+          "badge-circle badge-circle-warning badge-circle-sm text-white"
+      },
+      [
+        _c("i", {
+          staticClass: "bx bx-info-circle font-size-base",
+          staticStyle: { "font-size": "1rem", "margin-left": "-1.5px" }
+        })
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -149255,7 +149369,7 @@ var configurationData = {
   exchanges: [{
     value: 'Binary',
     name: 'Options',
-    desc: 'Бинарные опционы'
+    desc: 'Binary Options'
   }],
   symbols_types: [{
     name: 'forex',
@@ -149264,6 +149378,11 @@ var configurationData = {
   } // ...
   ]
 };
+
+function getCookie(name) {
+  var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 
 function getAllSymbols() {
   return _getAllSymbols.apply(this, arguments);
@@ -149299,7 +149418,7 @@ function _getAllSymbols() {
                       symbol: symbol.symbol,
                       full_name: "Binary:" + symbol.symbol,
                       broker: symbol.broker,
-                      description: symbol.percent === 0 ? 'Закрыто' : symbol.percent.toString() + '%',
+                      description: symbol.percent === 0 ? '-' : symbol.percent.toString() + '%',
                       percent: symbol.percent,
                       exchange: exchange.value,
                       type: 'forex'
@@ -158689,10 +158808,10 @@ var TradingViewFastWebsocket = /*#__PURE__*/function () {
 /*!*****************************************!*\
   !*** ./resources/vuejs/locales/en.json ***!
   \*****************************************/
-/*! exports provided: menu, menu_trading, menu_demo, menu_deposit, menu_withdrawal, menu_promocodes, menu_history, menu_profile, menu_partner, menu_support, menu_404, trade_page, trade_good_work, trade_profit_modal, trade_profit_modal_desc, trade_go_real, trade_expiration, trade_hours, trade_minutes, trade_, default */
+/*! exports provided: menu, menu_trading, menu_demo, menu_deposit, menu_withdrawal, menu_promo_codes, menu_history, menu_profile, menu_partner, menu_support, menu_404, menu_logout, menu_be_in_touch, menu_telegram_channel, menu_facebook, menu_contact_us, menu_telegram_support, cap, header_ping, header_ms, header_fullpage, header_deposit, header_trade_on_real, header_make_balance_1000, header_trader, header_online, header_profile, header_make_deposit, header_support, header_logout, header_special_offer, header_special_offer_desc, header_hours, header_minutes, header_seconds, header_deposit_sub_desc, header_withdrawal, header_deposit_balance, header_success, header_error, trade_page, trade_good_work, trade_profit_modal, trade_profit_modal_desc, trade_go_real, trade_expiration, trade_hours, trade_minutes, trade_seconds, trade_close, trade_amount, trade_potential, trade_loading, trade_closed_market, trade_open_orders, trade_open, trade_opened_price, trade_path, trade_up, trade_down, trade_orders_history, trade_no_orders, trade_time, trade_full_orders_history, trade_you_got_profit, trade_order_closed, trade_order_closed_without_profit, trade_order_open_by_price, trade_order_processing, trade_order_opened, trade_error, trade_minimal_expiration, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"menu\":\"\",\"menu_trading\":\"Trade\",\"menu_demo\":\"Demo trading\",\"menu_deposit\":\"Deposit\",\"menu_withdrawal\":\"Withdrawal\",\"menu_promocodes\":\"Promo codes\",\"menu_history\":\"Trade history\",\"menu_profile\":\"Profile\",\"menu_partner\":\"Partner Cabinet\",\"menu_support\":\"Support & Contacts\",\"menu_404\":\"Page not found\",\"trade_page\":\"\",\"trade_good_work\":\"Nice work!\",\"trade_profit_modal\":\"You are making profits on a demo account, try trading on a real account and earn real money!\",\"trade_profit_modal_desc\":\"Please note that the demo account is no different from the real account (price movement, profitability, processing speed), so you can succeed in trading after training.\",\"trade_go_real\":\"Go to trading on a real account\",\"trade_expiration\":\"Expiration time\",\"trade_hours\":\"Hours\",\"trade_minutes\":\"Minutes\",\"trade_\":\"\"}");
+module.exports = JSON.parse("{\"menu\":\"\",\"menu_trading\":\"Trade\",\"menu_demo\":\"Demo trading\",\"menu_deposit\":\"Deposit\",\"menu_withdrawal\":\"Withdrawal\",\"menu_promo_codes\":\"Promo codes\",\"menu_history\":\"Trade history\",\"menu_profile\":\"Profile\",\"menu_partner\":\"Partner Cabinet\",\"menu_support\":\"Support & Contacts\",\"menu_404\":\"Page not found\",\"menu_logout\":\"Log out of account\",\"menu_be_in_touch\":\"Be in touch\",\"menu_telegram_channel\":\"Telegram channel\",\"menu_facebook\":\"Facebook\",\"menu_contact_us\":\"Contact us\",\"menu_telegram_support\":\"Telegram support\",\"cap\":\"\",\"header_ping\":\"Ping\",\"header_ms\":\"ms\",\"header_fullpage\":\"Full screen\",\"header_deposit\":\"Deposit funds\",\"header_trade_on_real\":\"Trade on a real account\",\"header_make_balance_1000\":\"Make balance equal to $ 1000\",\"header_trader\":\"Trader\",\"header_online\":\"online\",\"header_profile\":\"Profile\",\"header_make_deposit\":\"Deposit\",\"header_support\":\"Support\",\"header_logout\":\"Logout\",\"header_special_offer\":\"Special offer!\",\"header_special_offer_desc\":\"Especially for you, we have prepared a 50% discount on the first deposit, use it to get more profit.\",\"header_hours\":\"Hours\",\"header_minutes\":\"Minutes\",\"header_seconds\":\"Seconds\",\"header_deposit_sub_desc\":\"Deposit now to be able to use the promo code <code> START50BONUS </code> and start trading with confidence!\",\"header_withdrawal\":\"Withdrawal\",\"header_deposit_balance\":\"Deposit balance\",\"header_success\":\"Success!\",\"header_error\":\"Error!\",\"trade_page\":\"\",\"trade_good_work\":\"Nice work!\",\"trade_profit_modal\":\"You are making profits on a demo account, try trading on a real account and earn real money!\",\"trade_profit_modal_desc\":\"Please note that the demo account is no different from the real account (price movement, profitability, processing speed), so you can succeed in trading after training.\",\"trade_go_real\":\"Go to trading on a real account\",\"trade_expiration\":\"Expiration time\",\"trade_hours\":\"Hours\",\"trade_minutes\":\"Minutes\",\"trade_seconds\":\"Seconds\",\"trade_close\":\"Close\",\"trade_amount\":\"Trade amount\",\"trade_potential\":\"Potential profit\",\"trade_loading\":\"Loading ...\",\"trade_closed_market\":\"Market closed\",\"trade_open_orders\":\"Open trades\",\"trade_open\":\"Open\",\"trade_opened_price\":\"Opening price\",\"trade_path\":\"Direction\",\"trade_up\":\"above\",\"trade_down\":\"below\",\"trade_orders_history\":\"Trade history\",\"trade_no_orders\":\"No deals\",\"trade_time\":\"Time\",\"trade_full_orders_history\":\"Full trade history\",\"trade_you_got_profit\":\"You made a profit\",\"trade_order_closed\":\"Trade closed\",\"trade_order_closed_without_profit\":\"Trade closed without profit!\",\"trade_order_open_by_price\":\"Trade opened at price\",\"trade_order_processing\":\"The order is being processed ...\",\"trade_order_opened\":\"Trade opened\",\"trade_error\":\"Error!\",\"trade_minimal_expiration\":\"The minimum trade duration must be from 30 seconds\"}");
 
 /***/ }),
 
@@ -158738,10 +158857,10 @@ function getCookie(name) {
 /*!*****************************************!*\
   !*** ./resources/vuejs/locales/ru.json ***!
   \*****************************************/
-/*! exports provided: меню, menu_trading, menu_demo, menu_deposit, menu_withdrawal, menu_promocodes, menu_history, menu_profile, menu_partner, menu_support, menu_404, страница_торговли, trade_good_work, trade_profit_modal, trade_profit_modal_desc, trade_go_real, trade_expiration, trade_hours, trade_minutes, trade_, default */
+/*! exports provided: меню, menu_trading, menu_demo, menu_deposit, menu_withdrawal, menu_promo_codes, menu_history, menu_profile, menu_partner, menu_support, menu_404, menu_logout, menu_be_in_touch, menu_telegram_channel, menu_facebook, menu_contact_us, menu_telegram_support, шапка, header_ping, header_ms, header_fullpage, header_deposit, header_trade_on_real, header_make_balance_1000, header_trader, header_online, header_profile, header_make_deposit, header_support, header_logout, header_special_offer, header_special_offer_desc, header_hours, header_minutes, header_seconds, header_deposit_sub_desc, header_withdrawal, header_deposit_balance, header_success, header_error, страница_торговли, trade_good_work, trade_profit_modal, trade_profit_modal_desc, trade_go_real, trade_expiration, trade_hours, trade_minutes, trade_seconds, trade_close, trade_amount, trade_potential, trade_loading, trade_closed_market, trade_open_orders, trade_open, trade_opened_price, trade_path, trade_up, trade_down, trade_orders_history, trade_no_orders, trade_time, trade_full_orders_history, trade_you_got_profit, trade_order_closed, trade_order_closed_without_profit, trade_order_open_by_price, trade_order_processing, trade_order_opened, trade_error, trade_minimal_expiration, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"меню\":\"\",\"menu_trading\":\"Торговля\",\"menu_demo\":\"Демо торговля\",\"menu_deposit\":\"Пополнение\",\"menu_withdrawal\":\"Вывод средств\",\"menu_promocodes\":\"Промокоды\",\"menu_history\":\"История торговли\",\"menu_profile\":\"Профиль\",\"menu_partner\":\"Партнерский кабинет\",\"menu_support\":\"Поддержка и контакты\",\"menu_404\":\"Страница не найдена\",\"страница_торговли\":\"\",\"trade_good_work\":\"Отличная работа!\",\"trade_profit_modal\":\"Вы получаете прибыль на демо счете, попробуйте торговлю на реальном счете и зарабатывайте настоящие деньги!\",\"trade_profit_modal_desc\":\"Обратите внимание что демо счет ничем не отличается от реального (движение цены, прибыльность, скорость обработки), поэтому вы можете преуспеть в торговле после тренировок.\",\"trade_go_real\":\"Перейти к торговле на реальном счете\",\"trade_expiration\":\"Время экспирации\",\"trade_hours\":\"Часы\",\"trade_minutes\":\"Минуты\",\"trade_\":\"\"}");
+module.exports = JSON.parse("{\"меню\":\"\",\"menu_trading\":\"Торговля\",\"menu_demo\":\"Демо торговля\",\"menu_deposit\":\"Пополнение\",\"menu_withdrawal\":\"Вывод средств\",\"menu_promo_codes\":\"Промокоды\",\"menu_history\":\"История торговли\",\"menu_profile\":\"Профиль\",\"menu_partner\":\"Партнерский кабинет\",\"menu_support\":\"Поддержка и контакты\",\"menu_404\":\"Страница не найдена\",\"menu_logout\":\"Выйти из аккаунта\",\"menu_be_in_touch\":\"Будь на связи\",\"menu_telegram_channel\":\"Telegram канал\",\"menu_facebook\":\"Facebook\",\"menu_contact_us\":\"Написать нам\",\"menu_telegram_support\":\"Поддержка в телеграм\",\"шапка\":\"\",\"header_ping\":\"Пинг\",\"header_ms\":\"мс\",\"header_fullpage\":\"На весь экран\",\"header_deposit\":\"Пополнить счет\",\"header_trade_on_real\":\"Торговать на реальном счете\",\"header_make_balance_1000\":\"Сделать баланс равным 1000 $\",\"header_trader\":\"Трейдер\",\"header_online\":\"онлайн\",\"header_profile\":\"Профиль\",\"header_make_deposit\":\"Пополнить\",\"header_support\":\"Поддержка\",\"header_logout\":\"Выйти\",\"header_special_offer\":\"Специальное предложение!\",\"header_special_offer_desc\":\"Специально для Вас мы подготовили скидку 50% на первое пополнение, используйте её чтобы получить больше прибыли.\",\"header_hours\":\"Часа\",\"header_minutes\":\"Минут\",\"header_seconds\":\"Секунд\",\"header_deposit_sub_desc\":\"Пополните сейчас, чтобы успеть использовать промокод <code>START50BONUS</code> и начать уверенно торговать!\",\"header_withdrawal\":\"Вывести\",\"header_deposit_balance\":\"Пополнить баланс\",\"header_success\":\"Успешно!\",\"header_error\":\"Ошибка!\",\"страница_торговли\":\"\",\"trade_good_work\":\"Отличная работа!\",\"trade_profit_modal\":\"Вы получаете прибыль на демо счете, попробуйте торговлю на реальном счете и зарабатывайте настоящие деньги!\",\"trade_profit_modal_desc\":\"Обратите внимание что демо счет ничем не отличается от реального (движение цены, прибыльность, скорость обработки), поэтому вы можете преуспеть в торговле после тренировок.\",\"trade_go_real\":\"Перейти к торговле на реальном счете\",\"trade_expiration\":\"Время экспирации\",\"trade_hours\":\"Часы\",\"trade_minutes\":\"Минуты\",\"trade_seconds\":\"Секунды\",\"trade_close\":\"Закрыть\",\"trade_amount\":\"Сумма сделки\",\"trade_potential\":\"Потенциальная прибыль\",\"trade_loading\":\"Загрузка...\",\"trade_closed_market\":\"Рынок закрыт\",\"trade_open_orders\":\"Открытые сделки\",\"trade_open\":\"Открыто\",\"trade_opened_price\":\"Цена открытия\",\"trade_path\":\"Направление\",\"trade_up\":\"выше\",\"trade_down\":\"ниже\",\"trade_orders_history\":\"История сделок\",\"trade_no_orders\":\"Нет сделок\",\"trade_time\":\"Время\",\"trade_full_orders_history\":\"Полная история сделок\",\"trade_you_got_profit\":\"Вы получили прибыль\",\"trade_order_closed\":\"Сделка закрыта\",\"trade_order_closed_without_profit\":\"Сделка закрыта без прибыли!\",\"trade_order_open_by_price\":\"Открыта сделка по цене \",\"trade_order_processing\":\"Заявка обратывается...\",\"trade_order_opened\":\"Сделка открыта\",\"trade_error\":\"Ошибка!\",\"trade_minimal_expiration\":\"Минимальная продолжительность сделки должна быть от 30 секунд\"}");
 
 /***/ }),
 
@@ -158826,7 +158945,7 @@ var routes = [{
   }
 }, {
   path: '/promocodes',
-  name: _vuejs_locales_i18n_js__WEBPACK_IMPORTED_MODULE_11__["default"].t('menu_promocodes'),
+  name: _vuejs_locales_i18n_js__WEBPACK_IMPORTED_MODULE_11__["default"].t('menu_promo_codes'),
   component: _views_user_Promocode__WEBPACK_IMPORTED_MODULE_9__["default"],
   meta: {
     icon: 'bulb',
