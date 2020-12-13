@@ -16,7 +16,7 @@
 
                         <ul class="nav navbar-nav bookmark-icons">
                             <li class="nav-item d-none d-lg-block">
-                                <a class="nav-link nav-link-expand" style="padding: 0.567rem 1.33rem; padding-right: 0.5rem; padding-left: 0.5rem;" data-toggle="tooltip" data-placement="top" title="На весь экран">
+                                <a class="nav-link nav-link-expand" style="padding: 0.567rem 1.33rem; padding-right: 0.5rem; padding-left: 0.5rem;" data-toggle="tooltip" data-placement="top" :title="$i18n.t('header_fullpage')">
                                     <i class="ficon bx bx-fullscreen"></i>
                                 </a>
                             </li>
@@ -27,12 +27,12 @@
                     </div>
                     <ul class="nav navbar-nav float-right">
                         <li class="nav-item d-none d-md-block mr-1" style="padding-top: 13px;">
-                          <button type="button" class="btn btn-success glow w-100" v-show="!isDemo">
-                              <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">Пополнить счет</span>
+                          <button @click="$router.push('/deposit')" type="button" class="btn btn-success glow w-100" v-show="!isDemo">
+                              <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">{{ $i18n.t('header_deposit') }}</span>
                           </button>
-                          <button @click="$router.push('/')" v-show="isDemo" type="button" class="btn btn-outline-warning w-100" v-bind:style="{ color: realButtonColor }" @mouseover="realButtonColor='#FFF !important'" @mouseleave="realButtonColor='#FDAC41 !important'">
+                          <button @click="$router.push('/trading')" v-show="isDemo" type="button" class="btn btn-outline-warning w-100" v-bind:style="{ color: realButtonColor }" @mouseover="realButtonColor='#FFF !important'" @mouseleave="realButtonColor='#FDAC41 !important'">
                             <i class="bx bxs-briefcase-alt"></i>
-                            <span class="align-middle ml-25 text-warning">Торговать на реальном счете</span>
+                            <span class="align-middle ml-25 text-warning">{{ $i18n.t('header_trade_on_real') }}</span>
                           </button>
                         </li>
 
@@ -56,7 +56,7 @@
                               <i class="livicon-evo" data-options="name: refresh.svg; size: 30px; style: lines-alt;"></i>
                             </div>
                           </div>
-                          <b-tooltip target="disabled-wrapper">Сделать баланс равным 1000 $</b-tooltip>
+                          <b-tooltip target="disabled-wrapper">{{ $i18n.t('header_make_balance_1000') }}</b-tooltip>
                         </li>
                         <li class="dropdown dropdown-language nav-item lang-padding">
                             <a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -80,24 +80,24 @@
                         <li class="dropdown dropdown-user nav-item">
                             <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                                 <div class="user-nav d-sm-flex d-none">
-                                    <span class="user-name">Трейдер</span>
-                                    <span class="user-status text-muted">гость</span>
+                                    <span class="user-name">{{ $i18n.t('header_trader') }}</span>
+                                    <span class="user-status text-muted">{{ $i18n.t('header_online') }}</span>
                                 </div>
                                 <span><img class="round" src="/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right pb-0">
                                 <a class="dropdown-item" href="#">
-                                    <i class="bx bx-user mr-50"></i> Профиль
+                                    <i class="bx bx-user mr-50"></i> {{ $i18n.t('header_profile') }}
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                    <i class="bx bx-envelope mr-50"></i> Пополнить
+                                    <i class="bx bx-envelope mr-50"></i> {{ $i18n.t('header_make_deposit') }}
                                 </a>
                                 <a class="dropdown-item" href="#">
-                                    <i class="bx bx-check-square mr-50"></i> Вывести</a>
-                                <a class="dropdown-item" href="#"><i class="bx bx-message mr-50"></i> Поддержка
+                                    <i class="bx bx-check-square mr-50"></i> {{ $i18n.t('header_withdrawal') }}</a>
+                                <a class="dropdown-item" href="#"><i class="bx bx-message mr-50"></i> {{ $i18n.t('header_support') }}
                                 </a>
                                 <div class="dropdown-divider mb-0"></div>
-                                <a class="dropdown-item" href="/logout" @click.prevent="logout"><i class="bx bx-power-off mr-50"></i> Выйти</a>
+                                <a class="dropdown-item" href="/logout" @click.prevent="logout"><i class="bx bx-power-off mr-50"></i> {{ $i18n.t('header_logout') }}</a>
                             </div>
                         </li>
                     </ul>
@@ -110,7 +110,7 @@
       <div class="modal-dialog gradient-border" role="document" style="top:25vh">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Специальное предложение!</h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{ $i18n.t('header_special_offer') }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -118,32 +118,32 @@
           <div class="modal-body">
             <div class="text-center">
               <div class="text-center mb-2">
-                Специально для Вас мы подготовили скидку 50% на первое пополнение, используйте её чтобы получить больше прибыли.
+                {{ $i18n.t('header_special_offer_desc') }}
               </div>
               <vue-countdown-timer :start-time="'2020-01-01 00:00:00'" :end-time="new Date(user.created_at).getTime() + 24 * 60 * 60 * 1000" :interval="1000">
                 <template slot="countdown" slot-scope="scope">
                   <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-2">
-                      <h1 class="mb-0">{{scope.props.hours}}</h1><p class="count-down">Часа</p>
+                      <h1 class="mb-0">{{scope.props.hours}}</h1><p class="count-down">{{ $i18n.t('header_hours') }}</p>
                     </div>
                     <div class="col-md-2">
-                      <h1 class="mb-0">{{scope.props.minutes}}</h1><p class="count-down">Минут</p>
+                      <h1 class="mb-0">{{scope.props.minutes}}</h1><p class="count-down">{{ $i18n.t('header_minutes') }}</p>
                     </div>
                     <div class="col-md-2">
-                      <h1 class="mb-0">{{scope.props.seconds}}</h1><p class="count-down">Секунд</p>
+                      <h1 class="mb-0">{{scope.props.seconds}}</h1><p class="count-down">{{ $i18n.t('header_seconds') }}</p>
                     </div>
                     <div class="col-md-3"></div>
                   </div>
                 </template>
               </vue-countdown-timer>
               <div class="text-center">
-                Пополните сейчас, чтобы успеть использовать промокод <code>START50BONUS</code> и начать уверенно торговать!
+                {{ $i18n.t('header_deposit_sub_desc') }}
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" @click="moveToBalance" class="btn btn-warning">Пополнить баланс</button>
+            <button type="button" @click="moveToBalance" class="btn btn-warning">{{ $i18n.t('header_deposit_balance') }}</button>
           </div>
         </div>
       </div>
@@ -213,12 +213,12 @@
               axios.post('/data/demo/refill')
                   .then(function (response) {
                     if(response.data.success === true) {
-                      toastr.success(response.data.message, 'Успешно!', {
+                      toastr.success(response.data.message, self.$i18n.t('header_success'), {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
                       });
                     } else {
-                      toastr.error(response.data.message, 'Ошибка!', {
+                      toastr.error(response.data.message, self.$i18n.t('header_error'), {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
                       });

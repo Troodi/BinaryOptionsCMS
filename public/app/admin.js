@@ -121263,7 +121263,15 @@ var render = function() {
       staticClass: "p-0",
       staticStyle: { "margin-top": "10.5px", "margin-left": "20px" }
     },
-    [_vm._v("Пинг: " + _vm._s(_vm.ping) + " мс")]
+    [
+      _vm._v(
+        _vm._s(_vm.$i18n.t("header_ping")) +
+          ": " +
+          _vm._s(_vm.ping) +
+          " " +
+          _vm._s(_vm.$i18n.t("header_ms"))
+      )
+    ]
   )
 }
 var staticRenderFns = []
@@ -144422,7 +144430,7 @@ var configurationData = {
   exchanges: [{
     value: 'Binary',
     name: 'Options',
-    desc: 'Бинарные опционы'
+    desc: 'Binary Options'
   }],
   symbols_types: [{
     name: 'forex',
@@ -144431,6 +144439,11 @@ var configurationData = {
   } // ...
   ]
 };
+
+function getCookie(name) {
+  var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 
 function getAllSymbols() {
   return _getAllSymbols.apply(this, arguments);
@@ -144466,7 +144479,7 @@ function _getAllSymbols() {
                       symbol: symbol.symbol,
                       full_name: "Binary:" + symbol.symbol,
                       broker: symbol.broker,
-                      description: symbol.percent === 0 ? 'Закрыто' : symbol.percent.toString() + '%',
+                      description: symbol.percent === 0 ? '-' : symbol.percent.toString() + '%',
                       percent: symbol.percent,
                       exchange: exchange.value,
                       type: 'forex'

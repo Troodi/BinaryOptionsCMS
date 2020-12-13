@@ -1,5 +1,5 @@
 <template>
-  <div class="p-0" style="margin-top:10.5px;margin-left: 20px;">Пинг: {{ ping }} мс</div>
+  <div class="p-0" style="margin-top:10.5px;margin-left: 20px;">{{ $i18n.t('header_ping') }}: {{ ping }} {{ $i18n.t('header_ms') }}</div>
 </template>
 
 <script>

@@ -15,7 +15,14 @@
             this.initChart();
         },
         methods:{
+            getCookie(name) {
+              let matches = document.cookie.match(new RegExp(
+                  "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+              ))
+              return matches ? decodeURIComponent(matches[1]) : undefined
+            },
             initChart(){
+              let self = this;
                 let symbol = '', tabSymbol = '', resolution = '';
                 if(localStorage.getItem('symbol_full') && localStorage.getItem('symbol_short')) {
                     symbol = localStorage.getItem('symbol_full');
@@ -33,7 +40,7 @@
                     if(typeof window.Datafeed !== 'undefined'){
                         clearInterval(interval);
                         window.tvWidget = new window.TradingView.widget({
-                            locale: "ru",
+                            locale: self.getCookie('currentLanguage') ? self.getCookie('currentLanguage') : 'en',
                             symbol: symbol, // default symbol
                             interval: resolution, // default interval
                             autosize: true,
