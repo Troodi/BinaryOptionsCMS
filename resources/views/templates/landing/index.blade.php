@@ -48,7 +48,7 @@
         <div class="row">
           <!--menu start-->
           <div class="col d-flex align-items-center justify-content-between">
-            <a class="navbar-brand logo text-white h2 mb-0" href="index.html">
+            <a class="navbar-brand logo text-white h2 mb-0" href="/">
               Get<span class="text-white font-weight-bold">Option</span>
             </a>
             <nav class="navbar navbar-expand-lg ml-auto">
@@ -56,148 +56,22 @@
               </button>
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle active" href="index-4.html#" data-toggle="dropdown">Home</a>
+                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Контакты</a>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="index.html">Landing 1</a>
-                      </li>
-                      <li><a class="dropdown-item" href="index-2.html">Landing 2</a>
-                      </li>
-                      <li><a class="dropdown-item" href="index-3.html">Landing 3</a>
-                      </li>
-                      <li><a class="dropdown-item" href="index-4.html">Landing 4</a>
-                      </li>
-                      <li><a class="dropdown-item" href="index-5.html">Landing 5</a>
-                      </li>
-                      <li><a class="dropdown-item" href="index-6.html">Landing 6</a>
-                      </li>
-                      <li><a class="dropdown-item" href="index-7.html">Landing 7</a>
-                      </li>
-                      <li><a class="dropdown-item" href="index-8.html">Landing 8</a>
-                      </li>
-                      <li><a class="dropdown-item" href="index-9.html">Landing 9</a>
-                      </li>
-                      <li><a class="dropdown-item" href="index-10.html">Landing 10</a>
-                      </li>
+                      <li><a class="dropdown-item" href="/">info@getoption.pro</a></li>
+                      <li><a class="dropdown-item" href="/">Telegram: @getoption</a></li>
                     </ul>
                   </li>
-                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="index-4.html#" data-toggle="dropdown">Pages</a>
+                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Язык</a>
                     <ul class="dropdown-menu">
-                      <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="index-4.html#">Company</a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="about-us-1.html">About Us</a>
-                          </li>
-                          <li><a class="dropdown-item" href="about-us-2.html">About Us 2</a>
-                          </li>
-                          <li><a class="dropdown-item" href="career.html">Career</a>
-                          </li>
-                          <li><a class="dropdown-item" href="career-single.html">Career Single</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="index-4.html#">Blogs</a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="blog-card.html">Blog Card</a>
-                          </li>
-                          <li><a class="dropdown-item" href="blog-listing.html">Blog Listing 1</a>
-                          </li>
-                          <li><a class="dropdown-item" href="blog-listing-2.html">Blog Listing 2</a>
-                          </li>
-                          <li><a class="dropdown-item" href="blog-single.html">Blog Single</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="index-4.html#">Portfolio</a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="portfolio.html">Portfolio Card</a>
-                          </li>
-                          <li><a class="dropdown-item" href="portfolio-single.html">Portfolio Single</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="index-4.html#">Contacts</a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="contact-us.html">Contact 1</a>
-                          </li>
-                          <li><a class="dropdown-item" href="contact-us-2.html">Contact 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="index-4.html#">Account</a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="login.html">Sign In</a>
-                          </li>
-                          <li><a class="dropdown-item" href="login-2.html">Sign In 2</a>
-                          </li>
-                          <li><a class="dropdown-item" href="signup.html">Sign Up</a>
-                          </li>
-                          <li><a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="index-4.html#">Utilities</a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="pricing.html">Pricing</a>
-                          </li>
-                          <li><a class="dropdown-item" href="faq.html">Faq</a>
-                          </li>
-                          <li><a class="dropdown-item" href="maintenance.html">Maintenance</a>
-                          </li>
-                          <li><a class="dropdown-item" href="coming-soon.html">Coming Soon</a>
-                          </li>
-                          <li><a class="dropdown-item" href="error-404.html">Error 404</a>
-                          </li>
-                          <li><a class="dropdown-item" href="privacy-policy.html">Privacy & Policy</a>
-                          </li>
-                          <li><a class="dropdown-item" href="terms-and-conditions.html">Terms & Conditions</a>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="index-4.html#" data-toggle="dropdown">Shop</a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="product-grid.html">Product Grid</a>
-                      </li>
-                      <li><a class="dropdown-item" href="product-list.html">Product List</a>
-                      </li>
-                      <li><a class="dropdown-item" href="product-single.html">Product Single</a>
-                      </li>
-                      <li><a class="dropdown-item" href="product-cart.html">Cart</a>
-                      </li>
-                      <li><a class="dropdown-item" href="product-checkout.html">Checkout</a>
-                      </li>
-                      <li><a class="dropdown-item" href="order-complete.html">Order Completed</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="index-4.html#" data-toggle="dropdown">Features</a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="feature-accordion.html">Accordion</a>
-                      </li>
-                      <li><a class="dropdown-item" href="feature-blog.html">Blog</a>
-                      </li>
-                      <li><a class="dropdown-item" href="feature-counter.html">Counter</a>
-                      </li>
-                      <li><a class="dropdown-item" href="feature-icon-box.html">Feature Box</a>
-                      </li>
-                      <li><a class="dropdown-item" href="feature-hero.html">Hero Banner</a>
-                      </li>
-                      <li><a class="dropdown-item" href="feature-gallery.html">Lightbox Gallery</a>
-                      </li>
-                      <li><a class="dropdown-item" href="feature-pricing.html">Price Table</a>
-                      </li>
-                      <li><a class="dropdown-item" href="feature-video.html">Video Lightbox</a>
-                      </li>
-                      <li><a class="dropdown-item" href="feature-team.html">Team</a>
-                      </li>
-                      <li><a class="dropdown-item" href="feature-testimonial.html">Testimonial</a>
-                      </li>
+                      <li><a class="dropdown-item" href="/">Русский</a></li>
+                      <li><a class="dropdown-item" href="/">English</a></li>
                     </ul>
                   </li>
                 </ul>
               </div>
             </nav>
-            <a class="btn btn-light ml-8 d-none d-lg-block" href="index-4.html#">Торговый кабинет</a>
+            <a class="btn btn-light ml-8 d-none d-lg-block" href="/demo">Демо торговля</a>
           </div>
           <!--menu end-->
         </div>
@@ -220,10 +94,10 @@
           </h1>
           <!-- Text -->
           <p class="lead text-light mb-5">Множество торговых инструментов с высокой доходностью - до 85% за 30 секунд, работа по выходным дням по криптовалютным парам, быстрые выплаты</p>
-          <!-- Buttons --> <a href="index-4.html#" class="btn btn-primary mr-1">
+          <!-- Buttons --> <a href="/register" class="btn btn-primary mr-1">
             Создать аккаунт
           </a>
-          <a href="index-4.html#" class="btn btn-light">
+          <a href="/login" class="btn btn-light">
             Авторизоваться
           </a>
           <p class="lead text-light mt-5" style="font-size:1.4em;font-weight: 700">Зарегистрируйтесь сейчас и получите <strong>10$</strong> для торговли</p>
@@ -269,8 +143,8 @@
               <div class="card-img-overlay p-0">
                 <div class="card-body">
                 <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Условия торговли</h4>
-                <p class="card-text text-white text-center mt-5">We use the latest technologies it voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                  <a href="#" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">See Profile</a>
+                <p class="card-text text-white text-center mt-5">Минимальная инвестиция составляет 1$, минимальная сумма пополнения 5$, минимальное время окончания сделки 30 секунд, доходность до 85%, а также торговля по выходным дням</p>
+                  <a href="/register" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">Регистрация</a>
                 </div>
                 </div>
             </div>
@@ -278,12 +152,12 @@
 
           <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0">
             <div class="card d-flex flex-column" style="background-color: black;border-radius: 20px;">
-              <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="https://image.freepik.com/free-vector/forex-trading-background-concept_23-2148590848.jpg" alt="Card image">
+              <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="/templates/landing/assets/images/about/second.png" alt="Card image">
               <div class="card-img-overlay p-0">
                 <div class="card-body">
-                  <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Условия торговли</h4>
-                  <p class="card-text text-white text-center mt-5">We use the latest technologies it voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                  <a href="#" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">See Profile</a>
+                  <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Платформа</h4>
+                  <p class="card-text text-white text-center mt-5">Универсальная торговая платформа позволит Вам торговать с любого устройства, использовать инндикаторы и получать сигналы, а также выставлять ордера с максимальной скоростью</p>
+                  <a href="/login" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">Личный кабинет</a>
                 </div>
               </div>
             </div>
@@ -291,12 +165,12 @@
 
           <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0">
             <div class="card d-flex flex-column" style="background-color: black;border-radius: 20px;">
-              <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="https://image.freepik.com/free-vector/illustration-two-hands-handshake-form-starry-sky-space_87494-75.jpg" alt="Card image">
+              <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="/templates/landing/assets/images/about/third.png" alt="Card image">
               <div class="card-img-overlay p-0">
                 <div class="card-body">
-                  <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Условия торговли</h4>
-                  <p class="card-text text-white text-center mt-5">We use the latest technologies it voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                  <a href="#" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">See Profile</a>
+                  <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Партнерство</h4>
+                  <p class="card-text text-white text-center mt-5">Станьте нашим партнером, чтобы зарабатывать больше. Наиболее выгодные условия сотрудничества, торговля на полученные средства или их быстрый вывод</p>
+                  <a href="/login" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">Авторизоваться</a>
                 </div>
               </div>
             </div>
@@ -358,9 +232,9 @@
         <div class="row justify-content-center text-center">
           <div class="col-12 col-md-12 col-lg-8 mb-8 mb-lg-0">
             <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6">
-                  How It Work
+                  Как начать торговать
               </span>
-              <h2 class="mt-3 font-w-5 mb-0 text-white">Three Simple Step To Started Working Process</h2>
+              <h2 class="mt-3 font-w-5 mb-0 text-white">Всего три этапа для начала работы</h2>
             </div>
           </div>
         </div>
@@ -375,8 +249,8 @@
                   01
               </span>
               </h2>
-              <h4 class="mt-3 text-light">Choose Project</h4>
-              <p class="lead mb-0">We use the latest technologies it voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+              <h4 class="mt-3 text-light">Зарегистрируйтесь</h4>
+              <p class="lead mb-0">Пройдите простую регистрацию после чего Вам будет доступен полный функционал торговли</p>
             </div>
           </div>
         </div>
@@ -390,8 +264,8 @@
                   02
               </span>
               </h2>
-              <h4 class="mt-3 text-light">Start Creating</h4>
-              <p class="lead mb-0">We use the latest technologies it voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+              <h4 class="mt-3 text-light">Пополните счет</h4>
+              <p class="lead mb-0">Перейдите на вкладку "пополнение" введите интересующую Вас сумму, а также промокод в случае необходимости</p>
             </div>
           </div>
         </div>
@@ -405,8 +279,8 @@
                   03
               </span>
               </h2>
-              <h4 class="mt-3 text-light">Get Result</h4>
-              <p class="lead mb-0">We use the latest technologies it voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+              <h4 class="mt-3 text-light">Торгуйте</h4>
+              <p class="lead mb-0">Тренируйтесь на демо счете или торгуйте на реальные средства. Главное преимущество торговля по выходным дням</p>
             </div>
           </div>
         </div>
@@ -435,7 +309,7 @@
                   Предложения
               </span>
               <h2 class="mt-3 font-w-5">Наши акции и предложения</h2>
-              <p class="lead mb-0">All types of businesses need access to development resources, so we give you the option to decide how much you need to use.</p>
+              <p class="lead mb-0">Мы стараемся предложить нашим пользователям наилучшие условия, поэтому у нас часто появляются выгодные предложения</p>
             </div>
           </div>
         </div>
@@ -451,12 +325,12 @@
                   <img src="/templates/landing/assets/images/new/deal2.png" class="img-fluid p-5" alt="...">
                 </div>
                 <div class="col-md-7">
-                  <div class="card-body"> <a class="d-inline-block text-muted mb-2" href="index-4.html#">Sass</a>
+                  <div class="card-body"> <a class="d-inline-block text-muted mb-2" href="#">Пополнение</a>
                     <h2 class="h5 font-weight-medium">
-                      Bootsland Perfect Performance landing Page
+                      Дарим 10$ новым пользователям
                     </h2>
-                    <p>Businesses need access to development resources serspiciatis.</p>
-                    <a class="btn-link" href="blog-single.html">Read More</a>
+                    <p>Получите 10$ на торговлю при регистрации в разделе "промокоды"</p>
+                    <a class="btn-link" href="/promocodes">Личный кабинет</a>
                   </div>
                 </div>
               </div>
@@ -473,12 +347,12 @@
                   <img src="/templates/landing/assets/images/new/deal.png" class="img-fluid p-5" alt="...">
                 </div>
                 <div class="col-md-7">
-                  <div class="card-body"> <a class="d-inline-block text-muted mb-2" href="index-4.html#">Marketing</a>
+                  <div class="card-body"> <a class="d-inline-block text-muted mb-2" href="#">Пополнение</a>
                     <h2 class="h5 font-weight-medium">
-                      The most powerfull template that make you.
+                      50% в подарок при пополнении
                     </h2>
-                    <p>Businesses need access to development resources serspiciatis.</p>
-                    <a class="btn-link" href="blog-single.html">Read More</a>
+                    <p>Получите в подарок от 50% при пополнении</p>
+                    <a class="btn-link" href="/deposit">Личный кабинет</a>
                   </div>
                 </div>
               </div>
@@ -529,7 +403,7 @@
         <div class="row">
           <!--menu start-->
           <div class="col d-flex align-items-center justify-content-between p-0">
-            <a class="navbar-brand logo text-white h2 mb-0" href="index.html">
+            <a class="navbar-brand logo text-white h2 mb-0" href="/">
               Get<span class="text-white font-weight-bold">Option</span>
             </a>
             <span class="text-white">Copyright ©2020 Pocket Option</span>
@@ -549,7 +423,7 @@
 
 <!--back-to-top start-->
 
-<div class="scroll-top"><a class="smoothscroll" href="index-4.html#top"><i class="las la-angle-up"></i></a></div>
+<div class="scroll-top"><a class="smoothscroll" href="#top"><i class="las la-angle-up"></i></a></div>
 
 <!--back-to-top end-->
 
