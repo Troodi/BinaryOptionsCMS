@@ -49,7 +49,7 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="card-text">
-                                    <small class="text-muted"><i>Время экспирации</i></small>
+                                    <small class="text-muted"><i>{{ $i18n.t('trade_expiration') }}</i></small>
                                     <fieldset class="form-group position-relative" :style="{ 'margin-bottom': '0.3rem !important'}">
                                         <input id="time" @click="timeClick" readonly="readonly" type="text" style="opacity:1;" class="form-control form-control-lg" v-model="expiration">
                                         <div class="form-control-position" :style="{ 'top' : '14px'}">

@@ -11,6 +11,7 @@ import select2 from 'v-select2-component';
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '../sass/bootstrap.scss'
 import '../sass/bootstrap-extended.scss'
+import i18n from '../vuejs/locales/i18n'
 
 $.ajaxSetup({
     headers: {
@@ -65,6 +66,7 @@ Vue.use(VueEcho, {
 
 const app = new Vue({
     el: '#app',
+    i18n,
     components: { App },
     router
 });
