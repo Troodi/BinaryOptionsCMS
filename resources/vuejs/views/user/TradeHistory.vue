@@ -67,6 +67,8 @@
 </template>
 
 <script>
+    import {getCookie} from "../../js/functions";
+
     require('../../../vendors/js/tables/datatable/datatables.min.js');
     require('../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js');
     require('../../../js/core/libraries/bootstrap.min.js');
@@ -112,7 +114,7 @@
                 type: "POST"
               },
               "language": {
-                "url": "/locales/Russian.json"
+                "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
               },
               columns: [
                 {

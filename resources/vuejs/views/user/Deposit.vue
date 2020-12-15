@@ -30,7 +30,7 @@
                 <div class="col-md-12">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Пополнение счета</h4>
+                            <h4 class="card-title">{{ $i18n.t('deposit_title') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -42,15 +42,15 @@
                                                     <img class="img-fluid" src="https://cdn.freelogovectors.net/wp-content/uploads/2019/02/payeer-logo.png">
                                                 </div>
                                                 <div class="col-md-6">
-                                                        <p class="mb-0"><i class="bx bxs-dollar-circle align-middle"></i> Минимальная сумма депозита: $5</p>
-                                                        <p class="mb-0"><i class="bx bx-wallet align-middle"></i> Без комиссии</p>
-                                                        <p class="mb-0"><i class="bx bx-undo align-middle"></i> Быстрое снятие со счета</p>
-                                                        <p class="mb-0"><i class="bx bx-check align-middle"></i> Минимальная сумма вывода: $10</p>
+                                                        <p class="mb-0"><i class="bx bxs-dollar-circle align-middle"></i> {{ $i18n.t('deposit_min_amount') }}: $5</p>
+                                                        <p class="mb-0"><i class="bx bx-wallet align-middle"></i> {{ $i18n.t('deposit_without_commission') }}</p>
+                                                        <p class="mb-0"><i class="bx bx-undo align-middle"></i> {{ $i18n.t('deposit_fast_withdrawal') }}</p>
+                                                        <p class="mb-0"><i class="bx bx-check align-middle"></i> {{ $i18n.t('deposit_minimal_withdrawal') }}: $10</p>
                                                 </div>
                                                 <div class="col-md-6 mt-3">
                                                     <fieldset class="form-group" style="margin-bottom: 3px;">
-                                                        <label>Сумма депозита</label>
-                                                        <small class="text-muted">мин. <i>5$</i></small>
+                                                        <label>{{ $i18n.t('deposit_deposit_amount') }}</label>
+                                                        <small class="text-muted">{{ $i18n.t('deposit_min') }}. <i>5$</i></small>
                                                         <template>
                                                             <input ref="ci" type="text" class="form-control" v-model="amount" v-currency="{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 10000}}">
                                                         </template>
@@ -72,12 +72,12 @@
                                                 </div>
                                                 <div class="col-md-6 mt-3">
                                                     <fieldset class="form-group" style="margin-bottom: 10px;">
-                                                        <label>Промокод для получения бонуса</label>
-                                                        <small class="text-muted">(необязательно)</small>
+                                                        <label>{{ $i18n.t('deposit_promo_code') }}</label>
+                                                        <small class="text-muted">({{ $i18n.t('deposit_not_necessary') }})</small>
                                                         <div class="input-group">
                                                             <input v-model="promocode" type="text" class="form-control">
                                                             <div class="input-group-append">
-                                                                <button v-show="this.promocode !== this.prev_promocode" @click="checkPromocode" class="btn btn-secondary" type="button">Проверить</button>
+                                                                <button v-show="this.promocode !== this.prev_promocode" @click="checkPromocode" class="btn btn-secondary" type="button">{{ $i18n.t('deposit_check') }}</button>
                                                             </div>
                                                         </div>
                                                     </fieldset>
@@ -85,26 +85,26 @@
                                                         <input v-model="use_promocode" type="checkbox" class="custom-control-input" id="customSwitch1">
                                                         <label class="custom-control-label mr-1" for="customSwitch1">
                                                         </label>
-                                                        <span>Использовать бонус <small v-if="promocode_info" v-show="use_promocode" class="cursor-pointer" v-b-tooltip.hover v-bind:title="'Необходимо отработать бонус в размере ' + promocode_info.turnover + ' раз от суммы бонуса'">(условия)</small></span>
+                                                        <span>{{ $i18n.t('deposit_use_bonus') }} <small v-if="promocode_info" v-show="use_promocode" class="cursor-pointer" v-b-tooltip.hover v-bind:title="$i18n.t('deposit_need_work_out') + ' ' + promocode_info.turnover + ' ' + $i18n.t('deposit_times_from_bonus')">({{ $i18n.t('deposit_rules') }})</small></span>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 pt-2">
-                                                    <button v-bind:disabled="isAdmin" @click="proccess" type="button" class="btn btn-outline-secondary mr-1 mb-1">Продолжить</button>
+                                                    <button v-bind:disabled="isAdmin" @click="proccess" type="button" class="btn btn-outline-secondary mr-1 mb-1">{{ $i18n.t('deposit_continue') }}</button>
                                                 </div>
                                                 <div class="col-md-6 pt-2 text-right align-bottom">
                                                     <p style="padding-top:10px;">
-                                                        Вы получите
+                                                      {{ $i18n.t('deposit_you_get') }}
                                                         <span class="text-white" style="font-size: 1.3rem;">$
                                                             {{ show_amount }}
                                                         </span>
-                                                        <span v-if="promocode_info && bonus_percent" v-show="use_promocode">(бонус {{ promocode_info.bonus_size }}%)</span>
-                                                        <span v-show="!use_promocode || !bonus_percent">(без бонуса)</span>
+                                                        <span v-if="promocode_info && bonus_percent" v-show="use_promocode">({{ $i18n.t('deposit_bonus') }} {{ promocode_info.bonus_size }}%)</span>
+                                                        <span v-show="!use_promocode || !bonus_percent">({{ $i18n.t('deposit_without_bonus') }})</span>
                                                     </p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
-                                            <h4 class="card-title">Выберите Ваш бонус</h4>
+                                            <h4 class="card-title">{{ $i18n.t('deposit_select_your_bonus') }}</h4>
                                             <div class="row" v-for="current in bonus" style="padding-bottom: 5px;">
                                                 <div class="col-md-12">
                                                     <div @click="setBonusId(current.min_amount)" class="btn btn-light-secondary w-100" :class="{'yellow-outline' : current.min_amount === bonus_id || current.min_amount === 500, 'checked-box' : current.min_amount === bonus_id}">
@@ -121,7 +121,7 @@
                                                                 $ {{ current.min_amount.toLocaleString(undefined, {minimumFractionDigits: 0}) }}
                                                             </div>
                                                             <div class="col-md-3 text-success">
-                                                                бонус {{ current.bonus_size }} %
+                                                              {{ $i18n.t('deposit_bonus') }} {{ current.bonus_size }} %
                                                             </div>
                                                             <div class="col-md-1">
                                                                 =
@@ -129,7 +129,7 @@
                                                             <div class="col-md-2">
                                                                 $ {{ (parseInt((current.min_amount).toString().replace(' ', '')) * current.bonus_size / 100).toString().replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1 ') }}
                                                             </div>
-                                                            <i v-b-tooltip.hover v-bind:title="'Необходимо отработать бонус в размере ' + current.turnover + ' раз от суммы бонуса'" style="color: #8a99b5;" class="bx bx-help-circle cursor-pointer"></i>
+                                                            <i v-b-tooltip.hover v-bind:title="$i18n.t('deposit_need_work_out') + ' ' + current.turnover + ' ' + $i18n.t('deposit_times_from_bonus')" style="color: #8a99b5;" class="bx bx-help-circle cursor-pointer"></i>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -183,7 +183,7 @@
                 this.promocode_info = this.bonus.find(item => item.min_amount == id);
                 this.setAmount(this.promocode_info.min_amount);
                 if(id == 500){
-                    toastr.warning('Это рекомендуемая сумма к пополнению!', 'Внимание!', {
+                    toastr.warning(this.$i18n.t('deposit_recommended_amount'), this.$i18n.t('deposit_attention'), {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
                     });
@@ -216,7 +216,7 @@
               axios.post('/data/deposit', { amount: self.numericAmount, promocode: self.selected_promocode})
                   .then(function (response) {
                     if(response.data.success === true) {
-                      toastr.success(response.data.message, 'Успешно!', {
+                      toastr.success(response.data.message, self.$i18n.t('deposit_success'), {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
                       });

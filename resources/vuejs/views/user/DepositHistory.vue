@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <section class="card">
                     <div class="card-header">
-                        <h4 class="card-title">История пополнений</h4>
+                        <h4 class="card-title">{{ $i18n.t('deposit_history_title') }}</h4>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
@@ -13,10 +13,10 @@
                                     <table class="table" id="historyDeposit">
                                         <thead>
                                         <tr>
-                                            <th>Сумма платежа</th>
-                                            <th>Статус</th>
-                                            <th>Платежная система</th>
-                                            <th>Дата</th>
+                                            <th>{{ $i18n.t('deposit_history_amount') }}</th>
+                                            <th>{{ $i18n.t('deposit_history_status') }}</th>
+                                            <th>{{ $i18n.t('deposit_history_system') }}</th>
+                                            <th>{{ $i18n.t('deposit_history_date') }}</th>
                                         </tr>
                                         </thead>
                                     </table>
@@ -32,6 +32,7 @@
 
 <script>
     import dateformat from "dateformat";
+    import { getCookie } from "../../js/functions";
 
     require('../../../vendors/js/tables/datatable/datatables.min.js');
     require('../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js');
@@ -66,7 +67,7 @@
               type: "POST"
             },
             "language": {
-              "url": "/locales/Russian.json"
+              "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
             },
             columns: [
               {
@@ -87,11 +88,11 @@
                   let string = '';
                   if (type === 'display') {
                     if(data == 0){
-                      string = '<div class="badge badge-primary">Ожидание оплаты</div>';
+                      string = '<div class="badge badge-primary">' + self.$i18n.t('deposit_history_waiting') + '</div>';
                     } else if(data == 1){
-                      string = '<div class="badge badge-success">Успешно</div>';
+                      string = '<div class="badge badge-success">' + self.$i18n.t('deposit_history_success') + '</div>';
                     } else if(data == 2){
-                      string = '<div class="badge badge-success">Отменено</div>';
+                      string = '<div class="badge badge-success">' + self.$i18n.t('deposit_history_cancel') + '</div>';
                     }
                   }
                   return string;

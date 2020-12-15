@@ -4075,7 +4075,7 @@ __webpack_require__.r(__webpack_exports__);
       this.setAmount(this.promocode_info.min_amount);
 
       if (id == 500) {
-        toastr.warning('Это рекомендуемая сумма к пополнению!', 'Внимание!', {
+        toastr.warning(this.$i18n.t('deposit_recommended_amount'), this.$i18n.t('deposit_attention'), {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -4111,7 +4111,7 @@ __webpack_require__.r(__webpack_exports__);
         promocode: self.selected_promocode
       }).then(function (response) {
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('deposit_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -4173,6 +4173,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
 //
 //
 //
@@ -4205,7 +4206,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
 
@@ -4243,7 +4243,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
           type: "POST"
         },
         "language": {
-          "url": "/locales/Russian.json"
+          "url":  true ? Object(_js_functions__WEBPACK_IMPORTED_MODULE_1__["getCookie"])('currentLanguage') : undefined
         },
         columns: [{
           orderable: false,
@@ -4263,11 +4263,11 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
 
             if (type === 'display') {
               if (data == 0) {
-                string = '<div class="badge badge-primary">Ожидание оплаты</div>';
+                string = '<div class="badge badge-primary">' + self.$i18n.t('deposit_history_waiting') + '</div>';
               } else if (data == 1) {
-                string = '<div class="badge badge-success">Успешно</div>';
+                string = '<div class="badge badge-success">' + self.$i18n.t('deposit_history_success') + '</div>';
               } else if (data == 2) {
-                string = '<div class="badge badge-success">Отменено</div>';
+                string = '<div class="badge badge-success">' + self.$i18n.t('deposit_history_cancel') + '</div>';
               }
             }
 
@@ -6176,6 +6176,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../vendors/js/extensions/sweetalert2.all.min.js */ "./resources/vendors/js/extensions/sweetalert2.all.min.js");
 /* harmony import */ var _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
 //
 //
 //
@@ -6361,7 +6362,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Deposit",
@@ -6493,7 +6493,6 @@ __webpack_require__.r(__webpack_exports__);
 
                   return response;
                 })["catch"](function (error) {
-                  console.log(error);
                   _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default.a.showValidationMessage(error.message);
                 });
               },
@@ -6501,8 +6500,6 @@ __webpack_require__.r(__webpack_exports__);
                 return !_vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default.a.isLoading();
               }
             }).then(function (result) {
-              console.log(result);
-
               if (!result.dismiss) {
                 _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default.a.fire('Успешно!', result.value.data.message, 'success');
                 $("#withdrawalHistory").dataTable().fnDestroy();
@@ -6542,7 +6539,7 @@ __webpack_require__.r(__webpack_exports__);
           type: "POST"
         },
         "language": {
-          "url": "/locales/Russian.json"
+          "url":  true ? Object(_js_functions__WEBPACK_IMPORTED_MODULE_2__["getCookie"])('currentLanguage') : undefined
         },
         "createdRow": function createdRow(row, data, index) {
           if (!self.isAdmin) {
@@ -123944,7 +123941,11 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-12" }, [
               _c("section", { staticClass: "card" }, [
-                _vm._m(2),
+                _c("div", { staticClass: "card-header" }, [
+                  _c("h4", { staticClass: "card-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("deposit_title")))
+                  ])
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-content" }, [
                   _c("div", { staticClass: "card-body" }, [
@@ -123952,9 +123953,58 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-6 pt-3" }, [
                           _c("div", { staticClass: "row" }, [
-                            _vm._m(3),
+                            _vm._m(2),
                             _vm._v(" "),
-                            _vm._m(4),
+                            _c("div", { staticClass: "col-md-6" }, [
+                              _c("p", { staticClass: "mb-0" }, [
+                                _c("i", {
+                                  staticClass:
+                                    "bx bxs-dollar-circle align-middle"
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(_vm.$i18n.t("deposit_min_amount")) +
+                                    ": $5"
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "mb-0" }, [
+                                _c("i", {
+                                  staticClass: "bx bx-wallet align-middle"
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(
+                                      _vm.$i18n.t("deposit_without_commission")
+                                    )
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "mb-0" }, [
+                                _c("i", {
+                                  staticClass: "bx bx-undo align-middle"
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(
+                                      _vm.$i18n.t("deposit_fast_withdrawal")
+                                    )
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "mb-0" }, [
+                                _c("i", {
+                                  staticClass: "bx bx-check align-middle"
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(
+                                      _vm.$i18n.t("deposit_minimal_withdrawal")
+                                    ) +
+                                    ": $10"
+                                )
+                              ])
+                            ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-md-6 mt-3" }, [
                               _c(
@@ -123964,9 +124014,20 @@ var render = function() {
                                   staticStyle: { "margin-bottom": "3px" }
                                 },
                                 [
-                                  _c("label", [_vm._v("Сумма депозита")]),
+                                  _c("label", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.$i18n.t("deposit_deposit_amount")
+                                      )
+                                    )
+                                  ]),
                                   _vm._v(" "),
-                                  _vm._m(5),
+                                  _c("small", { staticClass: "text-muted" }, [
+                                    _vm._v(
+                                      _vm._s(_vm.$i18n.t("deposit_min")) + ". "
+                                    ),
+                                    _c("i", [_vm._v("5$")])
+                                  ]),
                                   _vm._v(" "),
                                   [
                                     _c("input", {
@@ -124115,11 +124176,19 @@ var render = function() {
                                 },
                                 [
                                   _c("label", [
-                                    _vm._v("Промокод для получения бонуса")
+                                    _vm._v(
+                                      _vm._s(_vm.$i18n.t("deposit_promo_code"))
+                                    )
                                   ]),
                                   _vm._v(" "),
                                   _c("small", { staticClass: "text-muted" }, [
-                                    _vm._v("(необязательно)")
+                                    _vm._v(
+                                      "(" +
+                                        _vm._s(
+                                          _vm.$i18n.t("deposit_not_necessary")
+                                        ) +
+                                        ")"
+                                    )
                                   ]),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "input-group" }, [
@@ -124167,7 +124236,13 @@ var render = function() {
                                             attrs: { type: "button" },
                                             on: { click: _vm.checkPromocode }
                                           },
-                                          [_vm._v("Проверить")]
+                                          [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.$i18n.t("deposit_check")
+                                              )
+                                            )
+                                          ]
                                         )
                                       ]
                                     )
@@ -124233,7 +124308,10 @@ var render = function() {
                                   }),
                                   _vm._v(" "),
                                   _c("span", [
-                                    _vm._v("Использовать бонус "),
+                                    _vm._v(
+                                      _vm._s(_vm.$i18n.t("deposit_use_bonus")) +
+                                        " "
+                                    ),
                                     _vm.promocode_info
                                       ? _c(
                                           "small",
@@ -124254,12 +124332,26 @@ var render = function() {
                                             staticClass: "cursor-pointer",
                                             attrs: {
                                               title:
-                                                "Необходимо отработать бонус в размере " +
+                                                _vm.$i18n.t(
+                                                  "deposit_need_work_out"
+                                                ) +
+                                                " " +
                                                 _vm.promocode_info.turnover +
-                                                " раз от суммы бонуса"
+                                                " " +
+                                                _vm.$i18n.t(
+                                                  "deposit_times_from_bonus"
+                                                )
                                             }
                                           },
-                                          [_vm._v("(условия)")]
+                                          [
+                                            _vm._v(
+                                              "(" +
+                                                _vm._s(
+                                                  _vm.$i18n.t("deposit_rules")
+                                                ) +
+                                                ")"
+                                            )
+                                          ]
                                         )
                                       : _vm._e()
                                   ])
@@ -124279,7 +124371,11 @@ var render = function() {
                                   },
                                   on: { click: _vm.proccess }
                                 },
-                                [_vm._v("Продолжить")]
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.$i18n.t("deposit_continue"))
+                                  )
+                                ]
                               )
                             ]),
                             _vm._v(" "),
@@ -124295,7 +124391,9 @@ var render = function() {
                                   { staticStyle: { "padding-top": "10px" } },
                                   [
                                     _vm._v(
-                                      "\n                                                    Вы получите\n                                                    "
+                                      "\n                                                  " +
+                                        _vm._s(_vm.$i18n.t("deposit_you_get")) +
+                                        "\n                                                    "
                                     ),
                                     _c(
                                       "span",
@@ -124327,7 +124425,11 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "(бонус " +
+                                              "(" +
+                                                _vm._s(
+                                                  _vm.$i18n.t("deposit_bonus")
+                                                ) +
+                                                " " +
                                                 _vm._s(
                                                   _vm.promocode_info.bonus_size
                                                 ) +
@@ -124352,7 +124454,17 @@ var render = function() {
                                           }
                                         ]
                                       },
-                                      [_vm._v("(без бонуса)")]
+                                      [
+                                        _vm._v(
+                                          "(" +
+                                            _vm._s(
+                                              _vm.$i18n.t(
+                                                "deposit_without_bonus"
+                                              )
+                                            ) +
+                                            ")"
+                                        )
+                                      ]
                                     )
                                   ]
                                 )
@@ -124366,7 +124478,9 @@ var render = function() {
                           { staticClass: "col-md-6" },
                           [
                             _c("h4", { staticClass: "card-title" }, [
-                              _vm._v("Выберите Ваш бонус")
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("deposit_select_your_bonus"))
+                              )
                             ]),
                             _vm._v(" "),
                             _vm._l(_vm.bonus, function(current) {
@@ -124491,7 +124605,11 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                                            бонус " +
+                                                "\n                                                          " +
+                                                  _vm._s(
+                                                    _vm.$i18n.t("deposit_bonus")
+                                                  ) +
+                                                  " " +
                                                   _vm._s(current.bonus_size) +
                                                   " %\n                                                        "
                                               )
@@ -124548,9 +124666,15 @@ var render = function() {
                                             staticStyle: { color: "#8a99b5" },
                                             attrs: {
                                               title:
-                                                "Необходимо отработать бонус в размере " +
+                                                _vm.$i18n.t(
+                                                  "deposit_need_work_out"
+                                                ) +
+                                                " " +
                                                 current.turnover +
-                                                " раз от суммы бонуса"
+                                                " " +
+                                                _vm.$i18n.t(
+                                                  "deposit_times_from_bonus"
+                                                )
                                             }
                                           })
                                         ])
@@ -124618,14 +124742,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Пополнение счета")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-6" }, [
       _c("img", {
         staticClass: "img-fluid",
@@ -124634,41 +124750,6 @@ var staticRenderFns = [
             "https://cdn.freelogovectors.net/wp-content/uploads/2019/02/payeer-logo.png"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("p", { staticClass: "mb-0" }, [
-        _c("i", { staticClass: "bx bxs-dollar-circle align-middle" }),
-        _vm._v(" Минимальная сумма депозита: $5")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "mb-0" }, [
-        _c("i", { staticClass: "bx bx-wallet align-middle" }),
-        _vm._v(" Без комиссии")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "mb-0" }, [
-        _c("i", { staticClass: "bx bx-undo align-middle" }),
-        _vm._v(" Быстрое снятие со счета")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "mb-0" }, [
-        _c("i", { staticClass: "bx bx-check align-middle" }),
-        _vm._v(" Минимальная сумма вывода: $10")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("small", { staticClass: "text-muted" }, [
-      _vm._v("мин. "),
-      _c("i", [_vm._v("5$")])
     ])
   }
 ]
@@ -124691,45 +124772,51 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content-body" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("section", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _c("h4", { staticClass: "card-title" }, [
-                _vm._v("История пополнений")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "card-text" }, [
-                  _c("div", { staticClass: "table-responsive" }, [
-                    _c(
-                      "table",
-                      { staticClass: "table", attrs: { id: "historyDeposit" } },
-                      [
-                        _c("thead", [
-                          _c("tr", [
-                            _c("th", [_vm._v("Сумма платежа")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Статус")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Платежная система")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Дата")])
+  return _c("div", { staticClass: "content-body" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("section", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", { staticClass: "card-title" }, [
+              _vm._v(_vm._s(_vm.$i18n.t("deposit_history_title")))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "card-text" }, [
+                _c("div", { staticClass: "table-responsive" }, [
+                  _c(
+                    "table",
+                    { staticClass: "table", attrs: { id: "historyDeposit" } },
+                    [
+                      _c("thead", [
+                        _c("tr", [
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$i18n.t("deposit_history_amount"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$i18n.t("deposit_history_status"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$i18n.t("deposit_history_system"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$i18n.t("deposit_history_date")))
                           ])
                         ])
-                      ]
-                    )
-                  ])
+                      ])
+                    ]
+                  )
                 ])
               ])
             ])
@@ -124737,8 +124824,9 @@ var staticRenderFns = [
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 /***/ }),
@@ -152932,6 +153020,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PingComponent_vue_vue_type_template_id_069359ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PingComponent_vue_vue_type_template_id_069359ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+/***/ }),
+
+/***/ "./resources/vuejs/js/functions.js":
+/*!*****************************************!*\
+  !*** ./resources/vuejs/js/functions.js ***!
+  \*****************************************/
+/*! exports provided: getCookie */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookie", function() { return getCookie; });
+function getCookie(name) {
+  var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 
 /***/ }),
 
