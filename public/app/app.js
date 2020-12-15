@@ -2060,12 +2060,14 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../assets/js/datafeed */ "./resources/assets/js/datafeed.js");
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../js/functions */ "./resources/vuejs/js/functions.js");
 //
 //
 //
 //
 //
 //
+
 
 window.Datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__["default"];
 window.dataLoaded = false;
@@ -2075,10 +2077,6 @@ window.dataLoaded = false;
     this.initChart();
   },
   methods: {
-    getCookie: function getCookie(name) {
-      var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
-      return matches ? decodeURIComponent(matches[1]) : undefined;
-    },
     initChart: function initChart() {
       var self = this;
       var symbol = '',
@@ -2103,7 +2101,7 @@ window.dataLoaded = false;
         if (typeof window.Datafeed !== 'undefined') {
           clearInterval(interval);
           window.tvWidget = new window.TradingView.widget({
-            locale: self.getCookie('currentLanguage') ? self.getCookie('currentLanguage') : 'en',
+            locale: Object(_js_functions__WEBPACK_IMPORTED_MODULE_1__["getCookie"])('currentLanguage') ? Object(_js_functions__WEBPACK_IMPORTED_MODULE_1__["getCookie"])('currentLanguage') : 'en',
             symbol: symbol,
             // default symbol
             interval: resolution,
@@ -2790,7 +2788,7 @@ __webpack_require__.r(__webpack_exports__);
       this.setAmount(this.promocode_info.min_amount);
 
       if (id == 500) {
-        toastr.warning('Это рекомендуемая сумма к пополнению!', 'Внимание!', {
+        toastr.warning(this.$i18n.t('deposit_recommended_amount'), this.$i18n.t('deposit_attention'), {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -2826,7 +2824,7 @@ __webpack_require__.r(__webpack_exports__);
         promocode: self.selected_promocode
       }).then(function (response) {
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('deposit_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -2888,6 +2886,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
 //
 //
 //
@@ -2920,6 +2919,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
@@ -2958,7 +2958,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
           type: "POST"
         },
         "language": {
-          "url": "/locales/Russian.json"
+          "url":  true ? Object(_js_functions__WEBPACK_IMPORTED_MODULE_1__["getCookie"])('currentLanguage') : undefined
         },
         columns: [{
           orderable: false,
@@ -2978,11 +2978,11 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
 
             if (type === 'display') {
               if (data == 0) {
-                string = '<div class="badge badge-primary">Ожидание оплаты</div>';
+                string = '<div class="badge badge-primary">' + self.$i18n.t('deposit_history_waiting') + '</div>';
               } else if (data == 1) {
-                string = '<div class="badge badge-success">Успешно</div>';
+                string = '<div class="badge badge-success">' + self.$i18n.t('deposit_history_success') + '</div>';
               } else if (data == 2) {
-                string = '<div class="badge badge-success">Отменено</div>';
+                string = '<div class="badge badge-success">' + self.$i18n.t('deposit_history_cancel') + '</div>';
               }
             }
 
@@ -5054,8 +5054,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
-/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -5124,6 +5125,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
 
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js */ "./resources/vendors/js/tables/datatable/dataTables.bootstrap4.min.js");
@@ -5170,7 +5173,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
           type: "POST"
         },
         "language": {
-          "url": "/locales/Russian.json"
+          "url":  true ? Object(_js_functions__WEBPACK_IMPORTED_MODULE_0__["getCookie"])('currentLanguage') : undefined
         },
         columns: [{
           orderable: false,
@@ -5194,7 +5197,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
               classname = 'danger';
             }
 
-            return '<div class="badge badge-secondary cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' + 'Дополнительная информация" data-content="' + 'Цена открытия: ' + row.open_price + '<br>' + 'Цена закрытия: ' + row.close_price + '<br>' + 'Направление: <div class=\'badge badge-' + classname + '\'>' + path + '</div><br>' + 'Время открытия: ' + dateformat__WEBPACK_IMPORTED_MODULE_0___default()(row.open_at, 'HH:MM:ss dd-mm-yyyy') + '<br>' + 'Время закрытия: ' + dateformat__WEBPACK_IMPORTED_MODULE_0___default()(row.close_at, 'HH:MM:ss dd-mm-yyyy') + '' + '">Дополнительно</div>';
+            return '<div class="badge badge-secondary cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' + 'Дополнительная информация" data-content="' + 'Цена открытия: ' + row.open_price + '<br>' + 'Цена закрытия: ' + row.close_price + '<br>' + 'Направление: <div class=\'badge badge-' + classname + '\'>' + path + '</div><br>' + 'Время открытия: ' + dateformat__WEBPACK_IMPORTED_MODULE_1___default()(row.open_at, 'HH:MM:ss dd-mm-yyyy') + '<br>' + 'Время закрытия: ' + dateformat__WEBPACK_IMPORTED_MODULE_1___default()(row.close_at, 'HH:MM:ss dd-mm-yyyy') + '' + '">Дополнительно</div>';
           }
         }, {
           data: 'profit',
@@ -5251,7 +5254,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
               date.setHours(date.getHours() + new Date().getTimezoneOffset() / 60);
             }
 
-            return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss');
+            return dateformat__WEBPACK_IMPORTED_MODULE_1___default()(date, 'HH:MM:ss');
           }
         }, {
           data: 'created_at',
@@ -5263,7 +5266,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
               date = new Date(data);
             }
 
-            return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'dd-mm-yyyy');
+            return dateformat__WEBPACK_IMPORTED_MODULE_1___default()(date, 'dd-mm-yyyy');
           }
         }]
       });
@@ -6048,6 +6051,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../vendors/js/extensions/sweetalert2.all.min.js */ "./resources/vendors/js/extensions/sweetalert2.all.min.js");
 /* harmony import */ var _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
 //
 //
 //
@@ -6233,6 +6237,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -6365,7 +6370,6 @@ __webpack_require__.r(__webpack_exports__);
 
                   return response;
                 })["catch"](function (error) {
-                  console.log(error);
                   _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default.a.showValidationMessage(error.message);
                 });
               },
@@ -6373,8 +6377,6 @@ __webpack_require__.r(__webpack_exports__);
                 return !_vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default.a.isLoading();
               }
             }).then(function (result) {
-              console.log(result);
-
               if (!result.dismiss) {
                 _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default.a.fire('Успешно!', result.value.data.message, 'success');
                 $("#withdrawalHistory").dataTable().fnDestroy();
@@ -6414,7 +6416,7 @@ __webpack_require__.r(__webpack_exports__);
           type: "POST"
         },
         "language": {
-          "url": "/locales/Russian.json"
+          "url":  true ? Object(_js_functions__WEBPACK_IMPORTED_MODULE_2__["getCookie"])('currentLanguage') : undefined
         },
         "createdRow": function createdRow(row, data, index) {
           if (!self.isAdmin) {
@@ -126450,7 +126452,11 @@ var render = function() {
           _c("div", { staticClass: "row" }, [
             _c("div", { staticClass: "col-md-12" }, [
               _c("section", { staticClass: "card" }, [
-                _vm._m(2),
+                _c("div", { staticClass: "card-header" }, [
+                  _c("h4", { staticClass: "card-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("deposit_title")))
+                  ])
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-content" }, [
                   _c("div", { staticClass: "card-body" }, [
@@ -126458,9 +126464,58 @@ var render = function() {
                       _c("div", { staticClass: "row" }, [
                         _c("div", { staticClass: "col-md-6 pt-3" }, [
                           _c("div", { staticClass: "row" }, [
-                            _vm._m(3),
+                            _vm._m(2),
                             _vm._v(" "),
-                            _vm._m(4),
+                            _c("div", { staticClass: "col-md-6" }, [
+                              _c("p", { staticClass: "mb-0" }, [
+                                _c("i", {
+                                  staticClass:
+                                    "bx bxs-dollar-circle align-middle"
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(_vm.$i18n.t("deposit_min_amount")) +
+                                    ": $5"
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "mb-0" }, [
+                                _c("i", {
+                                  staticClass: "bx bx-wallet align-middle"
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(
+                                      _vm.$i18n.t("deposit_without_commission")
+                                    )
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "mb-0" }, [
+                                _c("i", {
+                                  staticClass: "bx bx-undo align-middle"
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(
+                                      _vm.$i18n.t("deposit_fast_withdrawal")
+                                    )
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "mb-0" }, [
+                                _c("i", {
+                                  staticClass: "bx bx-check align-middle"
+                                }),
+                                _vm._v(
+                                  " " +
+                                    _vm._s(
+                                      _vm.$i18n.t("deposit_minimal_withdrawal")
+                                    ) +
+                                    ": $10"
+                                )
+                              ])
+                            ]),
                             _vm._v(" "),
                             _c("div", { staticClass: "col-md-6 mt-3" }, [
                               _c(
@@ -126470,9 +126525,20 @@ var render = function() {
                                   staticStyle: { "margin-bottom": "3px" }
                                 },
                                 [
-                                  _c("label", [_vm._v("Сумма депозита")]),
+                                  _c("label", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.$i18n.t("deposit_deposit_amount")
+                                      )
+                                    )
+                                  ]),
                                   _vm._v(" "),
-                                  _vm._m(5),
+                                  _c("small", { staticClass: "text-muted" }, [
+                                    _vm._v(
+                                      _vm._s(_vm.$i18n.t("deposit_min")) + ". "
+                                    ),
+                                    _c("i", [_vm._v("5$")])
+                                  ]),
                                   _vm._v(" "),
                                   [
                                     _c("input", {
@@ -126621,11 +126687,19 @@ var render = function() {
                                 },
                                 [
                                   _c("label", [
-                                    _vm._v("Промокод для получения бонуса")
+                                    _vm._v(
+                                      _vm._s(_vm.$i18n.t("deposit_promo_code"))
+                                    )
                                   ]),
                                   _vm._v(" "),
                                   _c("small", { staticClass: "text-muted" }, [
-                                    _vm._v("(необязательно)")
+                                    _vm._v(
+                                      "(" +
+                                        _vm._s(
+                                          _vm.$i18n.t("deposit_not_necessary")
+                                        ) +
+                                        ")"
+                                    )
                                   ]),
                                   _vm._v(" "),
                                   _c("div", { staticClass: "input-group" }, [
@@ -126673,7 +126747,13 @@ var render = function() {
                                             attrs: { type: "button" },
                                             on: { click: _vm.checkPromocode }
                                           },
-                                          [_vm._v("Проверить")]
+                                          [
+                                            _vm._v(
+                                              _vm._s(
+                                                _vm.$i18n.t("deposit_check")
+                                              )
+                                            )
+                                          ]
                                         )
                                       ]
                                     )
@@ -126739,7 +126819,10 @@ var render = function() {
                                   }),
                                   _vm._v(" "),
                                   _c("span", [
-                                    _vm._v("Использовать бонус "),
+                                    _vm._v(
+                                      _vm._s(_vm.$i18n.t("deposit_use_bonus")) +
+                                        " "
+                                    ),
                                     _vm.promocode_info
                                       ? _c(
                                           "small",
@@ -126760,12 +126843,26 @@ var render = function() {
                                             staticClass: "cursor-pointer",
                                             attrs: {
                                               title:
-                                                "Необходимо отработать бонус в размере " +
+                                                _vm.$i18n.t(
+                                                  "deposit_need_work_out"
+                                                ) +
+                                                " " +
                                                 _vm.promocode_info.turnover +
-                                                " раз от суммы бонуса"
+                                                " " +
+                                                _vm.$i18n.t(
+                                                  "deposit_times_from_bonus"
+                                                )
                                             }
                                           },
-                                          [_vm._v("(условия)")]
+                                          [
+                                            _vm._v(
+                                              "(" +
+                                                _vm._s(
+                                                  _vm.$i18n.t("deposit_rules")
+                                                ) +
+                                                ")"
+                                            )
+                                          ]
                                         )
                                       : _vm._e()
                                   ])
@@ -126785,7 +126882,11 @@ var render = function() {
                                   },
                                   on: { click: _vm.proccess }
                                 },
-                                [_vm._v("Продолжить")]
+                                [
+                                  _vm._v(
+                                    _vm._s(_vm.$i18n.t("deposit_continue"))
+                                  )
+                                ]
                               )
                             ]),
                             _vm._v(" "),
@@ -126801,7 +126902,9 @@ var render = function() {
                                   { staticStyle: { "padding-top": "10px" } },
                                   [
                                     _vm._v(
-                                      "\n                                                    Вы получите\n                                                    "
+                                      "\n                                                  " +
+                                        _vm._s(_vm.$i18n.t("deposit_you_get")) +
+                                        "\n                                                    "
                                     ),
                                     _c(
                                       "span",
@@ -126833,7 +126936,11 @@ var render = function() {
                                           },
                                           [
                                             _vm._v(
-                                              "(бонус " +
+                                              "(" +
+                                                _vm._s(
+                                                  _vm.$i18n.t("deposit_bonus")
+                                                ) +
+                                                " " +
                                                 _vm._s(
                                                   _vm.promocode_info.bonus_size
                                                 ) +
@@ -126858,7 +126965,17 @@ var render = function() {
                                           }
                                         ]
                                       },
-                                      [_vm._v("(без бонуса)")]
+                                      [
+                                        _vm._v(
+                                          "(" +
+                                            _vm._s(
+                                              _vm.$i18n.t(
+                                                "deposit_without_bonus"
+                                              )
+                                            ) +
+                                            ")"
+                                        )
+                                      ]
                                     )
                                   ]
                                 )
@@ -126872,7 +126989,9 @@ var render = function() {
                           { staticClass: "col-md-6" },
                           [
                             _c("h4", { staticClass: "card-title" }, [
-                              _vm._v("Выберите Ваш бонус")
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("deposit_select_your_bonus"))
+                              )
                             ]),
                             _vm._v(" "),
                             _vm._l(_vm.bonus, function(current) {
@@ -126997,7 +127116,11 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                                                            бонус " +
+                                                "\n                                                          " +
+                                                  _vm._s(
+                                                    _vm.$i18n.t("deposit_bonus")
+                                                  ) +
+                                                  " " +
                                                   _vm._s(current.bonus_size) +
                                                   " %\n                                                        "
                                               )
@@ -127054,9 +127177,15 @@ var render = function() {
                                             staticStyle: { color: "#8a99b5" },
                                             attrs: {
                                               title:
-                                                "Необходимо отработать бонус в размере " +
+                                                _vm.$i18n.t(
+                                                  "deposit_need_work_out"
+                                                ) +
+                                                " " +
                                                 current.turnover +
-                                                " раз от суммы бонуса"
+                                                " " +
+                                                _vm.$i18n.t(
+                                                  "deposit_times_from_bonus"
+                                                )
                                             }
                                           })
                                         ])
@@ -127124,14 +127253,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Пополнение счета")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-md-6" }, [
       _c("img", {
         staticClass: "img-fluid",
@@ -127140,41 +127261,6 @@ var staticRenderFns = [
             "https://cdn.freelogovectors.net/wp-content/uploads/2019/02/payeer-logo.png"
         }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("p", { staticClass: "mb-0" }, [
-        _c("i", { staticClass: "bx bxs-dollar-circle align-middle" }),
-        _vm._v(" Минимальная сумма депозита: $5")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "mb-0" }, [
-        _c("i", { staticClass: "bx bx-wallet align-middle" }),
-        _vm._v(" Без комиссии")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "mb-0" }, [
-        _c("i", { staticClass: "bx bx-undo align-middle" }),
-        _vm._v(" Быстрое снятие со счета")
-      ]),
-      _vm._v(" "),
-      _c("p", { staticClass: "mb-0" }, [
-        _c("i", { staticClass: "bx bx-check align-middle" }),
-        _vm._v(" Минимальная сумма вывода: $10")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("small", { staticClass: "text-muted" }, [
-      _vm._v("мин. "),
-      _c("i", [_vm._v("5$")])
     ])
   }
 ]
@@ -127199,45 +127285,51 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content-body" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("section", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _c("h4", { staticClass: "card-title" }, [
-                _vm._v("История пополнений")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "card-text" }, [
-                  _c("div", { staticClass: "table-responsive" }, [
-                    _c(
-                      "table",
-                      { staticClass: "table", attrs: { id: "historyDeposit" } },
-                      [
-                        _c("thead", [
-                          _c("tr", [
-                            _c("th", [_vm._v("Сумма платежа")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Статус")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Платежная система")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Дата")])
+  return _c("div", { staticClass: "content-body" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("section", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h4", { staticClass: "card-title" }, [
+              _vm._v(_vm._s(_vm.$i18n.t("deposit_history_title")))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-content" }, [
+            _c("div", { staticClass: "card-body" }, [
+              _c("div", { staticClass: "card-text" }, [
+                _c("div", { staticClass: "table-responsive" }, [
+                  _c(
+                    "table",
+                    { staticClass: "table", attrs: { id: "historyDeposit" } },
+                    [
+                      _c("thead", [
+                        _c("tr", [
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$i18n.t("deposit_history_amount"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$i18n.t("deposit_history_status"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$i18n.t("deposit_history_system"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$i18n.t("deposit_history_date")))
                           ])
                         ])
-                      ]
-                    )
-                  ])
+                      ])
+                    ]
+                  )
                 ])
               ])
             ])
@@ -127245,8 +127337,9 @@ var staticRenderFns = [
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -157980,6 +158073,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/vuejs/js/functions.js":
+/*!*****************************************!*\
+  !*** ./resources/vuejs/js/functions.js ***!
+  \*****************************************/
+/*! exports provided: getCookie */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getCookie", function() { return getCookie; });
+function getCookie(name) {
+  var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+/***/ }),
+
 /***/ "./resources/vuejs/js/tv.js":
 /*!**********************************!*\
   !*** ./resources/vuejs/js/tv.js ***!
@@ -158808,10 +158918,10 @@ var TradingViewFastWebsocket = /*#__PURE__*/function () {
 /*!*****************************************!*\
   !*** ./resources/vuejs/locales/en.json ***!
   \*****************************************/
-/*! exports provided: menu, menu_trading, menu_demo, menu_deposit, menu_withdrawal, menu_promo_codes, menu_history, menu_profile, menu_partner, menu_support, menu_404, menu_logout, menu_be_in_touch, menu_telegram_channel, menu_facebook, menu_contact_us, menu_telegram_support, cap, header_ping, header_ms, header_fullpage, header_deposit, header_trade_on_real, header_make_balance_1000, header_trader, header_online, header_profile, header_make_deposit, header_support, header_logout, header_special_offer, header_special_offer_desc, header_hours, header_minutes, header_seconds, header_deposit_sub_desc, header_withdrawal, header_deposit_balance, header_success, header_error, trade_page, trade_good_work, trade_profit_modal, trade_profit_modal_desc, trade_go_real, trade_expiration, trade_hours, trade_minutes, trade_seconds, trade_close, trade_amount, trade_potential, trade_loading, trade_closed_market, trade_open_orders, trade_open, trade_opened_price, trade_path, trade_up, trade_down, trade_orders_history, trade_no_orders, trade_time, trade_full_orders_history, trade_you_got_profit, trade_order_closed, trade_order_closed_without_profit, trade_order_open_by_price, trade_order_processing, trade_order_opened, trade_error, trade_minimal_expiration, default */
+/*! exports provided: menu, menu_trading, menu_demo, menu_deposit, menu_withdrawal, menu_promo_codes, menu_history, menu_profile, menu_partner, menu_support, menu_404, menu_logout, menu_be_in_touch, menu_telegram_channel, menu_facebook, menu_contact_us, menu_telegram_support, cap, header_ping, header_ms, header_fullpage, header_deposit, header_trade_on_real, header_make_balance_1000, header_trader, header_online, header_profile, header_make_deposit, header_support, header_logout, header_special_offer, header_special_offer_desc, header_hours, header_minutes, header_seconds, header_deposit_sub_desc, header_withdrawal, header_deposit_balance, header_success, header_error, trade_page, trade_good_work, trade_profit_modal, trade_profit_modal_desc, trade_go_real, trade_expiration, trade_hours, trade_minutes, trade_seconds, trade_close, trade_amount, trade_potential, trade_loading, trade_closed_market, trade_open_orders, trade_open, trade_opened_price, trade_path, trade_up, trade_down, trade_orders_history, trade_no_orders, trade_time, trade_full_orders_history, trade_you_got_profit, trade_order_closed, trade_order_closed_without_profit, trade_order_open_by_price, trade_order_processing, trade_order_opened, trade_error, trade_minimal_expiration, deposit, deposit_title, deposit_min_amount, deposit_without_commission, deposit_fast_withdrawal, deposit_minimal_withdrawal, deposit_deposit_amount, deposit_min, deposit_promo_code, deposit_not_necessary, deposit_check, deposit_use_bonus, deposit_need_work_out, deposit_times_from_bonus, deposit_rules, deposit_continue, deposit_you_get, deposit_bonus, deposit_without_bonus, deposit_select_your_bonus, deposit_recommended_amount, deposit_attention, deposit_success, refill_history, deposit_history_title, deposit_history_amount, deposit_history_status, deposit_history_system, deposit_history_date, deposit_history_waiting, deposit_history_success, deposit_history_cancel, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"menu\":\"\",\"menu_trading\":\"Trade\",\"menu_demo\":\"Demo trading\",\"menu_deposit\":\"Deposit\",\"menu_withdrawal\":\"Withdrawal\",\"menu_promo_codes\":\"Promo codes\",\"menu_history\":\"Trade history\",\"menu_profile\":\"Profile\",\"menu_partner\":\"Partner Cabinet\",\"menu_support\":\"Support & Contacts\",\"menu_404\":\"Page not found\",\"menu_logout\":\"Log out of account\",\"menu_be_in_touch\":\"Be in touch\",\"menu_telegram_channel\":\"Telegram channel\",\"menu_facebook\":\"Facebook\",\"menu_contact_us\":\"Contact us\",\"menu_telegram_support\":\"Telegram support\",\"cap\":\"\",\"header_ping\":\"Ping\",\"header_ms\":\"ms\",\"header_fullpage\":\"Full screen\",\"header_deposit\":\"Deposit funds\",\"header_trade_on_real\":\"Trade on a real account\",\"header_make_balance_1000\":\"Make balance equal to $ 1000\",\"header_trader\":\"Trader\",\"header_online\":\"online\",\"header_profile\":\"Profile\",\"header_make_deposit\":\"Deposit\",\"header_support\":\"Support\",\"header_logout\":\"Logout\",\"header_special_offer\":\"Special offer!\",\"header_special_offer_desc\":\"Especially for you, we have prepared a 50% discount on the first deposit, use it to get more profit.\",\"header_hours\":\"Hours\",\"header_minutes\":\"Minutes\",\"header_seconds\":\"Seconds\",\"header_deposit_sub_desc\":\"Deposit now to be able to use the promo code <code> START50BONUS </code> and start trading with confidence!\",\"header_withdrawal\":\"Withdrawal\",\"header_deposit_balance\":\"Deposit balance\",\"header_success\":\"Success!\",\"header_error\":\"Error!\",\"trade_page\":\"\",\"trade_good_work\":\"Nice work!\",\"trade_profit_modal\":\"You are making profits on a demo account, try trading on a real account and earn real money!\",\"trade_profit_modal_desc\":\"Please note that the demo account is no different from the real account (price movement, profitability, processing speed), so you can succeed in trading after training.\",\"trade_go_real\":\"Go to trading on a real account\",\"trade_expiration\":\"Expiration time\",\"trade_hours\":\"Hours\",\"trade_minutes\":\"Minutes\",\"trade_seconds\":\"Seconds\",\"trade_close\":\"Close\",\"trade_amount\":\"Trade amount\",\"trade_potential\":\"Potential profit\",\"trade_loading\":\"Loading ...\",\"trade_closed_market\":\"Market closed\",\"trade_open_orders\":\"Open trades\",\"trade_open\":\"Open\",\"trade_opened_price\":\"Opening price\",\"trade_path\":\"Direction\",\"trade_up\":\"above\",\"trade_down\":\"below\",\"trade_orders_history\":\"Trade history\",\"trade_no_orders\":\"No deals\",\"trade_time\":\"Time\",\"trade_full_orders_history\":\"Full trade history\",\"trade_you_got_profit\":\"You made a profit\",\"trade_order_closed\":\"Trade closed\",\"trade_order_closed_without_profit\":\"Trade closed without profit!\",\"trade_order_open_by_price\":\"Trade opened at price\",\"trade_order_processing\":\"The order is being processed ...\",\"trade_order_opened\":\"Trade opened\",\"trade_error\":\"Error!\",\"trade_minimal_expiration\":\"The minimum trade duration must be from 30 seconds\"}");
+module.exports = JSON.parse("{\"menu\":\"\",\"menu_trading\":\"Trade\",\"menu_demo\":\"Demo trading\",\"menu_deposit\":\"Deposit\",\"menu_withdrawal\":\"Withdrawal\",\"menu_promo_codes\":\"Promo codes\",\"menu_history\":\"Trade history\",\"menu_profile\":\"Profile\",\"menu_partner\":\"Partner Cabinet\",\"menu_support\":\"Support & Contacts\",\"menu_404\":\"Page not found\",\"menu_logout\":\"Log out of account\",\"menu_be_in_touch\":\"Be in touch\",\"menu_telegram_channel\":\"Telegram channel\",\"menu_facebook\":\"Facebook\",\"menu_contact_us\":\"Contact us\",\"menu_telegram_support\":\"Telegram support\",\"cap\":\"\",\"header_ping\":\"Ping\",\"header_ms\":\"ms\",\"header_fullpage\":\"Full screen\",\"header_deposit\":\"Deposit funds\",\"header_trade_on_real\":\"Trade on a real account\",\"header_make_balance_1000\":\"Make balance equal to $ 1000\",\"header_trader\":\"Trader\",\"header_online\":\"online\",\"header_profile\":\"Profile\",\"header_make_deposit\":\"Deposit\",\"header_support\":\"Support\",\"header_logout\":\"Logout\",\"header_special_offer\":\"Special offer!\",\"header_special_offer_desc\":\"Especially for you, we have prepared a 50% discount on the first deposit, use it to get more profit.\",\"header_hours\":\"Hours\",\"header_minutes\":\"Minutes\",\"header_seconds\":\"Seconds\",\"header_deposit_sub_desc\":\"Deposit now to be able to use the promo code <code> START50BONUS </code> and start trading with confidence!\",\"header_withdrawal\":\"Withdrawal\",\"header_deposit_balance\":\"Deposit balance\",\"header_success\":\"Success!\",\"header_error\":\"Error!\",\"trade_page\":\"\",\"trade_good_work\":\"Nice work!\",\"trade_profit_modal\":\"You are making profits on a demo account, try trading on a real account and earn real money!\",\"trade_profit_modal_desc\":\"Please note that the demo account is no different from the real account (price movement, profitability, processing speed), so you can succeed in trading after training.\",\"trade_go_real\":\"Go to trading on a real account\",\"trade_expiration\":\"Expiration time\",\"trade_hours\":\"Hours\",\"trade_minutes\":\"Minutes\",\"trade_seconds\":\"Seconds\",\"trade_close\":\"Close\",\"trade_amount\":\"Trade amount\",\"trade_potential\":\"Potential profit\",\"trade_loading\":\"Loading ...\",\"trade_closed_market\":\"Market closed\",\"trade_open_orders\":\"Open trades\",\"trade_open\":\"Open\",\"trade_opened_price\":\"Opening price\",\"trade_path\":\"Direction\",\"trade_up\":\"higher\",\"trade_down\":\"below\",\"trade_orders_history\":\"Trade history\",\"trade_no_orders\":\"No deals\",\"trade_time\":\"Time\",\"trade_full_orders_history\":\"Full trade history\",\"trade_you_got_profit\":\"You made a profit\",\"trade_order_closed\":\"Trade closed\",\"trade_order_closed_without_profit\":\"Trade closed without profit!\",\"trade_order_open_by_price\":\"Trade opened at price\",\"trade_order_processing\":\"The order is being processed ...\",\"trade_order_opened\":\"Trade opened\",\"trade_error\":\"Error!\",\"trade_minimal_expiration\":\"The minimum trade duration must be 30 seconds or more\",\"deposit\":\"\",\"deposit_title\":\"Account funding\",\"deposit_min_amount\":\"Minimum deposit amount: $ 5\",\"deposit_without_commission\":\"No commission\",\"deposit_fast_withdrawal\":\"Fast withdrawal from the account\",\"deposit_minimal_withdrawal\":\"Minimum withdrawal amount: $ 10\",\"deposit_deposit_amount\":\"Deposit amount\",\"deposit_min\":\"min\",\"deposit_promo_code\":\"Bonus promo code\",\"deposit_not_necessary\":\"(optional)\",\"deposit_check\":\"Check\",\"deposit_use_bonus\":\"Use bonus\",\"deposit_need_work_out\":\"You need to work out a bonus in the amount of\",\"deposit_times_from_bonus\":\"times of the bonus amount\",\"deposit_rules\":\"conditions\",\"deposit_continue\":\"Continue\",\"deposit_you_get\":\"You will receive\",\"deposit_bonus\":\"bonus\",\"deposit_without_bonus\":\"no bonus\",\"deposit_select_your_bonus\":\"Select your bonus\",\"deposit_recommended_amount\":\"This is the recommended deposit amount!\",\"deposit_attention\":\"Attention!\",\"deposit_success\":\"Success!\",\"refill_history\":\"\",\"deposit_history_title\":\"Deposit history\",\"deposit_history_amount\":\"Payment amount\",\"deposit_history_status\":\"Status\",\"deposit_history_system\":\"Payment system\",\"deposit_history_date\":\"Date\",\"deposit_history_waiting\":\"Waiting for payment\",\"deposit_history_success\":\"Successful\",\"deposit_history_cancel\":\"Canceled\"}");
 
 /***/ }),
 
@@ -158857,10 +158967,10 @@ function getCookie(name) {
 /*!*****************************************!*\
   !*** ./resources/vuejs/locales/ru.json ***!
   \*****************************************/
-/*! exports provided: меню, menu_trading, menu_demo, menu_deposit, menu_withdrawal, menu_promo_codes, menu_history, menu_profile, menu_partner, menu_support, menu_404, menu_logout, menu_be_in_touch, menu_telegram_channel, menu_facebook, menu_contact_us, menu_telegram_support, шапка, header_ping, header_ms, header_fullpage, header_deposit, header_trade_on_real, header_make_balance_1000, header_trader, header_online, header_profile, header_make_deposit, header_support, header_logout, header_special_offer, header_special_offer_desc, header_hours, header_minutes, header_seconds, header_deposit_sub_desc, header_withdrawal, header_deposit_balance, header_success, header_error, страница_торговли, trade_good_work, trade_profit_modal, trade_profit_modal_desc, trade_go_real, trade_expiration, trade_hours, trade_minutes, trade_seconds, trade_close, trade_amount, trade_potential, trade_loading, trade_closed_market, trade_open_orders, trade_open, trade_opened_price, trade_path, trade_up, trade_down, trade_orders_history, trade_no_orders, trade_time, trade_full_orders_history, trade_you_got_profit, trade_order_closed, trade_order_closed_without_profit, trade_order_open_by_price, trade_order_processing, trade_order_opened, trade_error, trade_minimal_expiration, default */
+/*! exports provided: меню, menu_trading, menu_demo, menu_deposit, menu_withdrawal, menu_promo_codes, menu_history, menu_profile, menu_partner, menu_support, menu_404, menu_logout, menu_be_in_touch, menu_telegram_channel, menu_facebook, menu_contact_us, menu_telegram_support, шапка, header_ping, header_ms, header_fullpage, header_deposit, header_trade_on_real, header_make_balance_1000, header_trader, header_online, header_profile, header_make_deposit, header_support, header_logout, header_special_offer, header_special_offer_desc, header_hours, header_minutes, header_seconds, header_deposit_sub_desc, header_withdrawal, header_deposit_balance, header_success, header_error, страница_торговли, trade_good_work, trade_profit_modal, trade_profit_modal_desc, trade_go_real, trade_expiration, trade_hours, trade_minutes, trade_seconds, trade_close, trade_amount, trade_potential, trade_loading, trade_closed_market, trade_open_orders, trade_open, trade_opened_price, trade_path, trade_up, trade_down, trade_orders_history, trade_no_orders, trade_time, trade_full_orders_history, trade_you_got_profit, trade_order_closed, trade_order_closed_without_profit, trade_order_open_by_price, trade_order_processing, trade_order_opened, trade_error, trade_minimal_expiration, депозит, deposit_title, deposit_min_amount, deposit_without_commission, deposit_fast_withdrawal, deposit_minimal_withdrawal, deposit_deposit_amount, deposit_min, deposit_promo_code, deposit_not_necessary, deposit_check, deposit_use_bonus, deposit_need_work_out, deposit_times_from_bonus, deposit_rules, deposit_continue, deposit_you_get, deposit_bonus, deposit_without_bonus, deposit_select_your_bonus, deposit_recommended_amount, deposit_attention, deposit_success, история_пополнений, deposit_history_title, deposit_history_amount, deposit_history_status, deposit_history_system, deposit_history_date, deposit_history_waiting, deposit_history_success, deposit_history_cancel, история_выплат, payout_title, payout_without_turnover, payout_without_commission, payout_in_24_hours, payout_minimum_amount, payout_amount, payout_min, payout_wallet, payout_check_correct, payout_system, payout_can_be_commission, payout_continue, payout_you_get, payout_your_turnover, payout_left_turnover, payout_from_all_bonus_amount, payout_cancel_bonus, payout_balance_be, payout_after_cancel, payout_conditions, payout_history_title, payout_amount_simple, payout_props, payout_status, payout_action, payout_date, payout_success, payout_error, payout_processing, payout_paid_out, payout_cause, payout_cause_not_found, payout_declined, payout_min_10, payout_enter_correct_address, default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"меню\":\"\",\"menu_trading\":\"Торговля\",\"menu_demo\":\"Демо торговля\",\"menu_deposit\":\"Пополнение\",\"menu_withdrawal\":\"Вывод средств\",\"menu_promo_codes\":\"Промокоды\",\"menu_history\":\"История торговли\",\"menu_profile\":\"Профиль\",\"menu_partner\":\"Партнерский кабинет\",\"menu_support\":\"Поддержка и контакты\",\"menu_404\":\"Страница не найдена\",\"menu_logout\":\"Выйти из аккаунта\",\"menu_be_in_touch\":\"Будь на связи\",\"menu_telegram_channel\":\"Telegram канал\",\"menu_facebook\":\"Facebook\",\"menu_contact_us\":\"Написать нам\",\"menu_telegram_support\":\"Поддержка в телеграм\",\"шапка\":\"\",\"header_ping\":\"Пинг\",\"header_ms\":\"мс\",\"header_fullpage\":\"На весь экран\",\"header_deposit\":\"Пополнить счет\",\"header_trade_on_real\":\"Торговать на реальном счете\",\"header_make_balance_1000\":\"Сделать баланс равным 1000 $\",\"header_trader\":\"Трейдер\",\"header_online\":\"онлайн\",\"header_profile\":\"Профиль\",\"header_make_deposit\":\"Пополнить\",\"header_support\":\"Поддержка\",\"header_logout\":\"Выйти\",\"header_special_offer\":\"Специальное предложение!\",\"header_special_offer_desc\":\"Специально для Вас мы подготовили скидку 50% на первое пополнение, используйте её чтобы получить больше прибыли.\",\"header_hours\":\"Часа\",\"header_minutes\":\"Минут\",\"header_seconds\":\"Секунд\",\"header_deposit_sub_desc\":\"Пополните сейчас, чтобы успеть использовать промокод <code>START50BONUS</code> и начать уверенно торговать!\",\"header_withdrawal\":\"Вывести\",\"header_deposit_balance\":\"Пополнить баланс\",\"header_success\":\"Успешно!\",\"header_error\":\"Ошибка!\",\"страница_торговли\":\"\",\"trade_good_work\":\"Отличная работа!\",\"trade_profit_modal\":\"Вы получаете прибыль на демо счете, попробуйте торговлю на реальном счете и зарабатывайте настоящие деньги!\",\"trade_profit_modal_desc\":\"Обратите внимание что демо счет ничем не отличается от реального (движение цены, прибыльность, скорость обработки), поэтому вы можете преуспеть в торговле после тренировок.\",\"trade_go_real\":\"Перейти к торговле на реальном счете\",\"trade_expiration\":\"Время экспирации\",\"trade_hours\":\"Часы\",\"trade_minutes\":\"Минуты\",\"trade_seconds\":\"Секунды\",\"trade_close\":\"Закрыть\",\"trade_amount\":\"Сумма сделки\",\"trade_potential\":\"Потенциальная прибыль\",\"trade_loading\":\"Загрузка...\",\"trade_closed_market\":\"Рынок закрыт\",\"trade_open_orders\":\"Открытые сделки\",\"trade_open\":\"Открыто\",\"trade_opened_price\":\"Цена открытия\",\"trade_path\":\"Направление\",\"trade_up\":\"выше\",\"trade_down\":\"ниже\",\"trade_orders_history\":\"История сделок\",\"trade_no_orders\":\"Нет сделок\",\"trade_time\":\"Время\",\"trade_full_orders_history\":\"Полная история сделок\",\"trade_you_got_profit\":\"Вы получили прибыль\",\"trade_order_closed\":\"Сделка закрыта\",\"trade_order_closed_without_profit\":\"Сделка закрыта без прибыли!\",\"trade_order_open_by_price\":\"Открыта сделка по цене \",\"trade_order_processing\":\"Заявка обратывается...\",\"trade_order_opened\":\"Сделка открыта\",\"trade_error\":\"Ошибка!\",\"trade_minimal_expiration\":\"Минимальная продолжительность сделки должна быть от 30 секунд\"}");
+module.exports = JSON.parse("{\"меню\":\"\",\"menu_trading\":\"Торговля\",\"menu_demo\":\"Демо торговля\",\"menu_deposit\":\"Пополнение\",\"menu_withdrawal\":\"Вывод средств\",\"menu_promo_codes\":\"Промокоды\",\"menu_history\":\"История торговли\",\"menu_profile\":\"Профиль\",\"menu_partner\":\"Партнерский кабинет\",\"menu_support\":\"Поддержка и контакты\",\"menu_404\":\"Страница не найдена\",\"menu_logout\":\"Выйти из аккаунта\",\"menu_be_in_touch\":\"Будь на связи\",\"menu_telegram_channel\":\"Telegram канал\",\"menu_facebook\":\"Facebook\",\"menu_contact_us\":\"Написать нам\",\"menu_telegram_support\":\"Поддержка в телеграм\",\"шапка\":\"\",\"header_ping\":\"Пинг\",\"header_ms\":\"мс\",\"header_fullpage\":\"На весь экран\",\"header_deposit\":\"Пополнить счет\",\"header_trade_on_real\":\"Торговать на реальном счете\",\"header_make_balance_1000\":\"Сделать баланс равным 1000 $\",\"header_trader\":\"Трейдер\",\"header_online\":\"онлайн\",\"header_profile\":\"Профиль\",\"header_make_deposit\":\"Пополнить\",\"header_support\":\"Поддержка\",\"header_logout\":\"Выйти\",\"header_special_offer\":\"Специальное предложение!\",\"header_special_offer_desc\":\"Специально для Вас мы подготовили скидку 50% на первое пополнение, используйте её чтобы получить больше прибыли.\",\"header_hours\":\"Часа\",\"header_minutes\":\"Минут\",\"header_seconds\":\"Секунд\",\"header_deposit_sub_desc\":\"Пополните сейчас, чтобы успеть использовать промокод <code>START50BONUS</code> и начать уверенно торговать!\",\"header_withdrawal\":\"Вывести\",\"header_deposit_balance\":\"Пополнить баланс\",\"header_success\":\"Успешно!\",\"header_error\":\"Ошибка!\",\"страница_торговли\":\"\",\"trade_good_work\":\"Отличная работа!\",\"trade_profit_modal\":\"Вы получаете прибыль на демо счете, попробуйте торговлю на реальном счете и зарабатывайте настоящие деньги!\",\"trade_profit_modal_desc\":\"Обратите внимание что демо счет ничем не отличается от реального (движение цены, прибыльность, скорость обработки), поэтому вы можете преуспеть в торговле после тренировок.\",\"trade_go_real\":\"Перейти к торговле на реальном счете\",\"trade_expiration\":\"Время экспирации\",\"trade_hours\":\"Часы\",\"trade_minutes\":\"Минуты\",\"trade_seconds\":\"Секунды\",\"trade_close\":\"Закрыть\",\"trade_amount\":\"Сумма сделки\",\"trade_potential\":\"Потенциальная прибыль\",\"trade_loading\":\"Загрузка...\",\"trade_closed_market\":\"Рынок закрыт\",\"trade_open_orders\":\"Открытые сделки\",\"trade_open\":\"Открыто\",\"trade_opened_price\":\"Цена открытия\",\"trade_path\":\"Направление\",\"trade_up\":\"выше\",\"trade_down\":\"ниже\",\"trade_orders_history\":\"История сделок\",\"trade_no_orders\":\"Нет сделок\",\"trade_time\":\"Время\",\"trade_full_orders_history\":\"Полная история сделок\",\"trade_you_got_profit\":\"Вы получили прибыль\",\"trade_order_closed\":\"Сделка закрыта\",\"trade_order_closed_without_profit\":\"Сделка закрыта без прибыли!\",\"trade_order_open_by_price\":\"Открыта сделка по цене \",\"trade_order_processing\":\"Заявка обратывается...\",\"trade_order_opened\":\"Сделка открыта\",\"trade_error\":\"Ошибка!\",\"trade_minimal_expiration\":\"Минимальная продолжительность сделки должна быть от 30 секунд\",\"депозит\":\"\",\"deposit_title\":\"Пополнение счета\",\"deposit_min_amount\":\"Минимальная сумма депозита: $5\",\"deposit_without_commission\":\"Без комиссии\",\"deposit_fast_withdrawal\":\"Быстрое снятие со счета\",\"deposit_minimal_withdrawal\":\"Минимальная сумма вывода: $10\",\"deposit_deposit_amount\":\"Сумма депозита\",\"deposit_min\":\"мин\",\"deposit_promo_code\":\"Промокод для получения бонуса\",\"deposit_not_necessary\":\"(необязательно)\",\"deposit_check\":\"Проверить\",\"deposit_use_bonus\":\"Использовать бонус\",\"deposit_need_work_out\":\"Необходимо отработать бонус в размере\",\"deposit_times_from_bonus\":\"раз от суммы бонуса\",\"deposit_rules\":\"условия\",\"deposit_continue\":\"Продолжить\",\"deposit_you_get\":\"Вы получите\",\"deposit_bonus\":\"бонус\",\"deposit_without_bonus\":\"без бонуса\",\"deposit_select_your_bonus\":\"Выберите Ваш бонус\",\"deposit_recommended_amount\":\"Это рекомендуемая сумма к пополнению!\",\"deposit_attention\":\"Внимание!\",\"deposit_success\":\"Успешно!\",\"история_пополнений\":\"\",\"deposit_history_title\":\"История пополнений\",\"deposit_history_amount\":\"Сумма платежа\",\"deposit_history_status\":\"Статус\",\"deposit_history_system\":\"Платежная система\",\"deposit_history_date\":\"Дата\",\"deposit_history_waiting\":\"Ожидание оплаты\",\"deposit_history_success\":\"Успешно\",\"deposit_history_cancel\":\"Отменено\",\"история_выплат\":\"\",\"payout_title\":\"Вывод средств\",\"payout_without_turnover\":\"Вывод без отработки бонуса\",\"payout_without_commission\":\"Без комиссии\",\"payout_in_24_hours\":\"Вывод в течение 24х часов\",\"payout_minimum_amount\":\"Минимальная сумма вывода\",\"payout_amount\":\"Сумма вывода\",\"payout_min\":\"мин\",\"payout_wallet\":\"Кошелек для выплаты\",\"payout_check_correct\":\"проверяйте правильность\",\"payout_system\":\"Платежная система\",\"payout_can_be_commission\":\"может взиматься комиссия\",\"payout_continue\":\"Продолжить\",\"payout_you_get\":\"Вы получите\",\"payout_your_turnover\":\"Ваш оборот по бонусам\",\"payout_left_turnover\":\"Вам осталось отработать\",\"payout_from_all_bonus_amount\":\"от общей суммы бонуса\",\"payout_cancel_bonus\":\"Отказаться от бонуса\",\"payout_balance_be\":\"Баланс будет\",\"payout_after_cancel\":\"после отказа\",\"payout_conditions\":\"Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия.\",\"payout_history_title\":\"История заявок на вывод средств\",\"payout_amount_simple\":\"Сумма\",\"payout_props\":\"Реквизиты\",\"payout_status\":\"Статус\",\"payout_action\":\"Действие\",\"payout_date\":\"Дата\",\"payout_success\":\"Успешно!\",\"payout_error\":\"Ошибка!\",\"payout_processing\":\"Обрабатывается\",\"payout_paid_out\":\"Выплачено\",\"payout_cause\":\"Причина отклонения\",\"payout_cause_not_found\":\"Причина отклонения выплаты не была указана\",\"payout_declined\":\"Отклонено\",\"payout_min_10\":\"Минимальная сумма вывода составляет 10$\",\"payout_enter_correct_address\":\"Введите корректный адрес выплаты!\"}");
 
 /***/ }),
 

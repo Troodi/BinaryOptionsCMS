@@ -186,6 +186,7 @@
 <script>
     import dateformat from "dateformat";
     import Swal from '../../../vendors/js/extensions/sweetalert2.all.min.js';
+    import {getCookie} from "../../js/functions";
 
     export default {
         name: "Deposit",
@@ -284,13 +285,11 @@
                                 }
                                 return response;
                               }).catch((error) => {
-                                console.log(error);
                                 Swal.showValidationMessage(error.message)
                               });
                             },
                             allowOutsideClick: () => !Swal.isLoading()
                           }).then((result) => {
-                            console.log(result);
                             if (!result.dismiss) {
                               Swal.fire('Успешно!', result.value.data.message, 'success');
                               $("#withdrawalHistory").dataTable().fnDestroy()
@@ -327,7 +326,7 @@
                         type: "POST"
                     },
                     "language": {
-                        "url": "/locales/Russian.json"
+                      "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
                     },
                     "createdRow": function (row, data, index) {
                       if(!self.isAdmin) {
