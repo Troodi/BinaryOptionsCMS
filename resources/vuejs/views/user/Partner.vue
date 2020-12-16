@@ -5,13 +5,13 @@
                 <div class="col-md-6">
                     <section class="card mb-2">
                         <div class="card-header">
-                            <h4 class="card-title">Ваша партнерская ссылка</h4>
+                            <h4 class="card-title">{{ $i18n.t('partner_title') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="card-text">
                                     <fieldset class="form-group">
-                                        <label for="basicInput">Ваша ссылка для привлечения пользователей</label>
+                                        <label for="basicInput">{{ $i18n.t('partner_your_link') }}</label>
                                         <input :value="link" type="text" class="form-control opacity-full" id="basicInput" readonly="readonly">
                                     </fieldset>
                                 </div>
@@ -22,14 +22,14 @@
                 <div class="col-md-6">
                     <section class="card mb-2">
                         <div class="card-header">
-                            <h4 class="card-title">Условия партнерской программы</h4>
+                            <h4 class="card-title">{{ $i18n.t('partner_conditions') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="card-text">
                                     <p style="margin-bottom: 0.3rem;">
-                                        Каждый приглашенный пользователь приносит партнеру вознаграждение в размере <code>2%</code> с торгового оборота, исключая бонусные средства.
-                                        Накрутка и иные способы фальсификации регистраций приведут к остановке действия аккаунта.
+                                      {{ $i18n.t('partner_every_user') }} <code>2%</code> {{ $i18n.t('partner_from_turnover') }}
+                                      {{ $i18n.t('partner_cheating') }}
                                     </p>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                     <div class="d-flex align-items-center">
                       <i class="bx bx-error-circle"></i>
                       <span>
-                        У вас обычный статус партнера, но вы можете его улучшить отправив заявку для получение "премиум" статуса.
+                        {{ $i18n.t('partner_normal_status') }}
                       </span>
                     </div>
                   </div>
@@ -51,7 +51,7 @@
                     <div class="d-flex align-items-center">
                       <i class="bx bx-error-circle"></i>
                       <span>
-                        Заявка на подключение премиум статуса партнера находится на рассмотрении.
+                        {{ $i18n.t('partner_application_premium') }}
                       </span>
                     </div>
                   </div>
@@ -60,7 +60,7 @@
                     <div class="d-flex align-items-center">
                       <i class="bx bx-error-circle"></i>
                       <span>
-                        Вы успешно стали премиум партнером, теперь вам зачисляются повышенные выплаты за приглашенных пользователей.
+                        {{ $i18n.t('partner_success_premium') }}
                       </span>
                     </div>
                   </div>
@@ -71,13 +71,13 @@
                         <div class="d-flex align-items-center">
                           <i class="bx bx-error-circle"></i>
                           <span>
-                            Ваша заявка была отклонена. {{ request.message }}
+                            {{ $i18n.t('partner_application_decline') }} {{ request.message }}
                           </span>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <button type="button" @click="requestAgain" class="btn btn-sm btn-danger float-right" style="padding-top: 2.5px;padding-bottom: 2.5px;">
-                          Подать заявку ещё раз
+                          {{ $i18n.t('partner_try') }}
                         </button>
                       </div>
                     </div>
@@ -109,37 +109,37 @@
 
                   <section class="card">
                     <div class="card-header">
-                      <h4 class="card-title">«Премиум» партнер</h4>
+                      <h4 class="card-title">{{ $i18n.t('partner_premium_title') }}</h4>
                     </div>
                     <div class="card-content">
                       <div class="card-body">
                         <div class="card-text">
                           <p>
-                            Станьте «премиум» партнером чтобы получать повышенные выплаты за приглашенных пользователей. Вы сможете получать <span class="badge badge-warning text-white">10 процентов</span> с пополнения баланса приглашенного пользователя, <span class="badge badge-primary text-white">5 центов</span> за подтвержденную регистрацию (аккаунт на котором подтверждена почта) и <span class="badge badge-success text-white">3 процента</span> с торгового оборота приглашенного пользователя. Для получения статуса "премиум" партнера необходимо отправить заявку на рассмотрение.
+                            {{ $i18n.t('partner_become_premium') }} <span class="badge badge-warning text-white">{{ $i18n.t('partner_10_percent') }}</span> {{ $i18n.t('partner_from_deposit') }} <span class="badge badge-primary text-white">{{ $i18n.t('partner_5_cents') }}</span> {{ $i18n.t('partner_to_active_registration') }} <span class="badge badge-success text-white">{{ $i18n.t('partner_3_percents') }}</span> {{ $i18n.t('partner_from_turnover_referral') }}
                           </p>
                           <div class="row" v-if="isAdmin || 'partner_status' in user && user.partner_status === null && typeof request !== 'undefined' && request === null">
                             <div class="col-md-6">
                               <fieldset class="form-group">
-                                <label>Telegram для связи:</label>
+                                <label>{{ $i18n.t('partner_telegram') }}</label>
                                 <input type="text" class="form-control" v-model="telegram" placeholder="@___">
                               </fieldset>
                             </div>
                             <div class="col-md-6">
                               <fieldset class="form-group">
-                                <label class="align-top">Планируемое количество приглашенных в день:</label>
+                                <label class="align-top">{{ $i18n.t('partner_plan') }}</label>
                                 <select2 v-model="traficQuantity" :options="traficQuantityOptions" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
                               </fieldset>
                             </div>
                             <div class="col-md-12">
                               <fieldset class="form-group">
-                                <textarea v-model="comment" class="form-control" style="height:150px" placeholder="Опишите максимально подробно источники трафика, потенциальный охват, предложения"></textarea>
+                                <textarea v-model="comment" class="form-control" style="height:150px" :placeholder="$i18n.t('partner_comment')"></textarea>
                               </fieldset>
                             </div>
                           </div>
-                          <button v-show="isAdmin || 'partner_status' in user && user.partner_status === null && typeof request !== 'undefined' && request === null" type="button" @click="clearRequest" class="btn btn-secondary mt-0">Очистить</button>
-                          <button v-show="isAdmin || 'partner_status' in user && user.partner_status === null && typeof request !== 'undefined' && request === null" v-bind:disabled="!buttonEnable" type="button" @click="sendRequest" class="btn btn-primary mt-0 float-right">Отправить</button>
-                          <button v-if="isAdmin" type="button" @click="changePartner('discardPartner')" class="btn btn-danger mt-0">Исключение партнера</button>
-                          <button v-if="isAdmin" type="button" @click="changePartner('approvePartner')" class="btn btn-success mt-0 float-right" style="margin-right: 3px;">Сделать партнером</button>
+                          <button v-show="isAdmin || 'partner_status' in user && user.partner_status === null && typeof request !== 'undefined' && request === null" type="button" @click="clearRequest" class="btn btn-secondary mt-0">{{ $i18n.t('partner_clear') }}</button>
+                          <button v-show="isAdmin || 'partner_status' in user && user.partner_status === null && typeof request !== 'undefined' && request === null" v-bind:disabled="!buttonEnable" type="button" @click="sendRequest" class="btn btn-primary mt-0 float-right">{{ $i18n.t('partner_send') }}</button>
+                          <button v-if="isAdmin" type="button" @click="changePartner('discardPartner')" class="btn btn-danger mt-0">{{ $i18n.t('partner_exclusion') }}</button>
+                          <button v-if="isAdmin" type="button" @click="changePartner('approvePartner')" class="btn btn-success mt-0 float-right" style="margin-right: 3px;">{{ $i18n.t('partner_make_partner') }}</button>
                         </div>
                       </div>
                     </div>
@@ -149,7 +149,7 @@
                 <div class="col-md-12">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Общая статистика партнера</h4>
+                            <h4 class="card-title">{{ $i18n.t('partner_all_stat') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -158,11 +158,11 @@
                                         <table class="table">
                                             <thead>
                                             <tr>
-                                                <th>Количество приглашенных</th>
-                                                <th>Вознаграждение</th>
-                                                <th>Активных</th>
-                                                <th>Пополнивших баланс</th>
-                                                <th>Переходов по ссылке</th>
+                                                <th>{{ $i18n.t('partner_all_referrals') }}</th>
+                                                <th>{{ $i18n.t('partner_reward') }}</th>
+                                                <th>{{ $i18n.t('partner_active') }}</th>
+                                                <th>{{ $i18n.t('partner_deposited') }}</th>
+                                                <th>{{ $i18n.t('partner_clicks') }}</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -185,7 +185,7 @@
                 <div class="col-md-12">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Список приглашенных</h4>
+                            <h4 class="card-title">{{ $i18n.t('partner_list') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -194,10 +194,8 @@
                                         <table class="table" id="referrals">
                                             <thead>
                                             <tr>
-                                                <th>Токен пользователя</th>
-<!--                                                <th>Вознаграждение</th>-->
-<!--                                                <th>Статус</th>-->
-                                                <th>Дата регистрации</th>
+                                                <th>{{ $i18n.t('partner_token') }}</th>
+                                                <th>{{ $i18n.t('partner_date') }}</th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -214,6 +212,7 @@
 
 <script>
     import dateformat from "dateformat";
+    import {getCookie} from "../../js/functions";
     require('../../../vendors/js/tables/datatable/datatables.min.js');
     require('../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js');
 
@@ -226,12 +225,12 @@
                 .then(function (response) {
                   self.initPartner();
                   if(response.data.success === true) {
-                    toastr.success(response.data.message, 'Успешно!', {
+                    toastr.success(response.data.message, self.$i18n.t('partner_success'), {
                       positionClass: 'toast-bottom-left',
                       containerId: 'toast-bottom-left'
                     });
                   } else {
-                    toastr.error(response.data.message, 'Ошибка!', {
+                    toastr.error(response.data.message, self.$i18n.t('partner_error'), {
                       positionClass: 'toast-bottom-left',
                       containerId: 'toast-bottom-left'
                     });
@@ -305,7 +304,7 @@
                 type: "POST"
               },
               "language": {
-                "url": "/locales/Russian.json"
+                "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
               },
               columns: [
                 {
@@ -340,13 +339,13 @@
           errors: function (){
             let errors = [];
             if(this.telegram.length > 0 && this.telegram.length < 4){
-              errors.push('Никнейм telegram не может быть менее 4х символов');
+              errors.push(this.$i18n.t('partner_nickname'));
             }
             if(this.comment.length > 0 && this.comment.length < 20){
-              errors.push('Комментарий не может быть менее 20 символов');
+              errors.push(this.$i18n.t('partner_comment_desc'));
             }
             if(this.comment.length > 500){
-              errors.push('Комментарий не может быть более 500 символов');
+              errors.push(this.$i18n.t('partner_comment_error'));
             }
             return errors;
           },
@@ -358,24 +357,23 @@
             return {
                 traficQuantity: 0,
                 traficQuantityOptions: [
-                  { id: "0", text: "1-5 человек" },
-                  { id: "1", text: "5-15 человек" },
-                  { id: "2", text: "15-50 человек" },
-                  { id: "3", text: "50+ человек" },
-                  { id: "4", text: "Не известно" },
+                  { id: "0", text: this.$i18n.t('partner_5_people') },
+                  { id: "1", text: this.$i18n.t('partner_15_people') },
+                  { id: "2", text: this.$i18n.t('partner_50_people') },
+                  { id: "3", text: this.$i18n.t('partner_50_plus_people') },
+                  { id: "4", text: this.$i18n.t('partner_not_known')},
                 ],
-                count: 'Загружается...',
-                reward: 'Загружается...',
-                active: 'Загружается...',
-                deposit_count: 'Загружается...',
-                tracked: 'Загружается...',
-                link: 'Загружается...',
+                count: this.$i18n.t('partner_loading'),
+                reward: this.$i18n.t('partner_loading'),
+                active: this.$i18n.t('partner_loading'),
+                deposit_count: this.$i18n.t('partner_loading'),
+                tracked: this.$i18n.t('partner_loading'),
+                link: this.$i18n.t('partner_loading'),
                 telegram: '',
                 comment: '',
                 user: {},
                 request: {},
                 success: [],
-                errors: [],
             }
         }
     }

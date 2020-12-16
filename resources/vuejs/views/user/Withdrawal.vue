@@ -33,7 +33,7 @@
                 <div class="col-md-7">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Вывод средств</h4>
+                            <h4 class="card-title">{{ $i18n.t('payout_title') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -45,16 +45,16 @@
                                                     <img class="img-fluid" src="https://cdn.freelogovectors.net/wp-content/uploads/2019/02/payeer-logo.png">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <p class="mb-0"><i class="bx bxs-dollar-circle align-middle"></i> Вывод без отработки бонуса</p>
-                                                    <p class="mb-0"><i class="bx bx-wallet align-middle"></i> Без комиссии</p>
-                                                    <p class="mb-0"><i class="bx bx-undo align-middle"></i> Вывод в течение 24х часов</p>
-                                                    <p class="mb-0"><i class="bx bx-check align-middle"></i> Минимальная сумма вывода: $10</p>
+                                                    <p class="mb-0"><i class="bx bxs-dollar-circle align-middle"></i> {{ $i18n.t('payout_without_turnover') }}</p>
+                                                    <p class="mb-0"><i class="bx bx-wallet align-middle"></i> {{ $i18n.t('payout_without_commission') }}</p>
+                                                    <p class="mb-0"><i class="bx bx-undo align-middle"></i> {{ $i18n.t('payout_in_24_hours') }}</p>
+                                                    <p class="mb-0"><i class="bx bx-check align-middle"></i> {{ $i18n.t('payout_minimum_amount') }}: $10</p>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-md-6">
                                                     <fieldset class="form-group" style="margin-bottom: 3px;">
-                                                        <label>Сумма вывода<small class="text-muted">мин. <i>10$</i></small></label>
+                                                        <label>{{ $i18n.t('payout_amount') }}<small class="text-muted">{{ $i18n.t('payout_min') }}. <i>10$</i></small></label>
                                                         <template>
                                                             <input ref="ci" type="text" class="form-control" v-model="amount" v-currency="{currency: null, autoDecimalMode: true, valueRange: {min: 10, max: 100000}}">
                                                         </template>
@@ -62,7 +62,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                   <fieldset class="form-group" style="margin-bottom: 3px;">
-                                                    <label>Кошелек для выплаты <small class="text-muted">(проверяйте правильность)</small></label>
+                                                    <label>{{ $i18n.t('payout_wallet') }} <small class="text-muted">({{ $i18n.t('payout_check_correct') }})</small></label>
                                                     <template>
                                                       <input type="text" class="form-control" placeholder="P______" v-model="wallet_address">
                                                     </template>
@@ -72,17 +72,17 @@
                                             <div class="row mt-1">
                                               <div class="col-md-12">
                                                 <fieldset class="form-group">
-                                                  <label class="align-top">Платежная система<small class="text-muted"><i>(может взиматься комиссия)</i></small></label>
+                                                  <label class="align-top">{{ $i18n.t('payout_system') }}<small class="text-muted"><i>({{ $i18n.t('payout_can_be_commission') }})</i></small></label>
                                                   <select2 v-model="system" :style="'width: 100%;'" :options="systems" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
                                                 </fieldset>
                                               </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6 pt-2">
-                                                    <button v-bind:disabled="continueButtonDisabled" @click="processPayout" type="button" class="btn btn-outline-secondary mr-1 mb-1">Продолжить</button>
+                                                    <button v-bind:disabled="continueButtonDisabled" @click="processPayout" type="button" class="btn btn-outline-secondary mr-1 mb-1">{{ $i18n.t('payout_continue') }}</button>
                                                 </div>
                                                 <div class="col-md-6 pt-2 text-right align-bottom">
-                                                    <p style="padding-top:10px;">Вы получите <span class="text-white" style="font-size: 1.3rem;">$ {{ amount }}</span></p>
+                                                    <p style="padding-top:10px;">{{ $i18n.t('payout_you_get') }} <span class="text-white" style="font-size: 1.3rem;">$ {{ amount }}</span></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -96,7 +96,7 @@
                 <div class="col-md-5">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Ваш оборот по бонусам</h4>
+                            <h4 class="card-title">{{ $i18n.t('payout_your_turnover') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -109,15 +109,15 @@
                                                         <div class="dashboard-content-left">
                                                             <span v-show="!account" role="status" aria-hidden="true" class="mb-2 spinner-border spinner-grow-sm text-primary" style="width:3rem;height:3rem;"></span>
                                                             <h1 v-if="account" class="text-primary font-large-2 text-bold-500">$ {{ account_left_turnover }}</h1>
-                                                            <p>Вам осталось отработать
+                                                            <p>{{ $i18n.t('payout_left_turnover') }}
                                                                 <span v-show="!account" role="status" aria-hidden="true" class="spinner-border spinner-grow-sm"></span>
                                                                 <code v-if="account">{{ left_turnover }} %</code>
-                                                                от общей суммы бонуса.</p>
-                                                            <button v-bind:disabled="discardButtunDisabled" @click="discardBonus" type="button" class="btn btn-primary glow">Отказаться от бонуса</button>
-                                                            <small v-if="account && account_left_turnover > 0" v-show="account" class="ml-1">Баланс будет <code>{{ afterDiscardBonus }} $</code> после отказа</small>
+                                                              {{ $i18n.t('payout_from_all_bonus_amount') }}.</p>
+                                                            <button v-bind:disabled="discardButtunDisabled" @click="discardBonus" type="button" class="btn btn-primary glow">{{ $i18n.t('payout_cancel_bonus') }}</button>
+                                                            <small v-if="account && account_left_turnover > 0" v-show="account" class="ml-1">{{ $i18n.t('payout_balance_be') }} <code>{{ afterDiscardBonus }} $</code> {{ $i18n.t('payout_after_cancel') }}</small>
                                                         </div>
                                                         <div class="dashboard-content-right">
-                                                            <img src="/images/icon/cup.png" height="155" width="155" class="img-fluid" style="float-right"/>
+                                                            <img src="/images/icon/cup.png" height="155" width="155" class="img-fluid" style="float:right;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -136,7 +136,7 @@
                                         <div class="col-md-12">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия.
+                                                  {{ $i18n.t('payout_conditions') }}
                                                 </div>
                                             </div>
                                         </div>
@@ -154,7 +154,7 @@
                 <div class="col-md-12">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">История заявок на вывод средств</h4>
+                            <h4 class="card-title">{{ $i18n.t('payout_history_title') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -163,12 +163,12 @@
                                       <table class="table" id="withdrawalHistory">
                                           <thead>
                                           <tr>
-                                              <th>Сумма</th>
-                                              <th>Платежная система</th>
-                                              <th>Реквизиты</th>
-                                              <th>Статус</th>
-                                              <th id="hide">Действие</th>
-                                              <th>Дата</th>
+                                              <th>{{ $i18n.t('payout_amount_simple') }}</th>
+                                              <th>{{ $i18n.t('payout_system') }}</th>
+                                              <th>{{ $i18n.t('payout_props') }}</th>
+                                              <th>{{ $i18n.t('payout_status') }}</th>
+                                              <th id="hide">{{ $i18n.t('payout_action') }}</th>
+                                              <th>{{ $i18n.t('payout_date') }}</th>
                                           </tr>
                                           </thead>
                                       </table>
@@ -199,9 +199,9 @@
                 wallet_address: '',
                 systems: [
                     { id: "0", text: "Payeer (0%)" },
-                    { id: "1", text: "Visa/Mastercard (скоро)", disabled: true },
-                    { id: "2", text: "AdvCash (скоро)", disabled: true },
-                    { id: "3", text: "Yandex (скоро)", disabled: true },
+                    { id: "1", text: "Visa/Mastercard (" + this.$i18n.t('payout_soon') + ")", disabled: true },
+                    { id: "2", text: "AdvCash (" + this.$i18n.t('payout_soon') + ")", disabled: true },
+                    { id: "3", text: "Yandex (" + this.$i18n.t('payout_soon') + ")", disabled: true },
                 ],
             }
         },
@@ -291,7 +291,7 @@
                             allowOutsideClick: () => !Swal.isLoading()
                           }).then((result) => {
                             if (!result.dismiss) {
-                              Swal.fire('Успешно!', result.value.data.message, 'success');
+                              Swal.fire(self.$i18n.t('payout_success'), result.value.data.message, 'success');
                               $("#withdrawalHistory").dataTable().fnDestroy()
                               self.getAccountData();
                               self.initDatatable();
@@ -304,7 +304,7 @@
                         let id = $(this).attr('data-id');
                         axios.post('/admin/data/processWithdrawal', { id: id, comment: '', status: 1 }).then((response) => {
                           if(response.data.success === true) {
-                            toastr.success(response.data.message, 'Успешно!', {
+                            toastr.success(response.data.message, self.$i18n.t('payout_success'), {
                               positionClass: 'toast-bottom-left',
                               containerId: 'toast-bottom-left'
                             });
@@ -312,7 +312,7 @@
                             self.getAccountData();
                             self.initDatatable();
                           } else {
-                            toastr.error(response.data.message, 'Ошибка!', {
+                            toastr.error(response.data.message, self.$i18n.t('payout_error'), {
                               positionClass: 'toast-bottom-left',
                               containerId: 'toast-bottom-left'
                             });
@@ -361,18 +361,18 @@
                             orderable: false,
                             searchable: false,
                             render: function(data, type, row) {
-                                let text = '<div class="badge badge-info">Обрабатывается</div>';
+                                let text = '<div class="badge badge-info">' + self.$i18n.t('payout_processing') + '</div>';
                                 if (type === 'display') {
                                     if(data == 0){
-                                        text = '<div class="badge badge-info">Обрабатывается</div>';
+                                        text = '<div class="badge badge-info">' + self.$i18n.t('payout_processing') + '</div>';
                                     } else if (data == 1){
-                                        text = '<div class="badge badge-success">Выплачено</div>';
+                                        text = '<div class="badge badge-success">' + self.$i18n.t('payout_paid_out') + '</div>';
                                     } else if (data == 2){
-                                        let message = 'Причина отклонения выплаты не была указана';
+                                        let message = self.$i18n.t('payout_cause_not_found');
                                         if(row.message){
                                           message = row.message;
                                         }
-                                        text = '<div class="badge badge-danger cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="Причина отклонения" data-content="'+message+'">Отклонено <i class="bx bx-help-circle cursor-pointer" style="font-size: 12px;"></i></div>';
+                                        text = '<div class="badge badge-danger cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' + self.$i18n.t('payout_cause') + '" data-content="'+message+'">' + self.$i18n.t('payout_declined') + ' <i class="bx bx-help-circle cursor-pointer" style="font-size: 12px;"></i></div>';
                                     }
                                 }
                                 return text;
@@ -432,10 +432,10 @@
                 get: function() {
                     let errors = [];
                     if(this.amount_formatted < 10){
-                        errors.push('Минимальная сумма вывода составляет 10$!');
+                        errors.push(this.$i18n.t('payout_min_10'));
                     }
                     if(this.wallet_address.length < 5 && this.wallet_address.length > 0){
-                      errors.push('Введите корректный адрес выплаты!');
+                      errors.push(this.$i18n.t('payout_enter_correct_address'));
                     }
                     return errors;
                 },

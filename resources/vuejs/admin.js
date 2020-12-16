@@ -12,6 +12,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '../sass/bootstrap.scss'
 import '../sass/bootstrap-extended.scss'
 import _ from 'lodash'
+import i18n from '../vuejs/locales/i18n'
 Vue.prototype._ = _
 
 $.ajaxSetup({
@@ -67,6 +68,7 @@ Vue.use(VueEcho, {
 
 const app = new Vue({
     el: '#app',
+    i18n,
     components: { App },
     router
 });

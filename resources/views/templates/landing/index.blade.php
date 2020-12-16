@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <!-- Title -->
-  <title>Get Option - бинарные опционы</title>
+  <title>@lang('locale.landing_title')</title>
 
   <!-- Favicon Icon -->
   <link rel="shortcut icon" type="image/png" href="{{asset('images/logo/icon.png')}}">
@@ -34,7 +34,7 @@
   <div id="ht-preloader">
     <div class="loader clear-loader">
       <span></span>
-      <p>BootsLand</p>
+      <p>Get Option</p>
     </div>
   </div>
 
@@ -56,13 +56,13 @@
               </button>
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Контакты</a>
+                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">@lang('locale.landing_contacts')</a>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="/">info@getoption.pro</a></li>
                       <li><a class="dropdown-item" href="/">Telegram: @getoption</a></li>
                     </ul>
                   </li>
-                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Язык</a>
+                  <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">@lang('locale.landing_language')</a>
                     <ul class="dropdown-menu">
                       <li><a class="dropdown-item" href="/">Русский</a></li>
                       <li><a class="dropdown-item" href="/">English</a></li>
@@ -71,7 +71,7 @@
                 </ul>
               </div>
             </nav>
-            <a class="btn btn-light ml-8 d-none d-lg-block" href="/demo">Демо торговля</a>
+            <a class="btn btn-light ml-8 d-none d-lg-block" href="/demo">@lang('locale.landing_demo_trading')</a>
           </div>
           <!--menu end-->
         </div>
@@ -90,17 +90,17 @@
         <div class="col-12 col-lg-10 col-xl-8">
           <!-- Heading -->
           <h1 class="display-4 text-white font-weight-bold">
-            Современная платформа бинарных опционов
+            @lang('locale.landing_new_platform')
           </h1>
           <!-- Text -->
-          <p class="lead text-light mb-5">Множество торговых инструментов с высокой доходностью - до 85% за 30 секунд, работа по выходным дням по криптовалютным парам, быстрые выплаты</p>
+          <p class="lead text-light mb-5">@lang('locale.landing_many_instruments')</p>
           <!-- Buttons --> <a href="/register" class="btn btn-primary mr-1">
-            Создать аккаунт
+            @lang('locale.landing_create_account')
           </a>
           <a href="/login" class="btn btn-light">
-            Авторизоваться
+            @lang('locale.landing_auth')
           </a>
-          <p class="lead text-light mt-5" style="font-size:1.4em;font-weight: 700">Зарегистрируйтесь сейчас и получите <strong>10$</strong> для торговли</p>
+          <p class="lead text-light mt-5" style="font-size:1.4em;font-weight: 700">@lang('locale.landing_register') <strong>10$</strong> @lang('locale.landing_for_trade')</p>
         </div>
       </div>
       <!-- / .row -->
@@ -128,10 +128,10 @@
         <div class="row justify-content-center text-center">
           <div class="col-12 col-md-12 col-lg-8 mb-8 mb-lg-0">
             <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6">
-                  Что мы предлагаем
+                  @lang('locale.landing_what_we_offer')
               </span>
-              <h2 class="mt-3 font-w-5">Необходимые условия для получения дохода</h2>
-              <p class="lead mb-0">Наша платформа имеет всё самое необходимое как для начинающих трейдеров, так и для профессионалов. Если вдруг у Вас останутся вопросы - наши сотрудники всегда будут рады помочь!</p>
+              <h2 class="mt-3 font-w-5">@lang('locale.landing_necessary_conditions')</h2>
+              <p class="lead mb-0">@lang('locale.landing_our_platform')</p>
             </div>
           </div>
         </div>
@@ -142,9 +142,9 @@
               <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="/templates/landing/assets/images/about/first.png" alt="Card image">
               <div class="card-img-overlay p-0">
                 <div class="card-body">
-                <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Условия торговли</h4>
-                <p class="card-text text-white text-center mt-5">Минимальная инвестиция составляет 1$, минимальная сумма пополнения 5$, минимальное время окончания сделки 30 секунд, доходность до 85%, а также торговля по выходным дням</p>
-                  <a href="/register" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">Регистрация</a>
+                <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">@lang('locale.landing_trade_conditions')</h4>
+                <p class="card-text text-white text-center mt-5">@lang('locale.landing_min_invest')</p>
+                  <a href="/register" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">@lang('locale.landing_registration')</a>
                 </div>
                 </div>
             </div>
@@ -155,9 +155,9 @@
               <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="/templates/landing/assets/images/about/second.png" alt="Card image">
               <div class="card-img-overlay p-0">
                 <div class="card-body">
-                  <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Платформа</h4>
-                  <p class="card-text text-white text-center mt-5">Универсальная торговая платформа позволит Вам торговать с любого устройства, использовать инндикаторы и получать сигналы, а также выставлять ордера с максимальной скоростью</p>
-                  <a href="/login" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">Личный кабинет</a>
+                  <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">@lang('locale.landing_platform')</h4>
+                  <p class="card-text text-white text-center mt-5">@lang('locale.landing_universal')</p>
+                  <a href="/login" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">@lang('locale.landing_cabinet')</a>
                 </div>
               </div>
             </div>
@@ -168,9 +168,9 @@
               <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="/templates/landing/assets/images/about/third.png" alt="Card image">
               <div class="card-img-overlay p-0">
                 <div class="card-body">
-                  <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">Партнерство</h4>
-                  <p class="card-text text-white text-center mt-5">Станьте нашим партнером, чтобы зарабатывать больше. Наиболее выгодные условия сотрудничества, торговля на полученные средства или их быстрый вывод</p>
-                  <a href="/login" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">Авторизоваться</a>
+                  <h4 class="card-title text-white text-center font-weight-bolder mt-2" style="font-size: 2em">@lang('locale.landing_partner')</h4>
+                  <p class="card-text text-white text-center mt-5">@lang('locale.landing_become_partner')</p>
+                  <a href="/login" class="btn btn-lg btn-block btn-primary mt-auto" style="position: absolute;bottom: 30px;width: 88%;">@lang('locale.landing_auth')</a>
                 </div>
               </div>
             </div>
@@ -192,28 +192,28 @@
           </div>
           <div class="col-12 col-lg-6 col-xl-5">
             <div> <span class="badge badge-primary-soft p-2 font-w-6">
-                  Наша статистика
+                  @lang('locale.landing_our_stat')
               </span>
-              <h2 class="mt-3 font-w-5">Торгуйте с нами</h2>
-              <p class="lead mb-0">Мы предлагаем отличные условия для работы, минимальное время сделки 30 секунд, 85% доходности, быстрая обработка</p>
+              <h2 class="mt-3 font-w-5">@lang('locale.landing_trade_with_us')</h2>
+              <p class="lead mb-0">@lang('locale.landing_we_offer_excellent_conditions')</p>
             </div>
             <div class="d-flex align-items-center justify-content-between mt-5">
               <div class="counter">
                 <div class="counter-desc"> <span class="count-number display-4" data-to="3" data-speed="1000">3</span>
                   <span class="display-4 text-primary">k</span>
-                  <h6 class="text-muted mb-0">Онлайн</h6>
+                  <h6 class="text-muted mb-0">@lang('locale.landing_online')</h6>
                 </div>
               </div>
               <div class="counter">
                 <div class="counter-desc"> <span class="count-number display-4" data-to="85" data-speed="1000">85</span>
                   <span class="display-4 text-primary">%</span>
-                  <h6 class="text-muted mb-0">Прибыль</h6>
+                  <h6 class="text-muted mb-0">@lang('locale.landing_profit')</h6>
                 </div>
               </div>
               <div class="counter">
                 <div class="counter-desc"> <span class="count-number display-4" data-to="75" data-speed="1000">75</span>
                   <span class="display-4 text-primary">+</span>
-                  <h6 class="text-muted mb-0">Пар</h6>
+                  <h6 class="text-muted mb-0">@lang('locale.landing_pairs')</h6>
                 </div>
               </div>
             </div>
@@ -232,9 +232,9 @@
         <div class="row justify-content-center text-center">
           <div class="col-12 col-md-12 col-lg-8 mb-8 mb-lg-0">
             <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6">
-                  Как начать торговать
+                  @lang('locale.landing_how_to_start')
               </span>
-              <h2 class="mt-3 font-w-5 mb-0 text-white">Всего три этапа для начала работы</h2>
+              <h2 class="mt-3 font-w-5 mb-0 text-white">@lang('locale.landing_three_stages')</h2>
             </div>
           </div>
         </div>
@@ -249,8 +249,8 @@
                   01
               </span>
               </h2>
-              <h4 class="mt-3 text-light">Зарегистрируйтесь</h4>
-              <p class="lead mb-0">Пройдите простую регистрацию после чего Вам будет доступен полный функционал торговли</p>
+              <h4 class="mt-3 text-light">@lang('locale.landing_register_now')</h4>
+              <p class="lead mb-0">@lang('locale.landing_simple_registration')</p>
             </div>
           </div>
         </div>
@@ -264,8 +264,8 @@
                   02
               </span>
               </h2>
-              <h4 class="mt-3 text-light">Пополните счет</h4>
-              <p class="lead mb-0">Перейдите на вкладку "пополнение" введите интересующую Вас сумму, а также промокод в случае необходимости</p>
+              <h4 class="mt-3 text-light">@lang('locale.landing_deposit')</h4>
+              <p class="lead mb-0">@lang('locale.landing_move_to_deposit')</p>
             </div>
           </div>
         </div>
@@ -279,8 +279,8 @@
                   03
               </span>
               </h2>
-              <h4 class="mt-3 text-light">Торгуйте</h4>
-              <p class="lead mb-0">Тренируйтесь на демо счете или торгуйте на реальные средства. Главное преимущество торговля по выходным дням</p>
+              <h4 class="mt-3 text-light">@lang('locale.landing_trade')</h4>
+              <p class="lead mb-0">@lang('locale.landing_train')</p>
             </div>
           </div>
         </div>
@@ -306,10 +306,10 @@
         <div class="row justify-content-center text-center">
           <div class="col-12 col-md-12 col-lg-8 mb-8 mb-lg-0">
             <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6">
-                  Предложения
+                  @lang('locale.landing_offers')
               </span>
-              <h2 class="mt-3 font-w-5">Наши акции и предложения</h2>
-              <p class="lead mb-0">Мы стараемся предложить нашим пользователям наилучшие условия, поэтому у нас часто появляются выгодные предложения</p>
+              <h2 class="mt-3 font-w-5">@lang('locale.landing_our_discounts')</h2>
+              <p class="lead mb-0">@lang('locale.landing_we_try')</p>
             </div>
           </div>
         </div>
@@ -325,12 +325,12 @@
                   <img src="/templates/landing/assets/images/new/deal2.png" class="img-fluid p-5" alt="...">
                 </div>
                 <div class="col-md-7">
-                  <div class="card-body"> <a class="d-inline-block text-muted mb-2" href="#">Пополнение</a>
+                  <div class="card-body"> <a class="d-inline-block text-muted mb-2" href="#">@lang('locale.landing_depositing')</a>
                     <h2 class="h5 font-weight-medium">
-                      Дарим 10$ новым пользователям
+                      @lang('locale.landing_gift_10_dollars')
                     </h2>
-                    <p>Получите 10$ на торговлю при регистрации в разделе "промокоды"</p>
-                    <a class="btn-link" href="/promocodes">Личный кабинет</a>
+                    <p>@lang('locale.landing_gift_10_dollars_desc')</p>
+                    <a class="btn-link" href="/promocodes">@lang('locale.landing_cabinet')</a>
                   </div>
                 </div>
               </div>
@@ -347,12 +347,12 @@
                   <img src="/templates/landing/assets/images/new/deal.png" class="img-fluid p-5" alt="...">
                 </div>
                 <div class="col-md-7">
-                  <div class="card-body"> <a class="d-inline-block text-muted mb-2" href="#">Пополнение</a>
+                  <div class="card-body"> <a class="d-inline-block text-muted mb-2" href="#">@lang('locale.landing_depositing')</a>
                     <h2 class="h5 font-weight-medium">
-                      50% в подарок при пополнении
+                      @lang('locale.landing_50_percents_gift')
                     </h2>
-                    <p>Получите в подарок от 50% при пополнении</p>
-                    <a class="btn-link" href="/deposit">Личный кабинет</a>
+                    <p>@lang('locale.landing_get_gift')</p>
+                    <a class="btn-link" href="/deposit">@lang('locale.landing_cabinet')</a>
                   </div>
                 </div>
               </div>
@@ -382,8 +382,8 @@
       <div class="row mt-8">
         <div class="col-md-12">
         <p class="text-white" style="font-size: 12px; color: rgba(255, 255, 255, 0.5)!important;">
-          <strong class="text-left" style="font-size: 16px;">Предупреждение о рисках</strong><br>
-          Торговля на финансовых рынках сопряжена с риском. Forex и другие финансовые контракты являются сложными финансовыми инструментами, используемыми для маржинальной торговли. Торговля имеет высокий уровень риска, так как кредитное плечо может работать как в Вашу пользу, так и против Вас. Вследствие этого торговля подходит не всем инвесторам из-за высокого риска потери инвестированного капитала. Вы не должны рисковать большими средствами, чем Вы готовы потерять. Перед началом торговли Вы должны убедиться, что Вы понимаете все риски и учитываете их в совокупности с уровнем Вашего опыта при постановке Ваших инвестиционных целей.
+          <strong class="text-left" style="font-size: 16px;">@lang('locale.landing_risk')</strong><br>
+          @lang('locale.landing_trading_on_market')
         </p>
         </div>
       </div>
@@ -391,7 +391,7 @@
         <div class="col"><hr class="mb-5"></div>
         <div class="col-md-12">
         <p class="text-white" style="font-size: 12px;color: rgba(255, 255, 255, 0.5)!important;">
-          Все права на копирование материалов данного сайта защищены и принадлежат «GetOption». Любое использование материалов данного сайта должно быть согласовано с уполномоченным представителем «GetOption», и содержать соответствующую ссылку на настоящий ресурс. Любые сторонние Компании, относящиеся к категориям «Online - broker» или «Online trading», не имеют права использовать как материалы данного сайта, так и любые, в том числе и искаженные написания «GetOption», и в случае нарушения подлежат преследованию в соответствии с нормами законодательных актов о защите интеллектуальной собственности.
+          @lang('locale.landing_our_materials')
         </p>
         </div>
       </div>
