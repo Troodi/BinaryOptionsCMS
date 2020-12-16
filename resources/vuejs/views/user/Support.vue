@@ -29,19 +29,17 @@
                 <div class="col-md-12">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Обращение в техническую поддержку</h4>
+                            <h4 class="card-title">{{ $i18n.t('support_title') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="card-text">
                                     <p>
-                                        Скорость ответа обычно составляет до 24х часов. В случае, если на Ваш вопрос не ответили в течение данного времени,
-                                        пожалуйста, не дублируйте вопрос - скорее всего рассмотрение заявки требует большего времени. Можно задать не более 1
-                                        вопроса в 10 минут. Ответ придет на email адрес текущего аккаунта.
+                                      {{ $i18n.t('support_desc') }}
                                     </p>
-                                    <textarea class="form-control" style="height:200px" placeholder="Напишите свой вопрос..." v-model="question"></textarea>
-                                    <button type="button" @click="clearForm" class="btn btn-secondary mt-2">Очистить</button>
-                                    <button type="button" v-bind:disabled="buttonDisabled" @click="send" class="btn btn-primary mt-2 float-right">Отправить</button>
+                                    <textarea class="form-control" style="height:200px" :placeholder="$i18n.t('support_write')" v-model="question"></textarea>
+                                    <button type="button" @click="clearForm" class="btn btn-secondary mt-2">{{ $i18n.t('support_clear') }}</button>
+                                    <button type="button" v-bind:disabled="buttonDisabled" @click="send" class="btn btn-primary mt-2 float-right">{{ $i18n.t('support_send') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -53,22 +51,22 @@
               <div class="col-md-4">
                 <section class="card">
                   <div class="card-header">
-                    <h4 class="card-title">Контакты</h4>
+                    <h4 class="card-title">{{ $i18n.t('support_contacts') }}</h4>
                   </div>
                   <div class="card-content">
                     <div class="card-body">
                       <div class="card-text">
                         <p>
-                          <strong>Наш email</strong>: <a href="mailto:info@go-trade.xyz">info@go-trade.xyz</a>
+                          <strong>{{ $i18n.t('support_email') }}</strong>: <a href="mailto:info@go-trade.xyz">info@go-trade.xyz</a>
                         </p>
                         <p>
-                          <strong>Время работы</strong>: 09:00 - 23:00
+                          <strong>{{ $i18n.t('support_working_time') }}</strong>: 09:00 - 23:00
                         </p>
                         <p>
-                          <strong>Телефон</strong>: временно отсутсвует
+                          <strong>{{ $i18n.t('support_phone') }}</strong>: {{ $i18n.t('support_not_known') }}
                         </p>
                         <p>
-                          <strong>Адрес</strong>: Tartu maantee 13, 10117 Tallinn, Эстония
+                          <strong>{{ $i18n.t('support_address') }}</strong>: {{ $i18n.t('support_address_line') }}
                         </p>
                       </div>
                     </div>
@@ -77,16 +75,15 @@
 
                 <section class="card">
                   <div class="card-header">
-                    <h4 class="card-title">Информация</h4>
+                    <h4 class="card-title">{{ $i18n.t('support_info') }}</h4>
                   </div>
                   <div class="card-content">
                     <div class="card-body">
                       <div class="card-text">
                         <p style="margin-bottom: 7px;">
-                          Обратите внимание, что в текущей эпидемиологической ситуации сотрудники компании работают в удаленном режиме.
-                          В связи с этим обращения обрабатываются в письменном виде в штатном режиме.
+                          {{ $i18n.t('support_info_desc') }}
                         </p>
-                        <p>Благодарим за понимание!</p>
+                        <p>{{ $i18n.t('support_thank_you') }}</p>
                       </div>
                     </div>
                   </div>
@@ -95,7 +92,7 @@
               <div class="col-8">
                 <div class="card">
                   <div class="card-header">
-                    <h4 class="card-title">Местоположение</h4>
+                    <h4 class="card-title">{{ $i18n.t('support_place') }}</h4>
                   </div>
                   <div class="card-content">
                     <div class="card-body">
@@ -142,7 +139,7 @@
             error: function () {
                 let errors = [];
                 if(this.question.length > 0 && this.question.length < 25){
-                    errors.push('Вопрос не может быть короче 25 символов!');
+                    errors.push(this.$i18n.t('support_question_error'));
                 }
                 return errors;
             },

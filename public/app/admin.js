@@ -4312,6 +4312,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
 //
 //
 //
@@ -4524,9 +4525,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-
 
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
 
@@ -4543,12 +4541,12 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
         self.initPartner();
 
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('partner_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
         } else {
-          toastr.error(response.data.message, 'Ошибка!', {
+          toastr.error(response.data.message, self.$i18n.t('partner_error'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -4624,7 +4622,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
           type: "POST"
         },
         "language": {
-          "url": "/locales/Russian.json"
+          "url":  true ? Object(_js_functions__WEBPACK_IMPORTED_MODULE_1__["getCookie"])('currentLanguage') : undefined
         },
         columns: [{
           data: 'token',
@@ -4659,15 +4657,15 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
       var errors = [];
 
       if (this.telegram.length > 0 && this.telegram.length < 4) {
-        errors.push('Никнейм telegram не может быть менее 4х символов');
+        errors.push(this.$i18n.t('partner_nickname'));
       }
 
       if (this.comment.length > 0 && this.comment.length < 20) {
-        errors.push('Комментарий не может быть менее 20 символов');
+        errors.push(this.$i18n.t('partner_comment_desc'));
       }
 
       if (this.comment.length > 500) {
-        errors.push('Комментарий не может быть более 500 символов');
+        errors.push(this.$i18n.t('partner_comment_error'));
       }
 
       return errors;
@@ -4681,32 +4679,31 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
       traficQuantity: 0,
       traficQuantityOptions: [{
         id: "0",
-        text: "1-5 человек"
+        text: this.$i18n.t('partner_5_people')
       }, {
         id: "1",
-        text: "5-15 человек"
+        text: this.$i18n.t('partner_15_people')
       }, {
         id: "2",
-        text: "15-50 человек"
+        text: this.$i18n.t('partner_50_people')
       }, {
         id: "3",
-        text: "50+ человек"
+        text: this.$i18n.t('partner_50_plus_people')
       }, {
         id: "4",
-        text: "Не известно"
+        text: this.$i18n.t('partner_not_known')
       }],
-      count: 'Загружается...',
-      reward: 'Загружается...',
-      active: 'Загружается...',
-      deposit_count: 'Загружается...',
-      tracked: 'Загружается...',
-      link: 'Загружается...',
+      count: this.$i18n.t('partner_loading'),
+      reward: this.$i18n.t('partner_loading'),
+      active: this.$i18n.t('partner_loading'),
+      deposit_count: this.$i18n.t('partner_loading'),
+      tracked: this.$i18n.t('partner_loading'),
+      link: this.$i18n.t('partner_loading'),
       telegram: '',
       comment: '',
       user: {},
       request: {},
-      success: [],
-      errors: []
+      success: []
     };
   }
 });
@@ -5390,13 +5387,13 @@ __webpack_require__.r(__webpack_exports__);
         page: page
       }).then(function (response) {
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
           self.getProfile();
         } else {
-          toastr.error(response.data.message, 'Ошибка!', {
+          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -5648,13 +5645,13 @@ __webpack_require__.r(__webpack_exports__);
         id: this.$route.params.id
       }).then(function (response) {
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
           self.getProfile();
         } else {
-          toastr.error(response.data.message, 'Ошибка!', {
+          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -5667,12 +5664,12 @@ __webpack_require__.r(__webpack_exports__);
         id: this.$route.params.id
       }).then(function (response) {
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
         } else {
-          toastr.error(response.data.message, 'Ошибка!', {
+          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -5685,12 +5682,12 @@ __webpack_require__.r(__webpack_exports__);
         id: this.$route.params.id
       }).then(function (response) {
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
         } else {
-          toastr.error(response.data.message, 'Ошибка!', {
+          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -5765,10 +5762,10 @@ __webpack_require__.r(__webpack_exports__);
       }],
       genders: [{
         id: "0",
-        text: "Мужской"
+        text: this.$i18n.t('profile_man')
       }, {
         id: "1",
-        text: "Женский"
+        text: this.$i18n.t('profile_woman')
       }],
       phoneCode: '',
       emailCode: '',
@@ -5803,27 +5800,27 @@ __webpack_require__.r(__webpack_exports__);
       var errors = [];
 
       if (this.name.length > 0 && this.name.length < 2) {
-        errors.push('Имя должно содержать более 2х символов!');
+        errors.push(this.$i18n.t('profile_name_more'));
       }
 
       if (this.last_name.length > 0 && this.last_name.length < 2) {
-        errors.push('Фамилия должна содержать более 2х символов!');
+        errors.push(this.$i18n.t('profile_last_name_more'));
       }
 
       if (this.patronymic.length > 0 && this.patronymic.length < 2) {
-        errors.push('Отчество должно содержать более 2х символов!');
+        errors.push(this.$i18n.t('profile_patronymic_more'));
       }
 
       if (this.address.length > 0 && this.address.length < 10) {
-        errors.push('Адрес должен содержать не менее 10 символов!');
+        errors.push(this.$i18n.t('profile_address_more'));
       }
 
       if (this.document_number.length > 0 && this.document_number.length < 5) {
-        errors.push('Серия и номер удостоверяющего документа должены содержать не менее 5 символов!');
+        errors.push(this.$i18n.t('profile_document_number_more'));
       }
 
       if (!/[0-9]{2}-[0-9]{2}-[0-9]{4}/.test(this.birth) && this.birth !== '') {
-        errors.push('Необходимо полностью заполнить дату рождения!');
+        errors.push(this.$i18n.t('profile_birth_full'));
       }
 
       return errors;
@@ -5851,23 +5848,23 @@ __webpack_require__.r(__webpack_exports__);
       var errors = [];
 
       if (this.current_password.length > 0 && this.current_password.length < 6 && !this.isAdmin) {
-        errors.push('Текущий пароль не может быть короче 6 символов!');
+        errors.push(this.$i18n.t('profile_current_password_more'));
       }
 
       if (this.new_password.length > 0 && this.new_password.length < 8) {
-        errors.push('Новый пароль не может быть короче 8 символов!');
+        errors.push(this.$i18n.t('profile_new_password_more'));
       }
 
       if (this.repeat_password.length > 0 && this.repeat_password.length < 8) {
-        errors.push('Повтор нового пароля не может быть короче 8 символов!');
+        errors.push(this.$i18n.t('profile_repeat_password_more'));
       }
 
       if (this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8 && !this.isAdmin) {
-        errors.push('Новый пароль совпадает со старым!');
+        errors.push(this.$i18n.t('profile_new_password_same'));
       }
 
       if (this.new_password.length >= 8 && this.repeat_password.length >= 8 && this.new_password !== this.repeat_password) {
-        errors.push('Повтор пароля не совпадает с новым паролем!');
+        errors.push(this.$i18n.t('profile_not_equal_password'));
       }
 
       return errors;
@@ -5890,15 +5887,15 @@ __webpack_require__.r(__webpack_exports__);
       var errors = [];
 
       if (this.nickname.length > 0 && this.nickname.length < 3) {
-        errors.push('Никнейм не может быть короче 3 символов!');
+        errors.push(this.$i18n.t('profile_nickname_more'));
       }
 
       if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email) && this.email !== '') {
-        errors.push('Введите корректный email адрес!');
+        errors.push(this.$i18n.t('profile_enter_email'));
       }
 
       if (!/\+\d{6,20}/.test(this.phone) && this.phone !== '') {
-        errors.push('Введите корректный номер телефона!');
+        errors.push(this.$i18n.t('profile_enter_phone'));
       }
 
       return errors;
@@ -5935,6 +5932,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
 //
 //
 //
@@ -6024,8 +6022,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-
 
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
 
@@ -6074,7 +6070,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
           type: "POST"
         },
         "language": {
-          "url": "/locales/Russian.json"
+          "url":  true ? Object(_js_functions__WEBPACK_IMPORTED_MODULE_1__["getCookie"])('currentLanguage') : undefined
         },
         columns: [{
           data: 'promocode.code',
@@ -6090,11 +6086,11 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
             if (type === 'display') {
               switch (data) {
                 case 1:
-                  status = 'Бездепозитный бонус';
+                  status = self.$i18n.t('promo_code_without_deposit');
                   break;
 
                 case 2:
-                  status = 'Процент к пополнению';
+                  status = self.$i18n.t('promo_code_percent');
                   break;
               }
             }
@@ -6110,7 +6106,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
             var status = '';
 
             if (type === 'display') {
-              status = 'Активирован';
+              status = self.$i18n.t('promo_code_active');
             }
 
             return '<div class="badge badge-success">' + status + '</div>';
@@ -6377,15 +6373,15 @@ __webpack_require__.r(__webpack_exports__);
         text: "Payeer (0%)"
       }, {
         id: "1",
-        text: "Visa/Mastercard (скоро)",
+        text: "Visa/Mastercard (" + this.$i18n.t('payout_soon') + ")",
         disabled: true
       }, {
         id: "2",
-        text: "AdvCash (скоро)",
+        text: "AdvCash (" + this.$i18n.t('payout_soon') + ")",
         disabled: true
       }, {
         id: "3",
-        text: "Yandex (скоро)",
+        text: "Yandex (" + this.$i18n.t('payout_soon') + ")",
         disabled: true
       }]
     };
@@ -6501,7 +6497,7 @@ __webpack_require__.r(__webpack_exports__);
               }
             }).then(function (result) {
               if (!result.dismiss) {
-                _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default.a.fire('Успешно!', result.value.data.message, 'success');
+                _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default.a.fire(self.$i18n.t('payout_success'), result.value.data.message, 'success');
                 $("#withdrawalHistory").dataTable().fnDestroy();
                 self.getAccountData();
                 self.initDatatable();
@@ -6517,7 +6513,7 @@ __webpack_require__.r(__webpack_exports__);
               status: 1
             }).then(function (response) {
               if (response.data.success === true) {
-                toastr.success(response.data.message, 'Успешно!', {
+                toastr.success(response.data.message, self.$i18n.t('payout_success'), {
                   positionClass: 'toast-bottom-left',
                   containerId: 'toast-bottom-left'
                 });
@@ -6525,7 +6521,7 @@ __webpack_require__.r(__webpack_exports__);
                 self.getAccountData();
                 self.initDatatable();
               } else {
-                toastr.error(response.data.message, 'Ошибка!', {
+                toastr.error(response.data.message, self.$i18n.t('payout_error'), {
                   positionClass: 'toast-bottom-left',
                   containerId: 'toast-bottom-left'
                 });
@@ -6570,21 +6566,21 @@ __webpack_require__.r(__webpack_exports__);
           orderable: false,
           searchable: false,
           render: function render(data, type, row) {
-            var text = '<div class="badge badge-info">Обрабатывается</div>';
+            var text = '<div class="badge badge-info">' + self.$i18n.t('payout_processing') + '</div>';
 
             if (type === 'display') {
               if (data == 0) {
-                text = '<div class="badge badge-info">Обрабатывается</div>';
+                text = '<div class="badge badge-info">' + self.$i18n.t('payout_processing') + '</div>';
               } else if (data == 1) {
-                text = '<div class="badge badge-success">Выплачено</div>';
+                text = '<div class="badge badge-success">' + self.$i18n.t('payout_paid_out') + '</div>';
               } else if (data == 2) {
-                var message = 'Причина отклонения выплаты не была указана';
+                var message = self.$i18n.t('payout_cause_not_found');
 
                 if (row.message) {
                   message = row.message;
                 }
 
-                text = '<div class="badge badge-danger cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="Причина отклонения" data-content="' + message + '">Отклонено <i class="bx bx-help-circle cursor-pointer" style="font-size: 12px;"></i></div>';
+                text = '<div class="badge badge-danger cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' + self.$i18n.t('payout_cause') + '" data-content="' + message + '">' + self.$i18n.t('payout_declined') + ' <i class="bx bx-help-circle cursor-pointer" style="font-size: 12px;"></i></div>';
               }
             }
 
@@ -6645,11 +6641,11 @@ __webpack_require__.r(__webpack_exports__);
         var errors = [];
 
         if (this.amount_formatted < 10) {
-          errors.push('Минимальная сумма вывода составляет 10$!');
+          errors.push(this.$i18n.t('payout_min_10'));
         }
 
         if (this.wallet_address.length < 5 && this.wallet_address.length > 0) {
-          errors.push('Введите корректный адрес выплаты!');
+          errors.push(this.$i18n.t('payout_enter_correct_address'));
         }
 
         return errors;
@@ -121101,6 +121097,2202 @@ var e=function(){return(e=Object.assign||function(e){for(var t,r=1,s=arguments.l
 
 /***/ }),
 
+/***/ "./node_modules/vue-i18n/dist/vue-i18n.esm.js":
+/*!****************************************************!*\
+  !*** ./node_modules/vue-i18n/dist/vue-i18n.esm.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/*!
+ * vue-i18n v8.22.2 
+ * (c) 2020 kazuya kawaguchi
+ * Released under the MIT License.
+ */
+/*  */
+
+/**
+ * constants
+ */
+
+var numberFormatKeys = [
+  'compactDisplay',
+  'currency',
+  'currencyDisplay',
+  'currencySign',
+  'localeMatcher',
+  'notation',
+  'numberingSystem',
+  'signDisplay',
+  'style',
+  'unit',
+  'unitDisplay',
+  'useGrouping',
+  'minimumIntegerDigits',
+  'minimumFractionDigits',
+  'maximumFractionDigits',
+  'minimumSignificantDigits',
+  'maximumSignificantDigits'
+];
+
+/**
+ * utilities
+ */
+
+function warn (msg, err) {
+  if (typeof console !== 'undefined') {
+    console.warn('[vue-i18n] ' + msg);
+    /* istanbul ignore if */
+    if (err) {
+      console.warn(err.stack);
+    }
+  }
+}
+
+function error (msg, err) {
+  if (typeof console !== 'undefined') {
+    console.error('[vue-i18n] ' + msg);
+    /* istanbul ignore if */
+    if (err) {
+      console.error(err.stack);
+    }
+  }
+}
+
+var isArray = Array.isArray;
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+function isBoolean (val) {
+  return typeof val === 'boolean'
+}
+
+function isString (val) {
+  return typeof val === 'string'
+}
+
+var toString = Object.prototype.toString;
+var OBJECT_STRING = '[object Object]';
+function isPlainObject (obj) {
+  return toString.call(obj) === OBJECT_STRING
+}
+
+function isNull (val) {
+  return val === null || val === undefined
+}
+
+function isFunction (val) {
+  return typeof val === 'function'
+}
+
+function parseArgs () {
+  var args = [], len = arguments.length;
+  while ( len-- ) args[ len ] = arguments[ len ];
+
+  var locale = null;
+  var params = null;
+  if (args.length === 1) {
+    if (isObject(args[0]) || isArray(args[0])) {
+      params = args[0];
+    } else if (typeof args[0] === 'string') {
+      locale = args[0];
+    }
+  } else if (args.length === 2) {
+    if (typeof args[0] === 'string') {
+      locale = args[0];
+    }
+    /* istanbul ignore if */
+    if (isObject(args[1]) || isArray(args[1])) {
+      params = args[1];
+    }
+  }
+
+  return { locale: locale, params: params }
+}
+
+function looseClone (obj) {
+  return JSON.parse(JSON.stringify(obj))
+}
+
+function remove (arr, item) {
+  if (arr.length) {
+    var index = arr.indexOf(item);
+    if (index > -1) {
+      return arr.splice(index, 1)
+    }
+  }
+}
+
+function includes (arr, item) {
+  return !!~arr.indexOf(item)
+}
+
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+function hasOwn (obj, key) {
+  return hasOwnProperty.call(obj, key)
+}
+
+function merge (target) {
+  var arguments$1 = arguments;
+
+  var output = Object(target);
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments$1[i];
+    if (source !== undefined && source !== null) {
+      var key = (void 0);
+      for (key in source) {
+        if (hasOwn(source, key)) {
+          if (isObject(source[key])) {
+            output[key] = merge(output[key], source[key]);
+          } else {
+            output[key] = source[key];
+          }
+        }
+      }
+    }
+  }
+  return output
+}
+
+function looseEqual (a, b) {
+  if (a === b) { return true }
+  var isObjectA = isObject(a);
+  var isObjectB = isObject(b);
+  if (isObjectA && isObjectB) {
+    try {
+      var isArrayA = isArray(a);
+      var isArrayB = isArray(b);
+      if (isArrayA && isArrayB) {
+        return a.length === b.length && a.every(function (e, i) {
+          return looseEqual(e, b[i])
+        })
+      } else if (!isArrayA && !isArrayB) {
+        var keysA = Object.keys(a);
+        var keysB = Object.keys(b);
+        return keysA.length === keysB.length && keysA.every(function (key) {
+          return looseEqual(a[key], b[key])
+        })
+      } else {
+        /* istanbul ignore next */
+        return false
+      }
+    } catch (e) {
+      /* istanbul ignore next */
+      return false
+    }
+  } else if (!isObjectA && !isObjectB) {
+    return String(a) === String(b)
+  } else {
+    return false
+  }
+}
+
+/**
+ * Sanitizes html special characters from input strings. For mitigating risk of XSS attacks.
+ * @param rawText The raw input from the user that should be escaped.
+ */
+function escapeHtml(rawText) {
+  return rawText
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+}
+
+/**
+ * Escapes html tags and special symbols from all provided params which were returned from parseArgs().params.
+ * This method performs an in-place operation on the params object.
+ *
+ * @param {any} params Parameters as provided from `parseArgs().params`.
+ *                     May be either an array of strings or a string->any map.
+ *
+ * @returns The manipulated `params` object.
+ */
+function escapeParams(params) {
+  if(params != null) {
+    Object.keys(params).forEach(function (key) {
+      if(typeof(params[key]) == 'string') {
+        params[key] = escapeHtml(params[key]);
+      }
+    });
+  }
+  return params
+}
+
+/*  */
+
+function extend (Vue) {
+  if (!Vue.prototype.hasOwnProperty('$i18n')) {
+    // $FlowFixMe
+    Object.defineProperty(Vue.prototype, '$i18n', {
+      get: function get () { return this._i18n }
+    });
+  }
+
+  Vue.prototype.$t = function (key) {
+    var values = [], len = arguments.length - 1;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 1 ];
+
+    var i18n = this.$i18n;
+    return i18n._t.apply(i18n, [ key, i18n.locale, i18n._getMessages(), this ].concat( values ))
+  };
+
+  Vue.prototype.$tc = function (key, choice) {
+    var values = [], len = arguments.length - 2;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 2 ];
+
+    var i18n = this.$i18n;
+    return i18n._tc.apply(i18n, [ key, i18n.locale, i18n._getMessages(), this, choice ].concat( values ))
+  };
+
+  Vue.prototype.$te = function (key, locale) {
+    var i18n = this.$i18n;
+    return i18n._te(key, i18n.locale, i18n._getMessages(), locale)
+  };
+
+  Vue.prototype.$d = function (value) {
+    var ref;
+
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+    return (ref = this.$i18n).d.apply(ref, [ value ].concat( args ))
+  };
+
+  Vue.prototype.$n = function (value) {
+    var ref;
+
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+    return (ref = this.$i18n).n.apply(ref, [ value ].concat( args ))
+  };
+}
+
+/*  */
+
+var mixin = {
+  beforeCreate: function beforeCreate () {
+    var options = this.$options;
+    options.i18n = options.i18n || (options.__i18n ? {} : null);
+
+    if (options.i18n) {
+      if (options.i18n instanceof VueI18n) {
+        // init locale messages via custom blocks
+        if (options.__i18n) {
+          try {
+            var localeMessages = options.i18n && options.i18n.messages ? options.i18n.messages : {};
+            options.__i18n.forEach(function (resource) {
+              localeMessages = merge(localeMessages, JSON.parse(resource));
+            });
+            Object.keys(localeMessages).forEach(function (locale) {
+              options.i18n.mergeLocaleMessage(locale, localeMessages[locale]);
+            });
+          } catch (e) {
+            if (true) {
+              error("Cannot parse locale messages via custom blocks.", e);
+            }
+          }
+        }
+        this._i18n = options.i18n;
+        this._i18nWatcher = this._i18n.watchI18nData();
+      } else if (isPlainObject(options.i18n)) {
+        var rootI18n = this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n
+          ? this.$root.$i18n
+          : null;
+        // component local i18n
+        if (rootI18n) {
+          options.i18n.root = this.$root;
+          options.i18n.formatter = rootI18n.formatter;
+          options.i18n.fallbackLocale = rootI18n.fallbackLocale;
+          options.i18n.formatFallbackMessages = rootI18n.formatFallbackMessages;
+          options.i18n.silentTranslationWarn = rootI18n.silentTranslationWarn;
+          options.i18n.silentFallbackWarn = rootI18n.silentFallbackWarn;
+          options.i18n.pluralizationRules = rootI18n.pluralizationRules;
+          options.i18n.preserveDirectiveContent = rootI18n.preserveDirectiveContent;
+        }
+
+        // init locale messages via custom blocks
+        if (options.__i18n) {
+          try {
+            var localeMessages$1 = options.i18n && options.i18n.messages ? options.i18n.messages : {};
+            options.__i18n.forEach(function (resource) {
+              localeMessages$1 = merge(localeMessages$1, JSON.parse(resource));
+            });
+            options.i18n.messages = localeMessages$1;
+          } catch (e) {
+            if (true) {
+              warn("Cannot parse locale messages via custom blocks.", e);
+            }
+          }
+        }
+
+        var ref = options.i18n;
+        var sharedMessages = ref.sharedMessages;
+        if (sharedMessages && isPlainObject(sharedMessages)) {
+          options.i18n.messages = merge(options.i18n.messages, sharedMessages);
+        }
+
+        this._i18n = new VueI18n(options.i18n);
+        this._i18nWatcher = this._i18n.watchI18nData();
+
+        if (options.i18n.sync === undefined || !!options.i18n.sync) {
+          this._localeWatcher = this.$i18n.watchLocale();
+        }
+
+        if (rootI18n) {
+          rootI18n.onComponentInstanceCreated(this._i18n);
+        }
+      } else {
+        if (true) {
+          warn("Cannot be interpreted 'i18n' option.");
+        }
+      }
+    } else if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
+      // root i18n
+      this._i18n = this.$root.$i18n;
+    } else if (options.parent && options.parent.$i18n && options.parent.$i18n instanceof VueI18n) {
+      // parent i18n
+      this._i18n = options.parent.$i18n;
+    }
+  },
+
+  beforeMount: function beforeMount () {
+    var options = this.$options;
+    options.i18n = options.i18n || (options.__i18n ? {} : null);
+
+    if (options.i18n) {
+      if (options.i18n instanceof VueI18n) {
+        // init locale messages via custom blocks
+        this._i18n.subscribeDataChanging(this);
+        this._subscribing = true;
+      } else if (isPlainObject(options.i18n)) {
+        this._i18n.subscribeDataChanging(this);
+        this._subscribing = true;
+      } else {
+        if (true) {
+          warn("Cannot be interpreted 'i18n' option.");
+        }
+      }
+    } else if (this.$root && this.$root.$i18n && this.$root.$i18n instanceof VueI18n) {
+      this._i18n.subscribeDataChanging(this);
+      this._subscribing = true;
+    } else if (options.parent && options.parent.$i18n && options.parent.$i18n instanceof VueI18n) {
+      this._i18n.subscribeDataChanging(this);
+      this._subscribing = true;
+    }
+  },
+
+  beforeDestroy: function beforeDestroy () {
+    if (!this._i18n) { return }
+
+    var self = this;
+    this.$nextTick(function () {
+      if (self._subscribing) {
+        self._i18n.unsubscribeDataChanging(self);
+        delete self._subscribing;
+      }
+
+      if (self._i18nWatcher) {
+        self._i18nWatcher();
+        self._i18n.destroyVM();
+        delete self._i18nWatcher;
+      }
+
+      if (self._localeWatcher) {
+        self._localeWatcher();
+        delete self._localeWatcher;
+      }
+    });
+  }
+};
+
+/*  */
+
+var interpolationComponent = {
+  name: 'i18n',
+  functional: true,
+  props: {
+    tag: {
+      type: [String, Boolean, Object],
+      default: 'span'
+    },
+    path: {
+      type: String,
+      required: true
+    },
+    locale: {
+      type: String
+    },
+    places: {
+      type: [Array, Object]
+    }
+  },
+  render: function render (h, ref) {
+    var data = ref.data;
+    var parent = ref.parent;
+    var props = ref.props;
+    var slots = ref.slots;
+
+    var $i18n = parent.$i18n;
+    if (!$i18n) {
+      if (true) {
+        warn('Cannot find VueI18n instance!');
+      }
+      return
+    }
+
+    var path = props.path;
+    var locale = props.locale;
+    var places = props.places;
+    var params = slots();
+    var children = $i18n.i(
+      path,
+      locale,
+      onlyHasDefaultPlace(params) || places
+        ? useLegacyPlaces(params.default, places)
+        : params
+    );
+
+    var tag = (!!props.tag && props.tag !== true) || props.tag === false ? props.tag : 'span';
+    return tag ? h(tag, data, children) : children
+  }
+};
+
+function onlyHasDefaultPlace (params) {
+  var prop;
+  for (prop in params) {
+    if (prop !== 'default') { return false }
+  }
+  return Boolean(prop)
+}
+
+function useLegacyPlaces (children, places) {
+  var params = places ? createParamsFromPlaces(places) : {};
+
+  if (!children) { return params }
+
+  // Filter empty text nodes
+  children = children.filter(function (child) {
+    return child.tag || child.text.trim() !== ''
+  });
+
+  var everyPlace = children.every(vnodeHasPlaceAttribute);
+  if ( true && everyPlace) {
+    warn('`place` attribute is deprecated in next major version. Please switch to Vue slots.');
+  }
+
+  return children.reduce(
+    everyPlace ? assignChildPlace : assignChildIndex,
+    params
+  )
+}
+
+function createParamsFromPlaces (places) {
+  if (true) {
+    warn('`places` prop is deprecated in next major version. Please switch to Vue slots.');
+  }
+
+  return Array.isArray(places)
+    ? places.reduce(assignChildIndex, {})
+    : Object.assign({}, places)
+}
+
+function assignChildPlace (params, child) {
+  if (child.data && child.data.attrs && child.data.attrs.place) {
+    params[child.data.attrs.place] = child;
+  }
+  return params
+}
+
+function assignChildIndex (params, child, index) {
+  params[index] = child;
+  return params
+}
+
+function vnodeHasPlaceAttribute (vnode) {
+  return Boolean(vnode.data && vnode.data.attrs && vnode.data.attrs.place)
+}
+
+/*  */
+
+var numberComponent = {
+  name: 'i18n-n',
+  functional: true,
+  props: {
+    tag: {
+      type: [String, Boolean, Object],
+      default: 'span'
+    },
+    value: {
+      type: Number,
+      required: true
+    },
+    format: {
+      type: [String, Object]
+    },
+    locale: {
+      type: String
+    }
+  },
+  render: function render (h, ref) {
+    var props = ref.props;
+    var parent = ref.parent;
+    var data = ref.data;
+
+    var i18n = parent.$i18n;
+
+    if (!i18n) {
+      if (true) {
+        warn('Cannot find VueI18n instance!');
+      }
+      return null
+    }
+
+    var key = null;
+    var options = null;
+
+    if (isString(props.format)) {
+      key = props.format;
+    } else if (isObject(props.format)) {
+      if (props.format.key) {
+        key = props.format.key;
+      }
+
+      // Filter out number format options only
+      options = Object.keys(props.format).reduce(function (acc, prop) {
+        var obj;
+
+        if (includes(numberFormatKeys, prop)) {
+          return Object.assign({}, acc, ( obj = {}, obj[prop] = props.format[prop], obj ))
+        }
+        return acc
+      }, null);
+    }
+
+    var locale = props.locale || i18n.locale;
+    var parts = i18n._ntp(props.value, locale, key, options);
+
+    var values = parts.map(function (part, index) {
+      var obj;
+
+      var slot = data.scopedSlots && data.scopedSlots[part.type];
+      return slot ? slot(( obj = {}, obj[part.type] = part.value, obj.index = index, obj.parts = parts, obj )) : part.value
+    });
+
+    var tag = (!!props.tag && props.tag !== true) || props.tag === false ? props.tag : 'span';
+    return tag
+      ? h(tag, {
+        attrs: data.attrs,
+        'class': data['class'],
+        staticClass: data.staticClass
+      }, values)
+      : values
+  }
+};
+
+/*  */
+
+function bind (el, binding, vnode) {
+  if (!assert(el, vnode)) { return }
+
+  t(el, binding, vnode);
+}
+
+function update (el, binding, vnode, oldVNode) {
+  if (!assert(el, vnode)) { return }
+
+  var i18n = vnode.context.$i18n;
+  if (localeEqual(el, vnode) &&
+    (looseEqual(binding.value, binding.oldValue) &&
+     looseEqual(el._localeMessage, i18n.getLocaleMessage(i18n.locale)))) { return }
+
+  t(el, binding, vnode);
+}
+
+function unbind (el, binding, vnode, oldVNode) {
+  var vm = vnode.context;
+  if (!vm) {
+    warn('Vue instance does not exists in VNode context');
+    return
+  }
+
+  var i18n = vnode.context.$i18n || {};
+  if (!binding.modifiers.preserve && !i18n.preserveDirectiveContent) {
+    el.textContent = '';
+  }
+  el._vt = undefined;
+  delete el['_vt'];
+  el._locale = undefined;
+  delete el['_locale'];
+  el._localeMessage = undefined;
+  delete el['_localeMessage'];
+}
+
+function assert (el, vnode) {
+  var vm = vnode.context;
+  if (!vm) {
+    warn('Vue instance does not exists in VNode context');
+    return false
+  }
+
+  if (!vm.$i18n) {
+    warn('VueI18n instance does not exists in Vue instance');
+    return false
+  }
+
+  return true
+}
+
+function localeEqual (el, vnode) {
+  var vm = vnode.context;
+  return el._locale === vm.$i18n.locale
+}
+
+function t (el, binding, vnode) {
+  var ref$1, ref$2;
+
+  var value = binding.value;
+
+  var ref = parseValue(value);
+  var path = ref.path;
+  var locale = ref.locale;
+  var args = ref.args;
+  var choice = ref.choice;
+  if (!path && !locale && !args) {
+    warn('value type not supported');
+    return
+  }
+
+  if (!path) {
+    warn('`path` is required in v-t directive');
+    return
+  }
+
+  var vm = vnode.context;
+  if (choice != null) {
+    el._vt = el.textContent = (ref$1 = vm.$i18n).tc.apply(ref$1, [ path, choice ].concat( makeParams(locale, args) ));
+  } else {
+    el._vt = el.textContent = (ref$2 = vm.$i18n).t.apply(ref$2, [ path ].concat( makeParams(locale, args) ));
+  }
+  el._locale = vm.$i18n.locale;
+  el._localeMessage = vm.$i18n.getLocaleMessage(vm.$i18n.locale);
+}
+
+function parseValue (value) {
+  var path;
+  var locale;
+  var args;
+  var choice;
+
+  if (isString(value)) {
+    path = value;
+  } else if (isPlainObject(value)) {
+    path = value.path;
+    locale = value.locale;
+    args = value.args;
+    choice = value.choice;
+  }
+
+  return { path: path, locale: locale, args: args, choice: choice }
+}
+
+function makeParams (locale, args) {
+  var params = [];
+
+  locale && params.push(locale);
+  if (args && (Array.isArray(args) || isPlainObject(args))) {
+    params.push(args);
+  }
+
+  return params
+}
+
+var Vue;
+
+function install (_Vue) {
+  /* istanbul ignore if */
+  if ( true && install.installed && _Vue === Vue) {
+    warn('already installed.');
+    return
+  }
+  install.installed = true;
+
+  Vue = _Vue;
+
+  var version = (Vue.version && Number(Vue.version.split('.')[0])) || -1;
+  /* istanbul ignore if */
+  if ( true && version < 2) {
+    warn(("vue-i18n (" + (install.version) + ") need to use Vue 2.0 or later (Vue: " + (Vue.version) + ")."));
+    return
+  }
+
+  extend(Vue);
+  Vue.mixin(mixin);
+  Vue.directive('t', { bind: bind, update: update, unbind: unbind });
+  Vue.component(interpolationComponent.name, interpolationComponent);
+  Vue.component(numberComponent.name, numberComponent);
+
+  // use simple mergeStrategies to prevent i18n instance lose '__proto__'
+  var strats = Vue.config.optionMergeStrategies;
+  strats.i18n = function (parentVal, childVal) {
+    return childVal === undefined
+      ? parentVal
+      : childVal
+  };
+}
+
+/*  */
+
+var BaseFormatter = function BaseFormatter () {
+  this._caches = Object.create(null);
+};
+
+BaseFormatter.prototype.interpolate = function interpolate (message, values) {
+  if (!values) {
+    return [message]
+  }
+  var tokens = this._caches[message];
+  if (!tokens) {
+    tokens = parse(message);
+    this._caches[message] = tokens;
+  }
+  return compile(tokens, values)
+};
+
+var RE_TOKEN_LIST_VALUE = /^(?:\d)+/;
+var RE_TOKEN_NAMED_VALUE = /^(?:\w)+/;
+
+function parse (format) {
+  var tokens = [];
+  var position = 0;
+
+  var text = '';
+  while (position < format.length) {
+    var char = format[position++];
+    if (char === '{') {
+      if (text) {
+        tokens.push({ type: 'text', value: text });
+      }
+
+      text = '';
+      var sub = '';
+      char = format[position++];
+      while (char !== undefined && char !== '}') {
+        sub += char;
+        char = format[position++];
+      }
+      var isClosed = char === '}';
+
+      var type = RE_TOKEN_LIST_VALUE.test(sub)
+        ? 'list'
+        : isClosed && RE_TOKEN_NAMED_VALUE.test(sub)
+          ? 'named'
+          : 'unknown';
+      tokens.push({ value: sub, type: type });
+    } else if (char === '%') {
+      // when found rails i18n syntax, skip text capture
+      if (format[(position)] !== '{') {
+        text += char;
+      }
+    } else {
+      text += char;
+    }
+  }
+
+  text && tokens.push({ type: 'text', value: text });
+
+  return tokens
+}
+
+function compile (tokens, values) {
+  var compiled = [];
+  var index = 0;
+
+  var mode = Array.isArray(values)
+    ? 'list'
+    : isObject(values)
+      ? 'named'
+      : 'unknown';
+  if (mode === 'unknown') { return compiled }
+
+  while (index < tokens.length) {
+    var token = tokens[index];
+    switch (token.type) {
+      case 'text':
+        compiled.push(token.value);
+        break
+      case 'list':
+        compiled.push(values[parseInt(token.value, 10)]);
+        break
+      case 'named':
+        if (mode === 'named') {
+          compiled.push((values)[token.value]);
+        } else {
+          if (true) {
+            warn(("Type of token '" + (token.type) + "' and format of value '" + mode + "' don't match!"));
+          }
+        }
+        break
+      case 'unknown':
+        if (true) {
+          warn("Detect 'unknown' type of token!");
+        }
+        break
+    }
+    index++;
+  }
+
+  return compiled
+}
+
+/*  */
+
+/**
+ *  Path parser
+ *  - Inspired:
+ *    Vue.js Path parser
+ */
+
+// actions
+var APPEND = 0;
+var PUSH = 1;
+var INC_SUB_PATH_DEPTH = 2;
+var PUSH_SUB_PATH = 3;
+
+// states
+var BEFORE_PATH = 0;
+var IN_PATH = 1;
+var BEFORE_IDENT = 2;
+var IN_IDENT = 3;
+var IN_SUB_PATH = 4;
+var IN_SINGLE_QUOTE = 5;
+var IN_DOUBLE_QUOTE = 6;
+var AFTER_PATH = 7;
+var ERROR = 8;
+
+var pathStateMachine = [];
+
+pathStateMachine[BEFORE_PATH] = {
+  'ws': [BEFORE_PATH],
+  'ident': [IN_IDENT, APPEND],
+  '[': [IN_SUB_PATH],
+  'eof': [AFTER_PATH]
+};
+
+pathStateMachine[IN_PATH] = {
+  'ws': [IN_PATH],
+  '.': [BEFORE_IDENT],
+  '[': [IN_SUB_PATH],
+  'eof': [AFTER_PATH]
+};
+
+pathStateMachine[BEFORE_IDENT] = {
+  'ws': [BEFORE_IDENT],
+  'ident': [IN_IDENT, APPEND],
+  '0': [IN_IDENT, APPEND],
+  'number': [IN_IDENT, APPEND]
+};
+
+pathStateMachine[IN_IDENT] = {
+  'ident': [IN_IDENT, APPEND],
+  '0': [IN_IDENT, APPEND],
+  'number': [IN_IDENT, APPEND],
+  'ws': [IN_PATH, PUSH],
+  '.': [BEFORE_IDENT, PUSH],
+  '[': [IN_SUB_PATH, PUSH],
+  'eof': [AFTER_PATH, PUSH]
+};
+
+pathStateMachine[IN_SUB_PATH] = {
+  "'": [IN_SINGLE_QUOTE, APPEND],
+  '"': [IN_DOUBLE_QUOTE, APPEND],
+  '[': [IN_SUB_PATH, INC_SUB_PATH_DEPTH],
+  ']': [IN_PATH, PUSH_SUB_PATH],
+  'eof': ERROR,
+  'else': [IN_SUB_PATH, APPEND]
+};
+
+pathStateMachine[IN_SINGLE_QUOTE] = {
+  "'": [IN_SUB_PATH, APPEND],
+  'eof': ERROR,
+  'else': [IN_SINGLE_QUOTE, APPEND]
+};
+
+pathStateMachine[IN_DOUBLE_QUOTE] = {
+  '"': [IN_SUB_PATH, APPEND],
+  'eof': ERROR,
+  'else': [IN_DOUBLE_QUOTE, APPEND]
+};
+
+/**
+ * Check if an expression is a literal value.
+ */
+
+var literalValueRE = /^\s?(?:true|false|-?[\d.]+|'[^']*'|"[^"]*")\s?$/;
+function isLiteral (exp) {
+  return literalValueRE.test(exp)
+}
+
+/**
+ * Strip quotes from a string
+ */
+
+function stripQuotes (str) {
+  var a = str.charCodeAt(0);
+  var b = str.charCodeAt(str.length - 1);
+  return a === b && (a === 0x22 || a === 0x27)
+    ? str.slice(1, -1)
+    : str
+}
+
+/**
+ * Determine the type of a character in a keypath.
+ */
+
+function getPathCharType (ch) {
+  if (ch === undefined || ch === null) { return 'eof' }
+
+  var code = ch.charCodeAt(0);
+
+  switch (code) {
+    case 0x5B: // [
+    case 0x5D: // ]
+    case 0x2E: // .
+    case 0x22: // "
+    case 0x27: // '
+      return ch
+
+    case 0x5F: // _
+    case 0x24: // $
+    case 0x2D: // -
+      return 'ident'
+
+    case 0x09: // Tab
+    case 0x0A: // Newline
+    case 0x0D: // Return
+    case 0xA0:  // No-break space
+    case 0xFEFF:  // Byte Order Mark
+    case 0x2028:  // Line Separator
+    case 0x2029:  // Paragraph Separator
+      return 'ws'
+  }
+
+  return 'ident'
+}
+
+/**
+ * Format a subPath, return its plain form if it is
+ * a literal string or number. Otherwise prepend the
+ * dynamic indicator (*).
+ */
+
+function formatSubPath (path) {
+  var trimmed = path.trim();
+  // invalid leading 0
+  if (path.charAt(0) === '0' && isNaN(path)) { return false }
+
+  return isLiteral(trimmed) ? stripQuotes(trimmed) : '*' + trimmed
+}
+
+/**
+ * Parse a string path into an array of segments
+ */
+
+function parse$1 (path) {
+  var keys = [];
+  var index = -1;
+  var mode = BEFORE_PATH;
+  var subPathDepth = 0;
+  var c;
+  var key;
+  var newChar;
+  var type;
+  var transition;
+  var action;
+  var typeMap;
+  var actions = [];
+
+  actions[PUSH] = function () {
+    if (key !== undefined) {
+      keys.push(key);
+      key = undefined;
+    }
+  };
+
+  actions[APPEND] = function () {
+    if (key === undefined) {
+      key = newChar;
+    } else {
+      key += newChar;
+    }
+  };
+
+  actions[INC_SUB_PATH_DEPTH] = function () {
+    actions[APPEND]();
+    subPathDepth++;
+  };
+
+  actions[PUSH_SUB_PATH] = function () {
+    if (subPathDepth > 0) {
+      subPathDepth--;
+      mode = IN_SUB_PATH;
+      actions[APPEND]();
+    } else {
+      subPathDepth = 0;
+      if (key === undefined) { return false }
+      key = formatSubPath(key);
+      if (key === false) {
+        return false
+      } else {
+        actions[PUSH]();
+      }
+    }
+  };
+
+  function maybeUnescapeQuote () {
+    var nextChar = path[index + 1];
+    if ((mode === IN_SINGLE_QUOTE && nextChar === "'") ||
+      (mode === IN_DOUBLE_QUOTE && nextChar === '"')) {
+      index++;
+      newChar = '\\' + nextChar;
+      actions[APPEND]();
+      return true
+    }
+  }
+
+  while (mode !== null) {
+    index++;
+    c = path[index];
+
+    if (c === '\\' && maybeUnescapeQuote()) {
+      continue
+    }
+
+    type = getPathCharType(c);
+    typeMap = pathStateMachine[mode];
+    transition = typeMap[type] || typeMap['else'] || ERROR;
+
+    if (transition === ERROR) {
+      return // parse error
+    }
+
+    mode = transition[0];
+    action = actions[transition[1]];
+    if (action) {
+      newChar = transition[2];
+      newChar = newChar === undefined
+        ? c
+        : newChar;
+      if (action() === false) {
+        return
+      }
+    }
+
+    if (mode === AFTER_PATH) {
+      return keys
+    }
+  }
+}
+
+var I18nPath = function I18nPath () {
+  this._cache = Object.create(null);
+};
+
+/**
+ * External parse that check for a cache hit first
+ */
+I18nPath.prototype.parsePath = function parsePath (path) {
+  var hit = this._cache[path];
+  if (!hit) {
+    hit = parse$1(path);
+    if (hit) {
+      this._cache[path] = hit;
+    }
+  }
+  return hit || []
+};
+
+/**
+ * Get path value from path string
+ */
+I18nPath.prototype.getPathValue = function getPathValue (obj, path) {
+  if (!isObject(obj)) { return null }
+
+  var paths = this.parsePath(path);
+  if (paths.length === 0) {
+    return null
+  } else {
+    var length = paths.length;
+    var last = obj;
+    var i = 0;
+    while (i < length) {
+      var value = last[paths[i]];
+      if (value === undefined) {
+        return null
+      }
+      last = value;
+      i++;
+    }
+
+    return last
+  }
+};
+
+/*  */
+
+var htmlTagMatcher = /<\/?[\w\s="/.':;#-\/]+>/;
+var linkKeyMatcher = /(?:@(?:\.[a-z]+)?:(?:[\w\-_|.]+|\([\w\-_|.]+\)))/g;
+var linkKeyPrefixMatcher = /^@(?:\.([a-z]+))?:/;
+var bracketsMatcher = /[()]/g;
+var defaultModifiers = {
+  'upper': function (str) { return str.toLocaleUpperCase(); },
+  'lower': function (str) { return str.toLocaleLowerCase(); },
+  'capitalize': function (str) { return ("" + (str.charAt(0).toLocaleUpperCase()) + (str.substr(1))); }
+};
+
+var defaultFormatter = new BaseFormatter();
+
+var VueI18n = function VueI18n (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #290
+  /* istanbul ignore if */
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  var locale = options.locale || 'en-US';
+  var fallbackLocale = options.fallbackLocale === false
+    ? false
+    : options.fallbackLocale || 'en-US';
+  var messages = options.messages || {};
+  var dateTimeFormats = options.dateTimeFormats || {};
+  var numberFormats = options.numberFormats || {};
+
+  this._vm = null;
+  this._formatter = options.formatter || defaultFormatter;
+  this._modifiers = options.modifiers || {};
+  this._missing = options.missing || null;
+  this._root = options.root || null;
+  this._sync = options.sync === undefined ? true : !!options.sync;
+  this._fallbackRoot = options.fallbackRoot === undefined
+    ? true
+    : !!options.fallbackRoot;
+  this._formatFallbackMessages = options.formatFallbackMessages === undefined
+    ? false
+    : !!options.formatFallbackMessages;
+  this._silentTranslationWarn = options.silentTranslationWarn === undefined
+    ? false
+    : options.silentTranslationWarn;
+  this._silentFallbackWarn = options.silentFallbackWarn === undefined
+    ? false
+    : !!options.silentFallbackWarn;
+  this._dateTimeFormatters = {};
+  this._numberFormatters = {};
+  this._path = new I18nPath();
+  this._dataListeners = [];
+  this._componentInstanceCreatedListener = options.componentInstanceCreatedListener || null;
+  this._preserveDirectiveContent = options.preserveDirectiveContent === undefined
+    ? false
+    : !!options.preserveDirectiveContent;
+  this.pluralizationRules = options.pluralizationRules || {};
+  this._warnHtmlInMessage = options.warnHtmlInMessage || 'off';
+  this._postTranslation = options.postTranslation || null;
+  this._escapeParameterHtml = options.escapeParameterHtml || false;
+
+  /**
+   * @param choice {number} a choice index given by the input to $tc: `$tc('path.to.rule', choiceIndex)`
+   * @param choicesLength {number} an overall amount of available choices
+   * @returns a final choice index
+  */
+  this.getChoiceIndex = function (choice, choicesLength) {
+    var thisPrototype = Object.getPrototypeOf(this$1);
+    if (thisPrototype && thisPrototype.getChoiceIndex) {
+      var prototypeGetChoiceIndex = (thisPrototype.getChoiceIndex);
+      return (prototypeGetChoiceIndex).call(this$1, choice, choicesLength)
+    }
+
+    // Default (old) getChoiceIndex implementation - english-compatible
+    var defaultImpl = function (_choice, _choicesLength) {
+      _choice = Math.abs(_choice);
+
+      if (_choicesLength === 2) {
+        return _choice
+          ? _choice > 1
+            ? 1
+            : 0
+          : 1
+      }
+
+      return _choice ? Math.min(_choice, 2) : 0
+    };
+
+    if (this$1.locale in this$1.pluralizationRules) {
+      return this$1.pluralizationRules[this$1.locale].apply(this$1, [choice, choicesLength])
+    } else {
+      return defaultImpl(choice, choicesLength)
+    }
+  };
+
+
+  this._exist = function (message, key) {
+    if (!message || !key) { return false }
+    if (!isNull(this$1._path.getPathValue(message, key))) { return true }
+    // fallback for flat key
+    if (message[key]) { return true }
+    return false
+  };
+
+  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
+    Object.keys(messages).forEach(function (locale) {
+      this$1._checkLocaleMessage(locale, this$1._warnHtmlInMessage, messages[locale]);
+    });
+  }
+
+  this._initVM({
+    locale: locale,
+    fallbackLocale: fallbackLocale,
+    messages: messages,
+    dateTimeFormats: dateTimeFormats,
+    numberFormats: numberFormats
+  });
+};
+
+var prototypeAccessors = { vm: { configurable: true },messages: { configurable: true },dateTimeFormats: { configurable: true },numberFormats: { configurable: true },availableLocales: { configurable: true },locale: { configurable: true },fallbackLocale: { configurable: true },formatFallbackMessages: { configurable: true },missing: { configurable: true },formatter: { configurable: true },silentTranslationWarn: { configurable: true },silentFallbackWarn: { configurable: true },preserveDirectiveContent: { configurable: true },warnHtmlInMessage: { configurable: true },postTranslation: { configurable: true } };
+
+VueI18n.prototype._checkLocaleMessage = function _checkLocaleMessage (locale, level, message) {
+  var paths = [];
+
+  var fn = function (level, locale, message, paths) {
+    if (isPlainObject(message)) {
+      Object.keys(message).forEach(function (key) {
+        var val = message[key];
+        if (isPlainObject(val)) {
+          paths.push(key);
+          paths.push('.');
+          fn(level, locale, val, paths);
+          paths.pop();
+          paths.pop();
+        } else {
+          paths.push(key);
+          fn(level, locale, val, paths);
+          paths.pop();
+        }
+      });
+    } else if (isArray(message)) {
+      message.forEach(function (item, index) {
+        if (isPlainObject(item)) {
+          paths.push(("[" + index + "]"));
+          paths.push('.');
+          fn(level, locale, item, paths);
+          paths.pop();
+          paths.pop();
+        } else {
+          paths.push(("[" + index + "]"));
+          fn(level, locale, item, paths);
+          paths.pop();
+        }
+      });
+    } else if (isString(message)) {
+      var ret = htmlTagMatcher.test(message);
+      if (ret) {
+        var msg = "Detected HTML in message '" + message + "' of keypath '" + (paths.join('')) + "' at '" + locale + "'. Consider component interpolation with '<i18n>' to avoid XSS. See https://bit.ly/2ZqJzkp";
+        if (level === 'warn') {
+          warn(msg);
+        } else if (level === 'error') {
+          error(msg);
+        }
+      }
+    }
+  };
+
+  fn(level, locale, message, paths);
+};
+
+VueI18n.prototype._initVM = function _initVM (data) {
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  this._vm = new Vue({ data: data });
+  Vue.config.silent = silent;
+};
+
+VueI18n.prototype.destroyVM = function destroyVM () {
+  this._vm.$destroy();
+};
+
+VueI18n.prototype.subscribeDataChanging = function subscribeDataChanging (vm) {
+  this._dataListeners.push(vm);
+};
+
+VueI18n.prototype.unsubscribeDataChanging = function unsubscribeDataChanging (vm) {
+  remove(this._dataListeners, vm);
+};
+
+VueI18n.prototype.watchI18nData = function watchI18nData () {
+  var self = this;
+  return this._vm.$watch('$data', function () {
+    var i = self._dataListeners.length;
+    while (i--) {
+      Vue.nextTick(function () {
+        self._dataListeners[i] && self._dataListeners[i].$forceUpdate();
+      });
+    }
+  }, { deep: true })
+};
+
+VueI18n.prototype.watchLocale = function watchLocale () {
+  /* istanbul ignore if */
+  if (!this._sync || !this._root) { return null }
+  var target = this._vm;
+  return this._root.$i18n.vm.$watch('locale', function (val) {
+    target.$set(target, 'locale', val);
+    target.$forceUpdate();
+  }, { immediate: true })
+};
+
+VueI18n.prototype.onComponentInstanceCreated = function onComponentInstanceCreated (newI18n) {
+  if (this._componentInstanceCreatedListener) {
+    this._componentInstanceCreatedListener(newI18n, this);
+  }
+};
+
+prototypeAccessors.vm.get = function () { return this._vm };
+
+prototypeAccessors.messages.get = function () { return looseClone(this._getMessages()) };
+prototypeAccessors.dateTimeFormats.get = function () { return looseClone(this._getDateTimeFormats()) };
+prototypeAccessors.numberFormats.get = function () { return looseClone(this._getNumberFormats()) };
+prototypeAccessors.availableLocales.get = function () { return Object.keys(this.messages).sort() };
+
+prototypeAccessors.locale.get = function () { return this._vm.locale };
+prototypeAccessors.locale.set = function (locale) {
+  this._vm.$set(this._vm, 'locale', locale);
+};
+
+prototypeAccessors.fallbackLocale.get = function () { return this._vm.fallbackLocale };
+prototypeAccessors.fallbackLocale.set = function (locale) {
+  this._localeChainCache = {};
+  this._vm.$set(this._vm, 'fallbackLocale', locale);
+};
+
+prototypeAccessors.formatFallbackMessages.get = function () { return this._formatFallbackMessages };
+prototypeAccessors.formatFallbackMessages.set = function (fallback) { this._formatFallbackMessages = fallback; };
+
+prototypeAccessors.missing.get = function () { return this._missing };
+prototypeAccessors.missing.set = function (handler) { this._missing = handler; };
+
+prototypeAccessors.formatter.get = function () { return this._formatter };
+prototypeAccessors.formatter.set = function (formatter) { this._formatter = formatter; };
+
+prototypeAccessors.silentTranslationWarn.get = function () { return this._silentTranslationWarn };
+prototypeAccessors.silentTranslationWarn.set = function (silent) { this._silentTranslationWarn = silent; };
+
+prototypeAccessors.silentFallbackWarn.get = function () { return this._silentFallbackWarn };
+prototypeAccessors.silentFallbackWarn.set = function (silent) { this._silentFallbackWarn = silent; };
+
+prototypeAccessors.preserveDirectiveContent.get = function () { return this._preserveDirectiveContent };
+prototypeAccessors.preserveDirectiveContent.set = function (preserve) { this._preserveDirectiveContent = preserve; };
+
+prototypeAccessors.warnHtmlInMessage.get = function () { return this._warnHtmlInMessage };
+prototypeAccessors.warnHtmlInMessage.set = function (level) {
+    var this$1 = this;
+
+  var orgLevel = this._warnHtmlInMessage;
+  this._warnHtmlInMessage = level;
+  if (orgLevel !== level && (level === 'warn' || level === 'error')) {
+    var messages = this._getMessages();
+    Object.keys(messages).forEach(function (locale) {
+      this$1._checkLocaleMessage(locale, this$1._warnHtmlInMessage, messages[locale]);
+    });
+  }
+};
+
+prototypeAccessors.postTranslation.get = function () { return this._postTranslation };
+prototypeAccessors.postTranslation.set = function (handler) { this._postTranslation = handler; };
+
+VueI18n.prototype._getMessages = function _getMessages () { return this._vm.messages };
+VueI18n.prototype._getDateTimeFormats = function _getDateTimeFormats () { return this._vm.dateTimeFormats };
+VueI18n.prototype._getNumberFormats = function _getNumberFormats () { return this._vm.numberFormats };
+
+VueI18n.prototype._warnDefault = function _warnDefault (locale, key, result, vm, values, interpolateMode) {
+  if (!isNull(result)) { return result }
+  if (this._missing) {
+    var missingRet = this._missing.apply(null, [locale, key, vm, values]);
+    if (isString(missingRet)) {
+      return missingRet
+    }
+  } else {
+    if ( true && !this._isSilentTranslationWarn(key)) {
+      warn(
+        "Cannot translate the value of keypath '" + key + "'. " +
+        'Use the value of keypath as default.'
+      );
+    }
+  }
+
+  if (this._formatFallbackMessages) {
+    var parsedArgs = parseArgs.apply(void 0, values);
+    return this._render(key, interpolateMode, parsedArgs.params, key)
+  } else {
+    return key
+  }
+};
+
+VueI18n.prototype._isFallbackRoot = function _isFallbackRoot (val) {
+  return !val && !isNull(this._root) && this._fallbackRoot
+};
+
+VueI18n.prototype._isSilentFallbackWarn = function _isSilentFallbackWarn (key) {
+  return this._silentFallbackWarn instanceof RegExp
+    ? this._silentFallbackWarn.test(key)
+    : this._silentFallbackWarn
+};
+
+VueI18n.prototype._isSilentFallback = function _isSilentFallback (locale, key) {
+  return this._isSilentFallbackWarn(key) && (this._isFallbackRoot() || locale !== this.fallbackLocale)
+};
+
+VueI18n.prototype._isSilentTranslationWarn = function _isSilentTranslationWarn (key) {
+  return this._silentTranslationWarn instanceof RegExp
+    ? this._silentTranslationWarn.test(key)
+    : this._silentTranslationWarn
+};
+
+VueI18n.prototype._interpolate = function _interpolate (
+  locale,
+  message,
+  key,
+  host,
+  interpolateMode,
+  values,
+  visitedLinkStack
+) {
+  if (!message) { return null }
+
+  var pathRet = this._path.getPathValue(message, key);
+  if (isArray(pathRet) || isPlainObject(pathRet)) { return pathRet }
+
+  var ret;
+  if (isNull(pathRet)) {
+    /* istanbul ignore else */
+    if (isPlainObject(message)) {
+      ret = message[key];
+      if (!(isString(ret) || isFunction(ret))) {
+        if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallback(locale, key)) {
+          warn(("Value of key '" + key + "' is not a string or function !"));
+        }
+        return null
+      }
+    } else {
+      return null
+    }
+  } else {
+    /* istanbul ignore else */
+    if (isString(pathRet) || isFunction(pathRet)) {
+      ret = pathRet;
+    } else {
+      if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallback(locale, key)) {
+        warn(("Value of key '" + key + "' is not a string or function!"));
+      }
+      return null
+    }
+  }
+
+  // Check for the existence of links within the translated string
+  if (isString(ret) && (ret.indexOf('@:') >= 0 || ret.indexOf('@.') >= 0)) {
+    ret = this._link(locale, message, ret, host, 'raw', values, visitedLinkStack);
+  }
+
+  return this._render(ret, interpolateMode, values, key)
+};
+
+VueI18n.prototype._link = function _link (
+  locale,
+  message,
+  str,
+  host,
+  interpolateMode,
+  values,
+  visitedLinkStack
+) {
+  var ret = str;
+
+  // Match all the links within the local
+  // We are going to replace each of
+  // them with its translation
+  var matches = ret.match(linkKeyMatcher);
+  for (var idx in matches) {
+    // ie compatible: filter custom array
+    // prototype method
+    if (!matches.hasOwnProperty(idx)) {
+      continue
+    }
+    var link = matches[idx];
+    var linkKeyPrefixMatches = link.match(linkKeyPrefixMatcher);
+    var linkPrefix = linkKeyPrefixMatches[0];
+      var formatterName = linkKeyPrefixMatches[1];
+
+    // Remove the leading @:, @.case: and the brackets
+    var linkPlaceholder = link.replace(linkPrefix, '').replace(bracketsMatcher, '');
+
+    if (includes(visitedLinkStack, linkPlaceholder)) {
+      if (true) {
+        warn(("Circular reference found. \"" + link + "\" is already visited in the chain of " + (visitedLinkStack.reverse().join(' <- '))));
+      }
+      return ret
+    }
+    visitedLinkStack.push(linkPlaceholder);
+
+    // Translate the link
+    var translated = this._interpolate(
+      locale, message, linkPlaceholder, host,
+      interpolateMode === 'raw' ? 'string' : interpolateMode,
+      interpolateMode === 'raw' ? undefined : values,
+      visitedLinkStack
+    );
+
+    if (this._isFallbackRoot(translated)) {
+      if ( true && !this._isSilentTranslationWarn(linkPlaceholder)) {
+        warn(("Fall back to translate the link placeholder '" + linkPlaceholder + "' with root locale."));
+      }
+      /* istanbul ignore if */
+      if (!this._root) { throw Error('unexpected error') }
+      var root = this._root.$i18n;
+      translated = root._translate(
+        root._getMessages(), root.locale, root.fallbackLocale,
+        linkPlaceholder, host, interpolateMode, values
+      );
+    }
+    translated = this._warnDefault(
+      locale, linkPlaceholder, translated, host,
+      isArray(values) ? values : [values],
+      interpolateMode
+    );
+
+    if (this._modifiers.hasOwnProperty(formatterName)) {
+      translated = this._modifiers[formatterName](translated);
+    } else if (defaultModifiers.hasOwnProperty(formatterName)) {
+      translated = defaultModifiers[formatterName](translated);
+    }
+
+    visitedLinkStack.pop();
+
+    // Replace the link with the translated
+    ret = !translated ? ret : ret.replace(link, translated);
+  }
+
+  return ret
+};
+
+VueI18n.prototype._createMessageContext = function _createMessageContext (values) {
+  var _list = isArray(values) ? values : [];
+  var _named = isObject(values) ? values : {};
+  var list = function (index) { return _list[index]; };
+  var named = function (key) { return _named[key]; };
+  return {
+    list: list,
+    named: named
+  }
+};
+
+VueI18n.prototype._render = function _render (message, interpolateMode, values, path) {
+  if (isFunction(message)) {
+    return message(this._createMessageContext(values))
+  }
+
+  var ret = this._formatter.interpolate(message, values, path);
+
+  // If the custom formatter refuses to work - apply the default one
+  if (!ret) {
+    ret = defaultFormatter.interpolate(message, values, path);
+  }
+
+  // if interpolateMode is **not** 'string' ('row'),
+  // return the compiled data (e.g. ['foo', VNode, 'bar']) with formatter
+  return interpolateMode === 'string' && !isString(ret) ? ret.join('') : ret
+};
+
+VueI18n.prototype._appendItemToChain = function _appendItemToChain (chain, item, blocks) {
+  var follow = false;
+  if (!includes(chain, item)) {
+    follow = true;
+    if (item) {
+      follow = item[item.length - 1] !== '!';
+      item = item.replace(/!/g, '');
+      chain.push(item);
+      if (blocks && blocks[item]) {
+        follow = blocks[item];
+      }
+    }
+  }
+  return follow
+};
+
+VueI18n.prototype._appendLocaleToChain = function _appendLocaleToChain (chain, locale, blocks) {
+  var follow;
+  var tokens = locale.split('-');
+  do {
+    var item = tokens.join('-');
+    follow = this._appendItemToChain(chain, item, blocks);
+    tokens.splice(-1, 1);
+  } while (tokens.length && (follow === true))
+  return follow
+};
+
+VueI18n.prototype._appendBlockToChain = function _appendBlockToChain (chain, block, blocks) {
+  var follow = true;
+  for (var i = 0; (i < block.length) && (isBoolean(follow)); i++) {
+    var locale = block[i];
+    if (isString(locale)) {
+      follow = this._appendLocaleToChain(chain, locale, blocks);
+    }
+  }
+  return follow
+};
+
+VueI18n.prototype._getLocaleChain = function _getLocaleChain (start, fallbackLocale) {
+  if (start === '') { return [] }
+
+  if (!this._localeChainCache) {
+    this._localeChainCache = {};
+  }
+
+  var chain = this._localeChainCache[start];
+  if (!chain) {
+    if (!fallbackLocale) {
+      fallbackLocale = this.fallbackLocale;
+    }
+    chain = [];
+
+    // first block defined by start
+    var block = [start];
+
+    // while any intervening block found
+    while (isArray(block)) {
+      block = this._appendBlockToChain(
+        chain,
+        block,
+        fallbackLocale
+      );
+    }
+
+    // last block defined by default
+    var defaults;
+    if (isArray(fallbackLocale)) {
+      defaults = fallbackLocale;
+    } else if (isObject(fallbackLocale)) {
+      /* $FlowFixMe */
+      if (fallbackLocale['default']) {
+        defaults = fallbackLocale['default'];
+      } else {
+        defaults = null;
+      }
+    } else {
+      defaults = fallbackLocale;
+    }
+
+    // convert defaults to array
+    if (isString(defaults)) {
+      block = [defaults];
+    } else {
+      block = defaults;
+    }
+    if (block) {
+      this._appendBlockToChain(
+        chain,
+        block,
+        null
+      );
+    }
+    this._localeChainCache[start] = chain;
+  }
+  return chain
+};
+
+VueI18n.prototype._translate = function _translate (
+  messages,
+  locale,
+  fallback,
+  key,
+  host,
+  interpolateMode,
+  args
+) {
+  var chain = this._getLocaleChain(locale, fallback);
+  var res;
+  for (var i = 0; i < chain.length; i++) {
+    var step = chain[i];
+    res =
+      this._interpolate(step, messages[step], key, host, interpolateMode, args, [key]);
+    if (!isNull(res)) {
+      if (step !== locale && "development" !== 'production' && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+        warn(("Fall back to translate the keypath '" + key + "' with '" + step + "' locale."));
+      }
+      return res
+    }
+  }
+  return null
+};
+
+VueI18n.prototype._t = function _t (key, _locale, messages, host) {
+    var ref;
+
+    var values = [], len = arguments.length - 4;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 4 ];
+  if (!key) { return '' }
+
+  var parsedArgs = parseArgs.apply(void 0, values);
+  if(this._escapeParameterHtml) {
+    parsedArgs.params = escapeParams(parsedArgs.params);
+  }
+
+  var locale = parsedArgs.locale || _locale;
+
+  var ret = this._translate(
+    messages, locale, this.fallbackLocale, key,
+    host, 'string', parsedArgs.params
+  );
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to translate the keypath '" + key + "' with root locale."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return (ref = this._root).$t.apply(ref, [ key ].concat( values ))
+  } else {
+    ret = this._warnDefault(locale, key, ret, host, values, 'string');
+    if (this._postTranslation && ret !== null && ret !== undefined) {
+      ret = this._postTranslation(ret, key);
+    }
+    return ret
+  }
+};
+
+VueI18n.prototype.t = function t (key) {
+    var ref;
+
+    var values = [], len = arguments.length - 1;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 1 ];
+  return (ref = this)._t.apply(ref, [ key, this.locale, this._getMessages(), null ].concat( values ))
+};
+
+VueI18n.prototype._i = function _i (key, locale, messages, host, values) {
+  var ret =
+    this._translate(messages, locale, this.fallbackLocale, key, host, 'raw', values);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._isSilentTranslationWarn(key)) {
+      warn(("Fall back to interpolate the keypath '" + key + "' with root locale."));
+    }
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.$i18n.i(key, locale, values)
+  } else {
+    return this._warnDefault(locale, key, ret, host, [values], 'raw')
+  }
+};
+
+VueI18n.prototype.i = function i (key, locale, values) {
+  /* istanbul ignore if */
+  if (!key) { return '' }
+
+  if (!isString(locale)) {
+    locale = this.locale;
+  }
+
+  return this._i(key, locale, this._getMessages(), null, values)
+};
+
+VueI18n.prototype._tc = function _tc (
+  key,
+  _locale,
+  messages,
+  host,
+  choice
+) {
+    var ref;
+
+    var values = [], len = arguments.length - 5;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 5 ];
+  if (!key) { return '' }
+  if (choice === undefined) {
+    choice = 1;
+  }
+
+  var predefined = { 'count': choice, 'n': choice };
+  var parsedArgs = parseArgs.apply(void 0, values);
+  parsedArgs.params = Object.assign(predefined, parsedArgs.params);
+  values = parsedArgs.locale === null ? [parsedArgs.params] : [parsedArgs.locale, parsedArgs.params];
+  return this.fetchChoice((ref = this)._t.apply(ref, [ key, _locale, messages, host ].concat( values )), choice)
+};
+
+VueI18n.prototype.fetchChoice = function fetchChoice (message, choice) {
+  /* istanbul ignore if */
+  if (!message || !isString(message)) { return null }
+  var choices = message.split('|');
+
+  choice = this.getChoiceIndex(choice, choices.length);
+  if (!choices[choice]) { return message }
+  return choices[choice].trim()
+};
+
+VueI18n.prototype.tc = function tc (key, choice) {
+    var ref;
+
+    var values = [], len = arguments.length - 2;
+    while ( len-- > 0 ) values[ len ] = arguments[ len + 2 ];
+  return (ref = this)._tc.apply(ref, [ key, this.locale, this._getMessages(), null, choice ].concat( values ))
+};
+
+VueI18n.prototype._te = function _te (key, locale, messages) {
+    var args = [], len = arguments.length - 3;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 3 ];
+
+  var _locale = parseArgs.apply(void 0, args).locale || locale;
+  return this._exist(messages[_locale], key)
+};
+
+VueI18n.prototype.te = function te (key, locale) {
+  return this._te(key, this.locale, this._getMessages(), locale)
+};
+
+VueI18n.prototype.getLocaleMessage = function getLocaleMessage (locale) {
+  return looseClone(this._vm.messages[locale] || {})
+};
+
+VueI18n.prototype.setLocaleMessage = function setLocaleMessage (locale, message) {
+  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
+    this._checkLocaleMessage(locale, this._warnHtmlInMessage, message);
+  }
+  this._vm.$set(this._vm.messages, locale, message);
+};
+
+VueI18n.prototype.mergeLocaleMessage = function mergeLocaleMessage (locale, message) {
+  if (this._warnHtmlInMessage === 'warn' || this._warnHtmlInMessage === 'error') {
+    this._checkLocaleMessage(locale, this._warnHtmlInMessage, message);
+  }
+  this._vm.$set(this._vm.messages, locale, merge({}, this._vm.messages[locale] || {}, message));
+};
+
+VueI18n.prototype.getDateTimeFormat = function getDateTimeFormat (locale) {
+  return looseClone(this._vm.dateTimeFormats[locale] || {})
+};
+
+VueI18n.prototype.setDateTimeFormat = function setDateTimeFormat (locale, format) {
+  this._vm.$set(this._vm.dateTimeFormats, locale, format);
+  this._clearDateTimeFormat(locale, format);
+};
+
+VueI18n.prototype.mergeDateTimeFormat = function mergeDateTimeFormat (locale, format) {
+  this._vm.$set(this._vm.dateTimeFormats, locale, merge(this._vm.dateTimeFormats[locale] || {}, format));
+  this._clearDateTimeFormat(locale, format);
+};
+
+VueI18n.prototype._clearDateTimeFormat = function _clearDateTimeFormat (locale, format) {
+  for (var key in format) {
+    var id = locale + "__" + key;
+
+    if (!this._dateTimeFormatters.hasOwnProperty(id)) {
+      continue
+    }
+
+    delete this._dateTimeFormatters[id];
+  }
+};
+
+VueI18n.prototype._localizeDateTime = function _localizeDateTime (
+  value,
+  locale,
+  fallback,
+  dateTimeFormats,
+  key
+) {
+  var _locale = locale;
+  var formats = dateTimeFormats[_locale];
+
+  var chain = this._getLocaleChain(locale, fallback);
+  for (var i = 0; i < chain.length; i++) {
+    var current = _locale;
+    var step = chain[i];
+    formats = dateTimeFormats[step];
+    _locale = step;
+    // fallback locale
+    if (isNull(formats) || isNull(formats[key])) {
+      if (step !== locale && "development" !== 'production' && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+        warn(("Fall back to '" + step + "' datetime formats from '" + current + "' datetime formats."));
+      }
+    } else {
+      break
+    }
+  }
+
+  if (isNull(formats) || isNull(formats[key])) {
+    return null
+  } else {
+    var format = formats[key];
+    var id = _locale + "__" + key;
+    var formatter = this._dateTimeFormatters[id];
+    if (!formatter) {
+      formatter = this._dateTimeFormatters[id] = new Intl.DateTimeFormat(_locale, format);
+    }
+    return formatter.format(value)
+  }
+};
+
+VueI18n.prototype._d = function _d (value, locale, key) {
+  /* istanbul ignore if */
+  if ( true && !VueI18n.availabilities.dateTimeFormat) {
+    warn('Cannot format a Date value due to not supported Intl.DateTimeFormat.');
+    return ''
+  }
+
+  if (!key) {
+    return new Intl.DateTimeFormat(locale).format(value)
+  }
+
+  var ret =
+    this._localizeDateTime(value, locale, this.fallbackLocale, this._getDateTimeFormats(), key);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to datetime localization of root: key '" + key + "'."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.$i18n.d(value, key, locale)
+  } else {
+    return ret || ''
+  }
+};
+
+VueI18n.prototype.d = function d (value) {
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+  var locale = this.locale;
+  var key = null;
+
+  if (args.length === 1) {
+    if (isString(args[0])) {
+      key = args[0];
+    } else if (isObject(args[0])) {
+      if (args[0].locale) {
+        locale = args[0].locale;
+      }
+      if (args[0].key) {
+        key = args[0].key;
+      }
+    }
+  } else if (args.length === 2) {
+    if (isString(args[0])) {
+      key = args[0];
+    }
+    if (isString(args[1])) {
+      locale = args[1];
+    }
+  }
+
+  return this._d(value, locale, key)
+};
+
+VueI18n.prototype.getNumberFormat = function getNumberFormat (locale) {
+  return looseClone(this._vm.numberFormats[locale] || {})
+};
+
+VueI18n.prototype.setNumberFormat = function setNumberFormat (locale, format) {
+  this._vm.$set(this._vm.numberFormats, locale, format);
+  this._clearNumberFormat(locale, format);
+};
+
+VueI18n.prototype.mergeNumberFormat = function mergeNumberFormat (locale, format) {
+  this._vm.$set(this._vm.numberFormats, locale, merge(this._vm.numberFormats[locale] || {}, format));
+  this._clearNumberFormat(locale, format);
+};
+
+VueI18n.prototype._clearNumberFormat = function _clearNumberFormat (locale, format) {
+  for (var key in format) {
+    var id = locale + "__" + key;
+
+    if (!this._numberFormatters.hasOwnProperty(id)) {
+      continue
+    }
+
+    delete this._numberFormatters[id];
+  }
+};
+
+VueI18n.prototype._getNumberFormatter = function _getNumberFormatter (
+  value,
+  locale,
+  fallback,
+  numberFormats,
+  key,
+  options
+) {
+  var _locale = locale;
+  var formats = numberFormats[_locale];
+
+  var chain = this._getLocaleChain(locale, fallback);
+  for (var i = 0; i < chain.length; i++) {
+    var current = _locale;
+    var step = chain[i];
+    formats = numberFormats[step];
+    _locale = step;
+    // fallback locale
+    if (isNull(formats) || isNull(formats[key])) {
+      if (step !== locale && "development" !== 'production' && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+        warn(("Fall back to '" + step + "' number formats from '" + current + "' number formats."));
+      }
+    } else {
+      break
+    }
+  }
+
+  if (isNull(formats) || isNull(formats[key])) {
+    return null
+  } else {
+    var format = formats[key];
+
+    var formatter;
+    if (options) {
+      // If options specified - create one time number formatter
+      formatter = new Intl.NumberFormat(_locale, Object.assign({}, format, options));
+    } else {
+      var id = _locale + "__" + key;
+      formatter = this._numberFormatters[id];
+      if (!formatter) {
+        formatter = this._numberFormatters[id] = new Intl.NumberFormat(_locale, format);
+      }
+    }
+    return formatter
+  }
+};
+
+VueI18n.prototype._n = function _n (value, locale, key, options) {
+  /* istanbul ignore if */
+  if (!VueI18n.availabilities.numberFormat) {
+    if (true) {
+      warn('Cannot format a Number value due to not supported Intl.NumberFormat.');
+    }
+    return ''
+  }
+
+  if (!key) {
+    var nf = !options ? new Intl.NumberFormat(locale) : new Intl.NumberFormat(locale, options);
+    return nf.format(value)
+  }
+
+  var formatter = this._getNumberFormatter(value, locale, this.fallbackLocale, this._getNumberFormats(), key, options);
+  var ret = formatter && formatter.format(value);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._isSilentTranslationWarn(key) && !this._isSilentFallbackWarn(key)) {
+      warn(("Fall back to number localization of root: key '" + key + "'."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.$i18n.n(value, Object.assign({}, { key: key, locale: locale }, options))
+  } else {
+    return ret || ''
+  }
+};
+
+VueI18n.prototype.n = function n (value) {
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+  var locale = this.locale;
+  var key = null;
+  var options = null;
+
+  if (args.length === 1) {
+    if (isString(args[0])) {
+      key = args[0];
+    } else if (isObject(args[0])) {
+      if (args[0].locale) {
+        locale = args[0].locale;
+      }
+      if (args[0].key) {
+        key = args[0].key;
+      }
+
+      // Filter out number format options only
+      options = Object.keys(args[0]).reduce(function (acc, key) {
+          var obj;
+
+        if (includes(numberFormatKeys, key)) {
+          return Object.assign({}, acc, ( obj = {}, obj[key] = args[0][key], obj ))
+        }
+        return acc
+      }, null);
+    }
+  } else if (args.length === 2) {
+    if (isString(args[0])) {
+      key = args[0];
+    }
+    if (isString(args[1])) {
+      locale = args[1];
+    }
+  }
+
+  return this._n(value, locale, key, options)
+};
+
+VueI18n.prototype._ntp = function _ntp (value, locale, key, options) {
+  /* istanbul ignore if */
+  if (!VueI18n.availabilities.numberFormat) {
+    if (true) {
+      warn('Cannot format to parts a Number value due to not supported Intl.NumberFormat.');
+    }
+    return []
+  }
+
+  if (!key) {
+    var nf = !options ? new Intl.NumberFormat(locale) : new Intl.NumberFormat(locale, options);
+    return nf.formatToParts(value)
+  }
+
+  var formatter = this._getNumberFormatter(value, locale, this.fallbackLocale, this._getNumberFormats(), key, options);
+  var ret = formatter && formatter.formatToParts(value);
+  if (this._isFallbackRoot(ret)) {
+    if ( true && !this._isSilentTranslationWarn(key)) {
+      warn(("Fall back to format number to parts of root: key '" + key + "' ."));
+    }
+    /* istanbul ignore if */
+    if (!this._root) { throw Error('unexpected error') }
+    return this._root.$i18n._ntp(value, locale, key, options)
+  } else {
+    return ret || []
+  }
+};
+
+Object.defineProperties( VueI18n.prototype, prototypeAccessors );
+
+var availabilities;
+// $FlowFixMe
+Object.defineProperty(VueI18n, 'availabilities', {
+  get: function get () {
+    if (!availabilities) {
+      var intlDefined = typeof Intl !== 'undefined';
+      availabilities = {
+        dateTimeFormat: intlDefined && typeof Intl.DateTimeFormat !== 'undefined',
+        numberFormat: intlDefined && typeof Intl.NumberFormat !== 'undefined'
+      };
+    }
+
+    return availabilities
+  }
+});
+
+VueI18n.install = install;
+VueI18n.version = '8.22.2';
+
+/* harmony default export */ __webpack_exports__["default"] = (VueI18n);
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-inputmask/dist/vue-inputmask.js":
 /*!**********************************************************!*\
   !*** ./node_modules/vue-inputmask/dist/vue-inputmask.js ***!
@@ -124851,14 +127043,18 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-6" }, [
           _c("section", { staticClass: "card mb-2" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("partner_title")))
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "card-text" }, [
                   _c("fieldset", { staticClass: "form-group" }, [
                     _c("label", { attrs: { for: "basicInput" } }, [
-                      _vm._v("Ваша ссылка для привлечения пользователей")
+                      _vm._v(_vm._s(_vm.$i18n.t("partner_your_link")))
                     ]),
                     _vm._v(" "),
                     _c("input", {
@@ -124877,7 +127073,37 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _c("div", { staticClass: "col-md-6" }, [
+          _c("section", { staticClass: "card mb-2" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("partner_conditions")))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("p", { staticStyle: { "margin-bottom": "0.3rem" } }, [
+                    _vm._v(
+                      "\n                                  " +
+                        _vm._s(_vm.$i18n.t("partner_every_user")) +
+                        " "
+                    ),
+                    _c("code", [_vm._v("2%")]),
+                    _vm._v(
+                      " " +
+                        _vm._s(_vm.$i18n.t("partner_from_turnover")) +
+                        "\n                                  " +
+                        _vm._s(_vm.$i18n.t("partner_cheating")) +
+                        "\n                                "
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -124893,7 +127119,19 @@ var render = function() {
                     staticClass: "alert bg-rgba-primary mb-2",
                     attrs: { role: "alert" }
                   },
-                  [_vm._m(2)]
+                  [
+                    _c("div", { staticClass: "d-flex align-items-center" }, [
+                      _c("i", { staticClass: "bx bx-error-circle" }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(_vm.$i18n.t("partner_normal_status")) +
+                            "\n                  "
+                        )
+                      ])
+                    ])
+                  ]
                 )
               : _vm._e(),
             _vm._v(" "),
@@ -124908,7 +127146,19 @@ var render = function() {
                     staticClass: "alert bg-rgba-info mb-2",
                     attrs: { role: "alert" }
                   },
-                  [_vm._m(3)]
+                  [
+                    _c("div", { staticClass: "d-flex align-items-center" }, [
+                      _c("i", { staticClass: "bx bx-error-circle" }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(_vm.$i18n.t("partner_application_premium")) +
+                            "\n                  "
+                        )
+                      ])
+                    ])
+                  ]
                 )
               : _vm._e(),
             _vm._v(" "),
@@ -124919,7 +127169,19 @@ var render = function() {
                     staticClass: "alert bg-rgba-warning mb-2",
                     attrs: { role: "alert" }
                   },
-                  [_vm._m(4)]
+                  [
+                    _c("div", { staticClass: "d-flex align-items-center" }, [
+                      _c("i", { staticClass: "bx bx-error-circle" }),
+                      _vm._v(" "),
+                      _c("span", [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(_vm.$i18n.t("partner_success_premium")) +
+                            "\n                  "
+                        )
+                      ])
+                    ])
+                  ]
                 )
               : _vm._e(),
             _vm._v(" "),
@@ -124945,9 +127207,13 @@ var render = function() {
                             _vm._v(" "),
                             _c("span", [
                               _vm._v(
-                                "\n                            Ваша заявка была отклонена. " +
+                                "\n                        " +
+                                  _vm._s(
+                                    _vm.$i18n.t("partner_application_decline")
+                                  ) +
+                                  " " +
                                   _vm._s(_vm.request.message) +
-                                  "\n                          "
+                                  "\n                      "
                               )
                             ])
                           ]
@@ -124968,7 +127234,9 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                          Подать заявку ещё раз\n                        "
+                              "\n                      " +
+                                _vm._s(_vm.$i18n.t("partner_try")) +
+                                "\n                    "
                             )
                           ]
                         )
@@ -124986,16 +127254,16 @@ var render = function() {
                   attrs: { role: "alert" }
                 },
                 [
-                  _vm._m(5, true),
+                  _vm._m(0, true),
                   _vm._v(" "),
                   _c("div", { staticClass: "d-flex align-items-center" }, [
                     _c("i", { staticClass: "bx bx-error" }),
                     _vm._v(" "),
                     _c("span", [
                       _vm._v(
-                        "\n                        " +
+                        "\n                    " +
                           _vm._s(value) +
-                          "\n                      "
+                          "\n                  "
                       )
                     ])
                   ])
@@ -125011,16 +127279,16 @@ var render = function() {
                   attrs: { role: "alert" }
                 },
                 [
-                  _vm._m(6, true),
+                  _vm._m(1, true),
                   _vm._v(" "),
                   _c("div", { staticClass: "d-flex align-items-center" }, [
                     _c("i", { staticClass: "bx bx-error" }),
                     _vm._v(" "),
                     _c("span", [
                       _vm._v(
-                        "\n                        " +
+                        "\n                    " +
                           _vm._s(value) +
-                          "\n                      "
+                          "\n                  "
                       )
                     ])
                   ])
@@ -125029,12 +127297,54 @@ var render = function() {
             }),
             _vm._v(" "),
             _c("section", { staticClass: "card" }, [
-              _vm._m(7),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("partner_premium_title")))
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "card-text" }, [
-                    _vm._m(8),
+                    _c("p", [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(_vm.$i18n.t("partner_become_premium")) +
+                          " "
+                      ),
+                      _c(
+                        "span",
+                        { staticClass: "badge badge-warning text-white" },
+                        [_vm._v(_vm._s(_vm.$i18n.t("partner_10_percent")))]
+                      ),
+                      _vm._v(
+                        " " + _vm._s(_vm.$i18n.t("partner_from_deposit")) + " "
+                      ),
+                      _c(
+                        "span",
+                        { staticClass: "badge badge-primary text-white" },
+                        [_vm._v(_vm._s(_vm.$i18n.t("partner_5_cents")))]
+                      ),
+                      _vm._v(
+                        " " +
+                          _vm._s(
+                            _vm.$i18n.t("partner_to_active_registration")
+                          ) +
+                          " "
+                      ),
+                      _c(
+                        "span",
+                        { staticClass: "badge badge-success text-white" },
+                        [_vm._v(_vm._s(_vm.$i18n.t("partner_3_percents")))]
+                      ),
+                      _vm._v(
+                        " " +
+                          _vm._s(
+                            _vm.$i18n.t("partner_from_turnover_referral")
+                          ) +
+                          "\n                      "
+                      )
+                    ]),
                     _vm._v(" "),
                     _vm.isAdmin ||
                     ("partner_status" in _vm.user &&
@@ -125044,7 +127354,9 @@ var render = function() {
                       ? _c("div", { staticClass: "row" }, [
                           _c("div", { staticClass: "col-md-6" }, [
                             _c("fieldset", { staticClass: "form-group" }, [
-                              _c("label", [_vm._v("Telegram для связи:")]),
+                              _c("label", [
+                                _vm._v(_vm._s(_vm.$i18n.t("partner_telegram")))
+                              ]),
                               _vm._v(" "),
                               _c("input", {
                                 directives: [
@@ -125076,9 +127388,7 @@ var render = function() {
                               { staticClass: "form-group" },
                               [
                                 _c("label", { staticClass: "align-top" }, [
-                                  _vm._v(
-                                    "Планируемое количество приглашенных в день:"
-                                  )
+                                  _vm._v(_vm._s(_vm.$i18n.t("partner_plan")))
                                 ]),
                                 _vm._v(" "),
                                 _c("select2", {
@@ -125117,8 +127427,7 @@ var render = function() {
                                 staticClass: "form-control",
                                 staticStyle: { height: "150px" },
                                 attrs: {
-                                  placeholder:
-                                    "Опишите максимально подробно источники трафика, потенциальный охват, предложения"
+                                  placeholder: _vm.$i18n.t("partner_comment")
                                 },
                                 domProps: { value: _vm.comment },
                                 on: {
@@ -125156,7 +127465,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: { click: _vm.clearRequest }
                       },
-                      [_vm._v("Очистить")]
+                      [_vm._v(_vm._s(_vm.$i18n.t("partner_clear")))]
                     ),
                     _vm._v(" "),
                     _c(
@@ -125180,7 +127489,7 @@ var render = function() {
                         attrs: { disabled: !_vm.buttonEnable, type: "button" },
                         on: { click: _vm.sendRequest }
                       },
-                      [_vm._v("Отправить")]
+                      [_vm._v(_vm._s(_vm.$i18n.t("partner_send")))]
                     ),
                     _vm._v(" "),
                     _vm.isAdmin
@@ -125195,7 +127504,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Исключение партнера")]
+                          [_vm._v(_vm._s(_vm.$i18n.t("partner_exclusion")))]
                         )
                       : _vm._e(),
                     _vm._v(" "),
@@ -125212,7 +127521,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Сделать партнером")]
+                          [_vm._v(_vm._s(_vm.$i18n.t("partner_make_partner")))]
                         )
                       : _vm._e()
                   ])
@@ -125225,14 +127534,40 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "col-md-12" }, [
           _c("section", { staticClass: "card" }, [
-            _vm._m(9),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("partner_all_stat")))
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "card-text" }, [
                   _c("div", { staticClass: "table-responsive" }, [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(10),
+                      _c("thead", [
+                        _c("tr", [
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$i18n.t("partner_all_referrals")))
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$i18n.t("partner_reward")))
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$i18n.t("partner_active")))
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$i18n.t("partner_deposited")))
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(_vm._s(_vm.$i18n.t("partner_clicks")))
+                          ])
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("tbody", [
                         _c("tr", [
@@ -125270,7 +127605,41 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(11)
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("section", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("partner_list")))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c(
+                      "table",
+                      { staticClass: "table", attrs: { id: "referrals" } },
+                      [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("partner_token")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("partner_date")))
+                            ])
+                          ])
+                        ])
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
       ])
     ])
   ])
@@ -125280,88 +127649,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v("Ваша партнерская ссылка")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-6" }, [
-      _c("section", { staticClass: "card mb-2" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _c("h4", { staticClass: "card-title" }, [
-            _vm._v("Условия партнерской программы")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-content" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "card-text" }, [
-              _c("p", { staticStyle: { "margin-bottom": "0.3rem" } }, [
-                _vm._v(
-                  "\n                                        Каждый приглашенный пользователь приносит партнеру вознаграждение в размере "
-                ),
-                _c("code", [_vm._v("2%")]),
-                _vm._v(
-                  " с торгового оборота, исключая бонусные средства.\n                                        Накрутка и иные способы фальсификации регистраций приведут к остановке действия аккаунта.\n                                    "
-                )
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-error-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          '\n                        У вас обычный статус партнера, но вы можете его улучшить отправив заявку для получение "премиум" статуса.\n                      '
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-error-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                        Заявка на подключение премиум статуса партнера находится на рассмотрении.\n                      "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-error-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                        Вы успешно стали премиум партнером, теперь вам зачисляются повышенные выплаты за приглашенных пользователей.\n                      "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "button",
       {
@@ -125391,104 +127678,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("«Премиум» партнер")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _vm._v(
-        "\n                            Станьте «премиум» партнером чтобы получать повышенные выплаты за приглашенных пользователей. Вы сможете получать "
-      ),
-      _c("span", { staticClass: "badge badge-warning text-white" }, [
-        _vm._v("10 процентов")
-      ]),
-      _vm._v(" с пополнения баланса приглашенного пользователя, "),
-      _c("span", { staticClass: "badge badge-primary text-white" }, [
-        _vm._v("5 центов")
-      ]),
-      _vm._v(
-        " за подтвержденную регистрацию (аккаунт на котором подтверждена почта) и "
-      ),
-      _c("span", { staticClass: "badge badge-success text-white" }, [
-        _vm._v("3 процента")
-      ]),
-      _vm._v(
-        ' с торгового оборота приглашенного пользователя. Для получения статуса "премиум" партнера необходимо отправить заявку на рассмотрение.\n                          '
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v("Общая статистика партнера")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Количество приглашенных")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Вознаграждение")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Активных")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Пополнивших баланс")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Переходов по ссылке")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("section", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _c("h4", { staticClass: "card-title" }, [
-            _vm._v("Список приглашенных")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-content" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "card-text" }, [
-              _c("div", { staticClass: "table-responsive" }, [
-                _c(
-                  "table",
-                  { staticClass: "table", attrs: { id: "referrals" } },
-                  [
-                    _c("thead", [
-                      _c("tr", [
-                        _c("th", [_vm._v("Токен пользователя")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Дата регистрации")])
-                      ])
-                    ])
-                  ]
-                )
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -125534,13 +127723,38 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(0),
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h3",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "myModalLabel1" }
+                  },
+                  [_vm._v(_vm._s(_vm.$i18n.t("profile_confirm_phone_number")))]
+                ),
+                _vm._v(" "),
+                _vm._m(0)
+              ]),
               _vm._v(" "),
               _c(
                 "div",
                 { staticClass: "modal-body" },
                 [
-                  _vm._m(1),
+                  _c("p", [
+                    _vm._v(
+                      "\n                      " +
+                        _vm._s(_vm.$i18n.t("profile_call_made")) +
+                        " "
+                    ),
+                    _c("code", [
+                      _vm._v(_vm._s(_vm.$i18n.t("profile_do_not_answer")))
+                    ]),
+                    _vm._v(
+                      " " +
+                        _vm._s(_vm.$i18n.t("profile_3_tries")) +
+                        "\n                    "
+                    )
+                  ]),
                   _vm._v(" "),
                   _vm._l(_vm.phoneModalErrors, function(value) {
                     return _c(
@@ -125551,7 +127765,7 @@ var render = function() {
                         attrs: { role: "alert" }
                       },
                       [
-                        _vm._m(2, true),
+                        _vm._m(1, true),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -125581,7 +127795,7 @@ var render = function() {
                         attrs: { role: "alert" }
                       },
                       [
-                        _vm._m(3, true),
+                        _vm._m(2, true),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -125655,7 +127869,7 @@ var render = function() {
                               attrs: { type: "button" },
                               on: { click: _vm.sendPhoneCode }
                             },
-                            [_vm._v("Сделать звонок")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_make_call")))]
                           )
                         ]
                       ),
@@ -125691,7 +127905,8 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "Повторить (" +
+                                      _vm._s(_vm.$i18n.t("profile_repeat")) +
+                                        " (" +
                                         _vm._s(scope.props.seconds) +
                                         ")"
                                     )
@@ -125710,7 +127925,20 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
-                _vm._m(4),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-light-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [
+                    _c("i", { staticClass: "bx bx-x d-block d-sm-none" }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "d-none d-sm-block" }, [
+                      _vm._v(_vm._s(_vm.$i18n.t("profile_close")))
+                    ])
+                  ]
+                ),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -125726,7 +127954,7 @@ var render = function() {
                     _c("i", { staticClass: "bx bx-check d-block d-sm-none" }),
                     _vm._v(" "),
                     _c("span", { staticClass: "d-none d-sm-block" }, [
-                      _vm._v("Подтвердить")
+                      _vm._v(_vm._s(_vm.$i18n.t("profile_confirm")))
                     ])
                   ]
                 )
@@ -125760,7 +127988,13 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(5),
+              _c("div", { staticClass: "modal-header" }, [
+                _c("h3", { staticClass: "modal-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("profile_confirm_email")))
+                ]),
+                _vm._v(" "),
+                _vm._m(3)
+              ]),
               _vm._v(" "),
               _c(
                 "div",
@@ -125768,7 +128002,9 @@ var render = function() {
                 [
                   _c("p", [
                     _vm._v(
-                      "\n                        На указанную почту будет отправлен четырёхзначный код, введите его для подтверждения.\n                    "
+                      "\n                      " +
+                        _vm._s(_vm.$i18n.t("profile_email_be_send")) +
+                        "\n                    "
                     )
                   ]),
                   _vm._v(" "),
@@ -125781,7 +128017,7 @@ var render = function() {
                         attrs: { role: "alert" }
                       },
                       [
-                        _vm._m(6, true),
+                        _vm._m(4, true),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -125811,7 +128047,7 @@ var render = function() {
                         attrs: { role: "alert" }
                       },
                       [
-                        _vm._m(7, true),
+                        _vm._m(5, true),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -125885,7 +128121,7 @@ var render = function() {
                               attrs: { type: "button" },
                               on: { click: _vm.sendEmailCode }
                             },
-                            [_vm._v("Отправить код")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_send_code")))]
                           )
                         ]
                       ),
@@ -125921,7 +128157,8 @@ var render = function() {
                                   },
                                   [
                                     _vm._v(
-                                      "Повторить (" +
+                                      _vm._s(_vm.$i18n.t("profile_repeat")) +
+                                        " (" +
                                         _vm._s(scope.props.seconds) +
                                         ")"
                                     )
@@ -125940,7 +128177,20 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("div", { staticClass: "modal-footer" }, [
-                _vm._m(8),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-light-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [
+                    _c("i", { staticClass: "bx bx-x d-block d-sm-none" }),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "d-none d-sm-block" }, [
+                      _vm._v(_vm._s(_vm.$i18n.t("profile_close")))
+                    ])
+                  ]
+                ),
                 _vm._v(" "),
                 _c(
                   "button",
@@ -125956,7 +128206,7 @@ var render = function() {
                     _c("i", { staticClass: "bx bx-check d-block d-sm-none" }),
                     _vm._v(" "),
                     _c("span", { staticClass: "d-none d-sm-block" }, [
-                      _vm._v("Подтвердить")
+                      _vm._v(_vm._s(_vm.$i18n.t("profile_confirm")))
                     ])
                   ]
                 )
@@ -125984,7 +128234,7 @@ var render = function() {
                     attrs: { role: "alert" }
                   },
                   [
-                    _vm._m(9, true),
+                    _vm._m(6, true),
                     _vm._v(" "),
                     _c("div", { staticClass: "d-flex align-items-center" }, [
                       _c("i", { staticClass: "bx bx-error" }),
@@ -126009,7 +128259,7 @@ var render = function() {
                     attrs: { role: "alert" }
                   },
                   [
-                    _vm._m(10, true),
+                    _vm._m(7, true),
                     _vm._v(" "),
                     _c("div", { staticClass: "d-flex align-items-center" }, [
                       _c("i", { staticClass: "bx bx-error" }),
@@ -126027,14 +128277,20 @@ var render = function() {
               }),
               _vm._v(" "),
               _c("div", { staticClass: "card" }, [
-                _vm._m(11),
+                _c("div", { staticClass: "card-header" }, [
+                  _c("h4", { staticClass: "card-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("profile_general")))
+                  ])
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-content" }, [
                   _c("div", { staticClass: "card-body" }, [
                     _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("fieldset", { staticClass: "form-group" }, [
-                          _c("label", [_vm._v("Никнейм")]),
+                          _c("label", [
+                            _vm._v(_vm._s(_vm.$i18n.t("profile_nickname")))
+                          ]),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -126111,7 +128367,11 @@ var render = function() {
                                         },
                                         on: { click: _vm.updateEmail }
                                       },
-                                      [_vm._v("Обновить")]
+                                      [
+                                        _vm._v(
+                                          _vm._s(_vm.$i18n.t("profile_refresh"))
+                                        )
+                                      ]
                                     )
                                   ]
                                 )
@@ -126133,7 +128393,11 @@ var render = function() {
                                           "data-target": "#email"
                                         }
                                       },
-                                      [_vm._v("Подтвердить")]
+                                      [
+                                        _vm._v(
+                                          _vm._s(_vm.$i18n.t("profile_confirm"))
+                                        )
+                                      ]
                                     )
                                   ]
                                 )
@@ -126144,7 +128408,9 @@ var render = function() {
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c("fieldset", { staticClass: "form-group" }, [
-                          _c("label", [_vm._v("Телефон*")]),
+                          _c("label", [
+                            _vm._v(_vm._s(_vm.$i18n.t("profile_phone")) + "*")
+                          ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "input-group" }, [
                             _c("input", {
@@ -126193,7 +128459,11 @@ var render = function() {
                                         },
                                         on: { click: _vm.updatePhone }
                                       },
-                                      [_vm._v("Обновить")]
+                                      [
+                                        _vm._v(
+                                          _vm._s(_vm.$i18n.t("profile_refresh"))
+                                        )
+                                      ]
                                     )
                                   ]
                                 )
@@ -126215,7 +128485,11 @@ var render = function() {
                                           "data-target": "#phone"
                                         }
                                       },
-                                      [_vm._v("Подтвердить")]
+                                      [
+                                        _vm._v(
+                                          _vm._s(_vm.$i18n.t("profile_confirm"))
+                                        )
+                                      ]
                                     )
                                   ]
                                 )
@@ -126264,7 +128538,7 @@ var render = function() {
                           { staticClass: "form-group" },
                           [
                             _c("label", { staticClass: "align-top" }, [
-                              _vm._v("Пол")
+                              _vm._v(_vm._s(_vm.$i18n.t("profile_gender")))
                             ]),
                             _vm._v(" "),
                             _c("select2", {
@@ -126295,7 +128569,7 @@ var render = function() {
                           { staticClass: "form-group" },
                           [
                             _c("label", { staticClass: "align-top" }, [
-                              _vm._v("Язык")
+                              _vm._v(_vm._s(_vm.$i18n.t("profile_language")))
                             ]),
                             _vm._v(" "),
                             _c("select2", {
@@ -126320,7 +128594,15 @@ var render = function() {
                         )
                       ]),
                       _vm._v(" "),
-                      _vm._m(12),
+                      _c("div", { staticClass: "col-md-8" }, [
+                        _c("p", [
+                          _vm._v(
+                            "\n                                      " +
+                              _vm._s(_vm.$i18n.t("profile_dont_use_email")) +
+                              "\n                                    "
+                          )
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c(
@@ -126333,7 +128615,7 @@ var render = function() {
                             },
                             on: { click: _vm.saveGeneral }
                           },
-                          [_vm._v("Сохранить изменения")]
+                          [_vm._v(_vm._s(_vm.$i18n.t("profile_save")))]
                         ),
                         _vm._v(" "),
                         _c(
@@ -126344,7 +128626,7 @@ var render = function() {
                             attrs: { type: "button" },
                             on: { click: _vm.clearMain }
                           },
-                          [_vm._v("Очистить поля")]
+                          [_vm._v(_vm._s(_vm.$i18n.t("profile_clear")))]
                         )
                       ])
                     ])
@@ -126359,7 +128641,11 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(13),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("profile_connect_social")))
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -126403,7 +128689,13 @@ var render = function() {
                                   ],
                                   staticClass: "text-white"
                                 },
-                                [_vm._v("(прикреплено)")]
+                                [
+                                  _vm._v(
+                                    "(" +
+                                      _vm._s(_vm.$i18n.t("profile_connected")) +
+                                      ")"
+                                  )
+                                ]
                               )
                             ]
                           )
@@ -126443,7 +128735,13 @@ var render = function() {
                                   ],
                                   staticClass: "text-white"
                                 },
-                                [_vm._v("(прикреплено)")]
+                                [
+                                  _vm._v(
+                                    "(" +
+                                      _vm._s(_vm.$i18n.t("profile_connected")) +
+                                      ")"
+                                  )
+                                ]
                               )
                             ]
                           )
@@ -126465,7 +128763,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(14, true),
+              _vm._m(8, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -126490,7 +128788,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(15, true),
+              _vm._m(9, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -126510,14 +128808,22 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(16),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("profile_change_password")))
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Текущий пароль")]),
+                        _c("label", [
+                          _vm._v(
+                            _vm._s(_vm.$i18n.t("profile_current_password"))
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -126545,7 +128851,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Новый пароль")]),
+                        _c("label", [
+                          _vm._v(_vm._s(_vm.$i18n.t("profile_new_password")))
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -126573,7 +128881,11 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Повтор нового пароля")]),
+                        _c("label", [
+                          _vm._v(
+                            _vm._s(_vm.$i18n.t("profile_repeat_new_password"))
+                          )
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -126599,7 +128911,15 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(17),
+                    _c("div", { staticClass: "col-md-8" }, [
+                      _c("p", [
+                        _vm._v(
+                          "\n                                      " +
+                            _vm._s(_vm.$i18n.t("profile_save_password")) +
+                            "\n                                    "
+                        )
+                      ])
+                    ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c(
@@ -126612,7 +128932,7 @@ var render = function() {
                           },
                           on: { click: _vm.changePassword }
                         },
-                        [_vm._v("Сохранить изменения")]
+                        [_vm._v(_vm._s(_vm.$i18n.t("profile_save")))]
                       ),
                       _vm._v(" "),
                       _c(
@@ -126623,7 +128943,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: { click: _vm.clearPassword }
                         },
-                        [_vm._v("Очистить поля")]
+                        [_vm._v(_vm._s(_vm.$i18n.t("profile_clear")))]
                       )
                     ])
                   ])
@@ -126647,7 +128967,19 @@ var render = function() {
             staticClass: "alert bg-rgba-warning mb-2",
             attrs: { role: "alert" }
           },
-          [_vm._m(18)]
+          [
+            _c("div", { staticClass: "d-flex align-items-center" }, [
+              _c("i", { staticClass: "bx bx-error-circle" }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(
+                  "\n              " +
+                    _vm._s(_vm.$i18n.t("profile_dont_verified")) +
+                    "\n            "
+                )
+              ])
+            ])
+          ]
         ),
         _vm._v(" "),
         _c(
@@ -126664,7 +128996,19 @@ var render = function() {
             staticClass: "alert bg-rgba-success mb-2",
             attrs: { role: "alert" }
           },
-          [_vm._m(19)]
+          [
+            _c("div", { staticClass: "d-flex align-items-center" }, [
+              _c("i", { staticClass: "bx bx-error-circle" }),
+              _vm._v(" "),
+              _c("span", [
+                _vm._v(
+                  "\n              " +
+                    _vm._s(_vm.$i18n.t("profile_verified")) +
+                    "\n            "
+                )
+              ])
+            ])
+          ]
         ),
         _vm._v(" "),
         _vm._l(_vm.main_error, function(value) {
@@ -126675,7 +129019,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(20, true),
+              _vm._m(10, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -126700,7 +129044,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(21, true),
+              _vm._m(11, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -126720,14 +129064,27 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(22),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("profile_main")) + " "),
+                  _c("small", [
+                    _c("i", [
+                      _vm._v(
+                        "(" + _vm._s(_vm.$i18n.t("profile_from_document")) + ")"
+                      )
+                    ])
+                  ])
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Фамилия")]),
+                        _c("label", [
+                          _vm._v(_vm._s(_vm.$i18n.t("profile_last_name")))
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -126758,7 +129115,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Имя")]),
+                        _c("label", [
+                          _vm._v(_vm._s(_vm.$i18n.t("profile_name")))
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -126789,7 +129148,20 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _vm._m(23),
+                        _c("label", [
+                          _vm._v(
+                            _vm._s(_vm.$i18n.t("profile_patronymic")) + " "
+                          ),
+                          _c("small", [
+                            _c("i", [
+                              _vm._v(
+                                "(" +
+                                  _vm._s(_vm.$i18n.t("profile_if_have")) +
+                                  ")"
+                              )
+                            ])
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -126820,7 +129192,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Дата рождения")]),
+                        _c("label", [
+                          _vm._v(_vm._s(_vm.$i18n.t("profile_birth")))
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -126857,7 +129231,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Адрес регистрации")]),
+                        _c("label", [
+                          _vm._v(_vm._s(_vm.$i18n.t("profile_registration")))
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -126889,7 +129265,7 @@ var render = function() {
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
                         _c("label", [
-                          _vm._v("Серия и номер удостоверяющего документа")
+                          _vm._v(_vm._s(_vm.$i18n.t("profile_document_number")))
                         ]),
                         _vm._v(" "),
                         _c("input", {
@@ -126919,7 +129295,15 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(24),
+                    _c("div", { staticClass: "col-md-7" }, [
+                      _c("p", [
+                        _vm._v(
+                          "\n                                      " +
+                            _vm._s(_vm.$i18n.t("profile_only_for_verify")) +
+                            "\n                                    "
+                        )
+                      ])
+                    ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-5" }, [
                       _c(
@@ -126940,7 +129324,7 @@ var render = function() {
                           },
                           on: { click: _vm.saveMain }
                         },
-                        [_vm._v("Сохранить изменения")]
+                        [_vm._v(_vm._s(_vm.$i18n.t("profile_save")))]
                       ),
                       _vm._v(" "),
                       _c(
@@ -126959,7 +129343,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: { click: _vm.verifyAccount }
                         },
-                        [_vm._v("Верифицировать")]
+                        [_vm._v(_vm._s(_vm.$i18n.t("profile_verify")))]
                       ),
                       _vm._v(" "),
                       _c(
@@ -126978,7 +129362,7 @@ var render = function() {
                           attrs: { type: "button" },
                           on: { click: _vm.clearPrivate }
                         },
-                        [_vm._v("Очистить поля")]
+                        [_vm._v(_vm._s(_vm.$i18n.t("profile_clear")))]
                       )
                     ])
                   ])
@@ -126996,7 +129380,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(25, true),
+              _vm._m(12, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -127021,7 +129405,7 @@ var render = function() {
               attrs: { role: "alert" }
             },
             [
-              _vm._m(26, true),
+              _vm._m(13, true),
               _vm._v(" "),
               _c("div", { staticClass: "d-flex align-items-center" }, [
                 _c("i", { staticClass: "bx bx-error" }),
@@ -127041,7 +129425,11 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(27),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("profile_first_page")))
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -127059,7 +129447,19 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(28)]
+                    [
+                      _c("div", { staticClass: "d-flex align-items-center" }, [
+                        _c("i", { staticClass: "bx bx-info-circle" }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "\n                                      " +
+                              _vm._s(_vm.$i18n.t("profile_uploading")) +
+                              "\n                                    "
+                          )
+                        ])
+                      ])
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -127080,7 +129480,19 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(29)]
+                    [
+                      _c("div", { staticClass: "d-flex align-items-center" }, [
+                        _c("i", { staticClass: "bx bx-info-circle" }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "\n                                      " +
+                              _vm._s(_vm.$i18n.t("profile_checking")) +
+                              "\n                                    "
+                          )
+                        ])
+                      ])
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -127097,7 +129509,19 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(30)]
+                    [
+                      _c("div", { staticClass: "d-flex align-items-center" }, [
+                        _c("i", { staticClass: "bx bx-info-circle" }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "\n                                      " +
+                              _vm._s(_vm.$i18n.t("profile_approved")) +
+                              "\n                                    "
+                          )
+                        ])
+                      ])
+                    ]
                   ),
                   _vm._v(" "),
                   _vm.document_first_page && _vm.isAdmin
@@ -127166,7 +129590,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Отклонить")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_decline")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -127186,7 +129610,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Удалить")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_remove")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -127206,7 +129630,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Проверено")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_checked")))]
                           )
                         ])
                       ])
@@ -127237,8 +129661,10 @@ var render = function() {
                               accept:
                                 "image/jpg, image/jpeg, image/png, image/gif",
                               state: Boolean(_vm.document_first_page),
-                              placeholder: "Выберите изображение",
-                              "drop-placeholder": "Перетащите сюда файл..."
+                              placeholder: _vm.$i18n.t("profile_select_image"),
+                              "drop-placeholder": _vm.$i18n.t(
+                                "profile_move_file"
+                              )
                             },
                             on: { change: _vm.firstUpload },
                             model: {
@@ -127261,7 +129687,11 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(31),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("profile_page_with_registration")))
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -127279,7 +129709,19 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(32)]
+                    [
+                      _c("div", { staticClass: "d-flex align-items-center" }, [
+                        _c("i", { staticClass: "bx bx-info-circle" }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "\n                                      " +
+                              _vm._s(_vm.$i18n.t("profile_uploading")) +
+                              "\n                                    "
+                          )
+                        ])
+                      ])
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -127300,7 +129742,19 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(33)]
+                    [
+                      _c("div", { staticClass: "d-flex align-items-center" }, [
+                        _c("i", { staticClass: "bx bx-info-circle" }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "\n                                      " +
+                              _vm._s(_vm.$i18n.t("profile_checking")) +
+                              "\n                                    "
+                          )
+                        ])
+                      ])
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -127317,7 +129771,19 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(34)]
+                    [
+                      _c("div", { staticClass: "d-flex align-items-center" }, [
+                        _c("i", { staticClass: "bx bx-info-circle" }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "\n                                      " +
+                              _vm._s(_vm.$i18n.t("profile_approved")) +
+                              "\n                                    "
+                          )
+                        ])
+                      ])
+                    ]
                   ),
                   _vm._v(" "),
                   _vm.document_second_page && _vm.isAdmin
@@ -127388,7 +129854,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Отклонить")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_decline")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -127408,7 +129874,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Удалить")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_remove")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -127428,7 +129894,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Проверено")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_checked")))]
                           )
                         ])
                       ])
@@ -127459,8 +129925,10 @@ var render = function() {
                               accept:
                                 "image/jpg, image/jpeg, image/png, image/gif",
                               state: Boolean(_vm.document_second_page),
-                              placeholder: "Выберите изображение",
-                              "drop-placeholder": "Перетащите сюда файл..."
+                              placeholder: _vm.$i18n.t("profile_select_image"),
+                              "drop-placeholder": _vm.$i18n.t(
+                                "profile_move_file"
+                              )
                             },
                             on: { change: _vm.secondUpload },
                             model: {
@@ -127483,7 +129951,11 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-4" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(35),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("profile_additional_document")))
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -127501,7 +129973,19 @@ var render = function() {
                       staticClass: "alert bg-rgba-warning mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(36)]
+                    [
+                      _c("div", { staticClass: "d-flex align-items-center" }, [
+                        _c("i", { staticClass: "bx bx-info-circle" }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "\n                                      " +
+                              _vm._s(_vm.$i18n.t("profile_uploading")) +
+                              "\n                                    "
+                          )
+                        ])
+                      ])
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -127522,7 +130006,19 @@ var render = function() {
                       staticClass: "alert bg-rgba-primary mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(37)]
+                    [
+                      _c("div", { staticClass: "d-flex align-items-center" }, [
+                        _c("i", { staticClass: "bx bx-info-circle" }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "\n                                      " +
+                              _vm._s(_vm.$i18n.t("profile_checking")) +
+                              "\n                                    "
+                          )
+                        ])
+                      ])
+                    ]
                   ),
                   _vm._v(" "),
                   _c(
@@ -127539,7 +130035,19 @@ var render = function() {
                       staticClass: "alert bg-rgba-success mb-0 alert-paddings",
                       attrs: { role: "alert" }
                     },
-                    [_vm._m(38)]
+                    [
+                      _c("div", { staticClass: "d-flex align-items-center" }, [
+                        _c("i", { staticClass: "bx bx-info-circle" }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(
+                            "\n                                      " +
+                              _vm._s(_vm.$i18n.t("profile_approved")) +
+                              "\n                                    "
+                          )
+                        ])
+                      ])
+                    ]
                   ),
                   _vm._v(" "),
                   _vm.document_additional && _vm.isAdmin
@@ -127608,7 +130116,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Отклонить")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_decline")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -127628,7 +130136,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Удалить")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_remove")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -127648,7 +130156,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("Проверено")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("profile_checked")))]
                           )
                         ])
                       ])
@@ -127679,8 +130187,10 @@ var render = function() {
                               accept:
                                 "image/jpg, image/jpeg, image/png, image/gif",
                               state: Boolean(_vm.document_additional),
-                              placeholder: "Выберите изображение",
-                              "drop-placeholder": "Перетащите сюда файл..."
+                              placeholder: _vm.$i18n.t("profile_select_image"),
+                              "drop-placeholder": _vm.$i18n.t(
+                                "profile_move_file"
+                              )
                             },
                             on: { change: _vm.additionalUpload },
                             model: {
@@ -127711,42 +130221,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h3", { staticClass: "modal-title", attrs: { id: "myModalLabel1" } }, [
-        _vm._v("Подтвердить номер телефона")
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close rounded-pill",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("i", { staticClass: "bx bx-x" })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _vm._v(
-        "\n                        На номер телефона будет совершен звонок. Введите посление 4 цифры номера для подтверждения. "
-      ),
-      _c("code", [
-        _vm._v(
-          "Отвечать на звонок не нужно, нужны только 4 последние цифры номера!"
-        )
-      ]),
-      _vm._v(
-        " На подтверждение номера выделяется 3 попытки.\n                    "
-      )
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "close rounded-pill",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("i", { staticClass: "bx bx-x" })]
+    )
   },
   function() {
     var _vm = this
@@ -127789,38 +130275,15 @@ var staticRenderFns = [
     return _c(
       "button",
       {
-        staticClass: "btn btn-light-secondary",
-        attrs: { type: "button", "data-dismiss": "modal" }
+        staticClass: "close rounded-pill",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
       },
-      [
-        _c("i", { staticClass: "bx bx-x d-block d-sm-none" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "d-none d-sm-block" }, [_vm._v("Закрыть")])
-      ]
+      [_c("i", { staticClass: "bx bx-x" })]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c("h3", { staticClass: "modal-title" }, [
-        _vm._v("Подтвердить email адрес")
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "close rounded-pill",
-          attrs: {
-            type: "button",
-            "data-dismiss": "modal",
-            "aria-label": "Close"
-          }
-        },
-        [_c("i", { staticClass: "bx bx-x" })]
-      )
-    ])
   },
   function() {
     var _vm = this
@@ -127863,14 +130326,31 @@ var staticRenderFns = [
     return _c(
       "button",
       {
-        staticClass: "btn btn-light-secondary",
-        attrs: { type: "button", "data-dismiss": "modal" }
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
       },
-      [
-        _c("i", { staticClass: "bx bx-x d-block d-sm-none" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "d-none d-sm-block" }, [_vm._v("Закрыть")])
-      ]
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
   },
   function() {
@@ -127911,34 +130391,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Основная информация")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8" }, [
-      _c("p", [
-        _vm._v(
-          "\n                                        * Не используем email для рассылок, мобильный телефон только для подтверждения личности - мы не будем вам звонить.\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Подключить соц. сети")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "button",
       {
@@ -127951,69 +130403,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "alert",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Изменение пароля")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-8" }, [
-      _c("p", [
-        _vm._v(
-          "\n                                        Сохраните пароль в надежном месте после его изменения, во избежание потери доступа к аккаунту.\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-error-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n              Ваш аккаунт не верифицирован! Для верификации заполните личные данные и загрузите документы.\n            "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-error-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v("\n              У Вас верифицированный аккаунт!\n            ")
-      ])
-    ])
   },
   function() {
     var _vm = this
@@ -128053,38 +130442,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v("Личные данные "),
-        _c("small", [_c("i", [_vm._v("(из удостоверяющего документа)")])])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", [
-      _vm._v("Отчество "),
-      _c("small", [_c("i", [_vm._v("(если есть)")])])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-7" }, [
-      _c("p", [
-        _vm._v(
-          "\n                                        Используются только для верификации личности, это необходимо для защиты от отмывания денег.\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "button",
       {
@@ -128097,179 +130454,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "close",
-        attrs: {
-          type: "button",
-          "data-dismiss": "alert",
-          "aria-label": "Close"
-        }
-      },
-      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v("Первая страница паспорта или ID")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-info-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                                      Идет загрузка документа\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-info-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                                      Документ находится на проверке!\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-info-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                                      Документ успешно подтвержден!\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v("Страница с пропиской или обратная сторона ID")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-info-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                                      Идет загрузка документа\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-info-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                                      Документ находится на проверке!\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-info-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                                      Документ успешно подтвержден!\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v("Допольнительный документ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-info-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                                      Идет загрузка документа\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-info-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                                      Документ находится на проверке!\n                                    "
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-flex align-items-center" }, [
-      _c("i", { staticClass: "bx bx-info-circle" }),
-      _vm._v(" "),
-      _c("span", [
-        _vm._v(
-          "\n                                      Документ успешно подтвержден!\n                                    "
-        )
-      ])
-    ])
   }
 ]
 render._withStripped = true
@@ -128370,14 +130554,20 @@ var render = function() {
           _vm._v(" "),
           _c("div", { staticClass: "col-md-6" }, [
             _c("section", { staticClass: "card" }, [
-              _vm._m(0),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("promo_code_title")))
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "card-text" }, [
                     _c("p", { staticStyle: { "margin-bottom": "1.7rem" } }, [
                       _vm._v(
-                        "\n                                    Используйте общедоступные или приватные промокоды для получения скидки, кэшбэка а также иных\n                                    привилегий. Обратите внимание - некоторые промокоды имеют условия использования.\n                                "
+                        "\n                                  " +
+                          _vm._s(_vm.$i18n.t("promo_code_use_desc")) +
+                          "\n                                "
                       )
                     ]),
                     _vm._v(" "),
@@ -128414,7 +130604,7 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         on: { click: _vm.clearPromocode }
                       },
-                      [_vm._v("Очистить")]
+                      [_vm._v(_vm._s(_vm.$i18n.t("promo_code_clear")))]
                     ),
                     _vm._v(" "),
                     _c(
@@ -128424,7 +130614,7 @@ var render = function() {
                         class: { disabled: _vm.promocode.length < 3 },
                         on: { click: _vm.checkPromocode }
                       },
-                      [_vm._v("Применить")]
+                      [_vm._v(_vm._s(_vm.$i18n.t("promo_code_apply")))]
                     )
                   ])
                 ])
@@ -128459,7 +130649,11 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "overlay-status" }, [
-                        _vm._m(1, true),
+                        _c("p", { staticClass: "mb-25" }, [
+                          _c("small", [
+                            _vm._v(_vm._s(_vm.$i18n.t("promo_code_have_time")))
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c(
                           "button",
@@ -128471,7 +130665,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Активировать промокод")]
+                          [_vm._v(_vm._s(_vm.$i18n.t("promo_code_activate")))]
                         )
                       ])
                     ]
@@ -128481,71 +130675,56 @@ var render = function() {
             ])
           }),
           _vm._v(" "),
-          _vm._m(2)
+          _c("div", { staticClass: "col-md-12" }, [
+            _c("section", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("promo_code_history")))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "card-text" }, [
+                    _c("div", { staticClass: "table-responsive" }, [
+                      _c(
+                        "table",
+                        { staticClass: "table", attrs: { id: "promocode" } },
+                        [
+                          _c("thead", [
+                            _c("tr", [
+                              _c("th", [
+                                _vm._v(_vm._s(_vm.$i18n.t("promo_code_simple")))
+                              ]),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(_vm._s(_vm.$i18n.t("promo_code_type")))
+                              ]),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(_vm._s(_vm.$i18n.t("promo_code_status")))
+                              ]),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(_vm._s(_vm.$i18n.t("promo_code_date")))
+                              ])
+                            ])
+                          ])
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
         ],
         2
       )
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Использовать промокод")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "mb-25" }, [
-      _c("small", [_vm._v("Успейте воспользоваться предложением!")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-12" }, [
-      _c("section", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _c("h4", { staticClass: "card-title" }, [
-            _vm._v("История применений промокодов")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-content" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "card-text" }, [
-              _c("div", { staticClass: "table-responsive" }, [
-                _c(
-                  "table",
-                  { staticClass: "table", attrs: { id: "promocode" } },
-                  [
-                    _c("thead", [
-                      _c("tr", [
-                        _c("th", [_vm._v("Промокод")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Тип промокода")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Статус")]),
-                        _vm._v(" "),
-                        _c("th", [_vm._v("Дата")])
-                      ])
-                    ])
-                  ]
-                )
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 /***/ }),
@@ -128631,14 +130810,60 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-7" }, [
           _c("section", { staticClass: "card" }, [
-            _vm._m(2),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("payout_title")))
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "card-text" }, [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "col-md-12 pt-3" }, [
-                      _vm._m(3),
+                      _c("div", { staticClass: "row" }, [
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-md-6" }, [
+                          _c("p", { staticClass: "mb-0" }, [
+                            _c("i", {
+                              staticClass: "bx bxs-dollar-circle align-middle"
+                            }),
+                            _vm._v(
+                              " " +
+                                _vm._s(_vm.$i18n.t("payout_without_turnover"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "mb-0" }, [
+                            _c("i", {
+                              staticClass: "bx bx-wallet align-middle"
+                            }),
+                            _vm._v(
+                              " " +
+                                _vm._s(_vm.$i18n.t("payout_without_commission"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "mb-0" }, [
+                            _c("i", { staticClass: "bx bx-undo align-middle" }),
+                            _vm._v(
+                              " " + _vm._s(_vm.$i18n.t("payout_in_24_hours"))
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "mb-0" }, [
+                            _c("i", {
+                              staticClass: "bx bx-check align-middle"
+                            }),
+                            _vm._v(
+                              " " +
+                                _vm._s(_vm.$i18n.t("payout_minimum_amount")) +
+                                ": $10"
+                            )
+                          ])
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "row mt-3" }, [
                         _c("div", { staticClass: "col-md-6" }, [
@@ -128649,7 +130874,15 @@ var render = function() {
                               staticStyle: { "margin-bottom": "3px" }
                             },
                             [
-                              _vm._m(4),
+                              _c("label", [
+                                _vm._v(_vm._s(_vm.$i18n.t("payout_amount"))),
+                                _c("small", { staticClass: "text-muted" }, [
+                                  _vm._v(
+                                    _vm._s(_vm.$i18n.t("payout_min")) + ". "
+                                  ),
+                                  _c("i", [_vm._v("10$")])
+                                ])
+                              ]),
                               _vm._v(" "),
                               [
                                 _c("input", {
@@ -128699,7 +130932,20 @@ var render = function() {
                               staticStyle: { "margin-bottom": "3px" }
                             },
                             [
-                              _vm._m(5),
+                              _c("label", [
+                                _vm._v(
+                                  _vm._s(_vm.$i18n.t("payout_wallet")) + " "
+                                ),
+                                _c("small", { staticClass: "text-muted" }, [
+                                  _vm._v(
+                                    "(" +
+                                      _vm._s(
+                                        _vm.$i18n.t("payout_check_correct")
+                                      ) +
+                                      ")"
+                                  )
+                                ])
+                              ]),
                               _vm._v(" "),
                               [
                                 _c("input", {
@@ -128739,7 +130985,22 @@ var render = function() {
                             "fieldset",
                             { staticClass: "form-group" },
                             [
-                              _vm._m(6),
+                              _c("label", { staticClass: "align-top" }, [
+                                _vm._v(_vm._s(_vm.$i18n.t("payout_system"))),
+                                _c("small", { staticClass: "text-muted" }, [
+                                  _c("i", [
+                                    _vm._v(
+                                      "(" +
+                                        _vm._s(
+                                          _vm.$i18n.t(
+                                            "payout_can_be_commission"
+                                          )
+                                        ) +
+                                        ")"
+                                    )
+                                  ])
+                                ])
+                              ]),
                               _vm._v(" "),
                               _c("select2", {
                                 style: "width: 100%;",
@@ -128778,7 +131039,7 @@ var render = function() {
                               },
                               on: { click: _vm.processPayout }
                             },
-                            [_vm._v("Продолжить")]
+                            [_vm._v(_vm._s(_vm.$i18n.t("payout_continue")))]
                           )
                         ]),
                         _vm._v(" "),
@@ -128792,7 +131053,9 @@ var render = function() {
                               "p",
                               { staticStyle: { "padding-top": "10px" } },
                               [
-                                _vm._v("Вы получите "),
+                                _vm._v(
+                                  _vm._s(_vm.$i18n.t("payout_you_get")) + " "
+                                ),
                                 _c(
                                   "span",
                                   {
@@ -128816,7 +131079,11 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "col-md-5" }, [
           _c("section", { staticClass: "card" }, [
-            _vm._m(7),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("payout_your_turnover")))
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
@@ -128875,7 +131142,10 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("p", [
                                     _vm._v(
-                                      "Вам осталось отработать\n                                                            "
+                                      _vm._s(
+                                        _vm.$i18n.t("payout_left_turnover")
+                                      ) +
+                                        "\n                                                            "
                                     ),
                                     _c("span", {
                                       directives: [
@@ -128902,7 +131172,13 @@ var render = function() {
                                         ])
                                       : _vm._e(),
                                     _vm._v(
-                                      "\n                                                            от общей суммы бонуса."
+                                      "\n                                                          " +
+                                        _vm._s(
+                                          _vm.$i18n.t(
+                                            "payout_from_all_bonus_amount"
+                                          )
+                                        ) +
+                                        "."
                                     )
                                   ]),
                                   _vm._v(" "),
@@ -128916,7 +131192,13 @@ var render = function() {
                                       },
                                       on: { click: _vm.discardBonus }
                                     },
-                                    [_vm._v("Отказаться от бонуса")]
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.$i18n.t("payout_cancel_bonus")
+                                        )
+                                      )
+                                    ]
                                   ),
                                   _vm._v(" "),
                                   _vm.account && _vm.account_left_turnover > 0
@@ -128934,21 +131216,32 @@ var render = function() {
                                           staticClass: "ml-1"
                                         },
                                         [
-                                          _vm._v("Баланс будет "),
+                                          _vm._v(
+                                            _vm._s(
+                                              _vm.$i18n.t("payout_balance_be")
+                                            ) + " "
+                                          ),
                                           _c("code", [
                                             _vm._v(
                                               _vm._s(_vm.afterDiscardBonus) +
                                                 " $"
                                             )
                                           ]),
-                                          _vm._v(" после отказа")
+                                          _vm._v(
+                                            " " +
+                                              _vm._s(
+                                                _vm.$i18n.t(
+                                                  "payout_after_cancel"
+                                                )
+                                              )
+                                          )
                                         ]
                                       )
                                     : _vm._e()
                                 ]
                               ),
                               _vm._v(" "),
-                              _vm._m(8)
+                              _vm._m(3)
                             ]
                           )
                         ])
@@ -128960,12 +131253,91 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(9)
+          _c("section", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col-md-12" }, [
+                      _c("div", { staticClass: "row" }, [
+                        _c("div", { staticClass: "col-md-12" }, [
+                          _vm._v(
+                            "\n                                              " +
+                              _vm._s(_vm.$i18n.t("payout_conditions")) +
+                              "\n                                            "
+                          )
+                        ])
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ])
         ])
       ])
     ]),
     _vm._v(" "),
-    _vm._m(10)
+    _c("div", { staticClass: "content-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("section", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("payout_history_title")))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c(
+                      "table",
+                      {
+                        staticClass: "table",
+                        attrs: { id: "withdrawalHistory" }
+                      },
+                      [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("payout_amount_simple"))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("payout_system")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("payout_props")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("payout_status")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", { attrs: { id: "hide" } }, [
+                              _vm._v(_vm._s(_vm.$i18n.t("payout_action")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("payout_date")))
+                            ])
+                          ])
+                        ])
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -129007,88 +131379,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Вывод средств")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("img", {
-          staticClass: "img-fluid",
-          attrs: {
-            src:
-              "https://cdn.freelogovectors.net/wp-content/uploads/2019/02/payeer-logo.png"
-          }
-        })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-6" }, [
-        _c("p", { staticClass: "mb-0" }, [
-          _c("i", { staticClass: "bx bxs-dollar-circle align-middle" }),
-          _vm._v(" Вывод без отработки бонуса")
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "mb-0" }, [
-          _c("i", { staticClass: "bx bx-wallet align-middle" }),
-          _vm._v(" Без комиссии")
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "mb-0" }, [
-          _c("i", { staticClass: "bx bx-undo align-middle" }),
-          _vm._v(" Вывод в течение 24х часов")
-        ]),
-        _vm._v(" "),
-        _c("p", { staticClass: "mb-0" }, [
-          _c("i", { staticClass: "bx bx-check align-middle" }),
-          _vm._v(" Минимальная сумма вывода: $10")
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", [
-      _vm._v("Сумма вывода"),
-      _c("small", { staticClass: "text-muted" }, [
-        _vm._v("мин. "),
-        _c("i", [_vm._v("10$")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", [
-      _vm._v("Кошелек для выплаты "),
-      _c("small", { staticClass: "text-muted" }, [
-        _vm._v("(проверяйте правильность)")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { staticClass: "align-top" }, [
-      _vm._v("Платежная система"),
-      _c("small", { staticClass: "text-muted" }, [
-        _c("i", [_vm._v("(может взиматься комиссия)")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Ваш оборот по бонусам")])
+    return _c("div", { staticClass: "col-md-6" }, [
+      _c("img", {
+        staticClass: "img-fluid",
+        attrs: {
+          src:
+            "https://cdn.freelogovectors.net/wp-content/uploads/2019/02/payeer-logo.png"
+        }
+      })
     ])
   },
   function() {
@@ -129098,86 +131396,9 @@ var staticRenderFns = [
     return _c("div", { staticClass: "dashboard-content-right" }, [
       _c("img", {
         staticClass: "img-fluid",
-        staticStyle: {},
+        staticStyle: { float: "right" },
         attrs: { src: "/images/icon/cup.png", height: "155", width: "155" }
       })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("section", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-content" }, [
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "card-text" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-12" }, [
-                _c("div", { staticClass: "row" }, [
-                  _c("div", { staticClass: "col-md-12" }, [
-                    _vm._v(
-                      "\n                                                Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия.\n                                            "
-                    )
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content-body" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-12" }, [
-          _c("section", { staticClass: "card" }, [
-            _c("div", { staticClass: "card-header" }, [
-              _c("h4", { staticClass: "card-title" }, [
-                _vm._v("История заявок на вывод средств")
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-content" }, [
-              _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "card-text" }, [
-                  _c("div", { staticClass: "table-responsive" }, [
-                    _c(
-                      "table",
-                      {
-                        staticClass: "table",
-                        attrs: { id: "withdrawalHistory" }
-                      },
-                      [
-                        _c("thead", [
-                          _c("tr", [
-                            _c("th", [_vm._v("Сумма")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Платежная система")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Реквизиты")]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Статус")]),
-                            _vm._v(" "),
-                            _c("th", { attrs: { id: "hide" } }, [
-                              _vm._v("Действие")
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [_vm._v("Дата")])
-                          ])
-                        ])
-                      ]
-                    )
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
-      ])
     ])
   }
 ]
@@ -152880,6 +155101,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sass_bootstrap_extended_scss__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(_sass_bootstrap_extended_scss__WEBPACK_IMPORTED_MODULE_10__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _vuejs_locales_i18n__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../vuejs/locales/i18n */ "./resources/vuejs/locales/i18n.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/vuejs/bootstrap.js");
 
 __webpack_require__(/*! ./js/tv */ "./resources/vuejs/js/tv.js");
@@ -152934,6 +155156,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_echo_laravel__WEBPACK_IMPORTE
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
+  i18n: _vuejs_locales_i18n__WEBPACK_IMPORTED_MODULE_12__["default"],
   components: {
     App: _views_layouts_App__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
@@ -153387,7 +155610,6 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
     value: function getTicker(tickerName) {
       var _this5 = this;
 
-      console.log('Get ticker!', tickerName);
       this.symbol = tickerName;
       var each = 10;
       var runs = 3000 / each; // time in ms divided by above
@@ -153495,6 +155717,63 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
   return TradingViewWebsocket;
 }();
+
+/***/ }),
+
+/***/ "./resources/vuejs/locales/en.json":
+/*!*****************************************!*\
+  !*** ./resources/vuejs/locales/en.json ***!
+  \*****************************************/
+/*! exports provided: menu, menu_trading, menu_demo, menu_deposit, menu_withdrawal, menu_promo_codes, menu_history, menu_profile, menu_partner, menu_support, menu_404, menu_logout, menu_be_in_touch, menu_telegram_channel, menu_facebook, menu_contact_us, menu_telegram_support, cap, header_ping, header_ms, header_fullpage, header_deposit, header_trade_on_real, header_make_balance_1000, header_trader, header_online, header_profile, header_make_deposit, header_support, header_logout, header_special_offer, header_special_offer_desc, header_hours, header_minutes, header_seconds, header_deposit_sub_desc, header_withdrawal, header_deposit_balance, header_success, header_error, trade_page, trade_good_work, trade_profit_modal, trade_profit_modal_desc, trade_go_real, trade_expiration, trade_hours, trade_minutes, trade_seconds, trade_close, trade_amount, trade_potential, trade_loading, trade_closed_market, trade_open_orders, trade_open, trade_opened_price, trade_path, trade_up, trade_down, trade_orders_history, trade_no_orders, trade_time, trade_full_orders_history, trade_you_got_profit, trade_order_closed, trade_order_closed_without_profit, trade_order_open_by_price, trade_order_processing, trade_order_opened, trade_error, trade_minimal_expiration, deposit, deposit_title, deposit_min_amount, deposit_without_commission, deposit_fast_withdrawal, deposit_minimal_withdrawal, deposit_deposit_amount, deposit_min, deposit_promo_code, deposit_not_necessary, deposit_check, deposit_use_bonus, deposit_need_work_out, deposit_times_from_bonus, deposit_rules, deposit_continue, deposit_you_get, deposit_bonus, deposit_without_bonus, deposit_select_your_bonus, deposit_recommended_amount, deposit_attention, deposit_success, refill_history, deposit_history_title, deposit_history_amount, deposit_history_status, deposit_history_system, deposit_history_date, deposit_history_waiting, deposit_history_success, deposit_history_cancel, payment history, payout_title, payout_without_turnover, payout_without_commission, payout_in_24_hours, payout_minimum_amount, payout_amount, payout_min, payout_wallet, payout_check_correct, payout_system, payout_can_be_commission, payout_continue, payout_you_get, payout_your_turnover, payout_left_turnover, payout_from_all_bonus_amount, payout_cancel_bonus, payout_balance_be, payout_after_cancel, payout_conditions, payout_history_title, payout_amount_simple, payout_props, payout_status, payout_action, payout_date, payout_soon, payout_success, payout_error, payout_processing, payout_paid_out, payout_cause, payout_cause_not_found, payout_declined, payout_min_10, payout_enter_correct_address, promotional codes, promo_code_title, promo_code_use_desc, promo_code_clear, promo_code_apply, promo_code_have_time, promo_code_activate, promo_code_history, promo_code_simple, promo_code_type, promo_code_status, promo_code_date, promo_code_without_deposit, promo_code_percent, promo_code_active, trade_ history, trade_history_title, trade_history_amount, trade_history_info, trade_history_profit, trade_history_instrument, trade_history_percent, trade_history_expiration, trade_history_date, trade_history_demo_title, trade_history_additional, trade_history_open_price, trade_history_close_price, trade_history_path, trade_history_open_time, trade_history_close_time, trade_history_add, trade_history_higher, trade_history_lower, profile, profile_confirm_phone_number, profile_call_made, profile_do_not_answer, profile_3_tries, profile_make_call, profile_repeat, profile_close, profile_confirm, profile_confirm_email, profile_email_be_send, profile_send_code, profile_general, profile_nickname, profile_refresh, profile_phone, profile_gender, profile_language, profile_dont_use_email, profile_save, profile_clear, profile_connect_social, profile_connected, profile_change_password, profile_current_password, profile_new_password, profile_repeat_new_password, profile_save_password, profile_dont_verified, profile_verified, profile_main, profile_from_document, profile_last_name, profile_name, profile_patronymic, profile_if_have, profile_birth, profile_registration, profile_document_number, profile_only_for_verify, profile_verify, profile_first_page, profile_uploading, profile_checking, profile_approved, profile_decline, profile_remove, profile_checked, profile_select_image, profile_move_file, profile_page_with_registration, profile_additional_document, profile_success, profile_error, profile_man, profile_woman, profile_name_more, profile_last_name_more, profile_patronymic_more, profile_address_more, profile_document_number_more, profile_birth_full, profile_current_password_more, profile_new_password_more, profile_repeat_password_more, profile_new_password_same, profile_not_equal_password, profile_nickname_more, profile_enter_email, profile_enter_phone, partner, partner_title, partner_your_link, partner_conditions, partner_every_user, partner_from_turnover, partner_cheating, partner_normal_status, partner_application_premium, partner_success_premium, partner_application_decline, partner_try, partner_premium_title, partner_become_premium, partner_10_percent, partner_from_deposit, partner_5_cents, partner_to_active_registration, partner_3_percents, partner_from_turnover_referral, partner_telegram, partner_plan, partner_comment, partner_clear, partner_send, partner_exclusion, partner_make_partner, partner_all_stat, partner_all_referrals, partner_reward, partner_active, partner_deposited, partner_clicks, partner_list, partner_token, partner_date, partner_success, partner_error, partner_nickname, partner_comment_desc, partner_comment_error, partner_5_people, partner_15_people, partner_50_people, partner_50_plus_people, partner_not_known, partner_loading, support, support_title, support_desc, support_write, support_clear, support_send, support_contacts, support_email, support_working_time, support_phone, support_not_known, support_address, support_address_line, support_info, support_info_desc, support_thank_you, support_place, support_question_error, page_not_found, 404_not_found, 404_cant_find, 404_back_to_trade, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"menu\":\"\",\"menu_trading\":\"Trade\",\"menu_demo\":\"Demo trading\",\"menu_deposit\":\"Deposit\",\"menu_withdrawal\":\"Withdrawal\",\"menu_promo_codes\":\"Promo codes\",\"menu_history\":\"Trade history\",\"menu_profile\":\"Profile\",\"menu_partner\":\"Partner Cabinet\",\"menu_support\":\"Support & Contacts\",\"menu_404\":\"Page not found\",\"menu_logout\":\"Log out of account\",\"menu_be_in_touch\":\"Be in touch\",\"menu_telegram_channel\":\"Telegram channel\",\"menu_facebook\":\"Facebook\",\"menu_contact_us\":\"Contact us\",\"menu_telegram_support\":\"Telegram support\",\"cap\":\"\",\"header_ping\":\"Ping\",\"header_ms\":\"ms\",\"header_fullpage\":\"Full screen\",\"header_deposit\":\"Deposit funds\",\"header_trade_on_real\":\"Trade on a real account\",\"header_make_balance_1000\":\"Make balance equal to $ 1000\",\"header_trader\":\"Trader\",\"header_online\":\"online\",\"header_profile\":\"Profile\",\"header_make_deposit\":\"Deposit\",\"header_support\":\"Support\",\"header_logout\":\"Logout\",\"header_special_offer\":\"Special offer!\",\"header_special_offer_desc\":\"Especially for you, we have prepared a 50% discount on the first deposit, use it to get more profit.\",\"header_hours\":\"Hours\",\"header_minutes\":\"Minutes\",\"header_seconds\":\"Seconds\",\"header_deposit_sub_desc\":\"Deposit now to be able to use the promo code <code> START50BONUS </code> and start trading with confidence!\",\"header_withdrawal\":\"Withdrawal\",\"header_deposit_balance\":\"Deposit balance\",\"header_success\":\"Success!\",\"header_error\":\"Error!\",\"trade_page\":\"\",\"trade_good_work\":\"Nice work!\",\"trade_profit_modal\":\"You are making profits on a demo account, try trading on a real account and earn real money!\",\"trade_profit_modal_desc\":\"Please note that the demo account is no different from the real account (price movement, profitability, processing speed), so you can succeed in trading after training.\",\"trade_go_real\":\"Go to trading on a real account\",\"trade_expiration\":\"Expiration time\",\"trade_hours\":\"Hours\",\"trade_minutes\":\"Minutes\",\"trade_seconds\":\"Seconds\",\"trade_close\":\"Close\",\"trade_amount\":\"Trade amount\",\"trade_potential\":\"Potential profit\",\"trade_loading\":\"Loading ...\",\"trade_closed_market\":\"Market closed\",\"trade_open_orders\":\"Open trades\",\"trade_open\":\"Open\",\"trade_opened_price\":\"Opening price\",\"trade_path\":\"Direction\",\"trade_up\":\"higher\",\"trade_down\":\"below\",\"trade_orders_history\":\"Trade history\",\"trade_no_orders\":\"No deals\",\"trade_time\":\"Time\",\"trade_full_orders_history\":\"Full trade history\",\"trade_you_got_profit\":\"You made a profit\",\"trade_order_closed\":\"Trade closed\",\"trade_order_closed_without_profit\":\"Trade closed without profit!\",\"trade_order_open_by_price\":\"Trade opened at price\",\"trade_order_processing\":\"The order is being processed ...\",\"trade_order_opened\":\"Trade opened\",\"trade_error\":\"Error!\",\"trade_minimal_expiration\":\"The minimum trade duration must be 30 seconds or more\",\"deposit\":\"\",\"deposit_title\":\"Account funding\",\"deposit_min_amount\":\"Minimum deposit amount: $ 5\",\"deposit_without_commission\":\"No commission\",\"deposit_fast_withdrawal\":\"Fast withdrawal from the account\",\"deposit_minimal_withdrawal\":\"Minimum withdrawal amount: $ 10\",\"deposit_deposit_amount\":\"Deposit amount\",\"deposit_min\":\"min\",\"deposit_promo_code\":\"Bonus promo code\",\"deposit_not_necessary\":\"(optional)\",\"deposit_check\":\"Check\",\"deposit_use_bonus\":\"Use bonus\",\"deposit_need_work_out\":\"You need to work out a bonus in the amount of\",\"deposit_times_from_bonus\":\"times of the bonus amount\",\"deposit_rules\":\"conditions\",\"deposit_continue\":\"Continue\",\"deposit_you_get\":\"You will receive\",\"deposit_bonus\":\"bonus\",\"deposit_without_bonus\":\"no bonus\",\"deposit_select_your_bonus\":\"Select your bonus\",\"deposit_recommended_amount\":\"This is the recommended deposit amount!\",\"deposit_attention\":\"Attention!\",\"deposit_success\":\"Success!\",\"refill_history\":\"\",\"deposit_history_title\":\"Deposit history\",\"deposit_history_amount\":\"Payment amount\",\"deposit_history_status\":\"Status\",\"deposit_history_system\":\"Payment system\",\"deposit_history_date\":\"Date\",\"deposit_history_waiting\":\"Waiting for payment\",\"deposit_history_success\":\"Successful\",\"deposit_history_cancel\":\"Canceled\",\"payment history\":\"\",\"payout_title\":\"Withdraw funds\",\"payout_without_turnover\":\"Withdrawal without bonus processing\",\"payout_without_commission\":\"No commission\",\"payout_in_24_hours\":\"Withdrawal within 24 hours\",\"payout_minimum_amount\":\"Minimum withdrawal amount\",\"payout_amount\":\"Withdrawal amount\",\"payout_min\":\"min\",\"payout_wallet\":\"Payout wallet\",\"payout_check_correct\":\"check correctness\",\"payout_system\":\"Payment system\",\"payout_can_be_commission\":\"commission may apply\",\"payout_continue\":\"Continue\",\"payout_you_get\":\"You will receive\",\"payout_your_turnover\":\"Your bonus turnover\",\"payout_left_turnover\":\"You have to work out\",\"payout_from_all_bonus_amount\":\"from the total bonus amount\",\"payout_cancel_bonus\":\"Refuse bonus\",\"payout_balance_be\":\"The balance will be\",\"payout_after_cancel\":\"after rejection\",\"payout_conditions\":\"Bonus deactivation conditions and commission. Bonus deactivation conditions and commission. Bonus deactivation conditions and commission. Bonus deactivation conditions and commission. Bonus deactivation conditions and commission. Bonus deactivation conditions and commission. Bonus deactivation conditions and commission. Bonus deactivation conditions. and commission. \",\"payout_history_title\":\"History of withdrawal requests\",\"payout_amount_simple\":\"Amount\",\"payout_props\":\"Requisites\",\"payout_status\":\"Status\",\"payout_action\":\"Action\",\"payout_date\":\"Date\",\"payout_soon\":\"soon\",\"payout_success\":\"Success!\",\"payout_error\":\"Error!\",\"payout_processing\":\"Processed\",\"payout_paid_out\":\"Paid out\",\"payout_cause\":\"Reason for rejection\",\"payout_cause_not_found\":\"The reason for the rejection of the payment was not specified\",\"payout_declined\":\"Declined\",\"payout_min_10\":\"The minimum withdrawal amount is $ 10\",\"payout_enter_correct_address\":\"Please enter correct payout address!\",\"promotional codes\":\"\",\"promo_code_title\":\"Use promo code\",\"promo_code_use_desc\":\"Use public or private promo codes to get discounts, cashback and other privileges. Please note - some promo codes have terms of use.\",\"promo_code_clear\":\"Clear\",\"promo_code_apply\":\"Apply\",\"promo_code_have_time\":\"Hurry up to take advantage of the offer!\",\"promo_code_activate\":\"Activate promo code\",\"promo_code_history\":\"Promo code history\",\"promo_code_simple\":\"Promo code\",\"promo_code_type\":\"Promo code type\",\"promo_code_status\":\"Status\",\"promo_code_date\":\"Date\",\"promo_code_without_deposit\":\"No deposit bonus\",\"promo_code_percent\":\"Percentage of replenishment\",\"promo_code_active\":\"Activated\",\"trade_ history\":\"\",\"trade_history_title\":\"Trade history\",\"trade_history_amount\":\"Amount\",\"trade_history_info\":\"Information\",\"trade_history_profit\":\"Profit\",\"trade_history_instrument\":\"Instrument\",\"trade_history_percent\":\"Percentage\",\"trade_history_expiration\":\"Expiration\",\"trade_history_date\":\"Date\",\"trade_history_demo_title\":\"Demo trade history\",\"trade_history_additional\":\"Additional information\",\"trade_history_open_price\":\"Opening price\",\"trade_history_close_price\":\"Close price\",\"trade_history_path\":\"Direction\",\"trade_history_open_time\":\"Opening time\",\"trade_history_close_time\":\"Close time\",\"trade_history_add\":\"Additional\",\"trade_history_higher\":\"higher\",\"trade_history_lower\":\"below\",\"profile\":\"\",\"profile_confirm_phone_number\":\"Confirm Phone Number\",\"profile_call_made\":\"A call will be made to the phone number. Enter 4 digits for confirmation.\",\"profile_do_not_answer\":\"You don't need to answer the call, you only need the last 4 digits of the number!\",\"profile_3_tries\":\"3 attempts are allocated to confirm the number.\",\"profile_make_call\":\"Make a call\",\"profile_repeat\":\"Retry\",\"profile_close\":\"Close\",\"profile_confirm\":\"Confirm\",\"profile_confirm_email\":\"Confirm email address\",\"profile_email_be_send\":\"A four-digit code will be sent to the specified mail, please enter it to confirm.\",\"profile_send_code\":\"Send code\",\"profile_general\":\"General information\",\"profile_nickname\":\"Nickname\",\"profile_refresh\":\"Refresh\",\"profile_phone\":\"Phone\",\"profile_gender\":\"Gender\",\"profile_language\":\"Language\",\"profile_dont_use_email\":\"* We do not use email for mailings, mobile phone only for identity verification - we will not call you.\",\"profile_save\":\"Save changes\",\"profile_clear\":\"Clear fields\",\"profile_connect_social\":\"Connect social networks\",\"profile_connected\":\"attached\",\"profile_change_password\":\"Change password\",\"profile_current_password\":\"Current password\",\"profile_new_password\":\"New password\",\"profile_repeat_new_password\":\"Repeat new password\",\"profile_save_password\":\"Save your password in a safe place after you change it to avoid losing access to your account.\",\"profile_dont_verified\":\"Your account has not been verified! To verify, fill in your personal details and upload documents.\",\"profile_verified\":\"You have a verified account!\",\"profile_main\":\"Personal data\",\"profile_from_document\":\"from identity document\",\"profile_last_name\":\"Last name\",\"profile_name\":\"Name\",\"profile_patronymic\":\"Patronymic\",\"profile_if_have\":\"if any\",\"profile_birth\":\"Date of birth\",\"profile_registration\":\"Registration address\",\"profile_document_number\":\"Certification document series and number\",\"profile_only_for_verify\":\"Used only for identity verification, this is necessary to protect against money laundering.\",\"profile_verify\":\"Verify\",\"profile_first_page\":\"First page of passport or ID\",\"profile_uploading\":\"Uploading document\",\"profile_checking\":\"The document is being checked!\",\"profile_approved\":\"Document approved successfully!\",\"profile_decline\":\"Decline\",\"profile_remove\":\"Remove\",\"profile_checked\":\"Checked\",\"profile_select_image\":\"Select an image\",\"profile_move_file\":\"Drag file here ...\",\"profile_page_with_registration\":\"Registration page or reverse side of ID\",\"profile_additional_document\":\"Additional document\",\"profile_success\":\"Success!\",\"profile_error\":\"Error!\",\"profile_man\":\"Male\",\"profile_woman\":\"Female\",\"profile_name_more\":\"The name must be more than 2 characters!\",\"profile_last_name_more\":\"Last name must be more than 2 characters!\",\"profile_patronymic_more\":\"Patronymic must contain more than 2 characters!\",\"profile_address_more\":\"Address must contain at least 10 characters!\",\"profile_document_number_more\":\"Certification document series and number must be at least 5 characters!\",\"profile_birth_full\":\"Date of birth must be filled in in full!\",\"profile_current_password_more\":\"The current password cannot be shorter than 6 characters!\",\"profile_new_password_more\":\"New password cannot be shorter than 8 characters!\",\"profile_repeat_password_more\":\"New password repeat cannot be shorter than 8 characters!\",\"profile_new_password_same\":\"The new password is the same as the old one!\",\"profile_not_equal_password\":\"Password repeat does not match new password!\",\"profile_nickname_more\":\"Nickname cannot be shorter than 3 characters!\",\"profile_enter_email\":\"Please enter a valid email address!\",\"profile_enter_phone\":\"Please enter a valid phone number!\",\"partner\":\"\",\"partner_title\":\"Your affiliate link\",\"partner_your_link\":\"Your link to attract users\",\"partner_conditions\":\"Terms of the affiliate program\",\"partner_every_user\":\"Each invited user brings the partner a reward in the amount of\",\"partner_from_turnover\":\"from the trading turnover, excluding bonus funds.\",\"partner_cheating\":\"Cheating and other methods of falsifying registrations will lead to the suspension of the account.\",\"partner_normal_status\":\"You have a normal partner status, but you can improve it by submitting an application for obtaining \\\"premium\\\" status.\",\"partner_application_premium\":\"An application for connecting a premium partner status is pending.\",\"partner_success_premium\":\"You have successfully become a premium partner, now you are credited with increased payments for referrals.\",\"partner_application_decline\":\"Your application has been rejected.\",\"partner_try\":\"Apply again\",\"partner_premium_title\":\"Premium partner\",\"partner_become_premium\":\"Become a \\\"premium\\\" partner to receive higher payments for invited users. You can receive\",\"partner_10_percent\":\"10 percent\",\"partner_from_deposit\":\"from the balance of the invited user,\",\"partner_5_cents\":\"5 cents\",\"partner_to_active_registration\":\"for a confirmed registration (the account on which the mail is confirmed) and\",\"partner_3_percents\":\"3 percent\",\"partner_from_turnover_referral\":\"from the trading turnover of the invited user. To obtain the status of a \\\"premium \\\" partner, you must send an application for consideration.\",\"partner_telegram\":\"Telegram for communication:\",\"partner_plan\":\"Planned number of invitees per day:\",\"partner_comment\":\"Describe in as much detail as possible the traffic sources, potential reach, offers\",\"partner_clear\":\"Clear\",\"partner_send\":\"Send\",\"partner_exclusion\":\"Partner exclusion\",\"partner_make_partner\":\"Make a partner\",\"partner_all_stat\":\"General partner statistics\",\"partner_all_referrals\":\"Number of invitees\",\"partner_reward\":\"Reward\",\"partner_active\":\"Active\",\"partner_deposited\":\"Those who added the balance\",\"partner_clicks\":\"Clicks on the link\",\"partner_list\":\"List of invitees\",\"partner_token\":\"User token\",\"partner_date\":\"Registration date\",\"partner_success\":\"Success!\",\"partner_error\":\"Error!\",\"partner_nickname\":\"Telegram nickname cannot be less than 4 characters\",\"partner_comment_desc\":\"Comment cannot be less than 20 characters\",\"partner_comment_error\":\"The comment cannot be more than 500 characters\",\"partner_5_people\":\"1-5 people\",\"partner_15_people\":\"5-15 people\",\"partner_50_people\":\"15-50 people\",\"partner_50_plus_people\":\"50+ people\",\"partner_not_known\":\"Not known\",\"partner_loading\":\"Loading ...\",\"support\":\"\",\"support_title\":\"Contacting technical support\",\"support_desc\":\"The response rate is usually up to 24 hours. If your question was not answered within this time, please do not duplicate the question - most likely the application process takes more time. You can ask no more than 1 question per 10 minutes . The answer will be sent to the email address of the current account. \",\"support_write\":\"Write your question ...\",\"support_clear\":\"Clear\",\"support_send\":\"Send\",\"support_contacts\":\"Contacts\",\"support_email\":\"Our email\",\"support_working_time\":\"Working time\",\"support_phone\":\"Phone\",\"support_not_known\":\"temporarily absent\",\"support_address\":\"Address\",\"support_address_line\":\"Tartu maantee 13, 10117 Tallinn, Estonia\",\"support_info\":\"Information\",\"support_info_desc\":\"Please note that in the current epidemiological situation, the company's employees work remotely. In this regard, requests are processed in writing in a regular manner.\",\"support_thank_you\":\"Thank you for your understanding!\",\"support_place\":\"Location\",\"support_question_error\":\"The question cannot be shorter than 25 characters!\",\"page_not_found\":\"\",\"404_not_found\":\"Page not found\",\"404_cant_find\":\"We could not find the page, it may have flown to Mars\",\"404_back_to_trade\":\"Return to trade\"}");
+
+/***/ }),
+
+/***/ "./resources/vuejs/locales/i18n.js":
+/*!*****************************************!*\
+  !*** ./resources/vuejs/locales/i18n.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-i18n */ "./node_modules/vue-i18n/dist/vue-i18n.esm.js");
+/* harmony import */ var _locales_ru_json__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../locales/ru.json */ "./resources/vuejs/locales/ru.json");
+var _locales_ru_json__WEBPACK_IMPORTED_MODULE_2___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../locales/ru.json */ "./resources/vuejs/locales/ru.json", 1);
+/* harmony import */ var _locales_en_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../locales/en.json */ "./resources/vuejs/locales/en.json");
+var _locales_en_json__WEBPACK_IMPORTED_MODULE_3___namespace = /*#__PURE__*/__webpack_require__.t(/*! ../locales/en.json */ "./resources/vuejs/locales/en.json", 1);
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_i18n__WEBPACK_IMPORTED_MODULE_1__["default"]);
+var messages = {
+  en: _locales_en_json__WEBPACK_IMPORTED_MODULE_3__,
+  ru: _locales_ru_json__WEBPACK_IMPORTED_MODULE_2__
+};
+/* harmony default export */ __webpack_exports__["default"] = (new vue_i18n__WEBPACK_IMPORTED_MODULE_1__["default"]({
+  locale: getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en',
+  fallbackLocale: 'ru',
+  messages: messages
+}));
+
+function getCookie(name) {
+  var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+/***/ }),
+
+/***/ "./resources/vuejs/locales/ru.json":
+/*!*****************************************!*\
+  !*** ./resources/vuejs/locales/ru.json ***!
+  \*****************************************/
+/*! exports provided: меню, menu_trading, menu_demo, menu_deposit, menu_withdrawal, menu_promo_codes, menu_history, menu_profile, menu_partner, menu_support, menu_404, menu_logout, menu_be_in_touch, menu_telegram_channel, menu_facebook, menu_contact_us, menu_telegram_support, шапка, header_ping, header_ms, header_fullpage, header_deposit, header_trade_on_real, header_make_balance_1000, header_trader, header_online, header_profile, header_make_deposit, header_support, header_logout, header_special_offer, header_special_offer_desc, header_hours, header_minutes, header_seconds, header_deposit_sub_desc, header_withdrawal, header_deposit_balance, header_success, header_error, страница_торговли, trade_good_work, trade_profit_modal, trade_profit_modal_desc, trade_go_real, trade_expiration, trade_hours, trade_minutes, trade_seconds, trade_close, trade_amount, trade_potential, trade_loading, trade_closed_market, trade_open_orders, trade_open, trade_opened_price, trade_path, trade_up, trade_down, trade_orders_history, trade_no_orders, trade_time, trade_full_orders_history, trade_you_got_profit, trade_order_closed, trade_order_closed_without_profit, trade_order_open_by_price, trade_order_processing, trade_order_opened, trade_error, trade_minimal_expiration, депозит, deposit_title, deposit_min_amount, deposit_without_commission, deposit_fast_withdrawal, deposit_minimal_withdrawal, deposit_deposit_amount, deposit_min, deposit_promo_code, deposit_not_necessary, deposit_check, deposit_use_bonus, deposit_need_work_out, deposit_times_from_bonus, deposit_rules, deposit_continue, deposit_you_get, deposit_bonus, deposit_without_bonus, deposit_select_your_bonus, deposit_recommended_amount, deposit_attention, deposit_success, история_пополнений, deposit_history_title, deposit_history_amount, deposit_history_status, deposit_history_system, deposit_history_date, deposit_history_waiting, deposit_history_success, deposit_history_cancel, история_выплат, payout_title, payout_without_turnover, payout_without_commission, payout_in_24_hours, payout_minimum_amount, payout_amount, payout_min, payout_wallet, payout_check_correct, payout_system, payout_can_be_commission, payout_continue, payout_you_get, payout_your_turnover, payout_left_turnover, payout_from_all_bonus_amount, payout_cancel_bonus, payout_balance_be, payout_after_cancel, payout_conditions, payout_history_title, payout_amount_simple, payout_props, payout_status, payout_action, payout_date, payout_soon, payout_success, payout_error, payout_processing, payout_paid_out, payout_cause, payout_cause_not_found, payout_declined, payout_min_10, payout_enter_correct_address, промокоды, promo_code_title, promo_code_use_desc, promo_code_clear, promo_code_apply, promo_code_have_time, promo_code_activate, promo_code_history, promo_code_simple, promo_code_type, promo_code_status, promo_code_date, promo_code_without_deposit, promo_code_percent, promo_code_active, история_торговли, trade_history_title, trade_history_amount, trade_history_info, trade_history_profit, trade_history_instrument, trade_history_percent, trade_history_expiration, trade_history_date, trade_history_demo_title, trade_history_additional, trade_history_open_price, trade_history_close_price, trade_history_path, trade_history_open_time, trade_history_close_time, trade_history_add, trade_history_higher, trade_history_lower, профиль, profile_confirm_phone_number, profile_call_made, profile_do_not_answer, profile_3_tries, profile_make_call, profile_repeat, profile_close, profile_confirm, profile_confirm_email, profile_email_be_send, profile_send_code, profile_general, profile_nickname, profile_refresh, profile_phone, profile_gender, profile_language, profile_dont_use_email, profile_save, profile_clear, profile_connect_social, profile_connected, profile_change_password, profile_current_password, profile_new_password, profile_repeat_new_password, profile_save_password, profile_dont_verified, profile_verified, profile_main, profile_from_document, profile_last_name, profile_name, profile_patronymic, profile_if_have, profile_birth, profile_registration, profile_document_number, profile_only_for_verify, profile_verify, profile_first_page, profile_uploading, profile_checking, profile_approved, profile_decline, profile_remove, profile_checked, profile_select_image, profile_move_file, profile_page_with_registration, profile_additional_document, profile_success, profile_error, profile_man, profile_woman, profile_name_more, profile_last_name_more, profile_patronymic_more, profile_address_more, profile_document_number_more, profile_birth_full, profile_current_password_more, profile_new_password_more, profile_repeat_password_more, profile_new_password_same, profile_not_equal_password, profile_nickname_more, profile_enter_email, profile_enter_phone, партнер, partner_title, partner_your_link, partner_conditions, partner_every_user, partner_from_turnover, partner_cheating, partner_normal_status, partner_application_premium, partner_success_premium, partner_application_decline, partner_try, partner_premium_title, partner_become_premium, partner_10_percent, partner_from_deposit, partner_5_cents, partner_to_active_registration, partner_3_percents, partner_from_turnover_referral, partner_telegram, partner_plan, partner_comment, partner_clear, partner_send, partner_exclusion, partner_make_partner, partner_all_stat, partner_all_referrals, partner_reward, partner_active, partner_deposited, partner_clicks, partner_list, partner_token, partner_date, partner_success, partner_error, partner_nickname, partner_comment_desc, partner_comment_error, partner_5_people, partner_15_people, partner_50_people, partner_50_plus_people, partner_not_known, partner_loading, поддержка, support_title, support_desc, support_write, support_clear, support_send, support_contacts, support_email, support_working_time, support_phone, support_not_known, support_address, support_address_line, support_info, support_info_desc, support_thank_you, support_place, support_question_error, страница_не_найдена, 404_not_found, 404_cant_find, 404_back_to_trade, default */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"меню\":\"\",\"menu_trading\":\"Торговля\",\"menu_demo\":\"Демо торговля\",\"menu_deposit\":\"Пополнение\",\"menu_withdrawal\":\"Вывод средств\",\"menu_promo_codes\":\"Промокоды\",\"menu_history\":\"История торговли\",\"menu_profile\":\"Профиль\",\"menu_partner\":\"Партнерский кабинет\",\"menu_support\":\"Поддержка и контакты\",\"menu_404\":\"Страница не найдена\",\"menu_logout\":\"Выйти из аккаунта\",\"menu_be_in_touch\":\"Будь на связи\",\"menu_telegram_channel\":\"Telegram канал\",\"menu_facebook\":\"Facebook\",\"menu_contact_us\":\"Написать нам\",\"menu_telegram_support\":\"Поддержка в телеграм\",\"шапка\":\"\",\"header_ping\":\"Пинг\",\"header_ms\":\"мс\",\"header_fullpage\":\"На весь экран\",\"header_deposit\":\"Пополнить счет\",\"header_trade_on_real\":\"Торговать на реальном счете\",\"header_make_balance_1000\":\"Сделать баланс равным 1000 $\",\"header_trader\":\"Трейдер\",\"header_online\":\"онлайн\",\"header_profile\":\"Профиль\",\"header_make_deposit\":\"Пополнить\",\"header_support\":\"Поддержка\",\"header_logout\":\"Выйти\",\"header_special_offer\":\"Специальное предложение!\",\"header_special_offer_desc\":\"Специально для Вас мы подготовили скидку 50% на первое пополнение, используйте её чтобы получить больше прибыли.\",\"header_hours\":\"Часа\",\"header_minutes\":\"Минут\",\"header_seconds\":\"Секунд\",\"header_deposit_sub_desc\":\"Пополните сейчас, чтобы успеть использовать промокод <code>START50BONUS</code> и начать уверенно торговать!\",\"header_withdrawal\":\"Вывести\",\"header_deposit_balance\":\"Пополнить баланс\",\"header_success\":\"Успешно!\",\"header_error\":\"Ошибка!\",\"страница_торговли\":\"\",\"trade_good_work\":\"Отличная работа!\",\"trade_profit_modal\":\"Вы получаете прибыль на демо счете, попробуйте торговлю на реальном счете и зарабатывайте настоящие деньги!\",\"trade_profit_modal_desc\":\"Обратите внимание что демо счет ничем не отличается от реального (движение цены, прибыльность, скорость обработки), поэтому вы можете преуспеть в торговле после тренировок.\",\"trade_go_real\":\"Перейти к торговле на реальном счете\",\"trade_expiration\":\"Время экспирации\",\"trade_hours\":\"Часы\",\"trade_minutes\":\"Минуты\",\"trade_seconds\":\"Секунды\",\"trade_close\":\"Закрыть\",\"trade_amount\":\"Сумма сделки\",\"trade_potential\":\"Потенциальная прибыль\",\"trade_loading\":\"Загрузка...\",\"trade_closed_market\":\"Рынок закрыт\",\"trade_open_orders\":\"Открытые сделки\",\"trade_open\":\"Открыто\",\"trade_opened_price\":\"Цена открытия\",\"trade_path\":\"Направление\",\"trade_up\":\"выше\",\"trade_down\":\"ниже\",\"trade_orders_history\":\"История сделок\",\"trade_no_orders\":\"Нет сделок\",\"trade_time\":\"Время\",\"trade_full_orders_history\":\"Полная история сделок\",\"trade_you_got_profit\":\"Вы получили прибыль\",\"trade_order_closed\":\"Сделка закрыта\",\"trade_order_closed_without_profit\":\"Сделка закрыта без прибыли!\",\"trade_order_open_by_price\":\"Открыта сделка по цене \",\"trade_order_processing\":\"Заявка обратывается...\",\"trade_order_opened\":\"Сделка открыта\",\"trade_error\":\"Ошибка!\",\"trade_minimal_expiration\":\"Минимальная продолжительность сделки должна быть от 30 секунд\",\"депозит\":\"\",\"deposit_title\":\"Пополнение счета\",\"deposit_min_amount\":\"Минимальная сумма депозита: $5\",\"deposit_without_commission\":\"Без комиссии\",\"deposit_fast_withdrawal\":\"Быстрое снятие со счета\",\"deposit_minimal_withdrawal\":\"Минимальная сумма вывода: $10\",\"deposit_deposit_amount\":\"Сумма депозита\",\"deposit_min\":\"мин\",\"deposit_promo_code\":\"Промокод для получения бонуса\",\"deposit_not_necessary\":\"(необязательно)\",\"deposit_check\":\"Проверить\",\"deposit_use_bonus\":\"Использовать бонус\",\"deposit_need_work_out\":\"Необходимо отработать бонус в размере\",\"deposit_times_from_bonus\":\"раз от суммы бонуса\",\"deposit_rules\":\"условия\",\"deposit_continue\":\"Продолжить\",\"deposit_you_get\":\"Вы получите\",\"deposit_bonus\":\"бонус\",\"deposit_without_bonus\":\"без бонуса\",\"deposit_select_your_bonus\":\"Выберите Ваш бонус\",\"deposit_recommended_amount\":\"Это рекомендуемая сумма к пополнению!\",\"deposit_attention\":\"Внимание!\",\"deposit_success\":\"Успешно!\",\"история_пополнений\":\"\",\"deposit_history_title\":\"История пополнений\",\"deposit_history_amount\":\"Сумма платежа\",\"deposit_history_status\":\"Статус\",\"deposit_history_system\":\"Платежная система\",\"deposit_history_date\":\"Дата\",\"deposit_history_waiting\":\"Ожидание оплаты\",\"deposit_history_success\":\"Успешно\",\"deposit_history_cancel\":\"Отменено\",\"история_выплат\":\"\",\"payout_title\":\"Вывод средств\",\"payout_without_turnover\":\"Вывод без отработки бонуса\",\"payout_without_commission\":\"Без комиссии\",\"payout_in_24_hours\":\"Вывод в течение 24х часов\",\"payout_minimum_amount\":\"Минимальная сумма вывода\",\"payout_amount\":\"Сумма вывода\",\"payout_min\":\"мин\",\"payout_wallet\":\"Кошелек для выплаты\",\"payout_check_correct\":\"проверяйте правильность\",\"payout_system\":\"Платежная система\",\"payout_can_be_commission\":\"может взиматься комиссия\",\"payout_continue\":\"Продолжить\",\"payout_you_get\":\"Вы получите\",\"payout_your_turnover\":\"Ваш оборот по бонусам\",\"payout_left_turnover\":\"Вам осталось отработать\",\"payout_from_all_bonus_amount\":\"от общей суммы бонуса\",\"payout_cancel_bonus\":\"Отказаться от бонуса\",\"payout_balance_be\":\"Баланс будет\",\"payout_after_cancel\":\"после отказа\",\"payout_conditions\":\"Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия. Условия отключения бонуса и комиссия.\",\"payout_history_title\":\"История заявок на вывод средств\",\"payout_amount_simple\":\"Сумма\",\"payout_props\":\"Реквизиты\",\"payout_status\":\"Статус\",\"payout_action\":\"Действие\",\"payout_date\":\"Дата\",\"payout_soon\":\"скоро\",\"payout_success\":\"Успешно!\",\"payout_error\":\"Ошибка!\",\"payout_processing\":\"Обрабатывается\",\"payout_paid_out\":\"Выплачено\",\"payout_cause\":\"Причина отклонения\",\"payout_cause_not_found\":\"Причина отклонения выплаты не была указана\",\"payout_declined\":\"Отклонено\",\"payout_min_10\":\"Минимальная сумма вывода составляет 10$\",\"payout_enter_correct_address\":\"Введите корректный адрес выплаты!\",\"промокоды\":\"\",\"promo_code_title\":\"Использовать промокод\",\"promo_code_use_desc\":\"Используйте общедоступные или приватные промокоды для получения скидки, кэшбэка а также иных привилегий. Обратите внимание - некоторые промокоды имеют условия использования.\",\"promo_code_clear\":\"Очистить\",\"promo_code_apply\":\"Применить\",\"promo_code_have_time\":\"Успейте воспользоваться предложением!\",\"promo_code_activate\":\"Активировать промокод\",\"promo_code_history\":\"История применений промокодов\",\"promo_code_simple\":\"Промокод\",\"promo_code_type\":\"Тип промокода\",\"promo_code_status\":\"Статус\",\"promo_code_date\":\"Дата\",\"promo_code_without_deposit\":\"Бездепозитный бонус\",\"promo_code_percent\":\"Процент к пополнению\",\"promo_code_active\":\"Активирован\",\"история_торговли\":\"\",\"trade_history_title\":\"История торговли\",\"trade_history_amount\":\"Сумма\",\"trade_history_info\":\"Информация\",\"trade_history_profit\":\"Прибыль\",\"trade_history_instrument\":\"Инструмент\",\"trade_history_percent\":\"Процент\",\"trade_history_expiration\":\"Экспирация\",\"trade_history_date\":\"Дата\",\"trade_history_demo_title\":\"История демо торговли\",\"trade_history_additional\":\"Дополнительная информация\",\"trade_history_open_price\":\"Цена открытия\",\"trade_history_close_price\":\"Цена закрытия\",\"trade_history_path\":\"Направление\",\"trade_history_open_time\":\"Время открытия\",\"trade_history_close_time\":\"Время закрытия\",\"trade_history_add\":\"Дополнительно\",\"trade_history_higher\":\"выше\",\"trade_history_lower\":\"ниже\",\"профиль\":\"\",\"profile_confirm_phone_number\":\"Подтвердить номер телефона\",\"profile_call_made\":\"На номер телефона будет совершен звонок. Введите посление 4 цифры номера для подтверждения.\",\"profile_do_not_answer\":\"Отвечать на звонок не нужно, нужны только 4 последние цифры номера!\",\"profile_3_tries\":\"На подтверждение номера выделяется 3 попытки.\",\"profile_make_call\":\"Сделать звонок\",\"profile_repeat\":\"Повторить\",\"profile_close\":\"Закрыть\",\"profile_confirm\":\"Подтвердить\",\"profile_confirm_email\":\"Подтвердить email адрес\",\"profile_email_be_send\":\"На указанную почту будет отправлен четырёхзначный код, введите его для подтверждения.\",\"profile_send_code\":\"Отправить код\",\"profile_general\":\"Основная информация\",\"profile_nickname\":\"Никнейм\",\"profile_refresh\":\"Обновить\",\"profile_phone\":\"Телефон\",\"profile_gender\":\"Пол\",\"profile_language\":\"Язык\",\"profile_dont_use_email\":\"* Не используем email для рассылок, мобильный телефон только для подтверждения личности - мы не будем вам звонить.\",\"profile_save\":\"Сохранить изменения\",\"profile_clear\":\"Очистить поля\",\"profile_connect_social\":\"Подключить соц. сети\",\"profile_connected\":\"прикреплено\",\"profile_change_password\":\"Изменение пароля\",\"profile_current_password\":\"Текущий пароль\",\"profile_new_password\":\"Новый пароль\",\"profile_repeat_new_password\":\"Повтор нового пароля\",\"profile_save_password\":\"Сохраните пароль в надежном месте после его изменения, во избежание потери доступа к аккаунту.\",\"profile_dont_verified\":\"Ваш аккаунт не верифицирован! Для верификации заполните личные данные и загрузите документы.\",\"profile_verified\":\"У Вас верифицированный аккаунт!\",\"profile_main\":\"Личные данные\",\"profile_from_document\":\"из удостоверяющего документа\",\"profile_last_name\":\"Фамилия\",\"profile_name\":\"Имя\",\"profile_patronymic\":\"Отчество\",\"profile_if_have\":\"если есть\",\"profile_birth\":\"Дата рождения\",\"profile_registration\":\"Адрес регистрации\",\"profile_document_number\":\"Серия и номер удостоверяющего документа\",\"profile_only_for_verify\":\"Используются только для верификации личности, это необходимо для защиты от отмывания денег.\",\"profile_verify\":\"Верифицировать\",\"profile_first_page\":\"Первая страница паспорта или ID\",\"profile_uploading\":\"Идет загрузка документа\",\"profile_checking\":\"Документ находится на проверке!\",\"profile_approved\":\"Документ успешно подтвержден!\",\"profile_decline\":\"Отклонить\",\"profile_remove\":\"Удалить\",\"profile_checked\":\"Проверено\",\"profile_select_image\":\"Выберите изображение\",\"profile_move_file\":\"Перетащите сюда файл...\",\"profile_page_with_registration\":\"Страница с пропиской или обратная сторона ID\",\"profile_additional_document\":\"Допольнительный документ\",\"profile_success\":\"Успешно!\",\"profile_error\":\"Ошибка!\",\"profile_man\":\"Мужской\",\"profile_woman\":\"Женский\",\"profile_name_more\":\"Имя должно содержать более 2х символов!\",\"profile_last_name_more\":\"Фамилия должна содержать более 2х символов!\",\"profile_patronymic_more\":\"Отчество должно содержать более 2х символов!\",\"profile_address_more\":\"Адрес должен содержать не менее 10 символов!\",\"profile_document_number_more\":\"Серия и номер удостоверяющего документа должены содержать не менее 5 символов!\",\"profile_birth_full\":\"Необходимо полностью заполнить дату рождения!\",\"profile_current_password_more\":\"Текущий пароль не может быть короче 6 символов!\",\"profile_new_password_more\":\"Новый пароль не может быть короче 8 символов!\",\"profile_repeat_password_more\":\"Повтор нового пароля не может быть короче 8 символов!\",\"profile_new_password_same\":\"Новый пароль совпадает со старым!\",\"profile_not_equal_password\":\"Повтор пароля не совпадает с новым паролем!\",\"profile_nickname_more\":\"Никнейм не может быть короче 3 символов!\",\"profile_enter_email\":\"Введите корректный email адрес!\",\"profile_enter_phone\":\"Введите корректный номер телефона!\",\"партнер\":\"\",\"partner_title\":\"Ваша партнерская ссылка\",\"partner_your_link\":\"Ваша ссылка для привлечения пользователей\",\"partner_conditions\":\"Условия партнерской программы\",\"partner_every_user\":\"Каждый приглашенный пользователь приносит партнеру вознаграждение в размере\",\"partner_from_turnover\":\"с торгового оборота, исключая бонусные средства.\",\"partner_cheating\":\"Накрутка и иные способы фальсификации регистраций приведут к остановке действия аккаунта.\",\"partner_normal_status\":\"У вас обычный статус партнера, но вы можете его улучшить отправив заявку для получение \\\"премиум\\\" статуса.\",\"partner_application_premium\":\"Заявка на подключение премиум статуса партнера находится на рассмотрении.\",\"partner_success_premium\":\"Вы успешно стали премиум партнером, теперь вам зачисляются повышенные выплаты за приглашенных пользователей.\",\"partner_application_decline\":\"Ваша заявка была отклонена.\",\"partner_try\":\"Подать заявку ещё раз\",\"partner_premium_title\":\"«Премиум» партнер\",\"partner_become_premium\":\"Станьте «премиум» партнером чтобы получать повышенные выплаты за приглашенных пользователей. Вы сможете получать\",\"partner_10_percent\":\"10 процентов\",\"partner_from_deposit\":\"с пополнения баланса приглашенного пользователя,\",\"partner_5_cents\":\"5 центов\",\"partner_to_active_registration\":\"за подтвержденную регистрацию (аккаунт на котором подтверждена почта) и\",\"partner_3_percents\":\"3 процента\",\"partner_from_turnover_referral\":\"с торгового оборота приглашенного пользователя. Для получения статуса \\\"премиум\\\" партнера необходимо отправить заявку на рассмотрение.\",\"partner_telegram\":\"Telegram для связи:\",\"partner_plan\":\"Планируемое количество приглашенных в день:\",\"partner_comment\":\"Опишите максимально подробно источники трафика, потенциальный охват, предложения\",\"partner_clear\":\"Очистить\",\"partner_send\":\"Отправить\",\"partner_exclusion\":\"Исключение партнера\",\"partner_make_partner\":\"Сделать партнером\",\"partner_all_stat\":\"Общая статистика партнера\",\"partner_all_referrals\":\"Количество приглашенных\",\"partner_reward\":\"Вознаграждение\",\"partner_active\":\"Активных\",\"partner_deposited\":\"Пополнивших баланс\",\"partner_clicks\":\"Переходов по ссылке\",\"partner_list\":\"Список приглашенных\",\"partner_token\":\"Токен пользователя\",\"partner_date\":\"Дата регистрации\",\"partner_success\":\"Успешно!\",\"partner_error\":\"Ошибка!\",\"partner_nickname\":\"Никнейм telegram не может быть менее 4х символов\",\"partner_comment_desc\":\"Комментарий не может быть менее 20 символов\",\"partner_comment_error\":\"Комментарий не может быть более 500 символов\",\"partner_5_people\":\"1-5 человек\",\"partner_15_people\":\"5-15 человек\",\"partner_50_people\":\"15-50 человек\",\"partner_50_plus_people\":\"50+ человек\",\"partner_not_known\":\"Не известно\",\"partner_loading\":\"Загружается...\",\"поддержка\":\"\",\"support_title\":\"Обращение в техническую поддержку\",\"support_desc\":\"Скорость ответа обычно составляет до 24х часов. В случае, если на Ваш вопрос не ответили в течение данного времени, пожалуйста, не дублируйте вопрос - скорее всего рассмотрение заявки требует большего времени. Можно задать не более 1 вопроса в 10 минут. Ответ придет на email адрес текущего аккаунта.\",\"support_write\":\"Напишите свой вопрос...\",\"support_clear\":\"Очистить\",\"support_send\":\"Отправить\",\"support_contacts\":\"Контакты\",\"support_email\":\"Наш email\",\"support_working_time\":\"Время работы\",\"support_phone\":\"Телефон\",\"support_not_known\":\"временно отсутсвует\",\"support_address\":\"Адрес\",\"support_address_line\":\"Tartu maantee 13, 10117 Tallinn, Эстония\",\"support_info\":\"Информация\",\"support_info_desc\":\"Обратите внимание, что в текущей эпидемиологической ситуации сотрудники компании работают в удаленном режиме. В связи с этим обращения обрабатываются в письменном виде в штатном режиме.\",\"support_thank_you\":\"Благодарим за понимание!\",\"support_place\":\"Местоположение\",\"support_question_error\":\"Вопрос не может быть короче 25 символов!\",\"страница_не_найдена\":\"\",\"404_not_found\":\"Страница не найдена\",\"404_cant_find\":\"Мы не смогли найти страницу, возможно она улетела на Марс\",\"404_back_to_trade\":\"Вернуться к торговле\"}");
 
 /***/ }),
 

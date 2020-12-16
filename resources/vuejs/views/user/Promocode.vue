@@ -19,20 +19,19 @@
                 <div class="col-md-6">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Использовать промокод</h4>
+                            <h4 class="card-title">{{ $i18n.t('promo_code_title') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="card-text">
                                     <p style="margin-bottom: 1.7rem;">
-                                        Используйте общедоступные или приватные промокоды для получения скидки, кэшбэка а также иных
-                                        привилегий. Обратите внимание - некоторые промокоды имеют условия использования.
+                                      {{ $i18n.t('promo_code_use_desc') }}
                                     </p>
                                     <fieldset class="form-group">
                                         <input type="text" class="form-control" placeholder="Введите промокод для его проверки" v-model="promocode">
                                     </fieldset>
-                                    <button @click="clearPromocode" class="btn btn-primary">Очистить</button>
-                                    <button @click="checkPromocode" class="btn btn-success float-right" :class="{'disabled' : promocode.length < 3}">Применить</button>
+                                    <button @click="clearPromocode" class="btn btn-primary">{{ $i18n.t('promo_code_clear') }}</button>
+                                    <button @click="checkPromocode" class="btn btn-success float-right" :class="{'disabled' : promocode.length < 3}">{{ $i18n.t('promo_code_apply') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -50,8 +49,8 @@
                                     </p>
                                 </div>
                                 <div class="overlay-status">
-                                    <p class="mb-25"><small>Успейте воспользоваться предложением!</small></p>
-                                    <button @click="setCode(promocode.code)" class="btn btn-outline-info">Активировать промокод</button>
+                                    <p class="mb-25"><small>{{ $i18n.t('promo_code_have_time') }}</small></p>
+                                    <button @click="setCode(promocode.code)" class="btn btn-outline-info">{{ $i18n.t('promo_code_activate') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -61,7 +60,7 @@
                 <div class="col-md-12">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">История применений промокодов</h4>
+                            <h4 class="card-title">{{ $i18n.t('promo_code_history') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -70,10 +69,10 @@
                                         <table class="table" id="promocode">
                                             <thead>
                                             <tr>
-                                                <th>Промокод</th>
-                                                <th>Тип промокода</th>
-                                                <th>Статус</th>
-                                                <th>Дата</th>
+                                                <th>{{ $i18n.t('promo_code_simple') }}</th>
+                                                <th>{{ $i18n.t('promo_code_type') }}</th>
+                                                <th>{{ $i18n.t('promo_code_status') }}</th>
+                                                <th>{{ $i18n.t('promo_code_date') }}</th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -90,6 +89,7 @@
 
 <script>
     import dateformat from "dateformat";
+    import {getCookie} from "../../js/functions";
 
     require('../../../vendors/js/tables/datatable/datatables.min.js');
     require('../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js');
@@ -136,7 +136,7 @@
                         type: "POST"
                     },
                     "language": {
-                        "url": "/locales/Russian.json"
+                      "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
                     },
                     columns: [
                         { data: 'promocode.code', name: 'promocode.code' },
@@ -150,10 +150,10 @@
                                 if (type === 'display') {
                                     switch (data) {
                                         case 1:
-                                            status = 'Бездепозитный бонус';
+                                            status = self.$i18n.t('promo_code_without_deposit');
                                             break;
                                         case 2:
-                                            status = 'Процент к пополнению';
+                                            status = self.$i18n.t('promo_code_percent');
                                             break;
                                     }
                                 }
@@ -168,7 +168,7 @@
                             render: function(data, type) {
                                 let status = '';
                                 if (type === 'display') {
-                                    status = 'Активирован';
+                                    status = self.$i18n.t('promo_code_active');
                                 }
                                 return '<div class="badge badge-success">' + status + '</div>';
                             }

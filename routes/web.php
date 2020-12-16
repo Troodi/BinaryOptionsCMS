@@ -13,6 +13,7 @@ Auth::routes();
 
 Route::get('/', 'Main\LandingController@homePage');
 Route::get('login/{provider}', 'Main\SocialController@redirect');
+Route::get('lang/{lang}', 'Main\LocalizationController@setLang');
 Route::get('login/{provider}/callback','Main\SocialController@Callback');
 
 Route::post('/event-twilio', 'Main\ProfileController@phoneEvent');

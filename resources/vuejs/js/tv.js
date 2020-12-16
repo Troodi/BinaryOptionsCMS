@@ -307,7 +307,6 @@ export class TradingViewWebsocket {
     }
 
     getTicker(tickerName) {
-        console.log('Get ticker!', tickerName);
         this.symbol = tickerName;
         const each = 10;
         const runs = 3000 / each; // time in ms divided by above

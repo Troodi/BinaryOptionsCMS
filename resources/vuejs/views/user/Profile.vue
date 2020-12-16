@@ -4,14 +4,14 @@
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title" id="myModalLabel1">Подтвердить номер телефона</h3>
+                        <h3 class="modal-title" id="myModalLabel1">{{ $i18n.t('profile_confirm_phone_number') }}</h3>
                         <button type="button" class="close rounded-pill" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </button>
                     </div>
                     <div class="modal-body">
                         <p>
-                            На номер телефона будет совершен звонок. Введите посление 4 цифры номера для подтверждения. <code>Отвечать на звонок не нужно, нужны только 4 последние цифры номера!</code> На подтверждение номера выделяется 3 попытки.
+                          {{ $i18n.t('profile_call_made') }} <code>{{ $i18n.t('profile_do_not_answer') }}</code> {{ $i18n.t('profile_3_tries') }}
                         </p>
 
                         <div v-for="value in phoneModalErrors" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
@@ -41,11 +41,11 @@
                         <div class="input-group">
                             <input v-model="phoneCode" type="text" class="form-control" v-mask="'9999'">
                             <div v-show="phoneCodeEnabled" class="input-group-append">
-                                <button @click="sendPhoneCode" class="btn btn-primary" type="button">Сделать звонок</button>
+                                <button @click="sendPhoneCode" class="btn btn-primary" type="button">{{ $i18n.t('profile_make_call') }}</button>
                             </div>
                             <vue-countdown-timer v-show="!phoneCodeEnabled" class="input-group-append" :start-time="'2020-01-01 00:00:00'" :end-time="phoneTime" :interval="1000">
                                 <template slot="countdown" slot-scope="scope">
-                                    <button disabled="disabled" class="btn btn-primary" type="button">Повторить ({{ scope.props.seconds }})</button>
+                                    <button disabled="disabled" class="btn btn-primary" type="button">{{ $i18n.t('profile_repeat') }} ({{ scope.props.seconds }})</button>
                                 </template>
                             </vue-countdown-timer>
                         </div>
@@ -53,11 +53,11 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
                             <i class="bx bx-x d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Закрыть</span>
+                            <span class="d-none d-sm-block">{{ $i18n.t('profile_close') }}</span>
                         </button>
                         <button v-bind:disabled="checkPhoneCodeDisabled" @click="checkPhoneCode" type="button" class="btn btn-primary ml-1">
                             <i class="bx bx-check d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Подтвердить</span>
+                            <span class="d-none d-sm-block">{{ $i18n.t('profile_confirm') }}</span>
                         </button>
                     </div>
                 </div>
@@ -68,14 +68,14 @@
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3 class="modal-title">Подтвердить email адрес</h3>
+                        <h3 class="modal-title">{{ $i18n.t('profile_confirm_email') }}</h3>
                         <button type="button" class="close rounded-pill" data-dismiss="modal" aria-label="Close">
                             <i class="bx bx-x"></i>
                         </button>
                     </div>
                     <div class="modal-body">
                         <p>
-                            На указанную почту будет отправлен четырёхзначный код, введите его для подтверждения.
+                          {{ $i18n.t('profile_email_be_send') }}
                         </p>
 
                         <div v-for="value in emailModalErrors" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
@@ -105,11 +105,11 @@
                         <div class="input-group">
                             <input v-model="emailCode" type="text" class="form-control" v-mask="'9999'">
                             <div v-show="emailCodeEnabled" class="input-group-append">
-                                <button @click="sendEmailCode" class="btn btn-primary" type="button">Отправить код</button>
+                                <button @click="sendEmailCode" class="btn btn-primary" type="button">{{ $i18n.t('profile_send_code') }}</button>
                             </div>
                             <vue-countdown-timer v-show="!emailCodeEnabled" class="input-group-append" :start-time="'2020-01-01 00:00:00'" :end-time="emailTime" :interval="1000">
                                 <template slot="countdown" slot-scope="scope">
-                                    <button disabled="disabled" class="btn btn-primary" type="button">Повторить ({{ scope.props.seconds }})</button>
+                                    <button disabled="disabled" class="btn btn-primary" type="button">{{ $i18n.t('profile_repeat') }} ({{ scope.props.seconds }})</button>
                                 </template>
                             </vue-countdown-timer>
                         </div>
@@ -117,11 +117,11 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-secondary" data-dismiss="modal">
                             <i class="bx bx-x d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Закрыть</span>
+                            <span class="d-none d-sm-block">{{ $i18n.t('profile_close') }}</span>
                         </button>
                         <button v-bind:disabled="checkEmailCodeDisabled" @click="checkEmailCode" type="button" class="btn btn-primary ml-1">
                             <i class="bx bx-check d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Подтвердить</span>
+                            <span class="d-none d-sm-block">{{ $i18n.t('profile_confirm') }}</span>
                         </button>
                     </div>
                 </div>
@@ -158,14 +158,14 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Основная информация</h4>
+                            <h4 class="card-title">{{ $i18n.t('profile_general') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Никнейм</label>
+                                            <label>{{ $i18n.t('profile_nickname') }}</label>
                                             <input type="text" class="form-control" v-model="nickname">
                                         </fieldset>
                                     </div>
@@ -175,24 +175,24 @@
                                             <div class="input-group">
                                                 <input type="text" class="form-control" v-model="email" v-bind:disabled="email_verified_at && !isAdmin" v-mask="'*{1,25}@*{1,15}.*{1,7}'">
                                                 <div class="input-group-append" v-if="isAdmin">
-                                                  <button v-bind:disabled="emailSendDisabled" class="btn btn-primary" type="button" @click="updateEmail">Обновить</button>
+                                                  <button v-bind:disabled="emailSendDisabled" class="btn btn-primary" type="button" @click="updateEmail">{{ $i18n.t('profile_refresh') }}</button>
                                                 </div>
                                                 <div class="input-group-append" v-if="!email_verified_at && !isAdmin">
-                                                    <button v-bind:disabled="emailSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#email">Подтвердить</button>
+                                                    <button v-bind:disabled="emailSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#email">{{ $i18n.t('profile_confirm') }}</button>
                                                 </div>
                                             </div>
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Телефон*</label>
+                                            <label>{{ $i18n.t('profile_phone') }}*</label>
                                             <div class="input-group">
                                                 <input type="text" class="form-control" v-model="phone" v-bind:disabled="phone_verify_at && !isAdmin" v-mask="'+9{9,20}'">
                                                 <div class="input-group-append" v-if="isAdmin">
-                                                  <button v-bind:disabled="phoneSendDisabled" @click="updatePhone" class="btn btn-primary" type="button">Обновить</button>
+                                                  <button v-bind:disabled="phoneSendDisabled" @click="updatePhone" class="btn btn-primary" type="button">{{ $i18n.t('profile_refresh') }}</button>
                                                 </div>
                                                 <div class="input-group-append" v-if="!phone_verify_at && !isAdmin">
-                                                  <button v-bind:disabled="phoneSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#phone">Подтвердить</button>
+                                                  <button v-bind:disabled="phoneSendDisabled" class="btn btn-primary" type="button" data-toggle="modal" data-target="#phone">{{ $i18n.t('profile_confirm') }}</button>
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -205,24 +205,24 @@
                                     </div>
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label class="align-top">Пол</label>
+                                            <label class="align-top">{{ $i18n.t('profile_gender') }}</label>
                                             <select2 v-model="gender" :options="genders" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label class="align-top">Язык</label>
+                                            <label class="align-top">{{ $i18n.t('profile_language') }}</label>
                                             <select2 v-model="language" :options="options" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
                                         </fieldset>
                                     </div>
                                     <div class="col-md-8">
                                         <p>
-                                            * Не используем email для рассылок, мобильный телефон только для подтверждения личности - мы не будем вам звонить.
+                                          {{ $i18n.t('profile_dont_use_email') }}
                                         </p>
                                     </div>
                                     <div class="col-md-4">
-                                        <button v-bind:disabled="mainSaveDisabled" @click="saveGeneral" type="button" class="btn btn-outline-primary float-right">Сохранить изменения</button>
-                                        <button type="button" @click="clearMain" class="btn btn-outline-danger float-right mr-1">Очистить поля</button>
+                                        <button v-bind:disabled="mainSaveDisabled" @click="saveGeneral" type="button" class="btn btn-outline-primary float-right">{{ $i18n.t('profile_save') }}</button>
+                                        <button type="button" @click="clearMain" class="btn btn-outline-danger float-right mr-1">{{ $i18n.t('profile_clear') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -235,18 +235,18 @@
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header">
-                    <h4 class="card-title">Подключить соц. сети</h4>
+                    <h4 class="card-title">{{ $i18n.t('profile_connect_social') }}</h4>
                   </div>
                   <div class="card-content">
                     <div class="card-body">
                       <div class="d-flex flex-md-row flex-column justify-content-around">
                         <a v-bind:class="{ 'disabled': disable_google || isAdmin }" href="/login/google" class="btn btn-social btn-google btn-block font-small-3 mr-md-1 mb-md-0 mb-1">
                           <i class="bx bxl-google font-medium-3"></i>
-                          <span class="pl-50 d-block text-center">Google <small class="text-white" v-show="disable_google">(прикреплено)</small></span>
+                          <span class="pl-50 d-block text-center">Google <small class="text-white" v-show="disable_google">({{ $i18n.t('profile_connected') }})</small></span>
                         </a>
                         <a v-bind:class="{ 'disabled': disable_facebook || isAdmin }" href="/login/facebook" class="btn btn-social btn-block mt-0 btn-facebook font-small-3">
                           <i class="bx bxl-facebook-square font-medium-3"></i>
-                          <span class="pl-50 d-block text-center">Facebook <small class="text-white" v-show="disable_facebook">(прикреплено)</small></span>
+                          <span class="pl-50 d-block text-center">Facebook <small class="text-white" v-show="disable_facebook">({{ $i18n.t('profile_connected') }})</small></span>
                         </a>
                       </div>
                     </div>
@@ -283,37 +283,37 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Изменение пароля</h4>
+                            <h4 class="card-title">{{ $i18n.t('profile_change_password') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Текущий пароль</label>
+                                            <label>{{ $i18n.t('profile_current_password') }}</label>
                                             <input type="text" class="form-control" v-model="current_password">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Новый пароль</label>
+                                            <label>{{ $i18n.t('profile_new_password') }}</label>
                                             <input type="text" class="form-control" v-model="new_password">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Повтор нового пароля</label>
+                                            <label>{{ $i18n.t('profile_repeat_new_password') }}</label>
                                             <input type="text" class="form-control" v-model="repeat_password">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-8">
                                         <p>
-                                            Сохраните пароль в надежном месте после его изменения, во избежание потери доступа к аккаунту.
+                                          {{ $i18n.t('profile_save_password') }}
                                         </p>
                                     </div>
                                     <div class="col-md-4">
-                                        <button type="button" @click="changePassword" class="btn btn-outline-primary float-right" v-bind:disabled="passwordSaveDisabled">Сохранить изменения</button>
-                                        <button type="button" @click="clearPassword" class="btn btn-outline-danger float-right mr-1">Очистить поля</button>
+                                        <button type="button" @click="changePassword" class="btn btn-outline-primary float-right" v-bind:disabled="passwordSaveDisabled">{{ $i18n.t('profile_save') }}</button>
+                                        <button type="button" @click="clearPassword" class="btn btn-outline-danger float-right mr-1">{{ $i18n.t('profile_clear') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -326,7 +326,7 @@
               <div class="d-flex align-items-center">
                 <i class="bx bx-error-circle"></i>
                 <span>
-                  Ваш аккаунт не верифицирован! Для верификации заполните личные данные и загрузите документы.
+                  {{ $i18n.t('profile_dont_verified') }}
                 </span>
               </div>
             </div>
@@ -335,7 +335,7 @@
               <div class="d-flex align-items-center">
                 <i class="bx bx-error-circle"></i>
                 <span>
-                  У Вас верифицированный аккаунт!
+                  {{ $i18n.t('profile_verified') }}
                 </span>
               </div>
             </div>
@@ -368,56 +368,56 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Личные данные <small><i>(из удостоверяющего документа)</i></small></h4>
+                            <h4 class="card-title">{{ $i18n.t('profile_main') }} <small><i>({{ $i18n.t('profile_from_document') }})</i></small></h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Фамилия</label>
+                                            <label>{{ $i18n.t('profile_last_name') }}</label>
                                             <input type="text" class="form-control" v-model="last_name" v-bind:disabled="privateDataIsset">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Имя</label>
+                                            <label>{{ $i18n.t('profile_name') }}</label>
                                             <input type="text" class="form-control" v-model="name" v-bind:disabled="privateDataIsset">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Отчество <small><i>(если есть)</i></small></label>
+                                            <label>{{ $i18n.t('profile_patronymic') }} <small><i>({{ $i18n.t('profile_if_have') }})</i></small></label>
                                             <input type="text" class="form-control" v-model="patronymic" v-bind:disabled="privateDataIsset">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Дата рождения</label>
+                                            <label>{{ $i18n.t('profile_birth') }}</label>
                                             <input type="text" class="form-control" v-model="birth" v-bind:disabled="privateDataIsset" v-mask="'99-99-9999'">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Адрес регистрации</label>
+                                            <label>{{ $i18n.t('profile_registration') }}</label>
                                             <input type="text" class="form-control" v-model="address" v-bind:disabled="privateDataIsset">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
-                                            <label>Серия и номер удостоверяющего документа</label>
+                                            <label>{{ $i18n.t('profile_document_number') }}</label>
                                             <input type="text" class="form-control" v-model="document_number" v-bind:disabled="privateDataIsset">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-7">
                                         <p>
-                                            Используются только для верификации личности, это необходимо для защиты от отмывания денег.
+                                          {{ $i18n.t('profile_only_for_verify') }}
                                         </p>
                                     </div>
                                     <div class="col-md-5">
-                                        <button v-show="!privateDataIsset" @click="saveMain" v-bind:disabled="privateSaveDisabled" type="button" class="btn btn-outline-primary float-right">Сохранить изменения</button>
-                                        <button v-show="!privateDataIsset && isAdmin" @click="verifyAccount" type="button" class="btn btn-outline-success float-right mr-1">Верифицировать</button>
-                                        <button v-show="!privateDataIsset" @click="clearPrivate" type="button" class="btn btn-outline-danger float-right mr-1">Очистить поля</button>
+                                        <button v-show="!privateDataIsset" @click="saveMain" v-bind:disabled="privateSaveDisabled" type="button" class="btn btn-outline-primary float-right">{{ $i18n.t('profile_save') }}</button>
+                                        <button v-show="!privateDataIsset && isAdmin" @click="verifyAccount" type="button" class="btn btn-outline-success float-right mr-1">{{ $i18n.t('profile_verify') }}</button>
+                                        <button v-show="!privateDataIsset" @click="clearPrivate" type="button" class="btn btn-outline-danger float-right mr-1">{{ $i18n.t('profile_clear') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -454,7 +454,7 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Первая страница паспорта или ID</h4>
+                            <h4 class="card-title">{{ $i18n.t('profile_first_page') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -462,7 +462,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
-                                          Идет загрузка документа
+                                          {{ $i18n.t('profile_uploading') }}
                                         </span>
                                     </div>
                                 </div>
@@ -471,7 +471,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
-                                          Документ находится на проверке!
+                                          {{ $i18n.t('profile_checking') }}
                                         </span>
                                     </div>
                                 </div>
@@ -480,7 +480,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
-                                          Документ успешно подтвержден!
+                                          {{ $i18n.t('profile_approved') }}
                                         </span>
                                     </div>
                                 </div>
@@ -495,19 +495,19 @@
                                     <textarea placeholder="Комментарий для пользователя..." class="form-control" style="height: 100px;" v-model="comment_first"></textarea>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button @click="actionVerify(comment_first, 0, 1)" type="button" class="btn btn-outline-warning w-100">Отклонить</button>
+                                    <button @click="actionVerify(comment_first, 0, 1)" type="button" class="btn btn-outline-warning w-100">{{ $i18n.t('profile_decline') }}</button>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button @click="actionVerify(comment_first, 2, 1)" type="button" class="btn btn-outline-danger w-100">Удалить</button>
+                                    <button @click="actionVerify(comment_first, 2, 1)" type="button" class="btn btn-outline-danger w-100">{{ $i18n.t('profile_remove') }}</button>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button @click="actionVerify(comment_first, 1, 1)" type="button" class="btn btn-outline-primary w-100">Проверено</button>
+                                    <button @click="actionVerify(comment_first, 1, 1)" type="button" class="btn btn-outline-primary w-100">{{ $i18n.t('profile_checked') }}</button>
                                   </div>
                                 </div>
 
                                 <fieldset v-show="!document_first_page && !document_first_page_verify_at">
                                     <div class="input-group">
-                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="firstUpload" v-model="document_first_page" :state="Boolean(document_first_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
+                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="firstUpload" v-model="document_first_page" :state="Boolean(document_first_page)" :placeholder="$i18n.t('profile_select_image')" :drop-placeholder="$i18n.t('profile_move_file')"></b-form-file>
                                     </div>
                                 </fieldset>
                             </div>
@@ -517,7 +517,7 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Страница с пропиской или обратная сторона ID</h4>
+                            <h4 class="card-title">{{ $i18n.t('profile_page_with_registration') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -525,7 +525,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
-                                          Идет загрузка документа
+                                          {{ $i18n.t('profile_uploading') }}
                                         </span>
                                     </div>
                                 </div>
@@ -534,7 +534,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
-                                          Документ находится на проверке!
+                                          {{ $i18n.t('profile_checking') }}
                                         </span>
                                     </div>
                                 </div>
@@ -543,7 +543,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
-                                          Документ успешно подтвержден!
+                                          {{ $i18n.t('profile_approved') }}
                                         </span>
                                     </div>
                                 </div>
@@ -558,19 +558,19 @@
                                     <textarea placeholder="Комментарий для пользователя..." class="form-control" style="height: 100px;" v-model="comment_second"></textarea>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button @click="actionVerify(comment_second, 0, 2)" type="button" class="btn btn-outline-warning w-100">Отклонить</button>
+                                    <button @click="actionVerify(comment_second, 0, 2)" type="button" class="btn btn-outline-warning w-100">{{ $i18n.t('profile_decline') }}</button>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button @click="actionVerify(comment_second, 2, 2)" type="button" class="btn btn-outline-danger w-100">Удалить</button>
+                                    <button @click="actionVerify(comment_second, 2, 2)" type="button" class="btn btn-outline-danger w-100">{{ $i18n.t('profile_remove') }}</button>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button @click="actionVerify(comment_second, 1, 2)" type="button" class="btn btn-outline-primary w-100">Проверено</button>
+                                    <button @click="actionVerify(comment_second, 1, 2)" type="button" class="btn btn-outline-primary w-100">{{ $i18n.t('profile_checked') }}</button>
                                   </div>
                                 </div>
 
                                 <fieldset v-show="!document_second_page && !document_second_page_verify_at">
                                     <div class="input-group">
-                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="secondUpload" v-model="document_second_page" :state="Boolean(document_second_page)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
+                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="secondUpload" v-model="document_second_page" :state="Boolean(document_second_page)" :placeholder="$i18n.t('profile_select_image')" :drop-placeholder="$i18n.t('profile_move_file')"></b-form-file>
                                     </div>
                                 </fieldset>
                             </div>
@@ -580,7 +580,7 @@
                 <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Допольнительный документ</h4>
+                            <h4 class="card-title">{{ $i18n.t('profile_additional_document') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -588,7 +588,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
-                                          Идет загрузка документа
+                                          {{ $i18n.t('profile_uploading') }}
                                         </span>
                                     </div>
                                 </div>
@@ -597,7 +597,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
-                                          Документ находится на проверке!
+                                          {{ $i18n.t('profile_checking') }}
                                         </span>
                                     </div>
                                 </div>
@@ -606,7 +606,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="bx bx-info-circle"></i>
                                         <span>
-                                          Документ успешно подтвержден!
+                                          {{ $i18n.t('profile_approved') }}
                                         </span>
                                     </div>
                                 </div>
@@ -621,19 +621,19 @@
                                     <textarea placeholder="Комментарий для пользователя..." class="form-control" style="height: 100px;" v-model="comment_third"></textarea>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button @click="actionVerify(comment_third, 0, 3)" type="button" class="btn btn-outline-warning w-100">Отклонить</button>
+                                    <button @click="actionVerify(comment_third, 0, 3)" type="button" class="btn btn-outline-warning w-100">{{ $i18n.t('profile_decline') }}</button>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button @click="actionVerify(comment_third, 2, 3)" type="button" class="btn btn-outline-danger w-100">Удалить</button>
+                                    <button @click="actionVerify(comment_third, 2, 3)" type="button" class="btn btn-outline-danger w-100">{{ $i18n.t('profile_remove') }}</button>
                                   </div>
                                   <div class="col-md-4 mt-1">
-                                    <button @click="actionVerify(comment_third, 1, 3)" type="button" class="btn btn-outline-primary w-100">Проверено</button>
+                                    <button @click="actionVerify(comment_third, 1, 3)" type="button" class="btn btn-outline-primary w-100">{{ $i18n.t('profile_checked') }}</button>
                                   </div>
                                 </div>
 
                                 <fieldset v-show="!document_additional && !document_additional_verify_at">
                                     <div class="input-group">
-                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="additionalUpload" v-model="document_additional" :state="Boolean(document_additional)" placeholder="Выберите изображение" drop-placeholder="Перетащите сюда файл..."></b-form-file>
+                                        <b-form-file accept="image/jpg, image/jpeg, image/png, image/gif" v-on:change="additionalUpload" v-model="document_additional" :state="Boolean(document_additional)" :placeholder="$i18n.t('profile_select_image')" :drop-placeholder="$i18n.t('profile_move_file')"></b-form-file>
                                     </div>
                                 </fieldset>
                             </div>
@@ -663,13 +663,13 @@
                 page: page
               }).then((response) => {
                 if(response.data.success === true) {
-                  toastr.success(response.data.message, 'Успешно!', {
+                  toastr.success(response.data.message, self.$i18n.t('profile_success'), {
                     positionClass: 'toast-bottom-left',
                     containerId: 'toast-bottom-left'
                   });
                   self.getProfile();
                 } else {
-                  toastr.error(response.data.message, 'Ошибка!', {
+                  toastr.error(response.data.message, self.$i18n.t('profile_error'), {
                     positionClass: 'toast-bottom-left',
                     containerId: 'toast-bottom-left'
                   });
@@ -891,13 +891,13 @@
               let self = this;
               axios.post('/admin/data/verifyAccount', { id: this.$route.params.id }).then((response) => {
                 if(response.data.success === true) {
-                  toastr.success(response.data.message, 'Успешно!', {
+                  toastr.success(response.data.message, self.$i18n.t('profile_success'), {
                     positionClass: 'toast-bottom-left',
                     containerId: 'toast-bottom-left'
                   });
                   self.getProfile();
                 } else {
-                  toastr.error(response.data.message, 'Ошибка!', {
+                  toastr.error(response.data.message, self.$i18n.t('profile_error'), {
                     positionClass: 'toast-bottom-left',
                     containerId: 'toast-bottom-left'
                   });
@@ -907,12 +907,12 @@
             updatePhone: function (){
               axios.post('/admin/data/updatePhone', { phone: this.phone, id: this.$route.params.id }).then((response) => {
                 if(response.data.success === true) {
-                  toastr.success(response.data.message, 'Успешно!', {
+                  toastr.success(response.data.message, self.$i18n.t('profile_success'), {
                     positionClass: 'toast-bottom-left',
                     containerId: 'toast-bottom-left'
                   });
                 } else {
-                  toastr.error(response.data.message, 'Ошибка!', {
+                  toastr.error(response.data.message, self.$i18n.t('profile_error'), {
                     positionClass: 'toast-bottom-left',
                     containerId: 'toast-bottom-left'
                   });
@@ -922,12 +922,12 @@
             updateEmail: function (){
               axios.post('/admin/data/updateEmail', { email: this.email, id: this.$route.params.id }).then((response) => {
                 if(response.data.success === true) {
-                  toastr.success(response.data.message, 'Успешно!', {
+                  toastr.success(response.data.message, self.$i18n.t('profile_success'), {
                     positionClass: 'toast-bottom-left',
                     containerId: 'toast-bottom-left'
                   });
                 } else {
-                  toastr.error(response.data.message, 'Ошибка!', {
+                  toastr.error(response.data.message, self.$i18n.t('profile_error'), {
                     positionClass: 'toast-bottom-left',
                     containerId: 'toast-bottom-left'
                   });
@@ -992,8 +992,8 @@
                     { id: "en", text: "English" },
                 ],
                 genders: [
-                    { id: "0", text: "Мужской" },
-                    { id: "1", text: "Женский" },
+                    { id: "0", text: this.$i18n.t('profile_man') },
+                    { id: "1", text: this.$i18n.t('profile_woman') },
                 ],
                 phoneCode: '',
                 emailCode: '',
@@ -1022,22 +1022,22 @@
             main_error: function () { // Проверка валидности полей личных данных
                 let errors = [];
                 if(this.name.length > 0 && this.name.length < 2){
-                    errors.push('Имя должно содержать более 2х символов!');
+                    errors.push(this.$i18n.t('profile_name_more'));
                 }
                 if(this.last_name.length > 0 && this.last_name.length < 2){
-                    errors.push('Фамилия должна содержать более 2х символов!');
+                    errors.push(this.$i18n.t('profile_last_name_more'));
                 }
                 if(this.patronymic.length > 0 && this.patronymic.length < 2){
-                    errors.push('Отчество должно содержать более 2х символов!');
+                    errors.push(this.$i18n.t('profile_patronymic_more'));
                 }
                 if(this.address.length > 0 && this.address.length < 10){
-                    errors.push('Адрес должен содержать не менее 10 символов!');
+                    errors.push(this.$i18n.t('profile_address_more'));
                 }
                 if(this.document_number.length > 0 && this.document_number.length < 5){
-                    errors.push('Серия и номер удостоверяющего документа должены содержать не менее 5 символов!');
+                    errors.push(this.$i18n.t('profile_document_number_more'));
                 }
                 if(!(/[0-9]{2}-[0-9]{2}-[0-9]{4}/.test(this.birth)) && this.birth !== ''){
-                    errors.push('Необходимо полностью заполнить дату рождения!');
+                    errors.push(this.$i18n.t('profile_birth_full'));
                 }
                 return errors;
             },
@@ -1059,19 +1059,19 @@
             password_error: function () { // Проверка блокировать ли поля личных данных
                 let errors = [];
                 if(this.current_password.length > 0 && this.current_password.length < 6 && !this.isAdmin){
-                    errors.push('Текущий пароль не может быть короче 6 символов!');
+                    errors.push(this.$i18n.t('profile_current_password_more'));
                 }
                 if(this.new_password.length > 0 && this.new_password.length < 8){
-                    errors.push('Новый пароль не может быть короче 8 символов!');
+                    errors.push(this.$i18n.t('profile_new_password_more'));
                 }
                 if(this.repeat_password.length > 0 && this.repeat_password.length < 8){
-                    errors.push('Повтор нового пароля не может быть короче 8 символов!');
+                    errors.push(this.$i18n.t('profile_repeat_password_more'));
                 }
                 if(this.current_password === this.new_password && this.current_password.length >= 6 && this.new_password.length >= 8 && !this.isAdmin){
-                    errors.push('Новый пароль совпадает со старым!');
+                    errors.push(this.$i18n.t('profile_new_password_same'));
                 }
                 if(this.new_password.length >= 8 && this.repeat_password.length >= 8 && this.new_password !== this.repeat_password){
-                    errors.push('Повтор пароля не совпадает с новым паролем!');
+                    errors.push(this.$i18n.t('profile_not_equal_password'));
                 }
                 return errors;
             },
@@ -1091,13 +1091,13 @@
             general_error: function () { // Проверка правильности ввода оснровных параметров профиля
                 let errors = [];
                 if(this.nickname.length > 0 && this.nickname.length < 3){
-                    errors.push('Никнейм не может быть короче 3 символов!');
+                    errors.push(this.$i18n.t('profile_nickname_more'));
                 }
                 if(!(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.email)) && this.email !== ''){
-                    errors.push('Введите корректный email адрес!');
+                    errors.push(this.$i18n.t('profile_enter_email'));
                 }
                 if(!(/\+\d{6,20}/.test(this.phone)) && this.phone !== ''){
-                    errors.push('Введите корректный номер телефона!');
+                    errors.push(this.$i18n.t('profile_enter_phone'));
                 }
                 return errors;
             },

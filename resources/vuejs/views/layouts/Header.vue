@@ -60,20 +60,14 @@
                         </li>
                         <li class="dropdown dropdown-language nav-item lang-padding">
                             <a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span>
+                                <i :class="'flag-icon flag-icon-' + getLangCookie"></i><span class="selected-language">{{ getLangText }}</span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdown-flag">
                                 <a class="dropdown-item" href="/lang/en" data-language="en">
                                     <i class="flag-icon flag-icon-us mr-50"></i> English
                                 </a>
-                                <a class="dropdown-item" href="/lang/fr" data-language="fr">
-                                    <i class="flag-icon flag-icon-fr mr-50"></i> French
-                                </a>
-                                <a class="dropdown-item" href="/lang/de" data-language="de">
-                                    <i class="flag-icon flag-icon-de mr-50"></i> German
-                                </a>
-                                <a class="dropdown-item" href="/lang/pt" data-language="pt">
-                                    <i class="flag-icon flag-icon-pt mr-50"></i> Portuguese
+                                <a class="dropdown-item" href="/lang/ru" data-language="ru">
+                                    <i class="flag-icon flag-icon-ru mr-50"></i> Русский
                                 </a>
                             </div>
                         </li>
@@ -154,6 +148,7 @@
 
 <script>
     import AnimatedNumber from "animated-number-vue";
+    import {getCookie} from '../../js/functions';
     export default {
         name: "Header",
         props: ['user'],
@@ -229,6 +224,22 @@
       watch:{
         $route (to, from){
           this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+        }
+      },
+      computed: {
+        getLangCookie: function(){
+          if(getCookie('currentLanguage') === 'en'){
+            return 'us';
+          }
+          return getCookie('currentLanguage');
+        },
+        getLangText: function (){
+          if(getCookie('currentLanguage') === 'en'){
+            return 'English';
+          }
+          if(getCookie('currentLanguage') === 'ru'){
+            return 'Русский';
+          }
         }
       }
     }

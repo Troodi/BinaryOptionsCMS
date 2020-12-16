@@ -5,7 +5,7 @@
                 <div class="col-md-12">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">История торговли</h4>
+                            <h4 class="card-title">{{ $i18n.t('trade_history_title') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -14,13 +14,13 @@
                                         <table class="table" id="history">
                                             <thead>
                                             <tr>
-                                                <th>Сумма</th>
-                                                <th>Информация</th>
-                                                <th>Прибыль</th>
-                                                <th>Инструмент</th>
-                                                <th>Процент</th>
-                                                <th>Экспирация</th>
-                                                <th>Дата</th>
+                                                <th>{{ $i18n.t('trade_history_amount') }}</th>
+                                                <th>{{ $i18n.t('trade_history_info') }}</th>
+                                                <th>{{ $i18n.t('trade_history_profit') }}</th>
+                                                <th>{{ $i18n.t('trade_history_instrument') }}</th>
+                                                <th>{{ $i18n.t('trade_history_percent') }}</th>
+                                                <th>{{ $i18n.t('trade_history_expiration') }}</th>
+                                                <th>{{ $i18n.t('trade_history_date') }}</th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -36,7 +36,7 @@
                 <div class="col-md-12">
                     <section class="card">
                         <div class="card-header">
-                            <h4 class="card-title">История демо торговли</h4>
+                            <h4 class="card-title">{{ $i18n.t('trade_history_demo_title') }}</h4>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -45,13 +45,13 @@
                                         <table class="table" id="demo-history">
                                             <thead>
                                             <tr>
-                                                <th>Сумма</th>
-                                                <th>Направление</th>
-                                                <th>Прибыль</th>
-                                                <th>Инструмент</th>
-                                                <th>Процент</th>
-                                                <th>Экспирация</th>
-                                                <th>Дата</th>
+                                              <th>{{ $i18n.t('trade_history_amount') }}</th>
+                                              <th>{{ $i18n.t('trade_history_info') }}</th>
+                                              <th>{{ $i18n.t('trade_history_profit') }}</th>
+                                              <th>{{ $i18n.t('trade_history_instrument') }}</th>
+                                              <th>{{ $i18n.t('trade_history_percent') }}</th>
+                                              <th>{{ $i18n.t('trade_history_expiration') }}</th>
+                                              <th>{{ $i18n.t('trade_history_date') }}</th>
                                             </tr>
                                             </thead>
                                         </table>
@@ -132,20 +132,20 @@
                   data: 'amount',
                   name: 'amount',
                   render: function(data, type, row) {
-                    let path = 'выше';
+                    let path = self.$i18n.t('trade_history_higher');
                     let classname = 'success';
                     if(row.type === 0){
-                      path = 'ниже';
+                      path = self.$i18n.t('trade_history_lower');
                       classname = 'danger';
                     }
                     return '<div class="badge badge-secondary cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' +
-                        'Дополнительная информация" data-content="' +
-                        'Цена открытия: ' + row.open_price + '<br>' +
-                        'Цена закрытия: '+ row.close_price+'<br>' +
-                        'Направление: <div class=\'badge badge-'+classname+'\'>'+path+'</div><br>' +
-                        'Время открытия: '+dateformat(row.open_at, 'HH:MM:ss dd-mm-yyyy')+'<br>' +
-                        'Время закрытия: '+dateformat(row.close_at, 'HH:MM:ss dd-mm-yyyy')+'' +
-                        '">Дополнительно</div>'
+                        self.$i18n.t('trade_history_additional') + '" data-content="' +
+                        self.$i18n.t('trade_history_open_price') + ': ' + row.open_price + '<br>' +
+                        self.$i18n.t('trade_history_close_price') + ': '+ row.close_price+'<br>' +
+                        self.$i18n.t('trade_history_path') + ': <div class=\'badge badge-'+classname+'\'>'+path+'</div><br>' +
+                        self.$i18n.t('trade_history_open_time') + ': '+dateformat(row.open_at, 'HH:MM:ss dd-mm-yyyy')+'<br>' +
+                        self.$i18n.t('trade_history_close_time') + ': '+dateformat(row.close_at, 'HH:MM:ss dd-mm-yyyy')+'' +
+                        '">' + self.$i18n.t('trade_history_add') + '</div>'
                   }
                 },
                 {
