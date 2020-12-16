@@ -37,20 +37,20 @@ class PromocodeController extends Controller
     $id = $admin ? $request->id : Auth::user()->id;
     $promocode = Promocode::where('code', $request->code)->first();
     if(!$promocode){
-      return response()->json(['success' => false, 'message' => 'Такого промокода не существует!'], 200);
+      return response()->json(['success' => false, 'message' => __('locale.promo_code_not_exist')], 200);
     }
     $active_from = Carbon::parse($promocode->active_from);
     $active_to = Carbon::parse($promocode->active_to);
     if(Carbon::now() < $active_from or Carbon::now() > $active_to){
-      return response()->json(['success' => false, 'message' => 'Срок действия промокода истёк!'], 200);
+      return response()->json(['success' => false, 'message' => __('locale.promo_code_validity_expired')], 200);
     }
     $deposits = Deposit::where('user_id', $id)->where('status', 1)->count() + LatestOrder::where('user_id', $id)->count() + PromocodeHistory::where('user_id', $id)->whereHas('promocode', function($query){ $query->where('for_new', 1); })->count();
     if($promocode->for_new and $deposits){
-      return response()->json(['success' => false, 'message' => 'Данный промокод предназначен только для новых пользователей!'], 200);
+      return response()->json(['success' => false, 'message' => __('locale.promo_code_only_for_new')], 200);
     }
     $promocode_history = PromocodeHistory::where('user_id', $id)->where('promocode_id', $promocode->id)->count();
     if($promocode->attempts && $promocode_history >= $promocode->attempts){
-      return response()->json(['success' => false, 'message' => 'Вы уже использовали максимальное количество раз данный промокод!'], 200);
+      return response()->json(['success' => false, 'message' => __('locale.promo_code_used_max_times')], 200);
     }
     if($promocode->type == 1) {
       $turnover = $promocode->bonus_size * $promocode->turnover;
@@ -67,9 +67,9 @@ class PromocodeController extends Controller
         ]);
       $user = $admin ? User::where('id', $id)->first() : Auth::user();
       broadcast(new ChangeBalance($user->balance + $promocode->bonus_size, $user));
-      return response()->json(['success' => true, 'message' => 'Промокод на бездепозиный бонус активирован!'], 200);
+      return response()->json(['success' => true, 'message' => __('locale.promo_code_without_deposit_activated')], 200);
     } elseif ($promocode->type == 2){
-      return response()->json(['success' => true, 'message' => 'Данный промокод активен и доступен при пополнении баланса!', 'data' => $promocode], 200);
+      return response()->json(['success' => true, 'message' => __('locale.promo_code_active'), 'data' => $promocode], 200);
     }
   }
 
@@ -98,12 +98,12 @@ class PromocodeController extends Controller
     $id = $admin ? $request->id : Auth::user()->id;
     $user = $admin ? User::where('id', $id)->first() : Auth::user();
     if($user->left_turnover == 0 or $user->all_turnover <= 0){
-      return response()->json(['success' => false, 'message' => 'У Вас нет бонусов!'], 200);
+      return response()->json(['success' => false, 'message' => __('locale.promo_code_you_dont_have_bonuses')], 200);
     }
     $percent_to_payout = 1 - ($user->left_turnover / $user->all_turnover); // Сколько процентов отработано
     $add_to_balance = $user->bonus * $percent_to_payout - $user->bonus;
     User::where('id', $id)->update(['bonus' => 0, 'all_turnover' => 0, 'left_turnover' => 0, 'balance' => DB::raw("balance+$add_to_balance")]);
     broadcast(new ChangeBalance($user->balance+$add_to_balance, $user));
-    return response()->json(['success' => true, 'message' => 'Бонус успешно отменен!'], 200);
+    return response()->json(['success' => true, 'message' => __('locale.promo_code_bonus_decline')], 200);
   }
 }

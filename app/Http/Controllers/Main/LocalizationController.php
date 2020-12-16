@@ -12,9 +12,8 @@ class LocalizationController extends Controller
 
     public function setLang(Request $request, $language){
       if(in_array($language, $this->lang)) {
-        App::setLocale($language);
         setcookie("currentLanguage", $language, time() + 86400 * 365, '/');
       }
-      return redirect()->back();
+      return redirect()->back()->withCookie(cookie()->forever('locale', $language));
     }
 }
