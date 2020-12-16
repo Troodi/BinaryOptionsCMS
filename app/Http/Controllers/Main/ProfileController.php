@@ -31,13 +31,13 @@ class ProfileController extends Controller
       'repeat_password' =>  'string|min:8|max:255',
     ]);
     if(!Hash::check($request->old_password, Auth::user()->password)){
-      return response()->json(['success' => false, 'message' => 'Текущий пароль введен неверно!'], 200);
+      return response()->json(['success' => false, 'message' => __('locale.profile_current_password_wrong')], 200);
     }
     if($request->new_password != $request->repeat_password){
-      return response()->json(['success' => false, 'message' => 'Повтор пароля не совпадает с новым паролем!'], 200);
+      return response()->json(['success' => false, 'message' => __('locale.profile_repeat_password_wrong')], 200);
     }
     User::where('id', Auth::user()->id)->update(['password' => Hash::make($request->new_password)]);
-    return response()->json(['success' => true, 'message' => 'Пароль успешно обновлен!'], 200);
+    return response()->json(['success' => true, 'message' => __('locale.profile_password_updated')], 200);
   }
 
   // Изменение основных данных
@@ -59,7 +59,7 @@ class ProfileController extends Controller
       'gender' => $request->gender,
       'language' => $request->language
     ]);
-    return response()->json(['success' => true, 'message' => 'Данные успешно обновлены!'], 200);
+    return response()->json(['success' => true, 'message' => __('locale.profile_data_updated')], 200);
   }
 
   // Изменение личных данных
@@ -80,7 +80,7 @@ class ProfileController extends Controller
     $id = $admin ? $request->id : Auth::user()->id;
     $profile = Profile::where('user_id', $id)->first();
     if(($profile->document_first_page or $profile->document_first_page_verify_at or $profile->document_second_page or $profile->document_second_page_verify_at or $profile->document_additional or $profile->document_document_additional_verify_at) and $admin){
-      return response()->json(['success' => false, 'message' => 'Невозможно обновить т.к. документы уже находятся на проверке!'], 200);
+      return response()->json(['success' => false, 'message' => __('locale.profile_cant_update_because_already')], 200);
     }
     Profile::where('user_id', $id)->update([
       'name' => $request->name,
@@ -90,7 +90,7 @@ class ProfileController extends Controller
       'address' => $request->address,
       'document_number' => $request->document_number,
     ]);
-    return response()->json(['success' => true, 'message' => 'Личные данные успешно обновлены!'], 200);
+    return response()->json(['success' => true, 'message' => __('locale.profile_main_data_updated')], 200);
   }
 
   //Загружаем информацию о профиле
@@ -110,14 +110,14 @@ class ProfileController extends Controller
     ]);
     $profile = Profile::where('user_id', Auth::user()->id)->first();
     if($profile->phone_verify_at){
-      return response()->json(['success' => false, 'message' => 'Телефон уже подтвержден!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_phone_already_confirmed')]);
     }
     if(cache()->has('phoneCodeUser'.Auth::user()->id) and cache()->get('phoneCodeUser'.Auth::user()->id) == $request->code){
       Profile::where('user_id', Auth::user()->id)->update(['phone_verify_at' => Carbon::now()]);
       PhoneAttempts::where('phone', $profile->phone)->where('user_id', Auth::user()->id)->delete();
       return response()->json(['success' => true]);
     } else {
-      return response()->json(['success' => false, 'message' => 'Код неверный или вы не заказывали звонок!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_code_wrong')]);
     }
   }
 
@@ -126,24 +126,24 @@ class ProfileController extends Controller
       'phone' => 'regex:/\+\d{6,20}/'
     ]);
     if(cache()->has('phoneSent'.Auth::user()->id)){
-      return response()->json(['success' => false, 'message' => 'Совершение звонка возможно не чаще одного раза в минуту!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_once_a_minute_call')]);
     }
     if(Profile::where('user_id', Auth::user()->id)->first()->phone_verify_at){
-      return response()->json(['success' => false, 'message' => 'Телефон уже подтвержден!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_phone_already_confirmed')]);
     }
     $phoneAttepmts = PhoneAttempts::where('phone', $request->phone)->where('user_id', Auth::user()->id)->first();
     if($phoneAttepmts and $phoneAttepmts->attempts >= 3){
-      return response()->json(['success' => false, 'message' => 'Вы исчерпали количество подтверждений для данного номера телефона. Если считаете что произошла ошибка - обратитесь в техническую поддержку!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_phone_limit')]);
     }
     if(Profile::where('phone', $request->phone)->whereNotNull('phone_verify_at')->count()){
-      return response()->json(['success' => false, 'message' => 'Данный телефон невозможно верифицировать!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_this_phone_cant_confirm')]);
     }
     $sid = env('TWILLIO_SID');
     $token = env('TWILLIO_KEY');
     try {
       $client = new Client($sid, $token);
     } catch (ConfigurationException $e) {
-      return response()->json(['success' => false, 'message' => 'Не удалось отправить код подтверждения, попробуйте позднее!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_cant_send_phone')]);
     }
     $model = PhoneAttempts::firstOrNew(['phone' => $request->phone, 'user_id' => Auth::user()->id]);
     $model->increment('attempts');
@@ -153,7 +153,7 @@ class ProfileController extends Controller
       $number = $twilio->number;
       TwilioNumber::where('id', $twilio->id)->update(['updated_at' => Carbon::now()]);
     } else {
-      return response()->json(['success' => false, 'message' => 'Не удалось совершить звонок из-за отсутствия свободных номеров!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_cant_call_without_number')]);
     }
     $digits = substr($number, -4);
     cache()->put('phoneCodeUser'.Auth::user()->id, $digits, 900);
@@ -169,7 +169,7 @@ class ProfileController extends Controller
     );
     Profile::where('user_id', Auth::user()->id)->update(['phone' => $request->phone]);
     cache()->put('phoneSent'.Auth::user()->id, true, 60);
-    return response()->json(['success' => true, 'message' => 'Мы сделали Вам звонок!']);
+    return response()->json(['success' => true, 'message' => __('locale.profile_call_made')]);
   }
 
   public function playMP3(Request $request){
@@ -196,17 +196,17 @@ class ProfileController extends Controller
       'email' => 'email'
     ]);
     if(cache()->has('emailSent'.Auth::user()->id)){
-      return response()->json(['success' => false, 'message' => 'Отправка письма возможна не чаще одного раза в минуту!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_email_once_a_minute')]);
     }
     if(Auth::user()->email_verified_at){
-      return response()->json(['success' => false, 'message' => 'Email уже подтвержден!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_email_already_confirmed')]);
     }
     $emailAttepmts = EmailAttempts::where('email', $request->email)->where('user_id', Auth::user()->id)->first();
     if($emailAttepmts and $emailAttepmts->attempts >= 10){
-      return response()->json(['success' => false, 'message' => 'Вы исчерпали количество подтверждений для данного email адреса. Если считаете что произошла ошибка - обратитесь в техническую поддержку!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_email_limit')]);
     }
     if(User::where('email', $request->email)->whereNotNull('email_verified_at')->count()){
-      return response()->json(['success' => false, 'message' => 'Данный email невозможно верифицировать!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_email_cant_confirm')]);
     }
     $model = EmailAttempts::firstOrNew(['email' => $request->email, 'user_id' => Auth::user()->id]);
     $model->increment('attempts');
@@ -215,22 +215,22 @@ class ProfileController extends Controller
     cache()->put('emailCodeUser'.Auth::user()->id, $token, 900);
     cache()->put('emailAddressUser'.Auth::user()->id.$token, $request->email, 910);
     $mail_data = [
-      'headline' => 'Подтверждение email адреса',
-      'subtitle' =>  'Код для подтверждения',
-      'text' => '<p>Здравствуйте, для активации аккаунта необходимо ввести код подтверждения на странице профиля.</p><p><h1 style="text-align: center;"><strong>'.$token.'</strong></h1></p><p>Данный код действителен в течение 15 минут после его получения.</p>',
+      'headline' => __('locale.profile_confirm_email'),
+      'subtitle' =>  __('locale.profile_code_for_confirm'),
+      'text' => '<p>'.__('locale.profile_for_activation').'</p><p><h1 style="text-align: center;"><strong>'.$token.'</strong></h1></p><p>'.__('locale.profile_code_valid_15_minutes').'</p>',
       'image' => 'user-reset-password.png',
       'button_link' => env('APP_URL').'/profile',
-      'button_text' => 'Перейти в кабинет'
+      'button_text' => __('locale.profile_go_to_cabinet')
     ];
     Mail::send('mail.mail', $mail_data, function($message) use ($request)
     {
       $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
       $message->replyTo(env('MAIL_USERNAME'));
-      $message->subject('Подтверждение email адреса');
+      $message->subject(__('locale.profile_confirm_email'));
       $message->to($request->email);
     });
     cache()->put('emailSent'.Auth::user()->id, true, 60);
-    return response()->json(['success' => true, 'message' => 'Мы выслали Вам код подтверждения!']);
+    return response()->json(['success' => true, 'message' => __('locale.profile_email_sent')]);
   }
 
   // Верификация емайла
@@ -239,13 +239,13 @@ class ProfileController extends Controller
       'code' => 'numeric|min:1000|max:9999'
     ]);
     if(Auth::user()->email_verified_at){
-      return response()->json(['success' => false, 'message' => 'Email уже подтвержден!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_email_already_confirmed')]);
     }
     if(cache()->has('emailCodeUser'.Auth::user()->id) and cache()->get('emailCodeUser'.Auth::user()->id) == $request->code){
       if(cache()->has('emailAddressUser'.Auth::user()->id.$request->code)){
         $email = cache()->get('emailAddressUser'.Auth::user()->id.$request->code);
       } else {
-        return response()->json(['success' => false, 'message' => 'Не удалось подтвердить почту!']);
+        return response()->json(['success' => false, 'message' => __('locale.profile_cant_confirm_email')]);
       }
       User::where('id', Auth::user()->id)->update(['email' => $email, 'email_verified_at' => Carbon::now()]);
       EmailAttempts::where('email', $email)->where('user_id', Auth::user()->id)->delete();
@@ -257,7 +257,7 @@ class ProfileController extends Controller
       }
       return response()->json(['success' => true]);
     } else {
-      return response()->json(['success' => false, 'message' => 'Код неверный или вы не отправляли письмо!']);
+      return response()->json(['success' => false, 'message' => __('locale.profile_email_code_wrong')]);
     }
   }
 
@@ -276,12 +276,12 @@ class ProfileController extends Controller
     $pages = ['1' => 'document_first_page', '2' => 'document_second_page', '3' => 'document_additional'];
     $profile = Profile::where('user_id', $id)->first();
     if(!$profile->name or !$profile->last_name or !$profile->patronymic or !$profile->birth or !$profile->address or !$profile->document_number){
-      return response()->json(['success' => false, 'message' => 'Перед загрузкой документов необходимо заполнить личные данные!', 'page' => $request->page]);
+      return response()->json(['success' => false, 'message' => __('locale.profile_before_upload_fill_data'), 'page' => $request->page]);
     }
     $tableDocument = $profile->{$pages[$request->page]};
     $tableVerify = $profile->{$pages[$request->page].'_verify_at'};
     if($tableDocument or $tableVerify){
-      return response()->json(['success' => false, 'message' => 'Документ уже находится на проверке или проверен!', 'page' => $request->page]);
+      return response()->json(['success' => false, 'message' => __('locale.profile_document_already_checking'), 'page' => $request->page]);
     }
     try {
       $path = Helper::createPathForVerifyPhotos();
@@ -293,17 +293,17 @@ class ProfileController extends Controller
       $model->save();
       Profile::where('user_id', $id)->update([$pages[$request->page] => $model->id]);
     } catch (\Exception $ex){
-      return response()->json(['success' => false, 'message' => 'Произошла непредвиденная ошибка при сохранении файла!', 'page' => $request->page]);
+      return response()->json(['success' => false, 'message' => __('locale.profile_error_with_save_file'), 'page' => $request->page]);
     }
     $model = new VerifyRequest();
     $model->user_id = $id;
     $model->page = $request->page;
     $model->save();
-    return response()->json(['success' => true, 'message' => 'Файл успешно отправлен на проверку, ожидайте результата!', 'page' => $request->page]);
+    return response()->json(['success' => true, 'message' => __('locale.profile_file_send_to_approve'), 'page' => $request->page]);
   }
 
   public function logout(Request $request){
     Auth::logout();
-    return response()->json(['success' => true, 'message' => 'Выход из аккаунта успешен!', 'page' => $request->page]);
+    return response()->json(['success' => true, 'message' => __('locale.profile_logout_successful'), 'page' => $request->page]);
   }
 }

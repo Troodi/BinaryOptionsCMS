@@ -26,9 +26,9 @@ class PartnerController extends Controller
       if(PartnerRequest::where('user_id', $id)->count()){
         if($admin){
           PartnerRequest::where('user_id', $id)->update(['traffic' => $request->traffic, 'telegram' => $request->telegram, 'comment' => $request->comment]);
-          return response()->json(['success' => true, 'message' => 'Информация успешно обновлена!']);
+          return response()->json(['success' => true, 'message' => __('locale.partner_updated')]);
         }
-        return response()->json(['success' => false, 'message' => 'Заявка уже была отправлена!']);
+        return response()->json(['success' => false, 'message' => __('locale.partner_already_sent')]);
       }
       $model = new PartnerRequest();
       $model->user_id = $id;
@@ -36,7 +36,7 @@ class PartnerController extends Controller
       $model->telegram = $request->telegram;
       $model->comment = $request->comment;
       $model->save();
-      return response()->json(['success' => true, 'message' => 'Заявка успешно отправлена! Срок рассмотрения от нескольких часов до двух дней.']);
+      return response()->json(['success' => true, 'message' => __('locale.partner_application_sent')]);
     }
 
     public function requestAgain(Request $request){
@@ -47,12 +47,12 @@ class PartnerController extends Controller
       }
       $id = $admin ? $request->id : Auth::user()->id;
       if(User::where('id', $id)->first()->partner_status != null){
-        return response()->json(['success' => false, 'message' => 'У Вас уже подтвержденный аккаунт!']);
+        return response()->json(['success' => false, 'message' => __('locale.partner_already_approved')]);
       }
       if(!PartnerRequest::where('user_id', $id)->where('status', 2)->count()){
-        return response()->json(['success' => false, 'message' => 'Данное действие невозможно выполнить, т.к. не позволяет текущий статус заявки!']);
+        return response()->json(['success' => false, 'message' => __('locale.partner_impossible')]);
       }
       PartnerRequest::where('user_id', $id)->delete();
-      return response()->json(['success' => true, 'message' => 'Теперь Вы можете подать заявку ещё раз!']);
+      return response()->json(['success' => true, 'message' => __('locale.partner_you_can_try')]);
     }
 }

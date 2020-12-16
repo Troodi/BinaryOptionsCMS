@@ -22,7 +22,7 @@ class SocialController extends Controller
   {
     $userSocial = Socialite::driver($provider)->user();
     if(empty($userSocial->user['email'])){
-      return redirect('/login')->withErrors(['social' => 'У аккаунта, который вы пытаетесь использовать не подтвержден email адрес']);
+      return redirect('/login')->withErrors(['social' => __('locale.social_email')]);
     }
     $model = UserProvider::where('provider_id', $userSocial->id)->where('provider', $provider);
     if(!Auth::check()) {
