@@ -108,5 +108,87 @@
     "promo_code_active" => "This promo code is active and available when replenishing the balance!",
     "promo_code_you_dont_have_bonuses" => "You have no bonuses!",
     "promo_code_bonus_decline" => "Bonus canceled successfully!",
+
+    // Controller binding social. networks.
+    "social_email" => "The account you are trying to use does not have a verified email address",
+
+    // Support controller
+    "support_wait_10_minutes" => "You have already submitted a question within 10 minutes, please wait and try again!",
+    "support_write_to_support" => "Contacting support",
+    "support_save_info" => "Save your correspondence information",
+    "support_user_email" => "User email:",
+    "support_question" => "Question:",
+    "support_go_to_cabinet" => "Go to the cabinet",
+    "support_question_sent" => "The question was successfully sent, they will answer you soon!",
+
+    // Mail template
+    "mail_go_site" => "Go to site",
+    "mail_go_cabinet" => "Go to personal cabinet",
+    "mail_if_question" => "If you have any questions, please contact us",
+
+    // Trading controller
+    "trading_non_work_time" => "The current symbol is not currently being traded!",
+    "trading_expiration_more" => "The expiration end time cannot be later than the symbol operation time!",
+    "trading_min_30_seconds" => "The minimum trade time is 30 seconds.",
+    "trading_not_enough_money" => "Insufficient funds",
+    "trading_place_error" => "An error occurred while placing an order for this currency pair, please try placing an order later! Error # 645.",
+    "trading_current_symbol_closed" => "This instrument is closed for trading because its working session is over!",
+    "trading_place_error_2" => "An error occurred while placing an order for this currency pair, please try placing an order later! Error # 637.",
+    "trading_demo_balance_refresh" => "The demo account balance has been successfully restored!",
+
+    // Output controller
+    "withdraw_not_enough_money" => "Not enough funds to withdraw!",
+    "withdraw_before" => "Before withdrawing, you must work out the bonus or cancel it!",
+    "withdraw_verify" => "To withdraw, you need to verify your account!",
+    "withdraw_success" => "Withdrawal request has been successfully created!",
+
+    // Ban check
+    "ban_cheating" => "Your account has been banned for using multi-accounts!",
+    "ban_inactive" => "Your account has been blocked due to inactivity!",
+    "ban_" => "Your account was banned for breaking the rules!",
+
+    //Login
+    "login_title" => "Authorization",
+    "login_or_login_with_email" => "or log in with email",
+    "login_email_address" => "Email address",
+    "login_email" => "Email",
+    "login_password" => "Password",
+    "login_keep_me" => "Remember me",
+    "login_forgot" => "Forgot your password?",
+    "login_login" => "Login",
+    "login_dont_have_account" => "Don't have an account?",
+    "login_sign_up" => "Register",
+
+    //Registration
+    "register_title" => "Registration",
+    "register_or_register_with_email" => "or register using email",
+    "register_email" => "Email address",
+    "register_password" => "Password",
+    "register_confirm_password" => "Confirm password",
+    "register_rules" => "I agree with the rules",
+    "register_read_rules" => "Read rules",
+    "register_sing_up" => "Register",
+    "register_already_have" => "Already have an account?",
+    "register_sign_in" => "Sign in",
+
+    //Forgot your password
+    "forget_title" => "Password recovery",
+    "forget_sign_in" => "Sign in",
+    "forget_sign_up" => "Register",
+    "forget_email" => "Enter the email address or phone number you used to register and we will send you a temporary password.",
+    "forget_phone" => "Email",
+    "forget_send" => "Send password",
+    "forget_remember_password" => "I remembered my password",
+    "forget_social" => "Or sign in with",
+
+    //Reset the password
+    "reset_title" => "Reset password",
+    "reset_or_create_new" => "or create a new password",
+    "reset_email" => "Email address",
+    "reset_password" => "Password",
+    "reset_confirm" => "Confirm password",
+    "reset_sign_up" => "Registration",
+    "reset_remember" => "Remember your data?",
+    "reset_sign_in" => "Sign in",
   ];
 ?>

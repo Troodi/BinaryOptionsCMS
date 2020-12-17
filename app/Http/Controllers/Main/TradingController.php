@@ -90,30 +90,30 @@ class TradingController extends Controller
       ]);
       $symbol = Symbol::where('id', $request->symbol)->firstOrFail();
       if((Carbon::now()->hour >= $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
-        return response()->json(['message' => 'В данное время текущий символ не торгуется!'], 422);
+        return response()->json(['message' => __('locale.trading_non_work_time')], 422);
       }
       $seconds = $request->hours * 60 * 60 + $request->minutes * 60 + $request->seconds;
       if((Carbon::now()->addSeconds($seconds)->hour > $symbol->work_to or Carbon::now()->addSeconds($seconds)->hour <= $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
-        return response()->json(['message' => 'Время окончания экспирации не может быть позднее времени работы символа!'], 422);
+        return response()->json(['message' => __('locale.trading_expiration_more')], 422);
       }
       if($seconds < 30){
-        return response()->json(['message' => 'Min 30 seconds'], 422);
+        return response()->json(['message' => __('locale.trading_min_30_seconds')], 422);
       }
       if(!$request->demo) {
         if (Auth::user()->balance - $request->amount < 0) {
-          return response()->json(['message' => 'Недостаточно средств'], 422);
+          return response()->json(['message' => __('locale.trading_not_enough_money')], 422);
         }
       } else {
         if (Auth::user()->demo_balance - $request->amount < 0) {
-          return response()->json(['message' => 'Недостаточно средств'], 422);
+          return response()->json(['message' => __('locale.trading_not_enough_money')], 422);
         }
       }
       $market = MarketStatus::where('symbol_id', $request->symbol);
       if(!isset($market) || !$market->count()){
-        return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее! Ошибка #645.'], 422);
+        return response()->json(['message' => __('locale.trading_place_error')], 422);
       }
       if($market->first()->market_status != 'market'){
-        return response()->json(['message' => 'Данный инструмент закрыт для торговли, т.к. его рабочая сессия окончена!'], 422);
+        return response()->json(['message' => __('locale.trading_current_symbol_closed')], 422);
       }
       if(!$request->demo) { // Если у человека высокая прибыль немного замедляем выставление сделки
         $todayStat = UserTodayStatistic::where('user_id', Auth::user()->id)->first();
@@ -134,7 +134,7 @@ class TradingController extends Controller
       if($fisrt){
         $price = $fisrt->price;
       } else {
-        return response()->json(['message' => 'Произошла ошибка при выставлении ордера по данной валютной паре, попробуйте выставить ордер позднее! Ошибка #637.'], 422);
+        return response()->json(['message' => __('locale.trading_place_error_2')], 422);
       }
       $hedge = 0;
       if(OpenOrders::where('user_id', Auth::user()->id)->where('symbol_id', $request->symbol)->where('type', '<>', $request->type)->count()){
@@ -241,7 +241,7 @@ class TradingController extends Controller
   public function refillDemoBalance(Request $request){
     User::where('id', Auth::user()->id)->update(['demo_balance' => 1000]);
     broadcast(new ChangeDemoBalance(1000, Auth::user()));
-    return response()->json(['success' => true, 'message' => 'Баланс демо счета успешно восстановлен!']);
+    return response()->json(['success' => true, 'message' => __('locale.trading_demo_balance_refresh')]);
   }
 
   public function ping(Request $request){

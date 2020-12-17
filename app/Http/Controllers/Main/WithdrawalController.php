@@ -42,13 +42,13 @@ class WithdrawalController extends Controller
       $id = $admin ? $request->id : Auth::user()->id;
       $user = $admin ? User::where('id', $id)->first() : Auth::user();
       if($user->balance < $request->amount){
-        return response()->json(['success' => false, 'message' => 'Недостаточно средств для вывода!']);
+        return response()->json(['success' => false, 'message' => __('locale.withdraw_not_enough_money')]);
       }
       if($user->left_turnover > 0){
-        return response()->json(['success' => false, 'message' => 'Перед выводом необходимо отработать бонус или отменить его!']);
+        return response()->json(['success' => false, 'message' => __('locale.withdraw_before')]);
       }
       if(!Profile::where('user_id', $user->id)->first()->user_verify_at){
-        return response()->json(['success' => false, 'message' => 'Для выплаты необходимо пройти верификацию аккаунта!']);
+        return response()->json(['success' => false, 'message' => __('locale.withdraw_verify')]);
       }
       $model = new Withdrawal();
       $model->user_id = $user->id;
@@ -59,7 +59,7 @@ class WithdrawalController extends Controller
       $model->save();
       User::where('id', $user->id)->update(['balance' => DB::raw("balance-$request->amount")]);
       broadcast(new ChangeBalance($user->balance-$request->amount, $user));
-      return response()->json(['success' => true, 'message' => 'Заявка на вывод успешно создана!']);
+      return response()->json(['success' => true, 'message' => __('locale.withdraw_success')]);
     }
 
   public function withdrawalHistory(Request $request)
