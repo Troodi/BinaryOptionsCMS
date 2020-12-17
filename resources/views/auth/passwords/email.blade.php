@@ -1,6 +1,6 @@
 @extends('layouts.fullLayoutMaster')
 {{-- page title --}}
-@section('title','Forgot Password')
+@section('title', __('locale.forget_title'))
 {{-- page scripts --}}
 @section('page-styles')
 <link rel="stylesheet" type="text/css" href="{{asset('css/pages/authentication.css')}}">
@@ -33,24 +33,24 @@
             <div class="form-group d-flex justify-content-between align-items-center mb-2">
               <div class="text-left">
                 <div class="ml-3 ml-md-2 mr-1">
-                  <a href="{{asset('login')}}"  class="card-link btn btn-outline-primary text-nowrap">Sign in</a>
+                  <a href="{{asset('login')}}"  class="card-link btn btn-outline-primary text-nowrap">@lang('locale.forget_sign_in')</a>
                 </div>
               </div>
               <div class="mr-3">
-                <a href="{{asset('register')}}" class="card-link btn btn-outline-primary text-nowrap">Sign up</a>
+                <a href="{{asset('register')}}" class="card-link btn btn-outline-primary text-nowrap">@lang('locale.forget_sign_up')</a>
               </div>
             </div>
             <div class="card-content">
               <div class="card-body">
                 <div class="text-muted text-center mb-2">
-                  <small>Enter the email or phone number you used when you joined and we will send you temporary password</small>
+                  <small>@lang('locale.forget_email')</small>
                 </div>
                 {{-- form --}}
                 <form class="mb-2" method="POST" action="{{ route('password.email') }}" id="checkCaptcha">
                   @csrf
                   <div class="form-group mb-2">
-                    <label class="text-bold-600" for="email">Email or Phone</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus placeholder="Email or Phone">
+                    <label class="text-bold-600" for="email">@lang('locale.forget_phone')</label>
+                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" autofocus placeholder="@lang('locale.forget_phone')">
                     @error('email')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -58,18 +58,18 @@
                     @enderror
                   </div>
                   @component('components.recaptcha') @endcomponent
-                  <button type="button" class="mt-1 btn btn-primary glow position-relative w-100" data-toggle="modal" data-target="#captchaModal">SEND PASSWORD
+                  <button type="button" class="mt-1 btn btn-primary glow position-relative w-100" data-toggle="modal" data-target="#captchaModal">@lang('locale.forget_send')
                     <i id="icon-arrow" class="bx bx-right-arrow-alt"></i>
                   </button>
                 </form>
 
                 <div class="text-center mb-2">
                   <a href="{{asset('login')}}">
-                    <small class="text-muted">I remembered my password</small>
+                    <small class="text-muted">@lang('locale.forget_remember_password')</small>
                   </a>
                 </div>
                 <div class="divider mb-2">
-                  <div class="divider-text">Or Sign in as</div>
+                  <div class="divider-text">@lang('locale.forget_social')</div>
                 </div>
                 <div class="d-flex flex-md-row flex-column">
                   <a href="/login/google" class="btn btn-social btn-google btn-block font-small-3 mb-1 mb-sm-1 mb-md-0 mr-md-1 text-center">

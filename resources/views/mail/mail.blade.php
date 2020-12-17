@@ -117,7 +117,7 @@
 						<tr>
 							<td style="padding: 0px 10px 20px;" class="footerLinks" valign="top" align="center">
 								<p class="text" style="color:#777777; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:12px; font-weight:400; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; padding:0; margin:0;">
-									<a href="{{ env('APP_URL') }}" style="color:#777777;text-decoration:underline;" target="_blank">Перейти на сайт </a>&nbsp;|&nbsp;<a href="{{ env('APP_URL') }}" style="color:#777777;text-decoration:underline;" target="_blank">Перейти в личный кабинет </a>
+									<a href="{{ env('APP_URL') }}" style="color:#777777;text-decoration:underline;" target="_blank">@lang('locale.mail_go_site') </a>&nbsp;|&nbsp;<a href="{{ env('APP_URL') }}" style="color:#777777;text-decoration:underline;" target="_blank">@lang('locale.mail_go_cabinet') </a>
 								</p>
 							</td>
 						</tr>
@@ -125,7 +125,7 @@
 						<tr>
 							<td style="padding: 0px 10px 10px;" class="footerEmailInfo" valign="top" align="center">
 								<p class="text" style="color:#777777; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:12px; font-weight:400; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; padding:0; margin:0;">
-									Если у вас есть какие-либо вопросы, пожалуйста, свяжитесь с нами <a href="mailto:{{ env('MAIL_USERNAME') }}" style="color:#777777;text-decoration:underline;" target="_blank">{{ env('MAIL_USERNAME') }}.</a>
+									@lang('locale.mail_if_question') <a href="mailto:{{ env('MAIL_USERNAME') }}" style="color:#777777;text-decoration:underline;" target="_blank">{{ env('MAIL_USERNAME') }}.</a>
 								</p>
 							</td>
 						</tr>

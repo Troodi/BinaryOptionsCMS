@@ -1,7 +1,7 @@
 @extends('layouts.fullLayoutMaster')
 
 {{-- page title --}}
-@section('title','Сбросить пароль')
+@section('title', __('locale.reset_title'))
 {{-- page scripts --}}
 @section('page-styles')
   <link rel="stylesheet" type="text/css" href="{{asset('css/pages/authentication.css')}}">
@@ -41,15 +41,15 @@
                     </div>
                     <div class="divider">
                       <div class="divider-text text-uppercase text-muted">
-                        <small>или создайте новый пароль</small>
+                        <small>@lang('locale.reset_or_create_new')</small>
                       </div>
                     </div>
                     <form method="POST" action="{{ route('password.update') }}" id="checkCaptcha">
                       @csrf
                       <input type="hidden" name="token" value="{{ $token }}">
                       <div class="form-group mb-50">
-                        <label class="text-bold-600" for="email">Email address</label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" placeholder="Email address">
+                        <label class="text-bold-600" for="email">@lang('locale.reset_email')</label>
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" placeholder="@lang('locale.reset_email')">
                         @error('email')
                         <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -57,8 +57,8 @@
                         @enderror
                       </div>
                       <div class="form-group mb-50">
-                        <label class="text-bold-600" for="password">Password</label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password" placeholder="Password">
+                        <label class="text-bold-600" for="password">@lang('locale.reset_password')</label>
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password" placeholder="@lang('locale.reset_password')">
                         @error('password')
                         <span class="invalid-feedback" role="alert">
                       <strong>{{ $message }}</strong>
@@ -66,16 +66,16 @@
                         @enderror
                       </div>
                       <div class="form-group">
-                        <label class="text-bold-600" for="password-confirm">Confirm Password</label>
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password" placeholder="Confirm Password">
+                        <label class="text-bold-600" for="password-confirm">@lang('locale.reset_confirm')</label>
+                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password" placeholder="@lang('locale.reset_confirm')">
                       </div>
                       @component('components.recaptcha') @endcomponent
-                      <button type="button" class="mt-1 btn btn-primary glow position-relative w-100" data-toggle="modal" data-target="#captchaModal">SIGN UP<i
+                      <button type="button" class="mt-1 btn btn-primary glow position-relative w-100" data-toggle="modal" data-target="#captchaModal">@lang('locale.reset_sign_up')<i
                                 id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
                     </form>
                     <hr>
-                    <div class="text-center"><small class="mr-25">Вспомнили данные?</small>
-                      <a href="{{asset('login')}}"><small>Sign in</small> </a>
+                    <div class="text-center"><small class="mr-25">@lang('locale.reset_remember')</small>
+                      <a href="{{asset('login')}}"><small>@lang('locale.reset_sign_in')</small> </a>
                     </div>
                   </div>
                 </div>

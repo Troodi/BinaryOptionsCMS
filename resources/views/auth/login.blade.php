@@ -1,6 +1,6 @@
 @extends('layouts.fullLayoutMaster')
 {{-- title --}}
-@section('title','Login Page')
+@section('title', __('locale.login_title'))
 {{-- page scripts --}}
 @section('page-styles')
 <link rel="stylesheet" type="text/css" href="{{asset('css/pages/authentication.css')}}">
@@ -49,15 +49,15 @@
                 </div>
                 <div class="divider">
                   <div class="divider-text text-uppercase text-muted">
-                    <small>or login with email</small>
+                    <small>@lang('locale.login_or_login_with_email')</small>
                   </div>
                 </div>
                 {{-- form  --}}
                 <form method="POST" action="{{ route('login') }}" id="checkCaptcha">
                   @csrf
                   <div class="form-group mb-50">
-                    <label class="text-bold-600" for="email">Email address</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus placeholder="Email">
+                    <label class="text-bold-600" for="email">@lang('locale.login_email_address')</label>
+                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus placeholder="@lang('locale.login_email')">
                     @error('email')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -65,8 +65,8 @@
                     @enderror
                   </div>
                   <div class="form-group">
-                    <label class="text-bold-600" for="password">Password</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="current-password" placeholder="Password">
+                    <label class="text-bold-600" for="password">@lang('locale.login_password')</label>
+                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="current-password" placeholder="@lang('locale.login_password')">
                     @error('password')
                       <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -78,23 +78,23 @@
                       <div class="checkbox checkbox-sm">
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label class="form-check-label" for="remember">
-                          <small>Keep me logged in</small>
+                          <small>@lang('locale.login_keep_me')</small>
                         </label>
                       </div>
                     </div>
                     <div class="text-right">
-                      <a href="{{ route('password.request') }}" class="card-link"><small>Forgot Password?</small></a>
+                      <a href="{{ route('password.request') }}" class="card-link"><small>@lang('locale.login_forgot')</small></a>
                     </div>
                   </div>
                   @component('components.recaptcha') @endcomponent
-                  <button type="button" class="btn btn-primary glow w-100 position-relative mt-1" data-toggle="modal" data-target="#captchaModal">Login
+                  <button type="button" class="btn btn-primary glow w-100 position-relative mt-1" data-toggle="modal" data-target="#captchaModal">@lang('locale.login_login')
                     <i id="icon-arrow" class="bx bx-right-arrow-alt"></i>
                   </button>
                 </form>
                 <hr>
                 <div class="text-center">
-                  <small class="mr-25">Don't have an account?</small>
-                  <a href="{{route('register')}}"><small>Sign up</small></a>
+                  <small class="mr-25">@lang('locale.login_dont_have_account')</small>
+                  <a href="{{route('register')}}"><small>@lang('locale.login_sign_up')</small></a>
                 </div>
               </div>
             </div>
