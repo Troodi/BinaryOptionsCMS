@@ -126549,10 +126549,10 @@ var render = function() {
                                           value: {
                                             currency: null,
                                             autoDecimalMode: true,
-                                            valueRange: { min: 1, max: 10000 }
+                                            valueRange: { min: 5, max: 10000 }
                                           },
                                           expression:
-                                            "{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 10000}}"
+                                            "{currency: null, autoDecimalMode: true, valueRange: {min: 5, max: 10000}}"
                                         }
                                       ],
                                       ref: "ci",

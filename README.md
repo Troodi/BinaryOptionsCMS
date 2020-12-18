@@ -16,14 +16,83 @@ location / {
 ```
 
 ## Основные команды для запуска
-1. php artisan tradingview:start - запускает парсинг котировок
-2. php artisan check:orders - запускает проверку на закрытие ордеров
-3. php artisan schedule:run - запускает выполнение задач по крону (прописать в крон)
-4. laravel-echo-server start - запускает вебсокет
-5. npm run watch - компиллирует все ресурсы
+1. `php artisan tradingview:start` - запускает парсинг котировок
+2. `php artisan check:orders` - запускает проверку на закрытие ордеров
+3. `php artisan schedule:run` - запускает выполнение задач по крону (прописать в крон)
+4. `laravel-echo-server start` - запускает вебсокет
+5. `npm run watch` - компиллирует все ресурсы
 
 ## Необходимые зависимости
 1. nodejs, npm
 2. laravel-echo-server
 3. nginx
-3. Swoole (не ясно нужно ли, но с ним запросы в БД пишутся быстрее)
+
+## Настройки payeer
+1. URL успешной оплаты: `/payeer/success`
+2. URL неуспешной оплаты: `/payeer/fail`
+3. URL обработчика: `/payeer/status`
+
+##Настройка supervisor
+Путь: `/etc/supervisor/conf.d/tradingview.conf` - парсинг котировок
+```
+[program:tradingview]
+process_name=%(program_name)s_%(process_num)02d
+command=php /var/www/www-root/data/www/getoption.pro/artisan tradingview:start
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+user=www-root
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/home/logs/tradingview.log
+stopwaitsecs=3600
+```
+
+Путь: `/etc/supervisor/conf.d/tradingview.conf` - проверка закрытия сделок
+```
+[program:orders]
+process_name=%(program_name)s_%(process_num)02d
+command=php /var/www/www-root/data/www/getoption.pro/artisan check:orders
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+user=www-root
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/home/logs/orders.log
+stopwaitsecs=3600
+```
+
+Путь: `/etc/supervisor/conf.d/websocket.conf` - вебсокет для оповещений
+```
+[program:websocket]
+process_name=%(program_name)s_%(process_num)02d
+command=laravel-echo-server start --dir=/var/www/www-root/data/www/getoption.pro
+autostart=true
+autorestart=true
+stopasgroup=true
+killasgroup=true
+user=www-root
+numprocs=1
+redirect_stderr=true
+stdout_logfile=/home/logs/websocket.log
+```
+
+Создать путь для логов: `mkdir /home/logs`
+
+##Настройка google
+1. https://console.developers.google.com/apis/credentials
+2. Идентификаторы клиентов OAuth 2.0
+3. Создать учетные данные (сверху)
+4. OAuth
+5. Разрешенные URI перенаправления: `сам домен с https` и `/login/google/callback`
+
+##Настройка facebook
+1. https://developers.facebook.com/apps
+2. Создать приложение
+3. Создание кросс-сервисных функций
+4. Вход через Facebook
+5. Настройки
+5. Действительные URI перенаправления для OAuth: `сам домен с https` и `/login/facebook/callback`
