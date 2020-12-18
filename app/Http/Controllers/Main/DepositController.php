@@ -21,7 +21,7 @@ class DepositController extends Controller
 {
     public function startDeposit(Request $request){
       $request->validate([
-        'amount' => 'required|numeric|min:1|max:10000'
+        'amount' => 'required|numeric|min:5|max:10000'
       ]);
       $promocode_request = intval($request->promocode);
       $amount = number_format($request->amount, 2, '.', '');

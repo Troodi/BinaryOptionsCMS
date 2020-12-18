@@ -64,6 +64,8 @@ Vue.component('ping-component', require('./components/PingComponent').default);
 Vue.use(VueEcho, {
     broadcaster: 'socket.io',
     host: window.location.hostname + ':6001',
+    reconnectionAttempts: 5,
+    csrfToken: $('meta[name="csrf-token"]').attr('content')
 });
 
 const app = new Vue({

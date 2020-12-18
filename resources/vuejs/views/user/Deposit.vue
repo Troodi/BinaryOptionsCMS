@@ -52,7 +52,7 @@
                                                         <label>{{ $i18n.t('deposit_deposit_amount') }}</label>
                                                         <small class="text-muted">{{ $i18n.t('deposit_min') }}. <i>5$</i></small>
                                                         <template>
-                                                            <input ref="ci" type="text" class="form-control" v-model="amount" v-currency="{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 10000}}">
+                                                            <input ref="ci" type="text" class="form-control" v-model="amount" v-currency="{currency: null, autoDecimalMode: true, valueRange: {min: 5, max: 10000}}">
                                                         </template>
                                                     </fieldset>
                                                     <div class="row mb-1 mr-0 ml-0">
