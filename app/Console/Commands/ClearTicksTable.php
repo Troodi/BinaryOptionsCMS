@@ -43,7 +43,11 @@ class ClearTicksTable extends Command
       foreach(Symbol::all() as $symbol){
         $count = Ticks::where('symbol_id', $symbol->id)->get();
         if($count){
-          $id = Ticks::where('symbol_id', $symbol->id)->latest()->first()->id;
+          $first = Ticks::where('symbol_id', $symbol->id)->latest()->first();
+          if(!$first){
+            return 0;
+          }
+          $id = $first->id;
           Ticks::where('symbol_id', $symbol->id)
             ->where('created_at', '<', Carbon::now()->subMinutes(2))
             ->where('id', '<', $id)
