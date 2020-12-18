@@ -15,7 +15,7 @@ use Yajra\DataTables\DataTables;
 class StatisticsController extends Controller
 {
     public function getShortStatistics(Request $request){
-      $clear_profit = DB::table('order_history_1')->where('profit', '>', 'amount');
+      $clear_profit = DB::table('order_history_1')->whereRaw('profit > amount');
       return [
         'user_count' => User::count(),
         'banned_users' => User::whereNotNull('banned')->count(),
