@@ -46,7 +46,8 @@ user=www-root
 numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/logs/tradingview.log
-stopwaitsecs=3600
+startsecs = 0
+stopwaitsecs=0
 ```
 
 Путь: `/etc/supervisor/conf.d/tradingview.conf` - проверка закрытия сделок
@@ -62,7 +63,8 @@ user=www-root
 numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/logs/orders.log
-stopwaitsecs=3600
+startsecs = 0
+stopwaitsecs=0
 ```
 
 Путь: `/etc/supervisor/conf.d/websocket.conf` - вебсокет для оповещений
@@ -78,6 +80,8 @@ user=www-root
 numprocs=1
 redirect_stderr=true
 stdout_logfile=/home/logs/websocket.log
+startsecs = 0
+stopwaitsecs=0
 ```
 
 Создать путь для логов: `mkdir /home/logs`
@@ -115,3 +119,6 @@ public function GetLicenseInfo($Module = 'System')
     return $mResult;
 }
 ```
+
+##Настройка twilio
+Необходимо включить интерналионализацию: https://www.twilio.com/console/voice/calls/geo-permissions/low-risk
