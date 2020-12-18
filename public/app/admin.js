@@ -126236,10 +126236,10 @@ var render = function() {
                                           value: {
                                             currency: null,
                                             autoDecimalMode: true,
-                                            valueRange: { min: 1, max: 10000 }
+                                            valueRange: { min: 5, max: 10000 }
                                           },
                                           expression:
-                                            "{currency: null, autoDecimalMode: true, valueRange: {min: 1, max: 10000}}"
+                                            "{currency: null, autoDecimalMode: true, valueRange: {min: 5, max: 10000}}"
                                         }
                                       ],
                                       ref: "ci",
@@ -155152,7 +155152,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('header-component', __webpa
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('ping-component', __webpack_require__(/*! ./components/PingComponent */ "./resources/vuejs/components/PingComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_echo_laravel__WEBPACK_IMPORTED_MODULE_3___default.a, {
   broadcaster: 'socket.io',
-  host: window.location.hostname + ':6001'
+  host: window.location.hostname + ':6001',
+  reconnectionAttempts: 5,
+  csrfToken: $('meta[name="csrf-token"]').attr('content')
 });
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
