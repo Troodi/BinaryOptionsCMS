@@ -1,6 +1,6 @@
 ## Настройка nginx
 Создаем поддомен chart.getoption.pro и прописываем в конфиге nginx
-```
+```nginx
 location / {
   proxy_ssl_server_name on;
   proxy_pass https://prodata.tradingview.com/socket.io/websocket;#prodata
@@ -34,7 +34,7 @@ location / {
 
 ##Настройка supervisor
 Путь: `/etc/supervisor/conf.d/tradingview.conf` - парсинг котировок
-```
+```shell
 [program:tradingview]
 process_name=%(program_name)s_%(process_num)02d
 command=php /var/www/www-root/data/www/getoption.pro/artisan tradingview:start
@@ -50,7 +50,7 @@ stopwaitsecs=3600
 ```
 
 Путь: `/etc/supervisor/conf.d/tradingview.conf` - проверка закрытия сделок
-```
+```shell
 [program:orders]
 process_name=%(program_name)s_%(process_num)02d
 command=php /var/www/www-root/data/www/getoption.pro/artisan check:orders
@@ -66,7 +66,7 @@ stopwaitsecs=3600
 ```
 
 Путь: `/etc/supervisor/conf.d/websocket.conf` - вебсокет для оповещений
-```
+```shell
 [program:websocket]
 process_name=%(program_name)s_%(process_num)02d
 command=laravel-echo-server start --dir=/var/www/www-root/data/www/getoption.pro
@@ -96,3 +96,22 @@ stdout_logfile=/home/logs/websocket.log
 4. Вход через Facebook
 5. Настройки
 5. Действительные URI перенаправления для OAuth: `сам домен с https` и `/login/facebook/callback`
+
+##Настройка afterlogic
+Файл: `/modules/Licensing/Module.php`
+```php
+public function GetLicenseInfo($Module = 'System')
+{
+    $mResult = false;
+    $aInfo = $this->GetPartKeyInfo($Module);
+    if (isset($aInfo[2])){
+        $mResult = array(
+        'Count' => (int) $aInfo[0],
+        'DateTime' => time() + 86400 * 365,
+        'Type' => 0,
+        'ExpiresIn' => 2000
+        );
+    }
+    return $mResult;
+}
+```
