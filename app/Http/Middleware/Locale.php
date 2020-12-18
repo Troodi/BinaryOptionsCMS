@@ -18,7 +18,11 @@ class Locale
      */
     public function handle(Request $request, Closure $next)
     {
-        $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])){
+          $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        } else {
+          $lang = 'en';
+        }
         if($request->cookie('locale')){
           App::setLocale($request->cookie('locale'));
         } else if($lang) {
