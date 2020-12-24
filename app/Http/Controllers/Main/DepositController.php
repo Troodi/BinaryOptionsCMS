@@ -6,6 +6,7 @@ use App\Events\ChangeBalance;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
+use App\Models\DepositSystem;
 use App\Models\LatestOrder;
 use App\Models\Promocode;
 use App\Models\PromocodeHistory;
@@ -19,9 +20,14 @@ use Yajra\DataTables\DataTables;
 
 class DepositController extends Controller
 {
+    public function getAllDepositSystems(Request $request){
+      return DepositSystem::where('hidden', 0)->get();
+    }
+
     public function startDeposit(Request $request){
       $request->validate([
-        'amount' => 'required|numeric|min:5|max:10000'
+        'amount' => 'required|numeric|min:5|max:10000',
+        'system_id' => 'required|numeric|min:0'
       ]);
       $promocode_request = intval($request->promocode);
       $amount = number_format($request->amount, 2, '.', '');
@@ -53,27 +59,54 @@ class DepositController extends Controller
       $model->user_id = Auth::user()->id;
       $model->amount = $amount;
       $model->system_id = 0;
-      $model->status = 0;
+      $model->status = $request->system_id;
       $model->promocode_id = $promocode_id;
       $model->save();
 
-      $m_shop = env('PAYEER_ID');
-      $m_orderid = $model->id;
-      $m_curr = 'USD';
-      $m_desc = base64_encode(__('locale.deposit_deposit_on_site').': '.env('APP_URL'));
-      $lang = 'ru';
-      $m_key = env('PAYEER_SECRET');
-      $arHash = array(
-        $m_shop,
-        $m_orderid,
-        $amount,
-        $m_curr,
-        $m_desc
-      );
-      $arHash[] = $m_key;
-      $m_sign = strtoupper(hash('sha256', implode(':', $arHash)));
-      $link_for_pay = "https://payeer.com/merchant/?m_shop=$m_shop&m_orderid=$m_orderid&m_amount=$amount&m_curr=$m_curr&m_desc=$m_desc&m_sign=$m_sign&lang=$lang";
-      return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000], 200);
+      if($request->system_id == 4) { //Payeer
+        $m_shop = env('FREE_KASSA_ID');
+        $m_orderid = $model->id;
+        $m_curr = 'USD';
+        $m_desc = base64_encode(__('locale.deposit_deposit_on_site') . ': ' . env('APP_URL'));
+        $lang = 'ru';
+        $m_key = env('FREE_KASSA_SECRET');
+        $arHash = array(
+          $m_shop,
+          $m_orderid,
+          $amount,
+          $m_curr,
+          $m_desc
+        );
+        $arHash[] = $m_key;
+        $m_sign = md5(env('PAYEER_ID') . ':' . $amount . ':' . env('PAYEER_SECRET') . ':' . $m_orderid);
+        $link_for_pay = "https://www.free-kassa.ru/merchant/cash.php?oa=$amount&o=$m_orderid&us_desc=$m_desc&s=$m_sign&m=$m_shop&lang=$lang";
+        return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000], 200);
+      }
+      elseif($request->system_id == 5) { //Free-Kassa
+        $m_shop = env('PAYEER_ID');
+        $m_orderid = $model->id;
+        $m_curr = 'USD';
+        $m_desc = base64_encode(__('locale.deposit_deposit_on_site') . ': ' . env('APP_URL'));
+        $lang = 'ru';
+        $m_key = env('PAYEER_SECRET');
+        $arHash = array(
+          $m_shop,
+          $m_orderid,
+          $amount,
+          $m_curr,
+          $m_desc
+        );
+        $arHash[] = $m_key;
+        $m_sign = strtoupper(hash('sha256', implode(':', $arHash)));
+        $link_for_pay = "https://payeer.com/merchant/?m_shop=$m_shop&m_orderid=$m_orderid&m_amount=$amount&m_curr=$m_curr&m_desc=$m_desc&m_sign=$m_sign&lang=$lang";
+        return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000], 200);
+      }
+      elseif($request->system_id == 1){ // Qiwi
+
+      }
+      elseif($request->system_id == 7){ // RosKassa
+
+      }
     }
 
     public function processPayeer(Request $request){

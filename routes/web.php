@@ -15,6 +15,12 @@ Route::get('/', 'Main\LandingController@homePage');
 Route::get('login/{provider}', 'Main\SocialController@redirect');
 Route::get('lang/{lang}', 'Main\LocalizationController@setLang');
 Route::get('login/{provider}/callback','Main\SocialController@Callback');
+Route::get('/terms', 'Main\LandingController@termsPage');
+Route::get('/contacts', 'Main\LandingController@contactsPage');
+Route::get('/privacy-policy', 'Main\LandingController@privacyPage');
+Route::get('/aml-policy', 'Main\LandingController@amlPage');
+Route::get('/payment-policy', 'Main\LandingController@paymentPage');
+Route::get('/responsibility-disclosure', 'Main\LandingController@responsibilityPage');
 
 Route::post('/event-twilio', 'Main\ProfileController@phoneEvent');
 Route::get('/mp3', 'Main\ProfileController@playMP3');
