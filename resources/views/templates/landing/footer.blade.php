@@ -1,4 +1,5 @@
-<footer class="py-11 bg-primary position-relative" data-bg-img="/templates/landing/assets/images/bg/03.png" @if(Request::is('/')) style="background-color: #000c2d !important" @endif>
+<footer class="py-11 bg-primary position-relative" data-bg-img="/templates/landing/assets/images/bg/02.png"
+        @if(Request::is('/')) style="background-color: #000c2d !important; background-image: url('/templates/landing/assets/images/bg/02.png');" @endif>
   <div class="shape-1" style="height: 150px; overflow: hidden;">
     <svg viewBox="0 0 500 150" preserveAspectRatio="none" style="height: 100%; width: 100%;">
       <path d="M0.00,49.98 C150.00,150.00 271.49,-50.00 500.00,49.98 L500.00,0.00 L0.00,0.00 Z" style="stroke: none; fill: #fff;"></path>
