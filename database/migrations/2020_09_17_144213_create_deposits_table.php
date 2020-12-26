@@ -17,8 +17,10 @@ class CreateDepositsTable extends Migration
           $table->id();
           $table->integer('user_id')->index();;
           $table->decimal('amount', 10, 2);
+          $table->decimal('amount_in_rub', 10, 2)->nullable();
           $table->integer('promocode_id')->nullable();
           $table->integer('system_id');
+          $table->string('billId')->nullable();
           $table->integer('status');
           $table->timestamps();
         });

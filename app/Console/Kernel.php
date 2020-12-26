@@ -28,6 +28,7 @@ class Kernel extends ConsoleKernel
       $schedule->command('clear:deposit')->everyMinute();
       $schedule->command('set:percent')->everyMinute();
       $schedule->command('clear:stat')->everyMinute();
+      $schedule->command('exchange:rate')->everyMinute();
       $schedule->command('clear:today_user_stat')->daily();
     }
 

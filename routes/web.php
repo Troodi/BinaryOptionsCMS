@@ -84,6 +84,8 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post('/data/processPayout/{id}', 'Main\WithdrawalController@processPayout')->middleware('admin');
   Route::post('/data/withdrawalHistory/{id}', 'Main\WithdrawalController@withdrawalHistory')->middleware('admin');
   // Пополнение
+  Route::any('/qiwi/process', 'Main\DepositController@qiwiProcess');
+  Route::post('/data/getAllDepositSystems', 'Main\DepositController@getAllDepositSystems');
   Route::post('/data/getDepositPromocodes', 'Main\PromocodeController@getDepositPromocodes');
   Route::post('/data/deposit', 'Main\DepositController@startDeposit');
   Route::post('/data/depositHistory', 'Main\DepositController@depositHistory');

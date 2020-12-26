@@ -7,6 +7,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
 use App\Models\DepositSystem;
+use App\Models\ExchangeRates;
 use App\Models\LatestOrder;
 use App\Models\Promocode;
 use App\Models\PromocodeHistory;
@@ -16,12 +17,18 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Qiwi\Api\BillPayments;
 use Yajra\DataTables\DataTables;
 
 class DepositController extends Controller
 {
     public function getAllDepositSystems(Request $request){
       return DepositSystem::where('hidden', 0)->get();
+    }
+
+    public function qiwiProcess(Request $request){
+      Log::debug($request);
     }
 
     public function startDeposit(Request $request){
@@ -55,15 +62,32 @@ class DepositController extends Controller
         }
         $promocode_id = $promocode->id;
       }
+      $rub = $amount / ExchangeRates::where('symbol', 'USD')->first()->price;
       $model = new Deposit();
       $model->user_id = Auth::user()->id;
       $model->amount = $amount;
-      $model->system_id = 0;
+      $model->amount_in_rub = $rub;
+      $model->system_id = $request->system_id;
       $model->status = $request->system_id;
       $model->promocode_id = $promocode_id;
       $model->save();
-
-      if($request->system_id == 4) { //Payeer
+      if($request->system_id == 1) { // Qiwi
+        $billPayments = new BillPayments(env('QIWI_SECRET'));
+        $billId = $billPayments->generateId();
+        Deposit::where('id', $model->id)->update(['billId' => $billId]);
+        $lifetime = Carbon::now()->addMinutes(60)->format('Y-m-d\TH:m:s+03:00');
+        $fields = [
+          'amount' => $rub,
+          'currency' => 'RUB',
+          'comment' => 'Account replenishment on the site for the user: '.Auth::user()->email,
+          'email' => Auth::user()->email,
+          'account' => Auth::user()->id,
+          'expirationDateTime' => $lifetime,
+          'customFields' => ['orderId' => $model->id],
+        ];
+        $response = $billPayments->createBill($billId, $fields);
+        return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $response['payUrl'], 'timeout' => 3000], 200);
+      } elseif($request->system_id == 4) { //Payeer
         $m_shop = env('FREE_KASSA_ID');
         $m_orderid = $model->id;
         $m_curr = 'USD';
