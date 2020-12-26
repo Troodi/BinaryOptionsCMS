@@ -28,6 +28,7 @@
         "laravel/socialite": "^5.0",
         "laravel/tinker": "^2.0",
         "predis/predis": "^1.1",
+        "qiwi/bill-payments-php-sdk": "^0.1.2",
         "react/event-loop": "1.1.1",
         "spatie/async": "^1.4",
         "textalk/websocket": "^1.4",

@@ -16,7 +16,7 @@ class CreateDepositSystemsTable extends Migration
     {
         Schema::create('deposit_systems', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('text');
             $table->boolean('hidden')->default(false);
             $table->timestamps();
         });
@@ -25,7 +25,7 @@ class CreateDepositSystemsTable extends Migration
 
         foreach ($systems as $system => $hidden) {
           $model = new DepositSystem();
-          $model->name = $system;
+          $model->text = $system;
           $model->hidden = $hidden;
           $model->save();
         }

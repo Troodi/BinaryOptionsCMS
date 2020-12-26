@@ -47,7 +47,13 @@
                                                         <p class="mb-0"><i class="bx bx-undo align-middle"></i> {{ $i18n.t('deposit_fast_withdrawal') }}</p>
                                                         <p class="mb-0"><i class="bx bx-check align-middle"></i> {{ $i18n.t('deposit_minimal_withdrawal') }}: $10</p>
                                                 </div>
-                                                <div class="col-md-6 mt-3">
+                                                <div class="col-md-12 mt-3">
+                                                  <fieldset class="form-group">
+                                                    <label class="align-top">{{ $i18n.t('payout_system') }}</label>
+                                                    <select2 v-model="system" :style="'width: 100%;'" :options="systems" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
+                                                  </fieldset>
+                                                </div>
+                                                <div class="col-md-6">
                                                     <fieldset class="form-group" style="margin-bottom: 3px;">
                                                         <label>{{ $i18n.t('deposit_deposit_amount') }}</label>
                                                         <small class="text-muted">{{ $i18n.t('deposit_min') }}. <i>5$</i></small>
@@ -70,7 +76,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mt-3">
+                                                <div class="col-md-6">
                                                     <fieldset class="form-group" style="margin-bottom: 10px;">
                                                         <label>{{ $i18n.t('deposit_promo_code') }}</label>
                                                         <small class="text-muted">({{ $i18n.t('deposit_not_necessary') }})</small>
@@ -160,7 +166,12 @@
                     self.promocode = self.bonus.find(item => item.min_amount == 500).code;
                     self.prev_promocode = self.promocode;
                     self.promocode_info = self.bonus.find(item => item.min_amount == 500);
-                })
+                });
+          axios.post('/data/getAllDepositSystems')
+              .then(function (response) {
+                self.systems = response.data;
+                self.system = 1;
+              });
         },
         data: function () {
             return {
@@ -170,9 +181,11 @@
                 prev_promocode: '',
                 promocode: '',
                 promocode_info: null,
-                use_promocode: true,
+                use_promocode: false,
                 errors: [],
                 success: [],
+                system: '',
+                systems: [],
             }
         },
         methods: {
@@ -213,7 +226,7 @@
               let self = this;
               this.errors = [];
               this.success = [];
-              axios.post('/data/deposit', { amount: self.numericAmount, promocode: self.selected_promocode})
+              axios.post('/data/deposit', { amount: self.numericAmount, promocode: self.selected_promocode, system_id: this.system})
                   .then(function (response) {
                     if(response.data.success === true) {
                       toastr.success(response.data.message, self.$i18n.t('deposit_success'), {
