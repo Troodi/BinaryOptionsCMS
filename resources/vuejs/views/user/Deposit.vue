@@ -39,7 +39,7 @@
                                         <div class="col-md-6 pt-3">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <img class="img-fluid" src="https://cdn.freelogovectors.net/wp-content/uploads/2019/02/payeer-logo.png">
+                                                    <img class="img-fluid" src="/images/icon/cards.png" style="margin-top: 5px;">
                                                 </div>
                                                 <div class="col-md-6">
                                                         <p class="mb-0"><i class="bx bxs-dollar-circle align-middle"></i> {{ $i18n.t('deposit_min_amount') }}: $5</p>

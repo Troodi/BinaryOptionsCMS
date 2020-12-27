@@ -12,4 +12,8 @@ class Deposit extends Model
   {
     return $this->hasOne('App\User', 'id', 'user_id');
   }
+  public function depositSystem()
+  {
+    return $this->hasOne('App\Models\DepositSystem', 'id', 'system_id');
+  }
 }
