@@ -81,13 +81,18 @@ export default {
     axios.get('/data/symbols')
         .then(function (response) {
           self.symbols = response.data;
-          self.fillDT('#history', "/admin/data/history");
-          self.fillDT('#historyDemo', "/admin/data/history/demo");
+          self.fillDT('#history', "/admin/data/history/" + self.userId);
+          self.fillDT('#historyDemo', "/admin/data/history/demo/" + self.userId);
         });
   },
   data: function () {
     return {
 
+    }
+  },
+  computed: {
+    userId: function (){
+      return this.$route.params.id;
     }
   },
   methods: {
