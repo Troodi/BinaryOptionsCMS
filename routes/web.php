@@ -21,6 +21,7 @@ Route::get('/privacy-policy', 'Main\LandingController@privacyPage');
 Route::get('/aml-policy', 'Main\LandingController@amlPage');
 Route::get('/payment-policy', 'Main\LandingController@paymentPage');
 Route::get('/responsibility-disclosure', 'Main\LandingController@responsibilityPage');
+Route::post('/qiwi/process', 'Main\DepositController@qiwiProcess');
 
 Route::post('/event-twilio', 'Main\ProfileController@phoneEvent');
 Route::get('/mp3', 'Main\ProfileController@playMP3');
@@ -84,7 +85,6 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post('/data/processPayout/{id}', 'Main\WithdrawalController@processPayout')->middleware('admin');
   Route::post('/data/withdrawalHistory/{id}', 'Main\WithdrawalController@withdrawalHistory')->middleware('admin');
   // Пополнение
-  Route::post('/qiwi/process', 'Main\DepositController@qiwiProcess');
   Route::post('/data/getAllDepositSystems', 'Main\DepositController@getAllDepositSystems');
   Route::post('/data/getDepositPromocodes', 'Main\PromocodeController@getDepositPromocodes');
   Route::post('/data/deposit', 'Main\DepositController@startDeposit');
