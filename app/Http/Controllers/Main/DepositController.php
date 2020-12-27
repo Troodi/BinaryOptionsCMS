@@ -28,7 +28,16 @@ class DepositController extends Controller
     }
 
     public function qiwiProcess(Request $request){
-      Log::debug($request);
+      $billPayments = new BillPayments(env('QIWI_SECRET'));
+      $check = $billPayments->checkNotificationSignature(
+        $request->header('X-Api-Signature-SHA256'), json_decode($request->getContent(), true), env('QIWI_SECRET')
+      );
+      if($check){
+        $orderId = $request['bill']['customFields']['orderId'];
+        $this->processDeposit($orderId);
+      } else {
+        return 'Invalid cipher';
+      }
     }
 
     public function startDeposit(Request $request){
@@ -68,7 +77,7 @@ class DepositController extends Controller
       $model->amount = $amount;
       $model->amount_in_rub = $rub;
       $model->system_id = $request->system_id;
-      $model->status = $request->system_id;
+      $model->status = 0;
       $model->promocode_id = $promocode_id;
       $model->save();
       if($request->system_id == 1) { // Qiwi
@@ -87,7 +96,7 @@ class DepositController extends Controller
         ];
         $response = $billPayments->createBill($billId, $fields);
         return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $response['payUrl'], 'timeout' => 3000], 200);
-      } elseif($request->system_id == 4) { //Payeer
+      } elseif($request->system_id == 5) { //Free-Kassa
         $m_shop = env('FREE_KASSA_ID');
         $m_orderid = $model->id;
         $m_curr = 'USD';
@@ -106,7 +115,7 @@ class DepositController extends Controller
         $link_for_pay = "https://www.free-kassa.ru/merchant/cash.php?oa=$amount&o=$m_orderid&us_desc=$m_desc&s=$m_sign&m=$m_shop&lang=$lang";
         return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000], 200);
       }
-      elseif($request->system_id == 5) { //Free-Kassa
+      elseif($request->system_id == 4) { //Payeer
         $m_shop = env('PAYEER_ID');
         $m_orderid = $model->id;
         $m_curr = 'USD';
@@ -156,33 +165,7 @@ class DepositController extends Controller
         $sign_hash = strtoupper(hash('sha256', implode(':', $arHash)));
         if ($request->m_sign == $sign_hash && $request->m_status == 'success') {
           ob_end_clean();
-          $deposit = Deposit::where('id', $request->m_orderid)->where('status', 0)->first();
-          if($deposit){
-            if($deposit->promocode_id){
-              $promocode = Promocode::where('id', $deposit->promocode_id)->first();
-              $bonus_amount = ($deposit->amount * $promocode->bonus_size / 100);
-              $amount_with_promocode = $deposit->amount + $bonus_amount;
-              $turnover = $bonus_amount * $promocode->turnover;
-              User::where('id', $deposit->user_id)->update([
-                'balance' => DB::raw("balance+$amount_with_promocode"),
-                'bonus' => DB::raw("bonus+$bonus_amount"),
-                'all_turnover' => DB::raw("all_turnover+$turnover"),
-                'left_turnover' => DB::raw("left_turnover+$turnover"),
-              ]);
-              broadcast(new ChangeBalance(Auth::user()->balance+$amount_with_promocode, Auth::user()));
-            } else {
-              User::where('id', $deposit->user_id)->update(['balance' => DB::raw("balance+$deposit->amount")]);
-              broadcast(new ChangeBalance(Auth::user()->balance+$deposit->amount, Auth::user()));
-            }
-            $deposit->update(['status' => 1]);
-            $user = User::where('id', $deposit->user_id)->first();
-            if($user->referer_id) {
-              if(User::where('id', $user->referer_id)->first()->partner_status){
-                $amount_percent = $deposit->amount * 0.1;
-                User::where('id', $user->referer_id)->update(['balance' => DB::raw("balance+$amount_percent")]);
-              }
-              Referral::where('user_id', $user->referer_id)->update(['deposit_count' => DB::raw("deposit_count+$deposit->amount")]);
-            }
+          if($this->processDeposit($request->m_orderid)){
             return $request->m_orderid.'|success';
           } else {
             return $request->m_orderid.'|error';
@@ -200,7 +183,41 @@ class DepositController extends Controller
         $request->validate(['id' => 'numeric|min:1']);
       }
       $id = $admin ? $request->id : Auth::user()->id;
-      $history = Deposit::where('user_id', $id)->get();
+      $history = Deposit::where('user_id', $id)->with(['depositSystem'])->get();
       return Datatables::of($history)->make();
+    }
+
+    private function processDeposit($orderId){
+      $deposit = Deposit::where('id', $orderId)->where('status', 0)->first();
+      if($deposit){
+        if($deposit->promocode_id){
+          $promocode = Promocode::where('id', $deposit->promocode_id)->first();
+          $bonus_amount = ($deposit->amount * $promocode->bonus_size / 100);
+          $amount_with_promocode = $deposit->amount + $bonus_amount;
+          $turnover = $bonus_amount * $promocode->turnover;
+          User::where('id', $deposit->user_id)->update([
+            'balance' => DB::raw("balance+$amount_with_promocode"),
+            'bonus' => DB::raw("bonus+$bonus_amount"),
+            'all_turnover' => DB::raw("all_turnover+$turnover"),
+            'left_turnover' => DB::raw("left_turnover+$turnover"),
+          ]);
+          broadcast(new ChangeBalance(Auth::user()->balance+$amount_with_promocode, Auth::user()));
+        } else {
+          User::where('id', $deposit->user_id)->update(['balance' => DB::raw("balance+$deposit->amount")]);
+          broadcast(new ChangeBalance(Auth::user()->balance+$deposit->amount, Auth::user()));
+        }
+        $deposit->update(['status' => 1]);
+        $user = User::where('id', $deposit->user_id)->first();
+        if($user->referer_id) {
+          if(User::where('id', $user->referer_id)->first()->partner_status){
+            $amount_percent = $deposit->amount * 0.1;
+            User::where('id', $user->referer_id)->update(['balance' => DB::raw("balance+$amount_percent")]);
+          }
+          Referral::where('user_id', $user->referer_id)->update(['deposit_count' => DB::raw("deposit_count+$deposit->amount")]);
+        }
+        return true;
+      } else {
+        return false;
+      }
     }
 }

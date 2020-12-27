@@ -101,10 +101,10 @@
               {
                 orderable: false,
                 searchable: false,
-                data: 'system_id',
-                name: 'system_id',
+                data: 'deposit_system.text',
+                name: 'deposit_system.text',
                 render: function(data, type) {
-                  return 'Payeer';
+                  return data;
                 }
               },
               {

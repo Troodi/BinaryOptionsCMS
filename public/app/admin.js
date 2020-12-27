@@ -4291,10 +4291,10 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
         }, {
           orderable: false,
           searchable: false,
-          data: 'system_id',
-          name: 'system_id',
+          data: 'deposit_system.text',
+          name: 'deposit_system.text',
           render: function render(data, type) {
-            return 'Payeer';
+            return data;
           }
         }, {
           data: 'created_at',
@@ -128440,10 +128440,8 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-6" }, [
       _c("img", {
         staticClass: "img-fluid",
-        attrs: {
-          src:
-            "https://cdn.freelogovectors.net/wp-content/uploads/2019/02/payeer-logo.png"
-        }
+        staticStyle: { "margin-top": "5px" },
+        attrs: { src: "/images/icon/cards.png" }
       })
     ])
   }
@@ -132895,10 +132893,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-md-6" }, [
       _c("img", {
         staticClass: "img-fluid",
-        attrs: {
-          src:
-            "https://cdn.freelogovectors.net/wp-content/uploads/2019/02/payeer-logo.png"
-        }
+        attrs: { src: "/images/icon/cards.png" }
       })
     ])
   },
