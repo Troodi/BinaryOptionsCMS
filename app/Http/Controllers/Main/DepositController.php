@@ -35,6 +35,7 @@ class DepositController extends Controller
       if($check){
         $orderId = $request['bill']['customFields']['orderId'];
         $this->processDeposit($orderId);
+        return null;
       } else {
         return 'Invalid cipher';
       }
@@ -190,6 +191,7 @@ class DepositController extends Controller
     private function processDeposit($orderId){
       $deposit = Deposit::where('id', $orderId)->where('status', 0)->first();
       if($deposit){
+        Deposit::where('id', $orderId)->where('status', 0)->update(['status' => 1]);
         if($deposit->promocode_id){
           $promocode = Promocode::where('id', $deposit->promocode_id)->first();
           $bonus_amount = ($deposit->amount * $promocode->bonus_size / 100);
@@ -206,7 +208,6 @@ class DepositController extends Controller
           User::where('id', $deposit->user_id)->update(['balance' => DB::raw("balance+$deposit->amount")]);
           broadcast(new ChangeBalance(Auth::user()->balance+$deposit->amount, Auth::user()));
         }
-        $deposit->update(['status' => 1]);
         $user = User::where('id', $deposit->user_id)->first();
         if($user->referer_id) {
           if(User::where('id', $user->referer_id)->first()->partner_status){
