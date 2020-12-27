@@ -20,6 +20,7 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         '/event-twilio',
-        '/payeer/*'
+        '/payeer/*',
+        '/qiwi/process',
     ];
 }
