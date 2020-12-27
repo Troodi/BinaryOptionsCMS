@@ -11,16 +11,17 @@ use Yajra\DataTables\DataTables;
 
 class TradeHistoryController extends Controller
 {
-    public function getHistory(Request $request){
-      return $this->getHistoryDatatable('order_history_1');
+    public function getHistory(Request $request, $id){
+      return $this->getHistoryDatatable('order_history_1',$id);
     }
 
-    public function getHistoryDemo(Request $request){
-      return $this->getHistoryDatatable('order_demo_history_1');
+    public function getHistoryDemo(Request $request, $id){
+      return $this->getHistoryDatatable('order_demo_history_1', $id);
     }
 
-    private function getHistoryDatatable($table){
+    private function getHistoryDatatable($table, $id){
       $history = DB::table($table)
+        ->where('user_id', $id)
         ->join('users', "$table.user_id", '=', 'users.id')
         ->select([
           "$table.id",

@@ -3156,12 +3156,17 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
     var self = this;
     axios.get('/data/symbols').then(function (response) {
       self.symbols = response.data;
-      self.fillDT('#history', "/admin/data/history");
-      self.fillDT('#historyDemo', "/admin/data/history/demo");
+      self.fillDT('#history', "/admin/data/history/" + self.userId);
+      self.fillDT('#historyDemo', "/admin/data/history/demo/" + self.userId);
     });
   },
   data: function data() {
     return {};
+  },
+  computed: {
+    userId: function userId() {
+      return this.$route.params.id;
+    }
   },
   methods: {
     fillDT: function fillDT(element, url) {
