@@ -112,7 +112,7 @@ class DepositController extends Controller
           $m_desc
         );
         $arHash[] = $m_key;
-        $m_sign = md5(env('PAYEER_ID') . ':' . $amount . ':' . env('PAYEER_SECRET') . ':' . $m_orderid);
+        $m_sign = md5(env('FREE_KASSA_ID') . ':' . $amount . ':' . env('FREE_KASSA_SECRET') . ':' . $m_orderid);
         $link_for_pay = "https://www.free-kassa.ru/merchant/cash.php?oa=$amount&o=$m_orderid&us_desc=$m_desc&s=$m_sign&m=$m_shop&lang=$lang";
         return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000], 200);
       }

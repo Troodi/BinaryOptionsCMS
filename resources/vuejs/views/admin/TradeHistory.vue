@@ -81,8 +81,13 @@ export default {
     axios.get('/data/symbols')
         .then(function (response) {
           self.symbols = response.data;
-          self.fillDT('#history', "/admin/data/history/" + self.userId);
-          self.fillDT('#historyDemo', "/admin/data/history/demo/" + self.userId);
+          if(self.userId) {
+            self.fillDT('#history', "/admin/data/history", self.userId);
+            self.fillDT('#historyDemo', "/admin/data/history/demo", self.userId);
+          } else {
+            self.fillDT('#history', "/admin/data/history", 0);
+            self.fillDT('#historyDemo', "/admin/data/history/demo", 0);
+          }
         });
   },
   data: function () {
@@ -96,7 +101,7 @@ export default {
     }
   },
   methods: {
-    fillDT: function (element, url){
+    fillDT: function (element, url, user_id){
       let self = this;
       $(element).DataTable({
         "iDisplayLength": 10,
@@ -113,6 +118,9 @@ export default {
         },
         "ajax": {
           url: url,
+          data: {
+            id: user_id
+          },
           type: "POST"
         },
         "language": {

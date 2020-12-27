@@ -3156,8 +3156,14 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
     var self = this;
     axios.get('/data/symbols').then(function (response) {
       self.symbols = response.data;
-      self.fillDT('#history', "/admin/data/history/" + self.userId);
-      self.fillDT('#historyDemo', "/admin/data/history/demo/" + self.userId);
+
+      if (self.userId) {
+        self.fillDT('#history', "/admin/data/history", self.userId);
+        self.fillDT('#historyDemo', "/admin/data/history/demo", self.userId);
+      } else {
+        self.fillDT('#history', "/admin/data/history", 0);
+        self.fillDT('#historyDemo', "/admin/data/history/demo", 0);
+      }
     });
   },
   data: function data() {
@@ -3169,7 +3175,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
     }
   },
   methods: {
-    fillDT: function fillDT(element, url) {
+    fillDT: function fillDT(element, url, user_id) {
       var self = this;
       $(element).DataTable({
         "iDisplayLength": 10,
@@ -3190,6 +3196,9 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
         },
         "ajax": {
           url: url,
+          data: {
+            id: user_id
+          },
           type: "POST"
         },
         "language": {
