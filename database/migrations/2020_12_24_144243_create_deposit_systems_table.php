@@ -22,7 +22,7 @@ class CreateDepositSystemsTable extends Migration
             $table->timestamps();
         });
 
-        $systems = ['Cards (Qiwi)' => 0, 'YooMoney' => 0, 'Betatransfer' => 1, 'Payeer' => 1, 'Free-Kassa' => 0, 'InterKassa' => 1, 'RosKassa' => 1, 'Robokassa' => 1];
+        $systems = ['Cards & Qiwi' => 0, 'Cards & YooMoney' => 0, 'Betatransfer' => 1, 'Payeer' => 1, 'Free-Kassa' => 0, 'InterKassa' => 1, 'RosKassa' => 1, 'Robokassa' => 1];
 
         foreach ($systems as $system => $hidden) {
           $model = new DepositSystem();
