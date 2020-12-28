@@ -43,9 +43,9 @@ class DepositController extends Controller
     }
 
     public function yooMoneyProcess(Request $request){
-      $arr = json_decode($request->getContent(), true);
+      $arr = explode('&', $request->getContent());
       $sha1 = sha1($arr['notification_type'].'&'.$arr['operation_id'].'&'.$arr['amount'].'&'.$arr['currency'].'&'.$arr['datetime'].'&'.$arr['sender'].'&'.$arr['codepro'].'&'.env('YOOMONEY_SECRET').'&'.$arr['label']);
-      if($sha1 == $arr['sha1_hash']){
+      if($sha1 == $arr['sha1_hash'] and $arr['codepro'] == false and $arr['unaccepted'] == false){
         $this->processDeposit($arr['label']);
       } else {
         return 'Invalid cipher';
