@@ -84,4 +84,29 @@ class VerifyController extends Controller
     });
     return response()->json(['success' => true, 'message' => 'Пользователь успешно верифицирован!']);
   }
+
+  //Снятие верификации аккаунта
+  public function unVerifyAccount(Request $request){
+    $request->validate([
+      'id' => 'numeric|min:1'
+    ]);
+    Profile::where('user_id', $request->id)->update(['user_verify_at' => null]);
+    VerifyRequest::where('user_id', $request->id)->delete();
+    $mail_data = [
+      'headline' => "Аккаунт не верифицирован",
+      'subtitle' =>  'Теперь у вас не подтвержденный аккаунт',
+      'text' => '<p>К сожалению, мы сняли верификацию с Вашего аккаута.</p>',
+      'image' => 'subscription-completed.png',
+      'button_link' => env('APP_URL').'/profile',
+      'button_text' => 'Перейти в кабинет'
+    ];
+    Mail::send('mail.mail', $mail_data, function($message) use ($request)
+    {
+      $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
+      $message->replyTo(env('MAIL_USERNAME'));
+      $message->subject("Аккаунт не верифицирован");
+      $message->to(User::where('id', $request->id)->first()->email);
+    });
+    return response()->json(['success' => true, 'message' => 'У пользователя снята верификация!']);
+  }
 }

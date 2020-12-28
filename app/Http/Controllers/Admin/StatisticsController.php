@@ -33,7 +33,7 @@ class StatisticsController extends Controller
     }
 
     public function getAllUsers(Request $request){
-      $users = User::get();
+      $users = User::with(['profile'])->get();
       return Datatables::of($users)
         ->addColumn('geo', function($user){
           if($user->ip){
@@ -44,8 +44,8 @@ class StatisticsController extends Controller
           return $country;
         })
         ->addColumn('geo_code', function($user){
-          if($user->ip){
-            $code = strtolower(geoip($user->ip)['iso_code']);
+          if($user->profile->ip){
+            $code = strtolower(geoip($user->profile->ip)['iso_code']);
           } else {
             $code = 'un';
           }

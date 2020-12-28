@@ -69,10 +69,10 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6">
-                    <button v-bind:disabled="'profile' in info && info.profile.user_verify_at || !('profile' in info)" @click="banClick" type="button" class="btn btn-outline-success w-100">Верифицировать пользователя</button>
+                    <button v-bind:disabled="'profile' in info && info.profile.user_verify_at || !('profile' in info)" @click="verifyClick" type="button" class="btn btn-outline-success w-100">Верифицировать пользователя</button>
                   </div>
                   <div class="col-md-6">
-                    <button v-bind:disabled="'profile' in info && !info.profile.user_verify_at || !('profile' in info)" @click="banClick" type="button" class="btn btn-outline-danger w-100">Снять верификацию с пользователя</button>
+                    <button v-bind:disabled="'profile' in info && !info.profile.user_verify_at || !('profile' in info)" @click="unVerifyClick" type="button" class="btn btn-outline-danger w-100">Снять верификацию с пользователя</button>
                   </div>
                 </div>
               </div>
@@ -156,6 +156,40 @@ export default {
     this.loadUserInfo();
   },
   methods: {
+    verifyClick: function (){
+      let self = this;
+      axios.post('/admin/data/verifyAccount', { id: this.$route.params.id }).then((response) => {
+        if(response.data.success === true) {
+          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        } else {
+          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        }
+        self.loadUserInfo();
+      });
+    },
+    unVerifyClick: function (){
+      let self = this;
+      axios.post('/admin/data/unVerifyAccount', { id: this.$route.params.id }).then((response) => {
+        if(response.data.success === true) {
+          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        } else {
+          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        }
+        self.loadUserInfo();
+      });
+    },
     changePartner: function(action){
       let self = this;
       axios.post('/admin/data/'+action, { id: self.userId })

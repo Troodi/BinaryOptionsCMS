@@ -6,8 +6,8 @@ use App\Events\ChangeBalance;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
-use App\Models\PromocodeHistory;
 use App\Models\Withdrawal;
+use App\Models\WithdrawSystem;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +16,10 @@ use Yajra\DataTables\DataTables;
 
 class WithdrawalController extends Controller
 {
+    public function getAllWithdrawSystems(Request $request){
+      return WithdrawSystem::whereNull('hidden')->get();
+    }
+
     public function getAccountData(Request $request){
       $admin = false;
       if($request->id && Helper::isAdmin()){
@@ -31,7 +35,7 @@ class WithdrawalController extends Controller
     public function processPayout(Request $request){
       $request->validate([
         'amount' => 'required|numeric|min:10|max:100000',
-        'system_id' => 'required|numeric|min:0|max:3',
+        'system_id' => 'required|numeric|min:1|max:8',
         'address' => 'required|string|min:5|max:155',
       ]);
       $admin = false;
@@ -70,7 +74,7 @@ class WithdrawalController extends Controller
       $request->validate(['id' => 'numeric|min:1']);
     }
     $id = $admin ? $request->id : Auth::user()->id;
-    $history = Withdrawal::where('user_id', $id)->get();
+    $history = Withdrawal::where('user_id', $id)->with(['withdrawSystem'])->get();
     return Datatables::of($history)->make();
   }
 }
