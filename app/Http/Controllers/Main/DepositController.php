@@ -89,7 +89,9 @@ class DepositController extends Controller
       if($request->system_id == 2) { // YooMoney
         $orderId = $model->id;
         $amount = $rub;
-        $yoo = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=".env('YOOMONEY_WALLET')."&quickpay-form=shop&targets=Deposit&sum=$amount&label=$orderId")
+        $message = urlencode('Deposit on getoption.pro for user: '.Auth::user()->email);
+        $success_url = urlencode('https://getoption.pro/trading');
+        $yoo = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=".env('YOOMONEY_WALLET')."&quickpay-form=shop&targets=$message&sum=$amount&label=$orderId&successURL=$success_url")
           ->get();
         $link = str_replace('Found. Redirecting to ', '', $yoo);
         return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link, 'timeout' => 3000], 200);

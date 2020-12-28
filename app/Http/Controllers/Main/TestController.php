@@ -14,7 +14,7 @@ class TestController extends Controller
   public function test(Request $request){
     $orderId = 123;
     $amount = 1;
-    $request = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=41001828768205&quickpay-form=shop&targets=Deposit&sum=$amount&label=$orderId")
+    $request = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=41001828768205&quickpay-form=shop&targets=&sum=$amount&label=$orderId")
       ->get();
     $link = str_replace('Found. Redirecting to ', '', $request);
   }
