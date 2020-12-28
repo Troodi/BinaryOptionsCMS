@@ -18,7 +18,7 @@ class CreateDepositSystemsTable extends Migration
             $table->id();
             $table->string('text');
             $table->boolean('hidden')->default(false);
-            $table->boolean('order')->nullable();
+            $table->integer('order')->nullable();
             $table->timestamps();
         });
 
