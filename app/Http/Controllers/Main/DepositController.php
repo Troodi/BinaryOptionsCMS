@@ -25,7 +25,7 @@ use Yajra\DataTables\DataTables;
 class DepositController extends Controller
 {
     public function getAllDepositSystems(Request $request){
-      return DepositSystem::where('hidden', 0)->get();
+      return DepositSystem::where('hidden', 0)->orderBy('order', 'asc')->get();
     }
 
     public function qiwiProcess(Request $request){
