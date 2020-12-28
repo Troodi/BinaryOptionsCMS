@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Ixudra\Curl\Facades\Curl;
 use Qiwi\Api\BillPayments;
 use Yajra\DataTables\DataTables;
 
@@ -39,6 +40,10 @@ class DepositController extends Controller
       } else {
         return 'Invalid cipher';
       }
+    }
+
+    public function yooMoneyProcess(Request $request){
+
     }
 
     public function startDeposit(Request $request){
@@ -81,7 +86,14 @@ class DepositController extends Controller
       $model->status = 0;
       $model->promocode_id = $promocode_id;
       $model->save();
-      if($request->system_id == 1) { // Qiwi
+      if($request->system_id == 2) { // YooMoney
+        $orderId = $model->id;
+        $amount = $rub;
+        $yoo = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=".env('YOOMONEY_WALLET')."&quickpay-form=shop&targets=Deposit&sum=$amount&label=$orderId")
+          ->get();
+        $link = str_replace('Found. Redirecting to ', '', $yoo);
+        return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link, 'timeout' => 3000], 200);
+      } elseif($request->system_id == 1) { // Qiwi
         $billPayments = new BillPayments(env('QIWI_SECRET'));
         $billId = $billPayments->generateId();
         Deposit::where('id', $model->id)->update(['billId' => $billId]);

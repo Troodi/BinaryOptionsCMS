@@ -36,8 +36,8 @@ class StatisticsController extends Controller
       $users = User::with(['profile'])->get();
       return Datatables::of($users)
         ->addColumn('geo', function($user){
-          if($user->ip){
-            $country = geoip($user->ip)['country'];
+          if($user->profile->ip){
+            $country = geoip($user->profile->ip)['country'];
           } else {
             $country = 'Undefined';
           }
