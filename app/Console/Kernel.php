@@ -30,6 +30,7 @@ class Kernel extends ConsoleKernel
       $schedule->command('clear:stat')->everyMinute();
       $schedule->command('exchange:rate')->everyMinute();
       $schedule->command('clear:today_user_stat')->daily();
+      $schedule->command('geoip:update')->daily();
     }
 
     /**

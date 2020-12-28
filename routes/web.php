@@ -76,6 +76,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   //Поддержка
   Route::post('/data/support', 'Main\SupportController@sendQuestion');
   //Вывод
+  Route::post('/data/getAllWithdrawSystems', 'Main\WithdrawalController@getAllWithdrawSystems');
   Route::post('/data/getAccountData', 'Main\WithdrawalController@getAccountData');
   Route::post('/data/discardBonus', 'Main\PromocodeController@discardBonus');
   Route::post('/data/processPayout', 'Main\WithdrawalController@processPayout');
@@ -109,6 +110,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("updateEmail", 'Admin\UserController@updateEmail');
       Route::post("updatePassword", 'Admin\UserController@updatePassword');
       Route::post("verifyAccount", 'Admin\VerifyController@verifyAccount');
+      Route::post("unVerifyAccount", 'Admin\VerifyController@unVerifyAccount');
       Route::post("checkDocument", 'Admin\VerifyController@checkDocument');
       Route::post("processWithdrawal", 'Admin\WithdrawalController@processWithdrawal');
       Route::post("getControlInfo", 'Admin\ControlController@getControlInfo');

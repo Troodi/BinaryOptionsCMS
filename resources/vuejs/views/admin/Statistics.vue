@@ -314,6 +314,7 @@ export default {
       "serverSide": true,
       "order": [[0, "asc"]],
       "drawCallback": function() {
+        $('[data-toggle="popover"]').popover({ html : true });
         $('.router-push').on('click', function (){
           let url = $(this).attr('data-url');
           self.$router.push({ path: url });
@@ -353,7 +354,7 @@ export default {
               geo = data;
               geo_code = row.geo_code;
             }
-            return '<i data-toggle="tooltip" data-placement="top" data-original-title="' + geo + '" class="flag-icon flag-icon-' + geo_code + '"></i>';
+            return '<i data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="Страна" data-content="' + geo + '" class="flag-icon flag-icon-' + geo_code + '"></i>';
           }
         },
         {

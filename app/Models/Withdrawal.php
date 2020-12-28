@@ -10,4 +10,9 @@ class Withdrawal extends Model
   {
     return $this->hasOne('App\User', 'id', 'user_id');
   }
+
+  public function withdrawSystem()
+  {
+    return $this->hasOne('App\Models\WithdrawSystem', 'id', 'system_id');
+  }
 }

@@ -64,7 +64,7 @@
                                                   <fieldset class="form-group" style="margin-bottom: 3px;">
                                                     <label>{{ $i18n.t('payout_wallet') }} <small class="text-muted">({{ $i18n.t('payout_check_correct') }})</small></label>
                                                     <template>
-                                                      <input type="text" class="form-control" placeholder="P______" v-model="wallet_address">
+                                                      <input type="text" class="form-control" placeholder="____ ____ ____ ____" v-model="wallet_address">
                                                     </template>
                                                   </fieldset>
                                                 </div>
@@ -194,15 +194,10 @@
             return {
                 amount: '10',
                 account: null,
-                system: '0',
+                system: 1,
                 success: [],
                 wallet_address: '',
-                systems: [
-                    { id: "0", text: "Payeer (0%)" },
-                    { id: "1", text: "Visa/Mastercard (" + this.$i18n.t('payout_soon') + ")", disabled: true },
-                    { id: "2", text: "AdvCash (" + this.$i18n.t('payout_soon') + ")", disabled: true },
-                    { id: "3", text: "Yandex (" + this.$i18n.t('payout_soon') + ")", disabled: true },
-                ],
+                systems: [],
             }
         },
         methods: {
@@ -343,12 +338,12 @@
                             }
                         },
                         {
-                            data: 'system_id',
-                            name: 'system_id',
+                            data: 'withdraw_system.text',
+                            name: 'withdraw_system.text',
                             orderable: false,
                             searchable: false,
                             render: function(data, type) {
-                                return '<div class="badge badge-primary">Payeer</div>';
+                                return '<div class="badge badge-primary">' + data + '</div>';
                             }
                         },
                         {
@@ -407,6 +402,12 @@
             }
         },
         mounted() {
+          let self = this;
+          axios.post('/data/getAllWithdrawSystems')
+              .then(function (response) {
+                self.systems = response.data;
+                self.system = 1;
+              });
             this.getAccountData();
             this.initDatatable();
         },
