@@ -30,9 +30,9 @@ class CreateDepositSystemsTable extends Migration
           $model->hidden = $hidden;
           $model->save();
         }
-        DepositSystem::where('id', 2)->update(['order', 1]);
-        DepositSystem::where('id', 1)->update(['order', 2]);
-        DepositSystem::where('id', 5)->update(['order', 3]);
+        DepositSystem::where('id', 2)->update(['order' => 1]);
+        DepositSystem::where('id', 1)->update(['order' => 2]);
+        DepositSystem::where('id', 5)->update(['order' => 3]);
     }
 
     /**
