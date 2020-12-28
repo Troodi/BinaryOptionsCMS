@@ -43,9 +43,10 @@ class DepositController extends Controller
     }
 
     public function yooMoneyProcess(Request $request){
+      $arr = null;
       parse_str($request->getContent(), $arr);
       $sha1 = sha1($arr['notification_type'].'&'.$arr['operation_id'].'&'.$arr['amount'].'&'.$arr['currency'].'&'.$arr['datetime'].'&'.$arr['sender'].'&'.$arr['codepro'].'&'.env('YOOMONEY_SECRET').'&'.$arr['label']);
-      if($sha1 == $arr['sha1_hash'] and $arr['codepro'] == false and $arr['unaccepted'] == false){
+      if($sha1 == $arr['sha1_hash'] and $arr['codepro'] == 'false' and $arr['unaccepted'] == 'false'){
         $this->processDeposit($arr['label']);
       } else {
         return 'Invalid cipher';
@@ -97,7 +98,7 @@ class DepositController extends Controller
         $amount = $rub;
         $message = urlencode('Deposit on getoption.pro for user: '.Auth::user()->email);
         $success_url = urlencode('https://getoption.pro/trading');
-        $yoo = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=".env('YOOMONEY_WALLET')."&quickpay-form=shop&targets=$message&sum=$amount&label=$orderId&successURL=$success_url")
+        $yoo = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=".env('YOOMONEY_WALLET')."&quickpay-form=shop&targets=$message&sum=$amount&label=$orderId&successURL=$success_url&paymentType=AC")
           ->get();
         $link = str_replace('Found. Redirecting to ', '', $yoo);
         return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link, 'timeout' => 3000], 200);
