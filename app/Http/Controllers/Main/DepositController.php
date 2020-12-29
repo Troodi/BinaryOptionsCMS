@@ -14,6 +14,7 @@ use App\Models\PromocodeHistory;
 use App\Models\Referral;
 use App\User;
 use Carbon\Carbon;
+use cryptonator\MerchantAPI;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,10 @@ class DepositController extends Controller
       } else {
         return 'Invalid cipher';
       }
+    }
+
+    public function cryptonatorProcess(Request $request){
+
     }
 
     public function startDeposit(Request $request){
@@ -94,7 +99,18 @@ class DepositController extends Controller
       $model->status = 0;
       $model->promocode_id = $promocode_id;
       $model->save();
-      if($request->system_id == 2) { // YooMoney
+      if($request->system_id == 3) { // Cryptonator
+        $cryptonator = new MerchantAPI(env('CRYPTONATOR_ID'), env('CRYPTONATOR_SECRET'));
+        $url = $cryptonator->startPayment(array(
+          'item_name'               => 'Deposit on getoption.pro',
+          'order_id'              => $model->id,
+          'item_description'      => 'Deposit on getoption.pro for user: '.Auth::user()->email,
+          'invoice_amount'          => 1,//$amount,
+          'invoice_currency'        => 'usd',
+          'language'              => 'en',
+        ));
+        return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $url, 'timeout' => 3000], 200);
+      } elseif($request->system_id == 2) { // YooMoney
         $orderId = $model->id;
         $amount = $rub;
         $message = urlencode('Deposit on getoption.pro for user: '.Auth::user()->email);
@@ -115,11 +131,12 @@ class DepositController extends Controller
           'email' => Auth::user()->email,
           'account' => Auth::user()->id,
           'expirationDateTime' => $lifetime,
+          'successUrl' => 'https://getoption.pro/trading',
           'customFields' => ['orderId' => $model->id],
         ];
         $response = $billPayments->createBill($billId, $fields);
         return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $response['payUrl'], 'timeout' => 3000], 200);
-      } elseif($request->system_id == 5) { //Free-Kassa
+      } elseif($request->system_id == 7) { //Free-Kassa
         $m_shop = env('FREE_KASSA_ID');
         $m_orderid = $model->id;
         $m_curr = 'USD';
@@ -138,7 +155,7 @@ class DepositController extends Controller
         $link_for_pay = "https://www.free-kassa.ru/merchant/cash.php?oa=$amount&o=$m_orderid&us_desc=$m_desc&s=$m_sign&m=$m_shop&lang=$lang";
         return response()->json(['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000], 200);
       }
-      elseif($request->system_id == 4) { //Payeer
+      elseif($request->system_id == 6) { //Payeer
         $m_shop = env('PAYEER_ID');
         $m_orderid = $model->id;
         $m_curr = 'USD';
