@@ -22,6 +22,7 @@ class VerifyCsrfToken extends Middleware
         '/event-twilio',
         '/payeer/*',
         '/qiwi/process',
-        '/yoomoney/process'
+        '/yoomoney/process',
+        '/cryptonator/process',
     ];
 }
