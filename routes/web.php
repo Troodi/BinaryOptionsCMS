@@ -23,6 +23,7 @@ Route::get('/payment-policy', 'Main\LandingController@paymentPage');
 Route::get('/responsibility-disclosure', 'Main\LandingController@responsibilityPage');
 Route::post('/qiwi/process', 'Main\DepositController@qiwiProcess');
 Route::post('/yoomoney/process', 'Main\DepositController@yooMoneyProcess');
+Route::post('/cryptonator/process', 'Main\DepositController@cryptonatorProcess');
 
 Route::post('/event-twilio', 'Main\ProfileController@phoneEvent');
 Route::get('/mp3', 'Main\ProfileController@playMP3');

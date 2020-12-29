@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "792517de315f706e124418d371423478",
+    "content-hash": "328628b5b044fabdddc4b3c203fa90c2",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -169,6 +169,44 @@
                 "math"
             ],
             "time": "2020-08-18T23:57:15+00:00"
+        },
+        {
+            "name": "cryptonator/merchant-php-sdk",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cryptonator/merchant-api-sdk-php.git",
+                "reference": "59c458c5bc883d53b93b826ea97cecbaba97fdf6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cryptonator/merchant-api-sdk-php/zipball/59c458c5bc883d53b93b826ea97cecbaba97fdf6",
+                "reference": "59c458c5bc883d53b93b826ea97cecbaba97fdf6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Cryptonator.com Merchant API SDK for PHP",
+            "keywords": [
+                "cryptonator",
+                "cryptonator.com",
+                "merchant",
+                "payment",
+                "php",
+                "sdk"
+            ],
+            "time": "2016-10-09T19:27:11+00:00"
         },
         {
             "name": "curl/curl",
