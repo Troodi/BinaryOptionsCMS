@@ -56,7 +56,14 @@ class DepositController extends Controller
     }
 
     public function cryptonatorProcess(Request $request){
-
+      $cryptonator = new MerchantAPI(env('CRYPTONATOR_ID'), env('CRYPTONATOR_SECRET'));
+      $array = null;
+      parse_str($request->getContent(), $array);
+      if($cryptonator->checkAnswer($array)){
+        $this->processDeposit($array['order_id']);
+      } else {
+        return 'Invalid cipher';
+      }
     }
 
     public function startDeposit(Request $request){
