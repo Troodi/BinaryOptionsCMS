@@ -4114,7 +4114,7 @@ __webpack_require__.r(__webpack_exports__);
     });
     axios.post('/data/getAllDepositSystems').then(function (response) {
       self.systems = response.data;
-      self.system = 2;
+      self.system = response.data[0].id;
     });
   },
   data: function data() {

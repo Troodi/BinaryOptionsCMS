@@ -112,24 +112,24 @@
 
                                         <div v-show="clickedAmount" class="row" :style="{ 'margin-top': '0.3rem !important'}">
                                             <div class="col-4 pr-0">
-                                                <button @click="setAmount(min)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min }}$</button>
+                                                <button @click="setAmount(min)" type="button" class="btn btn-outline-primary btn-sm w-100" style="padding-left: 3px;padding-right: 3px;">{{ min }}$</button>
                                             </div>
                                             <div class="col-4" style="padding-left:7.5px;padding-right:7.5px !important;">
-                                                <button @click="setAmount(min*2)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min * 2}}$</button>
+                                                <button @click="setAmount(min*2)" type="button" class="btn btn-outline-primary btn-sm w-100" style="padding-left: 3px;padding-right: 3px;">{{ min * 2}}$</button>
                                             </div>
                                             <div class="col-4 pl-0">
-                                                <button @click="setAmount(min*4)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min * 4}}$</button>
+                                                <button @click="setAmount(min*4)" type="button" class="btn btn-outline-primary btn-sm w-100" style="padding-left: 3px;padding-right: 3px;">{{ min * 4}}$</button>
                                             </div>
                                         </div>
                                         <div v-show="clickedAmount" class="row" :style="{ 'margin-top': '0.3rem !important'}">
                                             <div class="col-4 pr-0">
-                                                <button @click="setAmount(min*8)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min * 8 }}$</button>
+                                                <button @click="setAmount(min*8)" type="button" class="btn btn-outline-primary btn-sm w-100" style="padding-left: 3px;padding-right: 3px;">{{ min * 8 }}$</button>
                                             </div>
                                             <div class="col-4" style="padding-left:7.5px;padding-right:7.5px !important;">
-                                                <button @click="setAmount(min*16)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min * 16}}$</button>
+                                                <button @click="setAmount(min*16)" type="button" class="btn btn-outline-primary btn-sm w-100" style="padding-left: 3px;padding-right: 3px;">{{ min * 16}}$</button>
                                             </div>
                                             <div class="col-4 pl-0">
-                                                <button @click="setAmount(min*32)" type="button" class="btn btn-outline-primary btn-sm w-100">{{ min * 32}}$</button>
+                                                <button @click="setAmount(min*32)" type="button" class="btn btn-outline-primary btn-sm w-100" style="padding-left: 3px;padding-right: 3px;">{{ min * 32}}$</button>
                                             </div>
                                         </div>
                                         <div v-show="clickedAmount" class="row" :style="{ 'margin-top': '0.3rem !important'}">
