@@ -2543,6 +2543,9 @@ __webpack_require__.r(__webpack_exports__);
     window.removeEventListener("resize", this.myEventHandler);
   },
   methods: {
+    openUrl: function openUrl(url) {
+      window.open(url, '_blank');
+    },
     myEventHandler: function myEventHandler() {
       var selector = $('#connectUs');
 
@@ -2784,7 +2787,7 @@ __webpack_require__.r(__webpack_exports__);
     });
     axios.post('/data/getAllDepositSystems').then(function (response) {
       self.systems = response.data;
-      self.system = 2;
+      self.system = response.data[0].id;
     });
   },
   data: function data() {
@@ -125823,6 +125826,7 @@ var render = function() {
                       modifiers: { hover: true }
                     }
                   ],
+                  staticClass: "cursor-pointer",
                   staticStyle: { opacity: "0.8" },
                   attrs: {
                     title: _vm.$i18n.t("menu_telegram_channel"),
@@ -125830,6 +125834,11 @@ var render = function() {
                     viewBox: "0 0 100 100",
                     width: "50px",
                     height: "50px"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.openUrl("https://t.me/getoption")
+                    }
                   }
                 },
                 [
@@ -125919,6 +125928,7 @@ var render = function() {
                       modifiers: { hover: true }
                     }
                   ],
+                  staticClass: "cursor-pointer",
                   staticStyle: { "margin-left": "-10px", opacity: "0.8" },
                   attrs: {
                     title: _vm.$i18n.t("menu_facebook"),
@@ -125929,8 +125939,9 @@ var render = function() {
                   },
                   on: {
                     click: function($event) {
-                      _vm.window.location.href =
+                      return _vm.openUrl(
                         "https://www.facebook.com/getoptionpro"
+                      )
                     }
                   }
                 },
@@ -125993,6 +126004,7 @@ var render = function() {
                       modifiers: { hover: true }
                     }
                   ],
+                  staticClass: "cursor-pointer",
                   staticStyle: { "margin-left": "-10px", opacity: "0.8" },
                   attrs: {
                     title: _vm.$i18n.t("menu_contact_us"),
@@ -126000,6 +126012,11 @@ var render = function() {
                     viewBox: "0 0 100 100",
                     width: "50px",
                     height: "50px"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.openUrl("mailto:info@getoption.pro")
+                    }
                   }
                 },
                 [
@@ -126092,6 +126109,7 @@ var render = function() {
                       modifiers: { hover: true }
                     }
                   ],
+                  staticClass: "cursor-pointer",
                   staticStyle: { "margin-left": "-10px", opacity: "0.8" },
                   attrs: {
                     title: _vm.$i18n.t("menu_telegram_support"),
@@ -126101,6 +126119,11 @@ var render = function() {
                     height: "50px",
                     viewBox: "0 0 100 100",
                     version: "1.1"
+                  },
+                  on: {
+                    click: function($event) {
+                      return _vm.openUrl("https://t.me/GetOptionSupport")
+                    }
                   }
                 },
                 [
@@ -132135,6 +132158,10 @@ var render = function() {
                                 {
                                   staticClass:
                                     "btn btn-outline-primary btn-sm w-100",
+                                  staticStyle: {
+                                    "padding-left": "3px",
+                                    "padding-right": "3px"
+                                  },
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
@@ -132161,6 +132188,10 @@ var render = function() {
                                   {
                                     staticClass:
                                       "btn btn-outline-primary btn-sm w-100",
+                                    staticStyle: {
+                                      "padding-left": "3px",
+                                      "padding-right": "3px"
+                                    },
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
@@ -132179,6 +132210,10 @@ var render = function() {
                                 {
                                   staticClass:
                                     "btn btn-outline-primary btn-sm w-100",
+                                  staticStyle: {
+                                    "padding-left": "3px",
+                                    "padding-right": "3px"
+                                  },
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
@@ -132213,6 +132248,10 @@ var render = function() {
                                 {
                                   staticClass:
                                     "btn btn-outline-primary btn-sm w-100",
+                                  staticStyle: {
+                                    "padding-left": "3px",
+                                    "padding-right": "3px"
+                                  },
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
@@ -132239,6 +132278,10 @@ var render = function() {
                                   {
                                     staticClass:
                                       "btn btn-outline-primary btn-sm w-100",
+                                    staticStyle: {
+                                      "padding-left": "3px",
+                                      "padding-right": "3px"
+                                    },
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
@@ -132257,6 +132300,10 @@ var render = function() {
                                 {
                                   staticClass:
                                     "btn btn-outline-primary btn-sm w-100",
+                                  staticStyle: {
+                                    "padding-left": "3px",
+                                    "padding-right": "3px"
+                                  },
                                   attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
