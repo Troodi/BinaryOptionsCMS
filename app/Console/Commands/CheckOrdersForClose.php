@@ -74,23 +74,30 @@ class CheckOrdersForClose extends Command
       foreach($opened as $open){
         $open->delete();
         $closed_price_obj = Ticks::where('symbol_id', $open->symbol_id)
-          ->where('created_at', '<', Carbon::parse($open->closed_at)->format('Y-m-d H:i:s.u'))
+          ->where('created_at', '<', Carbon::parse($open->close_at)->format('Y-m-d H:i:s.u'))
           ->orderBy('created_at', 'desc')
           ->first();
         $profit = 0;
         $success = false;
         if(!isset($closed_price_obj) or !$closed_price_obj->count()){
+          $error = true;
           $closed_price = $open->open_price;
         } else {
+          $error = false;
           $closed_price = $closed_price_obj->price;
         }
         $current_market = $market->where('symbol_id', $open->symbol_id)->first();
-        if(((Carbon::now()->hour >= $closed_price_obj->work_to or Carbon::now()->hour < $closed_price_obj->work_from) and ($closed_price_obj->work_from != $closed_price_obj->work_to)) or !Cache::has('latest_websocket_update') or time() - 5 > Cache::get('latest_websocket_update') or $closed_price == -1 or !isset($current_market) or !$current_market->count() or $current_market->market_status != 'market'){ // Проверка на закрытие рынка на момент закрытия сделки
+        if($error){ // Проверка есть ли вообще котировка для данного символа, если послдняя котировка позже, даты закрытия
           $closed_price = $open->open_price;
           $profit = $open->amount;
           $success = true;
         }
-        elseif($closed_price == $open->open_price){
+        elseif(((Carbon::now()->hour >= $closed_price_obj->work_to or Carbon::now()->hour < $closed_price_obj->work_from) and ($closed_price_obj->work_from != $closed_price_obj->work_to)) or !Cache::has('latest_websocket_update') or time() - 5 > Cache::get('latest_websocket_update') or $closed_price == -1 or !isset($current_market) or !$current_market->count() or $current_market->market_status != 'market'){ // Проверка на закрытие рынка на момент закрытия сделки
+          $closed_price = $open->open_price;
+          $profit = $open->amount;
+          $success = true;
+        }
+        elseif($closed_price == $open->open_price){ // Если цена закрытия равна цене открытия
           $profit = $open->amount;
           $success = true;
         }
