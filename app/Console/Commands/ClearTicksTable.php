@@ -45,7 +45,7 @@ class ClearTicksTable extends Command
         if($count){
           $first = Ticks::where('symbol_id', $symbol->id)->latest()->first();
           if(!$first){
-            return 0;
+            continue;
           }
           $id = $first->id;
           Ticks::where('symbol_id', $symbol->id)

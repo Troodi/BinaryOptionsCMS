@@ -73,6 +73,10 @@ class DepositController extends Controller
       ]);
       $promocode_request = intval($request->promocode);
       $amount = number_format($request->amount, 2, '.', '');
+      $max = DepositSystem::where('id', $request->system_id)->first()->max;
+      if($amount > $max){
+        return response()->json(['success' => false, 'message' => __('locale.deposit_max_amount').' '.$max.'$'], 200);
+      }
       $promocode_id = null;
       if($promocode_request) {
         $promocode = Promocode::where('id', $promocode_request)->first();
@@ -112,7 +116,7 @@ class DepositController extends Controller
           'item_name'               => 'Deposit on getoption.pro',
           'order_id'              => $model->id,
           'item_description'      => 'Deposit on getoption.pro for user: '.Auth::user()->email,
-          'invoice_amount'          => 1,//$amount,
+          'invoice_amount'          => $amount,
           'invoice_currency'        => 'usd',
           'language'              => 'en',
         ));

@@ -95,7 +95,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 pt-2">
-                                                    <button v-bind:disabled="isAdmin" @click="proccess" type="button" class="btn btn-outline-secondary mr-1 mb-1">{{ $i18n.t('deposit_continue') }}</button>
+                                                    <button v-show="depositLoaded" v-bind:disabled="isAdmin" @click="proccess" type="button" class="btn btn-outline-secondary mr-1 mb-1">{{ $i18n.t('deposit_continue') }}</button>
+                                                    <button v-show="!depositLoaded" v-bind:disabled="true" @click="proccess" type="button" class="btn btn-outline-secondary mr-1 mb-1"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> {{ $i18n.t('deposit_continue') }}</button>
                                                 </div>
                                                 <div class="col-md-6 pt-2 text-right align-bottom">
                                                     <p style="padding-top:10px;">
@@ -175,6 +176,7 @@
         },
         data: function () {
             return {
+                depositLoaded: true,
                 bonus: [],
                 bonus_id: 500,
                 amount: '500',
@@ -190,6 +192,7 @@
         },
         methods: {
             setBonusId: function (id) {
+                this.use_promocode = true;
                 this.bonus_id = id;
                 this.promocode = this.bonus.find(item => item.min_amount == id).code;
                 this.prev_promocode = this.promocode;
@@ -226,6 +229,7 @@
               let self = this;
               this.errors = [];
               this.success = [];
+              this.depositLoaded = false;
               axios.post('/data/deposit', { amount: self.numericAmount, promocode: self.selected_promocode, system_id: this.system})
                   .then(function (response) {
                     if(response.data.success === true) {
@@ -234,9 +238,10 @@
                         containerId: 'toast-bottom-left'
                       });
                       self.$refs.datatables.updateDatatables();
-                      setTimeout(() => { window.location.href = response.data.link; }, response.data.timeout);
+                      setTimeout(() => { window.location.href = response.data.link; self.depositLoaded = true; }, response.data.timeout);
                     } else {
                       self.errors.push(response.data.message);
+                      self.depositLoaded = true;
                     }
                   })
             }

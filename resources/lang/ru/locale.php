@@ -592,6 +592,7 @@ return [
   "deposit_from_amount" => "Данный промокод доступен только от суммы",
   "deposit_deposit_on_site" => "Пополнение счета на сайте",
   "deposit_link" => "Ссылка на оплату успешно сгенерирована, сейчас вы будете перенаправлены на сайт платежной системы",
+  "deposit_max_amount" => "Сумма для данной платежной системы не может быть более",
 
   //Партнерский контроллер
   "partner_updated" => "Информация успешно обновлена!",
@@ -725,5 +726,36 @@ return [
   "reset_sign_up" => "Регистрация",
   "reset_remember" => "Вспомнили данные?",
   "reset_sign_in" => "Войти",
+
+  //Письма верификации
+  'admin_verify_document' => 'Документ №:page прошел проверку" : "Документ №:page не прошел проверку',
+  'admin_verify_document_status' => 'Статус проверки документа',
+  'admin_verify_approved' => 'Поздравляем! Ваш документ был проверен и подтвержден',
+  'admin_verify_decline' => 'К сожалению, документ не прошел проверку',
+  'admin_verify_go_cabinet' => 'Перейти в кабинет',
+  'admin_verify_document_approved' => 'Документ №:page прошел проверку" : "Документ №:page не прошел проверку',
+  'admin_verify_action_successful' => 'Действие выполнено успешно!',
+  'admin_verify_verified' => 'Аккаунт верифицирован',
+  'admin_verify_now_verified' => 'Теперь у вас подтвержденный аккаунт',
+  'admin_verify_successful_verified' => 'Поздравляем! Ваши данные были проверены и успешно подтверждены.',
+  'admin_verify_user_verified' => 'Пользователь успешно верифицирован!',
+  'admin_verify_not_verified' => 'Аккаунт не верифицирован',
+  'admin_verify_now_not_verified' => 'Теперь у вас не подтвержденный аккаунт',
+  'admin_verify_take_off_verify' => 'К сожалению, мы сняли верификацию с Вашего аккаута.',
+  'admin_verify_taken_off_verify' => 'У пользователя снята верификация!',
+
+  //Письма выплаты
+  'admin_withdraw_already_processed' => 'Заявка уже была обработана!',
+  'admin_withdraw_cause' => 'Причина',
+  'admin_withdraw_cause_decline' => 'Причина отклонения не была указана',
+  'admin_withdraw_declined' => 'Выплата отклонена',
+  'admin_withdraw_not_implemented' => 'Вывод средств не был осуществлен',
+  'admin_withdraw_not_implemented_mail' => 'К сожалению, выплата не произведена.',
+  'admin_withdraw_go_cabinet' => 'Перейти в кабинет',
+  'admin_withdraw_application_declined' => 'Заявка на выплату была отклонена!',
+  'admin_withdraw_success' => 'Средства успешно выплачены',
+  'admin_withdraw_payment_made' => 'Выплата произведена',
+  'admin_withdraw_congratulations' => 'Поздравляем! Вам была произведена выплата.',
+  'admin_withdraw_application_processed' => 'Заявка успешно обработана!',
 ];
 ?>

@@ -717,6 +717,18 @@
                                 self.additionalDocumentLoading = false;
                             }
                         }
+                    }).catch(function(error){
+                      self.fileError = error.response.data.errors.file;
+                      if(page === '1'){
+                        self.document_first_page = null;
+                        self.firstDocumentLoading = false;
+                      } else if (page === '2') {
+                        self.document_second_page = null;
+                        self.secondDocumentLoading = false;
+                      } else if (page === '3') {
+                        self.document_additional = null;
+                        self.additionalDocumentLoading = false;
+                      }
                     });
             },
             firstUpload: function(event){
