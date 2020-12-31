@@ -9,6 +9,7 @@
   <link rel="shortcut icon" type="image/png" href="{{asset('images/logo/icon.png')}}">
   <link href="/templates/landing/assets/css/theme-plugin.css" rel="stylesheet" />
   <link href="/templates/landing/assets/css/theme.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
 
 <body>
@@ -55,7 +56,10 @@
 
 <script src="/templates/landing/assets/js/theme-plugin.js"></script>
 <script src="/templates/landing/assets/js/theme-script.js"></script>
-
+<script src="https://wowjs.uk/dist/wow.min.js"></script>
+<script>
+  new WOW().init();
+</script>
 <!-- inject js end -->
 
 </body>

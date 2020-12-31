@@ -6,18 +6,18 @@
     <div class="row justify-content-center text-center">
       <div class="col-12 col-lg-10 col-xl-8">
         <!-- Heading -->
-        <h1 class="display-4 text-white font-weight-bold">
+        <h1 class="display-4 text-white font-weight-bold wow pulse">
           @lang('locale.landing_new_platform')
         </h1>
         <!-- Text -->
-        <p class="lead text-light mb-5">@lang('locale.landing_many_instruments')</p>
-        <!-- Buttons --> <a href="/register" class="btn btn-primary mr-1">
+        <p class="lead text-light mb-5 wow flipInX">@lang('locale.landing_many_instruments')</p>
+        <!-- Buttons --> <a href="/register" class="btn btn-primary mr-1 wow bounceInLeft">
           @lang('locale.landing_create_account')
         </a>
-        <a href="/login" class="btn btn-light">
+        <a href="/login" class="btn btn-light wow bounceInRight">
           @lang('locale.landing_auth')
         </a>
-        <p class="lead text-light mt-5" style="font-size:1.4em;font-weight: 700">@lang('locale.landing_register') <strong>10$</strong> @lang('locale.landing_for_trade')</p>
+        <p class="lead text-light mt-5 wow shake" style="font-size:1.4em;font-weight: 700">@lang('locale.landing_register') <strong>10$</strong> @lang('locale.landing_for_trade')</p>
       </div>
     </div>
     <!-- / .row -->
@@ -44,17 +44,17 @@
   <div class="container">
     <div class="row justify-content-center text-center">
       <div class="col-12 col-md-12 col-lg-8 mb-8 mb-lg-0">
-        <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6">
+        <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6 wow bounceInDown">
               @lang('locale.landing_what_we_offer')
           </span>
-          <h2 class="mt-3 font-w-5">@lang('locale.landing_necessary_conditions')</h2>
-          <p class="lead mb-0">@lang('locale.landing_our_platform')</p>
+          <h2 class="mt-3 font-w-5 wow pulse">@lang('locale.landing_necessary_conditions')</h2>
+          <p class="lead mb-0 wow shake">@lang('locale.landing_our_platform')</p>
         </div>
       </div>
     </div>
     <!-- / .row -->
     <div class="row align-items-center">
-      <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0">
+      <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0 wow slideInLeft">
         <div class="card d-flex flex-column" style="background-color: black;border-radius: 20px;">
           <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="/templates/landing/assets/images/about/first.png" alt="Card image">
           <div class="card-img-overlay p-0">
@@ -67,7 +67,7 @@
         </div>
       </div>
 
-      <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0">
+      <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0 wow pulse">
         <div class="card d-flex flex-column" style="background-color: black;border-radius: 20px;">
           <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="/templates/landing/assets/images/about/second.png" alt="Card image">
           <div class="card-img-overlay p-0">
@@ -80,7 +80,7 @@
         </div>
       </div>
 
-      <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0">
+      <div class="col-xl-4 col-lg-4 mb-8 mb-lg-0 wow slideInRight">
         <div class="card d-flex flex-column" style="background-color: black;border-radius: 20px;">
           <img class="card-img-top" style="width: 100%;height: 450px;object-fit: cover;opacity: 0.6;border-radius: 15px;" src="/templates/landing/assets/images/about/third.png" alt="Card image">
           <div class="card-img-overlay p-0">
@@ -104,10 +104,10 @@
 <section>
   <div class="container">
     <div class="row align-items-center justify-content-between">
-      <div class="col-12 col-lg-6 mb-8 mb-lg-0">
+      <div class="col-12 col-lg-6 mb-8 mb-lg-0 wow slideInLeft">
         <img src="/templates/landing/assets/images/about/05.png" alt="Image" class="img-fluid">
       </div>
-      <div class="col-12 col-lg-6 col-xl-5">
+      <div class="col-12 col-lg-6 col-xl-5 wow slideInRight">
         <div> <span class="badge badge-primary-soft p-2 font-w-6">
               @lang('locale.landing_our_stat')
           </span>
@@ -148,19 +148,19 @@
   <div class="container">
     <div class="row justify-content-center text-center">
       <div class="col-12 col-md-12 col-lg-8 mb-8 mb-lg-0">
-        <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6">
+        <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6 wow bounceInDown">
               @lang('locale.landing_how_to_start')
           </span>
-          <h2 class="mt-3 font-w-5 mb-0 text-white">@lang('locale.landing_three_stages')</h2>
+          <h2 class="mt-3 font-w-5 mb-0 text-white wow pulse">@lang('locale.landing_three_stages')</h2>
         </div>
       </div>
     </div>
     <!-- / .row -->
     <div class="row align-items-center justify-content-between mb-10">
-      <div class="col-12 col-lg-6 mb-6 mb-lg-0">
+      <div class="col-12 col-lg-6 mb-6 mb-lg-0 wow slideInLeft">
         <img src="/templates/landing/assets/images/new/idea.png" alt="Image" class="img-fluid pt-5">
       </div>
-      <div class="col-12 col-lg-6 col-xl-5">
+      <div class="col-12 col-lg-6 col-xl-5 wow slideInRight">
         <div>
           <h2> <span class="badge badge-primary-soft p-2">
               01
@@ -172,10 +172,10 @@
       </div>
     </div>
     <div class="row align-items-center justify-content-between mb-10">
-      <div class="col-12 col-lg-6 order-lg-1 mb-6 mb-lg-0">
+      <div class="col-12 col-lg-6 order-lg-1 mb-6 mb-lg-0 wow slideInRight">
         <img src="/templates/landing/assets/images/new/idea2.png" alt="Image" class="img-fluid pl-5">
       </div>
-      <div class="col-12 col-lg-6 col-xl-5">
+      <div class="col-12 col-lg-6 col-xl-5 wow slideInLeft">
         <div>
           <h2> <span class="badge badge-primary-soft p-2">
               02
@@ -187,10 +187,10 @@
       </div>
     </div>
     <div class="row align-items-center justify-content-between">
-      <div class="col-12 col-lg-6 mb-6 mb-lg-0">
+      <div class="col-12 col-lg-6 mb-6 mb-lg-0 wow slideInLeft">
         <img src="/templates/landing/assets/images/new/idea3.png" alt="Image" class="img-fluid зе-5">
       </div>
-      <div class="col-12 col-lg-6 col-xl-5">
+      <div class="col-12 col-lg-6 col-xl-5 wow slideInRight">
         <div>
           <h2> <span class="badge badge-primary-soft p-2">
               03
@@ -222,17 +222,17 @@
   <div class="container">
     <div class="row justify-content-center text-center">
       <div class="col-12 col-md-12 col-lg-8 mb-8 mb-lg-0">
-        <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6">
+        <div class="mb-8"> <span class="badge badge-primary-soft p-2 font-w-6 wow bounceInDown">
               @lang('locale.landing_offers')
           </span>
-          <h2 class="mt-3 font-w-5">@lang('locale.landing_our_discounts')</h2>
-          <p class="lead mb-0">@lang('locale.landing_we_try')</p>
+          <h2 class="mt-3 font-w-5 wow pulse">@lang('locale.landing_our_discounts')</h2>
+          <p class="lead mb-0 wow flipInX">@lang('locale.landing_we_try')</p>
         </div>
       </div>
     </div>
     <!-- / .row -->
     <div class="row">
-      <div class="col-12 col-lg-6 mb-8 mb-lg-0">
+      <div class="col-12 col-lg-6 mb-8 mb-lg-0 wow slideInLeft">
         <!-- Blog Card -->
         <div class="card border-0 shadow">
           <div class="position-absolute bg-white shadow-primary text-center p-2 rounded ml-3 mt-3 z-index-1">10
@@ -254,7 +254,7 @@
         </div>
         <!-- End Blog Card -->
       </div>
-      <div class="col-12 col-lg-6 mb-8 mb-lg-0">
+      <div class="col-12 col-lg-6 mb-8 mb-lg-0 wow slideInRight">
         <!-- Blog Card -->
         <div class="card border-0 shadow">
           <div class="position-absolute bg-white shadow-primary text-center p-2 rounded ml-3 mt-3 z-index-1">50
