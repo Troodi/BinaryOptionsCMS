@@ -23,8 +23,7 @@ class SymbolsHistoryController extends Controller
             $symbol->percent = 0;
           } elseif (!Ticks::where('symbol_id', $symbol->id)->orderBy('id', 'desc')->first()){
             $symbol->percent = 0;
-          }
-          if($symbol->status == 0){
+          } elseif($symbol->status == 0){
             $symbol->percent = 0;
           }
           return $symbol;
