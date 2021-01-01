@@ -35,7 +35,7 @@
   "header_hours": "Часа",
   "header_minutes": "Минут",
   "header_seconds": "Секунд",
-  "header_deposit_sub_desc": "Пополните сейчас, чтобы успеть использовать промокод <code>START50BONUS</code> и начать уверенно торговать!",
+  "header_deposit_sub_desc": "Пополните сейчас, чтобы успеть использовать промокод %{code} и начать уверенно торговать!",
   "header_withdrawal": "Вывести",
   "header_deposit_balance": "Пополнить баланс",
   "header_success": "Успешно!",

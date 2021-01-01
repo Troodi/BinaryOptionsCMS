@@ -35,7 +35,7 @@
   "header_hours": "Hours",
   "header_minutes": "Minutes",
   "header_seconds": "Seconds",
-  "header_deposit_sub_desc": "Deposit now to be able to use the promo code <code> START50BONUS </code> and start trading with confidence!",
+  "header_deposit_sub_desc": "Deposit now to be able to use the promo code %{code} and start trading with confidence!",
   "header_withdrawal": "Withdrawal",
   "header_deposit_balance": "Deposit balance",
   "header_success": "Success!",
