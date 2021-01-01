@@ -131,9 +131,7 @@
                   </div>
                 </template>
               </vue-countdown-timer>
-              <div class="text-center">
-                {{ $i18n.t('header_deposit_sub_desc') }}
-              </div>
+              <div class="text-center" v-html="$i18n.t('header_deposit_sub_desc', { code: '<code>START50BONUS</code>' })"></div>
             </div>
           </div>
           <div class="modal-footer">
