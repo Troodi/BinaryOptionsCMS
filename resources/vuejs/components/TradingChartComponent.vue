@@ -23,8 +23,8 @@
                     symbol = localStorage.getItem('symbol_full');
                     tabSymbol = localStorage.getItem('symbol_short');
                 } else {
-                    symbol = 'Binary:EUR/USD';
-                    tabSymbol = 'EUR/USD';
+                    symbol = 'Binary:BTC/USDT';
+                    tabSymbol = 'BTC/USDT';
                 }
                 if(localStorage.getItem('resolution')){
                     resolution = localStorage.getItem('resolution');
