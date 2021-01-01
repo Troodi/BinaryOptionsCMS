@@ -117,8 +117,10 @@ class InstallCommand extends Command
         $model->symbol = $exploded[1];
         $model->type = 1;
         $model->broker = $exploded[0];
-        $model->min_percent = $symbol[1];
-        $model->percent = 85;
+        $model->min_percent = 65;
+        $model->percent = $symbol[1];
+        $model->fixed_percent = $symbol[1];
+        $model->max_percent = $symbol[1];
         $model->work_to = $symbol[2];
         $model->work_from = $symbol[3];
         $model->status = $symbol[4];
