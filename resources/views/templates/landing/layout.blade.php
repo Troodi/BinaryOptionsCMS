@@ -61,7 +61,7 @@
   new WOW().init();
 </script>
 <!-- inject js end -->
-
+@include('panels.counter')
 </body>
 
 </html>
