@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 class SymbolsHistoryController extends Controller
 {
     public function getExchanges(Request $request){
-      $value = Cache::remember('symbols_all', 60, function () {
+      $value = Cache::remember('symbols_all', 15, function () {
         $symbols = Symbol::orderBy('percent', 'desc')->get()->map(function($symbol) {
           $market = MarketStatus::where('symbol_id', $symbol->id);
           if((Carbon::now()->hour >= $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
