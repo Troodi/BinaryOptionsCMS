@@ -10,10 +10,10 @@
       <div class="col-12 col-lg-5 col-xl-4 mr-auto mb-6 mb-lg-0 wow slideInLeft">
         <div class="subscribe-form bg-warning-soft p-5 rounded" @if(Request::is('/')) style="background-color: rgba(146, 146, 146, 0.1) !important" @endif>
           <h5 class="mb-4 text-white">@lang('locale.landing_contacts')</h5>
-          <p class="text-white"><strong>@lang('locale.landing_phone'):</strong> +7 999 676 26 3O</p>
+{{--          <p class="text-white"><strong>@lang('locale.landing_phone'):</strong> +7 999 676 26 3O</p>--}}
           <p class="text-white"><strong>Email:</strong> info@getoption.pro</p>
           <p class="text-white"><strong>Telegram:</strong> @getoptionpro</p>
-          <p class="text-white"><strong>@lang('locale.landing_inn'):</strong> 773578793916</p>
+{{--          <p class="text-white"><strong>@lang('locale.landing_inn'):</strong> 773578793916</p>--}}
         </div>
       </div>
       <div class="col-12 col-lg-6 col-xl-7">
