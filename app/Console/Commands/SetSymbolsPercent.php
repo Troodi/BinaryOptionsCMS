@@ -53,11 +53,11 @@ class SetSymbolsPercent extends Command
         if($count >= 10){
           $profit_count = $stat->where('profit', '>', 'amount')->count();
           $percent = intval(130 - ($profit_count / $count * 100)); // 130 т.к. на 30 процентов будет повышена доходность, чтобы не была слишком низкой
-          if($percent < 25){
-            $percent = 25;
+          if($percent < $symbol->min_percent){
+            $percent = $symbol->min_percent;
           }
-          elseif($percent > 85){
-            $percent = 85;
+          elseif($percent > $symbol->max_percent){
+            $percent = $symbol->max_percent;
           }
           Symbol::where('id', $symbol->id)->update(['percent' => $percent]);
         } else {
