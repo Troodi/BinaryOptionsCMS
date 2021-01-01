@@ -127,7 +127,7 @@ class InstallCommand extends Command
       $model = new Promocode;
       $model->description = 'Бездепозитный бонус 10$ для новых клиентов. Для того чтобы вывести бонус его необходимо отработать, для этого необходимо сделать торговый оборот, то есть общую сумму сделок 500$ (например 500 сделок по 1 доллару).';
       $model->code = 'GIVEME10DOLLARS';
-      $model->image = '/images/backgrounds/promocode_first.jpg';
+      $model->image = '/images/promocode_first.jpg';
       $model->public_code = 1;
       $model->used = 0;
       $model->for_new = 1;
@@ -142,7 +142,7 @@ class InstallCommand extends Command
       $model = new Promocode;
       $model->description = 'Бездепозитный бонус 5$ для новых клиентов. Для того чтобы вывести бонус его необходимо отработать, для этого необходимо сделать торговый оборот, то есть общую сумму сделок 250$ (например 250 сделок по 1 доллару).';
       $model->code = 'GIVEME5DOLLARS';
-      $model->image = '/images/backgrounds/promocode_second.jpg';
+      $model->image = '/images/promocode_second.jpg';
       $model->public_code = 1;
       $model->used = 0;
       $model->for_new = 1;
