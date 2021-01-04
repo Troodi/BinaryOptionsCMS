@@ -26,7 +26,7 @@ class StatisticsController extends Controller
         'deals' => DB::table('order_history_1')->count(),
         'turnover' => DB::table('order_history_1')->sum('amount'),
         'bonus' => User::sum('bonus'),
-        'clear_balance' => User::sum('balance') - User::sum('bonus'),
+        'clear_balance' => number_format(User::sum('balance') - User::sum('bonus'), 2),
         'total_profit_count' => $clear_profit->count(),
         'total_loss_count' => DB::table('order_history_1')->where('profit', 0)->count(),
       ];
