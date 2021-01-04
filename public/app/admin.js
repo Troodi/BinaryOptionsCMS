@@ -2934,7 +2934,7 @@ __webpack_require__.r(__webpack_exports__);
       "iDisplayLength": 10,
       "processing": true,
       "serverSide": true,
-      "order": [[0, "asc"]],
+      "order": [[0, "desc"]],
       "drawCallback": function drawCallback() {
         $('[data-toggle="popover"]').popover({
           html: true

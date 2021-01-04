@@ -131330,9 +131330,11 @@ var render = function() {
                         _vm._v(_vm._s(_vm.$i18n.t("support_email")))
                       ]),
                       _vm._v(": "),
-                      _c("a", { attrs: { href: "mailto:info@go-trade.xyz" } }, [
-                        _vm._v("info@go-trade.xyz")
-                      ])
+                      _c(
+                        "a",
+                        { attrs: { href: "mailto:info@getoption.pro" } },
+                        [_vm._v("info@getoption.pro")]
+                      )
                     ]),
                     _vm._v(" "),
                     _c("p", [
