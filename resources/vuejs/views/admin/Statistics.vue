@@ -312,7 +312,7 @@ export default {
       "iDisplayLength": 10,
       "processing": true,
       "serverSide": true,
-      "order": [[0, "asc"]],
+      "order": [[0, "desc"]],
       "drawCallback": function() {
         $('[data-toggle="popover"]').popover({ html : true });
         $('.router-push').on('click', function (){
