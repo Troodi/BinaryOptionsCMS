@@ -122,3 +122,6 @@ public function GetLicenseInfo($Module = 'System')
 
 ##Настройка twilio
 Необходимо включить интерналионализацию: https://www.twilio.com/console/voice/calls/geo-permissions/low-risk
+
+##Реклама проекта
+1. UTM метка для источника: `?utm_adv={source}`

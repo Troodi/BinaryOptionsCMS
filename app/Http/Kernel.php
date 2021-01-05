@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\Cheat;
+use App\Http\Middleware\GetReferer;
 use App\Http\Middleware\Locale;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -72,6 +73,7 @@ class Kernel extends HttpKernel
         'cheat' => Cheat::class,
         'locale' => Locale::class,
         'admin' => Admin::class,
+        'referer' => GetReferer::class,
     ];
 
     /**
