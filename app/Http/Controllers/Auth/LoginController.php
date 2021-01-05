@@ -36,7 +36,7 @@ class LoginController extends Controller
       if(Auth::check() and Role::where('user_id', Auth::user()->id)->where('role', 1)->count()){
         return '/admin';
       }
-      return '/admin';
+      return $this->redirectTo;
     }
 
     protected function validateLogin(Request $request)
