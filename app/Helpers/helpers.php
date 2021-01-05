@@ -4,6 +4,7 @@ use App\Models\Profile;
 use App\Models\Referral;
 use App\Models\Role;
 use App\User;
+use App\UserFields;
 use Dirape\Token\Token;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
@@ -62,6 +63,9 @@ class Helper
 
     $profile = new Profile();
     $profile->user_id = $create->id;
+    if(request()->cookie('http_referer')){
+      $profile->http_referer = request()->cookie('http_referer');
+    }
     $profile->save();
 
     $referral = new Referral();

@@ -11,16 +11,19 @@
 */
 Auth::routes();
 
-Route::get('/', 'Main\LandingController@homePage');
+Route::middleware(['referer'])->group(function () {
+  Route::get('/', 'Main\LandingController@homePage');
+  Route::get('/terms', 'Main\LandingController@termsPage');
+  Route::get('/contacts', 'Main\LandingController@contactsPage');
+  Route::get('/privacy-policy', 'Main\LandingController@privacyPage');
+  Route::get('/aml-policy', 'Main\LandingController@amlPage');
+  Route::get('/payment-policy', 'Main\LandingController@paymentPage');
+  Route::get('/responsibility-disclosure', 'Main\LandingController@responsibilityPage');
+});
+
 Route::get('login/{provider}', 'Main\SocialController@redirect');
 Route::get('lang/{lang}', 'Main\LocalizationController@setLang');
 Route::get('login/{provider}/callback','Main\SocialController@Callback');
-Route::get('/terms', 'Main\LandingController@termsPage');
-Route::get('/contacts', 'Main\LandingController@contactsPage');
-Route::get('/privacy-policy', 'Main\LandingController@privacyPage');
-Route::get('/aml-policy', 'Main\LandingController@amlPage');
-Route::get('/payment-policy', 'Main\LandingController@paymentPage');
-Route::get('/responsibility-disclosure', 'Main\LandingController@responsibilityPage');
 Route::post('/qiwi/process', 'Main\DepositController@qiwiProcess');
 Route::post('/yoomoney/process', 'Main\DepositController@yooMoneyProcess');
 Route::post('/cryptonator/process', 'Main\DepositController@cryptonatorProcess');
