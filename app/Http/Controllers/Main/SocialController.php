@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Main;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\UserProvider;
 use App\Providers\RouteServiceProvider;
 use App\User;
@@ -43,7 +44,11 @@ class SocialController extends Controller
         $model->save();
         Auth::loginUsingId($user_id);
       }
-      return redirect(RouteServiceProvider::HOME);
+      $redirect = RouteServiceProvider::HOME;
+      if(Auth::check() and Role::where('user_id', Auth::user()->id)->where('role', 1)->count()) {
+        $redirect = '/admin';
+      }
+      return redirect($redirect);
     } else {
       if (!$model->count()) { // Если есть такой пользователь
         $model = new UserProvider;
