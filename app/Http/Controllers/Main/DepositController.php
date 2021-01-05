@@ -242,6 +242,7 @@ class DepositController extends Controller
       $deposit = Deposit::where('id', $orderId)->where('status', 0)->first();
       if($deposit){
         Deposit::where('id', $orderId)->where('status', 0)->update(['status' => 1]);
+        $user = User::where('id', $deposit->user_id)->first();
         if($deposit->promocode_id){
           $promocode = Promocode::where('id', $deposit->promocode_id)->first();
           $bonus_amount = ($deposit->amount * $promocode->bonus_size / 100);
@@ -253,12 +254,11 @@ class DepositController extends Controller
             'all_turnover' => DB::raw("all_turnover+$turnover"),
             'left_turnover' => DB::raw("left_turnover+$turnover"),
           ]);
-          broadcast(new ChangeBalance(Auth::user()->balance+$amount_with_promocode, Auth::user()));
+          broadcast(new ChangeBalance($user->balance+$amount_with_promocode, Auth::user()));
         } else {
           User::where('id', $deposit->user_id)->update(['balance' => DB::raw("balance+$deposit->amount")]);
-          broadcast(new ChangeBalance(Auth::user()->balance+$deposit->amount, Auth::user()));
+          broadcast(new ChangeBalance($user->balance+$deposit->amount, Auth::user()));
         }
-        $user = User::where('id', $deposit->user_id)->first();
         if($user->referer_id) {
           if(User::where('id', $user->referer_id)->first()->partner_status){
             $amount_percent = $deposit->amount * 0.1;
