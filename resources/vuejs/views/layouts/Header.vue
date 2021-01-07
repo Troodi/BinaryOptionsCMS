@@ -226,6 +226,9 @@
       },
       computed: {
         getLangCookie: function(){
+          if(getCookie('currentLanguage') == undefined){
+            return 'us';
+          }
           if(getCookie('currentLanguage') === 'en'){
             return 'us';
           }
