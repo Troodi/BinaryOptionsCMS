@@ -235,6 +235,9 @@
           return getCookie('currentLanguage');
         },
         getLangText: function (){
+          if(getCookie('currentLanguage') == undefined){
+            return 'English';
+          }
           if(getCookie('currentLanguage') === 'en'){
             return 'English';
           }
