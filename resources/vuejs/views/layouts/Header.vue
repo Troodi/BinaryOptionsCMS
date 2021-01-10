@@ -226,22 +226,16 @@
       },
       computed: {
         getLangCookie: function(){
-          if(getCookie('currentLanguage') == undefined){
+          if(this.$i18n.locale === 'en'){
             return 'us';
           }
-          if(getCookie('currentLanguage') === 'en'){
-            return 'us';
-          }
-          return getCookie('currentLanguage');
+          return this.$i18n.locale;
         },
         getLangText: function (){
-          if(getCookie('currentLanguage') == undefined){
+          if(this.$i18n.locale === 'en'){
             return 'English';
           }
-          if(getCookie('currentLanguage') === 'en'){
-            return 'English';
-          }
-          if(getCookie('currentLanguage') === 'ru'){
+          if(this.$i18n.locale === 'ru'){
             return 'Русский';
           }
         }
