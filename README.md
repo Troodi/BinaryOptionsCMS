@@ -32,7 +32,7 @@ location / {
 2. URL неуспешной оплаты: `/payeer/fail`
 3. URL обработчика: `/payeer/status`
 
-##Настройки киви /qiwi/process
+##Настройки киви
 1. Переходим на `https://p2p.qiwi.com/`
 2. После авторизации на `https://qiwi.com/p2p-admin/transfers/api`
 3. Нажимаем внизу "Создать пару ключей и настроить"
