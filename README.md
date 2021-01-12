@@ -32,6 +32,13 @@ location / {
 2. URL неуспешной оплаты: `/payeer/fail`
 3. URL обработчика: `/payeer/status`
 
+##Настройки киви /qiwi/process
+1. Переходим на `https://p2p.qiwi.com/`
+2. После авторизации на `https://qiwi.com/p2p-admin/transfers/api`
+3. Нажимаем внизу "Создать пару ключей и настроить"
+4. Заполняем в .env `QIWI_KEY` и `QIWI_SECRET`
+5. Устанавливаем серверные уведомления на `/qiwi/process`
+
 ##Настройка supervisor
 Путь: `/etc/supervisor/conf.d/tradingview.conf` - парсинг котировок
 ```shell
