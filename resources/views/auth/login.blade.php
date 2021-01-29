@@ -32,7 +32,7 @@
           <div class="card disable-rounded-right mb-0 p-2 h-100 d-flex justify-content-center">
             <div class="card-header pb-1">
               <div class="card-title text-center">
-                <img src="/images/logo/logo4.png" class="mb-2"/>
+                <img src="{{ config('app.logo_url_auth') }}" class="mb-2"/>
               </div>
             </div>
             <div class="card-content">

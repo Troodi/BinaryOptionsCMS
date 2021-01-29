@@ -104,6 +104,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get("image/{file}", 'Main\FileController@showImage');
     Route::prefix('data')->group(function () {
+      Route::post('settings', 'Admin\SettingsController@getAllSettings');
       Route::post("statistics", 'Admin\StatisticsController@getShortStatistics');
       Route::post("userinfo/{id}", 'Admin\UserController@getUser');
       Route::post("users", 'Admin\StatisticsController@getAllUsers');

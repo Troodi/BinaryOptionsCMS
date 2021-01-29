@@ -21,12 +21,16 @@ import UserLayout from "../../views/admin/layouts/User";
 import Partner from "../../views/user/Partner";
 import Partners from "../../views/admin/Partner";
 import Control from "../../views/admin/Control";
+import Settings from "../../views/admin/Settings";
+import i18n from "../../locales/i18n";
+import PageNotFound from "../../views/layouts/PageNotFound";
 //
 // /**
 //  * Routes for vue components
 //  */
 export const routes = [
     { path: '/admin', name: 'Статистика системы', component: Statistics },
+    { path: '/admin/settings', name: 'Настройки', component: Settings },
     { path: '/admin/user/', name: 'Пользователь', component: UserLayout, meta: { isAdmin: true },
         children: [
             { path: '/admin/user/profile/:id', name: 'Профиль', component: Profile, meta: { isAdmin: true }},
@@ -46,6 +50,7 @@ export const routes = [
     { path: '/admin/promocodes', name: 'Мультиаккаунты', component: Promocode },
     { path: '/admin/history', name: 'История торговли', component: TradeHistory },
     { path: '/logout', name: 'Выйти', component: Profile },
+    { path: '*', name: i18n.t('menu_404'), component: PageNotFound, meta: { icon: 'help', hide: true } },
 ];
 
 Vue.use(VueRouter);
