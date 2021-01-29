@@ -4,8 +4,8 @@
   <ul class="navbar-nav ml-auto navbar-light">
     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">@lang('locale.landing_contacts')</a>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="/">info@getoption.pro</a></li>
-        <li><a class="dropdown-item" href="/">Telegram: @getoption</a></li>
+        <li><a class="dropdown-item" href="/">{{ config('app.support_mail') }}</a></li>
+        <li><a class="dropdown-item" href="/">Telegram: {{ config('app.support_telegram') }}</a></li>
       </ul>
     </li>
     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">@lang('locale.landing_language')</a>

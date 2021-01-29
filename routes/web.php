@@ -33,6 +33,7 @@ Route::get('/mp3', 'Main\ProfileController@playMP3');
 Route::get('/offer/{code}', 'Main\ReferralController@setReferralCookie');
 Route::get('/test', 'Main\TestController@test');
 Route::post('/payeer/status', 'Main\DepositController@processPayeer');
+Route::post('/freekassa/process', 'Main\DepositController@processFreeKassa');
 
 Route::middleware(['auth', 'cheat'])->group(function () {
   // Трейдинг
