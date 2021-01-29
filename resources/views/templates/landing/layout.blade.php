@@ -6,7 +6,7 @@
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>@lang('locale.landing_title')</title>
-  <link rel="shortcut icon" type="image/png" href="{{asset('images/logo/icon.png')}}">
+  <link rel="shortcut icon" type="image/png" href="{{ config('app.icon_url') }}">
   <link href="/templates/landing/assets/css/theme-plugin.css" rel="stylesheet" />
   <link href="/templates/landing/assets/css/theme.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>

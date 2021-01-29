@@ -5,7 +5,7 @@
         <li class="nav-item mr-auto">
           <a class="navbar-brand" href="/trading" style="margin-top: 0px;margin-left: 0px;">
             <div class="brand-logo">
-              <img src="/images/logo/logo4.png" class="logo" alt="" style="height: auto;width: 150px;left:0px;margin-top: 4px;">
+              <img :src="logo_url" class="logo" alt="" style="height: auto;left:0px;margin-top: 4px;">
             </div>
           </a>
         </li>
@@ -24,6 +24,30 @@
           <router-link :to="'/admin'">
             <i class="menu-livicon" :data-icon="'desktop'"></i>
             <span class="menu-title">Статистика системы</span>
+          </router-link>
+        </li>
+        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/settings'}">
+          <router-link :to="'/admin/settings'">
+            <i class="menu-livicon" :data-icon="'gear'"></i>
+            <span class="menu-title">Настройки системы</span>
+          </router-link>
+        </li>
+        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/deposit/systems'}">
+          <router-link :to="'/admin/deposit/systems'">
+            <i class="menu-livicon" :data-icon="'gear'"></i>
+            <span class="menu-title">Системы пополнения</span>
+          </router-link>
+        </li>
+        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/deposit/systems'}">
+          <router-link :to="'/admin/deposit/systems'">
+            <i class="menu-livicon" :data-icon="'gear'"></i>
+            <span class="menu-title">Системы вывода</span>
+          </router-link>
+        </li>
+        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/deposit/systems'}">
+          <router-link :to="'/admin/deposit/systems'">
+            <i class="menu-livicon" :data-icon="'gear'"></i>
+            <span class="menu-title">Валютные пары</span>
           </router-link>
         </li>
 <!--        Пользователь-->
@@ -128,6 +152,7 @@
 <script>
 export default {
   name: "Menu",
+  props: ['logo_url', 'icon_url'],
   methods: {
     checkVisible(href, hide, route){
       return true;

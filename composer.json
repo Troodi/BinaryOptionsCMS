@@ -24,6 +24,7 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "ixudra/curl": "^6.21",
+        "jackiedo/dotenv-editor": "^1.2",
         "laravel/framework": "^8.0",
         "laravel/passport": "^10.0",
         "laravel/socialite": "^5.0",
