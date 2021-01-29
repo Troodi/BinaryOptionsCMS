@@ -17,7 +17,7 @@
   <div id="ht-preloader">
     <div class="loader clear-loader">
       <span></span>
-      <p>Get Option</p>
+      <p>{{ config('app.title') }}</p>
     </div>
   </div>
 
@@ -28,7 +28,7 @@
           <!--menu start-->
           <div class="col d-flex align-items-center justify-content-between">
             <a class="navbar-brand logo @if(Request::is('/')) text-white @else text-dark @endif h2 mb-0" href="/">
-              Get<span class="@if(Request::is('/')) text-white @else text-primary @endif font-weight-bold">Option</span>
+              {{ config('app.first_title') }}<span class="@if(Request::is('/')) text-white @else text-primary @endif font-weight-bold">{{ config('app.second_title') }}</span>
             </a>
             <nav class="navbar navbar-expand-lg ml-auto">
               @include('templates.landing.menu')
@@ -62,6 +62,7 @@
 </script>
 <!-- inject js end -->
 @include('panels.counter')
+@include('panels.jivosite')
 </body>
 
 </html>

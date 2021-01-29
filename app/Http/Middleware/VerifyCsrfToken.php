@@ -21,6 +21,7 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/event-twilio',
         '/payeer/*',
+        '/freekassa/*',
         '/qiwi/process',
         '/yoomoney/process',
         '/cryptonator/process',
