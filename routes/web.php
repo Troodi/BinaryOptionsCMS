@@ -104,6 +104,14 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get("image/{file}", 'Main\FileController@showImage');
     Route::prefix('data')->group(function () {
+      Route::post('deposit/systems/save', 'Admin\DepositController@editDepositSystem');
+      Route::post('deposit/systems/remove', 'Admin\DepositController@removeDepositSystem');
+      Route::post('deposit/systems/create', 'Admin\DepositController@createDepositSystem');
+      Route::post('deposit/systems', 'Admin\DepositController@allDepositSystems');
+      Route::post('withdraw/systems', 'Admin\WithdrawalController@allWithdrawalSystems');
+      Route::post('withdraw/systems/save', 'Admin\WithdrawalController@editWithdrawSystem');
+      Route::post('withdraw/systems/remove', 'Admin\WithdrawalController@removeWithdrawSystem');
+      Route::post('withdraw/systems/create', 'Admin\WithdrawalController@createWithdrawSystem');
       Route::post('settings', 'Admin\SettingsController@getAllSettings');
       Route::post('settings/save', 'Admin\SettingsController@save');
       Route::post("statistics", 'Admin\StatisticsController@getShortStatistics');
