@@ -16,7 +16,7 @@ class DepositController extends Controller
   }
 
   public function allDepositSystems(Request $request){
-    return DepositSystem::all();
+    return DepositSystem::orderBy('id', 'asc')->get();
   }
 
   public function editDepositSystem(Request $request){
