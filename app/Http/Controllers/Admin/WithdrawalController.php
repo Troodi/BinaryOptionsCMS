@@ -119,7 +119,7 @@ class WithdrawalController extends Controller
     }
 
     public function allWithdrawalSystems(Request $request){
-      return WithdrawSystem::all();
+      return WithdrawSystem::orderBy('id', 'asc')->get();
     }
 
 
