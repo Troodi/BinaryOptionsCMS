@@ -43,7 +43,7 @@ class ClearLatestStat extends Command
     {
         foreach(Symbol::all() as $symbol){
           SymbolShortStatistic::where('symbol_id', $symbol->id)
-            ->where('created_at', '<', Carbon::now()->subMinutes(10))
+            ->where('created_at', '<', Carbon::now()->subMinutes(30))
             ->delete();
         }
         return 0;
