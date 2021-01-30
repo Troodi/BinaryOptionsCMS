@@ -135,7 +135,7 @@ class WithdrawalController extends Controller
       'id' => $request->newId,
       'text' => $request->system,
       'order' => $request->order,
-      'hidden' => boolval($request->active),
+      'hidden' => $request->active,
     ]);
     return response()->json(['success' => true, 'message' => 'Данные успешно обновлены!']);
   }
@@ -157,7 +157,7 @@ class WithdrawalController extends Controller
     $model = new WithdrawSystem();
     $model->text = $request->system;
     $model->order = $request->order;
-    $model->hidden = boolval($request->active);
+    $model->hidden = $request->active;
     $model->save();
     return response()->json(['success' => true, 'message' => 'Система успешно создана!']);
   }

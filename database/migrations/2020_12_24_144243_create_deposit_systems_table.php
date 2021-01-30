@@ -17,7 +17,7 @@ class CreateDepositSystemsTable extends Migration
         Schema::create('deposit_systems', function (Blueprint $table) {
             $table->id();
             $table->string('text');
-            $table->boolean('hidden')->default(false);
+            $table->integer('hidden')->default(0);
             $table->integer('max')->default(10000);
             $table->integer('order')->nullable();
             $table->timestamps();

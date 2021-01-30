@@ -21,7 +21,7 @@ class CreateWithdrawSystemsTable extends Migration
             $table->string('placeholder')->nullable();
             $table->string('image')->nullable();
             $table->integer('order')->nullable();
-            $table->boolean('hidden')->default(0);
+            $table->integer('hidden')->default(0);
             $table->timestamps();
         });
         $systems = ['Visa', 'MasterCard', 'Мир', 'Qiwi', 'WebMoney', 'YooMoney', 'WalletOne', 'Payeer'];
