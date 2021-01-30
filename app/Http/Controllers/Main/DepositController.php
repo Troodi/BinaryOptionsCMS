@@ -229,7 +229,7 @@ class DepositController extends Controller
 
     public function processFreeKassa(Request $request){
       Log::info($request);
-      if (!in_array($request->ip(), array('185.71.65.92', '185.71.65.189', '149.202.17.210'))) return;
+      if (!in_array($request->ip(), array('136.243.38.147', '136.243.38.149', '136.243.38.150', '136.243.38.151', '136.243.38.189', '136.243.38.108'))) return;
       $sign = md5(env('FREE_KASSA_ID').':'.$request->AMOUNT.':'.env('FREE_KASSA_SECRET_2').':'.$request->MERCHANT_ORDER_ID);
       if($sign == $request->SIGN){
         $this->processDeposit($request->MERCHANT_ORDER_ID);
