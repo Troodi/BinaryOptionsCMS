@@ -16,7 +16,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <section class="card">
                         <div class="card-header">
                             <h4 class="card-title">{{ $i18n.t('promo_code_title') }}</h4>

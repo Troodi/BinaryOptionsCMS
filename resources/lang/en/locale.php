@@ -11,7 +11,7 @@
     "landing_create_account" => "Create account",
     "landing_auth" => "Login",
     "landing_register" => "Register now and get",
-    "landing_for_trade" => "for trading",
+    "landing_for_trade" => "for demo trading",
     "landing_what_we_offer" => "What do we offer",
     "landing_necessary_conditions" => "Prerequisites for Earning Income",
     "landing_our_platform" => "Our platform has everything you need for both novice traders and professionals. If you have any questions, our staff will always be happy to help!",
