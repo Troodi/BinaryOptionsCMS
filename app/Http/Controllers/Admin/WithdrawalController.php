@@ -122,7 +122,6 @@ class WithdrawalController extends Controller
       return WithdrawSystem::orderBy('id', 'asc')->get();
     }
 
-
   public function editWithdrawSystem(Request $request){
     $request->validate([
       'id' => 'required|numeric|min:1',
