@@ -34,13 +34,13 @@
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/deposit/systems'}">
           <router-link :to="'/admin/deposit/systems'">
-            <i class="menu-livicon" :data-icon="'gear'"></i>
+            <i class="menu-livicon" :data-icon="'plus'"></i>
             <span class="menu-title">Системы пополнения</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/withdraw/systems'}">
           <router-link :to="'/admin/withdraw/systems'">
-            <i class="menu-livicon" :data-icon="'gear'"></i>
+            <i class="menu-livicon" :data-icon="'minus'"></i>
             <span class="menu-title">Системы вывода</span>
           </router-link>
         </li>
@@ -104,7 +104,7 @@
 <!--        Конец Пользователь-->
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/promocodes'}">
           <router-link :to="'/admin/promocodes'">
-            <i class="menu-livicon" :data-icon="'desktop'"></i>
+            <i class="menu-livicon" :data-icon="'gift'"></i>
             <span class="menu-title">Промокоды</span>
           </router-link>
         </li>
@@ -122,7 +122,7 @@
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/partner'}">
           <router-link :to="'/admin/partner'">
-            <i class="menu-livicon" :data-icon="'coins'"></i>
+            <i class="menu-livicon" :data-icon="'diagram'"></i>
             <span class="menu-title">Заявки партнеров</span>
           </router-link>
         </li>
