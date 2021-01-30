@@ -151,8 +151,8 @@ export default {
       system_text: 'Новая система',
       system_order: 1,
       hiddens: [
-        { id: "0", text: 'Скрыта' },
-        { id: "1", text: 'Активна' },
+        { id: "0", text: 'Активна' },
+        { id: "1", text: 'Скрыта' },
       ],
       defaultHidden: 0,
     }

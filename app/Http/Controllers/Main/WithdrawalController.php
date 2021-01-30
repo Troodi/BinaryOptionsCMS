@@ -17,7 +17,7 @@ use Yajra\DataTables\DataTables;
 class WithdrawalController extends Controller
 {
     public function getAllWithdrawSystems(Request $request){
-      return WithdrawSystem::whereNull('hidden')->get();
+      return WithdrawSystem::where('hidden', 0)->get();
     }
 
     public function getAccountData(Request $request){
