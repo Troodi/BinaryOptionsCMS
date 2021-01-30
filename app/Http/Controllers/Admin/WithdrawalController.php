@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Withdrawal;
+use App\Models\WithdrawSystem;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -116,4 +117,48 @@ class WithdrawalController extends Controller
       $requests = Withdrawal::with(['user'])->get();
       return Datatables::of($requests)->make();
     }
+
+    public function allWithdrawalSystems(Request $request){
+      return WithdrawSystem::all();
+    }
+
+
+  public function editWithdrawSystem(Request $request){
+    $request->validate([
+      'id' => 'required|numeric|min:1',
+      'newId' => 'required|numeric|min:1',
+      'system' => 'required|string|min:1',
+      'order' => 'numeric|min:0|nullable',
+      'active' => 'required|numeric|min:0|max:1',
+    ]);
+    WithdrawSystem::where('id', $request->id)->update([
+      'id' => $request->newId,
+      'text' => $request->system,
+      'order' => $request->order,
+      'hidden' => boolval($request->active),
+    ]);
+    return response()->json(['success' => true, 'message' => 'Данные успешно обновлены!']);
+  }
+
+  public function removeWithdrawSystem(Request $request){
+    $request->validate([
+      'id' => 'required|numeric|min:1',
+    ]);
+    WithdrawSystem::where('id', $request->id)->delete();
+    return response()->json(['success' => true, 'message' => 'Система успешно удалена!']);
+  }
+
+  public function createWithdrawSystem(Request $request){
+    $request->validate([
+      'system' => 'required|string|min:1',
+      'order' => 'numeric|min:0|nullable',
+      'active' => 'required|numeric|min:0|max:1',
+    ]);
+    $model = new WithdrawSystem();
+    $model->text = $request->system;
+    $model->order = $request->order;
+    $model->hidden = boolval($request->active);
+    $model->save();
+    return response()->json(['success' => true, 'message' => 'Система успешно создана!']);
+  }
 }
