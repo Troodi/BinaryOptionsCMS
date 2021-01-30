@@ -51,8 +51,10 @@ class SetSymbolsPercent extends Command
             ->delete();
         }
         if($count >= 10){
-          $profit_count = $stat->where('profit', '>', 'amount')->count();
-          $percent = intval($profit_count / $count * 100); // 130 т.к. на 30 процентов будет повышена доходность, чтобы не была слишком низкой
+          $profit_count = $stat->filter(function ($value, $key) {
+            return $value->profit > $value->amount;
+          })->count();
+          $percent = intval(100 - ($profit_count / $count * 100)); // 130 т.к. на 30 процентов будет повышена доходность, чтобы не была слишком низкой
           if($percent < $symbol->min_percent){
             $percent = $symbol->min_percent;
           }
