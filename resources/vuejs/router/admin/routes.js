@@ -24,6 +24,9 @@ import Control from "../../views/admin/Control";
 import Settings from "../../views/admin/Settings";
 import i18n from "../../locales/i18n";
 import PageNotFound from "../../views/layouts/PageNotFound";
+import DepositSystem from "../../views/admin/DepositSystem";
+import WithdrawSystem from "../../views/admin/WithdrawSystem";
+import Symbol from "../../views/admin/Symbol";
 //
 // /**
 //  * Routes for vue components
@@ -31,6 +34,10 @@ import PageNotFound from "../../views/layouts/PageNotFound";
 export const routes = [
     { path: '/admin', name: 'Статистика системы', component: Statistics },
     { path: '/admin/settings', name: 'Настройки', component: Settings },
+    { path: '/admin/deposit/systems', name: 'Системы пополения', component: DepositSystem },
+    { path: '/admin/withdraw/systems', name: 'Системы вывода', component: WithdrawSystem },
+    { path: '/admin/symbols', name: 'Валютные пары', component: Symbol },
+
     { path: '/admin/user/', name: 'Пользователь', component: UserLayout, meta: { isAdmin: true },
         children: [
             { path: '/admin/user/profile/:id', name: 'Профиль', component: Profile, meta: { isAdmin: true }},

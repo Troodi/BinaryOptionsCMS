@@ -38,15 +38,15 @@
             <span class="menu-title">Системы пополнения</span>
           </router-link>
         </li>
-        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/deposit/systems'}">
-          <router-link :to="'/admin/deposit/systems'">
+        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/withdraw/systems'}">
+          <router-link :to="'/admin/withdraw/systems'">
             <i class="menu-livicon" :data-icon="'gear'"></i>
             <span class="menu-title">Системы вывода</span>
           </router-link>
         </li>
-        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/deposit/systems'}">
-          <router-link :to="'/admin/deposit/systems'">
-            <i class="menu-livicon" :data-icon="'gear'"></i>
+        <li class="nav-item" :class="{'active' : this.$route.path === '/admin/symbols'}">
+          <router-link :to="'/admin/symbols'">
+            <i class="menu-livicon" :data-icon="'british-pound'"></i>
             <span class="menu-title">Валютные пары</span>
           </router-link>
         </li>

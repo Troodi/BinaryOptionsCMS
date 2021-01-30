@@ -46,13 +46,13 @@ class SetSymbolsPercent extends Command
         if($count){
           $id = SymbolShortStatistic::where('symbol_id', $symbol->id)->latest()->first()->id;
           SymbolShortStatistic::where('symbol_id', $symbol->id)
-            ->where('created_at', '<', Carbon::now()->subMinutes(10))
+            ->where('created_at', '<', Carbon::now()->subMinutes(30))
             ->where('id', '<', $id)
             ->delete();
         }
         if($count >= 10){
           $profit_count = $stat->where('profit', '>', 'amount')->count();
-          $percent = intval(130 - ($profit_count / $count * 100)); // 130 т.к. на 30 процентов будет повышена доходность, чтобы не была слишком низкой
+          $percent = intval($profit_count / $count * 100); // 130 т.к. на 30 процентов будет повышена доходность, чтобы не была слишком низкой
           if($percent < $symbol->min_percent){
             $percent = $symbol->min_percent;
           }
