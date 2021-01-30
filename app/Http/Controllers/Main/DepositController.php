@@ -229,35 +229,13 @@ class DepositController extends Controller
 
     public function processFreeKassa(Request $request){
       Log::info($request);
-      if (isset($request->m_operation_id) && isset($request->m_sign)) {
-        $m_key = env('FREE_KASSA_SECRET');
-        $arHash = array(
-          $request->m_operation_id,
-          $request->m_operation_ps,
-          $request->m_operation_date,
-          $request->m_operation_pay_date,
-          $request->m_shop,
-          $request->m_orderid,
-          $request->m_amount,
-          $request->m_curr,
-          $request->m_desc,
-          $request->m_status,
-        );
-        if (isset($request->m_params)) {
-          $arHash[] = $request->m_params;
-        }
-        $arHash[] = $m_key;
-        $sign_hash = strtoupper(hash('sha256', implode(':', $arHash)));
-        if ($request->m_sign == $sign_hash && $request->m_status == 'success') {
-          ob_end_clean();
-          if($this->processDeposit($request->m_orderid)){
-            return $request->m_orderid.'|success';
-          } else {
-            return $request->m_orderid.'|error';
-          }
-        }
-        ob_end_clean();
-        return $request->m_orderid.'|error';
+      if (!in_array($request->ip(), array('185.71.65.92', '185.71.65.189', '149.202.17.210'))) return;
+      $sign = md5(env('FREE_KASSA_ID').':'.$request->AMOUNT.':'.env('FREE_KASSA_SECRET_2').':'.$request->MERCHANT_ORDER_ID);
+      if($sign == $request->SIGN){
+        $this->processDeposit($request->MERCHANT_ORDER_ID);
+        return 'YES';
+      } else {
+        return 'wrong sign';
       }
     }
 
