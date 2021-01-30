@@ -17,7 +17,7 @@
         <a href="/login" class="btn btn-light wow bounceInRight">
           @lang('locale.landing_auth')
         </a>
-        <p class="lead text-light mt-5 wow shake" style="font-size:1.4em;font-weight: 700">@lang('locale.landing_register') <strong>10$</strong> @lang('locale.landing_for_trade')</p>
+        <p class="lead text-light mt-5 wow shake" style="font-size:1.4em;font-weight: 700">@lang('locale.landing_register') <strong>1000$</strong> @lang('locale.landing_for_trade')</p>
       </div>
     </div>
     <!-- / .row -->
