@@ -104,6 +104,10 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get("image/{file}", 'Main\FileController@showImage');
     Route::prefix('data')->group(function () {
+      Route::post('symbol', 'Admin\SymbolController@getSymbol');
+      Route::post('symbol/save', 'Admin\SymbolController@saveSymbol');
+      Route::post('symbol/remove', 'Admin\SymbolController@removeSymbol');
+      Route::post('symbol/create', 'Admin\SymbolController@createSymbol');
       Route::post('symbols', 'Admin\SymbolController@allSymbols');
       Route::post('deposit/systems/save', 'Admin\DepositController@editDepositSystem');
       Route::post('deposit/systems/remove', 'Admin\DepositController@removeDepositSystem');
