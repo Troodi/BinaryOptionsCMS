@@ -16,6 +16,9 @@ use Yajra\DataTables\DataTables;
 class WithdrawalController extends Controller
 {
     public function processWithdrawal(Request $request){
+      if(config('app.demo')){
+        return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+      }
       $request->validate([
         'id' => 'numeric|min:1',
         'status' => 'numeric|min:1|max:2',
@@ -123,6 +126,9 @@ class WithdrawalController extends Controller
     }
 
   public function editWithdrawSystem(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'required|numeric|min:1',
       'newId' => 'required|numeric|min:1',
@@ -140,6 +146,9 @@ class WithdrawalController extends Controller
   }
 
   public function removeWithdrawSystem(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'required|numeric|min:1',
     ]);
@@ -148,6 +157,9 @@ class WithdrawalController extends Controller
   }
 
   public function createWithdrawSystem(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'system' => 'required|string|min:1',
       'order' => 'numeric|min:0|nullable',

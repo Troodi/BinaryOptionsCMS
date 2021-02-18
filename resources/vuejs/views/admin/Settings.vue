@@ -85,9 +85,9 @@ export default {
       axios.post('/admin/data/settings/save', { data: serialized }).then((response) => {
         if(response.data.success === false) {
           self.settingsErrors = [];
-          self.settingsSuccess.push(response.data.message);
+          self.settingsErrors.push(response.data.message);
         } else {
-          self.settingsErrors = [];
+          self.settingsSuccess = [];
           self.settingsSuccess.push(response.data.message);
         }
         $('html, body').animate({scrollTop : 0},1000);

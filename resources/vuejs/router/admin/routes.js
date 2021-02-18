@@ -15,6 +15,7 @@ import Deposits from "../../views/admin/Deposit";
 import Withdrawal from "../../views/user/Withdrawal";
 import Withdrawals from "../../views/admin/Withdrawal";
 import Promocode from "../../views/user/Promocode";
+import PromocodeAdmin from "../../views/admin/Promocode";
 import Verify from "../../views/admin/Verify";
 import TradeHistory from "../../views/admin/TradeHistory";
 import UserLayout from "../../views/admin/layouts/User";
@@ -54,7 +55,7 @@ export const routes = [
     { path: '/admin/withdrawal', name: 'Выплаты', component: Withdrawals },
     { path: '/admin/partner', name: 'Заявки на партнерство', component: Partners },
     { path: '/admin/verify', name: 'Верификация', component: Verify },
-    { path: '/admin/promocodes', name: 'Мультиаккаунты', component: Promocode },
+    { path: '/admin/promocodes', name: 'Мультиаккаунты', component: PromocodeAdmin },
     { path: '/admin/history', name: 'История торговли', component: TradeHistory },
     { path: '/logout', name: 'Выйти', component: Profile },
     { path: '*', name: i18n.t('menu_404'), component: PageNotFound, meta: { icon: 'help', hide: true } },

@@ -10,11 +10,11 @@
 <!-- forgot password start -->
 <section class="row flexbox-container">
   <div class="col-xl-4 col-lg-6 col-sm-8 col-11">
-    @if (session('status'))
-      <div class="alert alert-success">
-        {{ session('status') }}
+    @foreach ($errors->all() as $error)
+      <div class="alert alert-danger">
+        {{ $error }}
       </div>
-    @endif
+    @endforeach
     @if($errors->has('custom-g-recaptcha-response'))
       <div class="alert alert-danger">
         {{ $errors->first('custom-g-recaptcha-response') }}

@@ -11,11 +11,11 @@
 <!-- register section starts -->
 <section class="row flexbox-container">
   <div class="col-xl-4 col-lg-6 col-sm-8 col-11">
-    @if($errors->has('custom-g-recaptcha-response'))
+    @foreach ($errors->all() as $error)
       <div class="alert alert-danger">
-        {{ $errors->first('custom-g-recaptcha-response') }}
+        {{ $error }}
       </div>
-    @endif
+    @endforeach
     <div class="card bg-authentication mb-0">
       <div class="row m-0">
         <!-- register section left -->

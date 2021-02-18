@@ -13,6 +13,9 @@ class SymbolController extends Controller
   }
 
   public function saveSymbol(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'required|numeric|min:1',
       'pair' => 'required|string|min:1',
@@ -45,6 +48,9 @@ class SymbolController extends Controller
   }
 
   public function removeSymbol(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'required|integer|min:1'
     ]);
@@ -53,6 +59,9 @@ class SymbolController extends Controller
   }
 
   public function createSymbol(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'pair' => 'required|string|min:1',
       'broker' => 'required|string|min:1',

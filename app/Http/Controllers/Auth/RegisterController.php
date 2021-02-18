@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
 {
@@ -55,11 +56,14 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'custom-g-recaptcha-response' => 'recaptcha',
-        ]);
+      if(config('app.demo')){
+        throw ValidationException::withMessages(['demo_mode' => __('locale.demo_error')]);
+      }
+      return Validator::make($data, [
+          'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+          'password' => ['required', 'string', 'min:8', 'confirmed'],
+          'custom-g-recaptcha-response' => 'recaptcha',
+      ]);
     }
 
     /**
@@ -75,6 +79,9 @@ class RegisterController extends Controller
 
     // Register
     public function showRegistrationForm(){
+     if(config('app.demo')){
+       return view('/auth/register')->withErrors(['demo_mode' => __('locale.demo_error')]);
+     }
      return view('/auth/register');
    }
 }

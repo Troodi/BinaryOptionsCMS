@@ -23,6 +23,9 @@ class ControlController extends Controller
 
   public function changeBalance(Request $request)
   {
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'numeric|required|min:1',
       'balance' => 'numeric|required',
@@ -41,6 +44,9 @@ class ControlController extends Controller
 
   public function banAction(Request $request)
   {
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'numeric|required|min:1',
       'action' => 'numeric|required|min:0|max:4'
