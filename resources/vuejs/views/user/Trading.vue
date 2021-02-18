@@ -552,7 +552,7 @@
                 this.clicked = true;
             },
             closeClick: function () {
-                if(parseInt(this.seconds) < 300 && parseInt(this.minutes) === 0 && parseInt(this.hours) === 0) {
+                if(parseInt(this.minutes) < 5 && parseInt(this.hours) === 0) {
                     toastr.error(this.$i18n.t('trade_minimal_expiration'), this.$i18n.t('trade_error'), {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
@@ -638,7 +638,7 @@
                 return this.hours + ':' + this.minutes + ':' + this.seconds;
             },
             isButtonDisabled: function () {
-                return parseInt(this.seconds) < 300 && parseInt(this.minutes) === 0 && parseInt(this.hours) === 0;
+                return parseInt(this.minutes) < 5 && parseInt(this.hours) === 0;
             }
         },
         watch: {
