@@ -46,7 +46,7 @@
   "trade_profit_modal": "You are making profits on a demo account, try trading on a real account and earn real money!",
   "trade_profit_modal_desc": "Please note that the demo account is no different from the real account (price movement, profitability, processing speed), so you can succeed in trading after training.",
   "trade_go_real": "Go to trading on a real account",
-  "trade_expiration": "Expiration time",
+  "trade_expiration": "Expiration time (min 5 minutes)",
   "trade_hours": "Hours",
   "trade_minutes": "Minutes",
   "trade_seconds": "Seconds",
@@ -72,7 +72,7 @@
   "trade_order_processing": "The order is being processed ...",
   "trade_order_opened": "Trade opened",
   "trade_error": "Error!",
-  "trade_minimal_expiration": "The minimum trade duration must be 30 seconds or more",
+  "trade_minimal_expiration": "The minimum trade duration must be 5 minutes or more",
 
   "deposit": "",
   "deposit_title": "Account funding",

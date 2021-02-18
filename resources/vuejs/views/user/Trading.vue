@@ -552,7 +552,7 @@
                 this.clicked = true;
             },
             closeClick: function () {
-                if(parseInt(this.seconds) < 30 && parseInt(this.minutes) === 0 && parseInt(this.hours) === 0) {
+                if(parseInt(this.seconds) < 300 && parseInt(this.minutes) === 0 && parseInt(this.hours) === 0) {
                     toastr.error(this.$i18n.t('trade_minimal_expiration'), this.$i18n.t('trade_error'), {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
@@ -622,8 +622,8 @@
                 min: 1,
                 lines: {},
                 hours: localStorage.getItem('hours') ? localStorage.getItem('hours') : '00',
-                minutes: localStorage.getItem('minutes') ? localStorage.getItem('minutes') : '00',
-                seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '30',
+                minutes: localStorage.getItem('minutes') ? localStorage.getItem('minutes') : '05',
+                seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '00',
                 historyHeight: '300px',
                 opened: [],
                 fastData: [],
@@ -638,7 +638,7 @@
                 return this.hours + ':' + this.minutes + ':' + this.seconds;
             },
             isButtonDisabled: function () {
-                return parseInt(this.seconds) < 30 && parseInt(this.minutes) === 0 && parseInt(this.hours) === 0;
+                return parseInt(this.seconds) < 300 && parseInt(this.minutes) === 0 && parseInt(this.hours) === 0;
             }
         },
         watch: {

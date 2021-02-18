@@ -96,7 +96,7 @@ class TradingController extends Controller
       if((Carbon::now()->addSeconds($seconds)->hour > $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
         return response()->json(['message' => __('locale.trading_expiration_more')], 422);
       }
-      if($seconds < 30){
+      if($seconds < 300){
         return response()->json(['message' => __('locale.trading_min_30_seconds')], 422);
       }
       if(!$request->demo) {
