@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ForgotPasswordController extends Controller
 {
@@ -23,6 +24,9 @@ class ForgotPasswordController extends Controller
 
     protected function validateEmail(Request $request)
     {
+      if(config('app.demo')){
+        throw ValidationException::withMessages(['demo_mode' => __('locale.demo_error')]);
+      }
       $request->validate([
         'email' => 'required|email',
         'custom-g-recaptcha-response' => 'recaptcha',
@@ -30,6 +34,9 @@ class ForgotPasswordController extends Controller
     }
 
     public function showLinkRequestForm(){
+      if(config('app.demo')){
+        return view('/auth/passwords/email')->withErrors(['demo_mode' => __('locale.demo_error')]);
+      }
       return view('/auth/passwords/email');
   }
 }

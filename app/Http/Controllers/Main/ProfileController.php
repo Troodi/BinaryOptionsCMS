@@ -25,6 +25,9 @@ class ProfileController extends Controller
 {
   // Изменение пароля
   public function changePassword(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'old_password' =>  'string|min:6|max:255',
       'new_password' =>  'string|min:8|max:255',
@@ -44,6 +47,9 @@ class ProfileController extends Controller
   public function changeGeneralData(Request $request){
     $id = Auth::user()->id;
     if($request->id && Helper::isAdmin()){
+      if(config('app.demo')){
+        return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+      }
       $request->validate(['id' => 'numeric']);
       $id = $request->id;
     }
@@ -66,6 +72,9 @@ class ProfileController extends Controller
   public function changeMainData(Request $request){
     $admin = false;
     if($request->id && Helper::isAdmin()){
+      if(config('app.demo')){
+        return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+      }
       $admin = true;
       $request->validate(['id' => 'numeric|min:1']);
     }
@@ -269,6 +278,9 @@ class ProfileController extends Controller
     ]);
     $admin = false;
     if($request->id && Helper::isAdmin()){
+      if(config('app.demo')){
+        return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+      }
       $admin = true;
       $request->validate(['id' => 'numeric|min:1']);
     }

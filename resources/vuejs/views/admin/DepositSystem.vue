@@ -94,9 +94,9 @@ export default {
       axios.post('/admin/data/deposit/systems/save', { id: id, newId: newId, system: system, order: order, active: active}).then((response) => {
         if(response.data.success === false) {
           self.errors = [];
-          self.success.push(response.data.message);
+          self.errors.push(response.data.message);
         } else {
-          self.errors = [];
+          self.success = [];
           self.success.push(response.data.message);
         }
         $('html, body').animate({scrollTop : 0}, 1000);
@@ -110,9 +110,9 @@ export default {
       axios.post('/admin/data/deposit/systems/remove', { id: id }).then((response) => {
         if(response.data.success === false) {
           self.errors = [];
-          self.success.push(response.data.message);
+          self.errors.push(response.data.message);
         } else {
-          self.errors = [];
+          self.success = [];
           self.success.push(response.data.message);
         }
         $('html, body').animate({scrollTop : 0}, 1000);
@@ -126,9 +126,9 @@ export default {
       axios.post('/admin/data/deposit/systems/create', { system: self.system_text, order: self.system_order, active: self.defaultHidden }).then((response) => {
         if(response.data.success === false) {
           self.errors = [];
-          self.success.push(response.data.message);
+          self.errors.push(response.data.message);
         } else {
-          self.errors = [];
+          self.success = [];
           self.success.push(response.data.message);
         }
         $('html, body').animate({scrollTop : 0}, 1000);

@@ -20,6 +20,9 @@ class DepositController extends Controller
   }
 
   public function editDepositSystem(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'required|numeric|min:1',
       'newId' => 'required|numeric|min:1',
@@ -37,6 +40,9 @@ class DepositController extends Controller
   }
 
   public function removeDepositSystem(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'required|numeric|min:1',
     ]);
@@ -45,6 +51,9 @@ class DepositController extends Controller
   }
 
   public function createDepositSystem(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'system' => 'required|string|min:1',
       'order' => 'numeric|min:0|nullable',

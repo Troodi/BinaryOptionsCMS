@@ -25,6 +25,7 @@ return [
     'icon_url' => env('APP_ICON_URL', '/images/logo/icon.png'),
     'currency' => env('APP_CURRENCY', 'USD'),
 
+    'demo' => env('DEMO_MODE', false),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -20,6 +20,9 @@ class VerifyController extends Controller
     }
 
   public function checkDocument(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'numeric|min:1',
       'status' => 'numeric|min:0|max:2',
@@ -62,6 +65,9 @@ class VerifyController extends Controller
 
   //Верификация аккаунта
   public function verifyAccount(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'numeric|min:1'
     ]);
@@ -87,6 +93,9 @@ class VerifyController extends Controller
 
   //Снятие верификации аккаунта
   public function unVerifyAccount(Request $request){
+    if(config('app.demo')){
+      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+    }
     $request->validate([
       'id' => 'numeric|min:1'
     ]);
