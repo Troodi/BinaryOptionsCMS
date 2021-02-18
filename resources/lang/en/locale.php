@@ -149,7 +149,7 @@
     // Trading controller
     "trading_non_work_time" => "The current symbol is not currently being traded!",
     "trading_expiration_more" => "The expiration end time cannot be later than the symbol operation time!",
-    "trading_min_30_seconds" => "The minimum trade time is 30 seconds.",
+    "trading_min_30_seconds" => "The minimum trade time is 5 minutes.",
     "trading_not_enough_money" => "Insufficient funds",
     "trading_place_error" => "An error occurred while placing an order for this currency pair, please try placing an order later! Error # 645.",
     "trading_current_symbol_closed" => "This instrument is closed for trading because its working session is over!",
