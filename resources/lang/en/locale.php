@@ -1,5 +1,7 @@
 <?php
   return [
+    'demo_error' => 'The application is in demo mode, registration, editing and changing of some data is not possible.',
+
     "landing_keywords" => "",
     "landing_description" => "",
     "landing_title" => "".config('app.title')." - Binary Options",
