@@ -23,80 +23,80 @@
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin'}">
           <router-link :to="'/admin'">
             <i class="menu-livicon" :data-icon="'desktop'"></i>
-            <span class="menu-title">Статистика системы</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_stat') }}</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/settings'}">
           <router-link :to="'/admin/settings'">
             <i class="menu-livicon" :data-icon="'gear'"></i>
-            <span class="menu-title">Настройки системы</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_settings') }}</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/deposit/systems'}">
           <router-link :to="'/admin/deposit/systems'">
             <i class="menu-livicon" :data-icon="'plus'"></i>
-            <span class="menu-title">Системы пополнения</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_deposit_systems') }}</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/withdraw/systems'}">
           <router-link :to="'/admin/withdraw/systems'">
             <i class="menu-livicon" :data-icon="'minus'"></i>
-            <span class="menu-title">Системы вывода</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_withdraw_systems') }}</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/symbols'}">
           <router-link :to="'/admin/symbols'">
             <i class="menu-livicon" :data-icon="'british-pound'"></i>
-            <span class="menu-title">Валютные пары</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_quotes') }}</span>
           </router-link>
         </li>
 <!--        Пользователь-->
         <li v-show="this.$route.path.includes('admin/user')" class="nav-item" :class="{'has-sub sidebar-group-active open' : this.$route.path.includes('admin/user')}">
           <router-link :to="'/admin/user/profile/'+this.$route.params.id">
             <i class="menu-livicon" :data-icon="'user'"></i>
-            <span class="menu-title">Пользователь</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_user') }}</span>
           </router-link>
           <ul class="menu-content">
             <li :class="{'active' : this.$route.path === '/admin/user/control/'+this.$route.params.id}">
               <router-link :to="'/admin/user/control/'+this.$route.params.id">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Управление</span>
+                <span class="menu-title">{{ $i18n.t('admin_menu_control') }}</span>
               </router-link>
             </li>
             <li :class="{'active' : this.$route.path === '/admin/user/profile/'+this.$route.params.id}">
               <router-link :to="'/admin/user/profile/'+this.$route.params.id">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Профиль</span>
+                <span class="menu-title">{{ $i18n.t('admin_menu_profile') }}</span>
               </router-link>
             </li>
             <li :class="{'active' : this.$route.path === '/admin/user/deposit/'+this.$route.params.id}">
               <router-link :to="'/admin/user/deposit/'+this.$route.params.id">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Пополнения</span>
+                <span class="menu-title">{{ $i18n.t('admin_menu_deposits') }}</span>
               </router-link>
             </li>
             <li :class="{'active' : this.$route.path === '/admin/user/withdrawal/'+this.$route.params.id}">
               <router-link :to="'/admin/user/withdrawal/'+this.$route.params.id">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Выплаты</span>
+                <span class="menu-title">{{ $i18n.t('admin_menu_withdraws') }}</span>
               </router-link>
             </li>
             <li :class="{'active' : this.$route.path === '/admin/user/history/'+this.$route.params.id}">
               <router-link :to="'/admin/user/history/'+this.$route.params.id">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">История торговли</span>
+                <span class="menu-title">{{ $i18n.t('admin_menu_trading_history') }}</span>
               </router-link>
             </li>
             <li :class="{'active' : this.$route.path === '/admin/user/partner/'+this.$route.params.id}">
               <router-link :to="'/admin/user/partner/'+this.$route.params.id">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Рефералы</span>
+                <span class="menu-title">{{ $i18n.t('admin_menu_referrals') }}</span>
               </router-link>
             </li>
             <li :class="{'active' : this.$route.path === '/admin/user/promocode/'+this.$route.params.id}">
               <router-link :to="'/admin/user/promocode/'+this.$route.params.id">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Промокоды</span>
+                <span class="menu-title">{{ $i18n.t('admin_menu_promocodes') }}</span>
               </router-link>
             </li>
           </ul>
@@ -105,43 +105,43 @@
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/promocodes'}">
           <router-link :to="'/admin/promocodes'">
             <i class="menu-livicon" :data-icon="'gift'"></i>
-            <span class="menu-title">Промокоды</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_promocodes') }}</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/deposit'}">
           <router-link :to="'/admin/deposit'">
             <i class="menu-livicon" :data-icon="'bank'"></i>
-            <span class="menu-title">Пополения</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_deposits') }}</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/withdrawal'}">
           <router-link :to="'/admin/withdrawal'">
             <i class="menu-livicon" :data-icon="'coins'"></i>
-            <span class="menu-title">Выплаты</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_withdraws') }}</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/partner'}">
           <router-link :to="'/admin/partner'">
             <i class="menu-livicon" :data-icon="'diagram'"></i>
-            <span class="menu-title">Заявки партнеров</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_requests') }}</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/verify'}">
           <router-link :to="'/admin/verify'">
             <i class="menu-livicon" :data-icon="'bulb'"></i>
-            <span class="menu-title">Верификация</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_verify') }}</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/admin/history'}">
           <router-link :to="'/admin/history'">
             <i class="menu-livicon" :data-icon="'coins'"></i>
-            <span class="menu-title">История торговли</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_trading_history') }}</span>
           </router-link>
         </li>
         <li class="nav-item" :class="{'active' : this.$route.path === '/logout'}">
           <router-link :to="'/close'">
             <i class="menu-livicon" :data-icon="'close'"></i>
-            <span class="menu-title">Выйти</span>
+            <span class="menu-title">{{ $i18n.t('admin_menu_exit') }}</span>
           </router-link>
         </li>
       </ul>

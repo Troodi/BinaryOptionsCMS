@@ -14,7 +14,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">{{ statistics.user_count }}</h5>
-                  <small class="text-muted">Всего пользователей</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_total_users') }}</small>
                 </div>
               </div>
             </div>
@@ -33,7 +33,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">{{ statistics.banned_users }}</h5>
-                  <small class="text-muted">Заблокировано пользователей</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_banned_users') }}</small>
                 </div>
               </div>
             </div>
@@ -52,7 +52,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">{{ statistics.deposit_count }}</h5>
-                  <small class="text-muted">Пополнений</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_deposits') }}</small>
                 </div>
               </div>
             </div>
@@ -71,7 +71,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">{{ statistics.withdrawal_count }}</h5>
-                  <small class="text-muted">Выплат</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_withdraws') }}</small>
                 </div>
               </div>
             </div>
@@ -90,7 +90,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">{{ statistics.referral_count }}</h5>
-                  <small class="text-muted">Рефералов</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_referrals') }}</small>
                 </div>
               </div>
             </div>
@@ -109,7 +109,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">$ {{ statistics.profit }}</h5>
-                  <small class="text-muted">Прибыль</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_profit') }}</small>
                 </div>
               </div>
             </div>
@@ -128,7 +128,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">{{ statistics.deals }}</h5>
-                  <small class="text-muted">Всего сделок</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_all_trades') }}</small>
                 </div>
               </div>
             </div>
@@ -147,7 +147,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">$ {{ statistics.turnover }}</h5>
-                  <small class="text-muted">Общий оборот</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_all_turnover') }}</small>
                 </div>
               </div>
             </div>
@@ -166,7 +166,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">$ {{ statistics.bonus }}</h5>
-                  <small class="text-muted">Сумма бонусов</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_total_bonuses') }}</small>
                 </div>
               </div>
             </div>
@@ -185,7 +185,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">$ {{ statistics.clear_balance }}</h5>
-                  <small class="text-muted">Баланс без бонусов</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_balance_without_bonuses') }}</small>
                 </div>
               </div>
             </div>
@@ -204,7 +204,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">{{ statistics.total_profit_count }}</h5>
-                  <small class="text-muted">Прибыльных сделок</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_profit_deals') }}</small>
                 </div>
               </div>
             </div>
@@ -223,7 +223,7 @@
                 <div class="total-amount">
                   <h5 class="mb-0" v-show="_.isEmpty(statistics)"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-bottom: 3px;"></span></h5>
                   <h5 class="mb-0" v-if="!_.isEmpty(statistics)">{{ statistics.total_loss_count }}</h5>
-                  <small class="text-muted">Убыточных сделок</small>
+                  <small class="text-muted">{{ $i18n.t('admin_stat_losses_deals') }}</small>
                 </div>
               </div>
             </div>
@@ -235,7 +235,7 @@
         <div class="col-md-12">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">Список пользователей</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_stat_user_list') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -245,12 +245,12 @@
                       <thead>
                       <tr>
                         <th>ID</th>
-                        <th>E-mail</th>
-                        <th>Гео</th>
-                        <th>Статус</th>
-                        <th>Баланс USD</th>
-                        <th>Последняя активность</th>
-                        <th>Зарегистрирован</th>
+                        <th>{{ $i18n.t('admin_stat_email') }}</th>
+                        <th>{{ $i18n.t('admin_stat_geo') }}</th>
+                        <th>{{ $i18n.t('admin_stat_status') }}</th>
+                        <th>{{ $i18n.t('admin_stat_balance_usd') }}</th>
+                        <th>{{ $i18n.t('admin_stat_latest_active') }}</th>
+                        <th>{{ $i18n.t('admin_stat_registered') }}</th>
                       </tr>
                       </thead>
                     </table>
@@ -266,7 +266,7 @@
         <div class="col-md-12">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">Статистика системы по дням</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_stat_stats_of_days') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -275,13 +275,13 @@
                     <table class="table" id="stat">
                       <thead>
                       <tr>
-                        <th>Всего сделок</th>
-                        <th>Сумма сделок</th>
-                        <th>Профит сделок</th>
-                        <th>Убыток сделок</th>
-                        <th>Профитных</th>
-                        <th>Убыточных</th>
-                        <th>Дата</th>
+                        <th>{{ $i18n.t('admin_stat_all_deals') }}</th>
+                        <th>{{ $i18n.t('admin_stat_sum_deals') }}</th>
+                        <th>{{ $i18n.t('admin_stat_all_profit_deals') }}</th>
+                        <th>{{ $i18n.t('admin_stat_all_losses_deals') }}</th>
+                        <th>{{ $i18n.t('admin_stat_profitable') }}</th>
+                        <th>{{ $i18n.t('admin_stat_losses') }}</th>
+                        <th>{{ $i18n.t('admin_stat_date') }}</th>
                       </tr>
                       </thead>
                     </table>
@@ -299,6 +299,7 @@
 <script>
 import dateformat from "dateformat";
 import _ from 'lodash'
+import {getCookie} from "../../js/functions";
 
 export default {
   name: "Statistics",
@@ -326,7 +327,7 @@ export default {
         type: "POST"
       },
       "language": {
-        "url": "/locales/Russian.json"
+        "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
       },
       columns: [
         {
@@ -354,7 +355,7 @@ export default {
               geo = data;
               geo_code = row.geo_code;
             }
-            return '<i data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="Страна" data-content="' + geo + '" class="flag-icon flag-icon-' + geo_code + '"></i>';
+            return '<i data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="'+self.$i18n.t('admin_stat_country')+'" data-content="' + geo + '" class="flag-icon flag-icon-' + geo_code + '"></i>';
           }
         },
         {
@@ -364,7 +365,7 @@ export default {
           name: 'users.status',
           render: function (data) {
             if(data == 0){
-              return '<span class="badge badge badge-danger text-white">Оффлайн</span>' } else { return '<span class="badge badge badge-success text-white">Онлайн</span>'; }
+              return '<span class="badge badge badge-danger text-white">'+self.$i18n.t('admin_stat_offline')+'</span>' } else { return '<span class="badge badge badge-success text-white">'+self.$i18n.t('admin_stat_online')+'</span>'; }
           }
         },
         {
@@ -406,7 +407,7 @@ export default {
         type: "POST"
       },
       "language": {
-        "url": "/locales/Russian.json"
+        "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
       },
       columns: [
         {
