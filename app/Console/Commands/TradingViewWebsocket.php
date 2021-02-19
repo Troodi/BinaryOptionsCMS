@@ -243,8 +243,10 @@ class TradingViewWebsocket extends Command
         //call_user_func(array($this->class, 'readQuotes'), $this);
       } catch (\WebSocket\ConnectionException $e) {
         var_dump($e->getMessage());
+        break;
       }
     }
+    $this->runParsing();
   }
 
   private function sendRawMessage($message){
@@ -360,6 +362,13 @@ class TradingViewWebsocket extends Command
     return number_format((float)$seconds, 2, '.', '');
   }
 
+  private function runParsing(){
+    $this->subscriptions = [];
+    $this->login = env('TRADINGVIEW_LOGIN');
+    $this->password = env('TRADINGVIEW_PASSWORD');
+    $this->resetWebSocket();
+  }
+
   /**
    * Execute the console command.
    *
@@ -367,10 +376,7 @@ class TradingViewWebsocket extends Command
    */
   public function handle()
   {
-    $this->subscriptions = [];
-    $this->login = env('TRADINGVIEW_LOGIN');
-    $this->password = env('TRADINGVIEW_PASSWORD');
-    $this->resetWebSocket();
+    $this->runParsing();
     return 0;
   }
 }

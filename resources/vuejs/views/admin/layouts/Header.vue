@@ -25,36 +25,25 @@
             <ul class="nav navbar-nav float-right">
               <li class="dropdown dropdown-language nav-item lang-padding">
                 <a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span>
+                  <i :class="'flag-icon flag-icon-' + getLangCookie"></i><span class="selected-language">{{ getLangText }}</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown-flag">
                   <a class="dropdown-item" href="/lang/en" data-language="en">
                     <i class="flag-icon flag-icon-us mr-50"></i> English
                   </a>
-                  <a class="dropdown-item" href="/lang/fr" data-language="fr">
-                    <i class="flag-icon flag-icon-fr mr-50"></i> French
-                  </a>
-                  <a class="dropdown-item" href="/lang/de" data-language="de">
-                    <i class="flag-icon flag-icon-de mr-50"></i> German
-                  </a>
-                  <a class="dropdown-item" href="/lang/pt" data-language="pt">
-                    <i class="flag-icon flag-icon-pt mr-50"></i> Portuguese
+                  <a class="dropdown-item" href="/lang/ru" data-language="ru">
+                    <i class="flag-icon flag-icon-ru mr-50"></i> Русский
                   </a>
                 </div>
               </li>
               <li class="dropdown dropdown-user nav-item">
                 <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
                   <div class="user-nav d-sm-flex d-none">
-                    <span class="user-name">Администратор</span>
-                    <span class="user-status text-muted">Панель управления</span>
+                    <span class="user-name">{{ $i18n.t('admin_header_admin') }}</span>
+                    <span class="user-status text-muted">{{ $i18n.t('admin_header_panel') }}</span>
                   </div>
                   <span><img class="round" src="/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"></span>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right pb-0">
-                  <a class="dropdown-item" href="#"><i class="bx bx-message mr-50"></i> Статистика</a>
-                  <div class="dropdown-divider mb-0"></div>
-                  <a class="dropdown-item" href="#"><i class="bx bx-power-off mr-50"></i> Logout</a>
-                </div>
               </li>
             </ul>
           </div>
@@ -70,6 +59,22 @@ import AnimatedNumber from "animated-number-vue";
 export default {
   name: "Header",
   props: ['user'],
+  computed: {
+    getLangCookie: function(){
+      if(this.$i18n.locale === 'en'){
+        return 'us';
+      }
+      return this.$i18n.locale;
+    },
+    getLangText: function (){
+      if(this.$i18n.locale === 'en'){
+        return 'English';
+      }
+      if(this.$i18n.locale === 'ru'){
+        return 'Русский';
+      }
+    }
+  },
   components: {
     AnimatedNumber
   },
