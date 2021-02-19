@@ -57,7 +57,7 @@ startsecs = 0
 stopwaitsecs=0
 ```
 
-Путь: `/etc/supervisor/conf.d/tradingview.conf` - проверка закрытия сделок
+Путь: `/etc/supervisor/conf.d/orders.conf` - проверка закрытия сделок
 ```shell
 [program:orders]
 process_name=%(program_name)s_%(process_num)02d
