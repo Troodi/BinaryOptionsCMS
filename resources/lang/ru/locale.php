@@ -129,6 +129,7 @@ return [
   "promo_code_without_deposit_activated" => "Промокод на бездепозиный бонус активирован!",
   "promo_code_active" => "Данный промокод активен и доступен при пополнении баланса!",
   "promo_code_you_dont_have_bonuses" => "У Вас нет бонусов!",
+  "promo_code_you_have_open_orders" => "Нельзя отменить бонус, пока имеются открытые сделки.",
   "promo_code_bonus_decline" => "Бонус успешно отменен!",
 
   //Контроллер привязки соц. сетей.

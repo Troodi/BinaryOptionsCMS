@@ -130,7 +130,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
           type: "POST"
         },
         "language": {
-          "url": "/locales/" + (0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') : 0
+          "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') : 'en') + ".json"
         },
         columns: [{
           orderable: false,

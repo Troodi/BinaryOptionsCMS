@@ -5,7 +5,7 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">Управление торговыми символами (все котировки брать с tradingview.com) пары лучше не удалять, а скрывать</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_symbol_settings_title') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -14,15 +14,15 @@
                     <table class="table">
                       <thead>
                       <tr>
-                        <th>Пара</th>
-                        <th>Брокер</th>
-                        <th>Фикс %</th>
-                        <th>Мин %</th>
-                        <th>Макс %</th>
-                        <th>Работает с</th>
-                        <th>Работает до</th>
-                        <th>Активен</th>
-                        <th>Действие</th>
+                        <th>{{ $i18n.t('admin_symbol_settings_symbol') }}</th>
+                        <th>{{ $i18n.t('admin_symbol_settings_broker') }}</th>
+                        <th>{{ $i18n.t('admin_symbol_settings_fix') }} %</th>
+                        <th>{{ $i18n.t('admin_symbol_settings_min') }} %</th>
+                        <th>{{ $i18n.t('admin_symbol_settings_max') }} %</th>
+                        <th>{{ $i18n.t('admin_symbol_settings_work_from') }}</th>
+                        <th>{{ $i18n.t('admin_symbol_settings_work_to') }}</th>
+                        <th>{{ $i18n.t('admin_symbol_settings_active') }}</th>
+                        <th>{{ $i18n.t('admin_symbol_settings_action') }}</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -40,8 +40,8 @@
                         </td>
                         <td class="td-symbols">
                           <div style="width: 250px">
-                            <button type="button" @click="save(symbol.id)" class="btn btn-outline-primary float-left" style="margin-right: 3px;width: 132px;" v-bind:disabled="ajax[symbol.id]" v-html="ajax[symbol.id] ? loading : 'Сохранить'"></button>
-                            <button type="button" @click="remove(symbol.id)" class="btn btn-outline-danger float-left" style="margin-left: 3px;width: 112px;" v-bind:disabled="ajax[symbol.id]" v-html="ajax[symbol.id] ? loading : 'Удалить'"></button>
+                            <button type="button" @click="save(symbol.id)" class="btn btn-outline-primary float-left" style="margin-right: 3px;width: 132px;" v-bind:disabled="ajax[symbol.id]" v-html="ajax[symbol.id] ? loading : $i18n.t('admin_symbol_settings_save')"></button>
+                            <button type="button" @click="remove(symbol.id)" class="btn btn-outline-danger float-left" style="margin-left: 3px;width: 112px;" v-bind:disabled="ajax[symbol.id]" v-html="ajax[symbol.id] ? loading : $i18n.t('admin_symbol_settings_delete')"></button>
                           </div>
                         </td>
                       </tr>
@@ -59,7 +59,7 @@
                         </td>
                         <td class="td-symbols">
                           <div style="width: 250px">
-                            <button v-bind:disabled="create_ajax" @click="create" type="button" class="btn btn-outline-success w-100" v-html="create_ajax ? loading : 'Создать'"></button>
+                            <button v-bind:disabled="create_ajax" @click="create" type="button" class="btn btn-outline-success w-100" v-html="create_ajax ? loading : $i18n.t('admin_symbol_settings_create')"></button>
                           </div>
                         </td>
                       </tr>
@@ -228,13 +228,13 @@ export default {
       symbols: {},
       errors: [],
       success: [],
-      system_text: 'Новая система',
+      system_text: this.$i18n.t('admin_symbol_settings_new'),
       system_order: 1,
       loading: '<span class="spinner-border spinner-grow-sm" role="status" aria-hidden="true"></span>',
       ajax: [],
       hiddens: [
-        { id: 0, text: 'Скрыт' },
-        { id: 1, text: 'Активен' },
+        { id: 0, text: this.$i18n.t('admin_symbol_settings_hidden') },
+        { id: 1, text: this.$i18n.t('admin_symbol_settings_active_status') },
       ],
       defaultHidden: 0,
     }

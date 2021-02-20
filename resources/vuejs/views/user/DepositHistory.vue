@@ -67,7 +67,7 @@
               type: "POST"
             },
             "language": {
-              "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
+              "url": "/locales/"+ (getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en') +".json"
             },
             columns: [
               {

@@ -29,7 +29,7 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">Управление платежными системами для выплат (удаление, изменение id, добавление - может сломать выводы)</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_withdraw_settings_title') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -38,11 +38,11 @@
                     <table class="table">
                       <thead>
                       <tr>
-                        <th>ID (не стоит менять)</th>
-                        <th>Система</th>
-                        <th>Порядок</th>
-                        <th>Активность</th>
-                        <th>Действие</th>
+                        <th>{{ $i18n.t('admin_deposit_settings_id') }}</th>
+                        <th>{{ $i18n.t('admin_deposit_settings_system') }}</th>
+                        <th>{{ $i18n.t('admin_deposit_settings_order') }}</th>
+                        <th>{{ $i18n.t('admin_deposit_settings_active') }}</th>
+                        <th>{{ $i18n.t('admin_deposit_settings_action') }}</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -52,8 +52,8 @@
                         <td><input type="text" class="form-control" :id="'order'+system.id" :value="system.order"></td>
                         <td><select2 v-model="system.hidden" :id="'active'+system.id" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/></td>
                         <td>
-                          <button type="button" @click="save(system.id)" class="btn btn-outline-primary">Сохранить</button>
-                          <button type="button" @click="remove(system.id)" class="btn btn-outline-danger">Удалить</button>
+                          <button type="button" @click="save(system.id)" class="btn btn-outline-primary">{{ $i18n.t('admin_deposit_settings_save') }}</button>
+                          <button type="button" @click="remove(system.id)" class="btn btn-outline-danger">{{ $i18n.t('admin_deposit_settings_delete') }}</button>
                         </td>
                       </tr>
                       <tr>
@@ -61,7 +61,7 @@
                         <td><input type="text" v-model="system_text" class="form-control"></td>
                         <td><input type="text" v-model="system_order" class="form-control"></td>
                         <td><select2 v-model="defaultHidden" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/></td>
-                        <td><button @click="create" type="button" class="btn btn-outline-success">Создать</button></td>
+                        <td><button @click="create" type="button" class="btn btn-outline-success">{{ $i18n.t('admin_deposit_settings_create') }}</button></td>
                       </tr>
                       </tbody>
                     </table>
@@ -148,11 +148,11 @@ export default {
       systems: {},
       errors: [],
       success: [],
-      system_text: 'Новая система',
+      system_text: this.$i18n.t('admin_deposit_settings_new_system'),
       system_order: 1,
       hiddens: [
-        { id: "0", text: 'Активна' },
-        { id: "1", text: 'Скрыта' },
+        { id: "0", text: this.$i18n.t('admin_deposit_settings_active_status') },
+        { id: "1", text: this.$i18n.t('admin_deposit_settings_hidden') },
       ],
       defaultHidden: 0,
     }

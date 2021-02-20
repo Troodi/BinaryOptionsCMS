@@ -344,7 +344,7 @@ __webpack_require__.r(__webpack_exports__);
         type: "POST"
       },
       "language": {
-        "url": "/locales/" + (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') : 0
+        "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') : 'en') + ".json"
       },
       columns: [{
         data: 'id',
@@ -426,7 +426,7 @@ __webpack_require__.r(__webpack_exports__);
         type: "POST"
       },
       "language": {
-        "url": "/locales/" + (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') : 0
+        "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') : 'en') + ".json"
       },
       columns: [{
         data: 'daily_orders_count',
@@ -483,7 +483,7 @@ __webpack_require__.r(__webpack_exports__);
             date = new Date(data);
           }
 
-          return '<a href="/admin/day/' + dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'dd-mm-yyyy') + '" target="_blank">' + dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'dd-mm-yyyy') + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'dd-mm-yyyy');
         }
       }]
     });

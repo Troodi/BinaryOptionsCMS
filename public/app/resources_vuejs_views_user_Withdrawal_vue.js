@@ -363,7 +363,7 @@ __webpack_require__.r(__webpack_exports__);
           type: "POST"
         },
         "language": {
-          "url": "/locales/" + (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') : 0
+          "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') : 'en') + ".json"
         },
         "createdRow": function createdRow(row, data, index) {
           if (!self.isAdmin) {
@@ -493,7 +493,10 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       var percent = (1 - this.account.left_turnover / this.account.all_turnover).toFixed(4);
-      return (parseFloat(this.account.balance) + (this.account.bonus * percent - this.account.bonus)).toFixed(2);
+
+      var _final = (parseFloat(this.account.balance) + (this.account.bonus * percent - this.account.bonus)).toFixed(2);
+
+      return _final <= 0 ? 0 : _final;
     },
     left_turnover: function left_turnover() {
       if (!this.account) {

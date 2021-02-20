@@ -323,7 +323,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
           type: "POST"
         },
         "language": {
-          "url": "/locales/" + (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') : 0
+          "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') : 'en') + ".json"
         },
         columns: [{
           data: 'token',

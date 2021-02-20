@@ -251,16 +251,16 @@ __webpack_require__.r(__webpack_exports__);
       symbols: {},
       errors: [],
       success: [],
-      system_text: 'Новая система',
+      system_text: this.$i18n.t('admin_symbol_settings_new'),
       system_order: 1,
       loading: '<span class="spinner-border spinner-grow-sm" role="status" aria-hidden="true"></span>',
       ajax: [],
       hiddens: [{
         id: 0,
-        text: 'Скрыт'
+        text: this.$i18n.t('admin_symbol_settings_hidden')
       }, {
         id: 1,
-        text: 'Активен'
+        text: this.$i18n.t('admin_symbol_settings_active_status')
       }],
       defaultHidden: 0
     };
@@ -427,14 +427,89 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12" }, [
           _c("div", { staticClass: "card" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_symbol_settings_title")))
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "table-responsive" }, [
                     _c("table", { staticClass: "table" }, [
-                      _vm._m(1),
+                      _c("thead", [
+                        _c("tr", [
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.$i18n.t("admin_symbol_settings_symbol")
+                              )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.$i18n.t("admin_symbol_settings_broker")
+                              )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$i18n.t("admin_symbol_settings_fix")) +
+                                " %"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$i18n.t("admin_symbol_settings_min")) +
+                                " %"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(_vm.$i18n.t("admin_symbol_settings_max")) +
+                                " %"
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.$i18n.t("admin_symbol_settings_work_from")
+                              )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.$i18n.t("admin_symbol_settings_work_to")
+                              )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.$i18n.t("admin_symbol_settings_active")
+                              )
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("th", [
+                            _vm._v(
+                              _vm._s(
+                                _vm.$i18n.t("admin_symbol_settings_action")
+                              )
+                            )
+                          ])
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c(
                         "tbody",
@@ -735,7 +810,9 @@ var render = function() {
                                       innerHTML: _vm._s(
                                         _vm.ajax[symbol.id]
                                           ? _vm.loading
-                                          : "Сохранить"
+                                          : _vm.$i18n.t(
+                                              "admin_symbol_settings_save"
+                                            )
                                       )
                                     },
                                     on: {
@@ -760,7 +837,9 @@ var render = function() {
                                       innerHTML: _vm._s(
                                         _vm.ajax[symbol.id]
                                           ? _vm.loading
-                                          : "Удалить"
+                                          : _vm.$i18n.t(
+                                              "admin_symbol_settings_delete"
+                                            )
                                       )
                                     },
                                     on: {
@@ -1023,7 +1102,11 @@ var render = function() {
                                   },
                                   domProps: {
                                     innerHTML: _vm._s(
-                                      _vm.create_ajax ? _vm.loading : "Создать"
+                                      _vm.create_ajax
+                                        ? _vm.loading
+                                        : _vm.$i18n.t(
+                                            "admin_symbol_settings_create"
+                                          )
                                     )
                                   },
                                   on: { click: _vm.create }
@@ -1045,46 +1128,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v(
-          "Управление торговыми символами (все котировки брать с tradingview.com) пары лучше не удалять, а скрывать"
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Пара")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Брокер")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Фикс %")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Мин %")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Макс %")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Работает с")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Работает до")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Активен")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Действие")])
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 /***/ })

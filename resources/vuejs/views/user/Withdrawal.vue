@@ -321,7 +321,7 @@
                         type: "POST"
                     },
                     "language": {
-                      "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
+                      "url": "/locales/"+ (getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en') +".json"
                     },
                     "createdRow": function (row, data, index) {
                       if(!self.isAdmin) {
@@ -449,7 +449,8 @@
                     return 0;
                 }
                 let percent = (1 - (this.account.left_turnover / this.account.all_turnover)).toFixed(4);
-                return (parseFloat(this.account.balance) + (this.account.bonus * percent - this.account.bonus)).toFixed(2);
+                let final = (parseFloat(this.account.balance) + (this.account.bonus * percent - this.account.bonus)).toFixed(2);
+                return final <= 0 ? 0 : final;
             },
             left_turnover: function () {
                 if(!this.account){
