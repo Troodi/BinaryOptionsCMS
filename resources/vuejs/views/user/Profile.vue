@@ -39,7 +39,7 @@
                         </div>
 
                         <div class="input-group">
-                            <input v-model="phoneCode" type="text" class="form-control" v-mask="'9999'">
+                            <input v-model="phoneCode" type="text" class="form-control" v-mask="'####'">
                             <div v-show="phoneCodeEnabled" class="input-group-append">
                                 <button @click="sendPhoneCode" class="btn btn-primary" type="button">{{ $i18n.t('profile_make_call') }}</button>
                             </div>
@@ -103,7 +103,7 @@
                         </div>
 
                         <div class="input-group">
-                            <input v-model="emailCode" type="text" class="form-control" v-mask="'9999'">
+                            <input v-model="emailCode" type="text" class="form-control" v-mask="'####'">
                             <div v-show="emailCodeEnabled" class="input-group-append">
                                 <button @click="sendEmailCode" class="btn btn-primary" type="button">{{ $i18n.t('profile_send_code') }}</button>
                             </div>
@@ -173,7 +173,7 @@
                                         <fieldset class="form-group">
                                             <label>Email</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" v-model="email" v-bind:disabled="email_verified_at && !isAdmin" v-mask="'*{1,25}@*{1,15}.*{1,7}'">
+                                                <input type="text" class="form-control" v-model="email" v-bind:disabled="email_verified_at && !isAdmin">
                                                 <div class="input-group-append" v-if="isAdmin">
                                                   <button v-bind:disabled="emailSendDisabled" class="btn btn-primary" type="button" @click="updateEmail">{{ $i18n.t('profile_refresh') }}</button>
                                                 </div>
@@ -187,7 +187,7 @@
                                         <fieldset class="form-group">
                                             <label>{{ $i18n.t('profile_phone') }}*</label>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" v-model="phone" v-bind:disabled="phone_verify_at && !isAdmin" v-mask="'+9{9,20}'">
+                                                <input type="text" class="form-control" v-model="phone" v-bind:disabled="phone_verify_at && !isAdmin" placeholder="+____________">
                                                 <div class="input-group-append" v-if="isAdmin">
                                                   <button v-bind:disabled="phoneSendDisabled" @click="updatePhone" class="btn btn-primary" type="button">{{ $i18n.t('profile_refresh') }}</button>
                                                 </div>
@@ -200,7 +200,7 @@
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
                                             <label>Telegram</label>
-                                            <input type="text" class="form-control" v-model="telegram" v-mask="'@*{3,25}'">
+                                            <input type="text" class="form-control" v-model="telegram" placeholder="@_____">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
@@ -394,7 +394,7 @@
                                     <div class="col-md-4">
                                         <fieldset class="form-group">
                                             <label>{{ $i18n.t('profile_birth') }}</label>
-                                            <input type="text" class="form-control" v-model="birth" v-bind:disabled="privateDataIsset" v-mask="'99-99-9999'">
+                                            <input type="text" class="form-control" v-model="birth" v-bind:disabled="privateDataIsset" v-mask="'##-##-####'">
                                         </fieldset>
                                     </div>
                                     <div class="col-md-4">
@@ -648,8 +648,11 @@
 <script>
     import select2 from 'v-select2-component';
     import dateformat from "dateformat";
+    import { mask } from 'vue-the-mask'
+
     export default {
         name: "Profile",
+        directives: { mask },
         mounted() {
             this.getProfile();
         },

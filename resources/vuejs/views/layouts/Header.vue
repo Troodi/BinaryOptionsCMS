@@ -147,6 +147,7 @@
 <script>
     import AnimatedNumber from "animated-number-vue";
     import {getCookie} from '../../js/functions';
+    import $ from 'jquery';
     export default {
         name: "Header",
         props: ['user'],
@@ -154,9 +155,6 @@
             AnimatedNumber
         },
         mounted() {
-            $(document).ready(function (){
-              $('.dropdown-toggle').dropdown();
-            });
             if(new Date(this.user.created_at).getTime() + 24*60*60*1000 > new Date().getTime() && parseInt(this.user.balance) === 0){
               if(localStorage.getItem('popupWindowDiscount') === null){
                 localStorage.setItem('popupWindowDiscount', (new Date().getTime() + 60*60*1000).toString());

@@ -97,7 +97,7 @@ mix.then(() => {
 //     });
 //     mix.setResourceRoot("/materialize-material-design-admin-template/laravel/demtechnical/");
 // }
-mix.js('resources/assets/js/scripts.js', 'public/app').version();
-mix.js('resources/vuejs/app.js', 'public/app').version();
-mix.js('resources/vuejs/admin.js', 'public/app').version();
+mix.js('resources/assets/js/scripts.js', 'public/app').vue().version();
+mix.js('resources/vuejs/app.js', 'public/app').vue().version();
+mix.js('resources/vuejs/admin.js', 'public/app').vue().version();
 mix.version();

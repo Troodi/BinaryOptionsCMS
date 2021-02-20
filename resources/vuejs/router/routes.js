@@ -8,16 +8,17 @@ import VueRouter from 'vue-router';
 //  * Import Components
 //  */
 // //Students
-import Trading from "../views/user/Trading";
-import Profile from "../views/user/Profile";
-import Deposit from "../views/user/Deposit";
-import History from "../views/user/TradeHistory";
-import Withdrawal from "../views/user/Withdrawal";
-import Support from "../views/user/Support";
-import Partner from "../views/user/Partner";
-import Promocode from "../views/user/Promocode";
-import PageNotFound from "../views/layouts/PageNotFound";
-import i18n from '../../vuejs/locales/i18n.js'
+import i18n from '../../vuejs/locales/i18n.js';
+
+const Trading = () => import("../views/user/Trading");
+const Profile = () => import("../views/user/Profile");
+const Deposit = () => import("../views/user/Deposit");
+const History = () => import("../views/user/TradeHistory");
+const Withdrawal = () => import("../views/user/Withdrawal");
+const Support = () => import("../views/user/Support");
+const Partner = () => import("../views/user/Partner");
+const Promocode = () => import("../views/user/Promocode");
+const PageNotFound = () => import("../views/layouts/PageNotFound");
 //
 // /**
 //  * Routes for vue components

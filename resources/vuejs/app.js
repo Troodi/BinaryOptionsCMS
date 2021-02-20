@@ -12,6 +12,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import '../sass/bootstrap.scss'
 import '../sass/bootstrap-extended.scss'
 import i18n from '../vuejs/locales/i18n'
+import VueTheMask from 'vue-the-mask'
 
 $.ajaxSetup({
     headers: {
@@ -27,7 +28,7 @@ $.ajaxSetup({
     }
 });
 
-const VueInputMask = require('vue-inputmask').default
+//const VueInputMask = require('vue-inputmask');
 window.axios = require('axios');
 
 window.axios.defaults.headers.common = {
@@ -47,7 +48,8 @@ window.axios.interceptors.response.use(function (response) {
     }
 });
 
-Vue.use(VueInputMask)
+//Vue.use(VueInputMask)
+Vue.use(VueTheMask)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCountdownTimer)

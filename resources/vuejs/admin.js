@@ -29,7 +29,6 @@ $.ajaxSetup({
     }
 });
 
-const VueInputMask = require('vue-inputmask').default
 window.axios = require('axios');
 
 window.axios.defaults.headers.common = {
@@ -49,7 +48,6 @@ window.axios.interceptors.response.use(function (response) {
     }
 });
 
-Vue.use(VueInputMask)
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueCountdownTimer)

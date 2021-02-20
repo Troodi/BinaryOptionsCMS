@@ -1,25 +1,24 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "npm run development -- --watch",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "production": "mix --production"
     },
     "devDependencies": {
         "@babel/plugin-proposal-class-properties": "^7.10.4",
         "axios": "^0.19",
         "bootstrap": "^4.5.2",
         "cross-env": "^5.1",
-        "laravel-mix": "^5.0.5",
+        "laravel-mix": "^6.0.11",
         "lodash": "^4.17.20",
         "popper.js": "^1.12",
         "resolve-url-loader": "^2.3.1",
         "sass": "^1.15.2",
         "sass-loader": "^8.0.0",
+        "vue-loader": "^15.9.5",
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
@@ -36,12 +35,14 @@
         "requirejs": "^2.3.6",
         "rtlcss": "^2.6.0",
         "socket.io-client": "^2.3.0",
+        "v-mask": "^2.2.4",
         "v-money": "^0.8.1",
         "v-select2-component": "^0.4.3",
         "vue": "^2.6.12",
         "vue-currency-input": "^1.22.3",
         "vue-echo-laravel": "0.0.6",
         "vue-i18n": "^8.22.2",
+        "vue-input-mask": "^0.0.11",
         "vue-inputmask": "^0.2.1",
         "vue-router": "^3.4.3",
         "vue-the-mask": "^0.11.1",
