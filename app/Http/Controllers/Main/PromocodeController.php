@@ -7,6 +7,7 @@ use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit;
 use App\Models\LatestOrder;
+use App\Models\OpenOrders;
 use App\Models\Promocode;
 use App\Models\PromocodeHistory;
 use App\User;
@@ -103,12 +104,19 @@ class PromocodeController extends Controller
     }
     $id = $admin ? $request->id : Auth::user()->id;
     $user = $admin ? User::where('id', $id)->first() : Auth::user();
+    if(OpenOrders::where('user_id', $id)->count()){
+      return response()->json(['success' => false, 'message' => __('locale.promo_code_you_have_open_orders')], 200);
+    }
     if($user->left_turnover == 0 or $user->all_turnover <= 0){
       return response()->json(['success' => false, 'message' => __('locale.promo_code_you_dont_have_bonuses')], 200);
     }
     $percent_to_payout = 1 - ($user->left_turnover / $user->all_turnover); // Сколько процентов отработано
     $add_to_balance = $user->bonus * $percent_to_payout - $user->bonus;
-    User::where('id', $id)->update(['bonus' => 0, 'all_turnover' => 0, 'left_turnover' => 0, 'balance' => DB::raw("balance+$add_to_balance")]);
+    $set_balance = $user->balance + $add_to_balance;
+    if($set_balance <= 0){
+      $set_balance = 0;
+    }
+    User::where('id', $id)->update(['bonus' => 0, 'all_turnover' => 0, 'left_turnover' => 0, 'balance' => $set_balance]);
     broadcast(new ChangeBalance($user->balance+$add_to_balance, $user));
     return response()->json(['success' => true, 'message' => __('locale.promo_code_bonus_decline')], 200);
   }

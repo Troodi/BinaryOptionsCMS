@@ -180,14 +180,14 @@ __webpack_require__.r(__webpack_exports__);
       systems: {},
       errors: [],
       success: [],
-      system_text: 'Новая система',
+      system_text: this.$i18n.t('admin_deposit_settings_new_system'),
       system_order: 1,
       hiddens: [{
         id: "0",
-        text: 'Активна'
+        text: this.$i18n.t('admin_deposit_settings_active_status')
       }, {
         id: "1",
-        text: 'Скрыта'
+        text: this.$i18n.t('admin_deposit_settings_hidden')
       }],
       defaultHidden: 0
     };
@@ -334,14 +334,58 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(2),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("admin_deposit_settings_title")))
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "table-responsive" }, [
                       _c("table", { staticClass: "table" }, [
-                        _vm._m(3),
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("admin_deposit_settings_id"))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_deposit_settings_system")
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_deposit_settings_order")
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_deposit_settings_active")
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_deposit_settings_action")
+                                )
+                              )
+                            ])
+                          ])
+                        ]),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -418,7 +462,15 @@ var render = function() {
                                         }
                                       }
                                     },
-                                    [_vm._v("Сохранить")]
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.$i18n.t(
+                                            "admin_deposit_settings_save"
+                                          )
+                                        )
+                                      )
+                                    ]
                                   ),
                                   _vm._v(" "),
                                   _c(
@@ -432,14 +484,22 @@ var render = function() {
                                         }
                                       }
                                     },
-                                    [_vm._v("Удалить")]
+                                    [
+                                      _vm._v(
+                                        _vm._s(
+                                          _vm.$i18n.t(
+                                            "admin_deposit_settings_delete"
+                                          )
+                                        )
+                                      )
+                                    ]
                                   )
                                 ])
                               ])
                             }),
                             _vm._v(" "),
                             _c("tr", [
-                              _vm._m(4),
+                              _vm._m(2),
                               _vm._v(" "),
                               _c("td", [
                                 _c("input", {
@@ -521,7 +581,15 @@ var render = function() {
                                     attrs: { type: "button" },
                                     on: { click: _vm.create }
                                   },
-                                  [_vm._v("Создать")]
+                                  [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.$i18n.t(
+                                          "admin_deposit_settings_create"
+                                        )
+                                      )
+                                    )
+                                  ]
                                 )
                               ])
                             ])
@@ -575,36 +643,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v(
-          "Управление платежными системами для пополнения (удаление, изменение id, добавление - может сломать пополнения)"
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("ID (не стоит менять)")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Система")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Порядок")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Активность")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Действие")])
-      ])
-    ])
   },
   function() {
     var _vm = this

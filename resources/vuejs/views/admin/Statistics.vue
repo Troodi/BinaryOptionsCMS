@@ -327,7 +327,7 @@ export default {
         type: "POST"
       },
       "language": {
-        "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
+        "url": "/locales/"+ (getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en') +".json"
       },
       columns: [
         {
@@ -407,7 +407,7 @@ export default {
         type: "POST"
       },
       "language": {
-        "url": "/locales/"+ getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en' +".json"
+        "url": "/locales/"+ (getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en') +".json"
       },
       columns: [
         {
@@ -463,7 +463,7 @@ export default {
             if (type === 'display') {
               date = new Date(data);
             }
-            return '<a href="/admin/day/' + dateformat(date, 'dd-mm-yyyy') + '" target="_blank">' + dateformat(date, 'dd-mm-yyyy') + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+            return dateformat(date, 'dd-mm-yyyy');
           }
         },
       ]

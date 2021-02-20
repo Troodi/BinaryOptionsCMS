@@ -12,7 +12,7 @@ let messages = {
 
 export default new VueI18n({
     locale: getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en',
-    fallbackLocale: 'ru',
+    fallbackLocale: 'en',
     messages
 })
 

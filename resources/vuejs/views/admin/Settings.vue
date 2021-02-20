@@ -29,7 +29,7 @@
         <div class="col-md-12">
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">Основные настройки</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_settings_main_settings') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -42,7 +42,7 @@
                       </fieldset>
                     </div>
                     <div class="col-md-12">
-                      <button type="button" @click="save" class="btn btn-outline-primary float-right">Сохранить настройки</button>
+                      <button type="button" @click="save" class="btn btn-outline-primary float-right">{{ $i18n.t('admin_settings_main_settings') }}</button>
                     </div>
                   </div>
                 </form>

@@ -129,6 +129,7 @@
     "promo_code_without_deposit_activated" => "No deposit bonus promo code activated!",
     "promo_code_active" => "This promo code is active and available when replenishing the balance!",
     "promo_code_you_dont_have_bonuses" => "You have no bonuses!",
+    "promo_code_you_have_open_orders" => "You cannot cancel the bonus while there are open trades!",
     "promo_code_bonus_decline" => "Bonus canceled successfully!",
 
     // Controller binding social. networks.

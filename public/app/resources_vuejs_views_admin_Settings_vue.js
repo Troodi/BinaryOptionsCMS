@@ -253,7 +253,11 @@ var render = function() {
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
             _c("div", { staticClass: "card" }, [
-              _vm._m(2),
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.$i18n.t("admin_settings_main_settings")))
+                ])
+              ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
@@ -287,7 +291,13 @@ var render = function() {
                               attrs: { type: "button" },
                               on: { click: _vm.save }
                             },
-                            [_vm._v("Сохранить настройки")]
+                            [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_settings_main_settings")
+                                )
+                              )
+                            ]
                           )
                         ])
                       ],
@@ -338,14 +348,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Основные настройки")])
-    ])
   }
 ]
 render._withStripped = true
