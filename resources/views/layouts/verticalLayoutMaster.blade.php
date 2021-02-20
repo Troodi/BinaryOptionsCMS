@@ -15,7 +15,7 @@
   <div class="app-content content">
   {{-- Application page structure --}}
     <div class="content-overlay"></div>
-    <app></app>
+    <app><div class="lds-dual-ring"></div></app>
   </div>
   <!-- END: Content-->
 
