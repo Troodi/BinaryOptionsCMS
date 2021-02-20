@@ -1,1 +1,1 @@
-$(document).ready(function(){$(window).scroll(function(){$(this).scrollTop()>400?$(".scroll-top").fadeIn():$(".scroll-top").fadeOut()}),$(".scroll-top").on("click",function(){$("html, body").animate({scrollTop:0},1e3)})});
+$(document).ready((function(){$(window).scroll((function(){$(this).scrollTop()>400?$(".scroll-top").fadeIn():$(".scroll-top").fadeOut()})),$(".scroll-top").on("click",(function(){$("html, body").animate({scrollTop:0},1e3)}))}));

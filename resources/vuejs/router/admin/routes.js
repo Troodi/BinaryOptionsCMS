@@ -8,26 +8,28 @@ import VueRouter from 'vue-router';
 //  * Import Components
 //  */
 // //Students
-import Statistics from "../../views/admin/Statistics";
-import Profile from "../../views/user/Profile";
-import Deposit from "../../views/user/Deposit";
-import Deposits from "../../views/admin/Deposit";
-import Withdrawal from "../../views/user/Withdrawal";
-import Withdrawals from "../../views/admin/Withdrawal";
-import Promocode from "../../views/user/Promocode";
-import PromocodeAdmin from "../../views/admin/Promocode";
-import Verify from "../../views/admin/Verify";
-import TradeHistory from "../../views/admin/TradeHistory";
-import UserLayout from "../../views/admin/layouts/User";
-import Partner from "../../views/user/Partner";
-import Partners from "../../views/admin/Partner";
-import Control from "../../views/admin/Control";
-import Settings from "../../views/admin/Settings";
 import i18n from "../../locales/i18n";
-import PageNotFound from "../../views/layouts/PageNotFound";
-import DepositSystem from "../../views/admin/DepositSystem";
-import WithdrawSystem from "../../views/admin/WithdrawSystem";
-import Symbol from "../../views/admin/Symbol";
+
+const Statistics = () => import("../../views/admin/Statistics");
+const Profile = () => import("../../views/user/Profile");
+const Deposit = () => import("../../views/user/Deposit");
+const Deposits = () => import("../../views/admin/Deposit");
+const Withdrawal = () => import("../../views/user/Withdrawal");
+const Withdrawals = () => import("../../views/admin/Withdrawal");
+const Promocode = () => import("../../views/user/Promocode");
+const PromocodeAdmin = () => import("../../views/admin/Promocode");
+const Verify = () => import("../../views/admin/Verify");
+const TradeHistory = () => import("../../views/admin/TradeHistory");
+const UserLayout = () => import("../../views/admin/layouts/User");
+const Partner = () => import("../../views/user/Partner");
+const Partners = () => import("../../views/admin/Partner");
+const Control = () => import("../../views/admin/Control");
+const Settings = () => import("../../views/admin/Settings");
+const PageNotFound = () => import("../../views/layouts/PageNotFound");
+const DepositSystem = () => import("../../views/admin/DepositSystem");
+const WithdrawSystem = () => import("../../views/admin/WithdrawSystem");
+const Symbol = () => import("../../views/admin/Symbol");
+
 //
 // /**
 //  * Routes for vue components
