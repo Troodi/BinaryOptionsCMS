@@ -56,7 +56,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-      if(config('app.demo')){
+      if(config('custom.demo')){
         throw ValidationException::withMessages(['demo_mode' => __('locale.demo_error')]);
       }
       return Validator::make($data, [
@@ -79,7 +79,7 @@ class RegisterController extends Controller
 
     // Register
     public function showRegistrationForm(){
-     if(config('app.demo')){
+     if(config('custom.demo')){
        return view('/auth/register')->withErrors(['demo_mode' => __('locale.demo_error')]);
      }
      return view('/auth/register');

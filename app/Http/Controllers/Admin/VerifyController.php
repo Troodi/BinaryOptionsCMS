@@ -20,7 +20,7 @@ class VerifyController extends Controller
     }
 
   public function checkDocument(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([
@@ -65,7 +65,7 @@ class VerifyController extends Controller
 
   //Верификация аккаунта
   public function verifyAccount(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([
@@ -93,7 +93,7 @@ class VerifyController extends Controller
 
   //Снятие верификации аккаунта
   public function unVerifyAccount(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([

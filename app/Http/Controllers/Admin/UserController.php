@@ -14,7 +14,7 @@ class UserController extends Controller
 {
   // Верификация телефона
   public function updatePhone(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([
@@ -27,7 +27,7 @@ class UserController extends Controller
 
   // Верификация почты
   public function updateEmail(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([
@@ -40,7 +40,7 @@ class UserController extends Controller
 
   //Обновление пароля
   public function updatePassword(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([

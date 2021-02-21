@@ -59,7 +59,7 @@ class LoginController extends Controller
     }
     // Login
     public function showLoginForm(){
-      if(config('app.demo')){
+      if(config('custom.demo')){
         return view('/auth/login')->withErrors(['demo_mode' => __('locale.demo_error')]);
       }
       return view('/auth/login');

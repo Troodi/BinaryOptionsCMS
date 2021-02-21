@@ -30,7 +30,7 @@ class SocialController extends Controller
       if ($model->count()) { // Если есть такой пользователь
         Auth::loginUsingId($model->first()->user_id);
       } else { // Если записи нет, регистрируем
-        if(config('app.demo')){
+        if(config('custom.demo')){
           return view('/auth/register')->withErrors(['demo_mode' => __('locale.demo_error')]);
         }
         $user_model = User::where('email', $userSocial->user['email']);

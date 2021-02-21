@@ -11,7 +11,7 @@ use Yajra\DataTables\DataTables;
 class PartnerController extends Controller
 {
   public function approvePartner(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([
@@ -33,7 +33,7 @@ class PartnerController extends Controller
   }
 
   public function discardPartner(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([

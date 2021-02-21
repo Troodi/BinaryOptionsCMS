@@ -27,7 +27,7 @@
           <div class="card disable-rounded-right mb-0 p-2">
             <div class="card-header pb-1">
               <div class="card-title text-center">
-                <img src="{{ config('app.logo_url_auth') }}" class="mb-2"/>
+                <img src="{{ config('custom.logo_url_auth') }}" class="mb-2"/>
               </div>
             </div>
             <div class="form-group d-flex justify-content-between align-items-center mb-2">

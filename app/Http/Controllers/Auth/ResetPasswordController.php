@@ -32,7 +32,7 @@ class ResetPasswordController extends Controller
 
       public function showResetForm(Request $request, $token = null)
       {
-        if(config('app.demo')){
+        if(config('custom.demo')){
           return view('auth.passwords.reset')->with(
             ['token' => $token, 'email' => $request->email]
           )->withErrors(['demo_mode' => __('locale.demo_error')]);

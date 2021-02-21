@@ -7,8 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title')</title>
-    <link rel="apple-touch-icon" href="{{ config('app.icon_url') }}">
-    <link rel="shortcut icon" type="image/png" href="{{ config('app.icon_url') }}">
+    <link rel="apple-touch-icon" href="{{ config('custom.icon_url') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ config('custom.icon_url') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('panels.styles')
   </head>
