@@ -53,7 +53,7 @@ window.dataLoaded = false;
         if (typeof window.Datafeed !== 'undefined') {
           clearInterval(interval);
           window.tvWidget = new window.TradingView.widget({
-            locale: (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') : 'en',
+            locale: (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') === 'es' ? 'en' : (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') : 'en',
             symbol: symbol,
             // default symbol
             interval: resolution,

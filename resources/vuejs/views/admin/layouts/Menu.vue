@@ -138,11 +138,11 @@
             <span class="menu-title">{{ $i18n.t('admin_menu_trading_history') }}</span>
           </router-link>
         </li>
-        <li class="nav-item" :class="{'active' : this.$route.path === '/logout'}">
-          <router-link :to="'/close'">
-            <i class="menu-livicon" :data-icon="'close'"></i>
-            <span class="menu-title">{{ $i18n.t('admin_menu_exit') }}</span>
-          </router-link>
+        <li class="nav-item">
+          <a href="/logout" @click.prevent="logout">
+            <i class="menu-livicon" data-icon="close"></i>
+            <span class="menu-title">{{ $i18n.t('menu_logout') }}</span>
+          </a>
         </li>
       </ul>
     </div>
@@ -168,6 +168,12 @@ export default {
       } else {
         return this.$router.currentRoute.path.includes(this.$route.meta.pathActive) && href.includes(this.$route.meta.pathActive) && !children;
       }
+    },
+    logout: function (){
+      axios.post('/logout').then((response) => {
+        window.location.href = '';
+      });
+      return false;
     }
   },
   computed: {

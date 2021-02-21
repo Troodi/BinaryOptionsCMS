@@ -13,6 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
 //
 //
 //
@@ -48,6 +49,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Verify",
   mounted: function mounted() {
@@ -71,7 +73,7 @@ __webpack_require__.r(__webpack_exports__);
         type: "POST"
       },
       "language": {
-        "url": "/locales/Russian.json"
+        "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') : 'en') + ".json"
       },
       columns: [{
         data: 'user_id',
@@ -101,7 +103,7 @@ __webpack_require__.r(__webpack_exports__);
         data: 'page',
         name: 'page',
         render: function render(data, type, row) {
-          return '<a data-url="/admin/user/profile/' + row.user.id + '" href="/admin/user/profile/' + row.user.id + '" class="router-push w-100"><button type="button" class="btn btn-outline-primary btn-sm w-100">Проверить</button></a>';
+          return '<a data-url="/admin/user/profile/' + row.user.id + '" href="/admin/user/profile/' + row.user.id + '" class="router-push w-100"><button type="button" class="btn btn-outline-primary btn-sm w-100">' + self.$i18n.t('admin_verify_check') + '</button></a>';
         }
       }, {
         data: 'created_at',
@@ -206,46 +208,48 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content-wrapper" }, [
-      _c("div", { staticClass: "content-body" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("section", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h4", { staticClass: "card-title" }, [
-                  _vm._v("Заявки на верификацию")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-text" }, [
-                    _c("div", { staticClass: "table-responsive" }, [
-                      _c(
-                        "table",
-                        { staticClass: "table", attrs: { id: "verify" } },
-                        [
-                          _c("thead", [
-                            _c("tr", [
-                              _c("th", [_vm._v("Пользователь")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Документ")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Действие")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Дата")])
+  return _c("div", { staticClass: "content-wrapper" }, [
+    _c("div", { staticClass: "content-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("section", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_verify_title")))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c(
+                      "table",
+                      { staticClass: "table", attrs: { id: "verify" } },
+                      [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_verify_user")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("admin_verify_document"))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_verify_action")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_verify_date")))
                             ])
                           ])
-                        ]
-                      )
-                    ])
+                        ])
+                      ]
+                    )
                   ])
                 ])
               ])
@@ -254,8 +258,9 @@ var staticRenderFns = [
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 /***/ })

@@ -39,7 +39,7 @@ class ControlController extends Controller
     } else {
       $user->update(['balance' => $request->balance]);
     }
-    return response()->json(['success' => true, 'message' => 'Баланс пользователя успешно обновлен!']);
+    return response()->json(['success' => true, 'message' =>  __('locale.admin_control_balance')]);
   }
 
   public function banAction(Request $request)
@@ -56,6 +56,6 @@ class ControlController extends Controller
       $action = 3;
     }
     User::where('id', $request->id)->update(['banned' => $action, 'banned_at' => Carbon::now()]);
-    return response()->json(['success' => true, 'message' => 'Бан для пользователя обновлен!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_control_ban')]);
   }
 }

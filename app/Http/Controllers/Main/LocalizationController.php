@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\App;
 
 class LocalizationController extends Controller
 {
-    private $lang = ['en', 'ru'];
+    private $lang = ['en', 'ru', 'es'];
 
     public function setLang(Request $request, $language){
       if(in_array($language, $this->lang)) {

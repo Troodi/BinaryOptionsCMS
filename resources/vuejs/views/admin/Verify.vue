@@ -5,7 +5,7 @@
         <div class="col-md-12">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">Заявки на верификацию</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_verify_title') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -14,10 +14,10 @@
                     <table class="table" id="verify">
                       <thead>
                       <tr>
-                        <th>Пользователь</th>
-                        <th>Документ</th>
-                        <th>Действие</th>
-                        <th>Дата</th>
+                        <th>{{ $i18n.t('admin_verify_user') }}</th>
+                        <th>{{ $i18n.t('admin_verify_document') }}</th>
+                        <th>{{ $i18n.t('admin_verify_action') }}</th>
+                        <th>{{ $i18n.t('admin_verify_date') }}</th>
                       </tr>
                       </thead>
                     </table>
@@ -34,6 +34,7 @@
 
 <script>
 import dateformat from "dateformat";
+import {getCookie} from "../../js/functions";
 
 export default {
   name: "Verify",
@@ -56,7 +57,7 @@ export default {
         type: "POST"
       },
       "language": {
-        "url": "/locales/Russian.json"
+        "url": "/locales/"+ (getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en') +".json"
       },
       columns: [
         {
@@ -85,7 +86,7 @@ export default {
           data: 'page',
           name: 'page',
           render: function(data, type, row) {
-            return '<a data-url="/admin/user/profile/' + row.user.id + '" href="/admin/user/profile/' + row.user.id + '" class="router-push w-100"><button type="button" class="btn btn-outline-primary btn-sm w-100">Проверить</button></a>';
+            return '<a data-url="/admin/user/profile/' + row.user.id + '" href="/admin/user/profile/' + row.user.id + '" class="router-push w-100"><button type="button" class="btn btn-outline-primary btn-sm w-100">'+self.$i18n.t('admin_verify_check')+'</button></a>';
           }
         },
         {

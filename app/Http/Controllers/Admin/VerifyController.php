@@ -46,21 +46,21 @@ class VerifyController extends Controller
     }
     VerifyRequest::where('user_id', $request->id)->where('page', $request->page)->delete();
     $mail_data = [
-      'headline' => $success ? "Документ №$request->page прошел проверку" : "Документ №$request->page не прошел проверку",
-      'subtitle' =>  'Статус проверки документа',
-      'text' => $success ? '<p>Поздравляем! Ваш документ был проверен и подтвержден</p>' : '<p>К сожалению, документ не прошел проверку</p>',
+      'headline' => $success ? __('locale.admin_verify_approved', ['page' => $request->page]) : __('locale.admin_verify_decline', ['page' => $request->page]),
+      'subtitle' =>  __('locale.admin_verify_document_status'),
+      'text' => $success ? '<p>'.__('locale.admin_verify_approved').'</p>' : '<p>'.__('locale.admin_verify_decline').'</p>',
       'image' => $success ? 'membership.png' : 'membership-ended.png',
       'button_link' => env('APP_URL').'/profile',
-      'button_text' => 'Перейти в кабинет'
+      'button_text' => __('locale.admin_verify_go_cabinet')
     ];
     Mail::send('mail.mail', $mail_data, function($message) use ($request, $success)
     {
       $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
       $message->replyTo(env('MAIL_USERNAME'));
-      $message->subject($success ? "Документ №$request->page прошел проверку" : "Документ №$request->page не прошел проверку");
+      $message->subject($success ? __('locale.admin_verify_approved', ['page' => $request->page]) : __('locale.admin_verify_decline', ['page' => $request->page]));
       $message->to(User::where('id', $request->id)->first()->email);
     });
-    return response()->json(['success' => true, 'message' => 'Действие выполнено успешно!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_verify_action_successful')]);
   }
 
   //Верификация аккаунта
@@ -74,21 +74,21 @@ class VerifyController extends Controller
     Profile::where('user_id', $request->id)->update(['user_verify_at' => Carbon::now()]);
     VerifyRequest::where('user_id', $request->id)->delete();
     $mail_data = [
-      'headline' => "Аккаунт верифицирован",
-      'subtitle' =>  'Теперь у вас подтвержденный аккаунт',
-      'text' => '<p>Поздравляем! Ваши данные были проверены и успешно подтверждены.</p>',
+      'headline' => __('locale.admin_verify_verified'),
+      'subtitle' =>  __('locale.admin_verify_now_verified'),
+      'text' => '<p>'.__('locale.admin_verify_successful_verified').'</p>',
       'image' => 'subscription-completed.png',
       'button_link' => env('APP_URL').'/profile',
-      'button_text' => 'Перейти в кабинет'
+      'button_text' => __('locale.admin_verify_go_cabinet')
     ];
     Mail::send('mail.mail', $mail_data, function($message) use ($request)
     {
       $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
       $message->replyTo(env('MAIL_USERNAME'));
-      $message->subject("Аккаунт верифицирован");
+      $message->subject(__('locale.admin_verify_verified'));
       $message->to(User::where('id', $request->id)->first()->email);
     });
-    return response()->json(['success' => true, 'message' => 'Пользователь успешно верифицирован!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_verify_user_verified')]);
   }
 
   //Снятие верификации аккаунта
@@ -102,20 +102,20 @@ class VerifyController extends Controller
     Profile::where('user_id', $request->id)->update(['user_verify_at' => null]);
     VerifyRequest::where('user_id', $request->id)->delete();
     $mail_data = [
-      'headline' => "Аккаунт не верифицирован",
-      'subtitle' =>  'Теперь у вас не подтвержденный аккаунт',
-      'text' => '<p>К сожалению, мы сняли верификацию с Вашего аккаута.</p>',
+      'headline' => __('locale.admin_verify_not_verified'),
+      'subtitle' =>  __('locale.admin_verify_now_not_verified'),
+      'text' => '<p>'.__('locale.admin_verify_take_off_verify').'</p>',
       'image' => 'subscription-completed.png',
       'button_link' => env('APP_URL').'/profile',
-      'button_text' => 'Перейти в кабинет'
+      'button_text' => __('locale.admin_verify_go_cabinet')
     ];
     Mail::send('mail.mail', $mail_data, function($message) use ($request)
     {
       $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
       $message->replyTo(env('MAIL_USERNAME'));
-      $message->subject("Аккаунт не верифицирован");
+      $message->subject(__('locale.admin_verify_not_verified'));
       $message->to(User::where('id', $request->id)->first()->email);
     });
-    return response()->json(['success' => true, 'message' => 'У пользователя снята верификация!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_verify_taken_off_verify')]);
   }
 }

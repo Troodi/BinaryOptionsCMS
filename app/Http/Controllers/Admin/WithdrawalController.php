@@ -26,28 +26,28 @@ class WithdrawalController extends Controller
       ]);
       $withdrawal = Withdrawal::where('id', $request->id)->firstOrFail();
       if($withdrawal->status != 0){
-        return response()->json(['success' => false, 'message' => 'Заявка уже была обработана!']);
+        return response()->json(['success' => false, 'message' => __('locale.admin_withdraw_already_processed')]);
       }
       if($request->status == 2){
         User::where('id', $withdrawal->user_id)->update(['balance' => DB::raw("balance+$withdrawal->amount")]);
         Withdrawal::where('id', $request->id)->update(['status' => $request->status, 'message' => $request->comment]);
-        $message = $request->comment ? 'Причина: '.$request->comment : 'Причина отклонения не была указана';
+        $message = $request->comment ? __('locale.admin_withdraw_cause').': '.$request->comment : __('locale.admin_withdraw_cause_decline');
         $mail_data = [
-          'headline' => "Выплата отклонена",
-          'subtitle' =>  'Вывод средств не был осуществлен',
-          'text' => "<p>К сожалению, выплата не произведена. $message</p>",
+          'headline' => __('locale.admin_withdraw_declined'),
+          'subtitle' =>  __('locale.admin_withdraw_not_implemented'),
+          'text' => "<p>".__('locale.admin_withdraw_not_implemented_mail')." $message</p>",
           'image' => 'order-cancel.png',
           'button_link' => env('APP_URL').'/profile',
-          'button_text' => 'Перейти в кабинет'
+          'button_text' => __('locale.admin_withdraw_go_cabinet')
         ];
         Mail::send('mail.mail', $mail_data, function($message) use ($request, $withdrawal)
         {
           $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
           $message->replyTo(env('MAIL_USERNAME'));
-          $message->subject("Выплата отклонена");
+          $message->subject(__('locale.admin_withdraw_declined'));
           $message->to(User::where('id', $withdrawal->user_id)->first()->email);
         });
-        return response()->json(['success' => true, 'message' => 'Заявка на выплату была отклонена!']);
+        return response()->json(['success' => true, 'message' => __('locale.admin_withdraw_application_declined')]);
       }
       if($request->status == 1) {
         // Автовыплата (пока в ручном режиме)
@@ -99,21 +99,21 @@ class WithdrawalController extends Controller
         //
         Withdrawal::where('id', $request->id)->update(['status' => $request->status, 'message' => $request->comment]);
         $mail_data = [
-          'headline' => "Средства успешно выплачены",
-          'subtitle' => 'Выплата произведена',
-          'text' => '<p>Поздравляем! Вам была произведена выплата.</p>',
+          'headline' => __('locale.admin_withdraw_success'),
+          'subtitle' => __('locale.admin_withdraw_payment_made'),
+          'text' => '<p>'.__('locale.admin_withdraw_congratulations').'</p>',
           'image' => 'order-refund.png',
           'button_link' => env('APP_URL') . '/profile',
-          'button_text' => 'Перейти в кабинет'
+          'button_text' => __('locale.admin_withdraw_go_cabinet')
         ];
         Mail::send('mail.mail', $mail_data, function ($message) use ($request, $withdrawal) {
           $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
           $message->replyTo(env('MAIL_USERNAME'));
-          $message->subject("Средства успешно выплачены");
+          $message->subject(__('locale.admin_withdraw_success'));
           $message->to(User::where('id', $withdrawal->user_id)->first()->email);
         });
       }
-      return response()->json(['success' => true, 'message' => 'Заявка успешно обработана!']);
+      return response()->json(['success' => true, 'message' => __('locale.admin_withdraw_application_processed')]);
     }
 
     public function allWithdrawals(Request $request){
@@ -142,7 +142,7 @@ class WithdrawalController extends Controller
       'order' => $request->order,
       'hidden' => $request->active,
     ]);
-    return response()->json(['success' => true, 'message' => 'Данные успешно обновлены!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_withdraw_updated')]);
   }
 
   public function removeWithdrawSystem(Request $request){
@@ -153,7 +153,7 @@ class WithdrawalController extends Controller
       'id' => 'required|numeric|min:1',
     ]);
     WithdrawSystem::where('id', $request->id)->delete();
-    return response()->json(['success' => true, 'message' => 'Система успешно удалена!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_withdraw_deleted')]);
   }
 
   public function createWithdrawSystem(Request $request){
@@ -170,6 +170,6 @@ class WithdrawalController extends Controller
     $model->order = $request->order;
     $model->hidden = $request->active;
     $model->save();
-    return response()->json(['success' => true, 'message' => 'Система успешно создана!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_withdraw_created')]);
   }
 }

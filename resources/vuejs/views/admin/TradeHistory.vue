@@ -5,7 +5,7 @@
         <div class="col-md-12">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">История торговли</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_trade_title') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -14,14 +14,14 @@
                     <table class="table" id="history">
                       <thead>
                       <tr>
-                        <th>Пользователь</th>
-                        <th>Сумма</th>
-                        <th>Информация</th>
-                        <th>Прибыль</th>
-                        <th>Инструмент</th>
-                        <th>Процент</th>
-                        <th>Экспирация</th>
-                        <th>Дата</th>
+                        <th>{{ $i18n.t('admin_trade_user') }}</th>
+                        <th>{{ $i18n.t('admin_trade_amount') }}</th>
+                        <th>{{ $i18n.t('admin_trade_info') }}</th>
+                        <th>{{ $i18n.t('admin_trade_profit') }}</th>
+                        <th>{{ $i18n.t('admin_trade_pair') }}</th>
+                        <th>{{ $i18n.t('admin_trade_percent') }}</th>
+                        <th>{{ $i18n.t('admin_trade_expiration') }}</th>
+                        <th>{{ $i18n.t('admin_trade_date') }}</th>
                       </tr>
                       </thead>
                     </table>
@@ -37,7 +37,7 @@
         <div class="col-md-12">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">История торговли</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_trade_title_demo') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -46,14 +46,14 @@
                     <table class="table" id="historyDemo">
                       <thead>
                       <tr>
-                        <th>Пользователь</th>
-                        <th>Сумма</th>
-                        <th>Информация</th>
-                        <th>Прибыль</th>
-                        <th>Инструмент</th>
-                        <th>Процент</th>
-                        <th>Экспирация</th>
-                        <th>Дата</th>
+                        <th>{{ $i18n.t('admin_trade_user') }}</th>
+                        <th>{{ $i18n.t('admin_trade_amount') }}</th>
+                        <th>{{ $i18n.t('admin_trade_info') }}</th>
+                        <th>{{ $i18n.t('admin_trade_profit') }}</th>
+                        <th>{{ $i18n.t('admin_trade_pair') }}</th>
+                        <th>{{ $i18n.t('admin_trade_percent') }}</th>
+                        <th>{{ $i18n.t('admin_trade_expiration') }}</th>
+                        <th>{{ $i18n.t('admin_trade_date') }}</th>
                       </tr>
                       </thead>
                     </table>
@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import {getCookie} from "../../js/functions";
+
 require('../../../vendors/js/tables/datatable/datatables.min.js');
 require('../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js');
 require('../../../js/core/libraries/bootstrap.min.js');
@@ -124,7 +126,7 @@ export default {
           type: "POST"
         },
         "language": {
-          "url": "/locales/Russian.json"
+          "url": "/locales/"+ (getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en') +".json"
         },
         columns: [
           {
@@ -160,13 +162,13 @@ export default {
                 classname = 'danger';
               }
               return '<div class="badge badge-secondary cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' +
-                  'Дополнительная информация" data-content="' +
-                  'Цена открытия: ' + row.open_price + '<br>' +
-                  'Цена закрытия: '+ row.close_price+'<br>' +
-                  'Направление: <div class=\'badge badge-'+classname+'\'>'+path+'</div><br>' +
-                  'Время открытия: '+dateformat(row.open_at, 'HH:MM:ss dd-mm-yyyy')+'<br>' +
-                  'Время закрытия: '+dateformat(row.close_at, 'HH:MM:ss dd-mm-yyyy')+'' +
-                  '">Дополнительно</div>'
+                  ''+self.$i18n.t('admin_trade_additional_info')+'" data-content="' +
+                  ''+self.$i18n.t('admin_trade_open_price')+': ' + row.open_price + '<br>' +
+                  ''+self.$i18n.t('admin_trade_close_price')+': '+ row.close_price+'<br>' +
+                  ''+self.$i18n.t('admin_trade_path')+': <div class=\'badge badge-'+classname+'\'>'+path+'</div><br>' +
+                  ''+self.$i18n.t('admin_trade_open_time')+': '+dateformat(row.open_at, 'HH:MM:ss dd-mm-yyyy')+'<br>' +
+                  ''+self.$i18n.t('admin_trade_close_time')+': '+dateformat(row.close_at, 'HH:MM:ss dd-mm-yyyy')+'' +
+                  '">'+self.$i18n.t('admin_trade_additional')+'</div>'
             }
           },
           {

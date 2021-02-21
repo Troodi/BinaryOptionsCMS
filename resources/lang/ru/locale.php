@@ -215,12 +215,13 @@ return [
   "reset_sign_in" => "Войти",
 
   //Письма верификации
-  'admin_verify_document' => 'Документ №:page прошел проверку" : "Документ №:page не прошел проверку',
+  'admin_verify_document' => 'Документ №:page прошел проверку',
+  'admin_verify_document_decline' => 'Документ №:page не прошел проверку',
   'admin_verify_document_status' => 'Статус проверки документа',
   'admin_verify_approved' => 'Поздравляем! Ваш документ был проверен и подтвержден',
   'admin_verify_decline' => 'К сожалению, документ не прошел проверку',
   'admin_verify_go_cabinet' => 'Перейти в кабинет',
-  'admin_verify_document_approved' => 'Документ №:page прошел проверку" : "Документ №:page не прошел проверку',
+  'admin_verify_document_approved' => 'Документ №:page прошел проверку',
   'admin_verify_action_successful' => 'Действие выполнено успешно!',
   'admin_verify_verified' => 'Аккаунт верифицирован',
   'admin_verify_now_verified' => 'Теперь у вас подтвержденный аккаунт',
@@ -244,5 +245,35 @@ return [
   'admin_withdraw_payment_made' => 'Выплата произведена',
   'admin_withdraw_congratulations' => 'Поздравляем! Вам была произведена выплата.',
   'admin_withdraw_application_processed' => 'Заявка успешно обработана!',
+  'admin_withdraw_updated' => 'Данные успешно обновлены!',
+  'admin_withdraw_deleted' => 'Система успешно удалена!',
+  'admin_withdraw_created' => 'Система успешно создана!',
+
+  //Управление пользователем
+  'admin_control_balance' => 'Баланс пользователя успешно обновлен!',
+  'admin_control_ban' => 'Бан для пользователя обновлен!',
+
+  //Управление депозитом
+  'admin_deposit_updated' => 'Данные успешно обновлены!',
+  'admin_deposit_deleted' => 'Система успешно удалена!',
+  'admin_deposit_created' => 'Система успешно создана!',
+
+  //Управление партнером
+  'admin_partner_accepted' => 'Участие пользователя в партнерской программе успешно подтверждено!',
+  'admin_partner_declined' => 'Ваша заявка отклонена администрацией!',
+  'admin_partner_excluded' => 'Пользователь исключен (не подтвержден) в партнерской программе!',
+
+  //Управление настройками
+  'admin_settings_success' => 'Настройки успешно сохранены!',
+
+  //Управление торговыми символами
+  'admin_symbols_updated' => 'Данные успешно обновлены!',
+  'admin_symbols_deleted' => 'Символ успешно удален!',
+  'admin_symbols_created' => 'Символ успешно создан!',
+
+  //Управление пользователем
+  'admin_user_number_updated' => 'Номер телефона успешно обновлен!',
+  'admin_user_email_updated' => 'Email успешно обновлен!',
+  'admin_user_password_updated' => 'Пароль успешно обновлен!',
 ];
 ?>

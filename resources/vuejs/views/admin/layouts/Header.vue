@@ -34,6 +34,9 @@
                   <a class="dropdown-item" href="/lang/ru" data-language="ru">
                     <i class="flag-icon flag-icon-ru mr-50"></i> Русский
                   </a>
+                  <a class="dropdown-item" href="/lang/es" data-language="es">
+                    <i class="flag-icon flag-icon-es mr-50"></i> Español
+                  </a>
                 </div>
               </li>
               <li class="dropdown dropdown-user nav-item">
@@ -72,6 +75,9 @@ export default {
       }
       if(this.$i18n.locale === 'ru'){
         return 'Русский';
+      }
+      if(this.$i18n.locale === 'es'){
+        return 'Español';
       }
     }
   },

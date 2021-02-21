@@ -264,14 +264,14 @@
                         $('.decline-withdrawal').on('click', function (){
                           let id = $(this).attr('data-id');
                           Swal.fire({
-                            title: 'Укажите комментарий',
+                            title: self.$i18n.t('payout_comment'),
                             input: 'text',
                             inputAttributes: {
                               autocapitalize: 'off'
                             },
                             showCancelButton: true,
-                            confirmButtonText: 'Отменить выплату',
-                            cancelButtonText: 'Закрыть',
+                            confirmButtonText: self.$i18n.t('payout_cancel_payout'),
+                            cancelButtonText: self.$i18n.t('payout_close'),
                             showLoaderOnConfirm: true,
                             preConfirm: (comment) => {
                               return axios.post('/admin/data/processWithdrawal', { id: id, comment: comment, status: 2 }).then((response) => {
@@ -382,8 +382,8 @@
                             if (type === 'display') {
 
                             }
-                            return '<button type="button" class="btn btn-sm btn-outline-danger mr-1 decline-withdrawal" data-id="'+row.id+'">Отменить</button>' +
-                                   '<button type="button" class="btn btn-sm btn-outline-success accept-withdrawal" data-id="'+row.id+'">Выплатить</button>';
+                            return '<button type="button" class="btn btn-sm btn-outline-danger mr-1 decline-withdrawal" data-id="'+row.id+'">'+self.$i18n.t('payout_cancel')+'</button>' +
+                                   '<button type="button" class="btn btn-sm btn-outline-success accept-withdrawal" data-id="'+row.id+'">'+self.$i18n.t('payout_payout')+'</button>';
                           }
                         },
                         {

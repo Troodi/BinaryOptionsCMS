@@ -37,7 +37,7 @@ class SymbolController extends Controller
       'work_to' => $request->work_to,
       'status' => $request->active,
     ]);
-    return response()->json(['success' => true, 'message' => 'Данные успешно обновлены!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_symbols_updated')]);
   }
 
   public function getSymbol(Request $request){
@@ -55,7 +55,7 @@ class SymbolController extends Controller
       'id' => 'required|integer|min:1'
     ]);
     Symbol::where('id', $request->id)->delete();
-    return response()->json(['success' => true, 'message' => 'Символ успешно удален!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_symbols_deleted')]);
   }
 
   public function createSymbol(Request $request){
@@ -82,6 +82,6 @@ class SymbolController extends Controller
     $model->work_to = $request->work_to;
     $model->status = $request->status;
     $model->save();
-    return response()->json(['success' => true, 'message' => 'Символ успешно создан!', 'created' => $model]);
+    return response()->json(['success' => true, 'message' => __('locale.admin_symbols_created'), 'created' => $model]);
   }
 }

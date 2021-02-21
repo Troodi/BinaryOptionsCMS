@@ -145,35 +145,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Control",
   data: function data() {
+    var self = this;
     return {
       amount: 0,
       balanceAction: 2,
       balanceActions: [{
         id: "0",
-        text: "Добавить к балансу"
+        text: self.$i18n.t('admin_control_add_to_balance')
       }, {
         id: "1",
-        text: "Вычесть с баланса"
+        text: self.$i18n.t('admin_control_sub_from_balance')
       }, {
         id: "2",
-        text: "Установить баланс в значение"
+        text: self.$i18n.t('admin_control_set_balance')
       }],
       banAction: 0,
       banActions: [{
         id: "0",
-        text: "Разблокирован"
+        text: self.$i18n.t('admin_control_unblocked')
       }, {
         id: "1",
-        text: "Бан за мультиаккаунты"
+        text: self.$i18n.t('admin_control_ban_multi_account')
       }, {
         id: "2",
-        text: "Бан по неактивности"
+        text: self.$i18n.t('admin_control_ban_inactive')
       }, {
         id: "3",
-        text: "Бан (нарушение правил)"
+        text: self.$i18n.t('admin_control_ban_rules')
       }, {
         id: "4",
-        text: "Бан + все рефераллы"
+        text: self.$i18n.t('admin_control_ban_and_referrals')
       }],
       info: {}
     };
@@ -230,12 +231,12 @@ __webpack_require__.r(__webpack_exports__);
         self.loadUserInfo();
 
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
         } else {
-          toastr.error(response.data.message, 'Ошибка!', {
+          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -252,12 +253,12 @@ __webpack_require__.r(__webpack_exports__);
         self.loadUserInfo();
 
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
         } else {
-          toastr.error(response.data.message, 'Ошибка!', {
+          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -273,12 +274,12 @@ __webpack_require__.r(__webpack_exports__);
         self.loadUserInfo();
 
         if (response.data.success === true) {
-          toastr.success(response.data.message, 'Успешно!', {
+          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
         } else {
-          toastr.error(response.data.message, 'Ошибка!', {
+          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
@@ -400,14 +401,20 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12" }, [
           _c("div", { staticClass: "card" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_control_balance")))
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "row" }, [
                   _c("div", { staticClass: "col-md-5" }, [
                     _c("fieldset", { staticClass: "form-group" }, [
-                      _c("label", [_vm._v("Сумма")]),
+                      _c("label", [
+                        _vm._v(_vm._s(_vm.$i18n.t("admin_control_amount")))
+                      ]),
                       _vm._v(" "),
                       _c("input", {
                         directives: [
@@ -439,7 +446,7 @@ var render = function() {
                       { staticClass: "form-group" },
                       [
                         _c("label", { staticClass: "align-top" }, [
-                          _vm._v("Действие")
+                          _vm._v(_vm._s(_vm.$i18n.t("admin_control_action")))
                         ]),
                         _vm._v(" "),
                         _c("select2", {
@@ -474,7 +481,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: { click: _vm.balanceClick }
                       },
-                      [_vm._v("Выполнить")]
+                      [_vm._v(_vm._s(_vm.$i18n.t("admin_control_execute")))]
                     )
                   ])
                 ])
@@ -487,7 +494,11 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12" }, [
           _c("div", { staticClass: "card" }, [
-            _vm._m(1),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_control_block_user")))
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
@@ -498,7 +509,7 @@ var render = function() {
                       { staticClass: "form-group" },
                       [
                         _c("label", { staticClass: "align-top" }, [
-                          _vm._v("Действие")
+                          _vm._v(_vm._s(_vm.$i18n.t("admin_control_action")))
                         ]),
                         _vm._v(" "),
                         _c("select2", {
@@ -533,7 +544,7 @@ var render = function() {
                         attrs: { type: "button" },
                         on: { click: _vm.banClick }
                       },
-                      [_vm._v("Выполнить")]
+                      [_vm._v(_vm._s(_vm.$i18n.t("admin_control_execute")))]
                     )
                   ])
                 ])
@@ -546,7 +557,11 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12" }, [
           _c("div", { staticClass: "card" }, [
-            _vm._m(2),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_control_verify_user")))
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
@@ -565,7 +580,13 @@ var render = function() {
                         },
                         on: { click: _vm.verifyClick }
                       },
-                      [_vm._v("Верифицировать пользователя")]
+                      [
+                        _vm._v(
+                          _vm._s(
+                            _vm.$i18n.t("admin_control_verify_user_action")
+                          )
+                        )
+                      ]
                     )
                   ]),
                   _vm._v(" "),
@@ -583,7 +604,11 @@ var render = function() {
                         },
                         on: { click: _vm.unVerifyClick }
                       },
-                      [_vm._v("Снять верификацию с пользователя")]
+                      [
+                        _vm._v(
+                          _vm._s(_vm.$i18n.t("admin_control_take_off_verify"))
+                        )
+                      ]
                     )
                   ])
                 ])
@@ -596,7 +621,11 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12" }, [
           _c("div", { staticClass: "card" }, [
-            _vm._m(3),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_control_delete_user")))
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
@@ -614,7 +643,7 @@ var render = function() {
                         },
                         on: { click: _vm.banClick }
                       },
-                      [_vm._v("Восстановление пользователя")]
+                      [_vm._v(_vm._s(_vm.$i18n.t("admin_control_delete_user")))]
                     )
                   ]),
                   _vm._v(" "),
@@ -631,7 +660,11 @@ var render = function() {
                         },
                         on: { click: _vm.banClick }
                       },
-                      [_vm._v("Удаление пользователя")]
+                      [
+                        _vm._v(
+                          _vm._s(_vm.$i18n.t("admin_control_restore_user"))
+                        )
+                      ]
                     )
                   ])
                 ])
@@ -644,7 +677,11 @@ var render = function() {
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-12" }, [
           _c("div", { staticClass: "card" }, [
-            _vm._m(4),
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_control_connect_partner")))
+              ])
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
@@ -667,7 +704,11 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Сделать партнером")]
+                      [
+                        _vm._v(
+                          _vm._s(_vm.$i18n.t("admin_control_make_partner"))
+                        )
+                      ]
                     )
                   ]),
                   _vm._v(" "),
@@ -689,7 +730,11 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v("Исключить из партнерской программы")]
+                      [
+                        _vm._v(
+                          _vm._s(_vm.$i18n.t("admin_control_exclude_partner"))
+                        )
+                      ]
                     )
                   ])
                 ])
@@ -701,54 +746,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Управление балансом")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v("Блокировка пользователя")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v("Верификация пользователя")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [_vm._v("Удаление пользователя")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h4", { staticClass: "card-title" }, [
-        _vm._v("Подключить партнерский кабинет")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 /***/ })

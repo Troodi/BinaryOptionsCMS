@@ -214,13 +214,14 @@
     "reset_remember" => "Remember your data?",
     "reset_sign_in" => "Sign in",
 
-    // Verification letters
-    'admin_verify_document' => 'Document #: page was verified ":" Document #: page was not verified',
+// Verification letters
+    'admin_verify_document' => 'Document №:page has been verified',
+    'admin_verify_document_decline' => 'Document №:page failed validation',
     'admin_verify_document_status' => 'Document verification status',
     'admin_verify_approved' => 'Congratulations! Your document has been checked and confirmed ',
     'admin_verify_decline' => 'Sorry, the document was not verified',
     'admin_verify_go_cabinet' => 'Go to cabinet',
-    'admin_verify_document_approved' => 'Document #: page was verified ":" Document #: page was not verified',
+    'admin_verify_document_approved' => 'Document №:page has been verified',
     'admin_verify_action_successful' => 'Action completed successfully!',
     'admin_verify_verified' => 'Account verified',
     'admin_verify_now_verified' => 'You now have a verified account',
@@ -229,7 +230,7 @@
     'admin_verify_not_verified' => 'Account not verified',
     'admin_verify_now_not_verified' => 'You now have an unverified account',
     'admin_verify_take_off_verify' => 'Sorry, we have removed verification from your account.',
-    'admin_verify_taken_off_verify' => 'The user has been removed from verification!',
+    'admin_verify_taken_off_verify' => 'User has been removed from verification!',
 
     // Payout letters
     'admin_withdraw_already_processed' => 'The application has already been processed!',
@@ -244,5 +245,35 @@
     'admin_withdraw_payment_made' => 'Payment made',
     'admin_withdraw_congratulations' =>' Congratulations! You have been paid. ',
     'admin_withdraw_application_processed' => 'Application processed successfully!',
+    'admin_withdraw_updated' => 'Data updated successfully!',
+    'admin_withdraw_deleted' => 'The system has been successfully removed!',
+    'admin_withdraw_created' => 'The system was successfully created!',
+
+    // User management
+    'admin_control_balance' => 'User balance updated successfully!',
+    'admin_control_ban' => 'Ban has been updated for the user!',
+
+    // Deposit management
+    'admin_deposit_updated' => 'Data updated successfully!',
+    'admin_deposit_deleted' => 'The system has been successfully deleted!',
+    'admin_deposit_created' => 'The system was created successfully!',
+
+    // Partner management
+    'admin_partner_accepted' => 'User\'s participation in the affiliate program has been successfully confirmed!',
+    'admin_partner_declined' => 'Your application has been declined by the administration!',
+    'admin_partner_excluded' => 'The user has been excluded (not confirmed) in the affiliate program!',
+
+    // Manage settings
+    'admin_settings_success' => 'Settings saved successfully!',
+
+    // Manage trading symbols
+    'admin_symbols_updated' => 'Data updated successfully!',
+    'admin_symbols_deleted' => 'Symbol deleted successfully!',
+    'admin_symbols_created' => 'Symbol created successfully!',
+
+    // User management
+    'admin_user_number_updated' => 'Phone number updated successfully!',
+    'admin_user_email_updated' => 'Email updated successfully!',
+    'admin_user_password_updated' => 'Password updated successfully!',
   ];
 ?>

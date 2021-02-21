@@ -2,12 +2,14 @@ import Vue from 'vue'
 import VueI18n from 'vue-i18n'
 import russian from '../locales/ru.json'
 import english from '../locales/en.json'
+import spain from '../locales/es.json'
 
 Vue.use(VueI18n)
 
 let messages = {
     en : english,
     ru : russian,
+    es : spain,
 }
 
 export default new VueI18n({
