@@ -51,7 +51,7 @@ export default {
           return false;
         });
       },
-      "order": [[3, "asc"]],
+      "order": [[3, "desc"]],
       "ajax": {
         url: "/admin/data/deposits",
         type: "POST"
