@@ -11,8 +11,8 @@
         <div class="subscribe-form bg-warning-soft p-5 rounded" @if(Request::is('/')) style="background-color: rgba(146, 146, 146, 0.1) !important" @endif>
           <h5 class="mb-4 text-white">@lang('locale.landing_contacts')</h5>
 {{--          <p class="text-white"><strong>@lang('locale.landing_phone'):</strong> +7 999 676 26 3O</p>--}}
-          <p class="text-white"><strong>Email:</strong> {{ config('app.support_mail') }}</p>
-          <p class="text-white"><strong>Telegram:</strong> {{ config('app.support_telegram') }}</p>
+          <p class="text-white"><strong>Email:</strong> {{ config('custom.support_mail') }}</p>
+          <p class="text-white"><strong>Telegram:</strong> {{ config('custom.support_telegram') }}</p>
 {{--          <p class="text-white"><strong>@lang('locale.landing_inn'):</strong> 773578793916</p>--}}
         </div>
       </div>
@@ -65,9 +65,9 @@
         <hr class="mb-5">
         <div class="col d-flex align-items-center justify-content-between p-0">
           <a class="navbar-brand logo text-white h2 mb-0 wow slideInLeft" href="/">
-            {{ config('app.first_title') }}<span class="text-white font-weight-bold">{{ config('app.second_title') }}</span>
+            {{ config('custom.first_title') }}<span class="text-white font-weight-bold">{{ config('custom.second_title') }}</span>
           </a>
-          <span class="text-white wow slideInRight">Copyright ©{{ date('Y') }} {{ config('app.title') }}</span>
+          <span class="text-white wow slideInRight">Copyright ©{{ date('Y') }} {{ config('custom.title') }}</span>
         </div>
       </div>
     </div>

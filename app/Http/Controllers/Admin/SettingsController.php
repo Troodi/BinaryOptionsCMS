@@ -10,7 +10,7 @@ class SettingsController extends Controller
 {
   public function getAllSettings(Request $request){
     $keys = [];
-    if(config('app.demo')){
+    if(config('custom.demo')){
       foreach(DotenvEditor::getKeys() as $key => $value){
         $value['value'] = __('locale.demo_error');
         $keys[$key] = $value;
@@ -22,7 +22,7 @@ class SettingsController extends Controller
   }
 
   public function save(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     DotenvEditor::autoBackup(false);

@@ -23,7 +23,7 @@ class ControlController extends Controller
 
   public function changeBalance(Request $request)
   {
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([
@@ -44,7 +44,7 @@ class ControlController extends Controller
 
   public function banAction(Request $request)
   {
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([

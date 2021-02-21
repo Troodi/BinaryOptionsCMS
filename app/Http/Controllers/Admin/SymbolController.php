@@ -14,7 +14,7 @@ class SymbolController extends Controller
   }
 
   public function saveSymbol(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([
@@ -49,7 +49,7 @@ class SymbolController extends Controller
   }
 
   public function removeSymbol(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([
@@ -61,7 +61,7 @@ class SymbolController extends Controller
   }
 
   public function createSymbol(Request $request){
-    if(config('app.demo')){
+    if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([

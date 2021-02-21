@@ -40,7 +40,7 @@ class WithdrawalController extends Controller
       ]);
       $admin = false;
       if($request->id && Helper::isAdmin()){
-        if(config('app.demo')){
+        if(config('custom.demo')){
           return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
         }
         $admin = true;

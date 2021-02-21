@@ -19,7 +19,7 @@ class PartnerController extends Controller
       ]);
       $admin = false;
       if($request->id && Helper::isAdmin()){
-        if(config('app.demo')){
+        if(config('custom.demo')){
           return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
         }
         $admin = true;
@@ -45,7 +45,7 @@ class PartnerController extends Controller
     public function requestAgain(Request $request){
       $admin = false;
       if($request->id && Helper::isAdmin()){
-        if(config('app.demo')){
+        if(config('custom.demo')){
           return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
         }
         $admin = true;

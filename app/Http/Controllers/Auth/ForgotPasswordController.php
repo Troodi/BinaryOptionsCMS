@@ -24,7 +24,7 @@ class ForgotPasswordController extends Controller
 
     protected function validateEmail(Request $request)
     {
-      if(config('app.demo')){
+      if(config('custom.demo')){
         throw ValidationException::withMessages(['demo_mode' => __('locale.demo_error')]);
       }
       $request->validate([
@@ -34,7 +34,7 @@ class ForgotPasswordController extends Controller
     }
 
     public function showLinkRequestForm(){
-      if(config('app.demo')){
+      if(config('custom.demo')){
         return view('/auth/passwords/email')->withErrors(['demo_mode' => __('locale.demo_error')]);
       }
       return view('/auth/passwords/email');
