@@ -298,14 +298,14 @@ __webpack_require__.r(__webpack_exports__);
           $('.decline-withdrawal').on('click', function () {
             var id = $(this).attr('data-id');
             _vendors_js_extensions_sweetalert2_all_min_js__WEBPACK_IMPORTED_MODULE_1___default().fire({
-              title: 'Укажите комментарий',
+              title: self.$i18n.t('payout_comment'),
               input: 'text',
               inputAttributes: {
                 autocapitalize: 'off'
               },
               showCancelButton: true,
-              confirmButtonText: 'Отменить выплату',
-              cancelButtonText: 'Закрыть',
+              confirmButtonText: self.$i18n.t('payout_cancel_payout'),
+              cancelButtonText: self.$i18n.t('payout_close'),
               showLoaderOnConfirm: true,
               preConfirm: function preConfirm(comment) {
                 return axios.post('/admin/data/processWithdrawal', {
@@ -424,7 +424,7 @@ __webpack_require__.r(__webpack_exports__);
           render: function render(data, type, row) {
             if (type === 'display') {}
 
-            return '<button type="button" class="btn btn-sm btn-outline-danger mr-1 decline-withdrawal" data-id="' + row.id + '">Отменить</button>' + '<button type="button" class="btn btn-sm btn-outline-success accept-withdrawal" data-id="' + row.id + '">Выплатить</button>';
+            return '<button type="button" class="btn btn-sm btn-outline-danger mr-1 decline-withdrawal" data-id="' + row.id + '">' + self.$i18n.t('payout_cancel') + '</button>' + '<button type="button" class="btn btn-sm btn-outline-success accept-withdrawal" data-id="' + row.id + '">' + self.$i18n.t('payout_payout') + '</button>';
           }
         }, {
           data: 'created_at',

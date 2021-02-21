@@ -32,7 +32,7 @@
     @yield('page-scripts')
     <!-- END: Page JS-->
     @auth
-        @if($is_admin)
+        @if(isset($is_admin) and $is_admin)
             <script src="{{ mix('app/admin.js') }}"></script>
         @else
             <script src="{{ mix('app/app.js') }}"></script>

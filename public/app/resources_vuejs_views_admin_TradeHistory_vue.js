@@ -11,8 +11,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
-/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -83,6 +84,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
 
 __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js */ "./resources/vendors/js/tables/datatable/dataTables.bootstrap4.min.js");
@@ -142,7 +145,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
           type: "POST"
         },
         "language": {
-          "url": "/locales/Russian.json"
+          "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') : 'en') + ".json"
         },
         columns: [{
           data: 'user_id',
@@ -178,7 +181,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
               classname = 'danger';
             }
 
-            return '<div class="badge badge-secondary cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' + 'Дополнительная информация" data-content="' + 'Цена открытия: ' + row.open_price + '<br>' + 'Цена закрытия: ' + row.close_price + '<br>' + 'Направление: <div class=\'badge badge-' + classname + '\'>' + path + '</div><br>' + 'Время открытия: ' + dateformat__WEBPACK_IMPORTED_MODULE_0___default()(row.open_at, 'HH:MM:ss dd-mm-yyyy') + '<br>' + 'Время закрытия: ' + dateformat__WEBPACK_IMPORTED_MODULE_0___default()(row.close_at, 'HH:MM:ss dd-mm-yyyy') + '' + '">Дополнительно</div>';
+            return '<div class="badge badge-secondary cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' + '' + self.$i18n.t('admin_trade_additional_info') + '" data-content="' + '' + self.$i18n.t('admin_trade_open_price') + ': ' + row.open_price + '<br>' + '' + self.$i18n.t('admin_trade_close_price') + ': ' + row.close_price + '<br>' + '' + self.$i18n.t('admin_trade_path') + ': <div class=\'badge badge-' + classname + '\'>' + path + '</div><br>' + '' + self.$i18n.t('admin_trade_open_time') + ': ' + dateformat__WEBPACK_IMPORTED_MODULE_1___default()(row.open_at, 'HH:MM:ss dd-mm-yyyy') + '<br>' + '' + self.$i18n.t('admin_trade_close_time') + ': ' + dateformat__WEBPACK_IMPORTED_MODULE_1___default()(row.close_at, 'HH:MM:ss dd-mm-yyyy') + '' + '">' + self.$i18n.t('admin_trade_additional') + '</div>';
           }
         }, {
           data: 'profit',
@@ -235,7 +238,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
               date.setHours(date.getHours() + new Date().getTimezoneOffset() / 60);
             }
 
-            return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM:ss');
+            return dateformat__WEBPACK_IMPORTED_MODULE_1___default()(date, 'HH:MM:ss');
           }
         }, {
           data: 'created_at',
@@ -247,7 +250,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
               date = new Date(data);
             }
 
-            return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'dd-mm-yyyy');
+            return dateformat__WEBPACK_IMPORTED_MODULE_1___default()(date, 'dd-mm-yyyy');
           }
         }]
       });
@@ -345,100 +348,128 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content-wrapper" }, [
-      _c("div", { staticClass: "content-body" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("section", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h4", { staticClass: "card-title" }, [
-                  _vm._v("История торговли")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-text" }, [
-                    _c("div", { staticClass: "table-responsive" }, [
-                      _c(
-                        "table",
-                        { staticClass: "table", attrs: { id: "history" } },
-                        [
-                          _c("thead", [
-                            _c("tr", [
-                              _c("th", [_vm._v("Пользователь")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Сумма")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Информация")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Прибыль")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Инструмент")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Процент")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Экспирация")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Дата")])
+  return _c("div", { staticClass: "content-wrapper" }, [
+    _c("div", { staticClass: "content-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("section", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_trade_title")))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c(
+                      "table",
+                      { staticClass: "table", attrs: { id: "history" } },
+                      [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_user")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_amount")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_info")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_profit")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_pair")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_percent")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("admin_trade_expiration"))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_date")))
                             ])
                           ])
-                        ]
-                      )
-                    ])
+                        ])
+                      ]
+                    )
                   ])
                 ])
               ])
             ])
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("section", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h4", { staticClass: "card-title" }, [
-                  _vm._v("История торговли")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-text" }, [
-                    _c("div", { staticClass: "table-responsive" }, [
-                      _c(
-                        "table",
-                        { staticClass: "table", attrs: { id: "historyDemo" } },
-                        [
-                          _c("thead", [
-                            _c("tr", [
-                              _c("th", [_vm._v("Пользователь")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Сумма")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Информация")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Прибыль")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Инструмент")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Процент")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Экспирация")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Дата")])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("section", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_trade_title_demo")))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c(
+                      "table",
+                      { staticClass: "table", attrs: { id: "historyDemo" } },
+                      [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_user")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_amount")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_info")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_profit")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_pair")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_percent")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("admin_trade_expiration"))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_date")))
                             ])
                           ])
-                        ]
-                      )
-                    ])
+                        ])
+                      ]
+                    )
                   ])
                 ])
               ])
@@ -447,8 +478,9 @@ var staticRenderFns = [
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

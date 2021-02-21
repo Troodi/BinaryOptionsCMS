@@ -13,6 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
 //
 //
 //
@@ -46,6 +47,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Partner",
@@ -70,7 +72,7 @@ __webpack_require__.r(__webpack_exports__);
         type: "POST"
       },
       "language": {
-        "url": "/locales/Russian.json"
+        "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') : 'en') + ".json"
       },
       columns: [{
         data: 'user_id',
@@ -92,11 +94,11 @@ __webpack_require__.r(__webpack_exports__);
 
           if (type === 'display') {
             if (data == 0) {
-              text = '<span class="badge badge-primary text-white">На рассмотрении</span>';
+              text = '<span class="badge badge-primary text-white">' + self.$i18n.t('admin_partner_request_waiting') + '</span>';
             } else if (data == 1) {
-              text = '<span class="badge badge-success text-white">Подтверждена</span>';
+              text = '<span class="badge badge-success text-white">' + self.$i18n.t('admin_partner_request_accepted') + '</span>';
             } else if (data == 2) {
-              text = '<span class="badge badge-danger text-white">Отклонена</span>';
+              text = '<span class="badge badge-danger text-white">' + self.$i18n.t('admin_partner_request_declined') + '</span>';
             }
           }
 
@@ -209,44 +211,54 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "content-wrapper" }, [
-      _c("div", { staticClass: "content-body" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("section", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h4", { staticClass: "card-title" }, [
-                  _vm._v("Заявки на партнерство")
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-text" }, [
-                    _c("div", { staticClass: "table-responsive" }, [
-                      _c(
-                        "table",
-                        { staticClass: "table", attrs: { id: "verify" } },
-                        [
-                          _c("thead", [
-                            _c("tr", [
-                              _c("th", [_vm._v("Пользователь")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Статус")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Дата")])
+  return _c("div", { staticClass: "content-wrapper" }, [
+    _c("div", { staticClass: "content-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-12" }, [
+          _c("section", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_partner_request_title")))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-text" }, [
+                  _c("div", { staticClass: "table-responsive" }, [
+                    _c(
+                      "table",
+                      { staticClass: "table", attrs: { id: "verify" } },
+                      [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_partner_request_user")
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_partner_request_status")
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_partner_request_date")
+                                )
+                              )
                             ])
                           ])
-                        ]
-                      )
-                    ])
+                        ])
+                      ]
+                    )
                   ])
                 ])
               ])
@@ -255,8 +267,9 @@ var staticRenderFns = [
         ])
       ])
     ])
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -35,7 +35,7 @@
                     if(typeof window.Datafeed !== 'undefined'){
                         clearInterval(interval);
                         window.tvWidget = new window.TradingView.widget({
-                            locale: getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en',
+                            locale: getCookie('currentLanguage') ? (getCookie('currentLanguage') === 'es' ? 'en' : getCookie('currentLanguage') ) : 'en',
                             symbol: symbol, // default symbol
                             interval: resolution, // default interval
                             autosize: true,

@@ -29,7 +29,7 @@ class PartnerController extends Controller
       $model->save();
     }
     User::where('id', $request->id)->update(['partner_status' => 1]);
-    return response()->json(['success' => true, 'message' => 'Участие пользователя в партнерской программе успешно подтверждено!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_partner_accepted')]);
   }
 
   public function discardPartner(Request $request){
@@ -40,10 +40,10 @@ class PartnerController extends Controller
       'id' => 'numeric|required|min:1'
     ]);
     if(PartnerRequest::where('user_id', $request->id)->count()) {
-      PartnerRequest::where('user_id', $request->id)->update(['status' => 2, 'message' => 'Ваша заявка отклонена администрацией!']);
+      PartnerRequest::where('user_id', $request->id)->update(['status' => 2, 'message' => __('locale.admin_partner_declined')]);
     }
     User::where('id', $request->id)->update(['partner_status' => null]);
-    return response()->json(['success' => true, 'message' => 'Пользователь исключен (не подтвержден) в партнерской программе!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_partner_excluded')]);
   }
 
   public function listRequestPartner(Request $request){

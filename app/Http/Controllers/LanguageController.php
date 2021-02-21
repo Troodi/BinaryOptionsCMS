@@ -9,7 +9,7 @@ class LanguageController extends Controller
     //
     public function swap($locale){
       // available language in template array
-      $availLocale=['en'=>'en', 'ru' => 'ru', 'fr'=>'fr','de'=>'de','pt'=>'pt'];
+      $availLocale=['en'=>'en', 'ru' => 'ru', 'es'=>'es'];
       // check for existing language
       if(array_key_exists($locale,$availLocale)){
           session()->put('locale',$locale);

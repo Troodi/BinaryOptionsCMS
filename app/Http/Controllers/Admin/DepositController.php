@@ -36,7 +36,7 @@ class DepositController extends Controller
       'order' => $request->order,
       'hidden' => $request->active,
     ]);
-    return response()->json(['success' => true, 'message' => 'Данные успешно обновлены!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_deposit_updated')]);
   }
 
   public function removeDepositSystem(Request $request){
@@ -47,7 +47,7 @@ class DepositController extends Controller
       'id' => 'required|numeric|min:1',
     ]);
     DepositSystem::where('id', $request->id)->delete();
-    return response()->json(['success' => true, 'message' => 'Система успешно удалена!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_deposit_deleted')]);
   }
 
   public function createDepositSystem(Request $request){
@@ -64,6 +64,6 @@ class DepositController extends Controller
     $model->order = $request->order;
     $model->hidden = $request->active;
     $model->save();
-    return response()->json(['success' => true, 'message' => 'Система успешно создана!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_deposit_created')]);
   }
 }

@@ -32,6 +32,6 @@ class SettingsController extends Controller
       DotenvEditor::setKey($key, $value, '', false);
     }
     DotenvEditor::save();
-    return response()->json(['success' => true, 'message' => 'Настройки успешно сохранены!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_settings_success')]);
   }
 }

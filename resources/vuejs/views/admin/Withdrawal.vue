@@ -5,7 +5,7 @@
         <div class="col-md-12">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">Заявки на выплаты</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_withdrawals_title') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -14,10 +14,10 @@
                     <table class="table" id="verify">
                       <thead>
                       <tr>
-                        <th>Пользователь</th>
-                        <th>Сумма</th>
-                        <th>Статус</th>
-                        <th>Дата</th>
+                        <th>{{ $i18n.t('admin_withdrawals_user') }}</th>
+                        <th>{{ $i18n.t('admin_withdrawals_amount') }}</th>
+                        <th>{{ $i18n.t('admin_withdrawals_status') }}</th>
+                        <th>{{ $i18n.t('admin_withdrawals_date') }}</th>
                       </tr>
                       </thead>
                     </table>
@@ -34,6 +34,7 @@
 
 <script>
 import dateformat from "dateformat";
+import {getCookie} from "../../js/functions";
 
 export default {
   name: "Partner",
@@ -56,7 +57,7 @@ export default {
         type: "POST"
       },
       "language": {
-        "url": "/locales/Russian.json"
+        "url": "/locales/"+ (getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en') +".json"
       },
       columns: [
         {
@@ -88,11 +89,11 @@ export default {
             let text = '';
             if (type === 'display') {
               if(data == 0){
-                text = '<span class="badge badge-primary text-white">На рассмотрении</span>';
+                text = '<span class="badge badge-primary text-white">'+self.$i18n.t('admin_withdrawals_waiting')+'</span>';
               } else if (data == 1){
-                text = '<span class="badge badge-success text-white">Подтверждена</span>';
+                text = '<span class="badge badge-success text-white">'+self.$i18n.t('admin_withdrawals_accepted')+'</span>';
               } else if(data == 2){
-                text = '<span class="badge badge-danger text-white">Отклонена</span>';
+                text = '<span class="badge badge-danger text-white">'+self.$i18n.t('admin_withdrawals_declined')+'</span>';
               }
             }
             return text;

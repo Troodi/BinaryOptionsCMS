@@ -22,7 +22,7 @@ class UserController extends Controller
       'id' => 'numeric|min:1'
     ]);
     Profile::where('user_id', $request->id)->update(['phone' => $request->phone, 'phone_verify_at' => Carbon::now()]);
-    return response()->json(['success' => true, 'message' => 'Номер телефона успешно обновлен!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_user_number_updated')]);
   }
 
   // Верификация почты
@@ -35,7 +35,7 @@ class UserController extends Controller
       'id' => 'numeric|min:1'
     ]);
     User::where('id', $request->id)->update(['email' => $request->email, 'email_verified_at' => Carbon::now()]);
-    return response()->json(['success' => true, 'message' => 'Email успешно обновлен!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_user_email_updated')]);
   }
 
   //Обновление пароля
@@ -48,7 +48,7 @@ class UserController extends Controller
       'id' => 'numeric|min:1'
     ]);
     User::where('id', $request->id)->update(['password' => Hash::make($request->password)]);
-    return response()->json(['success' => true, 'message' => 'Пароль успешно обновлен!']);
+    return response()->json(['success' => true, 'message' => __('locale.admin_user_password_updated')]);
   }
 
   public function getUser(Request $request){

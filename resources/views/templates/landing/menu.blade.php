@@ -12,6 +12,7 @@
       <ul class="dropdown-menu">
         <li><a class="dropdown-item" href="/lang/ru">Русский</a></li>
         <li><a class="dropdown-item" href="/lang/en">English</a></li>
+        <li><a class="dropdown-item" href="/lang/es">Español</a></li>
       </ul>
     </li>
   </ul>
