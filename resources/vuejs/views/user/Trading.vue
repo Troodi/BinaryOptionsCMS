@@ -375,6 +375,25 @@
                     });
                 })
 
+            this.$echo.channel('symbols').listen('ChangeSymbol', (payload) => {
+              if(self.symbol){
+                payload.symbols.forEach(element => {
+                  this.symbolsPercents[element.id] = element.percent;
+                });
+                let percent;
+                if(this.symbolsPercents[self.symbol] == null){
+                  percent = payload.symbols.find(x => x.id === self.symbol).percent;
+                } else {
+                  percent = this.symbolsPercents[self.symbol];
+                }
+                this.percent = '+ '+percent.toString()+'%';
+                this.number_percent = percent;
+                window.symbolInfo.description = percent.toString()+'%';
+                window.symbolInfo.percent = percent;
+                window.$('#' + window.tvWidget._iFrame.name).contents().find('[data-name="legend-source-title"]').first().text(percent.toString()+'%')
+              }
+            });
+
             this.$echo.private('closed.' + window.user_data.id).listen('CloseOptionEvent', (payload) => {
                 let model = payload.model;
                 self.latest.unshift(model);
@@ -406,9 +425,14 @@
                 }
                 if(typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== this.symbol && window.dataLoaded && this.symbol !== window.symbolInfo.id) {
                     this.symbol = window.symbolInfo.id;
-                    this.percent = '+ ' + window.symbolInfo.description;
-                    this.number_percent = window.symbolInfo.percent;
-
+                    if(this.symbolsPercents[this.symbol] == null){
+                      this.percent = '+ ' + window.symbolInfo.description;
+                      this.number_percent = window.symbolInfo.percent;
+                    } else {
+                      this.percent = '+ ' + this.symbolsPercents[this.symbol].toString()+'%';
+                      this.number_percent = this.symbolsPercents[this.symbol];
+                      window.$('#' + window.tvWidget._iFrame.name).contents().find('[data-name="legend-source-title"]').first().text(this.symbolsPercents[this.symbol].toString()+'%')
+                    }
                     if(self.opened.length === 0) {
                         let urlOpened = '/data/opened';
                         if(this.isDemo) {
@@ -628,6 +652,7 @@
                 opened: [],
                 fastData: [],
                 latest: [],
+                symbolsPercents: [],
                 historyLoaded: false,
                 isDemo: false,
                 canVisibleDemoModal: true,

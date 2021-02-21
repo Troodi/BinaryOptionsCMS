@@ -114,6 +114,10 @@ class TradingViewWebsocket extends Command
     ]);
     while (true) {
       try {
+        if(Cache::has('market_update')){
+          Cache::forget('market_update');
+          $this->runParsing();
+        }
         $string = $this->websocket->receive();
         $packets = $this->parseMessages($string);
         foreach($packets as $packet){

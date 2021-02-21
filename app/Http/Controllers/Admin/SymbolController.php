@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Symbols\Options\Symbol;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class SymbolController extends Controller
 {
@@ -55,6 +56,7 @@ class SymbolController extends Controller
       'id' => 'required|integer|min:1'
     ]);
     Symbol::where('id', $request->id)->delete();
+    Cache::forever('market_update', true);
     return response()->json(['success' => true, 'message' => __('locale.admin_symbols_deleted')]);
   }
 
@@ -82,6 +84,7 @@ class SymbolController extends Controller
     $model->work_to = $request->work_to;
     $model->status = $request->status;
     $model->save();
+    Cache::forever('market_update', true);
     return response()->json(['success' => true, 'message' => __('locale.admin_symbols_created'), 'created' => $model]);
   }
 }

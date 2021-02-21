@@ -67,7 +67,7 @@ __webpack_require__.r(__webpack_exports__);
           return false;
         });
       },
-      "order": [[3, "asc"]],
+      "order": [[3, "desc"]],
       "ajax": {
         url: "/admin/data/deposits",
         type: "POST"

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\ChangeSymbol;
 use App\Models\Symbols\Options\Symbol;
 use App\Models\SymbolShortStatistic;
 use Carbon\Carbon;
@@ -66,6 +67,7 @@ class SetSymbolsPercent extends Command
           Symbol::where('id', $symbol->id)->update(['percent' => $symbol->fixed_percent]);
         }
       }
+      broadcast(new ChangeSymbol(Symbol::all()));
       return 0;
     }
 }

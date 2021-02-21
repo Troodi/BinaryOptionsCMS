@@ -503,6 +503,28 @@ __webpack_require__.r(__webpack_exports__);
         self.localTV.getTicker(item.broker + ':' + item.symbol.replace('/', ''));
       });
     });
+    this.$echo.channel('symbols').listen('ChangeSymbol', function (payload) {
+      if (self.symbol) {
+        payload.symbols.forEach(function (element) {
+          _this.symbolsPercents[element.id] = element.percent;
+        });
+        var percent;
+
+        if (_this.symbolsPercents[self.symbol] == null) {
+          percent = payload.symbols.find(function (x) {
+            return x.id === self.symbol;
+          }).percent;
+        } else {
+          percent = _this.symbolsPercents[self.symbol];
+        }
+
+        _this.percent = '+ ' + percent.toString() + '%';
+        _this.number_percent = percent;
+        window.symbolInfo.description = percent.toString() + '%';
+        window.symbolInfo.percent = percent;
+        window.$('#' + window.tvWidget._iFrame.name).contents().find('[data-name="legend-source-title"]').first().text(percent.toString() + '%');
+      }
+    });
     this.$echo["private"]('closed.' + window.user_data.id).listen('CloseOptionEvent', function (payload) {
       var model = payload.model;
       self.latest.unshift(model);
@@ -538,8 +560,15 @@ __webpack_require__.r(__webpack_exports__);
 
       if (typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== _this.symbol && window.dataLoaded && _this.symbol !== window.symbolInfo.id) {
         _this.symbol = window.symbolInfo.id;
-        _this.percent = '+ ' + window.symbolInfo.description;
-        _this.number_percent = window.symbolInfo.percent;
+
+        if (_this.symbolsPercents[_this.symbol] == null) {
+          _this.percent = '+ ' + window.symbolInfo.description;
+          _this.number_percent = window.symbolInfo.percent;
+        } else {
+          _this.percent = '+ ' + _this.symbolsPercents[_this.symbol].toString() + '%';
+          _this.number_percent = _this.symbolsPercents[_this.symbol];
+          window.$('#' + window.tvWidget._iFrame.name).contents().find('[data-name="legend-source-title"]').first().text(_this.symbolsPercents[_this.symbol].toString() + '%');
+        }
 
         if (self.opened.length === 0) {
           var urlOpened = '/data/opened';
@@ -759,6 +788,7 @@ __webpack_require__.r(__webpack_exports__);
       opened: [],
       fastData: [],
       latest: [],
+      symbolsPercents: [],
       historyLoaded: false,
       isDemo: false,
       canVisibleDemoModal: true
