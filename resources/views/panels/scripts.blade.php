@@ -17,8 +17,6 @@
     <!-- BEGIN: Page Vendor JS-->
     @yield('vendor-scripts')
     <script src="{{asset('vendors/js/extensions/toastr.min.js')}}"></script>
-    <script src="{{asset('vendors/js/pickers/pickadate/legacy.js')}}"></script>
-    <script src="{{asset('vendors/js/pickers/daterange/moment.min.js')}}"></script>
     <script src="{{asset('js/scripts/configs/vertical-menu-light.js')}}"></script>
     <script src="{{asset('js/core/app-menu.js')}}"></script>
     <script src="{{asset('app/scripts.js')}}"></script>

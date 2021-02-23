@@ -613,7 +613,11 @@ var render = function() {
                     _c("div", { staticClass: "table-responsive" }, [
                       _c(
                         "table",
-                        { staticClass: "table", attrs: { id: "promocode" } },
+                        {
+                          staticClass: "table",
+                          staticStyle: { width: "100%" },
+                          attrs: { id: "promocode" }
+                        },
                         [
                           _c("thead", [
                             _c("tr", [

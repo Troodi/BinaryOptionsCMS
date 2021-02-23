@@ -20,7 +20,7 @@ class CreatePromocodesTable extends Migration
             $table->string('code')->nullable();
             $table->string('image')->nullable();
             $table->integer('public_code')->nullable();
-            $table->integer('used')->nullable();
+            $table->integer('used')->default(0);
             $table->integer('for_new')->nullable(); // Только для новых
             $table->integer('attempts')->nullable();
             $table->integer('type')->nullable();
@@ -28,6 +28,7 @@ class CreatePromocodesTable extends Migration
             $table->integer('min_amount')->nullable();
             $table->timestamp('active_from')->nullable();
             $table->timestamp('active_to')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

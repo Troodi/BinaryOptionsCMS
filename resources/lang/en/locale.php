@@ -275,5 +275,10 @@
     'admin_user_number_updated' => 'Phone number updated successfully!',
     'admin_user_email_updated' => 'Email updated successfully!',
     'admin_user_password_updated' => 'Password updated successfully!',
+
+    // Manage promo codes
+    'admin_promocodes_deleted' => 'Promo code successfully deleted!',
+    'admin_promocodes_updated' => 'Promo code has been successfully updated!',
+    'admin_promocodes_created' => 'Promo code has been successfully created',
   ];
 ?>

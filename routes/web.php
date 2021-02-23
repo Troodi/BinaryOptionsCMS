@@ -104,6 +104,11 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::middleware(['admin'])->prefix('admin')->group(function () {
     Route::get("image/{file}", 'Main\FileController@showImage');
     Route::prefix('data')->group(function () {
+      Route::post('createPromocode', 'Admin\PromocodeController@createPromocode');
+      Route::post('removePromocode', 'Admin\PromocodeController@removePromocode');
+      Route::post('getAllPromocode', 'Admin\PromocodeController@getAllPromocode');
+      Route::post('savePromocode', 'Admin\PromocodeController@savePromocode');
+      Route::post('loadPromocode', 'Admin\PromocodeController@loadPromocode');
       Route::post('symbol', 'Admin\SymbolController@getSymbol');
       Route::post('symbol/save', 'Admin\SymbolController@saveSymbol');
       Route::post('symbol/remove', 'Admin\SymbolController@removeSymbol');
