@@ -275,5 +275,10 @@
    'admin_user_number_updated' => '¡Número de teléfono actualizado con éxito!',
    'admin_user_email_updated' => '¡El correo electrónico ha sido actualizado con éxito!',
    'admin_user_password_updated' => '¡Contraseña actualizada con éxito!',
+
+    // Gestionar códigos promocionales
+    'admin_promocodes_deleted' => '¡Código promocional eliminado correctamente!',
+    'admin_promocodes_updated' => '¡El código promocional se ha actualizado correctamente!',
+    'admin_promocodes_created' => 'El código promocional se ha creado correctamente',
   ];
 ?>

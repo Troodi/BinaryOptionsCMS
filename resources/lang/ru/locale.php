@@ -275,5 +275,10 @@ return [
   'admin_user_number_updated' => 'Номер телефона успешно обновлен!',
   'admin_user_email_updated' => 'Email успешно обновлен!',
   'admin_user_password_updated' => 'Пароль успешно обновлен!',
+
+  //Управление промокодами
+  'admin_promocodes_deleted' => 'Промокод успешно удален!',
+  'admin_promocodes_updated' => 'Промокод успешно обновлен!',
+  'admin_promocodes_created' => 'Промокод успешно создан',
 ];
 ?>

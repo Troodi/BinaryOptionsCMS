@@ -14,3 +14,53 @@
 @yield('page-styles')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/forms/select/select2.min.css')}}">
+<style>
+    .b-calendar output {
+        padding: 0.25rem;
+        font-size: 80%;
+        background-color: #272e48;
+        color: #fff;
+        border-color: #464d5c;
+    }
+
+    .b-calendar .b-calendar-grid-caption {
+        padding: 0.25rem;
+        background-color: #272e48;
+        color: #fff;
+        border-color: #464d5c;
+    }
+
+    .b-calendar .b-calendar-grid .row {
+        flex-wrap: nowrap;
+        background-color: #272e48;
+        color: #fff;
+        border-color: #464d5c !important;
+    }
+
+    .b-calendar .b-calendar-grid {
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        border-color: #464d5c !important;
+    }
+
+    .b-calendar-grid {
+        background-color: #1a233a !important;
+        color: #fff !important;
+        border-color: #464d5c !important;
+    }
+
+    .b-calendar-grid-help {
+        background-color: #1a233a !important;
+        color: #fff !important;
+        border-color: #464d5c !important;
+    }
+
+    .b-form-btn-label-control.form-control {
+        background-image: none;
+        padding: 0;
+        background-color: #1a233a !important;
+        color: #fff !important;
+        border-color: #464d5c !important;
+    }
+</style>

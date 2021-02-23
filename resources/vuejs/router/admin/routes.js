@@ -29,7 +29,7 @@ const PageNotFound = () => import("../../views/layouts/PageNotFound");
 const DepositSystem = () => import("../../views/admin/DepositSystem");
 const WithdrawSystem = () => import("../../views/admin/WithdrawSystem");
 const Symbol = () => import("../../views/admin/Symbol");
-
+const PromocodeEdit = () => import("../../views/admin/PromocodeEdit");
 //
 // /**
 //  * Routes for vue components
@@ -58,6 +58,8 @@ export const routes = [
     { path: '/admin/partner', name: i18n.t('admin_menu_requests'), component: Partners },
     { path: '/admin/verify', name: i18n.t('admin_menu_verify'), component: Verify },
     { path: '/admin/promocodes', name: i18n.t('admin_menu_promocodes'), component: PromocodeAdmin },
+    { path: '/admin/promocode/create', name: i18n.t('admin_menu_promocode_edit'), component: PromocodeEdit },
+    { path: '/admin/promocode/edit/:id', name: i18n.t('admin_menu_promocodes'), component: PromocodeEdit },
     { path: '/admin/history', name: i18n.t('admin_menu_trading_history'), component: TradeHistory },
     { path: '/logout', name: i18n.t('admin_menu_exit'), component: Profile },
     { path: '*', name: i18n.t('menu_404'), component: PageNotFound, meta: { icon: 'help', hide: true } },

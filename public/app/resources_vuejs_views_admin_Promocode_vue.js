@@ -11,6 +11,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -45,10 +48,194 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Promocode",
   mounted: function mounted() {
-    $('#promocode').DataTable();
+    this.initDT();
+  },
+  methods: {
+    initDT: function initDT() {
+      $("#promocode").dataTable().fnDestroy();
+      var self = this;
+      $('#promocode').DataTable({
+        "iDisplayLength": 25,
+        "processing": true,
+        "serverSide": true,
+        "drawCallback": function drawCallback() {
+          $('.router-push').on('click', function () {
+            var url = $(this).attr('data-url');
+            self.$router.push({
+              path: url
+            });
+            return false;
+          });
+          $('.router-del').on('click', function () {
+            var id = $(this).attr('data-del');
+            axios.post('/admin/data/removePromocode', {
+              id: id
+            }).then(function (response) {
+              self.initDT();
+
+              if (response.data.success === true) {
+                toastr.success(response.data.message, self.$i18n.t('partner_success'), {
+                  positionClass: 'toast-bottom-left',
+                  containerId: 'toast-bottom-left'
+                });
+              } else {
+                toastr.error(response.data.message, self.$i18n.t('partner_error'), {
+                  positionClass: 'toast-bottom-left',
+                  containerId: 'toast-bottom-left'
+                });
+              }
+            });
+            return false;
+          });
+        },
+        "order": [[0, "desc"]],
+        "ajax": {
+          url: "/admin/data/getAllPromocode",
+          type: "POST"
+        },
+        "language": {
+          "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') : 'en') + ".json"
+        },
+        columns: [{
+          data: 'id',
+          name: 'id'
+        }, {
+          data: 'code',
+          name: 'code'
+        }, {
+          data: 'bonus_size',
+          name: 'bonus_size',
+          render: function render(data, type, row) {
+            var text = '';
+
+            if (type === 'display') {
+              if (row.type == 1) {
+                text = data + ' $';
+              } else {
+                text = data + ' %';
+              }
+            }
+
+            return text;
+          }
+        }, {
+          data: 'type',
+          name: 'type',
+          render: function render(data, type, row) {
+            var text = '';
+
+            if (type === 'display') {
+              if (data == 1) {
+                text = self.$i18n.t('admin_promocode_list_without_deposit');
+              }
+
+              if (data == 2) {
+                text = self.$i18n.t('admin_promocode_list_deposit');
+              }
+            }
+
+            return text;
+          }
+        }, {
+          data: 'active_to',
+          name: 'active_to',
+          render: function render(data, type, row) {
+            var text = '';
+
+            if (type === 'display') {
+              if (new Date(data) > new Date()) {
+                text = '<span class="badge badge-success text-white">' + self.$i18n.t('admin_promocode_list_active') + '</span>';
+              } else {
+                text = '<span class="badge badge-danger text-white">' + self.$i18n.t('admin_promocode_list_expired') + '</span>';
+              }
+            }
+
+            return text;
+          }
+        }, {
+          data: 'turnover',
+          name: 'turnover',
+          render: function render(data, type, row) {
+            var text = '';
+
+            if (type === 'display') {
+              text = data + ' ' + self.$i18n.t('admin_promocode_list_tries');
+            }
+
+            return text;
+          }
+        }, {
+          data: 'public_code',
+          name: 'public_code',
+          render: function render(data, type, row) {
+            var text = '';
+
+            if (type === 'display') {
+              if (row.type == 1) {
+                text = self.$i18n.t('admin_promocode_list_in_promocodes');
+              } else {
+                text = self.$i18n.t('admin_promocode_list_in_deposites');
+              }
+            }
+
+            return text;
+          }
+        }, {
+          data: 'used',
+          name: 'used',
+          render: function render(data, type, row) {
+            var text = '';
+
+            if (type === 'display') {
+              if (data == null) {
+                text = 0;
+              } else {
+                text = data;
+              }
+            }
+
+            return text;
+          }
+        }, {
+          data: 'created_at',
+          name: 'created_at',
+          render: function render(data, type, row) {
+            var text = '';
+
+            if (type === 'display') {
+              text = '<button data-url="/admin/promocode/edit/' + row.id + '" style="line-height: 1" type="button" class="btn btn-sm btn-primary router-push" data-trigger="hover" data-toggle="tooltip" data-placement="top" data-content="' + self.$i18n.t('admin_promocode_list_edit') + '"><i style="top: 0px;font-size: 12px;" class="bx bx-edit-alt"></i></button>' + '<button data-del="' + row.id + '" style="line-height: 1; margin-left: 3px;" type="button" class="btn btn-sm btn-danger router-del" data-trigger="hover" data-toggle="tooltip" data-placement="top" data-content="' + self.$i18n.t('admin_promocode_list_delete') + '"><i style="top: 0px;font-size: 12px;" class="bx bx-trash-alt"></i></button>';
+            }
+
+            return text;
+          }
+        }]
+      });
+    }
   }
 });
 
@@ -159,10 +346,20 @@ var render = function() {
                       [
                         _c("thead", [
                           _c("tr", [
+                            _c("th", [_vm._v("ID")]),
+                            _vm._v(" "),
                             _c("th", [
                               _vm._v(
                                 _vm._s(
                                   _vm.$i18n.t("admin_promocode_list_promocode")
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_promocode_list_amount")
                                 )
                               )
                             ]),
@@ -183,7 +380,31 @@ var render = function() {
                             _vm._v(" "),
                             _c("th", [
                               _vm._v(
-                                _vm._s(_vm.$i18n.t("admin_promocode_list_date"))
+                                _vm._s(
+                                  _vm.$i18n.t("admin_promocode_list_turnover")
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_promocode_list_public")
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("admin_promocode_list_used"))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_promocode_list_action")
+                                )
                               )
                             ])
                           ])
@@ -192,6 +413,61 @@ var render = function() {
                     )
                   ])
                 ])
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("section", { staticClass: "card" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("h4", { staticClass: "card-title" }, [
+                _vm._v(_vm._s(_vm.$i18n.t("admin_promocode_list_create_new")))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-content" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "card-text" },
+                  [
+                    _c("router-link", {
+                      attrs: { to: "/admin/promocode/create" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function(ref) {
+                            var href = ref.href
+                            var route = ref.route
+                            var navigate = ref.navigate
+                            return [
+                              _c(
+                                "b-button",
+                                {
+                                  class: "w-100",
+                                  attrs: {
+                                    href: href,
+                                    variant: "outline-primary"
+                                  },
+                                  on: { click: navigate }
+                                },
+                                [
+                                  _vm._v(
+                                    _vm._s(
+                                      _vm.$i18n.t(
+                                        "admin_promocode_list_create_new_button"
+                                      )
+                                    )
+                                  )
+                                ]
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    })
+                  ],
+                  1
+                )
               ])
             ])
           ])
