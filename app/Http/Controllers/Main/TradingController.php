@@ -96,8 +96,9 @@ class TradingController extends Controller
       if((Carbon::now()->addSeconds($seconds)->hour > $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
         return response()->json(['message' => __('locale.trading_expiration_more')], 422);
       }
-      if($seconds < 300){
-        return response()->json(['message' => __('locale.trading_min_30_seconds')], 422);
+
+      if($seconds < $symbol->min_expiration_time){
+        return response()->json(['message' => __('locale.trading_min_30_seconds', ['min_expiration' => self::formatSeconds($symbol->min_expiration_time)])], 422);
       }
       if(!$request->demo) {
         if (Auth::user()->balance - $request->amount < 0) {
@@ -246,5 +247,12 @@ class TradingController extends Controller
 
   public function ping(Request $request){
     return null;
+  }
+
+  private function formatSeconds($seconds_from){
+    $hours = floor($seconds_from / 3600);
+    $mins = floor($seconds_from / 60 % 60);
+    $secs = floor($seconds_from % 60);
+    return sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
   }
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "053a51de66af887ee3ae967cfe4d41ca",
+    "content-hash": "c193b381073cf404865b3ffbf52778a6",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5630,43 +5630,6 @@
             "time": "2020-09-10T13:32:34+00:00"
         },
         {
-            "name": "troodi/laravel-auto-deploy",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Troodi/laravel-auto-deploy.git",
-                "reference": "7af89fd2389fa5aeb483c4b83325eba1a6d8289c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Troodi/laravel-auto-deploy/zipball/7af89fd2389fa5aeb483c4b83325eba1a6d8289c",
-                "reference": "7af89fd2389fa5aeb483c4b83325eba1a6d8289c",
-                "shasum": ""
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Troodi\\LaravelAutoDeploy\\LaravelAutoDeployServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Troodi\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "authors": [
-                {
-                    "name": "Troodi",
-                    "email": "troodi@ya.ru"
-                }
-            ],
-            "description": "Laravel auto deploy",
-            "time": "2020-05-07T10:08:34+00:00"
-        },
-        {
             "name": "twilio/sdk",
             "version": "6.12.0",
             "source": {
@@ -8276,16 +8239,15 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "troodi/laravel-auto-deploy": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.2.5",
+        "php": "^7.3|^8.0",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-openssl": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
