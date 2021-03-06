@@ -435,6 +435,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Trading",
@@ -552,10 +559,12 @@ __webpack_require__.r(__webpack_exports__);
         _this.percent = '';
         _this.symbol = null;
         _this.number_percent = null;
+        _this.min_expiration = Infinity;
       }
 
       if (typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== _this.symbol && window.dataLoaded && _this.symbol !== window.symbolInfo.id) {
         _this.symbol = window.symbolInfo.id;
+        _this.min_expiration = window.symbolInfo.expiration;
 
         if (_this.symbolsPercents[_this.symbol] == null) {
           _this.percent = '+ ' + window.symbolInfo.description;
@@ -610,6 +619,29 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    formatSeconds: function formatSeconds() {
+      if (this.min_expiration !== Infinity) {
+        var hours = Math.floor(this.min_expiration / 3600);
+        var minutes = Math.floor((this.min_expiration - hours * 3600) / 60);
+        var seconds = this.min_expiration - hours * 3600 - minutes * 60;
+
+        if (hours < 10) {
+          hours = "0" + hours;
+        }
+
+        if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+
+        return hours + ':' + minutes + ':' + seconds;
+      } else {
+        return '';
+      }
+    },
     moveToReal: function moveToReal() {
       jquery__WEBPACK_IMPORTED_MODULE_1___default()('#greatWorkModal').modal('hide');
       this.$router.push('/');
@@ -706,8 +738,10 @@ __webpack_require__.r(__webpack_exports__);
       this.clicked = true;
     },
     closeClick: function closeClick() {
-      if (parseInt(this.minutes) < 5 && parseInt(this.hours) === 0) {
-        toastr.error(this.$i18n.t('trade_minimal_expiration'), this.$i18n.t('trade_error'), {
+      if (parseInt(this.minutes) * 60 + parseInt(this.seconds) + parseInt(this.hours) * 60 * 60 < this.min_expiration) {
+        toastr.error(this.$i18n.t('trade_minimal_expiration', {
+          min_expiration: this.formatSeconds()
+        }), this.$i18n.t('trade_error'), {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -769,6 +803,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      min_expiration: Infinity,
       clicked: false,
       clickedAmount: false,
       percent: '',
@@ -795,7 +830,7 @@ __webpack_require__.r(__webpack_exports__);
       return this.hours + ':' + this.minutes + ':' + this.seconds;
     },
     isButtonDisabled: function isButtonDisabled() {
-      return parseInt(this.minutes) < 5 && parseInt(this.hours) === 0;
+      return parseInt(this.minutes) * 60 + parseInt(this.seconds) + parseInt(this.hours) * 60 * 60 < this.min_expiration;
     }
   },
   watch: {
@@ -1670,8 +1705,72 @@ var render = function() {
               _c("div", { staticClass: "card-content" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "card-text" }, [
+                    _c(
+                      "div",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value:
+                              _vm.number_percent !== null &&
+                              _vm.number_percent > 0 &&
+                              _vm.isButtonDisabled,
+                            expression:
+                              "number_percent !== null && number_percent > 0 && isButtonDisabled"
+                          }
+                        ],
+                        staticClass:
+                          "alert bg-rgba-danger alert-dismissible mb-2",
+                        attrs: { role: "alert" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "d-flex align-items-center" },
+                          [
+                            _vm._v(
+                              "\n                                      " +
+                                _vm._s(
+                                  _vm.$i18n.t("trade_expiration_min", {
+                                    min_expiration: _vm.formatSeconds()
+                                  })
+                                ) +
+                                "\n                                    "
+                            )
+                          ]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
                     _c("small", { staticClass: "text-muted" }, [
-                      _c("i", [_vm._v(_vm._s(_vm.$i18n.t("trade_expiration")))])
+                      _c("i", [
+                        _vm._v(_vm._s(_vm.$i18n.t("trade_expiration")) + " "),
+                        _c(
+                          "span",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.number_percent !== null,
+                                expression: "number_percent !== null"
+                              }
+                            ]
+                          },
+                          [
+                            _vm._v(
+                              "(" +
+                                _vm._s(
+                                  _vm.$i18n.t("trade_expiration_min", {
+                                    min_expiration: _vm.formatSeconds()
+                                  })
+                                ) +
+                                ")"
+                            )
+                          ]
+                        )
+                      ])
                     ]),
                     _vm._v(" "),
                     _c(

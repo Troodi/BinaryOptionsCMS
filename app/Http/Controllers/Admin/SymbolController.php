@@ -27,7 +27,15 @@ class SymbolController extends Controller
       'work_from' => 'required|numeric|min:0|max:23',
       'work_to' => 'required|numeric|min:0|max:23',
       'active' => 'required|numeric|min:0|max:1',
+      'min_expiration_time' => 'required|min:1|max:100000|numeric',
+      'min_percent_tech' => 'required|min:0|max:100|numeric',
+      'min_percent_news' => 'required|min:0|max:100|numeric',
+      'min_percent_user' => 'required|min:0|max:100|numeric',
+
     ]);
+    if(Symbol::where('symbol', $request->pair)->where('broker', $request->broker)->where('id', '<>', $request->id)->withTrashed()->count()){
+      return response()->json(['success' => false, 'message' => 'Такая торговая пара уже есть в системе!']);
+    }
     Symbol::where('id', $request->id)->update([
       'symbol' => $request->pair,
       'broker' => $request->broker,
@@ -37,6 +45,10 @@ class SymbolController extends Controller
       'work_from' => $request->work_from,
       'work_to' => $request->work_to,
       'status' => $request->active,
+      'min_expiration_time' => $request->min_expiration_time,
+      'min_percent_tech' => $request->min_percent_tech,
+      'min_percent_news' => $request->min_percent_news,
+      'min_percent_user' => $request->min_percent_user,
     ]);
     return response()->json(['success' => true, 'message' => __('locale.admin_symbols_updated')]);
   }
@@ -73,8 +85,17 @@ class SymbolController extends Controller
       'work_from' => 'required|numeric|min:0|max:23',
       'work_to' => 'required|numeric|min:0|max:23',
       'status' => 'required|numeric|min:0|max:1',
+      'min_expiration_time' => 'required|min:1|max:100000|numeric',
+      'min_percent_tech' => 'required|min:0|max:100|numeric',
+      'min_percent_news' => 'required|min:0|max:100|numeric',
+      'min_percent_user' => 'required|min:0|max:100|numeric',
     ]);
+    if(Symbol::where('symbol', $request->pair)->where('broker', $request->broker)->withTrashed()->count()){
+      return response()->json(['success' => false, 'message' => 'Такая торговая пара уже есть в системе!']);
+    }
     $model = new Symbol();
+    $model->type = 1;
+    $model->percent = $request->fix;
     $model->symbol = $request->pair;
     $model->broker = $request->broker;
     $model->fixed_percent = $request->fix;
@@ -83,6 +104,10 @@ class SymbolController extends Controller
     $model->work_from = $request->work_from;
     $model->work_to = $request->work_to;
     $model->status = $request->status;
+    $model->min_expiration_time = $request->min_expiration_time;
+    $model->min_percent_tech = $request->min_percent_tech;
+    $model->min_percent_news = $request->min_percent_news;
+    $model->min_percent_user = $request->min_percent_user;
     $model->save();
     Cache::forever('market_update', true);
     return response()->json(['success' => true, 'message' => __('locale.admin_symbols_created'), 'created' => $model]);
