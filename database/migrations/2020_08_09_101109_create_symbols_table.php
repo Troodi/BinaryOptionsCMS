@@ -16,7 +16,7 @@ class CreateSymbolsTable extends Migration
         Schema::create('symbols', function (Blueprint $table) {
             $table->id();
             $table->string('symbol');
-            $table->integer('type')->nullable();
+            $table->integer('type')->default(1);
             $table->string('broker')->default('FX');
             $table->integer('percent')->default(0);
             $table->integer('min_percent')->default(25);
@@ -24,7 +24,12 @@ class CreateSymbolsTable extends Migration
             $table->integer('max_percent')->default(85);
             $table->integer('work_from')->default(0);
             $table->integer('work_to')->default(0);
+            $table->integer('min_expiration_time')->default(60); // Время экспирации для символа
+            $table->integer('min_percent_tech')->default(20); // Минимальный процент для технического анализа
+            $table->integer('min_percent_news')->default(20); // Минимальный процент в случае выхода новостей
+            $table->integer('min_percent_user')->default(20); // Минимальный процент если у пользователя слишком удачная торговля
             $table->integer('status')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

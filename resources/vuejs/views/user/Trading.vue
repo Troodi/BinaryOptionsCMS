@@ -49,7 +49,14 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="card-text">
-                                    <small class="text-muted"><i>{{ $i18n.t('trade_expiration') }}</i></small>
+
+                                  <div v-show="number_percent !== null && number_percent > 0 && isButtonDisabled" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+                                    <div class="d-flex align-items-center">
+                                      {{ $i18n.t('trade_expiration_min', {min_expiration: formatSeconds()}) }}
+                                    </div>
+                                  </div>
+
+                                  <small class="text-muted"><i>{{ $i18n.t('trade_expiration') }} <span v-show="number_percent !== null">({{ $i18n.t('trade_expiration_min', {min_expiration: formatSeconds()}) }})</span></i></small>
                                     <fieldset class="form-group position-relative" :style="{ 'margin-bottom': '0.3rem !important'}">
                                         <input id="time" @click="timeClick" readonly="readonly" type="text" style="opacity:1;" class="form-control form-control-lg" v-model="expiration">
                                         <div class="form-control-position" :style="{ 'top' : '14px'}">
@@ -422,9 +429,11 @@
                     this.percent = '';
                     this.symbol = null;
                     this.number_percent = null;
+                    this.min_expiration = Infinity;
                 }
                 if(typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== this.symbol && window.dataLoaded && this.symbol !== window.symbolInfo.id) {
                     this.symbol = window.symbolInfo.id;
+                    this.min_expiration = window.symbolInfo.expiration;
                     if(this.symbolsPercents[this.symbol] == null){
                       this.percent = '+ ' + window.symbolInfo.description;
                       this.number_percent = window.symbolInfo.percent;
@@ -481,6 +490,26 @@
             });
         },
         methods: {
+            formatSeconds(){
+              if(this.min_expiration !== Infinity) {
+                let hours = Math.floor(this.min_expiration / 3600);
+                let minutes = Math.floor((this.min_expiration - (hours * 3600)) / 60);
+                let seconds = this.min_expiration - (hours * 3600) - (minutes * 60);
+
+                if (hours < 10) {
+                  hours = "0" + hours;
+                }
+                if (minutes < 10) {
+                  minutes = "0" + minutes;
+                }
+                if (seconds < 10) {
+                  seconds = "0" + seconds;
+                }
+                return hours + ':' + minutes + ':' + seconds;
+              } else {
+                return '';
+              }
+            },
             moveToReal: function (){
               $('#greatWorkModal').modal('hide');
               this.$router.push('/');
@@ -576,8 +605,8 @@
                 this.clicked = true;
             },
             closeClick: function () {
-                if(parseInt(this.minutes) < 5 && parseInt(this.hours) === 0) {
-                    toastr.error(this.$i18n.t('trade_minimal_expiration'), this.$i18n.t('trade_error'), {
+                if((parseInt(this.minutes) * 60 + parseInt(this.seconds) + parseInt(this.hours) * 60 * 60) < this.min_expiration) {
+                    toastr.error(this.$i18n.t('trade_minimal_expiration', {min_expiration: this.formatSeconds()}), this.$i18n.t('trade_error'), {
                         positionClass: 'toast-bottom-left',
                         containerId: 'toast-bottom-left'
                     })
@@ -637,6 +666,7 @@
         },
         data() {
             return {
+                min_expiration: Infinity,
                 clicked: false,
                 clickedAmount: false,
                 percent: '',
@@ -663,7 +693,7 @@
                 return this.hours + ':' + this.minutes + ':' + this.seconds;
             },
             isButtonDisabled: function () {
-                return parseInt(this.minutes) < 5 && parseInt(this.hours) === 0;
+                return (parseInt(this.minutes) * 60 + parseInt(this.seconds) + parseInt(this.hours) * 60 * 60) < this.min_expiration;
             }
         },
         watch: {
