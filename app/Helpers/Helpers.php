@@ -4,7 +4,6 @@ use App\Models\Profile;
 use App\Models\Referral;
 use App\Models\Role;
 use App\User;
-use App\UserFields;
 use Dirape\Token\Token;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
