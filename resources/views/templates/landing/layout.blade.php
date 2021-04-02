@@ -6,7 +6,7 @@
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>@lang('locale.landing_title')</title>
-  <link rel="shortcut icon" type="image/png" href="{{ config('app.icon_url') }}">
+  <link rel="shortcut icon" type="image/png" href="{{ config('custom.icon_url') }}">
   <link href="/templates/landing/assets/css/theme-plugin.css" rel="stylesheet" />
   <link href="/templates/landing/assets/css/theme.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -17,7 +17,7 @@
   <div id="ht-preloader">
     <div class="loader clear-loader">
       <span></span>
-      <p>{{ config('app.title') }}</p>
+      <p>{{ config('custom.title') }}</p>
     </div>
   </div>
 
@@ -28,7 +28,7 @@
           <!--menu start-->
           <div class="col d-flex align-items-center justify-content-between">
             <a class="navbar-brand logo @if(Request::is('/')) text-white @else text-dark @endif h2 mb-0" href="/">
-              {{ config('app.first_title') }}<span class="@if(Request::is('/')) text-white @else text-primary @endif font-weight-bold">{{ config('app.second_title') }}</span>
+              {{ config('custom.first_title') }}<span class="@if(Request::is('/')) text-white @else text-primary @endif font-weight-bold">{{ config('custom.second_title') }}</span>
             </a>
             <nav class="navbar navbar-expand-lg ml-auto">
               @include('templates.landing.menu')
