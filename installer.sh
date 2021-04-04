@@ -1,22 +1,21 @@
 apt-get update -y;\
 apt-get upgrade -y;\
 apt-get install -y curl;\
-apt-get install -y wget;\
 curl -fsSL https://deb.nodesource.com/setup_14.x | bash -;\
 apt-get install -y nodejs;\
 apt-get install -y npm;\
 apt-get install -y supervisor;\
 apt-get install -y redis-server;\
 npm install laravel-echo-server -g;\
-wget http://repo.fastpanel.direct/install_fastpanel.sh -O - | bash -;\
+curl -fsSL http://repo.fastpanel.direct/install/debian.sh | bash -;\
 printf "\n\033[0;32mLogin to fastpanel and create your domains! \n";\
 printf "Create one mysql database and one postgresql database, first install (postgre 13, bind9, composer, php74, git, shellinabox) go to /modules url\n";\
 printf "You need to create 2 domains. First for main trading platform (your-domain.com), and second 'chart.your-domain.com' with 7.4 PHP+Apache and chart* domain with PHP-FPM.\n";\
 printf "Go to /ssl url and create 2 SSL Let's encrypt for two domains\n";\
 printf "Go to /php url and install pgsql for all php versions\n";\
-printf "After press any key...\n\033[0m";\
-read -r;\
-echo "Write user for config (example \"fastuser\"): ";\
+printf "\n\033[0m";\
+read -n 1 -s -r -p "Then press any key..."
+printf "\nWrite user for config (example \"fastuser\"): ";\
 read -r webuser;\
 echo "Write domain for config (example.com): ";\
 read -r webdomain;\
@@ -50,8 +49,8 @@ read -r pname;\
 echo "Enter postgre password: ";\
 read -r ppass;\
 printf "APP_NAME=StartABroker\n\nAPP_TITLE=StartABroker\nAPP_DOMAIN=startabroker.com\nAPP_FIRST_TITLE=StartA\nAPP_SECOND_TITLE=Broker\nAPP_SUPPORT_MAIL=info@startabroker.com\nAPP_SUPPORT_TELEGRAM=@startabroker\nAPP_LOGO_URL=/images/logo/binaries-logo-2.png\nAPP_LOGO_URL_AUTH=/images/logo/binaries-logo.png\nAPP_ICON_URL=/images/logo/icon-binary.png\nAPP_CURRENCY=USD\n\nDEMO_MODE=false\n\nAPP_ENV=production\nAPP_KEY=\nAPP_DEBUG=false\nAPP_URL=https://%s\nWEBSOCKET_HOST=chart.%s\n\nRECAPTCHA_SITE_KEY=
-printf "Upload a site files to domain directory and press any key...";\
-read -r;\
+printf "Upload a site files to domain directory.";\
+read -n 1 -s -r -p "Then press any key..."
 composer install --no-interaction --working-dir="/var/www/${webuser}/data/www/${webdomain}";\
 php /var/www/$webuser/data/www/$webdomain/artisan migrate --force;\
 php /var/www/$webuser/data/www/$webdomain/artisan install;\
