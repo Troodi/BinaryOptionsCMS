@@ -23,7 +23,7 @@ crt=$(find /var/www/httpd-cert -name "${webdomain}*.crt" -exec readlink -f {} \;
 key=$(find /var/www/httpd-cert -name "${webdomain}*.key" -exec readlink -f {} \;);\
 touch "/var/www/${webuser}/data/www/${webdomain}/laravel-echo-server.json";\
 printf "{\n\"authHost\": \"https://%s\",\n\"authEndpoint\": \"/broadcasting/auth\",\n\"clients\": [\n{\n\"appId\": \"replace-with-app-id\",\n\"key\": \"replace-with-app-key\"\n}\n],\n\"database\": \"redis\",\n\"databaseConfig\": {\n\"redis\": {},\n\"sqlite\": {\n\"databasePath\": \"/database/laravel-echo-server.sqlite\"\n}\n},\n\"devMode\": true,\n\"host\": \"%s\",\n\"port\": \"6001\",\n\"protocol\": \"https\",\n\"socketio\": {},\n\"secureOptions\": 67108864,\n\"sslCertPath\": \"%s\",\n\"sslKeyPath\": \"%s\",\n\"subscribers\": {\n\"http\": true,\n\"redis\": true\n},\n\"apiOriginAllow\": {\n\"allowCors\": true,\n\"allowOrigin\": \"https://%s:443\",\n\"allowMethods\": \"GET, POST\",\n\"allowHeaders\": \"Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id\"\n}\n}\n" "${webdomain}" "${webdomain}" "${crt}" "${key}" "${webdomain}" > "/var/www/${webuser}/data/www/${webdomain}/laravel-echo-server.json";\
-sudo chown -R "$webuser":"$webuser" /var/www/"$webuser"/data/www/"$webdomain";\
+chown -R "$webuser":"$webuser" /var/www/"$webuser"/data/www/"$webdomain";\
 touch /etc/supervisor/conf.d/orders.conf;\
 touch /etc/supervisor/conf.d/tradingview.conf;\
 touch /etc/supervisor/conf.d/websocket.conf;\
@@ -51,11 +51,14 @@ read -r ppass;\
 printf "APP_NAME=StartABroker\n\nAPP_TITLE=StartABroker\nAPP_DOMAIN=startabroker.com\nAPP_FIRST_TITLE=StartA\nAPP_SECOND_TITLE=Broker\nAPP_SUPPORT_MAIL=info@startabroker.com\nAPP_SUPPORT_TELEGRAM=@startabroker\nAPP_LOGO_URL=/images/logo/binaries-logo-2.png\nAPP_LOGO_URL_AUTH=/images/logo/binaries-logo.png\nAPP_ICON_URL=/images/logo/icon-binary.png\nAPP_CURRENCY=USD\n\nDEMO_MODE=false\n\nAPP_ENV=production\nAPP_KEY=\nAPP_DEBUG=false\nAPP_URL=https://%s\nWEBSOCKET_HOST=chart.%s\n\nRECAPTCHA_SITE_KEY=
 printf "Upload a site files to domain directory.";\
 read -n 1 -s -r -p "Then press any key..."
-composer install --no-interaction --working-dir="/var/www/${webuser}/data/www/${webdomain}";\
+cd "/var/www/$webuser/data/www/$webdomain" || echo "Cant change directory!";\
+composer install --no-interaction;\
 php /var/www/$webuser/data/www/$webdomain/artisan migrate --force;\
 php /var/www/$webuser/data/www/$webdomain/artisan install;\
 php /var/www/$webuser/data/www/$webdomain/artisan key:generate;\
 cd /var/www/$webuser/data/www/$webdomain || echo "Cant change dir!";\
 printf "Now be long process, just wait...\n";\
 npm install;\
-npm run production;
+npm run production;\
+chown -R "$webuser":"$webuser" /var/www/"$webuser"/data/www/"$webdomain";\
+printf "\nGet recaptcha keys and edit in .env file. Installation successful!\n";
