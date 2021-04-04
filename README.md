@@ -78,7 +78,7 @@ stopwaitsecs=0
 ```shell
 [program:websocket]
 process_name=%(program_name)s_%(process_num)02d
-command=laravel-echo-server start --dir=/var/www/www-root/data/www/getoption.pro
+command=laravel-echo-server start --dir=/var/www/www-root/data/www/getoption.pro --force
 autostart=true
 autorestart=true
 stopasgroup=true
