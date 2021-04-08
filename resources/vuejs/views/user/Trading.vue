@@ -338,7 +338,7 @@
             currency: CurrencyDirective
         },
         mounted() {
-            this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+            this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false
             this.localTV = new TradingViewFastWebsocket();
             setInterval(() => {
                 this.fastData = this.localTV.getTickerDataArray();
@@ -420,7 +420,7 @@
                 try {
                     self.lines[payload.id].remove();
                 } catch (e) {
-                    
+
                 }
             });
 
@@ -443,53 +443,63 @@
                       window.$('#' + window.tvWidget._iFrame.name).contents().find('[data-name="legend-source-title"]').first().text(this.symbolsPercents[this.symbol].toString()+'%')
                     }
                     if(self.opened.length === 0) {
-                        let urlOpened = '/data/opened';
-                        if(this.isDemo) {
-                          urlOpened = '/data/demo/opened';
-                        }
-                        axios.post(urlOpened)
-                            .then(function (response) {
-                                self.opened = response.data;
-                                let filtered = self.opened.filter(item => item.symbol_id === window.symbolInfo.id);
-                                filtered.forEach(element => {
-                                    try {
-                                        self.lines[element.id].remove();
-                                    } catch (e) {
-                                    }
-                                    let color = element.type === 1 ? '#23bd70' : '#FF5B5C';
-                                    let order = window.tvWidget.chart().createOrderLine()
-                                        .setText(self.$i18n.t('trade_up'))
-                                        .setLineLength(1)
-                                        .setLineStyle(0)
-                                        .setQuantity(element.amount + '$')
-                                        .setLineColor(color)
-                                        .setQuantityBackgroundColor(color)
-                                        .setQuantityBorderColor(color)
-                                        .setBodyBorderColor(color)
-                                        .setBodyTextColor(color);
-                                    order.setPrice(element.open_price);
-                                    self.lines[element.id] = order;
-                                });
-                            });
+                        self.getOpenedHistory();
                     }
 
                     if(self.latest.length === 0) {
-                      let urlLatest = '/data/latest';
-                      if(this.isDemo) {
-                        urlLatest = '/data/demo/latest';
-                      }
-                      axios.post(urlLatest)
-                          .then(function (response) {
-                              if (self.latest.length === 0) {
-                                  self.latest = response.data;
-                              }
-                            self.historyLoaded = true;
-                          });
+                      self.getLatestHistory();
                     }
                 }
             });
         },
         methods: {
+            getOpenedHistory(){
+              let self = this;
+              self.opened = [];
+              let urlOpened = '/data/opened';
+              if(this.isDemo) {
+                urlOpened = '/data/demo/opened';
+              }
+              axios.post(urlOpened)
+                .then(function (response) {
+                  self.opened = response.data;
+                  let filtered = self.opened.filter(item => item.symbol_id === window.symbolInfo.id);
+                  filtered.forEach(element => {
+                    try {
+                      self.lines[element.id].remove();
+                    } catch (e) {
+                    }
+                    let color = element.type === 1 ? '#23bd70' : '#FF5B5C';
+                    let order = window.tvWidget.chart().createOrderLine()
+                      .setText(self.$i18n.t('trade_up'))
+                      .setLineLength(1)
+                      .setLineStyle(0)
+                      .setQuantity(element.amount + '$')
+                      .setLineColor(color)
+                      .setQuantityBackgroundColor(color)
+                      .setQuantityBorderColor(color)
+                      .setBodyBorderColor(color)
+                      .setBodyTextColor(color);
+                    order.setPrice(element.open_price);
+                    self.lines[element.id] = order;
+                  });
+                });
+            },
+            getLatestHistory(){
+              let self = this;
+              self.latest = [];
+              let urlLatest = '/data/latest';
+              if(this.isDemo) {
+                urlLatest = '/data/demo/latest';
+              }
+              axios.post(urlLatest)
+                .then(function (response) {
+                  if (self.latest.length === 0) {
+                    self.latest = response.data;
+                  }
+                  self.historyLoaded = true;
+                });
+            },
             formatSeconds(){
               if(this.min_expiration !== Infinity) {
                 let hours = Math.floor(this.min_expiration / 3600);
@@ -698,7 +708,10 @@
         },
         watch: {
             $route (to, from){
-              this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+              this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
+              this.historyLoaded = false;
+              this.getOpenedHistory()
+              this.getLatestHistory();
             },
             hours: function () {
                 let number = parseInt(this.hours);

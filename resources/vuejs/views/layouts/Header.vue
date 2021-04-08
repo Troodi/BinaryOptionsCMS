@@ -169,7 +169,7 @@
                 $('#discountModal').modal('show');
               }
             }
-            this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+            this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
             this.$echo.private('balance.'+this.user.id).listen('ChangeBalance', (payload) => {
                 this.balance = parseFloat(payload.balance).toFixed(2);
             });
@@ -223,7 +223,7 @@
         },
       watch:{
         $route (to, from){
-          this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+          this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
         }
       },
       computed: {

@@ -2173,7 +2173,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
 
-    this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+    this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
     this.$echo["private"]('balance.' + this.user.id).listen('ChangeBalance', function (payload) {
       _this.balance = parseFloat(payload.balance).toFixed(2);
     });
@@ -2225,7 +2225,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     $route: function $route(to, from) {
-      this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+      this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
     }
   },
   computed: {
@@ -2265,6 +2265,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -10333,12 +10346,13 @@ var PageNotFound = function PageNotFound() {
 
 
 var routes = [{
-  path: '/trading',
+  path: '/trading/:type?',
   name: _vuejs_locales_i18n_js__WEBPACK_IMPORTED_MODULE_0__.default.t('menu_trading'),
   component: Trading,
   meta: {
     icon: 'desktop',
-    hideFooter: true
+    hideFooter: true,
+    hide: true
   }
 }, {
   path: '/demo',
@@ -10347,7 +10361,7 @@ var routes = [{
   meta: {
     icon: 'line-chart',
     hideFooter: true,
-    demoPage: true
+    hide: true
   }
 }, {
   path: '/deposit',
@@ -124942,7 +124956,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("router-view", { key: _vm.$route.path })
+  return _c("router-view")
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -125728,6 +125742,48 @@ var render = function() {
             }
           },
           [
+            _c(
+              "li",
+              {
+                staticClass: "nav-item",
+                class: { active: this.$route.path === "/trading" }
+              },
+              [
+                _c("router-link", { attrs: { to: "/trading" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "desktop" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("menu_trading")))
+                  ])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                staticClass: "nav-item",
+                class: { active: this.$route.path === "/trading/demo" }
+              },
+              [
+                _c("router-link", { attrs: { to: "/trading/demo" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "line-chart" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("menu_demo")))
+                  ])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
             _vm._l(this.$router.options.routes, function(route, index) {
               return _c("router-link", {
                 key: index,

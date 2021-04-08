@@ -24,8 +24,8 @@ const PageNotFound = () => import("../views/layouts/PageNotFound");
 //  * Routes for vue components
 //  */
 export const routes = [
-    { path: '/trading', name: i18n.t('menu_trading'), component: Trading, meta: { icon: 'desktop', hideFooter: true } },
-    { path: '/demo', name: i18n.t('menu_demo'), component: Trading, meta: { icon: 'line-chart', hideFooter: true, demoPage: true } },
+    { path: '/trading/:type?', name: i18n.t('menu_trading'), component: Trading, meta: { icon: 'desktop', hideFooter: true, hide: true } },
+    { path: '/demo', name: i18n.t('menu_demo'), component: Trading, meta: { icon: 'line-chart', hideFooter: true, hide: true } },
     { path: '/deposit', name: i18n.t('menu_deposit'), component: Deposit, meta: { icon: 'bank', badge : '50% OFF' } },
     { path: '/withdrawal', name: i18n.t('menu_withdrawal'), component: Withdrawal, meta: { icon: 'coins' } },
     { path: '/promocodes', name: i18n.t('menu_promo_codes'), component: Promocode, meta: { icon: 'bulb' } },

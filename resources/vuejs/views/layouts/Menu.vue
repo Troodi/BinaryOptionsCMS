@@ -20,7 +20,20 @@
         <div class="shadow-bottom"></div>
         <div class="main-menu-content">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation" data-icon-style="lines">
-                <router-link v-for="(route,index) in this.$router.options.routes" :key="index" :to="route.path" v-slot="{ href, route, navigate, isActive, isExactActive }">
+              <li class="nav-item" :class="{'active' : this.$route.path === '/trading'}">
+                <router-link :to="'/trading'">
+                  <i class="menu-livicon" :data-icon="'desktop'"></i>
+                  <span class="menu-title">{{ $i18n.t('menu_trading') }}</span>
+                </router-link>
+              </li>
+              <li class="nav-item" :class="{'active' : this.$route.path === '/trading/demo'}">
+                <router-link :to="'/trading/demo'">
+                  <i class="menu-livicon" :data-icon="'line-chart'"></i>
+                  <span class="menu-title">{{ $i18n.t('menu_demo') }}</span>
+                </router-link>
+              </li>
+
+              <router-link v-for="(route,index) in this.$router.options.routes" :key="index" :to="route.path" v-slot="{ href, route, navigate, isActive, isExactActive }">
                     <li v-if="!route.meta.hide" class="nav-item" :class="[isExactActive && 'active']">
                         <a :href="href" @click="navigate">
                             <i class="menu-livicon" :data-icon="route.meta.icon"></i>
