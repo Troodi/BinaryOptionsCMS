@@ -455,7 +455,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+    this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
     this.localTV = new _js_tv2__WEBPACK_IMPORTED_MODULE_2__.TradingViewFastWebsocket();
     setInterval(function () {
       _this.fastData = _this.localTV.getTickerDataArray();
@@ -576,49 +576,59 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         if (self.opened.length === 0) {
-          var urlOpened = '/data/opened';
-
-          if (_this.isDemo) {
-            urlOpened = '/data/demo/opened';
-          }
-
-          axios.post(urlOpened).then(function (response) {
-            self.opened = response.data;
-            var filtered = self.opened.filter(function (item) {
-              return item.symbol_id === window.symbolInfo.id;
-            });
-            filtered.forEach(function (element) {
-              try {
-                self.lines[element.id].remove();
-              } catch (e) {}
-
-              var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
-              var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
-              order.setPrice(element.open_price);
-              self.lines[element.id] = order;
-            });
-          });
+          self.getOpenedHistory();
         }
 
         if (self.latest.length === 0) {
-          var urlLatest = '/data/latest';
-
-          if (_this.isDemo) {
-            urlLatest = '/data/demo/latest';
-          }
-
-          axios.post(urlLatest).then(function (response) {
-            if (self.latest.length === 0) {
-              self.latest = response.data;
-            }
-
-            self.historyLoaded = true;
-          });
+          self.getLatestHistory();
         }
       }
     });
   },
   methods: {
+    getOpenedHistory: function getOpenedHistory() {
+      var self = this;
+      self.opened = [];
+      var urlOpened = '/data/opened';
+
+      if (this.isDemo) {
+        urlOpened = '/data/demo/opened';
+      }
+
+      axios.post(urlOpened).then(function (response) {
+        self.opened = response.data;
+        var filtered = self.opened.filter(function (item) {
+          return item.symbol_id === window.symbolInfo.id;
+        });
+        filtered.forEach(function (element) {
+          try {
+            self.lines[element.id].remove();
+          } catch (e) {}
+
+          var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
+          var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
+          order.setPrice(element.open_price);
+          self.lines[element.id] = order;
+        });
+      });
+    },
+    getLatestHistory: function getLatestHistory() {
+      var self = this;
+      self.latest = [];
+      var urlLatest = '/data/latest';
+
+      if (this.isDemo) {
+        urlLatest = '/data/demo/latest';
+      }
+
+      axios.post(urlLatest).then(function (response) {
+        if (self.latest.length === 0) {
+          self.latest = response.data;
+        }
+
+        self.historyLoaded = true;
+      });
+    },
     formatSeconds: function formatSeconds() {
       if (this.min_expiration !== Infinity) {
         var hours = Math.floor(this.min_expiration / 3600);
@@ -835,7 +845,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     $route: function $route(to, from) {
-      this.isDemo = 'demoPage' in this.$router.currentRoute.meta;
+      this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
+      this.historyLoaded = false;
+      this.getOpenedHistory();
+      this.getLatestHistory();
     },
     hours: function hours() {
       var number = parseInt(this.hours);

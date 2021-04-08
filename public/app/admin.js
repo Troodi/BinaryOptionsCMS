@@ -124339,7 +124339,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("router-view", { key: _vm.$route.path })
+  return _c("router-view")
 }
 var staticRenderFns = []
 render._withStripped = true

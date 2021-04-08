@@ -18,7 +18,7 @@
   </ul>
 </div>
 @if(Request::is('/'))
-  <a class="btn btn-light ml-8 d-none d-lg-block" href="/demo">@lang('locale.landing_demo_trading')</a>
+  <a class="btn btn-light ml-8 d-none d-lg-block" href="/trading/demo">@lang('locale.landing_demo_trading')</a>
 @else
   <a class="btn btn-primary ml-8 d-none d-lg-block" href="/trading">@lang('locale.landing_auth')</a>
 @endif
