@@ -594,22 +594,22 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.post(urlOpened).then(function (response) {
         self.opened = response.data;
-        var filtered = self.opened.filter(function (item) {
-          return item.symbol_id === window.symbolInfo.id;
-        });
-        filtered.forEach(function (element) {
-          try {
-            self.lines[element.id].remove();
-          } catch (e) {}
 
-          var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
+        try {
+          var filtered = self.opened.filter(function (item) {
+            return item.symbol_id === window.symbolInfo.id;
+          });
+          filtered.forEach(function (element) {
+            try {
+              self.lines[element.id].remove();
+            } catch (e) {}
 
-          try {
+            var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
             var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
             order.setPrice(element.open_price);
             self.lines[element.id] = order;
-          } catch (e) {}
-        });
+          });
+        } catch (e) {}
       });
     },
     getLatestHistory: function getLatestHistory() {

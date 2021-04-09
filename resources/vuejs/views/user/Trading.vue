@@ -463,14 +463,14 @@
               axios.post(urlOpened)
                 .then(function (response) {
                   self.opened = response.data;
-                  let filtered = self.opened.filter(item => item.symbol_id === window.symbolInfo.id);
-                  filtered.forEach(element => {
-                    try {
-                      self.lines[element.id].remove();
-                    } catch (e) {
-                    }
-                    let color = element.type === 1 ? '#23bd70' : '#FF5B5C';
-                    try {
+                  try {
+                    let filtered = self.opened.filter(item => item.symbol_id === window.symbolInfo.id);
+                    filtered.forEach(element => {
+                      try {
+                        self.lines[element.id].remove();
+                      } catch (e) {
+                      }
+                      let color = element.type === 1 ? '#23bd70' : '#FF5B5C';
                       let order = window.tvWidget.chart().createOrderLine()
                         .setText(self.$i18n.t('trade_up'))
                         .setLineLength(1)
@@ -483,10 +483,10 @@
                         .setBodyTextColor(color);
                       order.setPrice(element.open_price);
                       self.lines[element.id] = order;
-                    } catch (e) {
-                      
-                    }
                   });
+                } catch (e) {
+
+              }
                 });
             },
             getLatestHistory(){

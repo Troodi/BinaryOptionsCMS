@@ -11,7 +11,7 @@
                             <div class="card-body">
                                 <div class="card-text">
                                     <div class="table-responsive">
-                                        <table class="table" id="history">
+                                        <table class="table" id="real-history">
                                             <thead>
                                             <tr>
                                                 <th>{{ $i18n.t('trade_history_amount') }}</th>
@@ -81,7 +81,7 @@
             axios.get('/data/symbols')
                 .then(function (response) {
                   self.symbols = response.data;
-                  self.fillDT('#history', self.isAdmin ? "/trading/history/"+self.userId : "/trading/history");
+                  self.fillDT('#real-history', self.isAdmin ? "/trading/history/"+self.userId : "/trading/history");
                   self.fillDT('#demo-history', self.isAdmin ? "/trading/demo/history/"+self.userId : "/trading/demo/history");
                 });
         },
