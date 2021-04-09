@@ -13,7 +13,7 @@ export class TradingViewFastWebsocket {
         this.symbolNumber = 1;
         this.symbolResolved = false;
         this.seriesCompleted = false;
-        this.socketTV = new WebSocket(window.websocketAddress);
+        window.TVsocket = this.socketTV = window.TVsocket != null ? window.TVsocket : new WebSocket(window.websocketAddress);
         this.socketTV.onmessage = (data) => { this.onmessage(data) };
         this.socketTV.onopen = () => { this.onopen() };
         this.socketTV.onclose = (data) => { this.onclose(data) };

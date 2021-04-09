@@ -2566,13 +2566,12 @@ function _getAllSymbols() {
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   onReady: function onReady(callback) {
-    //console.log('[onReady]: Method call');
     setTimeout(function () {
       return callback(configurationData);
     });
     latestSymbol = '';
     lastBarsCache.clear();
-    window.tvObj = new _vuejs_js_tv__WEBPACK_IMPORTED_MODULE_3__.TradingViewWebsocket(); //tvObj.getTicker("BINANCE:BTCUSDT");
+    window.tvObj = window.tvObj != null ? window.tvObj : new _vuejs_js_tv__WEBPACK_IMPORTED_MODULE_3__.TradingViewWebsocket();
   },
   searchSymbols: function () {
     var _searchSymbols = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(userInput, exchange, symbolType, onResultReadyCallback) {
