@@ -338,7 +338,6 @@
             currency: CurrencyDirective
         },
         mounted() {
-            this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false
             this.localTV = new TradingViewFastWebsocket();
             setInterval(() => {
                 this.fastData = this.localTV.getTickerDataArray();
@@ -699,6 +698,8 @@
                 symbolsPercents: [],
                 historyLoaded: false,
                 isDemo: false,
+                isContest: false,
+                contestId: 0,
                 canVisibleDemoModal: true,
             }
         },
@@ -712,7 +713,9 @@
         },
         watch: {
             $route (to, from){
-              this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
+              this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
+              this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'contest';
+              this.contestId = this.$router.currentRoute.params.id != null ? this.$router.currentRoute.params.id : '0';
               this.historyLoaded = false;
               this.getOpenedHistory()
               this.getLatestHistory();

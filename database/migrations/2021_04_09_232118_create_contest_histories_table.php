@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLatestOrdersTable extends Migration
+class CreateContestHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateLatestOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('latest_orders', function (Blueprint $table) {
+        Schema::create('contest_histories', function (Blueprint $table) {
             $table->id();
             $table->integer('symbol_id')->index()->nullable();
             $table->integer('user_id')->index()->nullable();
+            $table->integer('contest_id')->index()->nullable();
             $table->timestamp('open_at', 6)->nullable();
             $table->timestamp('close_at', 6)->nullable();
             $table->decimal('amount', 10, 2)->nullable();
@@ -36,6 +37,6 @@ class CreateLatestOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('latest_orders');
+        Schema::dropIfExists('contest_histories');
     }
 }

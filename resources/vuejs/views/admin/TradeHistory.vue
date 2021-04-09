@@ -11,7 +11,7 @@
               <div class="card-body">
                 <div class="card-text">
                   <div class="table-responsive">
-                    <table class="table" id="history">
+                    <table class="table" id="real-history">
                       <thead>
                       <tr>
                         <th>{{ $i18n.t('admin_trade_user') }}</th>
@@ -84,10 +84,10 @@ export default {
         .then(function (response) {
           self.symbols = response.data;
           if(self.userId) {
-            self.fillDT('#history', "/admin/data/history", self.userId);
+            self.fillDT('#real-history', "/admin/data/history", self.userId);
             self.fillDT('#historyDemo', "/admin/data/history/demo", self.userId);
           } else {
-            self.fillDT('#history', "/admin/data/history", 0);
+            self.fillDT('#real-history', "/admin/data/history", 0);
             self.fillDT('#historyDemo', "/admin/data/history/demo", 0);
           }
         });

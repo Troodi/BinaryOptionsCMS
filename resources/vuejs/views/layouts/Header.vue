@@ -169,7 +169,6 @@
                 $('#discountModal').modal('show');
               }
             }
-            this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
             this.$echo.private('balance.'+this.user.id).listen('ChangeBalance', (payload) => {
                 this.balance = parseFloat(payload.balance).toFixed(2);
             });
@@ -186,6 +185,8 @@
                 balance: parseFloat(this.user.balance).toFixed(2),
                 demo_balance: parseFloat(this.user.demo_balance).toFixed(2),
                 isDemo: false,
+                isContest: false,
+                contestId: 0,
                 realButtonColor: '#FDAC41 !important'
             }
         },
@@ -223,7 +224,9 @@
         },
       watch:{
         $route (to, from){
-          this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
+          this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
+          this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'contest';
+          this.contestId = this.$router.currentRoute.params.id != null ? this.$router.currentRoute.params.id : '0';
         }
       },
       computed: {

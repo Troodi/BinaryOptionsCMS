@@ -25,7 +25,7 @@ const Empty = () => import("../views/user/Empty");
 //  * Routes for vue components
 //  */
 export const routes = [
-    { path: '/trading/:type?', name: i18n.t('menu_trading'), component: Empty, meta: { icon: 'desktop', hideFooter: true, hide: true } },
+    { path: '/trading/:type?/:id?', name: i18n.t('menu_trading'), component: Empty, meta: { icon: 'desktop', hideFooter: true, hide: true } },
     { path: '/deposit', name: i18n.t('menu_deposit'), component: Deposit, meta: { icon: 'bank', badge : '50% OFF' } },
     { path: '/withdrawal', name: i18n.t('menu_withdrawal'), component: Withdrawal, meta: { icon: 'coins' } },
     { path: '/promocodes', name: i18n.t('menu_promo_codes'), component: Promocode, meta: { icon: 'bulb' } },

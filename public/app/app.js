@@ -2289,7 +2289,6 @@ __webpack_require__.r(__webpack_exports__);
       }
     }
 
-    this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
     this.$echo["private"]('balance.' + this.user.id).listen('ChangeBalance', function (payload) {
       _this.balance = parseFloat(payload.balance).toFixed(2);
     });
@@ -2305,6 +2304,8 @@ __webpack_require__.r(__webpack_exports__);
       balance: parseFloat(this.user.balance).toFixed(2),
       demo_balance: parseFloat(this.user.demo_balance).toFixed(2),
       isDemo: false,
+      isContest: false,
+      contestId: 0,
       realButtonColor: '#FDAC41 !important'
     };
   },
@@ -2341,7 +2342,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     $route: function $route(to, from) {
-      this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
+      this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
+      this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'contest';
+      this.contestId = this.$router.currentRoute.params.id != null ? this.$router.currentRoute.params.id : '0';
     }
   },
   computed: {
@@ -2997,7 +3000,6 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
     this.localTV = new _js_tv2__WEBPACK_IMPORTED_MODULE_2__.TradingViewFastWebsocket();
     setInterval(function () {
       _this.fastData = _this.localTV.getTickerDataArray();
@@ -3377,6 +3379,8 @@ __webpack_require__.r(__webpack_exports__);
       symbolsPercents: [],
       historyLoaded: false,
       isDemo: false,
+      isContest: false,
+      contestId: 0,
       canVisibleDemoModal: true
     };
   },
@@ -3390,7 +3394,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     $route: function $route(to, from) {
-      this.isDemo = this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false;
+      this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
+      this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'contest';
+      this.contestId = this.$router.currentRoute.params.id != null ? this.$router.currentRoute.params.id : '0';
       this.historyLoaded = false;
       this.getOpenedHistory();
       this.getLatestHistory();
@@ -11676,7 +11682,7 @@ var Empty = function Empty() {
 
 
 var routes = [{
-  path: '/trading/:type?',
+  path: '/trading/:type?/:id?',
   name: _vuejs_locales_i18n_js__WEBPACK_IMPORTED_MODULE_0__.default.t('menu_trading'),
   component: Empty,
   meta: {
