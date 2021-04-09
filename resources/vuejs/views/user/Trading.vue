@@ -470,18 +470,22 @@
                     } catch (e) {
                     }
                     let color = element.type === 1 ? '#23bd70' : '#FF5B5C';
-                    let order = window.tvWidget.chart().createOrderLine()
-                      .setText(self.$i18n.t('trade_up'))
-                      .setLineLength(1)
-                      .setLineStyle(0)
-                      .setQuantity(element.amount + '$')
-                      .setLineColor(color)
-                      .setQuantityBackgroundColor(color)
-                      .setQuantityBorderColor(color)
-                      .setBodyBorderColor(color)
-                      .setBodyTextColor(color);
-                    order.setPrice(element.open_price);
-                    self.lines[element.id] = order;
+                    try {
+                      let order = window.tvWidget.chart().createOrderLine()
+                        .setText(self.$i18n.t('trade_up'))
+                        .setLineLength(1)
+                        .setLineStyle(0)
+                        .setQuantity(element.amount + '$')
+                        .setLineColor(color)
+                        .setQuantityBackgroundColor(color)
+                        .setQuantityBorderColor(color)
+                        .setBodyBorderColor(color)
+                        .setBodyTextColor(color);
+                      order.setPrice(element.open_price);
+                      self.lines[element.id] = order;
+                    } catch (e) {
+                      
+                    }
                   });
                 });
             },

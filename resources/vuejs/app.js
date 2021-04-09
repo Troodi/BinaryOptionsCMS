@@ -13,6 +13,7 @@ import '../sass/bootstrap.scss'
 import '../sass/bootstrap-extended.scss'
 import i18n from '../vuejs/locales/i18n'
 import VueTheMask from 'vue-the-mask'
+import Datafeed from "../assets/js/datafeed"
 
 $.ajaxSetup({
     headers: {
@@ -60,6 +61,7 @@ Vue.component('menu-component', require('./views/layouts/Menu').default);
 Vue.component('footer-component', require('./views/layouts/Footer').default);
 Vue.component('header-component', require('./views/layouts/Header').default);
 Vue.component('ping-component', require('./components/PingComponent').default);
+Vue.prototype.$datafeed = Datafeed;
 
 Vue.use(VueEcho, {
     broadcaster: 'socket.io',

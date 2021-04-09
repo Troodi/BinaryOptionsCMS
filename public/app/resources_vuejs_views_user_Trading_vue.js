@@ -11,8 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../assets/js/datafeed */ "./resources/assets/js/datafeed.js");
-/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../js/functions */ "./resources/vuejs/js/functions.js");
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../js/functions */ "./resources/vuejs/js/functions.js");
 //
 //
 //
@@ -20,12 +19,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
-
-window.Datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_0__.default;
 window.dataLoaded = false;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Trading",
   created: function created() {
+    window.Datafeed = this.$datafeed;
     this.initChart();
   },
   methods: {
@@ -53,7 +51,7 @@ window.dataLoaded = false;
         if (typeof window.Datafeed !== 'undefined') {
           clearInterval(interval);
           window.tvWidget = new window.TradingView.widget({
-            locale: (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') === 'es' ? 'en' : (0,_js_functions__WEBPACK_IMPORTED_MODULE_1__.getCookie)('currentLanguage') : 'en',
+            locale: (0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') === 'es' ? 'en' : (0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') : 'en',
             symbol: symbol,
             // default symbol
             interval: resolution,
@@ -94,8 +92,7 @@ window.dataLoaded = false;
       }, 100);
     }
   },
-  destroyed: function destroyed() {
-    window.tvObj.closeWebsocket();
+  destroyed: function destroyed() {//window.tvObj.closeWebsocket();
   }
 });
 
@@ -606,9 +603,12 @@ __webpack_require__.r(__webpack_exports__);
           } catch (e) {}
 
           var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
-          var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
-          order.setPrice(element.open_price);
-          self.lines[element.id] = order;
+
+          try {
+            var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
+            order.setPrice(element.open_price);
+            self.lines[element.id] = order;
+          } catch (e) {}
         });
       });
     },
@@ -978,7 +978,7 @@ var TradingViewFastWebsocket = /*#__PURE__*/function () {
     this.symbolNumber = 1;
     this.symbolResolved = false;
     this.seriesCompleted = false;
-    this.socketTV = new WebSocket(window.websocketAddress);
+    window.TVsocket = this.socketTV = window.TVsocket != null ? window.TVsocket : new WebSocket(window.websocketAddress);
 
     this.socketTV.onmessage = function (data) {
       _this.onmessage(data);

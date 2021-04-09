@@ -5,14 +5,13 @@
 </template>
 
 <script>
-    import Datafeed from "../../assets/js/datafeed";
     import {getCookie} from "../js/functions";
-    window.Datafeed = Datafeed;
     window.dataLoaded = false;
 
     export default {
         name: "Trading",
         created() {
+            window.Datafeed = this.$datafeed;
             this.initChart();
         },
         methods:{
@@ -74,7 +73,7 @@
             }
         },
         destroyed() {
-            window.tvObj.closeWebsocket();
+            //window.tvObj.closeWebsocket();
         }
     }
 </script>

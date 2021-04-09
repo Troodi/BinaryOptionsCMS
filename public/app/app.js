@@ -2650,13 +2650,12 @@ function _getAllSymbols() {
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   onReady: function onReady(callback) {
-    //console.log('[onReady]: Method call');
     setTimeout(function () {
       return callback(configurationData);
     });
     latestSymbol = '';
     lastBarsCache.clear();
-    window.tvObj = new _vuejs_js_tv__WEBPACK_IMPORTED_MODULE_3__.TradingViewWebsocket(); //tvObj.getTicker("BINANCE:BTCUSDT");
+    window.tvObj = window.tvObj != null ? window.tvObj : new _vuejs_js_tv__WEBPACK_IMPORTED_MODULE_3__.TradingViewWebsocket();
   },
   searchSymbols: function () {
     var _searchSymbols = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(userInput, exchange, symbolType, onResultReadyCallback) {
@@ -9642,7 +9641,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var _router_routes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router/routes */ "./resources/vuejs/router/routes.js");
 /* harmony import */ var _views_layouts_App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/layouts/App */ "./resources/vuejs/views/layouts/App.vue");
 /* harmony import */ var vue_echo_laravel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-echo-laravel */ "./node_modules/vue-echo-laravel/dist/build.js");
@@ -9650,8 +9649,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_currency_input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-currency-input */ "./node_modules/vue-currency-input/dist/vue-currency-input.esm.js");
 /* harmony import */ var vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuejs-countdown-timer */ "./node_modules/vuejs-countdown-timer/dist/vuejs-countdown-timer.min.js");
 /* harmony import */ var vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var bootstrap_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! bootstrap-vue */ "./node_modules/bootstrap-vue/esm/index.js");
-/* harmony import */ var bootstrap_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap-vue */ "./node_modules/bootstrap-vue/esm/icons/plugin.js");
+/* harmony import */ var bootstrap_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! bootstrap-vue */ "./node_modules/bootstrap-vue/esm/index.js");
+/* harmony import */ var bootstrap_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! bootstrap-vue */ "./node_modules/bootstrap-vue/esm/icons/plugin.js");
 /* harmony import */ var v_select2_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! v-select2-component */ "./node_modules/v-select2-component/dist/Select2.esm.js");
 /* harmony import */ var bootstrap_vue_dist_bootstrap_vue_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! bootstrap-vue/dist/bootstrap-vue.css */ "./node_modules/bootstrap-vue/dist/bootstrap-vue.css");
 /* harmony import */ var _sass_bootstrap_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../sass/bootstrap.scss */ "./resources/sass/bootstrap.scss");
@@ -9659,6 +9658,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _vuejs_locales_i18n__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../vuejs/locales/i18n */ "./resources/vuejs/locales/i18n.js");
 /* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-the-mask */ "./node_modules/vue-the-mask/dist/vue-the-mask.js");
 /* harmony import */ var vue_the_mask__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(vue_the_mask__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../assets/js/datafeed */ "./resources/assets/js/datafeed.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/vuejs/bootstrap.js");
 
 __webpack_require__(/*! ./js/tv */ "./resources/vuejs/js/tv.js");
@@ -9694,22 +9694,23 @@ window.axios.interceptors.response.use(function (response) {
   }
 }); //Vue.use(VueInputMask)
 
-vue__WEBPACK_IMPORTED_MODULE_11__.default.use((vue_the_mask__WEBPACK_IMPORTED_MODULE_10___default()));
-vue__WEBPACK_IMPORTED_MODULE_11__.default.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_12__.BootstrapVue);
-vue__WEBPACK_IMPORTED_MODULE_11__.default.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_13__.IconsPlugin);
-vue__WEBPACK_IMPORTED_MODULE_11__.default.use((vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_4___default()));
-vue__WEBPACK_IMPORTED_MODULE_11__.default.use(vue_currency_input__WEBPACK_IMPORTED_MODULE_3__.default);
-vue__WEBPACK_IMPORTED_MODULE_11__.default.component('select2', v_select2_component__WEBPACK_IMPORTED_MODULE_5__.default);
-vue__WEBPACK_IMPORTED_MODULE_11__.default.component('deposit-history', __webpack_require__(/*! ./views/user/DepositHistory */ "./resources/vuejs/views/user/DepositHistory.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_11__.default.component('menu-component', __webpack_require__(/*! ./views/layouts/Menu */ "./resources/vuejs/views/layouts/Menu.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_11__.default.component('footer-component', __webpack_require__(/*! ./views/layouts/Footer */ "./resources/vuejs/views/layouts/Footer.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_11__.default.component('header-component', __webpack_require__(/*! ./views/layouts/Header */ "./resources/vuejs/views/layouts/Header.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_11__.default.component('ping-component', __webpack_require__(/*! ./components/PingComponent */ "./resources/vuejs/components/PingComponent.vue").default);
-vue__WEBPACK_IMPORTED_MODULE_11__.default.use((vue_echo_laravel__WEBPACK_IMPORTED_MODULE_2___default()), {
+vue__WEBPACK_IMPORTED_MODULE_12__.default.use((vue_the_mask__WEBPACK_IMPORTED_MODULE_10___default()));
+vue__WEBPACK_IMPORTED_MODULE_12__.default.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_13__.BootstrapVue);
+vue__WEBPACK_IMPORTED_MODULE_12__.default.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_14__.IconsPlugin);
+vue__WEBPACK_IMPORTED_MODULE_12__.default.use((vuejs_countdown_timer__WEBPACK_IMPORTED_MODULE_4___default()));
+vue__WEBPACK_IMPORTED_MODULE_12__.default.use(vue_currency_input__WEBPACK_IMPORTED_MODULE_3__.default);
+vue__WEBPACK_IMPORTED_MODULE_12__.default.component('select2', v_select2_component__WEBPACK_IMPORTED_MODULE_5__.default);
+vue__WEBPACK_IMPORTED_MODULE_12__.default.component('deposit-history', __webpack_require__(/*! ./views/user/DepositHistory */ "./resources/vuejs/views/user/DepositHistory.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_12__.default.component('menu-component', __webpack_require__(/*! ./views/layouts/Menu */ "./resources/vuejs/views/layouts/Menu.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_12__.default.component('footer-component', __webpack_require__(/*! ./views/layouts/Footer */ "./resources/vuejs/views/layouts/Footer.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_12__.default.component('header-component', __webpack_require__(/*! ./views/layouts/Header */ "./resources/vuejs/views/layouts/Header.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_12__.default.component('ping-component', __webpack_require__(/*! ./components/PingComponent */ "./resources/vuejs/components/PingComponent.vue").default);
+vue__WEBPACK_IMPORTED_MODULE_12__.default.prototype.$datafeed = _assets_js_datafeed__WEBPACK_IMPORTED_MODULE_11__.default;
+vue__WEBPACK_IMPORTED_MODULE_12__.default.use((vue_echo_laravel__WEBPACK_IMPORTED_MODULE_2___default()), {
   broadcaster: 'socket.io',
   host: window.location.hostname + ':6001'
 });
-var app = new vue__WEBPACK_IMPORTED_MODULE_11__.default({
+var app = new vue__WEBPACK_IMPORTED_MODULE_12__.default({
   el: '#app',
   i18n: _vuejs_locales_i18n__WEBPACK_IMPORTED_MODULE_9__.default,
   components: {
