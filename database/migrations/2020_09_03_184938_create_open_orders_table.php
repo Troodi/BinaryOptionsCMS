@@ -15,8 +15,8 @@ class CreateOpenOrdersTable extends Migration
     {
         Schema::create('open_orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('symbol_id')->nullable();
-            $table->integer('user_id')->nullable();
+            $table->integer('symbol_id')->index()->nullable();
+            $table->integer('user_id')->index()->nullable();
             $table->timestamp('close_at', 6)->nullable();
             $table->decimal('amount', 15, 2)->nullable();
             $table->decimal('open_price', 15, 5)->nullable();

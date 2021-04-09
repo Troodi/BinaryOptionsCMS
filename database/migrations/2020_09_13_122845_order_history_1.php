@@ -15,8 +15,8 @@ class OrderHistory1 extends Migration
     {
       Schema::create('order_history_1', function (Blueprint $table) {
         $table->id();
-        $table->integer('symbol_id')->nullable();
-        $table->integer('user_id')->nullable();
+        $table->integer('symbol_id')->index()->nullable();
+        $table->integer('user_id')->index()->nullable();
         $table->timestamp('open_at', 6)->nullable();
         $table->timestamp('close_at', 6)->nullable();
         $table->decimal('amount', 10, 2)->nullable();

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLatestOrdersTable extends Migration
+class CreateContestOpenOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,18 @@ class CreateLatestOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('latest_orders', function (Blueprint $table) {
+        Schema::create('contest_open_orders', function (Blueprint $table) {
             $table->id();
             $table->integer('symbol_id')->index()->nullable();
             $table->integer('user_id')->index()->nullable();
-            $table->timestamp('open_at', 6)->nullable();
+            $table->integer('contest_id')->index()->nullable();
             $table->timestamp('close_at', 6)->nullable();
-            $table->decimal('amount', 10, 2)->nullable();
+            $table->decimal('amount', 15, 2)->nullable();
             $table->decimal('open_price', 15, 5)->nullable();
-            $table->decimal('close_price', 15, 5)->nullable();
-            $table->decimal('profit', 10, 5)->nullable();
             $table->integer('percent')->nullable();
+            $table->integer('hedging')->nullable();
             $table->integer('type')->nullable();
-            $table->timestamp('created_at', 6)->nullable();
+            $table->timestamps(6);
         });
     }
 
@@ -36,6 +35,6 @@ class CreateLatestOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('latest_orders');
+        Schema::dropIfExists('contest_open_orders');
     }
 }

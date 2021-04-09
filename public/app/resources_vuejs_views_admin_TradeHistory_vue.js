@@ -101,10 +101,10 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
       self.symbols = response.data;
 
       if (self.userId) {
-        self.fillDT('#history', "/admin/data/history", self.userId);
+        self.fillDT('#real-history', "/admin/data/history", self.userId);
         self.fillDT('#historyDemo', "/admin/data/history/demo", self.userId);
       } else {
-        self.fillDT('#history', "/admin/data/history", 0);
+        self.fillDT('#real-history', "/admin/data/history", 0);
         self.fillDT('#historyDemo', "/admin/data/history/demo", 0);
       }
     });
@@ -361,7 +361,7 @@ var render = function() {
                   _c("div", { staticClass: "table-responsive" }, [
                     _c(
                       "table",
-                      { staticClass: "table", attrs: { id: "history" } },
+                      { staticClass: "table", attrs: { id: "real-history" } },
                       [
                         _c("thead", [
                           _c("tr", [

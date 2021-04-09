@@ -298,7 +298,7 @@ __webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstra
         self.tracked = response.data.tracked;
         self.user = response.data.user;
         self.request = response.data.request;
-        self.traficQuantity = self.request.traffic;
+        self.traficQuantity = 'traffic' in self.request ? self.request.traffic : null;
         self.comment = self.request.comment;
         self.telegram = self.request.telegram;
       });
