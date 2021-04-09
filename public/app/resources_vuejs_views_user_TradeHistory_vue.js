@@ -97,7 +97,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
     var self = this;
     axios.get('/data/symbols').then(function (response) {
       self.symbols = response.data;
-      self.fillDT('#history', self.isAdmin ? "/trading/history/" + self.userId : "/trading/history");
+      self.fillDT('#real-history', self.isAdmin ? "/trading/history/" + self.userId : "/trading/history");
       self.fillDT('#demo-history', self.isAdmin ? "/trading/demo/history/" + self.userId : "/trading/demo/history");
     });
   },
@@ -338,7 +338,7 @@ var render = function() {
                   _c("div", { staticClass: "table-responsive" }, [
                     _c(
                       "table",
-                      { staticClass: "table", attrs: { id: "history" } },
+                      { staticClass: "table", attrs: { id: "real-history" } },
                       [
                         _c("thead", [
                           _c("tr", [
