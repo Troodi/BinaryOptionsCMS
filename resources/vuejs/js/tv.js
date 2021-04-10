@@ -9,6 +9,7 @@ import $ from 'jquery';
 
 export class TradingViewWebsocket {
     constructor() {
+        let self = this;
         this.session = this.generateSession();
         this.chartSession = this.generateChartSession();
         this.sessionRegistered = false;
@@ -20,7 +21,8 @@ export class TradingViewWebsocket {
         this.symbolNumber = 1;
         this.symbolResolved = false;
         this.seriesCompleted = false;
-        this.socketTV = new WebSocket(window.websocketAddress);
+        window.chartTVLatestTime = new Date().getTime();
+        window.chartTV = self.socketTV = new WebSocket(window.websocketAddress);
         this.socketTV.onmessage = (data) => { this.onmessage(data) };
         this.socketTV.onopen = () => { this.onopen() };
         this.socketTV.onclose = (data) => { this.onclose(data) };
@@ -127,6 +129,7 @@ export class TradingViewWebsocket {
                     }
                 }, 200);
             } else if (packet.m && packet.m === "qsd" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.session) {
+                window.chartTVLatestTime = new Date().getTime();
                 const tticker = packet.p[1];
                 const tickerName = tticker.n;
                 const tickerStatus = tticker.s;
@@ -144,10 +147,12 @@ export class TradingViewWebsocket {
                     this._deleteTicker(tickerName);
                 }
             } else if (packet.m && packet.m === "symbol_resolved" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.chartSession) {
+                window.chartTVLatestTime = new Date().getTime();
                 this.firstLoadHistoryData(); // Get history bars
                 this.symbolResolved = true;
                 //barsFromWebSocket();
             } else if (packet.m && packet.m === "timescale_update" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.chartSession) {
+                window.chartTVLatestTime = new Date().getTime();
                 let bars = [];
                 if(packet.p[1].s1.s.length > 1) {
                     packet.p[1].s1.s.forEach(bar => {
@@ -181,6 +186,7 @@ export class TradingViewWebsocket {
                     //barsFromWebSocket();
                 }
             } else if (packet.m && packet.m === "series_completed" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.chartSession) {
+                window.chartTVLatestTime = new Date().getTime();
                 const each = 10; // how much ms between runs
                 let runs = 3000 / each; // time in ms divided by above
                 const interval = setInterval(() => {
@@ -197,6 +203,7 @@ export class TradingViewWebsocket {
                 }, each);
                 this.checkBarsGot = false;
             } else if(packet.m && packet.m === "du"){
+                window.chartTVLatestTime = new Date().getTime();
                 if(packet.p[1].s1.s[0].i > this.symbolIndex){
                     this.symbolIndex = packet.p[1].s1.s[0].i;
                     //console.log(packet.p[1].s1.s[0].i, new Date());

@@ -1,0 +1,232 @@
+<template>
+  <div class="content-wrapper">
+    <div class="content-body">
+      <div class="row">
+        <div class="col-md-12">
+
+          <div v-for="value in errors" class="alert bg-rgba-danger alert-dismissible mb-2" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <div class="d-flex align-items-center">
+              <i class="bx bx-error"></i>
+              <span>
+                {{ value }}
+              </span>
+            </div>
+          </div>
+
+          <div v-for="value in success" class="alert bg-rgba-success alert-dismissible mb-2" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <div class="d-flex align-items-center">
+              <i class="bx bx-error"></i>
+              <span>
+                {{ value }}
+              </span>
+            </div>
+          </div>
+
+          <section class="card">
+            <div class="card-header">
+              <h4 class="card-title">{{ title }}</h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <div class="card-text">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>ID</label>
+                        <input disabled="disabled" type="text" class="form-control" placeholder="*">
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>{{ $i18n.t('Начальный баланс трейдера') }}</label>
+                        <money v-bind="money" v-model="start_deposit" type="text" class="form-control"></money>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>{{ $i18n.t('Цена участия') }}</label>
+                        <money v-bind="money" v-model="cost" type="text" class="form-control"></money>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label class="align-top">{{ $i18n.t('Цена за докупаемый баланс (цена за 1$)') }}</label>
+                        <money v-model="add_cost" v-bind="money" class="form-control input-lg"></money>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>{{ $i18n.t('Максимальный баланс, до которого можно докупить') }}</label>
+                        <money v-model="max_balance" v-bind="money" class="form-control input-lg"></money>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>{{ $i18n.t('Отображается на странице конкурсов') }}</label>
+                        <select2 v-model="hidden" :options="hidden_options" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label class="align-top">{{ $i18n.t('Выигрыш рассчитывается по') }}</label>
+                        <select2 v-model="type_option" :options="type_options" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>{{ $i18n.t('Зарегистрировано пользователей') }}</label>
+                        <b-form-input v-model="registered" :id="'type-number2'" :type="'number'" disabled></b-form-input>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>{{ $i18n.t('Доход конкуса с учетом пополнений') }}</label>
+                        <money v-model="earned" v-bind="money" class="form-control input-lg" disabled></money>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>{{ $i18n.t('admin_promocode_edit_active_from') }}</label>
+                        <b-form-datepicker id="example-datepicker" class="mb-2" v-model="start_date"></b-form-datepicker>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>{{ $i18n.t('admin_promocode_edit_active_to') }}</label>
+                        <b-form-datepicker id="example-datepicker2" class="mb-2" v-model="end_date"></b-form-datepicker>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <div class="row"></div>
+                  <div class="row">
+                    <div class="col-md-4" v-for="locale in locales">
+                      <fieldset class="form-group">
+                        <label>{{ $i18n.t('Название конкурса') }} (Язык: {{ locale }})</label>
+                        <input type="text" class="form-control" v-model="name[locale]">
+                      </fieldset>
+                    </div>
+                    <div class="col-md-12" v-for="locale in locales">
+                      <fieldset class="form-group">
+                        <label>{{ $i18n.t('admin_promocode_edit_desc') }} (Язык описания: {{ locale }})</label>
+                        <textarea type="text" class="form-control" style="width: 100%; height: 150px;" v-model="desc[locale]"></textarea>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <div class="row mt-3 mb-3">
+                    <div class="col-md-12">
+                      <div class="table-responsive table-bordered">
+                        <table class="table">
+                          <thead>
+                          <tr>
+                            <th>Место</th>
+                            <th>Выигрыш в $</th>
+                            <th>Действие</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr v-for="(place, index) in places" >
+                            <td class="text-bold-500">#{{ index+1 }}</td>
+                            <td><money v-model="place.reward" v-bind="money" :key="index" class="form-control"></money></td>
+                            <td>
+                              <button @click="addNewPlace()" type="button" class="btn btn-outline-success btn-sm" v-show="places.length === index+1">Добавить место</button>
+                              <button @click="deletePlace(index)" type="button" class="btn btn-outline-danger btn-sm" v-bind:disabled="places.length === 1">Удалить</button>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button type="button" class="btn btn-outline-primary float-right">{{ button_text }}</button>
+                      <button type="button" class="btn btn-outline-danger float-right mr-1">{{ $i18n.t('admin_promocode_edit_back') }}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import {Money} from 'v-money'
+
+export default {
+name: "ContestEdit",
+  components: {Money},
+  data: function (){
+    return {
+      success: [],
+      errors: [],
+      type_option: 1,
+      registered: 0,
+      earned: 0,
+      start_deposit: 1000,
+      cost: 10,
+      add_cost: 0.1,
+      max_balance: 5000,
+      start_date: new Date(),
+      places: [{'reward': 1000}],
+      end_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+      type_options: [
+        { id: 1, text: 'Максимальный баланс' },
+        { id: 2, text: 'Максимальный прирост' },
+        { id: 3, text: 'Максимальный оборот' },
+      ],
+      hidden_options: [
+        { id: 1, text: 'Отображается в списке' },
+        { id: 0, text: 'Скрыто из списка' },
+      ],
+      name: [],
+      desc: [],
+      hidden: 1,
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '',
+        suffix: ' $',
+        precision: 2,
+        masked: false
+      },
+      locales: window.locales,
+    }
+  },
+  computed: {
+    contestId: function (){
+      return this.$route.params.id == null ? null : this.$route.params.id;
+    },
+    title: function (){
+      return this.$route.params.id == null ? this.$i18n.t('Создать новый конкурс') : this.$i18n.t('admin_promocode_edit_edit');
+    },
+    button_text: function (){
+      return this.$route.params.id == null ? this.$i18n.t('admin_promocode_edit_create_button') : this.$i18n.t('admin_promocode_edit_save');
+    },
+  },
+  mounted() {
+
+  },
+  methods: {
+    addNewPlace() {
+      this.places.push({'reward': 0});
+    },
+    deletePlace(index){
+      this.places.splice(index, 1);
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

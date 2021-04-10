@@ -24,6 +24,7 @@ class CreateContestsTable extends Migration
             $table->decimal('max_bought_balance', 15, 2);
             $table->integer('registered_users')->default(0);
             $table->decimal('earned', 15, 2)->default(0);
+            $table->integer('hidden')->default(0);
             $table->integer('type');
             $table->timestamp('started_at');
             $table->timestamp('ended_at');

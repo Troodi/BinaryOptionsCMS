@@ -1,7 +1,21 @@
 <template>
-        <div id="tv_chart_container" class="trading-chart-height">
-            <!-- This div will contain the Charting Library widget. -->
-        </div>
+  <div>
+    <div id="tv_chart_container" class="trading-chart-height">
+        <!-- This div will contain the Charting Library widget. -->
+    </div>
+    <div v-show="showError" class="alert alert-warning alert-dismissible mb-2" role="alert" style="margin-top: -84px;margin-left: 150px;margin-right: 150px;">
+
+      <button onclick="location.reload()" type="button" class="close btn btn-light-danger btn-sm" style="font-size: 15px;top: 10px;padding: 10px;margin-right: 10px;">
+        Переподключиться
+      </button>
+      <div class="d-flex align-items-center">
+        <i class="bx bx-error-circle"></i>
+        <span>
+          <strong>Ошибка соединения!</strong>
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -14,9 +28,14 @@
             window.Datafeed = this.$datafeed;
             this.initChart();
         },
+        data(){
+            return {
+              showError: false
+            }
+        },
         methods:{
             initChart(){
-              let self = this;
+                let self = this;
                 let symbol = '', tabSymbol = '', resolution = '';
                 if(localStorage.getItem('symbol_full') && localStorage.getItem('symbol_short')) {
                     symbol = localStorage.getItem('symbol_full');
@@ -68,6 +87,9 @@
                                 $('#' + window.tvWidget._iFrame.name).contents().find('head').append($("<style type='text/css'> ._tv-dialog-nonmodal { width:350px !important; left: 57px !important; top: 41px !important; max-width: 70vw; } .symbol-edit-popup-td.name { width: 40% !important; } </style>"));
                             });
                         });
+                        setInterval(() => {
+                          self.showError = window.chartTV.readyState !== 1 && window.chartTV.readyState !== 0 || ((new Date().getTime() / 1000) - (window.chartTVLatestTime / 1000) > 12);
+                        }, 3000);
                     }
                 }, 100);
             }
