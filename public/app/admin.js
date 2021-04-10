@@ -1955,6 +1955,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 window.dataLoaded = false;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1962,6 +1976,11 @@ window.dataLoaded = false;
   created: function created() {
     window.Datafeed = this.$datafeed;
     this.initChart();
+  },
+  data: function data() {
+    return {
+      showError: false
+    };
   },
   methods: {
     initChart: function initChart() {
@@ -2025,11 +2044,267 @@ window.dataLoaded = false;
               $('#' + window.tvWidget._iFrame.name).contents().find('head').append($("<style type='text/css'> ._tv-dialog-nonmodal { width:350px !important; left: 57px !important; top: 41px !important; max-width: 70vw; } .symbol-edit-popup-td.name { width: 40% !important; } </style>"));
             });
           });
+          setInterval(function () {
+            self.showError = window.chartTV.readyState !== 1 && window.chartTV.readyState !== 0 || new Date().getTime() / 1000 - window.chartTVLatestTime / 1000 > 12;
+          }, 3000);
         }
       }, 100);
     }
   },
   destroyed: function destroyed() {//window.tvObj.closeWebsocket();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/ContestEdit.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/ContestEdit.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
+/* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "ContestEdit",
+  components: {
+    Money: v_money__WEBPACK_IMPORTED_MODULE_0__.Money
+  },
+  data: function data() {
+    return {
+      success: [],
+      errors: [],
+      type_option: 1,
+      registered: 0,
+      earned: 0,
+      start_deposit: 1000,
+      cost: 10,
+      add_cost: 0.1,
+      max_balance: 5000,
+      start_date: new Date(),
+      places: [{
+        'reward': 1000
+      }],
+      end_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+      type_options: [{
+        id: 1,
+        text: 'Максимальный баланс'
+      }, {
+        id: 2,
+        text: 'Максимальный прирост'
+      }, {
+        id: 3,
+        text: 'Максимальный оборот'
+      }],
+      hidden_options: [{
+        id: 1,
+        text: 'Отображается в списке'
+      }, {
+        id: 0,
+        text: 'Скрыто из списка'
+      }],
+      name: [],
+      desc: [],
+      hidden: 1,
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '',
+        suffix: ' $',
+        precision: 2,
+        masked: false
+      },
+      locales: window.locales
+    };
+  },
+  computed: {
+    contestId: function contestId() {
+      return this.$route.params.id == null ? null : this.$route.params.id;
+    },
+    title: function title() {
+      return this.$route.params.id == null ? this.$i18n.t('Создать новый конкурс') : this.$i18n.t('admin_promocode_edit_edit');
+    },
+    button_text: function button_text() {
+      return this.$route.params.id == null ? this.$i18n.t('admin_promocode_edit_create_button') : this.$i18n.t('admin_promocode_edit_save');
+    }
+  },
+  mounted: function mounted() {},
+  methods: {
+    addNewPlace: function addNewPlace() {
+      this.places.push({
+        'reward': 0
+      });
+    },
+    deletePlace: function deletePlace(index) {
+      this.places.splice(index, 1);
+    }
   }
 });
 
@@ -10668,6 +10943,7 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
     _classCallCheck(this, TradingViewWebsocket);
 
+    var self = this;
     this.session = this.generateSession();
     this.chartSession = this.generateChartSession();
     this.sessionRegistered = false;
@@ -10679,7 +10955,8 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
     this.symbolNumber = 1;
     this.symbolResolved = false;
     this.seriesCompleted = false;
-    this.socketTV = new WebSocket(window.websocketAddress);
+    window.chartTVLatestTime = new Date().getTime();
+    window.chartTV = self.socketTV = new WebSocket(window.websocketAddress);
 
     this.socketTV.onmessage = function (data) {
       _this.onmessage(data);
@@ -10770,6 +11047,7 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             }
           }, 200);
         } else if (packet.m && packet.m === "qsd" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.session) {
+          window.chartTVLatestTime = new Date().getTime();
           var tticker = packet.p[1];
           var tickerName = tticker.n;
           var tickerStatus = tticker.s;
@@ -10789,11 +11067,14 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             _this2._deleteTicker(tickerName);
           }
         } else if (packet.m && packet.m === "symbol_resolved" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
+          window.chartTVLatestTime = new Date().getTime();
+
           _this2.firstLoadHistoryData(); // Get history bars
 
 
           _this2.symbolResolved = true; //barsFromWebSocket();
         } else if (packet.m && packet.m === "timescale_update" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
+          window.chartTVLatestTime = new Date().getTime();
           var bars = [];
 
           if (packet.p[1].s1.s.length > 1) {
@@ -10832,6 +11113,7 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
           }
         } else if (packet.m && packet.m === "series_completed" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
+          window.chartTVLatestTime = new Date().getTime();
           var _each = 10; // how much ms between runs
 
           var _runs = 3000 / _each; // time in ms divided by above
@@ -10855,6 +11137,8 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
           _this2.checkBarsGot = false;
         } else if (packet.m && packet.m === "du") {
+          window.chartTVLatestTime = new Date().getTime();
+
           if (packet.p[1].s1.s[0].i > _this2.symbolIndex) {
             _this2.symbolIndex = packet.p[1].s1.s[0].i; //console.log(packet.p[1].s1.s[0].i, new Date());
           }
@@ -11471,6 +11755,7 @@ var messages = {
   ru: _locales_ru_json__WEBPACK_IMPORTED_MODULE_0__,
   es: _locales_es_json__WEBPACK_IMPORTED_MODULE_2__
 };
+window.locales = Object.keys(messages);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue_i18n__WEBPACK_IMPORTED_MODULE_4__.default({
   locale: getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en',
   fallbackLocale: 'en',
@@ -11496,9 +11781,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "routes": () => (/* binding */ routes),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _locales_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../locales/i18n */ "./resources/vuejs/locales/i18n.js");
+/* harmony import */ var _views_admin_ContestEdit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../views/admin/ContestEdit */ "./resources/vuejs/views/admin/ContestEdit.vue");
 /**
  * Import libs
  */
@@ -11691,6 +11977,10 @@ var routes = [{
   name: _locales_i18n__WEBPACK_IMPORTED_MODULE_0__.default.t('admin_menu_verify'),
   component: Verify
 }, {
+  path: '/admin/contest/create',
+  name: 'Создание конкурса',
+  component: _views_admin_ContestEdit__WEBPACK_IMPORTED_MODULE_1__.default
+}, {
   path: '/admin/promocodes',
   name: _locales_i18n__WEBPACK_IMPORTED_MODULE_0__.default.t('admin_menu_promocodes'),
   component: PromocodeAdmin
@@ -11719,12 +12009,12 @@ var routes = [{
     hide: true
   }
 }];
-vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_2__.default);
+vue__WEBPACK_IMPORTED_MODULE_2__.default.use(vue_router__WEBPACK_IMPORTED_MODULE_3__.default);
 /**
  * Create object VueRouter
  */
 
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__.default({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_3__.default({
   mode: 'history',
   routes: routes
 });
@@ -121612,6 +121902,16 @@ function toArray(list, index) {
 
 /***/ }),
 
+/***/ "./node_modules/v-money/dist/v-money.js":
+/*!**********************************************!*\
+  !*** ./node_modules/v-money/dist/v-money.js ***!
+  \**********************************************/
+/***/ (function(module) {
+
+(function(e,t){ true?module.exports=t():0})(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var i=n[r]={i:r,l:!1,exports:{}};return e[r].call(i.exports,i,i.exports,t),i.l=!0,i.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:r})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p=".",t(t.s=9)}([function(e,t,n){"use strict";t.a={prefix:"",suffix:"",thousands:",",decimal:".",precision:2}},function(e,t,n){"use strict";var r=n(2),i=n(5),u=n(0);t.a=function(e,t){if(t.value){var o=n.i(i.a)(u.a,t.value);if("INPUT"!==e.tagName.toLocaleUpperCase()){var a=e.getElementsByTagName("input");1!==a.length||(e=a[0])}e.oninput=function(){var t=e.value.length-e.selectionEnd;e.value=n.i(r.a)(e.value,o),t=Math.max(t,o.suffix.length),t=e.value.length-t,t=Math.max(t,o.prefix.length+1),n.i(r.b)(e,t),e.dispatchEvent(n.i(r.c)("change"))},e.onfocus=function(){n.i(r.b)(e,e.value.length-o.suffix.length)},e.oninput(),e.dispatchEvent(n.i(r.c)("input"))}}},function(e,t,n){"use strict";function r(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:m.a;"number"==typeof e&&(e=e.toFixed(o(t.precision)));var n=e.indexOf("-")>=0?"-":"",r=u(e),i=c(r,t.precision),a=d(i).split("."),p=a[0],l=a[1];return p=f(p,t.thousands),t.prefix+n+s(p,l,t.decimal)+t.suffix}function i(e,t){var n=e.indexOf("-")>=0?-1:1,r=u(e),i=c(r,t);return parseFloat(i)*n}function u(e){return d(e).replace(/\D+/g,"")||"0"}function o(e){return a(0,e,20)}function a(e,t,n){return Math.max(e,Math.min(t,n))}function c(e,t){var n=Math.pow(10,t);return(parseFloat(e)/n).toFixed(o(t))}function f(e,t){return e.replace(/(\d)(?=(?:\d{3})+\b)/gm,"$1"+t)}function s(e,t,n){return t?e+n+t:e}function d(e){return e?e.toString():""}function p(e,t){var n=function(){e.setSelectionRange(t,t)};e===document.activeElement&&(n(),setTimeout(n,1))}function l(e){var t=document.createEvent("Event");return t.initEvent(e,!0,!0),t}var m=n(0);n.d(t,"a",function(){return r}),n.d(t,"d",function(){return i}),n.d(t,"b",function(){return p}),n.d(t,"c",function(){return l})},function(e,t,n){"use strict";function r(e,t){t&&Object.keys(t).map(function(e){a.a[e]=t[e]}),e.directive("money",o.a),e.component("money",u.a)}Object.defineProperty(t,"__esModule",{value:!0});var i=n(6),u=n.n(i),o=n(1),a=n(0);n.d(t,"Money",function(){return u.a}),n.d(t,"VMoney",function(){return o.a}),n.d(t,"options",function(){return a.a}),n.d(t,"VERSION",function(){return c});var c="0.8.1";t.default=r,"undefined"!=typeof window&&window.Vue&&window.Vue.use(r)},function(e,t,n){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var r=n(1),i=n(0),u=n(2);t.default={name:"Money",props:{value:{required:!0,type:[Number,String],default:0},masked:{type:Boolean,default:!1},precision:{type:Number,default:function(){return i.a.precision}},decimal:{type:String,default:function(){return i.a.decimal}},thousands:{type:String,default:function(){return i.a.thousands}},prefix:{type:String,default:function(){return i.a.prefix}},suffix:{type:String,default:function(){return i.a.suffix}}},directives:{money:r.a},data:function(){return{formattedValue:""}},watch:{value:{immediate:!0,handler:function(e,t){var r=n.i(u.a)(e,this.$props);r!==this.formattedValue&&(this.formattedValue=r)}}},methods:{change:function(e){this.$emit("input",this.masked?e.target.value:n.i(u.d)(e.target.value,this.precision))}}}},function(e,t,n){"use strict";t.a=function(e,t){return e=e||{},t=t||{},Object.keys(e).concat(Object.keys(t)).reduce(function(n,r){return n[r]=void 0===t[r]?e[r]:t[r],n},{})}},function(e,t,n){var r=n(7)(n(4),n(8),null,null);e.exports=r.exports},function(e,t){e.exports=function(e,t,n,r){var i,u=e=e||{},o=typeof e.default;"object"!==o&&"function"!==o||(i=e,u=e.default);var a="function"==typeof u?u.options:u;if(t&&(a.render=t.render,a.staticRenderFns=t.staticRenderFns),n&&(a._scopeId=n),r){var c=a.computed||(a.computed={});Object.keys(r).forEach(function(e){var t=r[e];c[e]=function(){return t}})}return{esModule:i,exports:u,options:a}}},function(e,t){e.exports={render:function(){var e=this,t=e.$createElement;return(e._self._c||t)("input",{directives:[{name:"money",rawName:"v-money",value:{precision:e.precision,decimal:e.decimal,thousands:e.thousands,prefix:e.prefix,suffix:e.suffix},expression:"{precision, decimal, thousands, prefix, suffix}"}],staticClass:"v-money",attrs:{type:"tel"},domProps:{value:e.formattedValue},on:{change:e.change}})},staticRenderFns:[]}},function(e,t,n){e.exports=n(3)}])});
+
+/***/ }),
+
 /***/ "./node_modules/v-select2-component/dist/Select2.esm.js":
 /*!**************************************************************!*\
   !*** ./node_modules/v-select2-component/dist/Select2.esm.js ***!
@@ -124515,6 +124815,41 @@ component.options.__file = "resources/vuejs/components/TradingChartComponent.vue
 
 /***/ }),
 
+/***/ "./resources/vuejs/views/admin/ContestEdit.vue":
+/*!*****************************************************!*\
+  !*** ./resources/vuejs/views/admin/ContestEdit.vue ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ContestEdit_vue_vue_type_template_id_7bb0b935_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContestEdit.vue?vue&type=template&id=7bb0b935&scoped=true& */ "./resources/vuejs/views/admin/ContestEdit.vue?vue&type=template&id=7bb0b935&scoped=true&");
+/* harmony import */ var _ContestEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ContestEdit.vue?vue&type=script&lang=js& */ "./resources/vuejs/views/admin/ContestEdit.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _ContestEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _ContestEdit_vue_vue_type_template_id_7bb0b935_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ContestEdit_vue_vue_type_template_id_7bb0b935_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "7bb0b935",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/vuejs/views/admin/ContestEdit.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/vuejs/views/admin/layouts/Header.vue":
 /*!********************************************************!*\
   !*** ./resources/vuejs/views/admin/layouts/Header.vue ***!
@@ -124765,6 +125100,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/vuejs/views/admin/ContestEdit.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/vuejs/views/admin/ContestEdit.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContestEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ContestEdit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/ContestEdit.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ContestEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/vuejs/views/admin/layouts/Header.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************!*\
   !*** ./resources/vuejs/views/admin/layouts/Header.vue?vue&type=script&lang=js& ***!
@@ -124934,6 +125285,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/vuejs/views/admin/ContestEdit.vue?vue&type=template&id=7bb0b935&scoped=true&":
+/*!************************************************************************************************!*\
+  !*** ./resources/vuejs/views/admin/ContestEdit.vue?vue&type=template&id=7bb0b935&scoped=true& ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContestEdit_vue_vue_type_template_id_7bb0b935_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContestEdit_vue_vue_type_template_id_7bb0b935_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ContestEdit_vue_vue_type_template_id_7bb0b935_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ContestEdit.vue?vue&type=template&id=7bb0b935&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/ContestEdit.vue?vue&type=template&id=7bb0b935&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/vuejs/views/admin/layouts/Header.vue?vue&type=template&id=fbdbd5a8&scoped=true&":
 /*!***************************************************************************************************!*\
   !*** ./resources/vuejs/views/admin/layouts/Header.vue?vue&type=template&id=fbdbd5a8&scoped=true& ***!
@@ -125090,12 +125458,789 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", {
-    staticClass: "trading-chart-height",
-    attrs: { id: "tv_chart_container" }
-  })
+  return _c("div", [
+    _c("div", {
+      staticClass: "trading-chart-height",
+      attrs: { id: "tv_chart_container" }
+    }),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showError,
+            expression: "showError"
+          }
+        ],
+        staticClass: "alert alert-warning alert-dismissible mb-2",
+        staticStyle: {
+          "margin-top": "-84px",
+          "margin-left": "150px",
+          "margin-right": "150px"
+        },
+        attrs: { role: "alert" }
+      },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "close btn btn-light-danger btn-sm",
+            staticStyle: {
+              "font-size": "15px",
+              top: "10px",
+              padding: "10px",
+              "margin-right": "10px"
+            },
+            attrs: { onclick: "location.reload()", type: "button" }
+          },
+          [_vm._v("\n      Переподключиться\n    ")]
+        ),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("i", { staticClass: "bx bx-error-circle" }),
+      _vm._v(" "),
+      _c("span", [_c("strong", [_vm._v("Ошибка соединения!")])])
+    ])
+  }
+]
+render._withStripped = true
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/ContestEdit.vue?vue&type=template&id=7bb0b935&scoped=true&":
+/*!***************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/ContestEdit.vue?vue&type=template&id=7bb0b935&scoped=true& ***!
+  \***************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "content-wrapper" }, [
+    _c("div", { staticClass: "content-body" }, [
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
+          [
+            _vm._l(_vm.errors, function(value) {
+              return _c(
+                "div",
+                {
+                  staticClass: "alert bg-rgba-danger alert-dismissible mb-2",
+                  attrs: { role: "alert" }
+                },
+                [
+                  _vm._m(0, true),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "d-flex align-items-center" }, [
+                    _c("i", { staticClass: "bx bx-error" }),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "\n              " + _vm._s(value) + "\n            "
+                      )
+                    ])
+                  ])
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _vm._l(_vm.success, function(value) {
+              return _c(
+                "div",
+                {
+                  staticClass: "alert bg-rgba-success alert-dismissible mb-2",
+                  attrs: { role: "alert" }
+                },
+                [
+                  _vm._m(1, true),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "d-flex align-items-center" }, [
+                    _c("i", { staticClass: "bx bx-error" }),
+                    _vm._v(" "),
+                    _c("span", [
+                      _vm._v(
+                        "\n              " + _vm._s(value) + "\n            "
+                      )
+                    ])
+                  ])
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _c("section", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("h4", { staticClass: "card-title" }, [
+                  _vm._v(_vm._s(_vm.title))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-content" }, [
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "card-text" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", [
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("Начальный баланс трейдера"))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "money",
+                              _vm._b(
+                                {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text" },
+                                  model: {
+                                    value: _vm.start_deposit,
+                                    callback: function($$v) {
+                                      _vm.start_deposit = $$v
+                                    },
+                                    expression: "start_deposit"
+                                  }
+                                },
+                                "money",
+                                _vm.money,
+                                false
+                              )
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", [
+                              _vm._v(_vm._s(_vm.$i18n.t("Цена участия")))
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "money",
+                              _vm._b(
+                                {
+                                  staticClass: "form-control",
+                                  attrs: { type: "text" },
+                                  model: {
+                                    value: _vm.cost,
+                                    callback: function($$v) {
+                                      _vm.cost = $$v
+                                    },
+                                    expression: "cost"
+                                  }
+                                },
+                                "money",
+                                _vm.money,
+                                false
+                              )
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", { staticClass: "align-top" }, [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t(
+                                    "Цена за докупаемый баланс (цена за 1$)"
+                                  )
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "money",
+                              _vm._b(
+                                {
+                                  staticClass: "form-control input-lg",
+                                  model: {
+                                    value: _vm.add_cost,
+                                    callback: function($$v) {
+                                      _vm.add_cost = $$v
+                                    },
+                                    expression: "add_cost"
+                                  }
+                                },
+                                "money",
+                                _vm.money,
+                                false
+                              )
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t(
+                                    "Максимальный баланс, до которого можно докупить"
+                                  )
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "money",
+                              _vm._b(
+                                {
+                                  staticClass: "form-control input-lg",
+                                  model: {
+                                    value: _vm.max_balance,
+                                    callback: function($$v) {
+                                      _vm.max_balance = $$v
+                                    },
+                                    expression: "max_balance"
+                                  }
+                                },
+                                "money",
+                                _vm.money,
+                                false
+                              )
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t(
+                                    "Отображается на странице конкурсов"
+                                  )
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("select2", {
+                              attrs: {
+                                options: _vm.hidden_options,
+                                settings: {
+                                  settingOption: "value",
+                                  settingOption: "value",
+                                  minimumResultsForSearch: Infinity
+                                }
+                              },
+                              model: {
+                                value: _vm.hidden,
+                                callback: function($$v) {
+                                  _vm.hidden = $$v
+                                },
+                                expression: "hidden"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", { staticClass: "align-top" }, [
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("Выигрыш рассчитывается по"))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("select2", {
+                              attrs: {
+                                options: _vm.type_options,
+                                settings: {
+                                  settingOption: "value",
+                                  settingOption: "value",
+                                  minimumResultsForSearch: Infinity
+                                }
+                              },
+                              model: {
+                                value: _vm.type_option,
+                                callback: function($$v) {
+                                  _vm.type_option = $$v
+                                },
+                                expression: "type_option"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("Зарегистрировано пользователей")
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("b-form-input", {
+                              attrs: {
+                                id: "type-number2",
+                                type: "number",
+                                disabled: ""
+                              },
+                              model: {
+                                value: _vm.registered,
+                                callback: function($$v) {
+                                  _vm.registered = $$v
+                                },
+                                expression: "registered"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t(
+                                    "Доход конкуса с учетом пополнений"
+                                  )
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c(
+                              "money",
+                              _vm._b(
+                                {
+                                  staticClass: "form-control input-lg",
+                                  attrs: { disabled: "" },
+                                  model: {
+                                    value: _vm.earned,
+                                    callback: function($$v) {
+                                      _vm.earned = $$v
+                                    },
+                                    expression: "earned"
+                                  }
+                                },
+                                "money",
+                                _vm.money,
+                                false
+                              )
+                            )
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t(
+                                    "admin_promocode_edit_active_from"
+                                  )
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("b-form-datepicker", {
+                              staticClass: "mb-2",
+                              attrs: { id: "example-datepicker" },
+                              model: {
+                                value: _vm.start_date,
+                                callback: function($$v) {
+                                  _vm.start_date = $$v
+                                },
+                                expression: "start_date"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
+                            _c("label", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t("admin_promocode_edit_active_to")
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("b-form-datepicker", {
+                              staticClass: "mb-2",
+                              attrs: { id: "example-datepicker2" },
+                              model: {
+                                value: _vm.end_date,
+                                callback: function($$v) {
+                                  _vm.end_date = $$v
+                                },
+                                expression: "end_date"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "row" },
+                      [
+                        _vm._l(_vm.locales, function(locale) {
+                          return _c("div", { staticClass: "col-md-4" }, [
+                            _c("fieldset", { staticClass: "form-group" }, [
+                              _c("label", [
+                                _vm._v(
+                                  _vm._s(_vm.$i18n.t("Название конкурса")) +
+                                    " (Язык: " +
+                                    _vm._s(locale) +
+                                    ")"
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("input", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.name[locale],
+                                    expression: "name[locale]"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: { type: "text" },
+                                domProps: { value: _vm.name[locale] },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.name,
+                                      locale,
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        }),
+                        _vm._v(" "),
+                        _vm._l(_vm.locales, function(locale) {
+                          return _c("div", { staticClass: "col-md-12" }, [
+                            _c("fieldset", { staticClass: "form-group" }, [
+                              _c("label", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$i18n.t("admin_promocode_edit_desc")
+                                  ) +
+                                    " (Язык описания: " +
+                                    _vm._s(locale) +
+                                    ")"
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("textarea", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.desc[locale],
+                                    expression: "desc[locale]"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                staticStyle: { width: "100%", height: "150px" },
+                                attrs: { type: "text" },
+                                domProps: { value: _vm.desc[locale] },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.desc,
+                                      locale,
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              })
+                            ])
+                          ])
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row mt-3 mb-3" }, [
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c(
+                          "div",
+                          { staticClass: "table-responsive table-bordered" },
+                          [
+                            _c("table", { staticClass: "table" }, [
+                              _vm._m(3),
+                              _vm._v(" "),
+                              _c(
+                                "tbody",
+                                _vm._l(_vm.places, function(place, index) {
+                                  return _c("tr", [
+                                    _c("td", { staticClass: "text-bold-500" }, [
+                                      _vm._v("#" + _vm._s(index + 1))
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "td",
+                                      [
+                                        _c(
+                                          "money",
+                                          _vm._b(
+                                            {
+                                              key: index,
+                                              staticClass: "form-control",
+                                              model: {
+                                                value: place.reward,
+                                                callback: function($$v) {
+                                                  _vm.$set(place, "reward", $$v)
+                                                },
+                                                expression: "place.reward"
+                                              }
+                                            },
+                                            "money",
+                                            _vm.money,
+                                            false
+                                          )
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c("td", [
+                                      _c(
+                                        "button",
+                                        {
+                                          directives: [
+                                            {
+                                              name: "show",
+                                              rawName: "v-show",
+                                              value:
+                                                _vm.places.length === index + 1,
+                                              expression:
+                                                "places.length === index+1"
+                                            }
+                                          ],
+                                          staticClass:
+                                            "btn btn-outline-success btn-sm",
+                                          attrs: { type: "button" },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.addNewPlace()
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Добавить место")]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass:
+                                            "btn btn-outline-danger btn-sm",
+                                          attrs: {
+                                            type: "button",
+                                            disabled: _vm.places.length === 1
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              return _vm.deletePlace(index)
+                                            }
+                                          }
+                                        },
+                                        [_vm._v("Удалить")]
+                                      )
+                                    ])
+                                  ])
+                                }),
+                                0
+                              )
+                            ])
+                          ]
+                        )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "row" }, [
+                      _c("div", { staticClass: "col-md-12" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-outline-primary float-right",
+                            attrs: { type: "button" }
+                          },
+                          [_vm._v(_vm._s(_vm.button_text))]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-outline-danger float-right mr-1",
+                            attrs: { type: "button" }
+                          },
+                          [
+                            _vm._v(
+                              _vm._s(_vm.$i18n.t("admin_promocode_edit_back"))
+                            )
+                          ]
+                        )
+                      ])
+                    ])
+                  ])
+                ])
+              ])
+            ])
+          ],
+          2
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "alert",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-4" }, [
+      _c("fieldset", { staticClass: "form-group" }, [
+        _c("label", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { disabled: "disabled", type: "text", placeholder: "*" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Место")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Выигрыш в $")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Действие")])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 /***/ }),

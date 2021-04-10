@@ -9,6 +9,7 @@ import VueRouter from 'vue-router';
 //  */
 // //Students
 import i18n from "../../locales/i18n";
+import ContestEdit from "../../views/admin/ContestEdit";
 
 const Statistics = () => import("../../views/admin/Statistics");
 const Profile = () => import("../../views/user/Profile");
@@ -57,6 +58,7 @@ export const routes = [
     { path: '/admin/withdrawal', name: i18n.t('admin_menu_withdraws'), component: Withdrawals },
     { path: '/admin/partner', name: i18n.t('admin_menu_requests'), component: Partners },
     { path: '/admin/verify', name: i18n.t('admin_menu_verify'), component: Verify },
+    { path: '/admin/contest/create', name: 'Создание конкурса', component: ContestEdit },
     { path: '/admin/promocodes', name: i18n.t('admin_menu_promocodes'), component: PromocodeAdmin },
     { path: '/admin/promocode/create', name: i18n.t('admin_menu_promocode_edit'), component: PromocodeEdit },
     { path: '/admin/promocode/edit/:id', name: i18n.t('admin_menu_promocodes'), component: PromocodeEdit },

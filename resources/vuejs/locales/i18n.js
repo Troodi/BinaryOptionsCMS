@@ -11,6 +11,7 @@ let messages = {
     ru : russian,
     es : spain,
 }
+window.locales = Object.keys(messages);
 
 export default new VueI18n({
     locale: getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en',

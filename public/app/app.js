@@ -1955,6 +1955,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 window.dataLoaded = false;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -1962,6 +1976,11 @@ window.dataLoaded = false;
   created: function created() {
     window.Datafeed = this.$datafeed;
     this.initChart();
+  },
+  data: function data() {
+    return {
+      showError: false
+    };
   },
   methods: {
     initChart: function initChart() {
@@ -2025,6 +2044,9 @@ window.dataLoaded = false;
               $('#' + window.tvWidget._iFrame.name).contents().find('head').append($("<style type='text/css'> ._tv-dialog-nonmodal { width:350px !important; left: 57px !important; top: 41px !important; max-width: 70vw; } .symbol-edit-popup-td.name { width: 40% !important; } </style>"));
             });
           });
+          setInterval(function () {
+            self.showError = window.chartTV.readyState !== 1 && window.chartTV.readyState !== 0 || new Date().getTime() / 1000 - window.chartTVLatestTime / 1000 > 12;
+          }, 3000);
         }
       }, 100);
     }
@@ -10762,6 +10784,7 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
     _classCallCheck(this, TradingViewWebsocket);
 
+    var self = this;
     this.session = this.generateSession();
     this.chartSession = this.generateChartSession();
     this.sessionRegistered = false;
@@ -10773,7 +10796,8 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
     this.symbolNumber = 1;
     this.symbolResolved = false;
     this.seriesCompleted = false;
-    this.socketTV = new WebSocket(window.websocketAddress);
+    window.chartTVLatestTime = new Date().getTime();
+    window.chartTV = self.socketTV = new WebSocket(window.websocketAddress);
 
     this.socketTV.onmessage = function (data) {
       _this.onmessage(data);
@@ -10864,6 +10888,7 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             }
           }, 200);
         } else if (packet.m && packet.m === "qsd" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.session) {
+          window.chartTVLatestTime = new Date().getTime();
           var tticker = packet.p[1];
           var tickerName = tticker.n;
           var tickerStatus = tticker.s;
@@ -10883,11 +10908,14 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             _this2._deleteTicker(tickerName);
           }
         } else if (packet.m && packet.m === "symbol_resolved" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
+          window.chartTVLatestTime = new Date().getTime();
+
           _this2.firstLoadHistoryData(); // Get history bars
 
 
           _this2.symbolResolved = true; //barsFromWebSocket();
         } else if (packet.m && packet.m === "timescale_update" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
+          window.chartTVLatestTime = new Date().getTime();
           var bars = [];
 
           if (packet.p[1].s1.s.length > 1) {
@@ -10926,6 +10954,7 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
           }
         } else if (packet.m && packet.m === "series_completed" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
+          window.chartTVLatestTime = new Date().getTime();
           var _each = 10; // how much ms between runs
 
           var _runs = 3000 / _each; // time in ms divided by above
@@ -10949,6 +10978,8 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
           _this2.checkBarsGot = false;
         } else if (packet.m && packet.m === "du") {
+          window.chartTVLatestTime = new Date().getTime();
+
           if (packet.p[1].s1.s[0].i > _this2.symbolIndex) {
             _this2.symbolIndex = packet.p[1].s1.s[0].i; //console.log(packet.p[1].s1.s[0].i, new Date());
           }
@@ -11565,6 +11596,7 @@ var messages = {
   ru: _locales_ru_json__WEBPACK_IMPORTED_MODULE_0__,
   es: _locales_es_json__WEBPACK_IMPORTED_MODULE_2__
 };
+window.locales = Object.keys(messages);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue_i18n__WEBPACK_IMPORTED_MODULE_4__.default({
   locale: getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en',
   fallbackLocale: 'en',
@@ -125086,12 +125118,64 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", {
-    staticClass: "trading-chart-height",
-    attrs: { id: "tv_chart_container" }
-  })
+  return _c("div", [
+    _c("div", {
+      staticClass: "trading-chart-height",
+      attrs: { id: "tv_chart_container" }
+    }),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showError,
+            expression: "showError"
+          }
+        ],
+        staticClass: "alert alert-warning alert-dismissible mb-2",
+        staticStyle: {
+          "margin-top": "-84px",
+          "margin-left": "150px",
+          "margin-right": "150px"
+        },
+        attrs: { role: "alert" }
+      },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "close btn btn-light-danger btn-sm",
+            staticStyle: {
+              "font-size": "15px",
+              top: "10px",
+              padding: "10px",
+              "margin-right": "10px"
+            },
+            attrs: { onclick: "location.reload()", type: "button" }
+          },
+          [_vm._v("\n      Переподключиться\n    ")]
+        ),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    )
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-flex align-items-center" }, [
+      _c("i", { staticClass: "bx bx-error-circle" }),
+      _vm._v(" "),
+      _c("span", [_c("strong", [_vm._v("Ошибка соединения!")])])
+    ])
+  }
+]
 render._withStripped = true
 
 /***/ }),

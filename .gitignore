@@ -23,3 +23,6 @@ app/Http/Controllers/Main/cookie.txt
 laravel-echo-server.json
 app/Console/Commands/cookie.txt
 *.lock
+/public/js/
+/public/app/
+/public/assets/
