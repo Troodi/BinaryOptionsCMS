@@ -15,7 +15,7 @@ class CreateContestsTable extends Migration
     {
         Schema::create('contests', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->text('title');
             $table->text('description');
             $table->text('places');
             $table->decimal('initial_balance', 15, 2);
@@ -25,6 +25,7 @@ class CreateContestsTable extends Migration
             $table->integer('registered_users')->default(0);
             $table->decimal('earned', 15, 2)->default(0);
             $table->integer('hidden')->default(0);
+            $table->integer('show_registered')->default(0);
             $table->integer('type');
             $table->timestamp('started_at');
             $table->timestamp('ended_at');

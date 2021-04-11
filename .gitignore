@@ -26,3 +26,5 @@ app/Console/Commands/cookie.txt
 /public/js/
 /public/app/
 /public/assets/
+public/app/admin.js
+public/mix-manifest.json
