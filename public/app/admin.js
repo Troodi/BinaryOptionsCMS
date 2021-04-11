@@ -2070,6 +2070,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! v-money */ "./node_modules/v-money/dist/v-money.js");
 /* harmony import */ var v_money__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(v_money__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2285,6 +2303,10 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
+    idText: function idText() {
+      console.log(this.contestId);
+      return this.contestId == null ? '*' : this.contestId;
+    },
     contestId: function contestId() {
       return this.$route.params.id == null ? null : this.$route.params.id;
     },
@@ -2295,7 +2317,9 @@ __webpack_require__.r(__webpack_exports__);
       return this.$route.params.id == null ? this.$i18n.t('admin_promocode_edit_create_button') : this.$i18n.t('admin_promocode_edit_save');
     }
   },
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    this.loadData();
+  },
   methods: {
     addNewPlace: function addNewPlace() {
       this.places.push({
@@ -2304,6 +2328,86 @@ __webpack_require__.r(__webpack_exports__);
     },
     deletePlace: function deletePlace(index) {
       this.places.splice(index, 1);
+    },
+    back: function back() {
+      this.$router.push({
+        path: '/admin/contest'
+      });
+    },
+    loadData: function loadData() {
+      var self = this;
+
+      if (this.contestId != null) {
+        axios.post('/admin/data/contest/load', {
+          id: self.contestId
+        }).then(function (response) {
+          self.id = response.data.id;
+          self.name = response.data.title;
+          self.desc = response.data.description;
+          self.places = response.data.places;
+          self.initial_balance = response.data.initial_balance;
+          self.registered = response.data.registered_users;
+          self.earned = response.data.earned;
+          self.initial_cost = response.data.initial_cost;
+          self.additional_cost = response.data.additional_cost;
+          self.max_bought_balance = response.data.max_bought_balance;
+          self.hidden = response.data.hidden;
+          self.type = response.data.type;
+          self.started_at = response.data.started_at;
+          self.ended_at = response.data.ended_at;
+        })["catch"](function (error) {});
+      }
+    },
+    saveContest: function saveContest() {
+      var self = this;
+      self.success = [];
+      self.errors = [];
+      var url = this.contestId != null ? '/admin/data/contest/edit' : '/admin/data/contest/create';
+      axios.post(url, {
+        id: self.contestId == null ? 0 : self.contestId,
+        title: _objectSpread({}, self.name),
+        description: _objectSpread({}, self.desc),
+        places: _objectSpread({}, self.places),
+        initial_balance: self.start_deposit,
+        initial_cost: self.cost,
+        additional_cost: self.add_cost,
+        max_bought_balance: self.max_balance,
+        hidden: self.hidden,
+        type: self.type_option,
+        started_at: self.start_date,
+        ended_at: self.end_date
+      }).then(function (response) {
+        self.success = [];
+        self.errors = [];
+
+        if (response.data.success === true) {
+          if (self.contestId != null) {
+            self.success.push(response.data.message); //self.loadData();
+          } else {
+            toastr.success(response.data.message, self.$i18n.t('partner_success'), {
+              positionClass: 'toast-bottom-left',
+              containerId: 'toast-bottom-left'
+            });
+            self.$router.push({
+              path: '/admin/contest/edit/' + response.data.data.id
+            });
+          }
+        } else {
+          self.errors.push(response.data.message);
+        }
+      })["catch"](function (error) {
+        self.errors = [];
+
+        for (var _i = 0, _Object$entries = Object.entries(error.response.data.errors); _i < _Object$entries.length; _i++) {
+          var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+              key = _Object$entries$_i[0],
+              value = _Object$entries$_i[1];
+
+          value.forEach(function (element) {
+            self.errors.push(element);
+          });
+        }
+      });
     }
   }
 });
@@ -12013,6 +12117,10 @@ var routes = [{
 }, {
   path: '/admin/contest/create',
   name: 'Создание конкурса',
+  component: _views_admin_ContestEdit__WEBPACK_IMPORTED_MODULE_1__.default
+}, {
+  path: '/admin/contest/edit/:id',
+  name: 'Редактирование конкурса',
   component: _views_admin_ContestEdit__WEBPACK_IMPORTED_MODULE_1__.default
 }, {
   path: '/admin/promocodes',
@@ -127085,7 +127193,17 @@ var render = function() {
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "card-text" }, [
                     _c("div", { staticClass: "row" }, [
-                      _vm._m(2),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c("fieldset", { staticClass: "form-group" }, [
+                          _c("label", [_vm._v("ID")]),
+                          _vm._v(" "),
+                          _c("input", {
+                            staticClass: "form-control",
+                            attrs: { disabled: "disabled", type: "text" },
+                            domProps: { value: _vm.idText }
+                          })
+                        ])
+                      ]),
                       _vm._v(" "),
                       _c("div", { staticClass: "col-md-4" }, [
                         _c(
@@ -127534,7 +127652,7 @@ var render = function() {
                           { staticClass: "table-responsive table-bordered" },
                           [
                             _c("table", { staticClass: "table" }, [
-                              _vm._m(3),
+                              _vm._m(2),
                               _vm._v(" "),
                               _c(
                                 "tbody",
@@ -127630,7 +127748,8 @@ var render = function() {
                           "button",
                           {
                             staticClass: "btn btn-outline-primary float-right",
-                            attrs: { type: "button" }
+                            attrs: { type: "button" },
+                            on: { click: _vm.saveContest }
                           },
                           [_vm._v(_vm._s(_vm.button_text))]
                         ),
@@ -127695,21 +127814,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-4" }, [
-      _c("fieldset", { staticClass: "form-group" }, [
-        _c("label", [_vm._v("ID")]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { disabled: "disabled", type: "text", placeholder: "*" }
-        })
-      ])
-    ])
   },
   function() {
     var _vm = this

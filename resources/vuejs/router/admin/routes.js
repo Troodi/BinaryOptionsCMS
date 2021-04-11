@@ -59,6 +59,7 @@ export const routes = [
     { path: '/admin/partner', name: i18n.t('admin_menu_requests'), component: Partners },
     { path: '/admin/verify', name: i18n.t('admin_menu_verify'), component: Verify },
     { path: '/admin/contest/create', name: 'Создание конкурса', component: ContestEdit },
+    { path: '/admin/contest/edit/:id', name: 'Редактирование конкурса', component: ContestEdit },
     { path: '/admin/promocodes', name: i18n.t('admin_menu_promocodes'), component: PromocodeAdmin },
     { path: '/admin/promocode/create', name: i18n.t('admin_menu_promocode_edit'), component: PromocodeEdit },
     { path: '/admin/promocode/edit/:id', name: i18n.t('admin_menu_promocodes'), component: PromocodeEdit },

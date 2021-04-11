@@ -39,7 +39,7 @@
                     <div class="col-md-4">
                       <fieldset class="form-group">
                         <label>ID</label>
-                        <input disabled="disabled" type="text" class="form-control" placeholder="*">
+                        <input disabled="disabled" type="text" class="form-control" :value="idText">
                       </fieldset>
                     </div>
                     <div class="col-md-4">
@@ -145,7 +145,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <button type="button" class="btn btn-outline-primary float-right">{{ button_text }}</button>
+                      <button type="button" @click="saveContest" class="btn btn-outline-primary float-right">{{ button_text }}</button>
                       <button type="button" class="btn btn-outline-danger float-right mr-1">{{ $i18n.t('admin_promocode_edit_back') }}</button>
                     </div>
                   </div>
@@ -203,6 +203,10 @@ name: "ContestEdit",
     }
   },
   computed: {
+    idText: function (){
+      console.log(this.contestId);
+      return this.contestId == null ? '*' : this.contestId;
+    },
     contestId: function (){
       return this.$route.params.id == null ? null : this.$route.params.id;
     },
@@ -214,7 +218,7 @@ name: "ContestEdit",
     },
   },
   mounted() {
-
+    this.loadData();
   },
   methods: {
     addNewPlace() {
@@ -222,6 +226,78 @@ name: "ContestEdit",
     },
     deletePlace(index){
       this.places.splice(index, 1);
+    },
+    back: function (){
+      this.$router.push({ path: '/admin/contest' });
+    },
+    loadData: function(){
+      let self = this;
+      if(this.contestId != null) {
+        axios.post('/admin/data/contest/load', { id: self.contestId })
+          .then(function (response) {
+            self.id = response.data.id;
+            self.name = response.data.title;
+            self.desc = response.data.description;
+            self.places = response.data.places;
+            self.initial_balance = response.data.initial_balance;
+            self.registered = response.data.registered_users;
+            self.earned = response.data.earned;
+            self.initial_cost = response.data.initial_cost;
+            self.additional_cost = response.data.additional_cost;
+            self.max_bought_balance = response.data.max_bought_balance;
+            self.hidden = response.data.hidden;
+            self.type = response.data.type;
+            self.started_at = response.data.started_at;
+            self.ended_at = response.data.ended_at;
+          }).catch(function (error) {
+        });
+      }
+    },
+    saveContest: function (){
+      let self = this;
+      self.success = [];
+      self.errors = [];
+      let url = this.contestId != null ? '/admin/data/contest/edit' : '/admin/data/contest/create';
+      axios.post(url, {
+        id: self.contestId == null ? 0 : self.contestId,
+        title: { ...self.name },
+        description: { ...self.desc },
+        places: { ...self.places },
+        initial_balance: self.start_deposit,
+        initial_cost: self.cost,
+        additional_cost: self.add_cost,
+        max_bought_balance: self.max_balance,
+        hidden: self.hidden,
+        type: self.type_option,
+        started_at: self.start_date,
+        ended_at: self.end_date
+      })
+        .then(function (response) {
+          self.success = [];
+          self.errors = [];
+          if(response.data.success === true) {
+            if(self.contestId != null) {
+              self.success.push(response.data.message);
+              //self.loadData();
+            } else {
+              toastr.success(response.data.message, self.$i18n.t('partner_success'), {
+                positionClass: 'toast-bottom-left',
+                containerId: 'toast-bottom-left'
+              });
+              self.$router.push({ path: '/admin/contest/edit/'+response.data.data.id });
+            }
+          } else {
+            self.errors.push(response.data.message);
+          }
+        })
+        .catch(function (error) {
+          self.errors = [];
+          for (const [key, value] of Object.entries(error.response.data.errors)) {
+            value.forEach(element => {
+              self.errors.push(element);
+            });
+          }
+        });
     }
   }
 }
