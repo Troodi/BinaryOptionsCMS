@@ -240,21 +240,7 @@
             <div class="card-content">
               <div class="card-body">
                 <div class="card-text">
-                  <div class="table-responsive">
-                    <table class="table" id="users">
-                      <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>{{ $i18n.t('admin_stat_email') }}</th>
-                        <th>{{ $i18n.t('admin_stat_geo') }}</th>
-                        <th>{{ $i18n.t('admin_stat_status') }}</th>
-                        <th>{{ $i18n.t('admin_stat_balance_usd') }}</th>
-                        <th>{{ $i18n.t('admin_stat_latest_active') }}</th>
-                        <th>{{ $i18n.t('admin_stat_registered') }}</th>
-                      </tr>
-                      </thead>
-                    </table>
-                  </div>
+                  <UsersTable table_id="users_main" url="/admin/data/users"></UsersTable>
                 </div>
               </div>
             </div>
@@ -271,21 +257,7 @@
             <div class="card-content">
               <div class="card-body">
                 <div class="card-text">
-                  <div class="table-responsive">
-                    <table class="table" id="stat">
-                      <thead>
-                      <tr>
-                        <th>{{ $i18n.t('admin_stat_all_deals') }}</th>
-                        <th>{{ $i18n.t('admin_stat_sum_deals') }}</th>
-                        <th>{{ $i18n.t('admin_stat_all_profit_deals') }}</th>
-                        <th>{{ $i18n.t('admin_stat_all_losses_deals') }}</th>
-                        <th>{{ $i18n.t('admin_stat_profitable') }}</th>
-                        <th>{{ $i18n.t('admin_stat_losses') }}</th>
-                        <th>{{ $i18n.t('admin_stat_date') }}</th>
-                      </tr>
-                      </thead>
-                    </table>
-                  </div>
+                  <StatisticsTable table_id="stat_main" url="/admin/data/daily"></StatisticsTable>
                 </div>
               </div>
             </div>
@@ -297,177 +269,18 @@
 </template>
 
 <script>
-import dateformat from "dateformat";
-import _ from 'lodash'
-import {getCookie} from "../../js/functions";
+import UsersTable from "../../components/UsersTable";
+import StatisticsTable from "../../components/StatisticsTable";
 
 export default {
   name: "Statistics",
+  components: { UsersTable: UsersTable, StatisticsTable: StatisticsTable },
   mounted() {
     let self = this;
     axios.post('/admin/data/statistics')
         .then(function (response) {
           self.statistics = response.data;
         });
-    $('#users').DataTable({
-      "iDisplayLength": 10,
-      "processing": true,
-      "serverSide": true,
-      "order": [[0, "desc"]],
-      "drawCallback": function() {
-        $('[data-toggle="popover"]').popover({ html : true });
-        $('.router-push').on('click', function (){
-          let url = $(this).attr('data-url');
-          self.$router.push({ path: url });
-          return false;
-        });
-      },
-      "ajax": {
-        url: "/admin/data/users",
-        type: "POST"
-      },
-      "language": {
-        "url": "/locales/"+ (getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en') +".json"
-      },
-      columns: [
-        {
-          data: 'id',
-          name: 'id'
-        },
-        {
-          data: 'email',
-          name: 'email',
-          render: function(data, type, row) {
-            let email ='';
-            if (type === 'display') {
-              email = data;
-            }
-            return '<a class="router-push" data-url="/admin/user/profile/' + row.id + '" href="/admin/user/profile/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
-          }
-        },
-        {
-          data: 'geo',
-          name: 'geo',
-          render: function(data, type, row) {
-            let geo ='';
-            let geo_code = '';
-            if (type === 'display') {
-              geo = data;
-              geo_code = row.geo_code;
-            }
-            return '<i data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="'+self.$i18n.t('admin_stat_country')+'" data-content="' + geo + '" class="flag-icon flag-icon-' + geo_code + '"></i>';
-          }
-        },
-        {
-          data: 'status',
-          searchable: false,
-          orderable: false,
-          name: 'users.status',
-          render: function (data) {
-            if(data == 0){
-              return '<span class="badge badge badge-danger text-white">'+self.$i18n.t('admin_stat_offline')+'</span>' } else { return '<span class="badge badge badge-success text-white">'+self.$i18n.t('admin_stat_online')+'</span>'; }
-          }
-        },
-        {
-          data: 'balance',
-          name: 'balance'
-        },
-        {
-          data: 'updated_at',
-          name: 'updated_at',
-          render: function(data, type) {
-            let date = new Date();
-            if (type === 'display') {
-              date = new Date(data);
-            }
-            return dateformat(date, 'HH:MM dd-mm-yyyy');
-          }
-        },
-        {
-          data: 'created_at',
-          name: 'created_at',
-          render: function(data, type) {
-            let date = new Date();
-            if (type === 'display') {
-              date = new Date(data);
-            }
-            return dateformat(date, 'HH:MM dd-mm-yyyy');
-          }
-        },
-      ]
-    });
-
-    $('#stat').DataTable({
-      "iDisplayLength": 10,
-      "processing": true,
-      "serverSide": true,
-      "order": [[6, "desc"]],
-      "ajax": {
-        url: "/admin/data/daily",
-        type: "POST"
-      },
-      "language": {
-        "url": "/locales/"+ (getCookie('currentLanguage') ? getCookie('currentLanguage') : 'en') +".json"
-      },
-      columns: [
-        {
-          data: 'daily_orders_count',
-          name: 'daily_orders_count'
-        },
-        {
-          data: 'daily_orders_amount',
-          name: 'daily_orders_amount',
-          render: function(data, type, row) {
-            let text ='';
-            if (type === 'display') {
-              text = data;
-            }
-            return '$ ' + text;
-          }
-        },
-        {
-          data: 'daily_profit',
-          name: 'daily_profit',
-          render: function(data, type, row) {
-            let text ='';
-            if (type === 'display') {
-              text = data;
-            }
-            return '$ ' + text;
-          }
-        },
-        {
-          data: 'daily_loss',
-          name: 'daily_loss',
-          render: function(data, type, row) {
-            let text ='';
-            if (type === 'display') {
-              text = data;
-            }
-            return '$ ' + text;
-          }
-        },
-        {
-          data: 'daily_profit_count',
-          name: 'daily_profit_count'
-        },
-        {
-          data: 'daily_loss_count',
-          name: 'daily_loss_count'
-        },
-        {
-          data: 'created_at',
-          name: 'created_at',
-          render: function(data, type, row) {
-            let date = new Date();
-            if (type === 'display') {
-              date = new Date(data);
-            }
-            return dateformat(date, 'dd-mm-yyyy');
-          }
-        },
-      ]
-    });
   },
   data: function (){
     return {

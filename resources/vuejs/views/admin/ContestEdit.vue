@@ -74,6 +74,12 @@
                     </div>
                     <div class="col-md-4">
                       <fieldset class="form-group">
+                        <label>{{ $i18n.t('Отображать количество зарегистрированных') }}</label>
+                        <select2 v-model="show_registered" :options="show_registered_options" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
+                      </fieldset>
+                    </div>
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
                         <label class="align-top">{{ $i18n.t('Выигрыш рассчитывается по') }}</label>
                         <select2 v-model="type_option" :options="type_options" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
                       </fieldset>
@@ -145,6 +151,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12">
+                      <button v-show="contestId" type="button" class="btn btn-outline-info float-left">Участники и статистика</button>
                       <button type="button" @click="saveContest" class="btn btn-outline-primary float-right">{{ button_text }}</button>
                       <button type="button" class="btn btn-outline-danger float-right mr-1">{{ $i18n.t('admin_promocode_edit_back') }}</button>
                     </div>
@@ -188,6 +195,11 @@ name: "ContestEdit",
         { id: 1, text: 'Отображается в списке' },
         { id: 0, text: 'Скрыто из списка' },
       ],
+      show_registered_options: [
+        { id: 1, text: 'Отображать количество зарегистрированных' },
+        { id: 0, text: 'Скрывать количество зарегистрированных' },
+      ],
+      show_registered: 0,
       name: [],
       desc: [],
       hidden: 1,
@@ -204,14 +216,13 @@ name: "ContestEdit",
   },
   computed: {
     idText: function (){
-      console.log(this.contestId);
       return this.contestId == null ? '*' : this.contestId;
     },
     contestId: function (){
       return this.$route.params.id == null ? null : this.$route.params.id;
     },
     title: function (){
-      return this.$route.params.id == null ? this.$i18n.t('Создать новый конкурс') : this.$i18n.t('admin_promocode_edit_edit');
+      return this.$route.params.id == null ? this.$i18n.t('Создать новый конкурс') : this.$i18n.t('Редактирование конкурса');
     },
     button_text: function (){
       return this.$route.params.id == null ? this.$i18n.t('admin_promocode_edit_create_button') : this.$i18n.t('admin_promocode_edit_save');
@@ -239,16 +250,17 @@ name: "ContestEdit",
             self.name = response.data.title;
             self.desc = response.data.description;
             self.places = response.data.places;
-            self.initial_balance = response.data.initial_balance;
+            self.start_deposit = response.data.initial_balance;
             self.registered = response.data.registered_users;
             self.earned = response.data.earned;
-            self.initial_cost = response.data.initial_cost;
-            self.additional_cost = response.data.additional_cost;
-            self.max_bought_balance = response.data.max_bought_balance;
+            self.cost = response.data.initial_cost;
+            self.show_registered = response.data.show_registered;
+            self.add_cost = response.data.additional_cost;
+            self.max_balance = response.data.max_bought_balance;
             self.hidden = response.data.hidden;
-            self.type = response.data.type;
-            self.started_at = response.data.started_at;
-            self.ended_at = response.data.ended_at;
+            self.type_option = response.data.type;
+            self.start_date = new Date(response.data.started_at);
+            self.end_date = new Date(response.data.ended_at);
           }).catch(function (error) {
         });
       }
@@ -257,7 +269,8 @@ name: "ContestEdit",
       let self = this;
       self.success = [];
       self.errors = [];
-      let url = this.contestId != null ? '/admin/data/contest/edit' : '/admin/data/contest/create';
+      let url = '/admin/data/contest/create';
+      let newContest = this.contestId != null ? 0 : 1;
       axios.post(url, {
         id: self.contestId == null ? 0 : self.contestId,
         title: { ...self.name },
@@ -266,25 +279,32 @@ name: "ContestEdit",
         initial_balance: self.start_deposit,
         initial_cost: self.cost,
         additional_cost: self.add_cost,
+        show_registered: self.show_registered,
         max_bought_balance: self.max_balance,
         hidden: self.hidden,
         type: self.type_option,
         started_at: self.start_date,
-        ended_at: self.end_date
+        ended_at: self.end_date,
+        new: newContest,
       })
         .then(function (response) {
           self.success = [];
           self.errors = [];
           if(response.data.success === true) {
             if(self.contestId != null) {
-              self.success.push(response.data.message);
-              //self.loadData();
+              toastr.success(response.data.message, self.$i18n.t('partner_success'), {
+                positionClass: 'toast-bottom-left',
+                containerId: 'toast-bottom-left'
+              });
+              self.loadData();
             } else {
               toastr.success(response.data.message, self.$i18n.t('partner_success'), {
                 positionClass: 'toast-bottom-left',
                 containerId: 'toast-bottom-left'
               });
-              self.$router.push({ path: '/admin/contest/edit/'+response.data.data.id });
+              if(newContest) {
+                self.$router.push({path: '/admin/contest/edit/' + response.data.data.id});
+              }
             }
           } else {
             self.errors.push(response.data.message);
