@@ -2249,6 +2249,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ContestEdit",
@@ -2288,6 +2295,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         id: 0,
         text: 'Скрыто из списка'
       }],
+      show_registered_options: [{
+        id: 1,
+        text: 'Отображать количество зарегистрированных'
+      }, {
+        id: 0,
+        text: 'Скрывать количество зарегистрированных'
+      }],
+      show_registered: 0,
       name: [],
       desc: [],
       hidden: 1,
@@ -2304,14 +2319,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   computed: {
     idText: function idText() {
-      console.log(this.contestId);
       return this.contestId == null ? '*' : this.contestId;
     },
     contestId: function contestId() {
       return this.$route.params.id == null ? null : this.$route.params.id;
     },
     title: function title() {
-      return this.$route.params.id == null ? this.$i18n.t('Создать новый конкурс') : this.$i18n.t('admin_promocode_edit_edit');
+      return this.$route.params.id == null ? this.$i18n.t('Создать новый конкурс') : this.$i18n.t('Редактирование конкурса');
     },
     button_text: function button_text() {
       return this.$route.params.id == null ? this.$i18n.t('admin_promocode_edit_create_button') : this.$i18n.t('admin_promocode_edit_save');
@@ -2345,16 +2359,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           self.name = response.data.title;
           self.desc = response.data.description;
           self.places = response.data.places;
-          self.initial_balance = response.data.initial_balance;
+          self.start_deposit = response.data.initial_balance;
           self.registered = response.data.registered_users;
           self.earned = response.data.earned;
-          self.initial_cost = response.data.initial_cost;
-          self.additional_cost = response.data.additional_cost;
-          self.max_bought_balance = response.data.max_bought_balance;
+          self.cost = response.data.initial_cost;
+          self.show_registered = response.data.show_registered;
+          self.add_cost = response.data.additional_cost;
+          self.max_balance = response.data.max_bought_balance;
           self.hidden = response.data.hidden;
-          self.type = response.data.type;
-          self.started_at = response.data.started_at;
-          self.ended_at = response.data.ended_at;
+          self.type_option = response.data.type;
+          self.start_date = new Date(response.data.started_at);
+          self.end_date = new Date(response.data.ended_at);
         })["catch"](function (error) {});
       }
     },
@@ -2362,7 +2377,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var self = this;
       self.success = [];
       self.errors = [];
-      var url = this.contestId != null ? '/admin/data/contest/edit' : '/admin/data/contest/create';
+      var url = '/admin/data/contest/create';
+      var newContest = this.contestId != null ? 0 : 1;
       axios.post(url, {
         id: self.contestId == null ? 0 : self.contestId,
         title: _objectSpread({}, self.name),
@@ -2371,26 +2387,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         initial_balance: self.start_deposit,
         initial_cost: self.cost,
         additional_cost: self.add_cost,
+        show_registered: self.show_registered,
         max_bought_balance: self.max_balance,
         hidden: self.hidden,
         type: self.type_option,
         started_at: self.start_date,
-        ended_at: self.end_date
+        ended_at: self.end_date,
+        "new": newContest
       }).then(function (response) {
         self.success = [];
         self.errors = [];
 
         if (response.data.success === true) {
           if (self.contestId != null) {
-            self.success.push(response.data.message); //self.loadData();
+            toastr.success(response.data.message, self.$i18n.t('partner_success'), {
+              positionClass: 'toast-bottom-left',
+              containerId: 'toast-bottom-left'
+            });
+            self.loadData();
           } else {
             toastr.success(response.data.message, self.$i18n.t('partner_success'), {
               positionClass: 'toast-bottom-left',
               containerId: 'toast-bottom-left'
             });
-            self.$router.push({
-              path: '/admin/contest/edit/' + response.data.data.id
-            });
+
+            if (newContest) {
+              self.$router.push({
+                path: '/admin/contest/edit/' + response.data.data.id
+              });
+            }
           }
         } else {
           self.errors.push(response.data.message);
@@ -125906,6 +125931,43 @@ var render = function() {
                           "fieldset",
                           { staticClass: "form-group" },
                           [
+                            _c("label", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm.$i18n.t(
+                                    "Отображать количество зарегистрированных"
+                                  )
+                                )
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("select2", {
+                              attrs: {
+                                options: _vm.show_registered_options,
+                                settings: {
+                                  settingOption: "value",
+                                  settingOption: "value",
+                                  minimumResultsForSearch: Infinity
+                                }
+                              },
+                              model: {
+                                value: _vm.show_registered,
+                                callback: function($$v) {
+                                  _vm.show_registered = $$v
+                                },
+                                expression: "show_registered"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-4" }, [
+                        _c(
+                          "fieldset",
+                          { staticClass: "form-group" },
+                          [
                             _c("label", { staticClass: "align-top" }, [
                               _vm._v(
                                 _vm._s(_vm.$i18n.t("Выигрыш рассчитывается по"))
@@ -126259,6 +126321,23 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "col-md-12" }, [
+                        _c(
+                          "button",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.contestId,
+                                expression: "contestId"
+                              }
+                            ],
+                            staticClass: "btn btn-outline-info float-left",
+                            attrs: { type: "button" }
+                          },
+                          [_vm._v("Участники и статистика")]
+                        ),
+                        _vm._v(" "),
                         _c(
                           "button",
                           {

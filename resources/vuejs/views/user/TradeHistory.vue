@@ -11,7 +11,7 @@
                             <div class="card-body">
                                 <div class="card-text">
                                     <div class="table-responsive">
-                                        <table class="table" id="real-history">
+                                        <table class="table" id="real-history" style="width:100%">
                                             <thead>
                                             <tr>
                                                 <th>{{ $i18n.t('trade_history_amount') }}</th>
@@ -42,7 +42,7 @@
                             <div class="card-body">
                                 <div class="card-text">
                                     <div class="table-responsive">
-                                        <table class="table" id="demo-history">
+                                        <table class="table" id="demo-history" style="width:100%">
                                             <thead>
                                             <tr>
                                               <th>{{ $i18n.t('trade_history_amount') }}</th>

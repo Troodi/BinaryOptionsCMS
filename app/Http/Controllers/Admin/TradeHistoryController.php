@@ -29,7 +29,7 @@ class TradeHistoryController extends Controller
       return $this->getHistoryDatatable('order_demo_history_1', $id);
     }
 
-    private function getHistoryDatatable($table, $id){
+    public static function getHistoryDatatable($table, $id){
       $history = DB::table($table);
       if($id){
         $history = $history->where('user_id', $id);

@@ -21,11 +21,12 @@ class CreateContestUsersTable extends Migration
             $table->decimal('balance', 15, 2);
             $table->decimal('paid', 15, 2);
             $table->decimal('profit_percent', 10, 2)->default(0);
+            $table->decimal('turnover', 10, 2)->default(0);
             $table->integer('paid_times')->default(0);
             $table->integer('order_count')->default(0);
             $table->decimal('winner_reward', 10, 2)->default(0);
             $table->integer('winner_place')->default(0);
-            $table->integer('banned')->nullable();
+            $table->integer('banned')->default(0);
             $table->timestamps();
         });
     }

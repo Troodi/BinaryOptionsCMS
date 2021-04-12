@@ -334,7 +334,11 @@ var render = function() {
                   _c("div", { staticClass: "table-responsive" }, [
                     _c(
                       "table",
-                      { staticClass: "table", attrs: { id: "real-history" } },
+                      {
+                        staticClass: "table",
+                        staticStyle: { width: "100%" },
+                        attrs: { id: "real-history" }
+                      },
                       [
                         _c("thead", [
                           _c("tr", [
@@ -402,7 +406,11 @@ var render = function() {
                   _c("div", { staticClass: "table-responsive" }, [
                     _c(
                       "table",
-                      { staticClass: "table", attrs: { id: "demo-history" } },
+                      {
+                        staticClass: "table",
+                        staticStyle: { width: "100%" },
+                        attrs: { id: "demo-history" }
+                      },
                       [
                         _c("thead", [
                           _c("tr", [

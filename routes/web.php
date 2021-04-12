@@ -150,7 +150,6 @@ Route::middleware(['auth', 'cheat'])->group(function () {
 
       Route::post("contests", 'Admin\ContestController@allContests');
       Route::post("contest/create", 'Admin\ContestController@createContest');
-      Route::post("contest/edit", 'Admin\ContestController@editContest');
       Route::post("contest/load", 'Admin\ContestController@loadContestData');
     });
     Route::get('/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');

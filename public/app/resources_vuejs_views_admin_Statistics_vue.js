@@ -1,9 +1,9 @@
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_vuejs_views_admin_Statistics_vue"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/Statistics.vue?vue&type=script&lang=js&":
-/*!*********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/Statistics.vue?vue&type=script&lang=js& ***!
-  \*********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/StatisticsTable.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/StatisticsTable.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -11,11 +11,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
-/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../js/functions */ "./resources/vuejs/js/functions.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_1__);
 //
 //
 //
@@ -34,399 +32,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Statistics",
+  name: "StatisticsTable",
+  props: ['table_id', 'url'],
+  data: function data() {
+    return {
+      tableId: this.table_id,
+      urlStat: this.url
+    };
+  },
   mounted: function mounted() {
     var self = this;
-    axios.post('/admin/data/statistics').then(function (response) {
-      self.statistics = response.data;
-    });
-    $('#users').DataTable({
-      "iDisplayLength": 10,
-      "processing": true,
-      "serverSide": true,
-      "order": [[0, "desc"]],
-      "drawCallback": function drawCallback() {
-        $('[data-toggle="popover"]').popover({
-          html: true
-        });
-        $('.router-push').on('click', function () {
-          var url = $(this).attr('data-url');
-          self.$router.push({
-            path: url
-          });
-          return false;
-        });
-      },
-      "ajax": {
-        url: "/admin/data/users",
-        type: "POST"
-      },
-      "language": {
-        "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') : 'en') + ".json"
-      },
-      columns: [{
-        data: 'id',
-        name: 'id'
-      }, {
-        data: 'email',
-        name: 'email',
-        render: function render(data, type, row) {
-          var email = '';
-
-          if (type === 'display') {
-            email = data;
-          }
-
-          return '<a class="router-push" data-url="/admin/user/profile/' + row.id + '" href="/admin/user/profile/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
-        }
-      }, {
-        data: 'geo',
-        name: 'geo',
-        render: function render(data, type, row) {
-          var geo = '';
-          var geo_code = '';
-
-          if (type === 'display') {
-            geo = data;
-            geo_code = row.geo_code;
-          }
-
-          return '<i data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' + self.$i18n.t('admin_stat_country') + '" data-content="' + geo + '" class="flag-icon flag-icon-' + geo_code + '"></i>';
-        }
-      }, {
-        data: 'status',
-        searchable: false,
-        orderable: false,
-        name: 'users.status',
-        render: function render(data) {
-          if (data == 0) {
-            return '<span class="badge badge badge-danger text-white">' + self.$i18n.t('admin_stat_offline') + '</span>';
-          } else {
-            return '<span class="badge badge badge-success text-white">' + self.$i18n.t('admin_stat_online') + '</span>';
-          }
-        }
-      }, {
-        data: 'balance',
-        name: 'balance'
-      }, {
-        data: 'updated_at',
-        name: 'updated_at',
-        render: function render(data, type) {
-          var date = new Date();
-
-          if (type === 'display') {
-            date = new Date(data);
-          }
-
-          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM dd-mm-yyyy');
-        }
-      }, {
-        data: 'created_at',
-        name: 'created_at',
-        render: function render(data, type) {
-          var date = new Date();
-
-          if (type === 'display') {
-            date = new Date(data);
-          }
-
-          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'HH:MM dd-mm-yyyy');
-        }
-      }]
-    });
-    $('#stat').DataTable({
+    $('#' + self.tableId).DataTable({
       "iDisplayLength": 10,
       "processing": true,
       "serverSide": true,
       "order": [[6, "desc"]],
       "ajax": {
-        url: "/admin/data/daily",
+        url: self.urlStat,
         type: "POST"
       },
       "language": {
-        "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_2__.getCookie)('currentLanguage') : 'en') + ".json"
+        "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') : 'en') + ".json"
       },
       columns: [{
         data: 'daily_orders_count',
@@ -483,9 +112,454 @@ __webpack_require__.r(__webpack_exports__);
             date = new Date(data);
           }
 
-          return dateformat__WEBPACK_IMPORTED_MODULE_0___default()(date, 'dd-mm-yyyy');
+          return dateformat__WEBPACK_IMPORTED_MODULE_1___default()(date, 'dd-mm-yyyy');
         }
       }]
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UsersTable.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UsersTable.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../js/functions */ "./resources/vuejs/js/functions.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
+/* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "UsersTable",
+  props: ['table_id', 'url'],
+  data: function data() {
+    return {
+      tableId: this.table_id,
+      urlUsers: this.url
+    };
+  },
+  mounted: function mounted() {
+    var self = this;
+    $('#' + self.tableId).DataTable({
+      "iDisplayLength": 10,
+      "processing": true,
+      "serverSide": true,
+      "order": [[0, "desc"]],
+      "drawCallback": function drawCallback() {
+        $('[data-toggle="popover"]').popover({
+          html: true
+        });
+        $('.router-push').on('click', function () {
+          var url = $(this).attr('data-url');
+          self.$router.push({
+            path: url
+          });
+          return false;
+        });
+      },
+      "ajax": {
+        url: self.urlUsers,
+        type: "POST"
+      },
+      "language": {
+        "url": "/locales/" + ((0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') ? (0,_js_functions__WEBPACK_IMPORTED_MODULE_0__.getCookie)('currentLanguage') : 'en') + ".json"
+      },
+      columns: [{
+        data: 'id',
+        name: 'id'
+      }, {
+        data: 'email',
+        name: 'email',
+        render: function render(data, type, row) {
+          var email = '';
+
+          if (type === 'display') {
+            email = data;
+          }
+
+          return '<a class="router-push" data-url="/admin/user/profile/' + row.id + '" href="/admin/user/profile/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+        }
+      }, {
+        data: 'geo',
+        name: 'geo',
+        render: function render(data, type, row) {
+          var geo = '';
+          var geo_code = '';
+
+          if (type === 'display') {
+            geo = data;
+            geo_code = row.geo_code;
+          }
+
+          return '<i data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' + self.$i18n.t('admin_stat_country') + '" data-content="' + geo + '" class="flag-icon flag-icon-' + geo_code + '"></i>';
+        }
+      }, {
+        data: 'status',
+        searchable: false,
+        orderable: false,
+        name: 'users.status',
+        render: function render(data) {
+          if (data == 0) {
+            return '<span class="badge badge badge-danger text-white">' + self.$i18n.t('admin_stat_offline') + '</span>';
+          } else {
+            return '<span class="badge badge badge-success text-white">' + self.$i18n.t('admin_stat_online') + '</span>';
+          }
+        }
+      }, {
+        data: 'balance',
+        name: 'balance'
+      }, {
+        data: 'updated_at',
+        name: 'updated_at',
+        render: function render(data, type) {
+          var date = new Date();
+
+          if (type === 'display') {
+            date = new Date(data);
+          }
+
+          return dateformat__WEBPACK_IMPORTED_MODULE_1___default()(date, 'HH:MM dd-mm-yyyy');
+        }
+      }, {
+        data: 'created_at',
+        name: 'created_at',
+        render: function render(data, type) {
+          var date = new Date();
+
+          if (type === 'display') {
+            date = new Date(data);
+          }
+
+          return dateformat__WEBPACK_IMPORTED_MODULE_1___default()(date, 'HH:MM dd-mm-yyyy');
+        }
+      }]
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/Statistics.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/Statistics.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_UsersTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/UsersTable */ "./resources/vuejs/components/UsersTable.vue");
+/* harmony import */ var _components_StatisticsTable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/StatisticsTable */ "./resources/vuejs/components/StatisticsTable.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "Statistics",
+  components: {
+    UsersTable: _components_UsersTable__WEBPACK_IMPORTED_MODULE_0__.default,
+    StatisticsTable: _components_StatisticsTable__WEBPACK_IMPORTED_MODULE_1__.default
+  },
+  mounted: function mounted() {
+    var self = this;
+    axios.post('/admin/data/statistics').then(function (response) {
+      self.statistics = response.data;
     });
   },
   data: function data() {
@@ -494,6 +568,76 @@ __webpack_require__.r(__webpack_exports__);
     };
   }
 });
+
+/***/ }),
+
+/***/ "./resources/vuejs/components/StatisticsTable.vue":
+/*!********************************************************!*\
+  !*** ./resources/vuejs/components/StatisticsTable.vue ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _StatisticsTable_vue_vue_type_template_id_703b70ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StatisticsTable.vue?vue&type=template&id=703b70ca&scoped=true& */ "./resources/vuejs/components/StatisticsTable.vue?vue&type=template&id=703b70ca&scoped=true&");
+/* harmony import */ var _StatisticsTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StatisticsTable.vue?vue&type=script&lang=js& */ "./resources/vuejs/components/StatisticsTable.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _StatisticsTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _StatisticsTable_vue_vue_type_template_id_703b70ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _StatisticsTable_vue_vue_type_template_id_703b70ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "703b70ca",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/vuejs/components/StatisticsTable.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/vuejs/components/UsersTable.vue":
+/*!***************************************************!*\
+  !*** ./resources/vuejs/components/UsersTable.vue ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _UsersTable_vue_vue_type_template_id_3e1022d2_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UsersTable.vue?vue&type=template&id=3e1022d2&scoped=true& */ "./resources/vuejs/components/UsersTable.vue?vue&type=template&id=3e1022d2&scoped=true&");
+/* harmony import */ var _UsersTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UsersTable.vue?vue&type=script&lang=js& */ "./resources/vuejs/components/UsersTable.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _UsersTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _UsersTable_vue_vue_type_template_id_3e1022d2_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _UsersTable_vue_vue_type_template_id_3e1022d2_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "3e1022d2",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/vuejs/components/UsersTable.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
@@ -532,6 +676,38 @@ component.options.__file = "resources/vuejs/views/admin/Statistics.vue"
 
 /***/ }),
 
+/***/ "./resources/vuejs/components/StatisticsTable.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/vuejs/components/StatisticsTable.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatisticsTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StatisticsTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/StatisticsTable.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_StatisticsTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/vuejs/components/UsersTable.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/vuejs/components/UsersTable.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UsersTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UsersTable.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/vuejs/views/admin/Statistics.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************!*\
   !*** ./resources/vuejs/views/admin/Statistics.vue?vue&type=script&lang=js& ***!
@@ -545,6 +721,40 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Statistics_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Statistics.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/Statistics.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Statistics_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/vuejs/components/StatisticsTable.vue?vue&type=template&id=703b70ca&scoped=true&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/vuejs/components/StatisticsTable.vue?vue&type=template&id=703b70ca&scoped=true& ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StatisticsTable_vue_vue_type_template_id_703b70ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StatisticsTable_vue_vue_type_template_id_703b70ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_StatisticsTable_vue_vue_type_template_id_703b70ca_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./StatisticsTable.vue?vue&type=template&id=703b70ca&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/StatisticsTable.vue?vue&type=template&id=703b70ca&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/vuejs/components/UsersTable.vue?vue&type=template&id=3e1022d2&scoped=true&":
+/*!**********************************************************************************************!*\
+  !*** ./resources/vuejs/components/UsersTable.vue?vue&type=template&id=3e1022d2&scoped=true& ***!
+  \**********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTable_vue_vue_type_template_id_3e1022d2_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTable_vue_vue_type_template_id_3e1022d2_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UsersTable_vue_vue_type_template_id_3e1022d2_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UsersTable.vue?vue&type=template&id=3e1022d2&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UsersTable.vue?vue&type=template&id=3e1022d2&scoped=true&");
+
 
 /***/ }),
 
@@ -562,6 +772,96 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Statistics_vue_vue_type_template_id_6492a9fc_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Statistics.vue?vue&type=template&id=6492a9fc&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/Statistics.vue?vue&type=template&id=6492a9fc&scoped=true&");
 
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/StatisticsTable.vue?vue&type=template&id=703b70ca&scoped=true&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/StatisticsTable.vue?vue&type=template&id=703b70ca&scoped=true& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "table-responsive" }, [
+    _c("table", { staticClass: "table", attrs: { id: _vm.tableId } }, [
+      _c("thead", [
+        _c("tr", [
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_all_deals")))]),
+          _vm._v(" "),
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_sum_deals")))]),
+          _vm._v(" "),
+          _c("th", [
+            _vm._v(_vm._s(_vm.$i18n.t("admin_stat_all_profit_deals")))
+          ]),
+          _vm._v(" "),
+          _c("th", [
+            _vm._v(_vm._s(_vm.$i18n.t("admin_stat_all_losses_deals")))
+          ]),
+          _vm._v(" "),
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_profitable")))]),
+          _vm._v(" "),
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_losses")))]),
+          _vm._v(" "),
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_date")))])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UsersTable.vue?vue&type=template&id=3e1022d2&scoped=true&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UsersTable.vue?vue&type=template&id=3e1022d2&scoped=true& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "table-responsive" }, [
+    _c("table", { staticClass: "table", attrs: { id: _vm.tableId } }, [
+      _c("thead", [
+        _c("tr", [
+          _c("th", [_vm._v("ID")]),
+          _vm._v(" "),
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_email")))]),
+          _vm._v(" "),
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_geo")))]),
+          _vm._v(" "),
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_status")))]),
+          _vm._v(" "),
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_balance_usd")))]),
+          _vm._v(" "),
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_latest_active")))]),
+          _vm._v(" "),
+          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_registered")))])
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
 
 /***/ }),
 
@@ -1224,51 +1524,19 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "card-text" }, [
-                  _c("div", { staticClass: "table-responsive" }, [
-                    _c(
-                      "table",
-                      { staticClass: "table", attrs: { id: "users" } },
-                      [
-                        _c("thead", [
-                          _c("tr", [
-                            _c("th", [_vm._v("ID")]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_stat_email")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_stat_geo")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_stat_status")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(_vm.$i18n.t("admin_stat_balance_usd"))
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(_vm.$i18n.t("admin_stat_latest_active"))
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(_vm.$i18n.t("admin_stat_registered"))
-                              )
-                            ])
-                          ])
-                        ])
-                      ]
-                    )
-                  ])
-                ])
+                _c(
+                  "div",
+                  { staticClass: "card-text" },
+                  [
+                    _c("UsersTable", {
+                      attrs: {
+                        table_id: "users_main",
+                        url: "/admin/data/users"
+                      }
+                    })
+                  ],
+                  1
+                )
               ])
             ])
           ])
@@ -1286,61 +1554,16 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "card-text" }, [
-                  _c("div", { staticClass: "table-responsive" }, [
-                    _c(
-                      "table",
-                      { staticClass: "table", attrs: { id: "stat" } },
-                      [
-                        _c("thead", [
-                          _c("tr", [
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(_vm.$i18n.t("admin_stat_all_deals"))
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(_vm.$i18n.t("admin_stat_sum_deals"))
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.$i18n.t("admin_stat_all_profit_deals")
-                                )
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.$i18n.t("admin_stat_all_losses_deals")
-                                )
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(_vm.$i18n.t("admin_stat_profitable"))
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_stat_losses")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_stat_date")))
-                            ])
-                          ])
-                        ])
-                      ]
-                    )
-                  ])
-                ])
+                _c(
+                  "div",
+                  { staticClass: "card-text" },
+                  [
+                    _c("StatisticsTable", {
+                      attrs: { table_id: "stat_main", url: "/admin/data/daily" }
+                    })
+                  ],
+                  1
+                )
               ])
             ])
           ])
