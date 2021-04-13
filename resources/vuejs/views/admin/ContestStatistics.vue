@@ -10,7 +10,7 @@
             <div class="card-content">
               <div class="card-body">
                 <div class="card-text">
-
+                  <ContestUsers table_id="contest_users" :url="'/admin/data/contest/users/'+contestId"></ContestUsers>
                 </div>
               </div>
             </div>
@@ -27,7 +27,7 @@
             <div class="card-content">
               <div class="card-body">
                 <div class="card-text">
-                  <StatisticsTable table_id="contest_stat" url="/admin/data/daily"></StatisticsTable>
+                  <StatisticsTable table_id="contest_stat" :url="'/admin/data/contest/statistics/'+contestId"></StatisticsTable>
                 </div>
               </div>
             </div>
@@ -40,10 +40,16 @@
 
 <script>
 import StatisticsTable from "../../components/StatisticsTable";
+import ContestUsers from "../../components/ContestUsers";
 
 export default {
   name: "ContestStatistics",
-  components: { StatisticsTable: StatisticsTable },
+  components: { StatisticsTable: StatisticsTable, ContestUsers: ContestUsers },
+  computed: {
+    contestId: function (){
+      return this.$route.params.id == null ? null : this.$route.params.id;
+    },
+  },
 }
 </script>
 

@@ -139,8 +139,8 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("unVerifyAccount", 'Admin\VerifyController@unVerifyAccount');
       Route::post("checkDocument", 'Admin\VerifyController@checkDocument');
       Route::post("processWithdrawal", 'Admin\WithdrawalController@processWithdrawal');
-      Route::post("getControlInfo", 'Admin\ControlController@getControlInfo');
-      Route::post("changeBalance", 'Admin\ControlController@changeBalance');
+      Route::post("getControlInfo/{id}", 'Admin\ControlController@getControlInfo')->where('id',  '[0-9]+');
+      Route::post("changeBalance/{id}", 'Admin\ControlController@changeBalance')->where('id',  '[0-9]+');
       Route::post("banAction", 'Admin\ControlController@banAction');
       Route::post("approvePartner", 'Admin\PartnerController@approvePartner');
       Route::post("discardPartner", 'Admin\PartnerController@discardPartner');
@@ -151,6 +151,9 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("contests", 'Admin\ContestController@allContests');
       Route::post("contest/create", 'Admin\ContestController@createContest');
       Route::post("contest/load", 'Admin\ContestController@loadContestData');
+      Route::post("contest/users/{id}", 'Admin\ContestController@contestUsers')->where('id',  '[0-9]+');
+      Route::post("contest/history", 'Admin\ContestController@getContestTradingData');
+      Route::post("contest/statistics/{id}", 'Admin\ContestController@getContestDailyStat')->where('id',  '[0-9]+');
     });
     Route::get('/{uri?}', 'Spa\SpaController@admin')->where('uri', '.*');
   });
