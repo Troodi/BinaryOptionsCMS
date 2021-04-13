@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\TradeHistoryController;
 use App\Models\Contest;
 use App\Models\ContestUser;
 use App\Models\SymbolContestStatistic;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -113,11 +114,18 @@ class ContestController extends Controller
     /*
      * Get users of specific contest by id
      */
-    public function contestUsers(Request $request){
-      $request->validate([
-        'id' => 'required|numeric|min:1'
-      ]);
-      return Datatables::of(ContestUser::all())->make();
+    public function contestUsers(Request $request, $id){
+        $users = ContestUser::with(['user'])->where('contest_id', $id)->get();
+        return Datatables::of($users)
+          ->addColumn('status', function($user){
+            if($user->user->updated_at > Carbon::now()->subMinutes(20)){
+              return 1;
+            } else {
+              return 0;
+            }
+          })
+          ->rawColumns(['name'])
+          ->make();
     }
 
     /*
@@ -146,19 +154,23 @@ class ContestController extends Controller
       return TradeHistoryController::getHistoryDatatable($table, $id);
     }
 
-  public function getContestDailyStat(Request $request){
-    $daily = SymbolContestStatistic::select(
-      DB::raw('SUM(daily_orders_count) AS daily_orders_count'),
-      DB::raw('SUM(daily_orders_amount) AS daily_orders_amount'),
-      DB::raw('SUM(daily_profit) AS daily_profit'),
-      DB::raw('SUM(daily_loss) AS daily_loss'),
-      DB::raw('SUM(daily_profit_count) AS daily_profit_count'),
-      DB::raw('SUM(daily_loss_count) AS daily_loss_count'),
-      DB::raw('CAST(created_at AS DATE) created_at')
-    )
-      ->groupBy(DB::raw('CAST(created_At AS DATE)'))
-      ->orderBy('created_at', 'desc')
-      ->get();
-    return Datatables::of($daily)->make();
-  }
+    /*
+     * Get statistics for days of specific contest by id
+     */
+    public function getContestDailyStat(Request $request, $id){
+      $daily = SymbolContestStatistic::select(
+          DB::raw('SUM(daily_orders_count) AS daily_orders_count'),
+          DB::raw('SUM(daily_orders_amount) AS daily_orders_amount'),
+          DB::raw('SUM(daily_profit) AS daily_profit'),
+          DB::raw('SUM(daily_loss) AS daily_loss'),
+          DB::raw('SUM(daily_profit_count) AS daily_profit_count'),
+          DB::raw('SUM(daily_loss_count) AS daily_loss_count'),
+          DB::raw('CAST(created_at AS DATE) created_at')
+        )
+        ->where('contest_id', $request->id)
+        ->groupBy(DB::raw('CAST(created_At AS DATE)'))
+        ->orderBy('created_at', 'desc')
+        ->get();
+      return Datatables::of($daily)->make();
+    }
 }
