@@ -130,8 +130,8 @@ Route::middleware(['auth', 'cheat'])->group(function () {
       Route::post("daily", 'Admin\StatisticsController@getDailyStat');
       Route::post("verify", 'Admin\VerifyController@listRequestVerify');
       Route::post("cheat", 'Admin\CheatController@getAllCheaters');
-      Route::post("history", 'Admin\TradeHistoryController@getHistory');
-      Route::post("history/demo", 'Admin\TradeHistoryController@getHistoryDemo');
+      Route::post("history/{id}", 'Admin\TradeHistoryController@getHistory');
+      Route::post("history/demo/{id}", 'Admin\TradeHistoryController@getHistoryDemo');
       Route::post("updatePhone", 'Admin\UserController@updatePhone');
       Route::post("updateEmail", 'Admin\UserController@updateEmail');
       Route::post("updatePassword", 'Admin\UserController@updatePassword');

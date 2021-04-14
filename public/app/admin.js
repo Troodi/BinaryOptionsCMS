@@ -1928,6 +1928,11 @@ __webpack_require__.r(__webpack_exports__);
       urlUsers: this.url
     };
   },
+  computed: {
+    contestId: function contestId() {
+      return this.$route.params.id == null ? null : this.$route.params.id;
+    }
+  },
   mounted: function mounted() {
     var self = this;
     $('#' + self.tableId).DataTable({
@@ -1964,7 +1969,7 @@ __webpack_require__.r(__webpack_exports__);
             email = data;
           }
 
-          return '<a class="router-push" data-url="/admin/user/profile/' + row.id + '" href="/admin/user/profile/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+          return '<a class="router-push" data-url="/admin/contest/' + self.contestId + '/user/' + row.id + '" href="/admin/contest/' + self.contestId + '/user/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
         }
       }, {
         data: 'status',
@@ -2537,7 +2542,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ContestEdit",
@@ -2617,6 +2621,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.loadData();
   },
   methods: {
+    goToStatisticsPage: function goToStatisticsPage() {
+      this.$router.push({
+        path: '/admin/contest/statistics/' + this.contestId
+      });
+    },
     addNewPlace: function addNewPlace() {
       this.places.push({
         'reward': 0
@@ -126986,7 +126995,8 @@ var render = function() {
                               }
                             ],
                             staticClass: "btn btn-outline-info float-left",
-                            attrs: { type: "button" }
+                            attrs: { type: "button" },
+                            on: { click: _vm.goToStatisticsPage }
                           },
                           [_vm._v("Участники и статистика")]
                         ),
@@ -126999,20 +127009,6 @@ var render = function() {
                             on: { click: _vm.saveContest }
                           },
                           [_vm._v(_vm._s(_vm.button_text))]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass:
-                              "btn btn-outline-danger float-right mr-1",
-                            attrs: { type: "button" }
-                          },
-                          [
-                            _vm._v(
-                              _vm._s(_vm.$i18n.t("admin_promocode_edit_back"))
-                            )
-                          ]
                         )
                       ])
                     ])

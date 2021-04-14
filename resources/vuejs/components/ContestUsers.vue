@@ -29,6 +29,11 @@ export default {
       urlUsers: this.url,
     }
   },
+  computed: {
+    contestId: function (){
+      return this.$route.params.id == null ? null : this.$route.params.id;
+    },
+  },
   mounted() {
     let self = this;
     $('#' + self.tableId).DataTable({
@@ -60,7 +65,7 @@ export default {
             if (type === 'display') {
               email = data;
             }
-            return '<a class="router-push" data-url="/admin/user/profile/' + row.id + '" href="/admin/user/profile/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+            return '<a class="router-push" data-url="/admin/contest/' + self.contestId + '/user/' + row.id + '" href="/admin/contest/' + self.contestId + '/user/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
           }
         },
         {

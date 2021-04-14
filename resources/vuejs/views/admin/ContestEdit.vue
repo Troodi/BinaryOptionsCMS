@@ -151,9 +151,8 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <button v-show="contestId" type="button" class="btn btn-outline-info float-left">Участники и статистика</button>
+                      <button v-show="contestId" @click="goToStatisticsPage" type="button" class="btn btn-outline-info float-left">Участники и статистика</button>
                       <button type="button" @click="saveContest" class="btn btn-outline-primary float-right">{{ button_text }}</button>
-                      <button type="button" class="btn btn-outline-danger float-right mr-1">{{ $i18n.t('admin_promocode_edit_back') }}</button>
                     </div>
                   </div>
                 </div>
@@ -232,6 +231,9 @@ name: "ContestEdit",
     this.loadData();
   },
   methods: {
+    goToStatisticsPage() {
+      this.$router.push({ path: '/admin/contest/statistics/' + this.contestId });
+    },
     addNewPlace() {
       this.places.push({'reward': 0});
     },
