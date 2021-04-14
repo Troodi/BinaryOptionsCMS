@@ -9,21 +9,13 @@ use Yajra\DataTables\DataTables;
 
 class TradeHistoryController extends Controller
 {
-    public function getHistory(Request $request){
-      $id = null;
-      if($request->id){
-        $request->validate(['id' => 'required|numeric|min:0']);
-        $id = $request->id;
-      }
-      return $this->getHistoryDatatable('order_history_1',$id);
+    public function getHistory(Request $request, $id){
+      $id = isset($id) ? $id : null;
+      return $this->getHistoryDatatable('order_history_1', $id);
     }
 
-    public function getHistoryDemo(Request $request){
-      $id = null;
-      if($request->id){
-        $request->validate(['id' => 'required|numeric|min:0']);
-        $id = $request->id;
-      }
+    public function getHistoryDemo(Request $request, $id){
+      $id = isset($id) ? $id : null;
       return $this->getHistoryDatatable('order_demo_history_1', $id);
     }
 

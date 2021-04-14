@@ -1,9 +1,9 @@
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_vuejs_views_admin_TradeHistory_vue"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/TradeHistory.vue?vue&type=script&lang=js&":
-/*!***********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/TradeHistory.vue?vue&type=script&lang=js& ***!
-  \***********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/TradeHistoryTable.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/TradeHistoryTable.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -11,7 +11,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../js/functions */ "./resources/vuejs/js/functions.js");
+/* harmony import */ var _js_functions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../js/functions */ "./resources/vuejs/js/functions.js");
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! dateformat */ "./node_modules/dateformat/lib/dateformat.js");
 /* harmony import */ var dateformat__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(dateformat__WEBPACK_IMPORTED_MODULE_1__);
 //
@@ -33,94 +33,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
-__webpack_require__(/*! ../../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
+__webpack_require__(/*! ../../vendors/js/tables/datatable/datatables.min.js */ "./resources/vendors/js/tables/datatable/datatables.min.js");
 
-__webpack_require__(/*! ../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js */ "./resources/vendors/js/tables/datatable/dataTables.bootstrap4.min.js");
+__webpack_require__(/*! ../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js */ "./resources/vendors/js/tables/datatable/dataTables.bootstrap4.min.js");
 
-__webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resources/js/core/libraries/bootstrap.min.js");
+__webpack_require__(/*! ../../js/core/libraries/bootstrap.min.js */ "./resources/js/core/libraries/bootstrap.min.js");
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "TradeHistory",
+  name: "TradeHistoryTable",
+  props: ['load_url', 'element_id'],
+  data: function data() {
+    return {
+      url: this.load_url,
+      element: this.element_id
+    };
+  },
   mounted: function mounted() {
     var self = this;
     axios.get('/data/symbols').then(function (response) {
+      console.log(self.url);
       self.symbols = response.data;
-
-      if (self.userId) {
-        self.fillDT('#real-history', "/admin/data/history", self.userId);
-        self.fillDT('#historyDemo', "/admin/data/history/demo", self.userId);
-      } else {
-        self.fillDT('#real-history', "/admin/data/history", 0);
-        self.fillDT('#historyDemo', "/admin/data/history/demo", 0);
-      }
-    });
-  },
-  data: function data() {
-    return {};
-  },
-  computed: {
-    userId: function userId() {
-      return this.$route.params.id;
-    }
-  },
-  methods: {
-    fillDT: function fillDT(element, url, user_id) {
-      var self = this;
-      $(element).DataTable({
+      $('#' + self.element).DataTable({
         "iDisplayLength": 10,
         "processing": true,
         "serverSide": true,
@@ -138,10 +74,7 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
           });
         },
         "ajax": {
-          url: url,
-          data: {
-            id: user_id
-          },
+          url: self.url,
           type: "POST"
         },
         "language": {
@@ -254,9 +187,115 @@ __webpack_require__(/*! ../../../js/core/libraries/bootstrap.min.js */ "./resour
           }
         }]
       });
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/TradeHistory.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/TradeHistory.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _components_TradeHistoryTable__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/TradeHistoryTable */ "./resources/vuejs/components/TradeHistoryTable.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "TradeHistory",
+  components: {
+    TradeHistoryTable: _components_TradeHistoryTable__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  computed: {
+    userId: function userId() {
+      return this.$route.params.id != null ? this.$route.params.id : 0;
     }
   }
 });
+
+/***/ }),
+
+/***/ "./resources/vuejs/components/TradeHistoryTable.vue":
+/*!**********************************************************!*\
+  !*** ./resources/vuejs/components/TradeHistoryTable.vue ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _TradeHistoryTable_vue_vue_type_template_id_5ca9c43d_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TradeHistoryTable.vue?vue&type=template&id=5ca9c43d&scoped=true& */ "./resources/vuejs/components/TradeHistoryTable.vue?vue&type=template&id=5ca9c43d&scoped=true&");
+/* harmony import */ var _TradeHistoryTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TradeHistoryTable.vue?vue&type=script&lang=js& */ "./resources/vuejs/components/TradeHistoryTable.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _TradeHistoryTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _TradeHistoryTable_vue_vue_type_template_id_5ca9c43d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _TradeHistoryTable_vue_vue_type_template_id_5ca9c43d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "5ca9c43d",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/vuejs/components/TradeHistoryTable.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
 
@@ -299,6 +338,22 @@ component.options.__file = "resources/vuejs/views/admin/TradeHistory.vue"
 
 /***/ }),
 
+/***/ "./resources/vuejs/components/TradeHistoryTable.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************!*\
+  !*** ./resources/vuejs/components/TradeHistoryTable.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TradeHistoryTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TradeHistoryTable.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/TradeHistoryTable.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TradeHistoryTable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/vuejs/views/admin/TradeHistory.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************!*\
   !*** ./resources/vuejs/views/admin/TradeHistory.vue?vue&type=script&lang=js& ***!
@@ -315,6 +370,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/vuejs/components/TradeHistoryTable.vue?vue&type=template&id=5ca9c43d&scoped=true&":
+/*!*****************************************************************************************************!*\
+  !*** ./resources/vuejs/components/TradeHistoryTable.vue?vue&type=template&id=5ca9c43d&scoped=true& ***!
+  \*****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TradeHistoryTable_vue_vue_type_template_id_5ca9c43d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TradeHistoryTable_vue_vue_type_template_id_5ca9c43d_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TradeHistoryTable_vue_vue_type_template_id_5ca9c43d_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TradeHistoryTable.vue?vue&type=template&id=5ca9c43d&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/TradeHistoryTable.vue?vue&type=template&id=5ca9c43d&scoped=true&");
+
+
+/***/ }),
+
 /***/ "./resources/vuejs/views/admin/TradeHistory.vue?vue&type=template&id=fe04feae&scoped=true&":
 /*!*************************************************************************************************!*\
   !*** ./resources/vuejs/views/admin/TradeHistory.vue?vue&type=template&id=fe04feae&scoped=true& ***!
@@ -328,6 +400,61 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TradeHistory_vue_vue_type_template_id_fe04feae_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TradeHistory_vue_vue_type_template_id_fe04feae_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TradeHistory.vue?vue&type=template&id=fe04feae&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/TradeHistory.vue?vue&type=template&id=fe04feae&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/TradeHistoryTable.vue?vue&type=template&id=5ca9c43d&scoped=true&":
+/*!********************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/TradeHistoryTable.vue?vue&type=template&id=5ca9c43d&scoped=true& ***!
+  \********************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "table-responsive" }, [
+    _c(
+      "table",
+      {
+        staticClass: "table",
+        staticStyle: { width: "100%" },
+        attrs: { id: _vm.element }
+      },
+      [
+        _c("thead", [
+          _c("tr", [
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_trade_user")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_trade_amount")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_trade_info")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_trade_profit")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_trade_pair")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_trade_percent")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_trade_expiration")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_trade_date")))])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
 
 
 /***/ }),
@@ -361,53 +488,19 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "card-text" }, [
-                  _c("div", { staticClass: "table-responsive" }, [
-                    _c(
-                      "table",
-                      { staticClass: "table", attrs: { id: "real-history" } },
-                      [
-                        _c("thead", [
-                          _c("tr", [
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_user")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_amount")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_info")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_profit")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_pair")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_percent")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(_vm.$i18n.t("admin_trade_expiration"))
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_date")))
-                            ])
-                          ])
-                        ])
-                      ]
-                    )
-                  ])
-                ])
+                _c(
+                  "div",
+                  { staticClass: "card-text" },
+                  [
+                    _c("TradeHistoryTable", {
+                      attrs: {
+                        load_url: "/admin/data/history/" + _vm.userId,
+                        element_id: "real_trade_history"
+                      }
+                    })
+                  ],
+                  1
+                )
               ])
             ])
           ])
@@ -425,53 +518,19 @@ var render = function() {
             _vm._v(" "),
             _c("div", { staticClass: "card-content" }, [
               _c("div", { staticClass: "card-body" }, [
-                _c("div", { staticClass: "card-text" }, [
-                  _c("div", { staticClass: "table-responsive" }, [
-                    _c(
-                      "table",
-                      { staticClass: "table", attrs: { id: "historyDemo" } },
-                      [
-                        _c("thead", [
-                          _c("tr", [
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_user")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_amount")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_info")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_profit")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_pair")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_percent")))
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(_vm.$i18n.t("admin_trade_expiration"))
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(_vm._s(_vm.$i18n.t("admin_trade_date")))
-                            ])
-                          ])
-                        ])
-                      ]
-                    )
-                  ])
-                ])
+                _c(
+                  "div",
+                  { staticClass: "card-text" },
+                  [
+                    _c("TradeHistoryTable", {
+                      attrs: {
+                        load_url: "/admin/data/history/demo/" + _vm.userId,
+                        element_id: "demo_trade_history"
+                      }
+                    })
+                  ],
+                  1
+                )
               ])
             ])
           ])
