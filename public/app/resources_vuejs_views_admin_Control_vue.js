@@ -1,108 +1,5 @@
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_vuejs_views_admin_Control_vue"],{
 
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UserBalanceControl.vue?vue&type=script&lang=js&":
-/*!****************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UserBalanceControl.vue?vue&type=script&lang=js& ***!
-  \****************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "UserBalanceControl",
-  props: ['save_url', 'load_url'],
-  mounted: function mounted() {
-    this.loadUserInfo();
-  },
-  data: function data() {
-    return {
-      urlSave: this.save_url,
-      urlLoad: this.load_url,
-      amount: 0,
-      balanceAction: 2,
-      balanceActions: [{
-        id: "0",
-        text: this.$i18n.t('admin_control_add_to_balance')
-      }, {
-        id: "1",
-        text: this.$i18n.t('admin_control_sub_from_balance')
-      }, {
-        id: "2",
-        text: this.$i18n.t('admin_control_set_balance')
-      }],
-      info: {}
-    };
-  },
-  methods: {
-    balanceClick: function balanceClick() {
-      var self = this;
-      axios.post(self.urlSave, {
-        balance: self.amount,
-        action: self.balanceAction
-      }).then(function (response) {
-        self.loadUserInfo();
-
-        if (response.data.success === true) {
-          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
-            positionClass: 'toast-bottom-left',
-            containerId: 'toast-bottom-left'
-          });
-        } else {
-          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
-            positionClass: 'toast-bottom-left',
-            containerId: 'toast-bottom-left'
-          });
-        }
-      });
-    },
-    loadUserInfo: function loadUserInfo() {
-      var self = this;
-      axios.post(self.urlLoad).then(function (response) {
-        self.amount = response.data.user.balance;
-      });
-    }
-  }
-});
-
-/***/ }),
-
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/Control.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/Control.vue?vue&type=script&lang=js& ***!
@@ -354,45 +251,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/vuejs/components/UserBalanceControl.vue":
-/*!***********************************************************!*\
-  !*** ./resources/vuejs/components/UserBalanceControl.vue ***!
-  \***********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _UserBalanceControl_vue_vue_type_template_id_bab51106_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UserBalanceControl.vue?vue&type=template&id=bab51106&scoped=true& */ "./resources/vuejs/components/UserBalanceControl.vue?vue&type=template&id=bab51106&scoped=true&");
-/* harmony import */ var _UserBalanceControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UserBalanceControl.vue?vue&type=script&lang=js& */ "./resources/vuejs/components/UserBalanceControl.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
-  _UserBalanceControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
-  _UserBalanceControl_vue_vue_type_template_id_bab51106_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _UserBalanceControl_vue_vue_type_template_id_bab51106_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  "bab51106",
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/vuejs/components/UserBalanceControl.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
 /***/ "./resources/vuejs/views/admin/Control.vue":
 /*!*************************************************!*\
   !*** ./resources/vuejs/views/admin/Control.vue ***!
@@ -432,22 +290,6 @@ component.options.__file = "resources/vuejs/views/admin/Control.vue"
 
 /***/ }),
 
-/***/ "./resources/vuejs/components/UserBalanceControl.vue?vue&type=script&lang=js&":
-/*!************************************************************************************!*\
-  !*** ./resources/vuejs/components/UserBalanceControl.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UserBalanceControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UserBalanceControl.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UserBalanceControl.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_UserBalanceControl_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
-
-/***/ }),
-
 /***/ "./resources/vuejs/views/admin/Control.vue?vue&type=script&lang=js&":
 /*!**************************************************************************!*\
   !*** ./resources/vuejs/views/admin/Control.vue?vue&type=script&lang=js& ***!
@@ -464,23 +306,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/vuejs/components/UserBalanceControl.vue?vue&type=template&id=bab51106&scoped=true&":
-/*!******************************************************************************************************!*\
-  !*** ./resources/vuejs/components/UserBalanceControl.vue?vue&type=template&id=bab51106&scoped=true& ***!
-  \******************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserBalanceControl_vue_vue_type_template_id_bab51106_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserBalanceControl_vue_vue_type_template_id_bab51106_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserBalanceControl_vue_vue_type_template_id_bab51106_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UserBalanceControl.vue?vue&type=template&id=bab51106&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UserBalanceControl.vue?vue&type=template&id=bab51106&scoped=true&");
-
-
-/***/ }),
-
 /***/ "./resources/vuejs/views/admin/Control.vue?vue&type=template&id=6b9a9154&scoped=true&":
 /*!********************************************************************************************!*\
   !*** ./resources/vuejs/views/admin/Control.vue?vue&type=template&id=6b9a9154&scoped=true& ***!
@@ -494,122 +319,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Control_vue_vue_type_template_id_6b9a9154_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Control_vue_vue_type_template_id_6b9a9154_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Control.vue?vue&type=template&id=6b9a9154&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/views/admin/Control.vue?vue&type=template&id=6b9a9154&scoped=true&");
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UserBalanceControl.vue?vue&type=template&id=bab51106&scoped=true&":
-/*!*********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/vuejs/components/UserBalanceControl.vue?vue&type=template&id=bab51106&scoped=true& ***!
-  \*********************************************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-12" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header" }, [
-          _c("h4", { staticClass: "card-title" }, [
-            _vm._v(_vm._s(_vm.$i18n.t("admin_control_balance")))
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-content" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-5" }, [
-                _c("fieldset", { staticClass: "form-group" }, [
-                  _c("label", [
-                    _vm._v(_vm._s(_vm.$i18n.t("admin_control_amount")))
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.amount,
-                        expression: "amount"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text" },
-                    domProps: { value: _vm.amount },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.amount = $event.target.value
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-5" }, [
-                _c(
-                  "fieldset",
-                  { staticClass: "form-group" },
-                  [
-                    _c("label", { staticClass: "align-top" }, [
-                      _vm._v(_vm._s(_vm.$i18n.t("admin_control_action")))
-                    ]),
-                    _vm._v(" "),
-                    _c("select2", {
-                      attrs: {
-                        options: _vm.balanceActions,
-                        settings: {
-                          settingOption: "value",
-                          settingOption: "value",
-                          minimumResultsForSearch: Infinity
-                        }
-                      },
-                      model: {
-                        value: _vm.balanceAction,
-                        callback: function($$v) {
-                          _vm.balanceAction = $$v
-                        },
-                        expression: "balanceAction"
-                      }
-                    })
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-2" }, [
-                _c("label", { staticClass: "align-top" }, [_vm._v(" ")]),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-outline-primary w-100",
-                    attrs: { type: "button" },
-                    on: { click: _vm.balanceClick }
-                  },
-                  [_vm._v(_vm._s(_vm.$i18n.t("admin_control_execute")))]
-                )
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-
 
 
 /***/ }),

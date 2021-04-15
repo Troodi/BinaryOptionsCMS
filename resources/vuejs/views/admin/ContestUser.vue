@@ -14,10 +14,10 @@ export default {
   components: { UserBalanceControl: UserBalanceControl },
   computed: {
     userId: function (){
-      return this.$route.params.id == null ? null : this.$route.params.user_id;
+      return this.$route.params.user_id == null ? null : this.$route.params.user_id;
     },
     contestId: function (){
-      return this.$route.params.id == null ? null : this.$route.params.contest_id;
+      return this.$route.params.contest_id == null ? null : this.$route.params.contest_id;
     },
   },
 }

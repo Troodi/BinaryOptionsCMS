@@ -246,8 +246,7 @@ class TradingViewWebsocket extends Command
         }
         //call_user_func(array($this->class, 'readQuotes'), $this);
       } catch (\WebSocket\ConnectionException $e) {
-        var_dump($e->getMessage());
-        break;
+        die('Closed! Supervisor restart this...');
       }
     }
     $this->runParsing();
