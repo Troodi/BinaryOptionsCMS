@@ -11,6 +11,7 @@ import VueRouter from 'vue-router';
 import i18n from "../../locales/i18n";
 import ContestEdit from "../../views/admin/ContestEdit";
 import ContestStatistics from "../../views/admin/ContestStatistics";
+import ContestUser from "../../views/admin/ContestUser";
 
 const Statistics = () => import("../../views/admin/Statistics");
 const Profile = () => import("../../views/user/Profile");
@@ -62,6 +63,7 @@ export const routes = [
     { path: '/admin/contest/create', name: 'Создание конкурса', component: ContestEdit },
     { path: '/admin/contest/edit/:id', name: 'Редактирование конкурса', component: ContestEdit },
     { path: '/admin/contest/statistics/:id', name: 'Статистика конкурса', component: ContestStatistics },
+    { path: '/admin/contest/:contest_id/user/:user_id', name: 'Редактирование участника конкурса', component: ContestUser },
     { path: '/admin/promocodes', name: i18n.t('admin_menu_promocodes'), component: PromocodeAdmin },
     { path: '/admin/promocode/create', name: i18n.t('admin_menu_promocode_edit'), component: PromocodeEdit },
     { path: '/admin/promocode/edit/:id', name: i18n.t('admin_menu_promocodes'), component: PromocodeEdit },
