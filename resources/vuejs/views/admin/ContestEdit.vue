@@ -218,7 +218,7 @@ name: "ContestEdit",
       return this.contestId == null ? '*' : this.contestId;
     },
     contestId: function (){
-      return this.$route.params.id == null ? null : this.$route.params.id;
+      return this.$route.params.contest_id == null ? null : this.$route.params.contest_id;
     },
     title: function (){
       return this.$route.params.id == null ? this.$i18n.t('Создать новый конкурс') : this.$i18n.t('Редактирование конкурса');

@@ -11,14 +11,20 @@ use Illuminate\Support\Facades\DB;
 
 class ControlController extends Controller
 {
-    public function getControlInfo(Request $request, $id)
-    {
-      $data = [
-        'profile' => Profile::where('user_id', $id)->firstOrFail(),
-        'user' => User::where('id', $id)->firstOrFail(),
-      ];
-      return response()->json($data);
-    }
+  public function getControlInfo(Request $request, $id)
+  {
+    $data = [
+      'profile' => Profile::where('user_id', $id)->firstOrFail(),
+      'user' => User::where('id', $id)->firstOrFail(),
+      'balance' => User::where('id', $id)->firstOrFail()->balance,
+    ];
+    return response()->json($data);
+  }
+
+  public function getUserBan(Request $request, $id)
+  {
+    return response()->json(['banned' => User::where('id', $id)->first()->banned]);
+  }
 
   public function changeBalance(Request $request, $id)
   {
@@ -40,20 +46,19 @@ class ControlController extends Controller
     return response()->json(['success' => true, 'message' =>  __('locale.admin_control_balance')]);
   }
 
-  public function banAction(Request $request)
+  public function banAction(Request $request, $id)
   {
     if(config('custom.demo')){
       return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
     }
     $request->validate([
-      'id' => 'numeric|required|min:1',
       'action' => 'numeric|required|min:0|max:4'
     ]);
     $action = $request->action ? $request->action : null;
     if($action == 4){
       $action = 3;
     }
-    User::where('id', $request->id)->update(['banned' => $action, 'banned_at' => Carbon::now()]);
+    User::where('id', $id)->update(['banned' => $action, 'banned_at' => Carbon::now()]);
     return response()->json(['success' => true, 'message' => __('locale.admin_control_ban')]);
   }
 }

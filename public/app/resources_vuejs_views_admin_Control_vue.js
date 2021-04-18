@@ -12,31 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _components_UserBalanceControl__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/UserBalanceControl */ "./resources/vuejs/components/UserBalanceControl.vue");
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _components_BanComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../components/BanComponent */ "./resources/vuejs/components/BanComponent.vue");
 //
 //
 //
@@ -114,15 +90,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Control",
   components: {
+    BanComponent: _components_BanComponent__WEBPACK_IMPORTED_MODULE_1__.default,
     UserBalanceControl: _components_UserBalanceControl__WEBPACK_IMPORTED_MODULE_0__.default
   },
   data: function data() {
     var self = this;
     return {
-      banAction: 0,
       banActions: [{
         id: "0",
         text: self.$i18n.t('admin_control_unblocked')
@@ -206,39 +183,10 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     },
-    banClick: function banClick() {
-      var self = this;
-      axios.post('/admin/data/banAction', {
-        id: self.userId,
-        action: self.banAction
-      }).then(function (response) {
-        self.loadUserInfo();
-
-        if (response.data.success === true) {
-          toastr.success(response.data.message, self.$i18n.t('profile_success'), {
-            positionClass: 'toast-bottom-left',
-            containerId: 'toast-bottom-left'
-          });
-        } else {
-          toastr.error(response.data.message, self.$i18n.t('profile_error'), {
-            positionClass: 'toast-bottom-left',
-            containerId: 'toast-bottom-left'
-          });
-        }
-      });
-    },
     loadUserInfo: function loadUserInfo() {
       var self = this;
       axios.post('/admin/data/getControlInfo/' + self.userId).then(function (response) {
         self.info = response.data;
-
-        if (self.info.user.banned !== null) {
-          self.banAction = self.info.user.banned;
-        } else {
-          self.banAction = 0;
-        }
-
-        self.amount = self.info.user.balance;
       });
     }
   },
@@ -347,68 +295,13 @@ var render = function() {
           }
         }),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-12" }, [
-            _c("div", { staticClass: "card" }, [
-              _c("div", { staticClass: "card-header" }, [
-                _c("h4", { staticClass: "card-title" }, [
-                  _vm._v(_vm._s(_vm.$i18n.t("admin_control_block_user")))
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "card-content" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c("div", { staticClass: "col-md-10" }, [
-                      _c(
-                        "fieldset",
-                        { staticClass: "form-group" },
-                        [
-                          _c("label", { staticClass: "align-top" }, [
-                            _vm._v(_vm._s(_vm.$i18n.t("admin_control_action")))
-                          ]),
-                          _vm._v(" "),
-                          _c("select2", {
-                            attrs: {
-                              options: _vm.banActions,
-                              settings: {
-                                settingOption: "value",
-                                settingOption: "value",
-                                minimumResultsForSearch: Infinity
-                              }
-                            },
-                            model: {
-                              value: _vm.banAction,
-                              callback: function($$v) {
-                                _vm.banAction = $$v
-                              },
-                              expression: "banAction"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-md-2" }, [
-                      _c("label", { staticClass: "align-top" }, [_vm._v(" ")]),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-outline-primary w-100",
-                          attrs: { type: "button" },
-                          on: { click: _vm.banClick }
-                        },
-                        [_vm._v(_vm._s(_vm.$i18n.t("admin_control_execute")))]
-                      )
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ]),
+        _c("BanComponent", {
+          attrs: {
+            options: _vm.banActions,
+            url: "/admin/data/banAction/" + _vm.userId,
+            load_url: "/admin/data/getUserBan/" + _vm.userId
+          }
+        }),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-md-12" }, [
@@ -497,8 +390,7 @@ var render = function() {
                                 !_vm.info.user.deleted_at) ||
                               !("user" in _vm.info),
                             type: "button"
-                          },
-                          on: { click: _vm.banClick }
+                          }
                         },
                         [
                           _vm._v(
@@ -519,8 +411,7 @@ var render = function() {
                                 _vm.info.user.deleted_at) ||
                               !("user" in _vm.info),
                             type: "button"
-                          },
-                          on: { click: _vm.banClick }
+                          }
                         },
                         [
                           _vm._v(

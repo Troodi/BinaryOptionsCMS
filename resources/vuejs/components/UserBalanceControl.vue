@@ -76,7 +76,7 @@ export default {
       let self = this;
       axios.post(self.urlLoad)
         .then(function (response) {
-          self.amount = response.data.user.balance;
+          self.amount = response.data.balance;
         });
     },
   }

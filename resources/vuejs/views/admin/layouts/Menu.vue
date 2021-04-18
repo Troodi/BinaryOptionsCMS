@@ -50,6 +50,55 @@
             <span class="menu-title">{{ $i18n.t('admin_menu_quotes') }}</span>
           </router-link>
         </li>
+
+        <li class="nav-item has-sub" :class="{'sidebar-group-active open' : this.$route.path === '/admin/contests' || this.$route.path === '/admin/contest/create'}">
+          <a href="#" onclick="return false;">
+            <i class="menu-livicon" :data-icon="'user'"></i>
+            <span class="menu-title">Список конкурсов</span>
+          </a>
+          <ul class="menu-content">
+            <li :class="{'active' : this.$route.path === '/admin/contests' }">
+              <router-link :to="'/admin/contests'">
+                <i class="bx bx-right-arrow-alt"></i>
+                <span class="menu-title">Все конкурсы</span>
+              </router-link>
+            </li>
+            <li :class="{'active' : this.$route.path === '/admin/contest/create' }">
+              <router-link :to="'/admin/contest/create'">
+                <i class="bx bx-right-arrow-alt"></i>
+                <span class="menu-title">Создание нового</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+
+        <li id="contestTabs" v-show="this.$route.path.includes('admin/contest') && this.$route.path !== '/admin/contest/create'  && this.$route.path !== '/admin/contests'" class="nav-item" :class="{'has-sub sidebar-group-active open' : this.$route.path.includes('admin/contest') && this.$route.path !== '/admin/contest/create'}">
+          <a href="#" onclick="return false;">
+            <i class="menu-livicon" :data-icon="'user'"></i>
+            <span class="menu-title">Конкурс</span>
+          </a>
+          <ul class="menu-content">
+            <li :class="{'active' : this.$route.path === '/admin/contest/edit/'+this.$route.params.contest_id }">
+              <router-link :to="'/admin/contest/edit/'+this.$route.params.contest_id">
+                <i class="bx bx-right-arrow-alt"></i>
+                <span class="menu-title">Редактирование</span>
+              </router-link>
+            </li>
+            <li :class="{'active' : this.$route.path === '/admin/contest/statistics/'+ this.$route.params.contest_id }">
+              <router-link :to="'/admin/contest/statistics/' + this.$route.params.contest_id ">
+                <i class="bx bx-right-arrow-alt"></i>
+                <span class="menu-title">Статистика</span>
+              </router-link>
+            </li>
+            <li v-if="this.$route.path === '/admin/contest/' + this.$route.params.contest_id + '/user/' + this.$route.params.user_id" :class="{'active' : this.$route.path === '/admin/contest/' + this.$route.params.contest_id + '/user/' + this.$route.params.user_id}">
+              <router-link :to="'/admin/contest/' + this.$route.params.contest_id + '/user/' + this.$route.params.user_id">
+                <i class="bx bx-right-arrow-alt"></i>
+                <span class="menu-title">Участник конкурса</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+
 <!--        Пользователь-->
         <li v-show="this.$route.path.includes('admin/user')" class="nav-item" :class="{'has-sub sidebar-group-active open' : this.$route.path.includes('admin/user')}">
           <router-link :to="'/admin/user/profile/'+this.$route.params.id">
@@ -179,6 +228,11 @@ export default {
   computed: {
     routes: function () {
       return this.$router.options.routes;
+    }
+  },
+  watch: {
+    $route(to, from) {
+      $('#contestTabs').addClass('open');
     }
   }
 }

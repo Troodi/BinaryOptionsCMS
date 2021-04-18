@@ -47,7 +47,7 @@ export default {
   components: { StatisticsTable: StatisticsTable, ContestUsers: ContestUsers },
   computed: {
     contestId: function (){
-      return this.$route.params.id == null ? null : this.$route.params.id;
+      return this.$route.params.contest_id == null ? null : this.$route.params.contest_id;
     },
   },
 }
