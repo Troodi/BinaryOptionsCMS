@@ -107,8 +107,13 @@ class ContestController extends Controller
     /*
      * Get all contests
      */
-    public function contestAll(Request $request){
-      return Datatables::of(Contest::all())->make();
+    public function allContests(Request $request){
+      $contests = Contest::all();
+      return Datatables::of($contests)
+        ->editColumn('title', function($table){
+          return unserialize($table->title);
+        })
+        ->make();
     }
 
     /*
@@ -131,11 +136,9 @@ class ContestController extends Controller
     /*
      * Get user data for contest by user ID and contest ID
      */
-    public function getContestUserData(Request $request){
-      $request->validate([
-        'user_id' => 'required|numeric|min:1',
-        'contest_id' => 'required|numeric|min:1'
-      ]);
+    public function getContestUserData(Request $request, $contest_id, $user_id){
+      $user = ContestUser::where('contest_id', $contest_id)->where('user_id', $user_id)->firstOrFail();
+      return $user;
     }
 
     /*

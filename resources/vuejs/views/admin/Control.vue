@@ -2,32 +2,7 @@
   <div class="content-wrapper">
     <div class="content-body">
       <UserBalanceControl :save_url="'/admin/data/changeBalance/'+userId" :load_url="'/admin/data/getControlInfo/'+userId"></UserBalanceControl>
-
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h4 class="card-title">{{ $i18n.t('admin_control_block_user') }}</h4>
-            </div>
-            <div class="card-content">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-10">
-                    <fieldset class="form-group">
-                      <label class="align-top">{{ $i18n.t('admin_control_action') }}</label>
-                      <select2 v-model="banAction" :options="banActions" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
-                    </fieldset>
-                  </div>
-                  <div class="col-md-2">
-                    <label class="align-top">&nbsp;</label>
-                    <button @click="banClick" type="button" class="btn btn-outline-primary w-100">{{ $i18n.t('admin_control_execute') }}</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <BanComponent :options="banActions" :url="'/admin/data/banAction/' + userId" :load_url="'/admin/data/getUserBan/' + userId"></BanComponent>
 
       <div class="row">
         <div class="col-md-12">
@@ -61,10 +36,10 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-md-6">
-                    <button v-bind:disabled="'user' in info && !info.user.deleted_at || !('user' in info)" @click="banClick" type="button" class="btn btn-outline-info w-100">{{ $i18n.t('admin_control_delete_user') }}</button>
+                    <button v-bind:disabled="'user' in info && !info.user.deleted_at || !('user' in info)" type="button" class="btn btn-outline-info w-100">{{ $i18n.t('admin_control_delete_user') }}</button>
                   </div>
                   <div class="col-md-6">
-                    <button v-bind:disabled="'user' in info && info.user.deleted_at || !('user' in info)" @click="banClick" type="button" class="btn btn-outline-light w-100">{{ $i18n.t('admin_control_restore_user') }}</button>
+                    <button v-bind:disabled="'user' in info && info.user.deleted_at || !('user' in info)" type="button" class="btn btn-outline-light w-100">{{ $i18n.t('admin_control_restore_user') }}</button>
                   </div>
                 </div>
               </div>
@@ -101,14 +76,14 @@
 
 <script>
 import UserBalanceControl from "../../components/UserBalanceControl";
+import BanComponent from "../../components/BanComponent";
 
 export default {
   name: "Control",
-  components: { UserBalanceControl: UserBalanceControl },
+  components: {BanComponent, UserBalanceControl: UserBalanceControl },
   data: function (){
     let self = this;
     return {
-      banAction: 0,
       banActions: [
         { id: "0", text: self.$i18n.t('admin_control_unblocked') },
         { id: "1", text: self.$i18n.t('admin_control_ban_multi_account') },
@@ -175,35 +150,11 @@ export default {
             }
           });
     },
-    banClick: function (){
-      let self = this;
-      axios.post('/admin/data/banAction', {id: self.userId, action: self.banAction})
-          .then(function (response) {
-            self.loadUserInfo();
-            if(response.data.success === true) {
-              toastr.success(response.data.message, self.$i18n.t('profile_success'), {
-                positionClass: 'toast-bottom-left',
-                containerId: 'toast-bottom-left'
-              });
-            } else {
-              toastr.error(response.data.message, self.$i18n.t('profile_error'), {
-                positionClass: 'toast-bottom-left',
-                containerId: 'toast-bottom-left'
-              });
-            }
-          });
-    },
     loadUserInfo: function (){
       let self = this;
       axios.post('/admin/data/getControlInfo/' + self.userId)
           .then(function (response) {
             self.info = response.data;
-            if(self.info.user.banned !== null) {
-              self.banAction = self.info.user.banned;
-            } else {
-              self.banAction = 0;
-            }
-            self.amount = self.info.user.balance;
           });
     },
   },
