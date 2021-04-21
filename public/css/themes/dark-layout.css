@@ -44,6 +44,25 @@ body.dark-layout a:hover {
   color: #5A8DEE;
 }
 
+body.dark-layout .text-max-lines {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+body.dark-layout body {
+  text-align: center;
+  background: #fcfcfa;
+  color: #818078;
+  font-family: Futura, sans-serif;
+}
+
+body.dark-layout .remove:after {
+  content: none !important;
+}
+
 body.dark-layout hr {
   border-color: #464d5c;
 }

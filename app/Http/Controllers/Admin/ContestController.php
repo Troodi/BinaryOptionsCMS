@@ -98,9 +98,6 @@ class ContestController extends Controller
         'id' => 'required|numeric|min:1'
       ]);
       $data = Contest::where('id', $request->id)->first();
-      $data->title = unserialize($data->title);
-      $data->description = unserialize($data->description);
-      $data->places = unserialize($data->places);
       return $data;
     }
 
@@ -109,11 +106,7 @@ class ContestController extends Controller
      */
     public function allContests(Request $request){
       $contests = Contest::all();
-      return Datatables::of($contests)
-        ->editColumn('title', function($table){
-          return unserialize($table->title);
-        })
-        ->make();
+      return Datatables::of($contests)->make();
     }
 
     /*

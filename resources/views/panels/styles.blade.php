@@ -14,6 +14,9 @@
 @yield('page-styles')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('vendors/css/forms/select/select2.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('css/plugins/extensions/swiper.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('css/pages/faq.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('vendors/css/extensions/swiper.min.css')}}">
 <style>
     .b-calendar output {
         padding: 0.25rem;

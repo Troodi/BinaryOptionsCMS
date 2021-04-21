@@ -17,6 +17,7 @@ const History = () => import("../views/user/TradeHistory");
 const Withdrawal = () => import("../views/user/Withdrawal");
 const Support = () => import("../views/user/Support");
 const Partner = () => import("../views/user/Partner");
+const Contest = () => import("../views/user/Contest");
 const Promocode = () => import("../views/user/Promocode");
 const PageNotFound = () => import("../views/layouts/PageNotFound");
 const Empty = () => import("../views/user/Empty");
@@ -29,6 +30,7 @@ export const routes = [
     { path: '/deposit', name: i18n.t('menu_deposit'), component: Deposit, meta: { icon: 'bank', badge : '50% OFF' } },
     { path: '/withdrawal', name: i18n.t('menu_withdrawal'), component: Withdrawal, meta: { icon: 'coins' } },
     { path: '/promocodes', name: i18n.t('menu_promo_codes'), component: Promocode, meta: { icon: 'bulb' } },
+    { path: '/contests', name: 'Конкурсы', component: Contest, meta: { icon: 'bulb' } },
     { path: '/history', name: i18n.t('menu_history'), component: History, meta: {icon: 'calendar'}},
     { path: '/profile', name: i18n.t('menu_profile'), component: Profile, meta: { icon: 'settings' }},
     { path: '/partner', name: i18n.t('menu_partner'), component: Partner, meta: { icon: 'users' }},

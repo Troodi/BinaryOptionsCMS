@@ -7190,6 +7190,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/pages/faq.scss":
+/*!***************************************!*\
+  !*** ./resources/sass/pages/faq.scss ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./resources/sass/plugins/animate/animate.scss":
 /*!*****************************************************!*\
   !*** ./resources/sass/plugins/animate/animate.scss ***!
@@ -11104,6 +11117,7 @@ module.exports = yeast;
 /******/ 			["./resources/sass/pages/authentication.scss"],
 /******/ 			["./resources/sass/pages/dashboard-analytics.scss"],
 /******/ 			["./resources/sass/pages/dashboard-ecommerce.scss"],
+/******/ 			["./resources/sass/pages/faq.scss"],
 /******/ 			["./resources/sass/plugins/animate/animate.scss"],
 /******/ 			["./resources/sass/plugins/calendars/app-calendar.scss"],
 /******/ 			["./resources/sass/plugins/extensions/context-menu.scss"],

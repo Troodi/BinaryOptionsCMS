@@ -4,3 +4,19 @@ export function getCookie(name) {
     ))
     return matches ? decodeURIComponent(matches[1]) : undefined
 }
+
+export function findLocalizedText(text){
+    let localized = 'Text not found...';
+    let getFromLocale = text[getCookie('currentLanguage')];
+    if(getFromLocale != null){
+        return getFromLocale;
+    }
+    window.locales.forEach((item) => {
+        let current = text[item];
+        if(current != null){
+            localized = current;
+            return false;
+        }
+    });
+    return localized;
+}

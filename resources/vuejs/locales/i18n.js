@@ -8,8 +8,8 @@ Vue.use(VueI18n)
 
 let messages = {
     en : english,
-    ru : russian,
     es : spain,
+    ru : russian,
 }
 window.locales = Object.keys(messages);
 
