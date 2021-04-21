@@ -22,6 +22,7 @@
 
 /* Dark Layout */
 /* ----------- */
+
 body {
   &.dark-layout {
     .select2 {
@@ -61,6 +62,25 @@ body {
       &:hover {
         color: $primary;
       }
+    }
+
+    .text-max-lines {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
+    }
+
+    body {
+      text-align: center;
+      background: #fcfcfa;
+      color: #818078;
+      font-family: Futura, sans-serif;
+    }
+
+    .remove:after {
+      content: none !important;
     }
 
     hr {

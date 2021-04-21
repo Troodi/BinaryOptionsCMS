@@ -8,7 +8,6 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Models\Symbols\Options\Symbol;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use WebSocket\Client;
 
 class TradingViewWebsocket extends Command
@@ -27,7 +26,6 @@ class TradingViewWebsocket extends Command
   private $symbols_all = [];
   private $cacheLP = [];
   public $tickerDataUptime;
-  private $db;
   /**
    * The name and signature of the console command.
    *
@@ -112,8 +110,12 @@ class TradingViewWebsocket extends Command
         'Origin' => 'https://data.tradingview.com',
       ],
     ]);
+    Cache::put('latest_websocket_update', true, 30);
     while (true) {
       try {
+        if(!Cache::has('latest_websocket_update')) {
+          $this->runParsing();
+        }
         if(Cache::has('market_update')){
           Cache::forget('market_update');
           $this->runParsing();
@@ -121,6 +123,7 @@ class TradingViewWebsocket extends Command
         $string = $this->websocket->receive();
         $packets = $this->parseMessages($string);
         foreach($packets as $packet){
+          Cache::put('latest_websocket_update', true, 30);
           if(is_array($packet) and $packet["~protocol~keepalive~"]){
             $this->sendRawMessage("~h~".$packet["~protocol~keepalive~"]);
           } elseif(isset($packet->session_id)) {
@@ -194,7 +197,6 @@ class TradingViewWebsocket extends Command
             $this->customMessageAllSymbols($this->sessionStatus, $this->symbols_all);
             $this->sessionRegistered = true;
           } elseif (isset($packet->m) && $packet->m === "qsd" && isset($packet->p)) {// && $packet->p[0] === $this->session
-            Cache::put('latest_websocket_update', time());
             $tticker = $packet->p[1];
             $tickerName = $tticker->n;
             $tickerStatus = $tticker->s;
@@ -244,12 +246,10 @@ class TradingViewWebsocket extends Command
             }
           }
         }
-        //call_user_func(array($this->class, 'readQuotes'), $this);
       } catch (\WebSocket\ConnectionException $e) {
-        die('Closed! Supervisor restart this...');
+        $this->runParsing();
       }
     }
-    $this->runParsing();
   }
 
   private function sendRawMessage($message){
@@ -366,7 +366,22 @@ class TradingViewWebsocket extends Command
   }
 
   private function runParsing(){
+    echo Carbon::now()->format('Y-m-d H:i:s').': Restart parsing!'.PHP_EOL;
     $this->subscriptions = [];
+    $this->session = null;
+    $this->sessionStatus = null;
+    $this->chartSession = null;
+    $this->subscriptions = null;
+    $this->websocket = null;
+    $this->tickerData = null;
+    $this->sessionRegistered = null;
+    $this->map = null;
+    $this->login = null;
+    $this->password = null;
+    $this->startTime = null;
+    $this->symbols_all = [];
+    $this->cacheLP = [];
+    $this->tickerDataUptime = null;
     $this->login = env('TRADINGVIEW_LOGIN');
     $this->password = env('TRADINGVIEW_PASSWORD');
     $this->resetWebSocket();

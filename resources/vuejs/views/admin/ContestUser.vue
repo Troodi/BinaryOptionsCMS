@@ -16,70 +16,70 @@
                     <div class="col-md-4">
                       <fieldset class="form-group">
                         <label>Начальный баланс пользователя</label>
-                        <input disabled="disabled" type="text" class="form-control">
+                        <input v-model="info.balance + ' $'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
                         <label>Пользователь всего оплатил</label>
-                        <input disabled="disabled" type="text" class="form-control">
-                      </fieldset>
-                    </div>
-
-                    <div class="col-md-4">
-                      <fieldset class="form-group">
-                        <label>Процент доходности</label>
-                        <input disabled="disabled" type="text" class="form-control">
+                        <input v-model="info.paid + ' $'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
                         <label>Сколько раз оплачивал (докупал баланс)</label>
-                        <input disabled="disabled" type="text" class="form-control">
+                        <input v-model="info.paid_times" disabled="disabled" type="text" class="form-control">
+                      </fieldset>
+                    </div>
+
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>Процент доходности</label>
+                        <input v-model="info.profit_percent + ' %'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
                         <label>Оборот торговли</label>
-                        <input disabled="disabled" type="text" class="form-control">
+                        <input v-model="info.turnover + ' $'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
                         <label>Количество сделок</label>
-                        <input disabled="disabled" type="text" class="form-control">
+                        <input v-model="info.order_count" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
                         <label>Текущее место</label>
-                        <input disabled="disabled" type="text" class="form-control">
+                        <input v-model="info.winner_place" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
                         <label>Выигрыш в случае победы</label>
-                        <input disabled="disabled" type="text" class="form-control">
+                        <input v-model="info.winner_reward + ' $'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
                         <label>Дата вступления</label>
-                        <input disabled="disabled" type="text" class="form-control">
+                        <input v-model="info.created_at" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <button type="button" class="btn btn-outline-primary float-right">Перейти к профилю пользователя</button>
-                      <button type="button" class="btn btn-outline-danger float-right mr-1">Назад</button>
+                      <button @click="goUserProfile" type="button" class="btn btn-outline-primary float-right">Перейти к профилю пользователя</button>
+                      <button @click="goBack" type="button" class="btn btn-outline-danger float-right mr-1">Назад</button>
                     </div>
                   </div>
                 </div>
@@ -94,6 +94,7 @@
 <script>
 import UserBalanceControl from "../../components/UserBalanceControl";
 import BanComponent from "../../components/BanComponent";
+import dateformat from "dateformat";
 
 export default {
   name: "ContestUser",
@@ -106,13 +107,33 @@ export default {
       return this.$route.params.contest_id == null ? null : this.$route.params.contest_id;
     },
   },
+  methods: {
+    goBack(){
+      this.$router.push('/admin/contest/statistics/'+this.contestId);
+    },
+    goUserProfile(){
+      this.$router.push('/admin/user/profile/'+this.info.user_id);
+    }
+  },
   data: function () {
     return {
       banActions: [
         { id: "0", text: this.$i18n.t('admin_control_unblocked') },
         { id: "1", text: 'Заблокирован' },
       ],
+      info: [],
     }
+  },
+  mounted() {
+    let self = this;
+    axios.post('/admin/data/contest/' + self.contestId + '/user/' + self.userId, { balance: self.amount, action: self.balanceAction })
+      .then(function (response) {
+        self.info = response.data;
+        self.info.created_at = dateformat(response.data.created_at, 'dd-mm-yyyy');
+        if(response.data.success === true) {
+          self.info = response.data;
+        }
+      });
   }
 }
 </script>

@@ -16,6 +16,7 @@
 
     <!-- BEGIN: Page Vendor JS-->
     @yield('vendor-scripts')
+    <script src="{{asset('vendors/js/extensions/swiper.min.js')}}"></script>
     <script src="{{asset('vendors/js/extensions/toastr.min.js')}}"></script>
     <script src="{{asset('js/scripts/configs/vertical-menu-light.js')}}"></script>
     <script src="{{asset('js/core/app-menu.js')}}"></script>

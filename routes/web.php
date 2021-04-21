@@ -98,6 +98,9 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post('/data/depositHistory', 'Main\DepositController@depositHistory');
   Route::post('/data/depositHistory/{id}', 'Main\DepositController@depositHistory')->middleware('admin');
   Route::post("/data/demo/refill", 'Main\TradingController@refillDemoBalance');
+  //Конкурс
+  Route::post('/data/getAllContests', 'Main\ContestController@getAllContests');
+
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
 
