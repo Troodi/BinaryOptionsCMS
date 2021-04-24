@@ -6,17 +6,21 @@ export function getCookie(name) {
 }
 
 export function findLocalizedText(text){
-    let localized = 'Text not found...';
-    let getFromLocale = text[getCookie('currentLanguage')];
-    if(getFromLocale != null){
-        return getFromLocale;
-    }
-    window.locales.forEach((item) => {
-        let current = text[item];
-        if(current != null){
-            localized = current;
-            return false;
+    try {
+        let localized = 'Text not found...';
+        let getFromLocale = text[getCookie('currentLanguage')];
+        if (getFromLocale != null) {
+            return getFromLocale;
         }
-    });
-    return localized;
+        window.locales.forEach((item) => {
+            let current = text[item];
+            if (current != null) {
+                localized = current;
+                return false;
+            }
+        });
+        return localized;
+    } catch (e) {
+        return 'Loading...';
+    }
 }

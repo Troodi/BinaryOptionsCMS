@@ -100,6 +100,9 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post("/data/demo/refill", 'Main\TradingController@refillDemoBalance');
   //Конкурс
   Route::post('/data/getAllContests', 'Main\ContestController@getAllContests');
+  Route::post('/data/getContestInfo', 'Main\ContestController@getContestInfo');
+  Route::post("/data/tournament/latest", 'Main\ContestController@getLatestOrders');
+  Route::post("/data/tournament/opened", 'Main\ContestController@getOpenOrders');
 
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');

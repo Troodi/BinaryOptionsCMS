@@ -2286,6 +2286,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -2327,8 +2335,10 @@ __webpack_require__.r(__webpack_exports__);
       demo_balance: parseFloat(this.user.demo_balance).toFixed(2),
       isDemo: false,
       isContest: false,
+      isReal: false,
       contestId: 0,
-      realButtonColor: '#FDAC41 !important'
+      realButtonColor: '#FDAC41 !important',
+      contestButtonColor: '#5a8dee !important'
     };
   },
   methods: {
@@ -2364,9 +2374,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     $route: function $route(to, from) {
+      this.isReal = this.$router.currentRoute.params.type == null;
       this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
-      this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'contest';
-      this.contestId = this.$router.currentRoute.params.id != null ? this.$router.currentRoute.params.id : '0';
+      this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'tournament';
+      this.contestId = this.$router.currentRoute.params.trading_id != null ? this.$router.currentRoute.params.trading_id : '0';
     }
   },
   computed: {
@@ -3155,18 +3166,29 @@ __webpack_require__.r(__webpack_exports__);
         urlOpened = '/data/demo/opened';
       }
 
-      axios.post(urlOpened).then(function (response) {
+      if (this.isContest) {
+        urlOpened = '/data/tournament/opened';
+      }
+
+      axios.post(urlOpened, {
+        id: this.tradingType === 'tournament' ? this.contestId : 0
+      }).then(function (response) {
         self.opened = response.data;
 
         try {
+          // remove all lines from chart
+          if (self.lines.length > 0) {
+            self.lines.forEach(function (element) {
+              element.remove();
+            });
+            self.lines = [];
+          } // draw all lines for open positions
+
+
           var filtered = self.opened.filter(function (item) {
             return item.symbol_id === window.symbolInfo.id;
           });
           filtered.forEach(function (element) {
-            try {
-              self.lines[element.id].remove();
-            } catch (e) {}
-
             var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
             var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
             order.setPrice(element.open_price);
@@ -3184,7 +3206,13 @@ __webpack_require__.r(__webpack_exports__);
         urlLatest = '/data/demo/latest';
       }
 
-      axios.post(urlLatest).then(function (response) {
+      if (this.isContest) {
+        urlLatest = '/data/tournament/latest';
+      }
+
+      axios.post(urlLatest, {
+        id: this.tradingType === 'tournament' ? this.contestId : 0
+      }).then(function (response) {
         if (self.latest.length === 0) {
           self.latest = response.data;
         }
@@ -3245,7 +3273,7 @@ __webpack_require__.r(__webpack_exports__);
       this.ps.destroy();
       this.ps = new PerfectScrollbar("#accordionWrapa2");
     },
-    buy: function buy() {
+    placeOrder: function placeOrder(direction, color, text) {
       var _this2 = this;
 
       toastr.warning(null, this.$i18n.t('trade_order_processing'), {
@@ -3259,11 +3287,12 @@ __webpack_require__.r(__webpack_exports__);
         minutes: this.minutes,
         seconds: this.seconds,
         amount: this.$ci.parse(this.amount),
-        type: 1,
-        demo: self.isDemo ? 1 : 0
+        direction: direction,
+        type: this.tradingType,
+        id: this.contestId != null ? this.contestId : 0
       }).then(function (response) {
         self.opened.unshift(response.data);
-        var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#23bd70').setQuantityBackgroundColor('#23bd70').setQuantityBorderColor('#23bd70').setBodyBorderColor('#23bd70').setBodyTextColor('#23bd70');
+        var order = window.tvWidget.chart().createOrderLine().setText(text).setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
         order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
         toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), {
@@ -3272,36 +3301,6 @@ __webpack_require__.r(__webpack_exports__);
         });
       })["catch"](function (error) {
         toastr.error(error.response.data.message, _this2.$i18n.t('trade_error'), {
-          positionClass: 'toast-bottom-left',
-          containerId: 'toast-bottom-left'
-        });
-      });
-    },
-    sell: function sell() {
-      toastr.warning(null, this.$i18n.t('trade_order_processing'), {
-        positionClass: 'toast-bottom-left',
-        containerId: 'toast-bottom-left'
-      });
-      var self = this;
-      axios.post('/binary/buy', {
-        symbol: this.symbol,
-        hours: this.hours,
-        minutes: this.minutes,
-        seconds: this.seconds,
-        amount: this.$ci.parse(this.amount),
-        type: 0,
-        demo: self.isDemo ? 1 : 0
-      }).then(function (response) {
-        self.opened.unshift(response.data);
-        var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_down')).setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#FF5B5C').setQuantityBackgroundColor('#FF5B5C').setQuantityBorderColor('#FF5B5C').setBodyBorderColor('#FF5B5C').setBodyTextColor('#FF5B5C');
-        order.setPrice(response.data.open_price);
-        self.lines[response.data.id] = order;
-        toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), {
-          positionClass: 'toast-bottom-left',
-          containerId: 'toast-bottom-left'
-        });
-      })["catch"](function (error) {
-        toastr.error(error.response.data.message, 'Ошибка!', {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -3372,6 +3371,15 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.seconds = parsed;
+    },
+    setTradingType: function setTradingType() {
+      if (this.isReal) {
+        this.tradingType = 'real';
+      } else if (this.isDemo) {
+        this.tradingType = 'demo';
+      } else if (this.isContest) {
+        this.tradingType = 'tournament';
+      }
     }
   },
   data: function data() {
@@ -3384,7 +3392,7 @@ __webpack_require__.r(__webpack_exports__);
       number_percent: null,
       amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1,00',
       min: 1,
-      lines: {},
+      lines: [],
       hours: localStorage.getItem('hours') ? localStorage.getItem('hours') : '00',
       minutes: localStorage.getItem('minutes') ? localStorage.getItem('minutes') : '05',
       seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '00',
@@ -3394,10 +3402,12 @@ __webpack_require__.r(__webpack_exports__);
       latest: [],
       symbolsPercents: [],
       historyLoaded: false,
+      isReal: false,
       isDemo: false,
       isContest: false,
       contestId: 0,
-      canVisibleDemoModal: true
+      canVisibleDemoModal: true,
+      tradingType: ''
     };
   },
   computed: {
@@ -3410,12 +3420,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     $route: function $route(to, from) {
+      this.isReal = this.$router.currentRoute.params.type == null;
       this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
-      this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'contest';
-      this.contestId = this.$router.currentRoute.params.id != null ? this.$router.currentRoute.params.id : '0';
+      this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'tournament';
+      this.contestId = this.$router.currentRoute.params.trading_id != null ? this.$router.currentRoute.params.trading_id : '0';
       this.historyLoaded = false;
-      this.getOpenedHistory();
-      this.getLatestHistory();
+      this.setTradingType();
+
+      if (window.symbolInfo != null && window.location.href.includes(window.location.host + '/trading')) {
+        this.getOpenedHistory();
+        this.getLatestHistory();
+      }
     },
     hours: function hours() {
       var number = parseInt(this.hours);
@@ -10742,22 +10757,26 @@ function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 function findLocalizedText(text) {
-  var localized = 'Text not found...';
-  var getFromLocale = text[getCookie('currentLanguage')];
+  try {
+    var localized = 'Text not found...';
+    var getFromLocale = text[getCookie('currentLanguage')];
 
-  if (getFromLocale != null) {
-    return getFromLocale;
-  }
-
-  window.locales.forEach(function (item) {
-    var current = text[item];
-
-    if (current != null) {
-      localized = current;
-      return false;
+    if (getFromLocale != null) {
+      return getFromLocale;
     }
-  });
-  return localized;
+
+    window.locales.forEach(function (item) {
+      var current = text[item];
+
+      if (current != null) {
+        localized = current;
+        return false;
+      }
+    });
+    return localized;
+  } catch (e) {
+    return 'Loading...';
+  }
 }
 
 /***/ }),
@@ -11654,10 +11673,6 @@ __webpack_require__.r(__webpack_exports__);
 //  */
 // //Students
 
-var Trading = function Trading() {
-  return Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! ../views/user/Trading */ "./resources/vuejs/views/user/Trading.vue"));
-};
-
 var Profile = function Profile() {
   return __webpack_require__.e(/*! import() */ "resources_vuejs_views_user_Profile_vue-_386f1").then(__webpack_require__.bind(__webpack_require__, /*! ../views/user/Profile */ "./resources/vuejs/views/user/Profile.vue"));
 };
@@ -11696,6 +11711,10 @@ var PageNotFound = function PageNotFound() {
 
 var Empty = function Empty() {
   return __webpack_require__.e(/*! import() */ "resources_vuejs_views_user_Empty_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/user/Empty */ "./resources/vuejs/views/user/Empty.vue"));
+};
+
+var ContestInfo = function ContestInfo() {
+  return __webpack_require__.e(/*! import() */ "resources_vuejs_views_user_ContestInfo_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/user/ContestInfo */ "./resources/vuejs/views/user/ContestInfo.vue"));
 }; //
 // /**
 //  * Routes for vue components
@@ -11703,7 +11722,7 @@ var Empty = function Empty() {
 
 
 var routes = [{
-  path: '/trading/:type?/:id?',
+  path: '/trading/:type?/:trading_id?',
   name: _vuejs_locales_i18n_js__WEBPACK_IMPORTED_MODULE_0__.default.t('menu_trading'),
   component: Empty,
   meta: {
@@ -11734,11 +11753,19 @@ var routes = [{
     icon: 'bulb'
   }
 }, {
-  path: '/contests',
-  name: 'Конкурсы',
+  path: '/tournaments',
+  name: 'Турниры',
   component: Contest,
   meta: {
     icon: 'bulb'
+  }
+}, {
+  path: '/tournament/:tournament_id',
+  name: 'Информация о турнире',
+  component: ContestInfo,
+  meta: {
+    icon: 'bulb',
+    hide: true
   }
 }, {
   path: '/history',
@@ -125371,8 +125398,8 @@ var render = function() {
                             {
                               name: "show",
                               rawName: "v-show",
-                              value: !_vm.isDemo,
-                              expression: "!isDemo"
+                              value: _vm.isReal,
+                              expression: "isReal"
                             }
                           ],
                           staticClass: "btn btn-success glow w-100",
@@ -125388,6 +125415,43 @@ var render = function() {
                           _vm._v(" "),
                           _c("span", { staticClass: "align-middle ml-25" }, [
                             _vm._v(_vm._s(_vm.$i18n.t("header_deposit")))
+                          ])
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.isContest,
+                              expression: "isContest"
+                            }
+                          ],
+                          staticClass: "btn btn-outline-primary glow w-100",
+                          style: { color: _vm.contestButtonColor },
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.$router.push(
+                                "/tournament/" + _vm.contestId
+                              )
+                            },
+                            mouseover: function($event) {
+                              _vm.contestButtonColor = "#FFF !important"
+                            },
+                            mouseleave: function($event) {
+                              _vm.contestButtonColor = "#5a8dee !important"
+                            }
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "bx bx-trending-up" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "align-middle ml-25" }, [
+                            _vm._v("Докупить конкурсный баланс")
                           ])
                         ]
                       ),
@@ -125447,8 +125511,8 @@ var render = function() {
                               {
                                 name: "show",
                                 rawName: "v-show",
-                                value: !_vm.isDemo,
-                                expression: "!isDemo"
+                                value: _vm.isReal,
+                                expression: "isReal"
                               }
                             ],
                             staticClass: "nav-link",
@@ -125483,6 +125547,35 @@ var render = function() {
                             staticClass: "nav-link",
                             staticStyle: { "padding-top": "1.4rem" },
                             attrs: { to: "/deposit" }
+                          },
+                          [
+                            [
+                              _c("animated-number", {
+                                attrs: {
+                                  value: _vm.demo_balance,
+                                  formatValue: _vm.formatToPrice,
+                                  duration: 1000
+                                }
+                              })
+                            ]
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "router-link",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.isContest,
+                                expression: "isContest"
+                              }
+                            ],
+                            staticClass: "nav-link",
+                            staticStyle: { "padding-top": "1.4rem" },
+                            attrs: { to: "/tournament/" + _vm.contestId }
                           },
                           [
                             [
@@ -127719,7 +127812,15 @@ var render = function() {
                           type: "button",
                           disabled: _vm.isButtonDisabled
                         },
-                        on: { click: _vm.buy }
+                        on: {
+                          click: function($event) {
+                            _vm.placeOrder(
+                              1,
+                              "#23bd70",
+                              _vm.$i18n.t("trade_up")
+                            )
+                          }
+                        }
                       },
                       [
                         _c("i", { staticClass: "bx bx-trending-up" }),
@@ -127800,7 +127901,15 @@ var render = function() {
                           type: "button",
                           disabled: _vm.isButtonDisabled
                         },
-                        on: { click: _vm.sell }
+                        on: {
+                          click: function($event) {
+                            _vm.placeOrder(
+                              0,
+                              "#FF5B5C",
+                              _vm.$i18n.t("trade_down")
+                            )
+                          }
+                        }
                       },
                       [
                         _c("i", { staticClass: "bx bx-trending-down" }),
@@ -144190,7 +144299,7 @@ module.exports = JSON.parse('{"управление промокодами в а
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_vuejs_views_user_Profile_vue-_386f1":1,"resources_vuejs_views_user_Deposit_vue":1,"resources_vuejs_views_user_TradeHistory_vue":1,"resources_vuejs_views_user_Withdrawal_vue":1,"resources_vuejs_views_user_Support_vue":1,"resources_vuejs_views_user_Partner_vue":1,"resources_vuejs_views_user_Contest_vue":1,"resources_vuejs_views_user_Promocode_vue":1,"resources_vuejs_views_layouts_PageNotFound_vue":1,"resources_vuejs_views_user_Empty_vue":1}[chunkId]) return "app/" + chunkId + ".js";
+/******/ 			if ({"resources_vuejs_views_user_Profile_vue-_386f1":1,"resources_vuejs_views_user_Deposit_vue":1,"resources_vuejs_views_user_TradeHistory_vue":1,"resources_vuejs_views_user_Withdrawal_vue":1,"resources_vuejs_views_user_Support_vue":1,"resources_vuejs_views_user_Partner_vue":1,"resources_vuejs_views_user_Contest_vue":1,"resources_vuejs_views_user_Promocode_vue":1,"resources_vuejs_views_layouts_PageNotFound_vue":1,"resources_vuejs_views_user_Empty_vue":1,"resources_vuejs_views_user_ContestInfo_vue":1}[chunkId]) return "app/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

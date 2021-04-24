@@ -27,8 +27,11 @@
                     </div>
                     <ul class="nav navbar-nav float-right">
                         <li class="nav-item d-none d-md-block mr-1" style="padding-top: 13px;">
-                          <button @click="$router.push('/deposit')" type="button" class="btn btn-success glow w-100" v-show="!isDemo">
+                          <button @click="$router.push('/deposit')" type="button" class="btn btn-success glow w-100" v-show="isReal">
                               <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">{{ $i18n.t('header_deposit') }}</span>
+                          </button>
+                          <button @click="$router.push('/tournament/' + contestId)" type="button" class="btn btn-outline-primary glow w-100" v-show="isContest" v-bind:style="{ color: contestButtonColor }" @mouseover="contestButtonColor='#FFF !important'" @mouseleave="contestButtonColor='#5a8dee !important'">
+                            <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">Докупить конкурсный баланс</span>
                           </button>
                           <button @click="$router.push('/trading')" v-show="isDemo" type="button" class="btn btn-outline-warning w-100" v-bind:style="{ color: realButtonColor }" @mouseover="realButtonColor='#FFF !important'" @mouseleave="realButtonColor='#FDAC41 !important'">
                             <i class="bx bxs-briefcase-alt"></i>
@@ -38,7 +41,7 @@
 
                         <li class="nav-item">
                             <h4 :class="{'mr-1': !isDemo}">
-                                <router-link to="/deposit" class="nav-link" style="padding-top:1.4rem" v-show="!isDemo">
+                                <router-link to="/deposit" class="nav-link" style="padding-top:1.4rem" v-show="isReal">
                                     <template>
                                         <animated-number :value="balance" :formatValue="formatToPrice" :duration="1000"/>
                                     </template>
@@ -48,6 +51,11 @@
                                     <animated-number :value="demo_balance" :formatValue="formatToPrice" :duration="1000"/>
                                   </template>
                                 </router-link>
+                              <router-link :to="'/tournament/' + contestId" class="nav-link" style="padding-top:1.4rem" v-show="isContest">
+                                <template>
+                                  <animated-number :value="demo_balance" :formatValue="formatToPrice" :duration="1000"/>
+                                </template>
+                              </router-link>
                             </h4>
                         </li>
                         <li class="nav-item mr-1 cursor-pointer" @click="refillDemoBalance" v-show="isDemo">
@@ -186,8 +194,10 @@
                 demo_balance: parseFloat(this.user.demo_balance).toFixed(2),
                 isDemo: false,
                 isContest: false,
+                isReal: false,
                 contestId: 0,
-                realButtonColor: '#FDAC41 !important'
+                realButtonColor: '#FDAC41 !important',
+                contestButtonColor: '#5a8dee !important'
             }
         },
         methods: {
@@ -224,9 +234,10 @@
         },
       watch:{
         $route (to, from){
+          this.isReal = this.$router.currentRoute.params.type == null;
           this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
-          this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'contest';
-          this.contestId = this.$router.currentRoute.params.id != null ? this.$router.currentRoute.params.id : '0';
+          this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'tournament';
+          this.contestId = this.$router.currentRoute.params.trading_id != null ? this.$router.currentRoute.params.trading_id : '0';
         }
       },
       computed: {

@@ -176,7 +176,7 @@
                                       {{ $i18n.t('trade_closed_market') }}
                                     </button>
 
-                                    <button v-show="percent !== '' && number_percent !== 0" type="button" @click="buy" class="btn btn-success glow w-100 btn-lg" v-bind:disabled="isButtonDisabled">
+                                    <button v-show="percent !== '' && number_percent !== 0" type="button" @click="placeOrder(1, '#23bd70', $i18n.t('trade_up'))" class="btn btn-success glow w-100 btn-lg" v-bind:disabled="isButtonDisabled">
                                         <i class="bx bx-trending-up"></i> <span class="align-middle ml-25" v-text="percent"></span>
                                     </button>
 
@@ -189,7 +189,7 @@
                                       {{ $i18n.t('trade_closed_market') }}
                                     </button>
 
-                                    <button v-show="percent !== '' && number_percent !== 0" @click="sell" type="button" class="btn btn-danger glow w-100 mt-1 btn-lg" v-bind:disabled="isButtonDisabled">
+                                    <button v-show="percent !== '' && number_percent !== 0" @click="placeOrder(0, '#FF5B5C', $i18n.t('trade_down'))" type="button" class="btn btn-danger glow w-100 mt-1 btn-lg" v-bind:disabled="isButtonDisabled">
                                         <i class="bx bx-trending-down"></i><span class="align-middle ml-25" v-text="percent"></span>
                                     </button>
                                     <hr class="mt-2" id="line">
@@ -459,16 +459,23 @@
               if(this.isDemo) {
                 urlOpened = '/data/demo/opened';
               }
-              axios.post(urlOpened)
+              if(this.isContest){
+                urlOpened = '/data/tournament/opened';
+              }
+              axios.post(urlOpened, { id: this.tradingType === 'tournament' ? this.contestId : 0 })
                 .then(function (response) {
                   self.opened = response.data;
                   try {
+                    // remove all lines from chart
+                    if(self.lines.length > 0) {
+                      self.lines.forEach(element => {
+                        element.remove();
+                      });
+                      self.lines = [];
+                    }
+                    // draw all lines for open positions
                     let filtered = self.opened.filter(item => item.symbol_id === window.symbolInfo.id);
                     filtered.forEach(element => {
-                      try {
-                        self.lines[element.id].remove();
-                      } catch (e) {
-                      }
                       let color = element.type === 1 ? '#23bd70' : '#FF5B5C';
                       let order = window.tvWidget.chart().createOrderLine()
                         .setText(self.$i18n.t('trade_up'))
@@ -483,9 +490,7 @@
                       order.setPrice(element.open_price);
                       self.lines[element.id] = order;
                   });
-                } catch (e) {
-
-              }
+                } catch (e) {}
                 });
             },
             getLatestHistory(){
@@ -495,7 +500,10 @@
               if(this.isDemo) {
                 urlLatest = '/data/demo/latest';
               }
-              axios.post(urlLatest)
+              if(this.isContest) {
+                urlLatest = '/data/tournament/latest';
+              }
+              axios.post(urlLatest, { id: this.tradingType === 'tournament' ? this.contestId : 0 })
                 .then(function (response) {
                   if (self.latest.length === 0) {
                     self.latest = response.data;
@@ -550,68 +558,37 @@
                 this.ps.destroy();
                 this.ps = new PerfectScrollbar("#accordionWrapa2");
             },
-            buy: function () {
+            placeOrder: function(direction, color, text){
               toastr.warning(null, this.$i18n.t('trade_order_processing'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
-                let self = this;
-                axios.post('/binary/buy', {
-                    symbol: this.symbol,
-                    hours: this.hours,
-                    minutes: this.minutes,
-                    seconds: this.seconds,
-                    amount: this.$ci.parse(this.amount),
-                    type: 1,
-                    demo: self.isDemo ? 1 : 0,
-                })
+              let self = this;
+              axios.post('/binary/buy', {
+                symbol: this.symbol,
+                hours: this.hours,
+                minutes: this.minutes,
+                seconds: this.seconds,
+                amount: this.$ci.parse(this.amount),
+                direction: direction,
+                type: this.tradingType,
+                id: this.contestId != null ? this.contestId : 0,
+              })
                 .then(function (response) {
-                    self.opened.unshift(response.data);
-                    let order = window.tvWidget.chart().createOrderLine()
-                        .setText(self.$i18n.t('trade_up'))
-                        .setLineLength(1)
-                        .setLineStyle(0)
-                        .setQuantity(response.data.amount + '$')
-                        .setLineColor('#23bd70')
-                        .setQuantityBackgroundColor('#23bd70')
-                        .setQuantityBorderColor('#23bd70')
-                        .setBodyBorderColor('#23bd70')
-                        .setBodyTextColor('#23bd70');
-                    order.setPrice(response.data.open_price);
-                    self.lines[response.data.id] = order;
-                    toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                  self.opened.unshift(response.data);
+                  let order = window.tvWidget.chart().createOrderLine()
+                    .setText(text)
+                    .setLineLength(1)
+                    .setLineStyle(0)
+                    .setQuantity(response.data.amount + '$')
+                    .setLineColor(color)
+                    .setQuantityBackgroundColor(color)
+                    .setQuantityBorderColor(color)
+                    .setBodyBorderColor(color)
+                    .setBodyTextColor(color);
+                  order.setPrice(response.data.open_price);
+                  self.lines[response.data.id] = order;
+                  toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 })
                 .catch(error => {
-                    toastr.error(error.response.data.message, this.$i18n.t('trade_error'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
-                });
-            },
-            sell: function(){
-                toastr.warning(null, this.$i18n.t('trade_order_processing'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
-                let self = this;
-                axios.post('/binary/buy', {
-                    symbol: this.symbol,
-                    hours: this.hours,
-                    minutes: this.minutes,
-                    seconds: this.seconds,
-                    amount: this.$ci.parse(this.amount),
-                    type: 0,
-                    demo: self.isDemo ? 1 : 0,
-                })
-                .then(function (response) {
-                    self.opened.unshift(response.data);
-                    let order = window.tvWidget.chart().createOrderLine()
-                        .setText(self.$i18n.t('trade_down'))
-                        .setLineLength(1)
-                        .setLineStyle(0)
-                        .setQuantity(response.data.amount + '$')
-                        .setLineColor('#FF5B5C')
-                        .setQuantityBackgroundColor('#FF5B5C')
-                        .setQuantityBorderColor('#FF5B5C')
-                        .setBodyBorderColor('#FF5B5C')
-                        .setBodyTextColor('#FF5B5C')
-                    order.setPrice(response.data.open_price);
-                    self.lines[response.data.id] = order;
-                    toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
-                })
-                .catch(error => {
-                    toastr.error(error.response.data.message, 'Ошибка!', { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
+                  toastr.error(error.response.data.message, this.$i18n.t('trade_error'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
                 });
             },
             timeClick: function () {
@@ -676,6 +653,17 @@
                 }
                 this.seconds = parsed;
             },
+            setTradingType: function (){
+              if(this.isReal){
+                this.tradingType = 'real';
+              }
+              else if(this.isDemo){
+                this.tradingType = 'demo';
+              }
+              else if(this.isContest){
+                this.tradingType = 'tournament';
+              }
+            }
         },
         data() {
             return {
@@ -687,7 +675,7 @@
                 number_percent: null,
                 amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1,00',
                 min: 1,
-                lines: {},
+                lines: [],
                 hours: localStorage.getItem('hours') ? localStorage.getItem('hours') : '00',
                 minutes: localStorage.getItem('minutes') ? localStorage.getItem('minutes') : '05',
                 seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '00',
@@ -697,10 +685,12 @@
                 latest: [],
                 symbolsPercents: [],
                 historyLoaded: false,
+                isReal: false,
                 isDemo: false,
                 isContest: false,
                 contestId: 0,
                 canVisibleDemoModal: true,
+                tradingType: '',
             }
         },
         computed: {
@@ -713,12 +703,16 @@
         },
         watch: {
             $route (to, from){
+              this.isReal = this.$router.currentRoute.params.type == null;
               this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
-              this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'contest';
-              this.contestId = this.$router.currentRoute.params.id != null ? this.$router.currentRoute.params.id : '0';
+              this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'tournament';
+              this.contestId = this.$router.currentRoute.params.trading_id != null ? this.$router.currentRoute.params.trading_id : '0';
               this.historyLoaded = false;
-              this.getOpenedHistory()
-              this.getLatestHistory();
+              this.setTradingType();
+              if(window.symbolInfo != null && window.location.href.includes(window.location.host + '/trading')) {
+                this.getOpenedHistory()
+                this.getLatestHistory();
+              }
             },
             hours: function () {
                 let number = parseInt(this.hours);
