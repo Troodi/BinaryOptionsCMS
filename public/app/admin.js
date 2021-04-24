@@ -2952,10 +2952,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }],
       hidden_options: [{
         id: 1,
-        text: 'Отображается в списке'
+        text: 'Скрыто из списка'
       }, {
         id: 0,
-        text: 'Скрыто из списка'
+        text: 'Отображается в списке'
       }],
       show_registered_options: [{
         id: 1,
@@ -4405,18 +4405,29 @@ __webpack_require__.r(__webpack_exports__);
         urlOpened = '/data/demo/opened';
       }
 
-      axios.post(urlOpened).then(function (response) {
+      if (this.isContest) {
+        urlOpened = '/data/tournament/opened';
+      }
+
+      axios.post(urlOpened, {
+        id: this.tradingType === 'tournament' ? this.contestId : 0
+      }).then(function (response) {
         self.opened = response.data;
 
         try {
+          // remove all lines from chart
+          if (self.lines.length > 0) {
+            self.lines.forEach(function (element) {
+              element.remove();
+            });
+            self.lines = [];
+          } // draw all lines for open positions
+
+
           var filtered = self.opened.filter(function (item) {
             return item.symbol_id === window.symbolInfo.id;
           });
           filtered.forEach(function (element) {
-            try {
-              self.lines[element.id].remove();
-            } catch (e) {}
-
             var color = element.type === 1 ? '#23bd70' : '#FF5B5C';
             var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(element.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
             order.setPrice(element.open_price);
@@ -4434,7 +4445,13 @@ __webpack_require__.r(__webpack_exports__);
         urlLatest = '/data/demo/latest';
       }
 
-      axios.post(urlLatest).then(function (response) {
+      if (this.isContest) {
+        urlLatest = '/data/tournament/latest';
+      }
+
+      axios.post(urlLatest, {
+        id: this.tradingType === 'tournament' ? this.contestId : 0
+      }).then(function (response) {
         if (self.latest.length === 0) {
           self.latest = response.data;
         }
@@ -4495,7 +4512,7 @@ __webpack_require__.r(__webpack_exports__);
       this.ps.destroy();
       this.ps = new PerfectScrollbar("#accordionWrapa2");
     },
-    buy: function buy() {
+    placeOrder: function placeOrder(direction, color, text) {
       var _this2 = this;
 
       toastr.warning(null, this.$i18n.t('trade_order_processing'), {
@@ -4509,11 +4526,12 @@ __webpack_require__.r(__webpack_exports__);
         minutes: this.minutes,
         seconds: this.seconds,
         amount: this.$ci.parse(this.amount),
-        type: 1,
-        demo: self.isDemo ? 1 : 0
+        direction: direction,
+        type: this.tradingType,
+        id: this.contestId != null ? this.contestId : 0
       }).then(function (response) {
         self.opened.unshift(response.data);
-        var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_up')).setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#23bd70').setQuantityBackgroundColor('#23bd70').setQuantityBorderColor('#23bd70').setBodyBorderColor('#23bd70').setBodyTextColor('#23bd70');
+        var order = window.tvWidget.chart().createOrderLine().setText(text).setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor(color).setQuantityBackgroundColor(color).setQuantityBorderColor(color).setBodyBorderColor(color).setBodyTextColor(color);
         order.setPrice(response.data.open_price);
         self.lines[response.data.id] = order;
         toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), {
@@ -4522,36 +4540,6 @@ __webpack_require__.r(__webpack_exports__);
         });
       })["catch"](function (error) {
         toastr.error(error.response.data.message, _this2.$i18n.t('trade_error'), {
-          positionClass: 'toast-bottom-left',
-          containerId: 'toast-bottom-left'
-        });
-      });
-    },
-    sell: function sell() {
-      toastr.warning(null, this.$i18n.t('trade_order_processing'), {
-        positionClass: 'toast-bottom-left',
-        containerId: 'toast-bottom-left'
-      });
-      var self = this;
-      axios.post('/binary/buy', {
-        symbol: this.symbol,
-        hours: this.hours,
-        minutes: this.minutes,
-        seconds: this.seconds,
-        amount: this.$ci.parse(this.amount),
-        type: 0,
-        demo: self.isDemo ? 1 : 0
-      }).then(function (response) {
-        self.opened.unshift(response.data);
-        var order = window.tvWidget.chart().createOrderLine().setText(self.$i18n.t('trade_down')).setLineLength(1).setLineStyle(0).setQuantity(response.data.amount + '$').setLineColor('#FF5B5C').setQuantityBackgroundColor('#FF5B5C').setQuantityBorderColor('#FF5B5C').setBodyBorderColor('#FF5B5C').setBodyTextColor('#FF5B5C');
-        order.setPrice(response.data.open_price);
-        self.lines[response.data.id] = order;
-        toastr.info(self.$i18n.t('trade_order_open_by_price') + ' ' + response.data.open_price, self.$i18n.t('trade_order_opened'), {
-          positionClass: 'toast-bottom-left',
-          containerId: 'toast-bottom-left'
-        });
-      })["catch"](function (error) {
-        toastr.error(error.response.data.message, 'Ошибка!', {
           positionClass: 'toast-bottom-left',
           containerId: 'toast-bottom-left'
         });
@@ -4622,6 +4610,15 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.seconds = parsed;
+    },
+    setTradingType: function setTradingType() {
+      if (this.isReal) {
+        this.tradingType = 'real';
+      } else if (this.isDemo) {
+        this.tradingType = 'demo';
+      } else if (this.isContest) {
+        this.tradingType = 'tournament';
+      }
     }
   },
   data: function data() {
@@ -4634,7 +4631,7 @@ __webpack_require__.r(__webpack_exports__);
       number_percent: null,
       amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1,00',
       min: 1,
-      lines: {},
+      lines: [],
       hours: localStorage.getItem('hours') ? localStorage.getItem('hours') : '00',
       minutes: localStorage.getItem('minutes') ? localStorage.getItem('minutes') : '05',
       seconds: localStorage.getItem('seconds') ? localStorage.getItem('seconds') : '00',
@@ -4644,10 +4641,12 @@ __webpack_require__.r(__webpack_exports__);
       latest: [],
       symbolsPercents: [],
       historyLoaded: false,
+      isReal: false,
       isDemo: false,
       isContest: false,
       contestId: 0,
-      canVisibleDemoModal: true
+      canVisibleDemoModal: true,
+      tradingType: ''
     };
   },
   computed: {
@@ -4660,12 +4659,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     $route: function $route(to, from) {
+      this.isReal = this.$router.currentRoute.params.type == null;
       this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
-      this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'contest';
-      this.contestId = this.$router.currentRoute.params.id != null ? this.$router.currentRoute.params.id : '0';
+      this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'tournament';
+      this.contestId = this.$router.currentRoute.params.trading_id != null ? this.$router.currentRoute.params.trading_id : '0';
       this.historyLoaded = false;
-      this.getOpenedHistory();
-      this.getLatestHistory();
+      this.setTradingType();
+
+      if (window.symbolInfo != null && window.location.href.includes(window.location.host + '/trading')) {
+        this.getOpenedHistory();
+        this.getLatestHistory();
+      }
     },
     hours: function hours() {
       var number = parseInt(this.hours);
@@ -12008,22 +12012,26 @@ function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 function findLocalizedText(text) {
-  var localized = 'Text not found...';
-  var getFromLocale = text[getCookie('currentLanguage')];
+  try {
+    var localized = 'Text not found...';
+    var getFromLocale = text[getCookie('currentLanguage')];
 
-  if (getFromLocale != null) {
-    return getFromLocale;
-  }
-
-  window.locales.forEach(function (item) {
-    var current = text[item];
-
-    if (current != null) {
-      localized = current;
-      return false;
+    if (getFromLocale != null) {
+      return getFromLocale;
     }
-  });
-  return localized;
+
+    window.locales.forEach(function (item) {
+      var current = text[item];
+
+      if (current != null) {
+        localized = current;
+        return false;
+      }
+    });
+    return localized;
+  } catch (e) {
+    return 'Loading...';
+  }
 }
 
 /***/ }),
@@ -132452,7 +132460,15 @@ var render = function() {
                           type: "button",
                           disabled: _vm.isButtonDisabled
                         },
-                        on: { click: _vm.buy }
+                        on: {
+                          click: function($event) {
+                            _vm.placeOrder(
+                              1,
+                              "#23bd70",
+                              _vm.$i18n.t("trade_up")
+                            )
+                          }
+                        }
                       },
                       [
                         _c("i", { staticClass: "bx bx-trending-up" }),
@@ -132533,7 +132549,15 @@ var render = function() {
                           type: "button",
                           disabled: _vm.isButtonDisabled
                         },
-                        on: { click: _vm.sell }
+                        on: {
+                          click: function($event) {
+                            _vm.placeOrder(
+                              0,
+                              "#FF5B5C",
+                              _vm.$i18n.t("trade_down")
+                            )
+                          }
+                        }
                       },
                       [
                         _c("i", { staticClass: "bx bx-trending-down" }),

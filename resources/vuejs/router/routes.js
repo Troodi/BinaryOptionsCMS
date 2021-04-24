@@ -10,7 +10,6 @@ import VueRouter from 'vue-router';
 // //Students
 import i18n from '../../vuejs/locales/i18n.js';
 
-const Trading = () => import("../views/user/Trading");
 const Profile = () => import("../views/user/Profile");
 const Deposit = () => import("../views/user/Deposit");
 const History = () => import("../views/user/TradeHistory");
@@ -21,16 +20,18 @@ const Contest = () => import("../views/user/Contest");
 const Promocode = () => import("../views/user/Promocode");
 const PageNotFound = () => import("../views/layouts/PageNotFound");
 const Empty = () => import("../views/user/Empty");
+const ContestInfo = () => import("../views/user/ContestInfo");
 //
 // /**
 //  * Routes for vue components
 //  */
 export const routes = [
-    { path: '/trading/:type?/:id?', name: i18n.t('menu_trading'), component: Empty, meta: { icon: 'desktop', hideFooter: true, hide: true } },
+    { path: '/trading/:type?/:trading_id?', name: i18n.t('menu_trading'), component: Empty, meta: { icon: 'desktop', hideFooter: true, hide: true } },
     { path: '/deposit', name: i18n.t('menu_deposit'), component: Deposit, meta: { icon: 'bank', badge : '50% OFF' } },
     { path: '/withdrawal', name: i18n.t('menu_withdrawal'), component: Withdrawal, meta: { icon: 'coins' } },
     { path: '/promocodes', name: i18n.t('menu_promo_codes'), component: Promocode, meta: { icon: 'bulb' } },
-    { path: '/contests', name: 'Конкурсы', component: Contest, meta: { icon: 'bulb' } },
+    { path: '/tournaments', name: 'Турниры', component: Contest, meta: { icon: 'bulb' } },
+    { path: '/tournament/:tournament_id', name: 'Информация о турнире', component: ContestInfo, meta: { icon: 'bulb', hide: true } },
     { path: '/history', name: i18n.t('menu_history'), component: History, meta: {icon: 'calendar'}},
     { path: '/profile', name: i18n.t('menu_profile'), component: Profile, meta: { icon: 'settings' }},
     { path: '/partner', name: i18n.t('menu_partner'), component: Partner, meta: { icon: 'users' }},

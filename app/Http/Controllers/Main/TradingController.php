@@ -7,6 +7,7 @@ use App\Events\ChangeDemoBalance;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\MarketStatus;
+use App\Models\ContestOpenOrder;
 use App\Models\LatestDemoOrder;
 use App\Models\LatestOrder;
 use App\Models\OpenDemoOrders;
@@ -85,8 +86,9 @@ class TradingController extends Controller
         'seconds' => 'numeric|min:0|max:59',
         'symbol' => 'numeric|min:0',
         'amount' => 'numeric|min:1',
-        'type' => 'numeric|min:0|max:1',
-        'demo' => 'numeric|min:0|max:1',
+        'direction' => 'numeric|min:0|max:1',
+        'type' => 'required',
+        'id' => 'required|numeric|min:0'
       ]);
       $symbol = Symbol::where('id', $request->symbol)->firstOrFail();
       if((Carbon::now()->hour >= $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
@@ -100,7 +102,7 @@ class TradingController extends Controller
       if($seconds < $symbol->min_expiration_time){
         return response()->json(['message' => __('locale.trading_min_30_seconds', ['min_expiration' => self::formatSeconds($symbol->min_expiration_time)])], 422);
       }
-      if(!$request->demo) {
+      if($request->type == 'real') {
         if (Auth::user()->balance - $request->amount < 0) {
           return response()->json(['message' => __('locale.trading_not_enough_money')], 422);
         }
@@ -116,7 +118,7 @@ class TradingController extends Controller
       if($market->first()->market_status != 'market'){
         return response()->json(['message' => __('locale.trading_current_symbol_closed')], 422);
       }
-      if(!$request->demo) { // Если у человека высокая прибыль немного замедляем выставление сделки
+      if($request->type == 'real') { // Если у человека высокая прибыль немного замедляем выставление сделки
         $todayStat = UserTodayStatistic::where('user_id', Auth::user()->id)->first();
         if ($todayStat !== null) {
           $profit = $todayStat->profit;
@@ -138,42 +140,37 @@ class TradingController extends Controller
         return response()->json(['message' => __('locale.trading_place_error_2')], 422);
       }
       $hedge = 0;
-      if(OpenOrders::where('user_id', Auth::user()->id)->where('symbol_id', $request->symbol)->where('type', '<>', $request->type)->count()){
+      if(OpenOrders::where('user_id', Auth::user()->id)->where('symbol_id', $request->symbol)->where('type', '<>', $request->direction)->count()){
         $hedge = 1;
       }
-      if(!$request->demo) { // Если реальный счет
+      if($request->type == 'real') { // Если реальный счет
         $model = new OpenOrders();
-        $model->symbol_id = $request->symbol;
-        $model->user_id = Auth::user()->id;
-        $model->type = $request->type;
-        $model->open_price = $price;
-        $model->hedging = $hedge;
-        $model->percent = $symbols_all->where('id', $request->symbol)->first()->percent;
-        $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
-        $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
-        $model->amount = $request->amount;
-        $model->save();
-        $model->expiration = $seconds - 1;
-        $model->timestamp = Carbon::parse($model->close_at)->timestamp;
         User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-' . $request->amount)]);
         broadcast(new ChangeBalance(Auth::user()->balance - $request->amount, Auth::user()));
-      } else {
+      }
+      elseif($request->type == 'demo'){
         $model = new OpenDemoOrders();
-        $model->symbol_id = $request->symbol;
-        $model->user_id = Auth::user()->id;
-        $model->type = $request->type;
-        $model->open_price = $price;
-        $model->hedging = $hedge;
-        $model->percent = $symbols_all->where('id', $request->symbol)->first()->percent;
-        $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
-        $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
-        $model->amount = $request->amount;
-        $model->save();
-        $model->expiration = $seconds - 1;
-        $model->timestamp = Carbon::parse($model->close_at)->timestamp;
         User::where('id', Auth::user()->id)->update(['demo_balance' => DB::raw('demo_balance-' . $request->amount)]);
         broadcast(new ChangeDemoBalance(Auth::user()->demo_balance - $request->amount, Auth::user()));
       }
+      elseif($request->type == 'tournament'){
+        $model = new ContestOpenOrder();
+        $model->contest_id = $request->id;
+        //TODO оповещение и обновление баланса, проверка на наличия пользователя в конкурсе, проверка на существоание конкурса
+      }
+
+      $model->symbol_id = $request->symbol;
+      $model->user_id = Auth::user()->id;
+      $model->type = $request->direction;
+      $model->open_price = $price;
+      $model->hedging = $hedge;
+      $model->percent = $symbols_all->where('id', $request->symbol)->first()->percent;
+      $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
+      $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
+      $model->amount = $request->amount;
+      $model->save();
+      $model->expiration = $seconds - 1;
+      $model->timestamp = Carbon::parse($model->close_at)->timestamp;
       return $model;
     }
 
