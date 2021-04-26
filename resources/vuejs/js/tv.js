@@ -68,6 +68,7 @@ export class TradingViewWebsocket {
    onmessage(data) {
         const packets = this.parseMessages(data.data);
         packets.forEach((packet) => {
+            window.chartTVLatestTime = new Date().getTime();
             if (packet["~protocol~keepalive~"]) {
                 this.sendRawMessage("~h~" + packet["~protocol~keepalive~"]);
             } else if (packet.session_id) {
@@ -129,7 +130,6 @@ export class TradingViewWebsocket {
                     }
                 }, 200);
             } else if (packet.m && packet.m === "qsd" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.session) {
-                window.chartTVLatestTime = new Date().getTime();
                 const tticker = packet.p[1];
                 const tickerName = tticker.n;
                 const tickerStatus = tticker.s;
@@ -147,12 +147,10 @@ export class TradingViewWebsocket {
                     this._deleteTicker(tickerName);
                 }
             } else if (packet.m && packet.m === "symbol_resolved" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.chartSession) {
-                window.chartTVLatestTime = new Date().getTime();
                 this.firstLoadHistoryData(); // Get history bars
                 this.symbolResolved = true;
                 //barsFromWebSocket();
             } else if (packet.m && packet.m === "timescale_update" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.chartSession) {
-                window.chartTVLatestTime = new Date().getTime();
                 let bars = [];
                 if(packet.p[1].s1.s.length > 1) {
                     packet.p[1].s1.s.forEach(bar => {
@@ -203,7 +201,6 @@ export class TradingViewWebsocket {
                 }, each);
                 this.checkBarsGot = false;
             } else if(packet.m && packet.m === "du"){
-                window.chartTVLatestTime = new Date().getTime();
                 if(packet.p[1].s1.s[0].i > this.symbolIndex){
                     this.symbolIndex = packet.p[1].s1.s[0].i;
                     //console.log(packet.p[1].s1.s[0].i, new Date());

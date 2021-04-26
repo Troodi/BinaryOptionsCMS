@@ -2337,8 +2337,10 @@ __webpack_require__.r(__webpack_exports__);
       isContest: false,
       isReal: false,
       contestId: 0,
+      contestBalance: 0,
       realButtonColor: '#FDAC41 !important',
-      contestButtonColor: '#5a8dee !important'
+      contestButtonColor: '#5a8dee !important',
+      contests_echo: ''
     };
   },
   methods: {
@@ -2378,6 +2380,28 @@ __webpack_require__.r(__webpack_exports__);
       this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
       this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'tournament';
       this.contestId = this.$router.currentRoute.params.trading_id != null ? this.$router.currentRoute.params.trading_id : '0';
+    },
+    isContest: function isContest(value) {
+      var _this2 = this;
+
+      var self = this;
+
+      if (this.contests_echo !== '') {
+        this.$echo["private"](this.contests_echo);
+        this.contests_echo = '';
+      }
+
+      if (this.isContest && this.contestId != 0) {
+        axios.post('/data/tournament/user', {
+          contest_id: self.contestId
+        }).then(function (response) {
+          self.contestBalance = response.data.balance;
+        });
+        this.$echo["private"]('contest_balance.' + this.user.id + '.' + this.contestId).listen('ChangeContestBalance', function (payload) {
+          _this2.contestBalance = parseFloat(payload.balance).toFixed(2);
+        });
+        this.contests_echo = 'contest_balance.' + this.user.id + '.' + this.contestId;
+      }
     }
   },
   computed: {
@@ -10904,6 +10928,8 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
       var packets = this.parseMessages(data.data);
       packets.forEach(function (packet) {
+        window.chartTVLatestTime = new Date().getTime();
+
         if (packet["~protocol~keepalive~"]) {
           _this2.sendRawMessage("~h~" + packet["~protocol~keepalive~"]);
         } else if (packet.session_id) {
@@ -10926,7 +10952,6 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             }
           }, 200);
         } else if (packet.m && packet.m === "qsd" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.session) {
-          window.chartTVLatestTime = new Date().getTime();
           var tticker = packet.p[1];
           var tickerName = tticker.n;
           var tickerStatus = tticker.s;
@@ -10946,14 +10971,11 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             _this2._deleteTicker(tickerName);
           }
         } else if (packet.m && packet.m === "symbol_resolved" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
-          window.chartTVLatestTime = new Date().getTime();
-
           _this2.firstLoadHistoryData(); // Get history bars
 
 
           _this2.symbolResolved = true; //barsFromWebSocket();
         } else if (packet.m && packet.m === "timescale_update" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
-          window.chartTVLatestTime = new Date().getTime();
           var bars = [];
 
           if (packet.p[1].s1.s.length > 1) {
@@ -11016,8 +11038,6 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
           _this2.checkBarsGot = false;
         } else if (packet.m && packet.m === "du") {
-          window.chartTVLatestTime = new Date().getTime();
-
           if (packet.p[1].s1.s[0].i > _this2.symbolIndex) {
             _this2.symbolIndex = packet.p[1].s1.s[0].i; //console.log(packet.p[1].s1.s[0].i, new Date());
           }
@@ -125581,7 +125601,7 @@ var render = function() {
                             [
                               _c("animated-number", {
                                 attrs: {
-                                  value: _vm.demo_balance,
+                                  value: _vm.contestBalance,
                                   formatValue: _vm.formatToPrice,
                                   duration: 1000
                                 }

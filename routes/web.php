@@ -103,6 +103,7 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post('/data/getContestInfo', 'Main\ContestController@getContestInfo');
   Route::post("/data/tournament/latest", 'Main\ContestController@getLatestOrders');
   Route::post("/data/tournament/opened", 'Main\ContestController@getOpenOrders');
+  Route::post("/data/tournament/user", 'Main\ContestController@getContestUser');
 
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
