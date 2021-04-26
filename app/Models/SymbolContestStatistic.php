@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class SymbolContestStatistic extends Model
 {
     use HasFactory;
+    protected $fillable = ['symbol_id', 'contest_id'];
 }

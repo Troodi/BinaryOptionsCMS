@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Main;
 
 use App\Events\ChangeBalance;
+use App\Events\ChangeContestBalance;
 use App\Events\ChangeDemoBalance;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\MarketStatus;
+use App\Models\Contest;
 use App\Models\ContestOpenOrder;
+use App\Models\ContestUser;
 use App\Models\LatestDemoOrder;
 use App\Models\LatestOrder;
 use App\Models\OpenDemoOrders;
@@ -106,8 +109,20 @@ class TradingController extends Controller
         if (Auth::user()->balance - $request->amount < 0) {
           return response()->json(['message' => __('locale.trading_not_enough_money')], 422);
         }
-      } else {
+      } elseif($request->type == 'demo') {
         if (Auth::user()->demo_balance - $request->amount < 0) {
+          return response()->json(['message' => __('locale.trading_not_enough_money')], 422);
+        }
+      } elseif($request->type == 'tournament') {
+        $contest = Contest::where('id', $request->id)->first();
+        if(!$contest){
+          return response()->json(['message' => __('Такого конкурса не существует!')], 422);
+        }
+        $contest_user = ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->first();
+        if(!$contest_user){
+          return response()->json(['message' => __('Вы не зарегистрированы в конкурсе!')], 422);
+        }
+        if ($contest_user->balance - $request->amount < 0) {
           return response()->json(['message' => __('locale.trading_not_enough_money')], 422);
         }
       }
@@ -156,7 +171,11 @@ class TradingController extends Controller
       elseif($request->type == 'tournament'){
         $model = new ContestOpenOrder();
         $model->contest_id = $request->id;
-        //TODO оповещение и обновление баланса, проверка на наличия пользователя в конкурсе, проверка на существоание конкурса
+        ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->update([
+          'balance' => DB::raw('balance-' . $request->amount)
+        ]);
+        $user_contest = ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->first();
+        broadcast(new ChangeContestBalance($user_contest->balance, $user_contest, $request->id));
       }
 
       $model->symbol_id = $request->symbol;

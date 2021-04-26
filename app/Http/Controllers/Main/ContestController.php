@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contest;
 use App\Models\ContestLatestOrder;
 use App\Models\ContestOpenOrder;
+use App\Models\ContestUser;
 use App\Models\LatestOrder;
 use App\Models\OpenOrders;
 use Carbon\Carbon;
@@ -23,6 +24,13 @@ class ContestController extends Controller
       'ended' => $ended,
       'planned' => $planned,
     ];
+  }
+
+  public function getContestUser(Request $request){
+    $request->validate([
+      'contest_id' => 'required|numeric|min:1',
+    ]);
+    return ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->contest_id)->first();
   }
 
   public function getContestInfo(Request $request){

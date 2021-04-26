@@ -12162,6 +12162,8 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
       var packets = this.parseMessages(data.data);
       packets.forEach(function (packet) {
+        window.chartTVLatestTime = new Date().getTime();
+
         if (packet["~protocol~keepalive~"]) {
           _this2.sendRawMessage("~h~" + packet["~protocol~keepalive~"]);
         } else if (packet.session_id) {
@@ -12184,7 +12186,6 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             }
           }, 200);
         } else if (packet.m && packet.m === "qsd" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.session) {
-          window.chartTVLatestTime = new Date().getTime();
           var tticker = packet.p[1];
           var tickerName = tticker.n;
           var tickerStatus = tticker.s;
@@ -12204,14 +12205,11 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
             _this2._deleteTicker(tickerName);
           }
         } else if (packet.m && packet.m === "symbol_resolved" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
-          window.chartTVLatestTime = new Date().getTime();
-
           _this2.firstLoadHistoryData(); // Get history bars
 
 
           _this2.symbolResolved = true; //barsFromWebSocket();
         } else if (packet.m && packet.m === "timescale_update" && _typeof(packet.p) === "object" && packet.p.length > 1 && packet.p[0] === _this2.chartSession) {
-          window.chartTVLatestTime = new Date().getTime();
           var bars = [];
 
           if (packet.p[1].s1.s.length > 1) {
@@ -12274,8 +12272,6 @@ var TradingViewWebsocket = /*#__PURE__*/function () {
 
           _this2.checkBarsGot = false;
         } else if (packet.m && packet.m === "du") {
-          window.chartTVLatestTime = new Date().getTime();
-
           if (packet.p[1].s1.s[0].i > _this2.symbolIndex) {
             _this2.symbolIndex = packet.p[1].s1.s[0].i; //console.log(packet.p[1].s1.s[0].i, new Date());
           }

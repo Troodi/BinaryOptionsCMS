@@ -3,14 +3,20 @@
 namespace App\Console\Commands;
 
 use App\Events\ChangeBalance;
+use App\Events\ChangeContestBalance;
 use App\Events\ChangeDemoBalance;
 use App\Events\CloseOptionEvent;
 use App\MarketStatus;
+use App\Models\Contest;
+use App\Models\ContestLatestOrder;
+use App\Models\ContestOpenOrder;
+use App\Models\ContestUser;
 use App\Models\LatestDemoOrder;
 use App\Models\LatestOrder;
 use App\Models\OpenDemoOrders;
 use App\Models\OpenOrders;
 use App\Models\Referral;
+use App\Models\SymbolContestStatistic;
 use App\Models\SymbolDemoStatistic;
 use App\Models\Symbols\Options\Ticks;
 use App\Models\SymbolShortStatistic;
@@ -59,9 +65,11 @@ class CheckOrdersForClose extends Command
           $start = microtime(true);
           $opened = OpenOrders::where('close_at', '<', Carbon::now()->format('Y-m-d H:i:s.u'))->get();
           $opened_demo = OpenDemoOrders::where('close_at', '<', Carbon::now()->format('Y-m-d H:i:s.u'))->get();
+          $opened_contests = ContestOpenOrder::where('close_at', '<', Carbon::now()->format('Y-m-d H:i:s.u'))->get();
           $market = MarketStatus::all();
-          $this->processOrders($opened, $market, false);
-          $this->processOrders($opened_demo, $market, true);
+          $this->processOrders($opened, $market, 'real');
+          $this->processOrders($opened_demo, $market, 'demo');
+          $this->processOrders($opened_contests, $market, 'tournament');
           $end = microtime(true) - $start;
           if($end < 1000000){
             usleep(1000000 - $end);
@@ -70,7 +78,7 @@ class CheckOrdersForClose extends Command
         return 0;
     }
 
-    private function processOrders($opened, $market, $demo = false){
+    private function processOrders($opened, $market, $type = 'real'){
       foreach($opened as $open){
         $open->delete();
         $closed_price_obj = Ticks::where('symbol_id', $open->symbol_id)
@@ -119,12 +127,7 @@ class CheckOrdersForClose extends Command
           }
         }
 
-        $order_history_table = 'order_history_1';
-        if($demo){
-          $order_history_table = 'order_demo_history_1';
-        }
-
-        DB::table($order_history_table)->insert([
+        $histories = [
           'symbol_id' => $open->symbol_id,
           'user_id' => $open->user_id,
           'close_at' => $open->close_at,
@@ -136,11 +139,26 @@ class CheckOrdersForClose extends Command
           'type' => $open->type,
           'open_at' => Carbon::parse($open->created_at)->format('Y-m-d H:i:s.u'),
           'created_at' => Carbon::now()->format('Y-m-d H:i:s.u'),
-        ]);
+        ];
+
+        $order_history_table = 'order_history_1';
+        if($type == 'demo'){
+          $order_history_table = 'order_demo_history_1';
+        }
+        if($type == 'tournament'){
+          $order_history_table = 'contest_histories';
+          $histories = array_merge($histories, ['contest_id' => $open->contest_id]);
+        }
+
+        DB::table($order_history_table)->insert($histories);
 
         $model = new LatestOrder;
-        if($demo){
+        if($type == 'demo'){
           $model = new LatestDemoOrder;
+        }
+        if($type == 'tournament'){
+          $model = new ContestLatestOrder;
+          $model->contest_id = $open->contest_id;
         }
         $model->symbol_id = $open->symbol_id;
         $model->user_id = $open->user_id;
@@ -156,11 +174,11 @@ class CheckOrdersForClose extends Command
         $model->save();
         $diff = date_diff(new \DateTime($model->close_at), new \DateTime($model->open_at));
         $model->expiration = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
-        broadcast(new CloseOptionEvent($model, $open->id, $success, $open->user_id));
-        if(!$open->hedging and !$demo){ // Если не хеджирование и не демо счет
+        broadcast(new CloseOptionEvent($model, $open->id, $success, $open->user_id)); // TODO под все типы торговли
+        if(!$open->hedging and $type == 'real'){ // Если не хеджирование и не демо счет
           User::where('id', $open->user_id)->where('left_turnover', '>', 0)->update(['left_turnover' => DB::raw("left_turnover-$open->amount")]);
         }
-        if($profit > 0 and !$demo){ // Если прибыль на реал счете
+        if($profit > 0 and $type == 'real'){ // Если прибыль на реал счете
           $user = User::find($open->user_id);
           $user->balance = $user->balance + $profit;
           $user->save();
@@ -175,22 +193,32 @@ class CheckOrdersForClose extends Command
           }
           broadcast(new ChangeBalance($user->balance, $user));
         }
-        if($profit > 0 and $demo){ // Если прибыль на демо счете
+        elseif($profit > 0 and $type == 'demo'){ // Если прибыль на демо счете
           $user = User::find($open->user_id);
           $user->demo_balance = $user->demo_balance + $profit;
           $user->save();
           broadcast(new ChangeDemoBalance($user->demo_balance, $user));
+        } elseif($profit > 0 and $type == 'tournament'){ // Если прибыль на конкурсном счете
+          ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->update([
+            'balance' => DB::raw('balance+'.$profit)
+          ]);
+          $contest_user = ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->first();
+          broadcast(new ChangeContestBalance($contest_user->balance, $contest_user, $open->contest_id));
         }
+
         $latest_order_table = 'latest_orders';
-        if($demo){
+        if($type == 'demo'){
           $latest_order_table = 'latest_demo_orders';
+        }
+        if($type == 'tournament'){
+          $latest_order_table = 'contest_latest_orders';
         }
         $latest_order_table_instance = DB::table($latest_order_table)->where('user_id', $open->user_id);
         $last_id = $latest_order_table_instance->take(10)->latest()->get()->last();
         if($latest_order_table_instance->count() >= 10) {
           DB::table($latest_order_table)->where('id', '<=', $last_id->id)->delete();
         }
-        if(!$demo){
+        if($type == 'real'){
           $model = new SymbolShortStatistic();
           $model->symbol_id = $open->symbol_id;
           $model->amount = $open->amount;
@@ -222,8 +250,7 @@ class CheckOrdersForClose extends Command
               UserTodayStatistic::where('user_id', $open->user_id)->increment('loss');
             }
           }
-
-        } else {
+        } elseif($type == 'demo') {
           if(!SymbolDemoStatistic::where('symbol_id', $open->symbol_id)->where('created_at', '>=', Carbon::today())->count()){
             SymbolDemoStatistic::create(['symbol_id' => $open->symbol_id]);
           }
@@ -236,8 +263,21 @@ class CheckOrdersForClose extends Command
             'daily_profit_count' => DB::raw("daily_profit_count+".($profit > 0 ? '1' : '0')),
             'daily_loss_count' => DB::raw("daily_loss_count+".($profit == 0 ? '1' : '0')),
           ]);
+        } elseif($type == 'tournament') {
+          if(!SymbolContestStatistic::where('symbol_id', $open->symbol_id)->where('contest_id', $open->contest_id)->where('created_at', '>=', Carbon::today())->count()){
+            SymbolContestStatistic::create(['symbol_id' => $open->symbol_id, 'contest_id' => $open->contest_id]);
+          }
+
+          SymbolContestStatistic::where('symbol_id', $open->symbol_id)->where('contest_id', $open->contest_id)->where('created_at', '>=', Carbon::today())->update([
+            'daily_orders_count' => DB::raw('daily_orders_count+1'),
+            'daily_orders_amount' => DB::raw("daily_orders_amount+$open->amount"),
+            'daily_profit' => DB::raw("daily_profit+".($profit > 0 ? strval($profit - $open->amount) : '0')),
+            'daily_loss' => DB::raw("daily_loss+".($profit == 0 ? strval($open->amount) : '0')),
+            'daily_profit_count' => DB::raw("daily_profit_count+".($profit > 0 ? '1' : '0')),
+            'daily_loss_count' => DB::raw("daily_loss_count+".($profit == 0 ? '1' : '0')),
+          ]);
         }
-        if(!$demo and  User::where('id', $open->user_id)->first()->balance < 1 and !OpenOrders::where('user_id', $open->user_id)->count()){
+        if($type == 'real' and  User::where('id', $open->user_id)->first()->balance < 1 and !OpenOrders::where('user_id', $open->user_id)->count()){
           User::where('id', $open->user_id)->update(['bonus' => 0, 'all_turnover' => 0, 'left_turnover' => 0]);
         }
       }

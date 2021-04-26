@@ -53,7 +53,7 @@
                                 </router-link>
                               <router-link :to="'/tournament/' + contestId" class="nav-link" style="padding-top:1.4rem" v-show="isContest">
                                 <template>
-                                  <animated-number :value="demo_balance" :formatValue="formatToPrice" :duration="1000"/>
+                                  <animated-number :value="contestBalance" :formatValue="formatToPrice" :duration="1000"/>
                                 </template>
                               </router-link>
                             </h4>
@@ -196,8 +196,10 @@
                 isContest: false,
                 isReal: false,
                 contestId: 0,
+                contestBalance: 0,
                 realButtonColor: '#FDAC41 !important',
-                contestButtonColor: '#5a8dee !important'
+                contestButtonColor: '#5a8dee !important',
+                contests_echo: '',
             }
         },
         methods: {
@@ -238,6 +240,23 @@
           this.isDemo = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'demo';
           this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'tournament';
           this.contestId = this.$router.currentRoute.params.trading_id != null ? this.$router.currentRoute.params.trading_id : '0';
+        },
+        isContest: function(value){
+          let self = this;
+          if(this.contests_echo !== ''){
+            this.$echo.private(this.contests_echo);
+            this.contests_echo = '';
+          }
+          if(this.isContest && this.contestId != 0) {
+            axios.post('/data/tournament/user', { contest_id: self.contestId})
+              .then((response) => {
+                self.contestBalance = response.data.balance;
+              });
+            this.$echo.private('contest_balance.' + this.user.id + '.' + this.contestId).listen('ChangeContestBalance', (payload) => {
+              this.contestBalance = parseFloat(payload.balance).toFixed(2);
+            });
+            this.contests_echo = 'contest_balance.' + this.user.id + '.' + this.contestId;
+          }
         }
       },
       computed: {
