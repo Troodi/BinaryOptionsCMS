@@ -244,7 +244,7 @@
         isContest: function(value){
           let self = this;
           if(this.contests_echo !== ''){
-            this.$echo.private(this.contests_echo);
+            this.$echo.leave(this.contests_echo);
             this.contests_echo = '';
           }
           if(this.isContest && this.contestId != 0) {
