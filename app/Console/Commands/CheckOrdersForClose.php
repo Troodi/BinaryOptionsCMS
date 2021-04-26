@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use App\Events\ChangeBalance;
 use App\Events\ChangeContestBalance;
 use App\Events\ChangeDemoBalance;
+use App\Events\CloseContestOptionEvent;
+use App\Events\CloseDemoOptionEvent;
 use App\Events\CloseOptionEvent;
 use App\MarketStatus;
 use App\Models\Contest;
@@ -174,7 +176,15 @@ class CheckOrdersForClose extends Command
         $model->save();
         $diff = date_diff(new \DateTime($model->close_at), new \DateTime($model->open_at));
         $model->expiration = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
-        broadcast(new CloseOptionEvent($model, $open->id, $success, $open->user_id)); // TODO под все типы торговли
+        if($type == 'real'){
+          broadcast(new CloseOptionEvent($model, $open->id, $success, $open->user_id));
+        }
+        elseif($type == 'demo'){
+          broadcast(new CloseDemoOptionEvent($model, $open->id, $success, $open->user_id));
+        }
+        elseif($type == 'tournament'){
+          broadcast(new CloseContestOptionEvent($model, $open->id, $success, $open->user_id, $open->contest_id));
+        }
         if(!$open->hedging and $type == 'real'){ // Если не хеджирование и не демо счет
           User::where('id', $open->user_id)->where('left_turnover', '>', 0)->update(['left_turnover' => DB::raw("left_turnover-$open->amount")]);
         }

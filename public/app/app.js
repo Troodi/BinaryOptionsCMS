@@ -2387,7 +2387,7 @@ __webpack_require__.r(__webpack_exports__);
       var self = this;
 
       if (this.contests_echo !== '') {
-        this.$echo["private"](this.contests_echo);
+        this.$echo.leave(this.contests_echo);
         this.contests_echo = '';
       }
 
@@ -3107,54 +3107,6 @@ __webpack_require__.r(__webpack_exports__);
         self.localTV.getTicker(item.broker + ':' + item.symbol.replace('/', ''));
       });
     });
-    this.$echo.channel('symbols').listen('ChangeSymbol', function (payload) {
-      if (self.symbol) {
-        payload.symbols.forEach(function (element) {
-          _this.symbolsPercents[element.id] = element.percent;
-        });
-        var percent;
-
-        if (_this.symbolsPercents[self.symbol] == null) {
-          percent = payload.symbols.find(function (x) {
-            return x.id === self.symbol;
-          }).percent;
-        } else {
-          percent = _this.symbolsPercents[self.symbol];
-        }
-
-        _this.percent = '+ ' + percent.toString() + '%';
-        _this.number_percent = percent;
-        window.symbolInfo.description = percent.toString() + '%';
-        window.symbolInfo.percent = percent;
-        window.$('#' + window.tvWidget._iFrame.name).contents().find('[data-name="legend-source-title"]').first().text(percent.toString() + '%');
-      }
-    });
-    this.$echo["private"]('closed.' + window.user_data.id).listen('CloseOptionEvent', function (payload) {
-      var model = payload.model;
-      self.latest.unshift(model);
-
-      if (payload.success === true) {
-        toastr.success(self.$i18n.t('trade_you_got_profit') + ' ' + model.profit + '$!', self.$i18n.t('trade_order_closed'), {
-          positionClass: 'toast-bottom-left',
-          containerId: 'toast-bottom-left'
-        });
-
-        _this.showDemoModal();
-      } else {
-        toastr.error(self.$i18n.t('trade_order_closed_without_profit'), self.$i18n.t('trade_order_closed'), {
-          positionClass: 'toast-bottom-left',
-          containerId: 'toast-bottom-left'
-        });
-      }
-
-      self.opened = self.opened.filter(function (item) {
-        return item.id !== payload.id;
-      });
-
-      try {
-        self.lines[payload.id].remove();
-      } catch (e) {}
-    });
     setInterval(function () {
       if (!window.dataLoaded) {
         _this.percent = '';
@@ -3187,6 +3139,14 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
+    clearLines: function clearLines() {
+      if (this.lines.length > 0) {
+        this.lines.forEach(function (element) {
+          element.remove();
+        });
+        this.lines = [];
+      }
+    },
     getOpenedHistory: function getOpenedHistory() {
       var self = this;
       self.opened = [];
@@ -3207,13 +3167,7 @@ __webpack_require__.r(__webpack_exports__);
 
         try {
           // remove all lines from chart
-          if (self.lines.length > 0) {
-            self.lines.forEach(function (element) {
-              element.remove();
-            });
-            self.lines = [];
-          } // draw all lines for open positions
-
+          self.clearLines(); // draw all lines for open positions
 
           var filtered = self.opened.filter(function (item) {
             return item.symbol_id === window.symbolInfo.id;
@@ -3402,14 +3356,66 @@ __webpack_require__.r(__webpack_exports__);
 
       this.seconds = parsed;
     },
-    setTradingType: function setTradingType() {
+    setTradingType: function setTradingType(to, from) {
+      this.clearLines();
+
+      if (from !== null && from.path === '/trading') {
+        this.$echo.leave('closed.' + window.user_data.id);
+      } else if (from !== null && from.path === '/trading/demo') {
+        this.$echo.leave('closed_demo.' + window.user_data.id);
+      } else if (from !== null && from.matched.length > 0 && from.matched[0].path === '/trading/:type?/:trading_id?') {
+        this.$echo.leave('closed_contest.' + window.user_data.id + '.' + from.params.trading_id);
+      }
+
       if (this.isReal) {
         this.tradingType = 'real';
+
+        if (to !== null && to.path === '/trading') {
+          this.subscribeCloseEvent('closed.' + window.user_data.id, 'CloseOptionEvent');
+        }
       } else if (this.isDemo) {
         this.tradingType = 'demo';
+        this.subscribeCloseEvent('closed_demo.' + window.user_data.id, 'CloseDemoOptionEvent');
       } else if (this.isContest) {
         this.tradingType = 'tournament';
+        this.subscribeCloseEvent('closed_contest.' + window.user_data.id + '.' + this.contestId, 'CloseContestOptionEvent');
       }
+
+      if (window.symbolInfo != null && window.location.href.includes(window.location.host + '/trading')) {
+        this.getOpenedHistory();
+        this.getLatestHistory();
+      }
+    },
+    subscribeCloseEvent: function subscribeCloseEvent(channel, event) {
+      var _this3 = this;
+
+      var self = this;
+      this.$echo["private"](channel).listen(event, function (payload) {
+        var model = payload.model;
+        self.latest.unshift(model);
+
+        if (payload.success === true) {
+          toastr.success(self.$i18n.t('trade_you_got_profit') + ' ' + model.profit + '$!', self.$i18n.t('trade_order_closed'), {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+
+          _this3.showDemoModal();
+        } else {
+          toastr.error(self.$i18n.t('trade_order_closed_without_profit'), self.$i18n.t('trade_order_closed'), {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        }
+
+        self.opened = self.opened.filter(function (item) {
+          return item.id !== payload.id;
+        });
+
+        try {
+          self.lines[payload.id].remove();
+        } catch (e) {}
+      });
     }
   },
   data: function data() {
@@ -3455,12 +3461,7 @@ __webpack_require__.r(__webpack_exports__);
       this.isContest = (this.$router.currentRoute.params.type != null ? this.$router.currentRoute.params.type : false) === 'tournament';
       this.contestId = this.$router.currentRoute.params.trading_id != null ? this.$router.currentRoute.params.trading_id : '0';
       this.historyLoaded = false;
-      this.setTradingType();
-
-      if (window.symbolInfo != null && window.location.href.includes(window.location.host + '/trading')) {
-        this.getOpenedHistory();
-        this.getLatestHistory();
-      }
+      this.setTradingType(to, from);
     },
     hours: function hours() {
       var number = parseInt(this.hours);
@@ -3525,7 +3526,7 @@ __webpack_require__.r(__webpack_exports__);
       localStorage.setItem('amount', this.amount);
     },
     latest: function latest() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.latest.forEach(function (last) {
         try {
@@ -3539,7 +3540,7 @@ __webpack_require__.r(__webpack_exports__);
             color = 'danger';
           }
 
-          _this3.$set(last, 'textColor', color);
+          _this4.$set(last, 'textColor', color);
         } catch (e) {}
       });
     }
