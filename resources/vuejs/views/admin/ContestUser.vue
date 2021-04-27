@@ -22,8 +22,15 @@
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Пользователь всего оплатил</label>
+                        <label>Пользователь купил конкурсных средств</label>
                         <input v-model="info.paid + ' $'" disabled="disabled" type="text" class="form-control">
+                      </fieldset>
+                    </div>
+
+                    <div class="col-md-4">
+                      <fieldset class="form-group">
+                        <label>Пользователь потратил реальных</label>
+                        <input v-model="info.paid_real + ' $'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 

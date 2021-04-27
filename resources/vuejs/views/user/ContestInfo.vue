@@ -57,13 +57,13 @@
                     <div class="col-md-12 col-xxl-6">
                       <fieldset class="form-group">
                         <label>Сколько хотите докупить:</label>
-                        <input type="text" class="form-control">
+                        <money v-bind:disabled="contest.user == null" v-model="buy_balance" v-bind="money" class="form-control"></money>
                       </fieldset>
-                      <button type="button" class="btn btn-outline-primary w-100">Докупить (стоимость 1.57 $)</button>
+                      <button @click="buyBalanceOnContest" type="button" v-bind:disabled="buy_balance < 0 || contest.user == null" class="btn btn-outline-primary w-100">Докупить (стоимость {{ final_price.toFixed(2) }} $)</button>
                     </div>
                     <div class="col-md-12 col-xxl-6">
-                      <button type="button" class="btn btn-outline-info w-100" style="margin-top: 20px !important;">Участвовать за 10$</button>
-                      <button type="button" class="btn btn-outline-success w-100 mt-1">Перейти к торговле</button>
+                      <button @click="registerOnContest" type="button" v-bind:disabled="contest.user != null" class="btn btn-outline-info w-100" style="margin-top: 20px !important;">Участвовать за {{ contest.initial_cost }}$</button>
+                      <button type="button" v-bind:disabled="contest.user == null" class="btn btn-outline-success w-100 mt-1" @click="goToTrading(contest.id)">Перейти к торговле</button>
                     </div>
                   </div>
                 </div>
@@ -122,6 +122,17 @@
                         <th>Баланс</th>
                       </tr>
                       </thead>
+                      <tbody>
+                      <tr v-for="(winner, index) in winners" v-if="'places' in contest" :style="winner.user_id === contest.user.user_id ? 'background-color: rgba(35, 189, 112, 0.1);' : ''">
+                        <td>#{{ index+1 }}</td>
+                        <td><span class="badge badge-success badge-round text-white">{{ contest.places[index].reward }} $</span></td>
+                        <td>{{ winner.user.email }}</td>
+                        <td>{{ winner.balance }} $</td>
+                      </tr>
+                      <tr v-if="winners.length == 0">
+                      <td colspan="4" class="text-center">Список победителей не сформирован</td>
+                      </tr>
+                      </tbody>
                     </table>
                   </div>
                 </div>
@@ -137,7 +148,7 @@
             <div class="card-content">
               <div class="card-body">
                 <div class="card-text">
-                  <button type="button" class="btn btn-outline-success float-right mb-2" @click="goToTrading(contest.id)">Перейти к торговле</button>
+                  <button type="button" v-bind:disabled="contest.user == null" class="btn btn-outline-success float-right mb-2" @click="goToTrading(contest.id)">Перейти к торговле</button>
                   <button type="button" class="btn btn-outline-danger float-left mb-2" @click="goToContests">К списку турниров</button>
                 </div>
               </div>
@@ -151,12 +162,24 @@
 
 <script>
 import { findLocalizedText } from "../../js/functions";
+import { Money } from "v-money";
 
 export default {
+  components: { Money },
   name: "ContestInfo",
   data: function (){
     return {
+      money: {
+        decimal: ',',
+        thousands: '.',
+        prefix: '$ ',
+        suffix: ' ',
+        precision: 0,
+        masked: false
+      },
+      buy_balance: 1000,
       contest: [],
+      winners: [],
       blockHeight: 0
     }
   },
@@ -164,19 +187,69 @@ export default {
     contestId: function (){
       return this.$route.params.tournament_id == null ? null : this.$route.params.tournament_id;
     },
+    final_price: function (){
+      if('additional_cost' in this.contest){
+        return this.buy_balance * this.contest.additional_cost;
+      }
+      return 0;
+    }
   },
   mounted() {
-    let self = this;
-    axios.post('/data/getContestInfo', { id: self.contestId })
-      .then(function (response) {
-        self.contest = response.data;
-      });
-
+    this.getContestInfo();
     window.onresize = function(event) {
-      self.blockHeight = self.$refs.blockText.clientHeight;
+      try {
+        this.blockHeight = this.$refs.blockText.clientHeight;
+      } catch (e) { }
     };
   },
   methods: {
+    buyBalanceOnContest: function (){
+      let self = this;
+      axios.post('/data/tournament/buy', { contest_id: self.contestId, amount: self.buy_balance })
+        .then(function (response) {
+          self.getContestInfo();
+          if(response.data.success === true) {
+            toastr.success(response.data.message, self.$i18n.t('partner_success'), {
+              positionClass: 'toast-bottom-left',
+              containerId: 'toast-bottom-left'
+            });
+          } else {
+            toastr.error(response.data.message, self.$i18n.t('partner_error'), {
+              positionClass: 'toast-bottom-left',
+              containerId: 'toast-bottom-left'
+            });
+          }
+        });
+    },
+    registerOnContest: function (){
+      let self = this;
+      axios.post('/data/tournament/register', { contest_id: self.contestId })
+        .then(function (response) {
+          self.getContestInfo();
+          if(response.data.success === true) {
+            toastr.success(response.data.message, self.$i18n.t('partner_success'), {
+              positionClass: 'toast-bottom-left',
+              containerId: 'toast-bottom-left'
+            });
+          } else {
+            toastr.error(response.data.message, self.$i18n.t('partner_error'), {
+              positionClass: 'toast-bottom-left',
+              containerId: 'toast-bottom-left'
+            });
+          }
+        });
+    },
+    getContestInfo: function (){
+      let self = this;
+      axios.post('/data/getContestInfo', { id: self.contestId })
+        .then(function (response) {
+          self.contest = response.data;
+        });
+      axios.post('/data/tournament/winners', { contest_id: self.contestId })
+        .then(function (response) {
+          self.winners = response.data;
+        });
+    },
     getLocaleText(text){
       return findLocalizedText(text);
     },

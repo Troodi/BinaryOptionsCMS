@@ -27,7 +27,7 @@
             <div class="overlay-status">
               <p class="mb-25"><small>Тип - "{{ contestTypeText(contest.type) }}"</small></p>
               <button class="btn btn-outline-info" @click="goToInfo(contest.id)">Подробнее о конкурсе</button>
-              <button class="btn btn-success float-right" @click="goToTrading(contest.id)">Перейти к торговле</button>
+              <button v-bind:disabled="contest.user == null" class="btn btn-success float-right" @click="goToTrading(contest.id)">Перейти к торговле</button>
             </div>
           </div>
         </div>

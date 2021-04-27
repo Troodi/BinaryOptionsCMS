@@ -3284,6 +3284,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ContestUser",
@@ -128437,7 +128444,9 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "col-md-4" }, [
                       _c("fieldset", { staticClass: "form-group" }, [
-                        _c("label", [_vm._v("Пользователь всего оплатил")]),
+                        _c("label", [
+                          _vm._v("Пользователь купил конкурсных средств")
+                        ]),
                         _vm._v(" "),
                         _c("input", {
                           directives: [
@@ -128459,6 +128468,38 @@ var render = function() {
                               _vm.$set(
                                 _vm.info,
                                 "paid + ' $'",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-md-4" }, [
+                      _c("fieldset", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Пользователь потратил реальных")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.info.paid_real + " $",
+                              expression: "info.paid_real + ' $'"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { disabled: "disabled", type: "text" },
+                          domProps: { value: _vm.info.paid_real + " $" },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.info,
+                                "paid_real + ' $'",
                                 $event.target.value
                               )
                             }

@@ -7,7 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contest extends Model
 {
-    use HasFactory;
+  use HasFactory;
+
+  public function user()
+  {
+    return $this->hasOne(ContestUser::class);
+  }
 
   public function getTitleAttribute($value)
   {
