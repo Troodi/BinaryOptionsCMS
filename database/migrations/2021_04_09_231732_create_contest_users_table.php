@@ -20,6 +20,7 @@ class CreateContestUsersTable extends Migration
             $table->decimal('initial_balance', 15, 2);
             $table->decimal('balance', 15, 2);
             $table->decimal('paid', 15, 2);
+            $table->decimal('paid_real', 15, 2)->default(0);
             $table->decimal('profit_percent', 10, 2)->default(0);
             $table->decimal('turnover', 10, 2)->default(0);
             $table->integer('paid_times')->default(0);
