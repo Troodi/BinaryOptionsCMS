@@ -129275,7 +129275,7 @@ var render = function() {
                       "this.$route.path.includes('admin/contest') && this.$route.path !== '/admin/contest/create'  && this.$route.path !== '/admin/contests'"
                   }
                 ],
-                staticClass: "nav-item",
+                staticClass: "nav-item open-collapsible",
                 class: {
                   "has-sub sidebar-group-active open":
                     this.$route.path.includes("admin/contest") &&
@@ -129413,7 +129413,7 @@ var render = function() {
                     expression: "this.$route.path.includes('admin/user')"
                   }
                 ],
-                staticClass: "nav-item",
+                staticClass: "nav-item open-collapsible",
                 class: {
                   "has-sub sidebar-group-active open": this.$route.path.includes(
                     "admin/user"

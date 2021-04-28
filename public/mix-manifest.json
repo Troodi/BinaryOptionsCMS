@@ -1,7 +1,7 @@
 {
     "/app/scripts.js": "/app/scripts.js?id=e673ebeef68c4f909549",
-    "/app/app.js": "/app/app.js?id=445489ea985feb9f153b",
-    "/app/admin.js": "/app/admin.js?id=369501471f39d63abd5c",
+    "/app/app.js": "/app/app.js?id=de358e4b8a82637cfb4a",
+    "/app/admin.js": "/app/admin.js?id=6da4713721b0b7d21842",
     "/css/bootstrap.css": "/css/bootstrap.css?id=c9739c99da00e920a5cb",
     "/css/bootstrap-extended.css": "/css/bootstrap-extended.css?id=c94757952130bb2b15c0",
     "/css/core/menu/menu-types/vertical-overlay-menu.css": "/css/core/menu/menu-types/vertical-overlay-menu.css?id=ba1a8283ff0914e60b01",
@@ -31,7 +31,7 @@
     "/css/pages/dashboard-ecommerce.css": "/css/pages/dashboard-ecommerce.css?id=1c0af8d964ccb39f555f",
     "/css/pages/dashboard-analytics.css": "/css/pages/dashboard-analytics.css?id=d1597c636ba508d1e5fd",
     "/css/pages/authentication.css": "/css/pages/authentication.css?id=0d12e27cb96fa7f35c77",
-    "/js/core/app-menu.js": "/js/core/app-menu.js?id=9b7305ab2238faad52d2",
+    "/js/core/app-menu.js": "/js/core/app-menu.js?id=90074aedbf6955684617",
     "/js/core/app.js": "/js/core/app.js?id=10a238bc577865e4ee30",
     "/js/core/libraries/bootstrap.min.js": "/js/core/libraries/bootstrap.min.js?id=af4d7ca5aef97b916cb1",
     "/js/core/libraries/jquery.min.js": "/js/core/libraries/jquery.min.js?id=a46fb81762396b7bf202",
