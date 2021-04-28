@@ -72,7 +72,7 @@
           </ul>
         </li>
 
-        <li id="contestTabs" v-show="this.$route.path.includes('admin/contest') && this.$route.path !== '/admin/contest/create'  && this.$route.path !== '/admin/contests'" class="nav-item" :class="{'has-sub sidebar-group-active open' : this.$route.path.includes('admin/contest') && this.$route.path !== '/admin/contest/create'}">
+        <li id="contestTabs" v-show="this.$route.path.includes('admin/contest') && this.$route.path !== '/admin/contest/create'  && this.$route.path !== '/admin/contests'" class="nav-item open-collapsible" :class="{'has-sub sidebar-group-active open' : this.$route.path.includes('admin/contest') && this.$route.path !== '/admin/contest/create'}">
           <a href="#" onclick="return false;">
             <i class="menu-livicon" :data-icon="'user'"></i>
             <span class="menu-title">Конкурс</span>
@@ -100,7 +100,7 @@
         </li>
 
 <!--        Пользователь-->
-        <li v-show="this.$route.path.includes('admin/user')" class="nav-item" :class="{'has-sub sidebar-group-active open' : this.$route.path.includes('admin/user')}">
+        <li v-show="this.$route.path.includes('admin/user')" class="nav-item open-collapsible" :class="{'has-sub sidebar-group-active open' : this.$route.path.includes('admin/user')}">
           <router-link :to="'/admin/user/profile/'+this.$route.params.id">
             <i class="menu-livicon" :data-icon="'user'"></i>
             <span class="menu-title">{{ $i18n.t('admin_menu_user') }}</span>

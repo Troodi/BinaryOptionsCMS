@@ -33,15 +33,77 @@
                 </router-link>
               </li>
 
-              <router-link v-for="(route,index) in this.$router.options.routes" :key="index" :to="route.path" v-slot="{ href, route, navigate, isActive, isExactActive }">
-                    <li v-if="!route.meta.hide" class="nav-item" :class="[isExactActive && 'active']">
-                        <a :href="href" @click="navigate">
-                            <i class="menu-livicon" :data-icon="route.meta.icon"></i>
-                            <span class="menu-title">{{ route.name }}</span>
-                            <span v-if="route.meta.badge" class="badge badge-primary badge-round float-right text-white">{{ route.meta.badge }}</span>
-                        </a>
-                    </li>
+              <li class="nav-item" v-show="!this.$route.path.includes('/tournament')">
+                <router-link :to="'/tournaments'">
+                  <i class="menu-livicon" :data-icon="'bulb'"></i>
+                  <span class="menu-title">Турниры</span>
                 </router-link>
+              </li>
+
+              <li class="nav-item has-sub sidebar-group-active open" v-show="this.$route.path.includes('/tournament')">
+                <a href="#" onclick="return false;">
+                  <i class="menu-livicon" :data-icon="'user'"></i>
+                  <span class="menu-title">Турниры</span>
+                </a>
+                <ul class="menu-content">
+                  <li :class="{'active' : this.$route.path === '/tournaments'}">
+                    <router-link :to="'/tournaments'" :class="{'active' : this.$route.path === '/tournaments'}">
+                      <i class="bx bx-right-arrow-alt"></i>
+                      <span class="menu-title">Все конкурсы</span>
+                    </router-link>
+                  </li>
+                  <li :class="{'active' : this.$route.path === '/tournament/' + this.$route.params.tournament_id}">
+                    <router-link :to="'/admin/contests'">
+                      <i class="bx bx-right-arrow-alt"></i>
+                      <span class="menu-title">Описание</span>
+                    </router-link>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item" :class="{'active' : this.$route.path === '/deposit'}">
+                <router-link :to="'/deposit'">
+                  <i class="menu-livicon" :data-icon="'bank'"></i>
+                  <span class="menu-title">{{ $i18n.t('menu_deposit') }}</span>
+                  <span class="badge badge-primary badge-round float-right text-white">50% OFF</span>
+                </router-link>
+              </li>
+              <li class="nav-item" :class="{'active' : this.$route.path === '/withdrawal'}">
+                <router-link :to="'/withdrawal'">
+                  <i class="menu-livicon" :data-icon="'coins'"></i>
+                  <span class="menu-title">{{ $i18n.t('menu_withdrawal') }}</span>
+                </router-link>
+              </li>
+              <li class="nav-item" :class="{'active' : this.$route.path === '/promocodes'}">
+                <router-link :to="'/promocodes'">
+                  <i class="menu-livicon" :data-icon="'coins'"></i>
+                  <span class="menu-title">{{ $i18n.t('menu_promo_codes') }}</span>
+                </router-link>
+              </li>
+              <li class="nav-item" :class="{'active' : this.$route.path === '/history'}">
+                <router-link :to="'/history'">
+                  <i class="menu-livicon" :data-icon="'calendar'"></i>
+                  <span class="menu-title">{{ $i18n.t('menu_profile') }}</span>
+                </router-link>
+              </li>
+              <li class="nav-item" :class="{'active' : this.$route.path === '/profile'}">
+                <router-link :to="'/profile'">
+                  <i class="menu-livicon" :data-icon="'calendar'"></i>
+                  <span class="menu-title">{{ $i18n.t('menu_history') }}</span>
+                </router-link>
+              </li>
+              <li class="nav-item" :class="{'active' : this.$route.path === '/partner'}">
+                <router-link :to="'/partner'">
+                  <i class="menu-livicon" :data-icon="'users'"></i>
+                  <span class="menu-title">{{ $i18n.t('menu_partner') }}</span>
+                </router-link>
+              </li>
+              <li class="nav-item" :class="{'active' : this.$route.path === '/support'}">
+                <router-link :to="'/support'">
+                  <i class="menu-livicon" :data-icon="'help'"></i>
+                  <span class="menu-title">{{ $i18n.t('menu_support') }}</span>
+                </router-link>
+              </li>
 
               <li class="nav-item">
                 <a href="/logout" @click.prevent="logout">

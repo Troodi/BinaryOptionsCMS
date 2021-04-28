@@ -796,12 +796,12 @@
         }
         // If menu accordion then close all except clicked once
         else {
-          $listItem.siblings('.open').find('li.open').trigger('close.app.menu');
-          $listItem.siblings('.open').trigger('close.app.menu');
+          $listItem.siblings('.open-collapsible').find('li.open').trigger('close.app.menu');
+          $listItem.siblings('.open-collapsible').trigger('close.app.menu');
         }
 
         e.stopPropagation();
-      }).on('close.app.menu', 'li.open', function (e) {
+      }).on('close.app.menu', 'li.open.open-collapsible', function (e) {
         var $listItem = $(this);
 
         $listItem.removeClass('open');
@@ -820,9 +820,9 @@
           else {
             if ($listItem.has('ul')) {
               if ($listItem.is('.open')) {
-                $listItem.trigger('close.app.menu');
+                  $listItem.trigger('close.app.menu');
               } else {
-                $listItem.trigger('open.app.menu');
+                  $listItem.trigger('open.app.menu');
               }
             } else {
               if (!$listItem.is('.active')) {

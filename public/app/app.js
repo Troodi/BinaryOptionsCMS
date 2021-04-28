@@ -2522,6 +2522,68 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Menu",
   props: ['logo_url', 'icon_url'],
@@ -127666,71 +127728,259 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _vm._l(this.$router.options.routes, function(route, index) {
-              return _c("router-link", {
-                key: index,
-                attrs: { to: route.path },
-                scopedSlots: _vm._u(
-                  [
-                    {
-                      key: "default",
-                      fn: function(ref) {
-                        var href = ref.href
-                        var route = ref.route
-                        var navigate = ref.navigate
-                        var isActive = ref.isActive
-                        var isExactActive = ref.isExactActive
-                        return [
-                          !route.meta.hide
-                            ? _c(
-                                "li",
-                                {
-                                  staticClass: "nav-item",
-                                  class: [isExactActive && "active"]
-                                },
-                                [
-                                  _c(
-                                    "a",
-                                    {
-                                      attrs: { href: href },
-                                      on: { click: navigate }
-                                    },
-                                    [
-                                      _c("i", {
-                                        staticClass: "menu-livicon",
-                                        attrs: { "data-icon": route.meta.icon }
-                                      }),
-                                      _vm._v(" "),
-                                      _c(
-                                        "span",
-                                        { staticClass: "menu-title" },
-                                        [_vm._v(_vm._s(route.name))]
-                                      ),
-                                      _vm._v(" "),
-                                      route.meta.badge
-                                        ? _c(
-                                            "span",
-                                            {
-                                              staticClass:
-                                                "badge badge-primary badge-round float-right text-white"
-                                            },
-                                            [_vm._v(_vm._s(route.meta.badge))]
-                                          )
-                                        : _vm._e()
-                                    ]
-                                  )
-                                ]
-                              )
-                            : _vm._e()
+            _c(
+              "li",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !this.$route.path.includes("/tournament"),
+                    expression: "!this.$route.path.includes('/tournament')"
+                  }
+                ],
+                staticClass: "nav-item"
+              },
+              [
+                _c("router-link", { attrs: { to: "/tournaments" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "bulb" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [_vm._v("Турниры")])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: this.$route.path.includes("/tournament"),
+                    expression: "this.$route.path.includes('/tournament')"
+                  }
+                ],
+                staticClass: "nav-item has-sub sidebar-group-active open"
+              },
+              [
+                _c("a", { attrs: { href: "#", onclick: "return false;" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "user" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [_vm._v("Турниры")])
+                ]),
+                _vm._v(" "),
+                _c("ul", { staticClass: "menu-content" }, [
+                  _c(
+                    "li",
+                    { class: { active: this.$route.path === "/tournaments" } },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          class: {
+                            active: this.$route.path === "/tournaments"
+                          },
+                          attrs: { to: "/tournaments" }
+                        },
+                        [
+                          _c("i", { staticClass: "bx bx-right-arrow-alt" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "menu-title" }, [
+                            _vm._v("Все конкурсы")
+                          ])
                         ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      class: {
+                        active:
+                          this.$route.path ===
+                          "/tournament/" + this.$route.params.tournament_id
                       }
-                    }
-                  ],
-                  null,
-                  true
-                )
-              })
-            }),
+                    },
+                    [
+                      _c("router-link", { attrs: { to: "/admin/contests" } }, [
+                        _c("i", { staticClass: "bx bx-right-arrow-alt" }),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "menu-title" }, [
+                          _vm._v("Описание")
+                        ])
+                      ])
+                    ],
+                    1
+                  )
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                staticClass: "nav-item",
+                class: { active: this.$route.path === "/deposit" }
+              },
+              [
+                _c("router-link", { attrs: { to: "/deposit" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "bank" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("menu_deposit")))
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "badge badge-primary badge-round float-right text-white"
+                    },
+                    [_vm._v("50% OFF")]
+                  )
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                staticClass: "nav-item",
+                class: { active: this.$route.path === "/withdrawal" }
+              },
+              [
+                _c("router-link", { attrs: { to: "/withdrawal" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "coins" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("menu_withdrawal")))
+                  ])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                staticClass: "nav-item",
+                class: { active: this.$route.path === "/promocodes" }
+              },
+              [
+                _c("router-link", { attrs: { to: "/promocodes" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "coins" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("menu_promo_codes")))
+                  ])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                staticClass: "nav-item",
+                class: { active: this.$route.path === "/history" }
+              },
+              [
+                _c("router-link", { attrs: { to: "/history" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "calendar" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("menu_profile")))
+                  ])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                staticClass: "nav-item",
+                class: { active: this.$route.path === "/profile" }
+              },
+              [
+                _c("router-link", { attrs: { to: "/profile" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "calendar" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("menu_history")))
+                  ])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                staticClass: "nav-item",
+                class: { active: this.$route.path === "/partner" }
+              },
+              [
+                _c("router-link", { attrs: { to: "/partner" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "users" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("menu_partner")))
+                  ])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "li",
+              {
+                staticClass: "nav-item",
+                class: { active: this.$route.path === "/support" }
+              },
+              [
+                _c("router-link", { attrs: { to: "/support" } }, [
+                  _c("i", {
+                    staticClass: "menu-livicon",
+                    attrs: { "data-icon": "help" }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "menu-title" }, [
+                    _vm._v(_vm._s(_vm.$i18n.t("menu_support")))
+                  ])
+                ])
+              ],
+              1
+            ),
             _vm._v(" "),
             _c("li", { staticClass: "nav-item" }, [
               _c(
@@ -127758,8 +128008,7 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("li", { attrs: { id: "latestElement" } })
-          ],
-          2
+          ]
         ),
         _vm._v(" "),
         _c("div", {
