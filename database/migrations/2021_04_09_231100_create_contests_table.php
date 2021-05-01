@@ -29,6 +29,7 @@ class CreateContestsTable extends Migration
             $table->integer('type');
             $table->timestamp('started_at');
             $table->timestamp('ended_at');
+            $table->integer('ended_flag')->default(0);
             $table->timestamps();
         });
     }

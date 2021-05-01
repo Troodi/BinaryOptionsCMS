@@ -56,7 +56,7 @@
                         Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание
                         Описание Описание Описание Описание Описание Описание Описание </p>
                     </div>
-                    <ContestItems :contests_items="'planned' in contests ? contests.planned : []"></ContestItems>
+                    <ContestItems :type="'planned'" :contests_items="'planned' in contests ? contests.planned : []"></ContestItems>
                   </div>
 
                   <div class="main-wrapper-content">
@@ -67,7 +67,7 @@
                           Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание
                           Описание Описание Описание Описание Описание Описание Описание </p>
                       </div>
-                      <ContestItems :contests_items="'active' in contests ? contests.active : []"></ContestItems>
+                      <ContestItems :type="'active'" :contests_items="'active' in contests ? contests.active : []"></ContestItems>
                     </div>
 
                     <div class="wrapper-content" data-faq="ended">
@@ -77,7 +77,7 @@
                           Описание Описание Описание Описание Описание Описание Описание Описание Описание Описание
                           Описание Описание Описание Описание Описание Описание Описание </p>
                       </div>
-                      <ContestItems :contests_items="'ended' in contests ? contests.ended : []"></ContestItems>
+                      <ContestItems :type="'ended'" :contests_items="'ended' in contests ? contests.ended : []"></ContestItems>
                     </div>
 
                   </div>

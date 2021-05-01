@@ -208,12 +208,19 @@ class CheckOrdersForClose extends Command
           $user->demo_balance = $user->demo_balance + $profit;
           $user->save();
           broadcast(new ChangeDemoBalance($user->demo_balance, $user));
-        } elseif($profit > 0 and $type == 'tournament'){ // Если прибыль на конкурсном счете
-          ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->update([
-            'balance' => DB::raw('balance+'.$profit)
-          ]);
-          $contest_user = ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->first();
-          broadcast(new ChangeContestBalance($contest_user->balance, $contest_user, $open->contest_id));
+        } elseif($type == 'tournament'){ // Если прибыль на конкурсном счете
+          if($profit > 0) {
+            ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->update([
+              'balance' => DB::raw('balance+' . $profit)
+            ]);
+            $contest_user = ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->first();
+            broadcast(new ChangeContestBalance($contest_user->balance, $contest_user, $open->contest_id));
+          } else {
+            ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->update([
+              'turnover' => DB::raw('turnover+' . $open->amount),
+              'order_count' => DB::raw('order_count+1')
+            ]);
+          }
         }
 
         $latest_order_table = 'latest_orders';

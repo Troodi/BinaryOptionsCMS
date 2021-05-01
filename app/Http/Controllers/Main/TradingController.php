@@ -122,6 +122,9 @@ class TradingController extends Controller
         if(!$contest_user){
           return response()->json(['message' => __('Вы не зарегистрированы в конкурсе!')], 422);
         }
+        if($contest_user->banned){
+          return response()->json(['success' => false, 'message' => 'Вы заблокированы в данном конкурсе!']);
+        }
         if ($contest_user->balance - $request->amount < 0) {
           return response()->json(['message' => __('locale.trading_not_enough_money')], 422);
         }
