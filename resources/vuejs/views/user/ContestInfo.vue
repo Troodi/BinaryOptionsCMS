@@ -59,11 +59,11 @@
                         <label>Сколько хотите докупить:</label>
                         <money v-bind:disabled="contest.user == null" v-model="buy_balance" v-bind="money" class="form-control"></money>
                       </fieldset>
-                      <button @click="buyBalanceOnContest" type="button" v-bind:disabled="buy_balance < 0 || contest.user == null" class="btn btn-outline-primary w-100">Докупить (стоимость {{ final_price.toFixed(2) }} $)</button>
+                      <button @click="buyBalanceOnContest" type="button" v-bind:disabled="buy_balance < 0 || contest.user == null || isTournamentEnded" class="btn btn-outline-primary w-100">Докупить (стоимость {{ final_price.toFixed(2) }} $)</button>
                     </div>
                     <div class="col-md-12 col-xxl-6">
-                      <button @click="registerOnContest" type="button" v-bind:disabled="contest.user != null" class="btn btn-outline-info w-100" style="margin-top: 20px !important;">Участвовать за {{ contest.initial_cost }}$</button>
-                      <button type="button" v-bind:disabled="contest.user == null" class="btn btn-outline-success w-100 mt-1" @click="goToTrading(contest.id)">Перейти к торговле</button>
+                      <button @click="registerOnContest" type="button" v-bind:disabled="contest.user != null || isTournamentEnded" class="btn btn-outline-info w-100" style="margin-top: 20px !important;">Участвовать за {{ contest.initial_cost }}$</button>
+                      <button type="button" v-bind:disabled="contest.user == null || isTournamentEnded" class="btn btn-outline-success w-100 mt-1" @click="goToTrading(contest.id)">Перейти к торговле</button>
                     </div>
                   </div>
                 </div>
@@ -108,6 +108,13 @@
           <section class="card">
             <div class="card-header">
               <h4 class="card-title">Распределение победителей</h4>
+              <div class="heading-elements" style="cursor: default;" v-show="contest.user != null">
+                <ul class="list-inline mb-0">
+                  <li>
+                    Ваше место в конкурсе - <span class="badge badge-info badge-round text-white"><strong>{{ getUserPlace }}</strong> место</span>
+                  </li>
+                </ul>
+              </div>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -177,6 +184,7 @@ export default {
         precision: 0,
         masked: false
       },
+      place: 100,
       buy_balance: 1000,
       contest: [],
       winners: [],
@@ -184,6 +192,21 @@ export default {
     }
   },
   computed: {
+    getUserPlace: function (){
+      if(this.place > 100){
+        return '>100';
+      }
+      if(this.place == 0){
+        return '(рассчитывается...)';
+      }
+      return this.place;
+    },
+    isTournamentEnded: function () {
+      if('additional_cost' in this.contest) {
+        return new Date(this.contest.ended_at) < new Date();
+      }
+      return true;
+    },
     contestId: function (){
       return this.$route.params.tournament_id == null ? null : this.$route.params.tournament_id;
     },
@@ -248,6 +271,10 @@ export default {
       axios.post('/data/tournament/winners', { contest_id: self.contestId })
         .then(function (response) {
           self.winners = response.data;
+        });
+      axios.post('/data/tournament/place', { contest_id: self.contestId })
+        .then(function (response) {
+          self.place = response.data.data;
         });
     },
     getLocaleText(text){

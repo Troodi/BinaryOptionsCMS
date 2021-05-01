@@ -2584,6 +2584,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Menu",
   props: ['logo_url', 'icon_url'],
@@ -2612,6 +2618,14 @@ __webpack_require__.r(__webpack_exports__);
         window.location.href = '';
       });
       return false;
+    }
+  },
+  computed: {
+    tradingId: function tradingId() {
+      return this.$route.params.tournament_id != null ? this.$route.params.tournament_id : this.$route.params.trading_id;
+    },
+    showTradingTabs: function showTradingTabs() {
+      return this.$route.path === '/tournament/' + this.$route.params.tournament_id || this.$route.path === '/trading/tournament/' + this.$route.params.trading_id;
     }
   }
 });
@@ -127805,6 +127819,14 @@ var render = function() {
                   _c(
                     "li",
                     {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.showTradingTabs,
+                          expression: "showTradingTabs"
+                        }
+                      ],
                       class: {
                         active:
                           this.$route.path ===
@@ -127812,13 +127834,56 @@ var render = function() {
                       }
                     },
                     [
-                      _c("router-link", { attrs: { to: "/admin/contests" } }, [
-                        _c("i", { staticClass: "bx bx-right-arrow-alt" }),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "menu-title" }, [
-                          _vm._v("Описание")
-                        ])
-                      ])
+                      _c(
+                        "router-link",
+                        { attrs: { to: "/tournament/" + _vm.tradingId } },
+                        [
+                          _c("i", { staticClass: "bx bx-right-arrow-alt" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "menu-title" }, [
+                            _vm._v("Описание")
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value:
+                            this.$route.path ===
+                            "/trading/tournament/" +
+                              this.$route.params.trading_id,
+                          expression:
+                            "this.$route.path === '/trading/tournament/' + this.$route.params.trading_id"
+                        }
+                      ],
+                      class: {
+                        active:
+                          this.$route.path ===
+                          "/trading/tournament/" + this.$route.params.trading_id
+                      }
+                    },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          attrs: { to: "/trading/tournament/" + _vm.tradingId }
+                        },
+                        [
+                          _c("i", { staticClass: "bx bx-right-arrow-alt" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "menu-title" }, [
+                            _vm._v("Торговля")
+                          ])
+                        ]
+                      )
                     ],
                     1
                   )

@@ -52,10 +52,16 @@
                       <span class="menu-title">Все конкурсы</span>
                     </router-link>
                   </li>
-                  <li :class="{'active' : this.$route.path === '/tournament/' + this.$route.params.tournament_id}">
-                    <router-link :to="'/admin/contests'">
+                  <li v-show="showTradingTabs" :class="{'active' : this.$route.path === '/tournament/' + this.$route.params.tournament_id}">
+                    <router-link :to="'/tournament/' + tradingId">
                       <i class="bx bx-right-arrow-alt"></i>
                       <span class="menu-title">Описание</span>
+                    </router-link>
+                  </li>
+                  <li v-show="this.$route.path === '/trading/tournament/' + this.$route.params.trading_id" :class="{'active' : this.$route.path === '/trading/tournament/' + this.$route.params.trading_id}">
+                    <router-link :to="'/trading/tournament/' + tradingId">
+                      <i class="bx bx-right-arrow-alt"></i>
+                      <span class="menu-title">Торговля</span>
                     </router-link>
                   </li>
                 </ul>
@@ -169,6 +175,14 @@
               window.location.href = '';
             });
             return false;
+          }
+        },
+        computed:{
+          tradingId: function (){
+            return this.$route.params.tournament_id != null ? this.$route.params.tournament_id : this.$route.params.trading_id;
+          },
+          showTradingTabs: function (){
+            return this.$route.path === '/tournament/' + this.$route.params.tournament_id || this.$route.path === '/trading/tournament/' + this.$route.params.trading_id
           }
         }
     }

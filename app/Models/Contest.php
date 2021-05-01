@@ -9,6 +9,8 @@ class Contest extends Model
 {
   use HasFactory;
 
+  protected $fillable = ['ended_flag'];
+
   public function user()
   {
     return $this->hasOne(ContestUser::class);

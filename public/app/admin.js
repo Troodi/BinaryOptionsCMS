@@ -2987,10 +2987,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.$route.params.contest_id == null ? null : this.$route.params.contest_id;
     },
     title: function title() {
-      return this.$route.params.id == null ? this.$i18n.t('Создать новый конкурс') : this.$i18n.t('Редактирование конкурса');
+      return this.$route.params.contest_id == null ? this.$i18n.t('Создать новый конкурс') : this.$i18n.t('Редактирование конкурса');
     },
     button_text: function button_text() {
-      return this.$route.params.id == null ? this.$i18n.t('admin_promocode_edit_create_button') : this.$i18n.t('admin_promocode_edit_save');
+      return this.$route.params.contest_id == null ? this.$i18n.t('admin_promocode_edit_create_button') : this.$i18n.t('admin_promocode_edit_save');
     }
   },
   mounted: function mounted() {

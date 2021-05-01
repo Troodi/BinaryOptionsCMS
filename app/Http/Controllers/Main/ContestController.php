@@ -78,6 +78,9 @@ class ContestController extends Controller
     if(!$contest_user){
       return response()->json(['success' => false, 'message' => 'Вы не зарегистрированы в данном конкурсе!']);
     }
+    if($contest_user->banned){
+      return response()->json(['success' => false, 'message' => 'Вы заблокированы в данном конкурсе!']);
+    }
     if($request->amount < 100){
       return response()->json(['success' => false, 'message' => 'Минимальная сумма покупки 100 конкурсных долларов!']);
     }
@@ -102,6 +105,15 @@ class ContestController extends Controller
     $contest_user = ContestUser::where('user_id', $user->id)->where('contest_id', $request->contest_id)->first();
     broadcast(new ChangeContestBalance($contest_user->balance, $contest_user, $request->contest_id));
     return response()->json(['success' => true, 'message' => 'Вы успешно пополнили конкурсный баланс!']);
+  }
+
+  public function getUserPlace(Request $request){
+    $request->validate([
+      'contest_id' => 'required|numeric|min:1'
+    ]);
+    $user_id = Auth::user()->id;
+    $place = ContestUser::where('user_id', $user_id)->where('contest_id', $request->contest_id)->first()->winner_place;
+    return response()->json(['success' => true, 'data' => $place]);
   }
 
   public function getWinnersForContest(Request $request){
