@@ -148,6 +148,18 @@
                 <span class="menu-title">{{ $i18n.t('admin_menu_promocodes') }}</span>
               </router-link>
             </li>
+            <li :class="{'active' : this.$route.path === '/admin/user/tournaments/'+this.$route.params.id}">
+              <router-link :to="'/admin/user/tournaments/'+this.$route.params.id" :class="{'active' : this.$route.path === '/admin/user/tournaments/'+this.$route.params.id}">
+                <i class="bx bx-right-arrow-alt"></i>
+                <span class="menu-title">Все турниры</span>
+              </router-link>
+            </li>
+            <li v-show="this.$route.path === '/admin/user/tournament/' + this.$route.params.tournament_id + '/user_id/'+this.$route.params.id" :class="{'active' : this.$route.path === '/admin/user/tournament/' + this.$route.params.tournament_id + '/user_id/'+this.$route.params.id}">
+              <router-link :to="'/admin/user/tournament/' +this.$route.params.tournament_id + '/user_id/'+this.$route.params.id">
+                <i class="bx bx-right-arrow-alt"></i>
+                <span class="menu-title">Описание турнира</span>
+              </router-link>
+            </li>
           </ul>
         </li>
 <!--        Конец Пользователь-->

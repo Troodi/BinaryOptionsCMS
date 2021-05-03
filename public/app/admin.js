@@ -3665,6 +3665,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Menu",
   props: ['logo_url', 'icon_url'],
@@ -13027,6 +13039,14 @@ var _Symbol = function _Symbol() {
 
 var PromocodeEdit = function PromocodeEdit() {
   return __webpack_require__.e(/*! import() */ "resources_vuejs_views_admin_PromocodeEdit_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../../views/admin/PromocodeEdit */ "./resources/vuejs/views/admin/PromocodeEdit.vue"));
+};
+
+var Tournament = function Tournament() {
+  return __webpack_require__.e(/*! import() */ "resources_vuejs_views_user_Contest_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../../views/user/Contest */ "./resources/vuejs/views/user/Contest.vue"));
+};
+
+var TournamentInfo = function TournamentInfo() {
+  return __webpack_require__.e(/*! import() */ "resources_vuejs_views_user_ContestInfo_vue-_74270").then(__webpack_require__.bind(__webpack_require__, /*! ../../views/user/ContestInfo */ "./resources/vuejs/views/user/ContestInfo.vue"));
 }; //
 // /**
 //  * Routes for vue components
@@ -13109,6 +13129,20 @@ var routes = [{
     meta: {
       isAdmin: true
     }
+  }, {
+    path: '/admin/user/tournaments/:id',
+    name: _locales_i18n__WEBPACK_IMPORTED_MODULE_0__.default.t('Турниры пользователя'),
+    component: Tournament,
+    meta: {
+      isAdmin: true
+    }
+  }, {
+    path: '/admin/user/tournament/:tournament_id/user_id/:id',
+    name: _locales_i18n__WEBPACK_IMPORTED_MODULE_0__.default.t('Информация о турнире'),
+    component: TournamentInfo,
+    meta: {
+      isAdmin: true
+    }
   }]
 }, {
   path: '/admin/demo',
@@ -13140,15 +13174,15 @@ var routes = [{
   component: _views_admin_ContestEdit__WEBPACK_IMPORTED_MODULE_1__.default
 }, {
   path: '/admin/contest/edit/:contest_id',
-  name: 'Редактирование конкурса',
+  name: 'Редактирование турнира',
   component: _views_admin_ContestEdit__WEBPACK_IMPORTED_MODULE_1__.default
 }, {
   path: '/admin/contest/statistics/:contest_id',
-  name: 'Статистика конкурса',
+  name: 'Статистика турнира',
   component: _views_admin_ContestStatistics__WEBPACK_IMPORTED_MODULE_2__.default
 }, {
   path: '/admin/contest/:contest_id/user/:user_id',
-  name: 'Редактирование участника конкурса',
+  name: 'Редактирование участника турнира',
   component: _views_admin_ContestUser__WEBPACK_IMPORTED_MODULE_3__.default
 }, {
   path: '/admin/promocodes',
@@ -131181,6 +131215,91 @@ var render = function() {
                       )
                     ],
                     1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      class: {
+                        active:
+                          this.$route.path ===
+                          "/admin/user/tournaments/" + this.$route.params.id
+                      }
+                    },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          class: {
+                            active:
+                              this.$route.path ===
+                              "/admin/user/tournaments/" + this.$route.params.id
+                          },
+                          attrs: {
+                            to:
+                              "/admin/user/tournaments/" + this.$route.params.id
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "bx bx-right-arrow-alt" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "menu-title" }, [
+                            _vm._v("Все турниры")
+                          ])
+                        ]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value:
+                            this.$route.path ===
+                            "/admin/user/tournament/" +
+                              this.$route.params.tournament_id +
+                              "/user_id/" +
+                              this.$route.params.id,
+                          expression:
+                            "this.$route.path === '/admin/user/tournament/' + this.$route.params.tournament_id + '/user_id/'+this.$route.params.id"
+                        }
+                      ],
+                      class: {
+                        active:
+                          this.$route.path ===
+                          "/admin/user/tournament/" +
+                            this.$route.params.tournament_id +
+                            "/user_id/" +
+                            this.$route.params.id
+                      }
+                    },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          attrs: {
+                            to:
+                              "/admin/user/tournament/" +
+                              this.$route.params.tournament_id +
+                              "/user_id/" +
+                              this.$route.params.id
+                          }
+                        },
+                        [
+                          _c("i", { staticClass: "bx bx-right-arrow-alt" }),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "menu-title" }, [
+                            _vm._v("Описание турнира")
+                          ])
+                        ]
+                      )
+                    ],
+                    1
                   )
                 ])
               ],
@@ -149007,7 +149126,7 @@ module.exports = JSON.parse('{"управление промокодами в а
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_vuejs_views_admin_Statistics_vue":1,"resources_vuejs_views_user_Profile_vue-_386f0":1,"resources_vuejs_views_user_Deposit_vue":1,"resources_vuejs_views_admin_Deposit_vue":1,"resources_vuejs_views_user_Withdrawal_vue":1,"resources_vuejs_views_admin_Withdrawal_vue":1,"resources_vuejs_views_user_Promocode_vue":1,"resources_vuejs_views_admin_Promocode_vue":1,"resources_vuejs_views_admin_Verify_vue":1,"resources_vuejs_views_admin_TradeHistory_vue":1,"resources_vuejs_views_admin_layouts_User_vue":1,"resources_vuejs_views_user_Partner_vue":1,"resources_vuejs_views_admin_Partner_vue":1,"resources_vuejs_views_admin_Control_vue":1,"resources_vuejs_views_admin_Settings_vue":1,"resources_vuejs_views_layouts_PageNotFound_vue":1,"resources_vuejs_views_admin_DepositSystem_vue":1,"resources_vuejs_views_admin_WithdrawSystem_vue":1,"resources_vuejs_views_admin_Symbol_vue":1,"resources_vuejs_views_admin_PromocodeEdit_vue":1}[chunkId]) return "app/" + chunkId + ".js";
+/******/ 			if ({"resources_vuejs_views_admin_Statistics_vue":1,"resources_vuejs_views_user_Profile_vue-_386f0":1,"resources_vuejs_views_user_Deposit_vue":1,"resources_vuejs_views_admin_Deposit_vue":1,"resources_vuejs_views_user_Withdrawal_vue":1,"resources_vuejs_views_admin_Withdrawal_vue":1,"resources_vuejs_views_user_Promocode_vue":1,"resources_vuejs_views_admin_Promocode_vue":1,"resources_vuejs_views_admin_Verify_vue":1,"resources_vuejs_views_admin_TradeHistory_vue":1,"resources_vuejs_views_admin_layouts_User_vue":1,"resources_vuejs_views_user_Partner_vue":1,"resources_vuejs_views_admin_Partner_vue":1,"resources_vuejs_views_admin_Control_vue":1,"resources_vuejs_views_admin_Settings_vue":1,"resources_vuejs_views_layouts_PageNotFound_vue":1,"resources_vuejs_views_admin_DepositSystem_vue":1,"resources_vuejs_views_admin_WithdrawSystem_vue":1,"resources_vuejs_views_admin_Symbol_vue":1,"resources_vuejs_views_admin_PromocodeEdit_vue":1,"resources_vuejs_views_user_Contest_vue":1,"resources_vuejs_views_user_ContestInfo_vue-_74270":1}[chunkId]) return "app/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

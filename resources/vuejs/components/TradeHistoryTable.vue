@@ -27,7 +27,7 @@ import dateformat from 'dateformat';
 
 export default {
   name: "TradeHistoryTable",
-  props: ['load_url', 'element_id'],
+  props: ['load_url', 'element_id', 'show_it'],
   data: function (){
     return {
       url: this.load_url,
@@ -38,7 +38,6 @@ export default {
     let self = this;
     axios.get('/data/symbols')
       .then(function (response) {
-        console.log(self.url);
         self.symbols = response.data;
         $('#'+self.element).DataTable({
           "iDisplayLength": 10,
@@ -61,6 +60,7 @@ export default {
             {
               data: 'user_id',
               name: 'user_id',
+              visible: self.show_it,
               render: function(data, type, row) {
                 let email ='';
                 if (type === 'display') {

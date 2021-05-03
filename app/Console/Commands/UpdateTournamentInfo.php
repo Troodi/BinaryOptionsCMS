@@ -48,7 +48,7 @@ class UpdateTournamentInfo extends Command
         if(Carbon::now() > $contest->ended_at){
           $contest->update(['ended_flag' => 1]);
         }
-        $contest->update(['registered_users' => ContestUser::where('contest_id', $contest->id)->count()]); //TODO не работает
+        Contest::where('id', $contest->id)->update(['registered_users' => ContestUser::where('contest_id', $contest->id)->count()]); //TODO не работает
         $type = '';
         switch($contest->type){
           case 1:
