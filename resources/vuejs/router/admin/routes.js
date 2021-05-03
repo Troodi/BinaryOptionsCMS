@@ -34,6 +34,8 @@ const DepositSystem = () => import("../../views/admin/DepositSystem");
 const WithdrawSystem = () => import("../../views/admin/WithdrawSystem");
 const Symbol = () => import("../../views/admin/Symbol");
 const PromocodeEdit = () => import("../../views/admin/PromocodeEdit");
+const Tournament = () => import("../../views/user/Contest");
+const TournamentInfo = () => import("../../views/user/ContestInfo");
 //
 // /**
 //  * Routes for vue components
@@ -54,6 +56,8 @@ export const routes = [
             { path: '/admin/user/history/:id', name: i18n.t('admin_menu_trading_history'), component: TradeHistory, meta: { isAdmin: true }},
             { path: '/admin/user/partner/:id', name: i18n.t('admin_menu_referrals'), component: Partner, meta: { isAdmin: true }},
             { path: '/admin/user/promocode/:id', name: i18n.t('admin_menu_promocodes'), component: Promocode, meta: { isAdmin: true }},
+            { path: '/admin/user/tournaments/:id', name: i18n.t('Турниры пользователя'), component: Tournament, meta: { isAdmin: true }},
+            { path: '/admin/user/tournament/:tournament_id/user_id/:id', name: i18n.t('Информация о турнире'), component: TournamentInfo, meta: { isAdmin: true }},
         ]
     },
     { path: '/admin/demo', name: i18n.t('admin_menu_promocodes'), component: Promocode },
@@ -63,9 +67,9 @@ export const routes = [
     { path: '/admin/verify', name: i18n.t('admin_menu_verify'), component: Verify },
     { path: '/admin/contests', name: 'Список конкурсов', component: Contest },
     { path: '/admin/contest/create', name: 'Создание конкурса', component: ContestEdit },
-    { path: '/admin/contest/edit/:contest_id', name: 'Редактирование конкурса', component: ContestEdit },
-    { path: '/admin/contest/statistics/:contest_id', name: 'Статистика конкурса', component: ContestStatistics },
-    { path: '/admin/contest/:contest_id/user/:user_id', name: 'Редактирование участника конкурса', component: ContestUser },
+    { path: '/admin/contest/edit/:contest_id', name: 'Редактирование турнира', component: ContestEdit },
+    { path: '/admin/contest/statistics/:contest_id', name: 'Статистика турнира', component: ContestStatistics },
+    { path: '/admin/contest/:contest_id/user/:user_id', name: 'Редактирование участника турнира', component: ContestUser },
     { path: '/admin/promocodes', name: i18n.t('admin_menu_promocodes'), component: PromocodeAdmin },
     { path: '/admin/promocode/create', name: i18n.t('admin_menu_promocode_edit'), component: PromocodeEdit },
     { path: '/admin/promocode/edit/:id', name: i18n.t('admin_menu_promocodes'), component: PromocodeEdit },

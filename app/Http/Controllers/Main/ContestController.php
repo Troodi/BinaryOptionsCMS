@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Main;
 
 use App\Events\ChangeBalance;
 use App\Events\ChangeContestBalance;
+use App\Helpers\Helper;
+use App\Http\Controllers\Admin\TradeHistoryController;
 use App\Http\Controllers\Controller;
 use App\Models\Contest;
 use App\Models\ContestLatestOrder;
@@ -16,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class ContestController extends Controller
 {
@@ -23,7 +26,13 @@ class ContestController extends Controller
     $request->validate([
       'contest_id' => 'required|numeric|min:1'
     ]);
-    $user = Auth::user();
+    $admin = false;
+    if($request->user_id && Helper::isAdmin()){
+      $admin = true;
+      $request->validate(['user_id' => 'numeric|min:1']);
+    }
+    $user_id = $admin ? $request->user_id : Auth::user()->id;
+    $user = $admin ? User::where('id', $user_id)->first() : Auth::user();
     $contest = Contest::where('id', $request->contest_id)
       ->where('started_at', '<', Carbon::now())
       ->where('ended_at', '>', Carbon::now())
@@ -65,7 +74,13 @@ class ContestController extends Controller
       'amount' => 'required|numeric',
       'contest_id' => 'required|numeric|min:1'
     ]);
-    $user = Auth::user();
+    $admin = false;
+    if($request->user_id && Helper::isAdmin()){
+      $admin = true;
+      $request->validate(['user_id' => 'numeric|min:1']);
+    }
+    $user_id = $admin ? $request->user_id : Auth::user()->id;
+    $user = $admin ? User::where('id', $user_id)->first() : Auth::user();
     $contest = Contest::where('id', $request->contest_id)
       ->where('started_at', '<', Carbon::now())
       ->where('ended_at', '>', Carbon::now())
@@ -111,8 +126,17 @@ class ContestController extends Controller
     $request->validate([
       'contest_id' => 'required|numeric|min:1'
     ]);
-    $user_id = Auth::user()->id;
-    $place = ContestUser::where('user_id', $user_id)->where('contest_id', $request->contest_id)->first()->winner_place;
+    $admin = false;
+    if($request->user_id && Helper::isAdmin()){
+      $admin = true;
+      $request->validate(['user_id' => 'numeric|min:1']);
+    }
+    $user_id = $admin ? $request->user_id : Auth::user()->id;
+    $contest = ContestUser::where('user_id', $user_id)->where('contest_id', $request->contest_id)->first();
+    if(!$contest){
+      return response()->json(['success' => false, 'data' => 0]);
+    }
+    $place = $contest->winner_place;
     return response()->json(['success' => true, 'data' => $place]);
   }
 
@@ -134,7 +158,7 @@ class ContestController extends Controller
         $type = 'turnover';
         break;
     }
-    return ContestUser::with(['user' => function($query) {
+    return ContestUser::with(['user' => function($query){
         $query->select('id', 'email');
       }])
       ->where('contest_id', $request->contest_id)
@@ -148,7 +172,23 @@ class ContestController extends Controller
   }
 
   public function getAllContests(Request $request){
-    $active = Contest::where('hidden', 0)->with(['user'])->where('started_at', '<', Carbon::now())->where('ended_at', '>', Carbon::now())->get();
+    $admin = false;
+    if($request->user_id && Helper::isAdmin()){
+      $admin = true;
+      $request->validate(['user_id' => 'numeric|min:1']);
+    }
+    $user_id = $admin ? $request->user_id : Auth::user()->id;
+    $active = Contest::where('hidden', 0)->with(['user' => function($query) use($user_id){
+        $query->where('contest_users.user_id', '=', $user_id);
+      }])
+      ->where('started_at', '<', Carbon::now())->where('ended_at', '>', Carbon::now())->get()->map(function ($value){
+        $bank = 0;
+        foreach($value->places as $place){
+          $bank += $place['reward'];
+        }
+        $value->bank = $bank;
+        return $value;
+      });
     $ended = Contest::where('hidden', 0)->where('ended_at', '<', Carbon::now())->get();
     $planned = Contest::where('hidden', 0)->where('started_at', '>', Carbon::now())->get();
     return [
@@ -169,7 +209,17 @@ class ContestController extends Controller
     $request->validate([
       'id' => 'required|numeric|min:1'
     ]);
-    return Contest::where('id', $request->id)->with(['user'])->firstOrFail();
+    $admin = false;
+    if($request->user_id && Helper::isAdmin()){
+      $admin = true;
+      $request->validate(['user_id' => 'numeric|min:1']);
+    }
+    $user_id = $admin ? $request->user_id : Auth::user()->id;
+    $contest = Contest::where('id', $request->id)->with(['user' => function($query) use($user_id){
+      $query->where('contest_users.user_id', '=', $user_id);
+    }])->firstOrFail();
+    $contest->registered_users = !$contest->show_registered ? '∞' : $contest->registered_users;
+    return $contest;
   }
 
   public function getOpenOrders(Request $request){
@@ -196,5 +246,33 @@ class ContestController extends Controller
       $item['expiration'] = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
       return $item;
     });
+  }
+
+  public function getHistory(Request $request, $id, $user_id = null){
+    $admin = false;
+    if($user_id && Helper::isAdmin()){
+      $admin = true;
+    }
+    $user_id = $admin ? $user_id : Auth::user()->id;
+    $table = 'contest_histories';
+    $history = DB::table($table)->where('contest_id', $id)->where('user_id', $user_id);
+    $history = $history->join('users', "$table.user_id", '=', 'users.id')
+      ->select([
+        "$table.id",
+        "$table.symbol_id",
+        "$table.user_id",
+        "$table.open_at",
+        "$table.close_at",
+        "$table.amount",
+        "$table.open_price",
+        "$table.close_price",
+        "$table.profit",
+        "$table.percent",
+        "$table.type",
+        "$table.created_at",
+        "users.email",
+      ])
+      ->get();
+    return Datatables::of($history)->make();
   }
 }

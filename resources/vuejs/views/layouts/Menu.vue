@@ -49,7 +49,7 @@
                   <li :class="{'active' : this.$route.path === '/tournaments'}">
                     <router-link :to="'/tournaments'" :class="{'active' : this.$route.path === '/tournaments'}">
                       <i class="bx bx-right-arrow-alt"></i>
-                      <span class="menu-title">Все конкурсы</span>
+                      <span class="menu-title">Все турниры</span>
                     </router-link>
                   </li>
                   <li v-show="showTradingTabs" :class="{'active' : this.$route.path === '/tournament/' + this.$route.params.tournament_id}">

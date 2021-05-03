@@ -63,7 +63,7 @@
                     </div>
                     <div class="col-md-12 col-xxl-6">
                       <button @click="registerOnContest" type="button" v-bind:disabled="contest.user != null || isTournamentEnded" class="btn btn-outline-info w-100" style="margin-top: 20px !important;">Участвовать за {{ contest.initial_cost }}$</button>
-                      <button type="button" v-bind:disabled="contest.user == null || isTournamentEnded" class="btn btn-outline-success w-100 mt-1" @click="goToTrading(contest.id)">Перейти к торговле</button>
+                      <button type="button" v-bind:disabled="contest.user == null || isTournamentEnded || isAdmin" class="btn btn-outline-success w-100 mt-1" @click="goToTrading(contest.id)">Перейти к торговле</button>
                     </div>
                   </div>
                 </div>
@@ -130,7 +130,7 @@
                       </tr>
                       </thead>
                       <tbody>
-                      <tr v-for="(winner, index) in winners" v-if="'places' in contest" :style="winner.user_id === contest.user.user_id ? 'background-color: rgba(35, 189, 112, 0.1);' : ''">
+                      <tr v-for="(winner, index) in winners" v-if="'places' in contest" :style="contest.user != null && winner.user_id === contest.user.user_id ? 'background-color: rgba(35, 189, 112, 0.1);' : ''">
                         <td>#{{ index+1 }}</td>
                         <td><span class="badge badge-success badge-round text-white">{{ contest.places[index].reward }} $</span></td>
                         <td>{{ winner.user.email }}</td>
@@ -149,13 +149,30 @@
         </div>
       </div>
 
+      <div class="row" v-if="contest.user != null">
+        <div class="col-md-12">
+          <section class="card">
+            <div class="card-header">
+              <h4 class="card-title">{{ $i18n.t('admin_trade_title') }}</h4>
+            </div>
+            <div class="card-content">
+              <div class="card-body">
+                <div class="card-text">
+                  <TradeHistoryTable :show_it="false" :load_url="datatableUrl" :element_id="'tournament_trade_history'"></TradeHistoryTable>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
       <div class="row">
         <div class="col-md-12">
           <section class="card">
             <div class="card-content">
               <div class="card-body">
                 <div class="card-text">
-                  <button type="button" v-bind:disabled="contest.user == null" class="btn btn-outline-success float-right mb-2" @click="goToTrading(contest.id)">Перейти к торговле</button>
+                  <button type="button" v-bind:disabled="contest.user == null || isAdmin" class="btn btn-outline-success float-right mb-2" @click="goToTrading(contest.id)">Перейти к торговле</button>
                   <button type="button" class="btn btn-outline-danger float-left mb-2" @click="goToContests">К списку турниров</button>
                 </div>
               </div>
@@ -170,9 +187,10 @@
 <script>
 import { findLocalizedText } from "../../js/functions";
 import { Money } from "v-money";
+import TradeHistoryTable from "../../components/TradeHistoryTable";
 
 export default {
-  components: { Money },
+  components: { Money, TradeHistoryTable },
   name: "ContestInfo",
   data: function (){
     return {
@@ -192,6 +210,12 @@ export default {
     }
   },
   computed: {
+    datatableUrl: function (){
+      return this.isAdmin ? '/data/tournament/history/' + this.$route.params.tournament_id + '/' + this.$route.params.id : '/data/tournament/history/' + this.$route.params.tournament_id;
+    },
+    isAdmin: function (){
+      return this.$route.meta.isAdmin;
+    },
     getUserPlace: function (){
       if(this.place > 100){
         return '>100';
@@ -228,7 +252,8 @@ export default {
   methods: {
     buyBalanceOnContest: function (){
       let self = this;
-      axios.post('/data/tournament/buy', { contest_id: self.contestId, amount: self.buy_balance })
+      let url = this.isAdmin ? '/data/tournament/buy/' + this.$route.params.id : '/data/tournament/buy';
+      axios.post(url, { contest_id: self.contestId, amount: self.buy_balance })
         .then(function (response) {
           self.getContestInfo();
           if(response.data.success === true) {
@@ -246,7 +271,8 @@ export default {
     },
     registerOnContest: function (){
       let self = this;
-      axios.post('/data/tournament/register', { contest_id: self.contestId })
+      let url = this.isAdmin ? '/data/tournament/register/' + this.$route.params.id : '/data/tournament/register';
+      axios.post(url, { contest_id: self.contestId })
         .then(function (response) {
           self.getContestInfo();
           if(response.data.success === true) {
@@ -264,15 +290,18 @@ export default {
     },
     getContestInfo: function (){
       let self = this;
-      axios.post('/data/getContestInfo', { id: self.contestId })
+      let url = this.isAdmin ? '/data/getContestInfo/' + this.$route.params.id : '/data/getContestInfo';
+      axios.post(url, { id: self.contestId })
         .then(function (response) {
           self.contest = response.data;
         });
-      axios.post('/data/tournament/winners', { contest_id: self.contestId })
+      url = this.isAdmin ? '/data/tournament/winners/' + this.$route.params.id : '/data/tournament/winners';
+      axios.post(url, { contest_id: self.contestId })
         .then(function (response) {
           self.winners = response.data;
         });
-      axios.post('/data/tournament/place', { contest_id: self.contestId })
+      url = this.isAdmin ? '/data/tournament/place/' + this.$route.params.id : '/data/tournament/place';
+      axios.post(url, { contest_id: self.contestId })
         .then(function (response) {
           self.place = response.data.data;
         });
@@ -294,7 +323,11 @@ export default {
       this.$router.push('/trading/tournament/' + id);
     },
     goToContests(){
-      this.$router.push('/tournaments');
+      if(!this.isAdmin) {
+        this.$router.push('/tournaments');
+      } else {
+        this.$router.push('/admin/user/tournaments/' + this.$route.params.id);
+      }
     },
   },
   updated: function () {

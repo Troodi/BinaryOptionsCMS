@@ -11811,7 +11811,7 @@ var Empty = function Empty() {
 };
 
 var ContestInfo = function ContestInfo() {
-  return __webpack_require__.e(/*! import() */ "resources_vuejs_views_user_ContestInfo_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/user/ContestInfo */ "./resources/vuejs/views/user/ContestInfo.vue"));
+  return __webpack_require__.e(/*! import() */ "resources_vuejs_views_user_ContestInfo_vue-_74271").then(__webpack_require__.bind(__webpack_require__, /*! ../views/user/ContestInfo */ "./resources/vuejs/views/user/ContestInfo.vue"));
 }; //
 // /**
 //  * Routes for vue components
@@ -126321,7 +126321,7 @@ var render = function() {
                           _c("i", { staticClass: "bx bx-right-arrow-alt" }),
                           _vm._v(" "),
                           _c("span", { staticClass: "menu-title" }, [
-                            _vm._v("Все конкурсы")
+                            _vm._v("Все турниры")
                           ])
                         ]
                       )
@@ -144634,7 +144634,7 @@ module.exports = JSON.parse('{"управление промокодами в а
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_vuejs_views_user_Profile_vue-_386f1":1,"resources_vuejs_views_user_Deposit_vue":1,"resources_vuejs_views_user_TradeHistory_vue":1,"resources_vuejs_views_user_Withdrawal_vue":1,"resources_vuejs_views_user_Support_vue":1,"resources_vuejs_views_user_Partner_vue":1,"resources_vuejs_views_user_Contest_vue":1,"resources_vuejs_views_user_Promocode_vue":1,"resources_vuejs_views_layouts_PageNotFound_vue":1,"resources_vuejs_views_user_Empty_vue":1,"resources_vuejs_views_user_ContestInfo_vue":1}[chunkId]) return "app/" + chunkId + ".js";
+/******/ 			if ({"resources_vuejs_views_user_Profile_vue-_386f1":1,"resources_vuejs_views_user_Deposit_vue":1,"resources_vuejs_views_user_TradeHistory_vue":1,"resources_vuejs_views_user_Withdrawal_vue":1,"resources_vuejs_views_user_Support_vue":1,"resources_vuejs_views_user_Partner_vue":1,"resources_vuejs_views_user_Contest_vue":1,"resources_vuejs_views_user_Promocode_vue":1,"resources_vuejs_views_layouts_PageNotFound_vue":1,"resources_vuejs_views_user_Empty_vue":1,"resources_vuejs_views_user_ContestInfo_vue-_74271":1}[chunkId]) return "app/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

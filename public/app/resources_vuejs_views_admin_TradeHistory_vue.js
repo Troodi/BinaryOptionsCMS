@@ -44,7 +44,7 @@ __webpack_require__(/*! ../../js/core/libraries/bootstrap.min.js */ "./resources
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "TradeHistoryTable",
-  props: ['load_url', 'element_id'],
+  props: ['load_url', 'element_id', 'show_it'],
   data: function data() {
     return {
       url: this.load_url,
@@ -54,7 +54,6 @@ __webpack_require__(/*! ../../js/core/libraries/bootstrap.min.js */ "./resources
   mounted: function mounted() {
     var self = this;
     axios.get('/data/symbols').then(function (response) {
-      console.log(self.url);
       self.symbols = response.data;
       $('#' + self.element).DataTable({
         "iDisplayLength": 10,
@@ -83,6 +82,7 @@ __webpack_require__(/*! ../../js/core/libraries/bootstrap.min.js */ "./resources
         columns: [{
           data: 'user_id',
           name: 'user_id',
+          visible: self.show_it,
           render: function render(data, type, row) {
             var email = '';
 

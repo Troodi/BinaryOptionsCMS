@@ -6,7 +6,7 @@
           <img class="card-img img-fluid" src="https://i.pinimg.com/736x/4a/16/43/4a16434691d860a0ef932fbfb9e5586e.jpg" style="max-height: 200px;object-fit: cover;">
           <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column" style="background: rgba(0, 19, 41, 0.7) !important;">
             <div class="overlay-content text-center">
-              <h1 class="card-title mt-3 pt-2" style="font-size: 30px;color: #bdd1f8;">К сожалению конкурсов не найдено</h1>
+              <h1 class="card-title mt-3 pt-2" style="font-size: 30px;color: #bdd1f8;">К сожалению турниров не найдено</h1>
             </div>
           </div>
         </div>
@@ -20,13 +20,20 @@
           <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column" style="background: rgba(0, 19, 41, 0.7) !important;">
             <div class="overlay-content">
               <h4 class="card-title mb-50">{{ getLocaleText(contest.title) }}</h4>
+              <div class="heading-elements" style="cursor: default;">
+                <ul class="list-inline mb-0">
+                  <li>
+                    <span class="badge badge-primary badge-round text-white">Призовой фонд: {{ contest.bank }}$</span>
+                  </li>
+                </ul>
+              </div>
               <p class="card-text text-max-lines">
                 {{ getLocaleText(contest.description) }}
               </p>
             </div>
             <div class="overlay-status">
               <p class="mb-25"><small>Тип - "{{ contestTypeText(contest.type) }}"</small></p>
-              <button class="btn btn-outline-info" @click="goToInfo(contest.id)">Подробнее о конкурсе</button>
+              <button class="btn btn-outline-info" @click="goToInfo(contest.id)">Подробнее о турнире</button>
               <button v-bind:disabled="contest.user == null || isNotActive" class="btn btn-success float-right" @click="goToTrading(contest.id)">Перейти к торговле</button>
             </div>
           </div>
@@ -46,13 +53,20 @@ export default {
     isNotActive: function (){
       return this.type === 'ended' || this.type === 'planned';
     },
+    isAdmin: function (){
+      return this.$route.meta.isAdmin;
+    },
   },
   methods: {
     goToTrading(id){
       this.$router.push('/trading/tournament/' + id);
     },
     goToInfo(id){
-      this.$router.push('/tournament/' + id);
+      if(!this.isAdmin) {
+        this.$router.push('/tournament/' + id);
+      } else {
+        this.$router.push('/admin/user/tournament/' + id + '/user_id/' + this.$route.params.id);
+      }
     },
     getLocaleText(text){
       return findLocalizedText(text);

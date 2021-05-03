@@ -100,14 +100,22 @@ Route::middleware(['auth', 'cheat'])->group(function () {
   Route::post("/data/demo/refill", 'Main\TradingController@refillDemoBalance');
   //Конкурс
   Route::post('/data/getAllContests', 'Main\ContestController@getAllContests');
+  Route::post('/data/getAllContests/{user_id}', 'Main\ContestController@getAllContests')->middleware('admin');
   Route::post('/data/getContestInfo', 'Main\ContestController@getContestInfo');
+  Route::post('/data/getContestInfo/{user_id}', 'Main\ContestController@getContestInfo')->middleware('admin');
   Route::post("/data/tournament/latest", 'Main\ContestController@getLatestOrders');
   Route::post("/data/tournament/opened", 'Main\ContestController@getOpenOrders');
   Route::post("/data/tournament/user", 'Main\ContestController@getContestUser');
   Route::post("/data/tournament/register", 'Main\ContestController@registerOnContest');
+  Route::post("/data/tournament/register/{user_id}", 'Main\ContestController@registerOnContest')->middleware('admin');
   Route::post("/data/tournament/buy", 'Main\ContestController@buyBalanceOnContest');
+  Route::post("/data/tournament/buy/{user_id}", 'Main\ContestController@buyBalanceOnContest')->middleware('admin');
   Route::post("/data/tournament/winners", 'Main\ContestController@getWinnersForContest');
+  Route::post("/data/tournament/winners/{user_id}", 'Main\ContestController@getWinnersForContest')->middleware('admin');
   Route::post("/data/tournament/place", 'Main\ContestController@getUserPlace');
+  Route::post("/data/tournament/place/{user_id}", 'Main\ContestController@getUserPlace')->middleware('admin');
+  Route::post("/data/tournament/history/{id}", 'Main\ContestController@getHistory')->where('id', '[0-9]+');
+  Route::post("/data/tournament/history/{id}/{user_id}", 'Main\ContestController@getHistory')->where('id', '[0-9]+')->where('user_id', '[0-9]+')->middleware('admin');
 
   // Все остальные страницы
   Route::post("/ping", 'Main\TradingController@ping');
