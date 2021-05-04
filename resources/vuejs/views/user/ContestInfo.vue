@@ -25,19 +25,19 @@
               <img class="card-img img-fluid" src="https://image.freepik.com/free-vector/gradient-geometric-shapes-on-dark-background_23-2148417580.jpg" style="max-height: 200px;object-fit: cover;">
               <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column" style="background: rgba(0, 19, 41, 0.7) !important;">
                 <div class="overlay-content">
-                  <h4 class="card-title mb-50">Информация</h4>
+                  <h4 class="card-title mb-50">{{ $i18n.t('tournament_information') }}</h4>
                     <div class="row card-text mt-1">
                       <div class="col-md-12 col-xxl-6">
-                        <p><strong>Цена участия:</strong> <span class="float-right">{{ contest.initial_cost }} $</span></p>
-                        <p><strong>Начальный баланс:</strong> <span class="float-right">{{ contest.initial_balance }} $</span></p>
-                        <p><strong>Цена конкурсного 1$:</strong> <span class="float-right">{{ contest.additional_cost }} $</span></p>
-                        <p><strong>Тип турнира:</strong> <span class="float-right">{{ contestTypeText(contest.type) }} </span></p>
+                        <p><strong>{{ $i18n.t('tournament_cost') }}:</strong> <span class="float-right">{{ contest.initial_cost }} $</span></p>
+                        <p><strong>{{ $i18n.t('tournament_init_balance') }}:</strong> <span class="float-right">{{ contest.initial_balance }} $</span></p>
+                        <p><strong>{{ $i18n.t('tournament_price_for_1_dollar') }}:</strong> <span class="float-right">{{ contest.additional_cost }} $</span></p>
+                        <p><strong>{{ $i18n.t('tournament_type') }}:</strong> <span class="float-right">{{ contestTypeText(contest.type) }} </span></p>
                       </div>
                       <div class="col-md-12 col-xxl-6">
-                        <p><strong>Макс можно докупить:</strong> <span class="float-right">{{ contest.max_bought_balance }} $</span></p>
-                        <p><strong>Начало:</strong> <span class="float-right">{{ contest.started_at }}</span></p>
-                        <p><strong>Окончание:</strong> <span class="float-right">{{ contest.ended_at }}</span></p>
-                        <p><strong>Всего участников:</strong> <span class="float-right">{{ contest.registered_users }} </span></p>
+                        <p><strong>{{ $i18n.t('tournament_max_re_buy') }}:</strong> <span class="float-right">{{ contest.max_bought_balance }} $</span></p>
+                        <p><strong>{{ $i18n.t('tournament_start') }}:</strong> <span class="float-right">{{ contest.started_at }}</span></p>
+                        <p><strong>{{ $i18n.t('tournament_end') }}:</strong> <span class="float-right">{{ contest.ended_at }}</span></p>
+                        <p><strong>{{ $i18n.t('tournament_total_users') }}:</strong> <span class="float-right">{{ contest.registered_users }} </span></p>
                       </div>
                     </div>
                 </div>
@@ -52,18 +52,18 @@
               <img class="card-img img-fluid" src="https://image.freepik.com/free-vector/gradient-geometric-shapes-dark-background_23-2148445831.jpg" style="max-height: 200px;object-fit: cover;">
               <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column" style="background: rgba(0, 19, 41, 0.7) !important;">
                 <div class="overlay-content">
-                  <h4 class="card-title mb-50">Действия</h4>
+                  <h4 class="card-title mb-50">{{ $i18n.t('tournament_actions') }}</h4>
                   <div class="row card-text mt-1">
                     <div class="col-md-12 col-xxl-6">
                       <fieldset class="form-group">
-                        <label>Сколько хотите докупить:</label>
+                        <label>{{ $i18n.t('tournament_what_to_buy') }}:</label>
                         <money v-bind:disabled="contest.user == null" v-model="buy_balance" v-bind="money" class="form-control"></money>
                       </fieldset>
-                      <button @click="buyBalanceOnContest" type="button" v-bind:disabled="buy_balance < 0 || contest.user == null || isTournamentEnded" class="btn btn-outline-primary w-100">Докупить (стоимость {{ final_price.toFixed(2) }} $)</button>
+                      <button @click="buyBalanceOnContest" type="button" v-bind:disabled="buy_balance < 0 || contest.user == null || isTournamentEnded" class="btn btn-outline-primary w-100">{{ $i18n.t('tournament_re_buy') }} ({{ $i18n.t('tournament_price') }} {{ final_price.toFixed(2) }} $)</button>
                     </div>
                     <div class="col-md-12 col-xxl-6">
-                      <button @click="registerOnContest" type="button" v-bind:disabled="contest.user != null || isTournamentEnded" class="btn btn-outline-info w-100" style="margin-top: 20px !important;">Участвовать за {{ contest.initial_cost }}$</button>
-                      <button type="button" v-bind:disabled="contest.user == null || isTournamentEnded || isAdmin" class="btn btn-outline-success w-100 mt-1" @click="goToTrading(contest.id)">Перейти к торговле</button>
+                      <button @click="registerOnContest" type="button" v-bind:disabled="contest.user != null || isTournamentEnded" class="btn btn-outline-info w-100" style="margin-top: 20px !important;">{{ $i18n.t('tournament_participate_for') }} {{ contest.initial_cost }}$</button>
+                      <button type="button" v-bind:disabled="contest.user == null || isTournamentEnded || isAdmin" class="btn btn-outline-success w-100 mt-1" @click="goToTrading(contest.id)">{{ $i18n.t('tournament_go_to_trade') }}</button>
                     </div>
                   </div>
                 </div>
@@ -77,7 +77,7 @@
         <div class="col-md-12 col-xxl-6">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">Распределение выигрышей</h4>
+              <h4 class="card-title">{{ $i18n.t('tournament_distribution_places') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -86,8 +86,8 @@
                     <table class="table" style="width: 100%;">
                       <thead>
                         <tr>
-                          <th style="width: 50%">Место</th>
-                          <th style="width: 50%">Вознаграждение</th>
+                          <th style="width: 50%">{{ $i18n.t('tournament_place') }}</th>
+                          <th style="width: 50%">{{ $i18n.t('tournament_reward') }}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -107,11 +107,11 @@
         <div class="col-md-12 col-xxl-6">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">Распределение победителей</h4>
+              <h4 class="card-title">{{ $i18n.t('tournament_distribution_winners') }}</h4>
               <div class="heading-elements" style="cursor: default;" v-show="contest.user != null">
                 <ul class="list-inline mb-0">
                   <li>
-                    Ваше место в конкурсе - <span class="badge badge-info badge-round text-white"><strong>{{ getUserPlace }}</strong> место</span>
+                    {{ $i18n.t('tournament_your_place') }} - <span class="badge badge-info badge-round text-white"><strong>{{ getUserPlace }}</strong> {{ $i18n.t('tournament_current_place') }}</span>
                   </li>
                 </ul>
               </div>
@@ -123,10 +123,10 @@
                     <table class="table" style="width: 100%;">
                       <thead>
                       <tr>
-                        <th>Место</th>
-                        <th>Вознаграждение</th>
-                        <th>Пользователь</th>
-                        <th>Баланс</th>
+                        <th>{{ $i18n.t('tournament_place') }}</th>
+                        <th>{{ $i18n.t('tournament_reward') }}</th>
+                        <th>{{ $i18n.t('tournament_current_user') }}</th>
+                        <th>{{ $i18n.t('tournament_balance') }}</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -137,7 +137,7 @@
                         <td>{{ winner.balance }} $</td>
                       </tr>
                       <tr v-if="winners.length == 0">
-                      <td colspan="4" class="text-center">Список победителей не сформирован</td>
+                      <td colspan="4" class="text-center">{{ $i18n.t('tournament_list_of_users') }}</td>
                       </tr>
                       </tbody>
                     </table>
@@ -172,8 +172,8 @@
             <div class="card-content">
               <div class="card-body">
                 <div class="card-text">
-                  <button type="button" v-bind:disabled="contest.user == null || isAdmin" class="btn btn-outline-success float-right mb-2" @click="goToTrading(contest.id)">Перейти к торговле</button>
-                  <button type="button" class="btn btn-outline-danger float-left mb-2" @click="goToContests">К списку турниров</button>
+                  <button type="button" v-bind:disabled="contest.user == null || isAdmin" class="btn btn-outline-success float-right mb-2" @click="goToTrading(contest.id)">{{ $i18n.t('tournament_go_to_trade') }}</button>
+                  <button type="button" class="btn btn-outline-danger float-left mb-2" @click="goToContests">{{ $i18n.t('tournament_go_to_tournaments_list') }}</button>
                 </div>
               </div>
             </div>
@@ -221,7 +221,7 @@ export default {
         return '>100';
       }
       if(this.place == 0){
-        return '(рассчитывается...)';
+        return '('+ this.$i18n.t('tournament_counting') +'...)';
       }
       return this.place;
     },
@@ -312,11 +312,11 @@ export default {
     contestTypeText(type){
       switch(type){
         case 1:
-          return 'Максимальный баланс';
+          return this.$i18n.t('tournament_max_balance');
         case 2:
-          return 'Максимальный прирост';
+          return this.$i18n.t('tournament_max_percent');
         case 3:
-          return 'Максимальный оборот';
+          return this.$i18n.t('tournament_max_turnover');
       }
     },
     goToTrading(id){

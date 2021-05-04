@@ -36,32 +36,32 @@
               <li class="nav-item" v-show="!this.$route.path.includes('/tournament')">
                 <router-link :to="'/tournaments'">
                   <i class="menu-livicon" :data-icon="'bulb'"></i>
-                  <span class="menu-title">Турниры</span>
+                  <span class="menu-title">{{ $i18n.t('tournament_list') }}</span>
                 </router-link>
               </li>
 
               <li class="nav-item has-sub sidebar-group-active open" v-show="this.$route.path.includes('/tournament')">
                 <a href="#" onclick="return false;">
                   <i class="menu-livicon" :data-icon="'user'"></i>
-                  <span class="menu-title">Турниры</span>
+                  <span class="menu-title">{{ $i18n.t('tournament_list') }}</span>
                 </a>
                 <ul class="menu-content">
                   <li :class="{'active' : this.$route.path === '/tournaments'}">
                     <router-link :to="'/tournaments'" :class="{'active' : this.$route.path === '/tournaments'}">
                       <i class="bx bx-right-arrow-alt"></i>
-                      <span class="menu-title">Все турниры</span>
+                      <span class="menu-title">{{ $i18n.t('tournament_all') }}</span>
                     </router-link>
                   </li>
                   <li v-show="showTradingTabs" :class="{'active' : this.$route.path === '/tournament/' + this.$route.params.tournament_id}">
                     <router-link :to="'/tournament/' + tradingId">
                       <i class="bx bx-right-arrow-alt"></i>
-                      <span class="menu-title">Описание</span>
+                      <span class="menu-title">{{ $i18n.t('tournament_desc') }}</span>
                     </router-link>
                   </li>
                   <li v-show="this.$route.path === '/trading/tournament/' + this.$route.params.trading_id" :class="{'active' : this.$route.path === '/trading/tournament/' + this.$route.params.trading_id}">
                     <router-link :to="'/trading/tournament/' + tradingId">
                       <i class="bx bx-right-arrow-alt"></i>
-                      <span class="menu-title">Торговля</span>
+                      <span class="menu-title">{{ $i18n.t('tournament_trading') }}</span>
                     </router-link>
                   </li>
                 </ul>
@@ -89,13 +89,13 @@
               <li class="nav-item" :class="{'active' : this.$route.path === '/history'}">
                 <router-link :to="'/history'">
                   <i class="menu-livicon" :data-icon="'calendar'"></i>
-                  <span class="menu-title">{{ $i18n.t('menu_profile') }}</span>
+                  <span class="menu-title">{{ $i18n.t('menu_history') }}</span>
                 </router-link>
               </li>
               <li class="nav-item" :class="{'active' : this.$route.path === '/profile'}">
                 <router-link :to="'/profile'">
-                  <i class="menu-livicon" :data-icon="'calendar'"></i>
-                  <span class="menu-title">{{ $i18n.t('menu_history') }}</span>
+                  <i class="menu-livicon" :data-icon="'settings'"></i>
+                  <span class="menu-title">{{ $i18n.t('menu_profile') }}</span>
                 </router-link>
               </li>
               <li class="nav-item" :class="{'active' : this.$route.path === '/partner'}">

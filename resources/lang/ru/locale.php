@@ -280,5 +280,28 @@ return [
   'admin_promocodes_deleted' => 'Промокод успешно удален!',
   'admin_promocodes_updated' => 'Промокод успешно обновлен!',
   'admin_promocodes_created' => 'Промокод успешно создан',
+
+  //Tournaments in admin
+  'admin_tournament_name' => 'Необходимо заполнить заголовок конкурса!',
+  'admin_tournament_desc' => 'Необходимо заполнить описание конкурса!',
+  'admin_tournament_created' => 'Конкурс успешно создан!',
+  'admin_tournament_updated' => 'Конкурс успешно обновлен!',
+
+  //Tournaments
+  'tournament_inactive' => 'Данный конкурс неактивен!',
+  'tournament_not_enough_money' => 'Недостаточно баланса для регистрации на конкурсе!',
+  'tournament_already_registered' => 'Вы уже зарегистрированы в конкурсе!',
+  'tournament_successfully_registered' => 'Вы успешно зарегистрировались в конкурсе!',
+  'tournament_not_registered' => 'Вы не зарегистрированы в данном конкурсе!',
+  'tournament_blocked' => 'Вы заблокированы в данном конкурсе!',
+  'tournament_min_amount' => 'Минимальная сумма покупки 100 конкурсных долларов!',
+  'tournament_not_enough_balance' => 'Недостаточно баланса для пополнения конкурсного счета!',
+  'tournament_max_amount' => 'Вы превысили максимальную сумму покупки конкурсных средств!',
+  'tournament_success_bought_balance' => 'Вы успешно пополнили конкурсный баланс!',
+
+  //Tournaments trading
+  'tournament_trading_not_exist' => 'Такого конкурса не существует!',
+  'tournament_trading_already_registered' => 'Вы не зарегистрированы в конкурсе!',
+  'tournament_trading_blocked' => 'Вы заблокированы в данном конкурсе!',
 ];
 ?>

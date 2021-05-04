@@ -4,13 +4,13 @@
       <thead>
       <tr>
         <th>{{ $i18n.t('admin_stat_email') }}</th>
-        <th>Онлайн</th>
-        <th>Начальный баланс</th>
-        <th>Баланс</th>
-        <th>Докупил на сумму</th>
-        <th>Доход %</th>
-        <th>Оборот</th>
-        <th>Место</th>
+        <th>{{ $i18n.t('admin_tournament_online') }}</th>
+        <th>{{ $i18n.t('admin_tournament_initial_balance') }}</th>
+        <th>{{ $i18n.t('admin_tournament_balance') }}</th>
+        <th>{{ $i18n.t('admin_tournament_re_buy_total') }}</th>
+        <th>{{ $i18n.t('admin_tournament_profit_in_percent') }}</th>
+        <th>{{ $i18n.t('admin_tournament_turnover') }}</th>
+        <th>{{ $i18n.t('admin_tournament_place') }}</th>
       </tr>
       </thead>
     </table>

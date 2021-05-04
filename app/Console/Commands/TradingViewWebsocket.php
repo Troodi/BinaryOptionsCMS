@@ -123,7 +123,6 @@ class TradingViewWebsocket extends Command
         $string = $this->websocket->receive();
         $packets = $this->parseMessages($string);
         foreach($packets as $packet){
-          Cache::put('latest_websocket_update', true, 30);
           if(is_array($packet) and $packet["~protocol~keepalive~"]){
             $this->sendRawMessage("~h~".$packet["~protocol~keepalive~"]);
           } elseif(isset($packet->session_id)) {
@@ -197,6 +196,7 @@ class TradingViewWebsocket extends Command
             $this->customMessageAllSymbols($this->sessionStatus, $this->symbols_all);
             $this->sessionRegistered = true;
           } elseif (isset($packet->m) && $packet->m === "qsd" && isset($packet->p)) {// && $packet->p[0] === $this->session
+            Cache::put('latest_websocket_update', true, 30);
             $tticker = $packet->p[1];
             $tickerName = $tticker->n;
             $tickerStatus = $tticker->s;
@@ -246,7 +246,8 @@ class TradingViewWebsocket extends Command
             }
           }
         }
-      } catch (\WebSocket\ConnectionException $e) {
+      } catch (\Exception $e) {
+        var_dump($e->getMessage());
         $this->runParsing();
       }
     }

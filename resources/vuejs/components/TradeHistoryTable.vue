@@ -84,10 +84,10 @@ export default {
               data: 'amount',
               name: 'amount',
               render: function(data, type, row) {
-                let path = 'выше';
+                let path = self.$i18n.t('trade_up');
                 let classname = 'success';
                 if(row.type === 0){
-                  path = 'ниже';
+                  path = self.$i18n.t('trade_down');
                   classname = 'danger';
                 }
                 return '<div class="badge badge-secondary cursor-pointer" data-trigger="hover" data-toggle="popover" data-placement="top" data-container="body" data-original-title="' +

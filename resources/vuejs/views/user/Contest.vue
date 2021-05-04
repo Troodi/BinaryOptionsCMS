@@ -6,13 +6,11 @@
             <div class="card faq-bg bg-transparent box-shadow-0 p-1 p-md-5">
               <div class="card-content">
                 <div class="card-body p-0">
-                  <h1 class="faq-title text-center mb-1">Турниры для турниры</h1>
+                  <h1 class="faq-title text-center mb-1">{{ $i18n.t('tournament_for_traders') }}</h1>
                   <p class="card-text text-center">
                     <img src="/images/icon/cup.png" height="120" width="120" class="img-fluid">
                   </p>
-                  <p class="card-text text-center mt-1 font-medium-1 text-muted">
-                    В турнирах для трейдеров можно получать высокие вознаграждения за выдающиеся результаты в торговле.<br> Торгуйте и получайте вознаграждения!<br>
-                  </p>
+                  <p class="card-text text-center mt-1 font-medium-1 text-muted" v-html="$i18n.t('tournament_for_traders_desc')"></p>
                 </div>
               </div>
             </div>
@@ -31,15 +29,15 @@
                     <div class="swiper-wrapper">
                       <div class="swiper-slide rounded swiper-shadow" id="planned" style="width: 30% !important;min-width: 200px;"> <i
                         class="bx bx-flag mb-1 font-large-1"></i>
-                        <div class="cent-text1">Запланированные турниры</div>
+                        <div class="cent-text1">{{ $i18n.t('tournament_panned') }}</div>
                       </div>
                       <div class="swiper-slide rounded swiper-shadow" id="active" style="width: 30% !important;min-width: 200px;"> <i
                         class="bx bx-flag mb-1 font-large-1"></i>
-                        <div class="cent-text1">Активные турниры</div>
+                        <div class="cent-text1">{{ $i18n.t('tournament_active') }}</div>
                       </div>
                       <div class="swiper-slide rounded swiper-shadow" id="ended" style="width: 30% !important;min-width: 200px;"> <i
                         class="bx bx-dollar-circle mb-1 font-large-1"></i>
-                        <div class="cent-text1">Завершенные турниры</div>
+                        <div class="cent-text1">{{ $i18n.t('tournament_ended') }}</div>
                       </div>
                     </div>
                     <!-- Add Arrows -->
@@ -49,8 +47,8 @@
 
                   <div class="wrapper-content" data-faq="planned">
                     <div class="text-center p-md-4 p-sm-1 py-1 p-0">
-                      <h1 class="faq-title">Запланированные турниры</h1>
-                      <p>Здесь вы можете увидеть запланированные турниры, участвовать в них пока нельзя, но можно подготовиться к регистрации.</p>
+                      <h1 class="faq-title">{{ $i18n.t('tournament_panned') }}</h1>
+                      <p>{{ $i18n.t('tournament_planned_desc') }}</p>
                     </div>
                     <ContestItems :type="'planned'" :contests_items="'planned' in contests ? contests.planned : []"></ContestItems>
                   </div>
@@ -58,16 +56,16 @@
                   <div class="main-wrapper-content">
                     <div class="wrapper-content" data-faq="active">
                       <div class="text-center p-md-4 p-sm-1 py-1 p-0">
-                        <h1 class="faq-title">Список активных турниров</h1>
-                        <p>Зарегистрируйтесь в активных турниры чтобы стать участником и побороться за призовое место. </p>
+                        <h1 class="faq-title">{{ $i18n.t('tournament_active') }}</h1>
+                        <p>{{ $i18n.t('tournament_active_desc') }}</p>
                       </div>
                       <ContestItems :type="'active'" :contests_items="'active' in contests ? contests.active : []"></ContestItems>
                     </div>
 
                     <div class="wrapper-content" data-faq="ended">
                       <div class="text-center p-md-4 p-sm-1 py-1 p-0">
-                        <h1 class="faq-title">Завершенные турниры</h1>
-                        <p>Данные турниры уже закончились, однако можно посмотреть их результаты. </p>
+                        <h1 class="faq-title">{{ $i18n.t('tournament_ended') }}</h1>
+                        <p>{{ $i18n.t('tournament_ended_desc') }}</p>
                       </div>
                       <ContestItems :type="'ended'" :contests_items="'ended' in contests ? contests.ended : []"></ContestItems>
                     </div>

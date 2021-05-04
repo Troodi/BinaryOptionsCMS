@@ -5,7 +5,7 @@
         <div class="col-md-12">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">Пользователи участвующие в конкурсе</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_tournament_users_on_contest') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -22,7 +22,7 @@
         <div class="col-md-12">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">Статистика конкурса по дням</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_tournament_contest_stat_by_days') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">

@@ -44,55 +44,55 @@
                     </div>
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>{{ $i18n.t('Начальный баланс трейдера') }}</label>
+                        <label>{{ $i18n.t('admin_tournament_init_deposit') }}</label>
                         <money v-bind="money" v-model="start_deposit" type="text" class="form-control"></money>
                       </fieldset>
                     </div>
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>{{ $i18n.t('Цена участия') }}</label>
+                        <label>{{ $i18n.t('admin_tournament_init_price') }}</label>
                         <money v-bind="money" v-model="cost" type="text" class="form-control"></money>
                       </fieldset>
                     </div>
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label class="align-top">{{ $i18n.t('Цена за докупаемый баланс (цена за 1$)') }}</label>
+                        <label class="align-top">{{ $i18n.t('admin_tournament_price_add') }}</label>
                         <money v-model="add_cost" v-bind="money" class="form-control input-lg"></money>
                       </fieldset>
                     </div>
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>{{ $i18n.t('Максимальный баланс, до которого можно докупить') }}</label>
+                        <label>{{ $i18n.t('admin_tournament_max_balance') }}</label>
                         <money v-model="max_balance" v-bind="money" class="form-control input-lg"></money>
                       </fieldset>
                     </div>
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>{{ $i18n.t('Отображается на странице конкурсов') }}</label>
+                        <label>{{ $i18n.t('admin_tournament_show_for_users') }}</label>
                         <select2 v-model="hidden" :options="hidden_options" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
                       </fieldset>
                     </div>
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>{{ $i18n.t('Отображать количество зарегистрированных') }}</label>
+                        <label>{{ $i18n.t('admin_tournament_show_registered') }}</label>
                         <select2 v-model="show_registered" :options="show_registered_options" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
                       </fieldset>
                     </div>
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label class="align-top">{{ $i18n.t('Выигрыш рассчитывается по') }}</label>
+                        <label class="align-top">{{ $i18n.t('admin_tournament_reward_counting_by') }}</label>
                         <select2 v-model="type_option" :options="type_options" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
                       </fieldset>
                     </div>
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>{{ $i18n.t('Зарегистрировано пользователей') }}</label>
+                        <label>{{ $i18n.t('admin_tournament_registered_users') }}</label>
                         <b-form-input v-model="registered" :id="'type-number2'" :type="'number'" disabled></b-form-input>
                       </fieldset>
                     </div>
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>{{ $i18n.t('Доход конкуса с учетом пополнений') }}</label>
+                        <label>{{ $i18n.t('admin_tournament_profit_from_tournament') }}</label>
                         <money v-model="earned" v-bind="money" class="form-control input-lg" disabled></money>
                       </fieldset>
                     </div>
@@ -113,13 +113,13 @@
                   <div class="row">
                     <div class="col-md-4" v-for="locale in locales">
                       <fieldset class="form-group">
-                        <label>{{ $i18n.t('Название конкурса') }} (Язык: {{ locale }})</label>
+                        <label>{{ $i18n.t('admin_tournament_name_of_tournament') }} ({{ $i18n.t('admin_tournament_language') }}: {{ locale }})</label>
                         <input type="text" class="form-control" v-model="name[locale]">
                       </fieldset>
                     </div>
                     <div class="col-md-12" v-for="locale in locales">
                       <fieldset class="form-group">
-                        <label>{{ $i18n.t('admin_promocode_edit_desc') }} (Язык описания: {{ locale }})</label>
+                        <label>{{ $i18n.t('admin_tournament_desc') }} ({{ $i18n.t('admin_tournament_language_description') }}: {{ locale }})</label>
                         <textarea type="text" class="form-control" style="width: 100%; height: 150px;" v-model="desc[locale]"></textarea>
                       </fieldset>
                     </div>
@@ -130,9 +130,9 @@
                         <table class="table">
                           <thead>
                           <tr>
-                            <th>Место</th>
-                            <th>Выигрыш в $</th>
-                            <th>Действие</th>
+                            <th>{{ $i18n.t('admin_tournament_place') }}</th>
+                            <th>{{ $i18n.t('admin_tournament_reward_in_dollars') }}</th>
+                            <th>{{ $i18n.t('admin_tournament_action') }}</th>
                           </tr>
                           </thead>
                           <tbody>
@@ -140,8 +140,8 @@
                             <td class="text-bold-500">#{{ index+1 }}</td>
                             <td><money v-model="place.reward" v-bind="money" :key="index" class="form-control"></money></td>
                             <td>
-                              <button @click="addNewPlace()" type="button" class="btn btn-outline-success btn-sm" v-show="places.length === index+1">Добавить место</button>
-                              <button @click="deletePlace(index)" type="button" class="btn btn-outline-danger btn-sm" v-bind:disabled="places.length === 1">Удалить</button>
+                              <button @click="addNewPlace()" type="button" class="btn btn-outline-success btn-sm" v-show="places.length === index+1">{{ $i18n.t('admin_tournament_add_place') }}</button>
+                              <button @click="deletePlace(index)" type="button" class="btn btn-outline-danger btn-sm" v-bind:disabled="places.length === 1">{{ $i18n.t('admin_tournament_delete') }}</button>
                             </td>
                           </tr>
                           </tbody>
@@ -151,7 +151,7 @@
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <button v-show="contestId" @click="goToStatisticsPage" type="button" class="btn btn-outline-info float-left">Участники и статистика</button>
+                      <button v-show="contestId" @click="goToStatisticsPage" type="button" class="btn btn-outline-info float-left">{{ $i18n.t('admin_tournament_users_and_stat') }}</button>
                       <button type="button" @click="saveContest" class="btn btn-outline-primary float-right">{{ button_text }}</button>
                     </div>
                   </div>
@@ -186,17 +186,17 @@ name: "ContestEdit",
       places: [{'reward': 1000}],
       end_date: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
       type_options: [
-        { id: 1, text: 'Максимальный баланс' },
-        { id: 2, text: 'Максимальный прирост' },
-        { id: 3, text: 'Максимальный оборот' },
+        { id: 1, text: this.$i18n.t('tournament_max_balance') },
+        { id: 2, text: this.$i18n.t('tournament_max_percent') },
+        { id: 3, text: this.$i18n.t('tournament_max_turnover') },
       ],
       hidden_options: [
-        { id: 1, text: 'Скрыто из списка' },
-        { id: 0, text: 'Отображается в списке' },
+        { id: 1, text: this.$i18n.t('admin_tournament_hidden_from_list') },
+        { id: 0, text: this.$i18n.t('admin_tournament_show_on_list')},
       ],
       show_registered_options: [
-        { id: 1, text: 'Отображать количество зарегистрированных' },
-        { id: 0, text: 'Скрывать количество зарегистрированных' },
+        { id: 1, text: this.$i18n.t('admin_tournament_show_registered') },
+        { id: 0, text: this.$i18n.t('admin_tournament_hide_registered') },
       ],
       show_registered: 0,
       name: [],
@@ -221,7 +221,7 @@ name: "ContestEdit",
       return this.$route.params.contest_id == null ? null : this.$route.params.contest_id;
     },
     title: function (){
-      return this.$route.params.contest_id == null ? this.$i18n.t('Создать новый конкурс') : this.$i18n.t('Редактирование конкурса');
+      return this.$route.params.contest_id == null ? this.$i18n.t('admin_tournament_create_new') : this.$i18n.t('admin_tournament_edit_of_tournament');
     },
     button_text: function (){
       return this.$route.params.contest_id == null ? this.$i18n.t('admin_promocode_edit_create_button') : this.$i18n.t('admin_promocode_edit_save');

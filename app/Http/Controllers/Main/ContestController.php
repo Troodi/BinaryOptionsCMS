@@ -5,14 +5,11 @@ namespace App\Http\Controllers\Main;
 use App\Events\ChangeBalance;
 use App\Events\ChangeContestBalance;
 use App\Helpers\Helper;
-use App\Http\Controllers\Admin\TradeHistoryController;
 use App\Http\Controllers\Controller;
 use App\Models\Contest;
 use App\Models\ContestLatestOrder;
 use App\Models\ContestOpenOrder;
 use App\Models\ContestUser;
-use App\Models\LatestOrder;
-use App\Models\OpenOrders;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,13 +36,13 @@ class ContestController extends Controller
       ->where('hidden', 0)
       ->first();
     if(!$contest){
-      return response()->json(['success' => false, 'message' => 'Данный конкурс неактивен!']);
+      return response()->json(['success' => false, 'message' => __('locale.tournament_inactive')]);
     }
     if($user->balance < $contest->initial_cost){
-      return response()->json(['success' => false, 'message' => 'Недостаточно баланса для регистрации на конкурсе!']);
+      return response()->json(['success' => false, 'message' => __('locale.tournament_not_enough_money')]);
     }
     if(ContestUser::where('user_id', $user->id)->where('contest_id', $request->contest_id)->count()){
-      return response()->json(['success' => false, 'message' => 'Вы уже зарегистрированы в конкурсе!']);
+      return response()->json(['success' => false, 'message' => __('locale.tournament_already_registered')]);
     }
     $model = new ContestUser();
     $model->user_id = $user->id;
@@ -66,7 +63,7 @@ class ContestController extends Controller
     User::where('id', $user->id)->update(['balance' => DB::raw('balance-'.$contest->initial_cost)]);
     $user = User::where('id', $user->id)->first();
     broadcast(new ChangeBalance($user->balance, $user));
-    return response()->json(['success' => true, 'message' => 'Вы успешно зарегистрировались в конкурсе!']);
+    return response()->json(['success' => true, 'message' => __('locale.tournament_successfully_registered')]);
   }
 
   public function buyBalanceOnContest(Request $request){
@@ -87,24 +84,24 @@ class ContestController extends Controller
       ->where('hidden', 0)
       ->first();
     if(!$contest){
-      return response()->json(['success' => false, 'message' => 'Данный конкурс неактивен!']);
+      return response()->json(['success' => false, 'message' => __('locale.tournament_inactive')]);
     }
     $contest_user = ContestUser::where('user_id', $user->id)->where('contest_id', $request->contest_id)->first();
     if(!$contest_user){
-      return response()->json(['success' => false, 'message' => 'Вы не зарегистрированы в данном конкурсе!']);
+      return response()->json(['success' => false, 'message' => __('locale.tournament_not_registered')]);
     }
     if($contest_user->banned){
-      return response()->json(['success' => false, 'message' => 'Вы заблокированы в данном конкурсе!']);
+      return response()->json(['success' => false, 'message' => __('locale.tournament_blocked')]);
     }
     if($request->amount < 100){
-      return response()->json(['success' => false, 'message' => 'Минимальная сумма покупки 100 конкурсных долларов!']);
+      return response()->json(['success' => false, 'message' => __('locale.tournament_min_amount')]);
     }
     $price = $request->amount * $contest->additional_cost;
     if($user->balance < $price){
-      return response()->json(['success' => false, 'message' => 'Недостаточно баланса для пополнения конкурсного счета!']);
+      return response()->json(['success' => false, 'message' => __('locale.tournament_not_enough_balance')]);
     }
     if($contest_user->initial_balance + $contest_user->paid + $request->amount > $contest->max_bought_balance){
-      return response()->json(['success' => false, 'message' => 'Вы превысили максимальную сумму покупки конкурсных средств!']);
+      return response()->json(['success' => false, 'message' => __('locale.tournament_max_amount')]);
     }
     User::where('id', $user->id)->update(['balance' => DB::raw('balance-'.$price)]);
     ContestUser::where('user_id', $user->id)
@@ -119,7 +116,7 @@ class ContestController extends Controller
     broadcast(new ChangeBalance($user->balance, $user));
     $contest_user = ContestUser::where('user_id', $user->id)->where('contest_id', $request->contest_id)->first();
     broadcast(new ChangeContestBalance($contest_user->balance, $contest_user, $request->contest_id));
-    return response()->json(['success' => true, 'message' => 'Вы успешно пополнили конкурсный баланс!']);
+    return response()->json(['success' => true, 'message' => __('locale.tournament_success_bought_balance')]);
   }
 
   public function getUserPlace(Request $request){

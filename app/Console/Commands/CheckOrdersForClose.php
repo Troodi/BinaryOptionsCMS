@@ -209,17 +209,18 @@ class CheckOrdersForClose extends Command
           $user->save();
           broadcast(new ChangeDemoBalance($user->demo_balance, $user));
         } elseif($type == 'tournament'){ // Если прибыль на конкурсном счете
+          $data = [
+            'profit_percent' => DB::raw('((balance + '.$profit.') / (initial_balance+paid))*100'),
+            'turnover' => DB::raw('turnover+' . $open->amount),
+            'order_count' => DB::raw('order_count+1'),
+          ];
           if($profit > 0) {
-            ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->update([
+            $data = array_merge($data, [
               'balance' => DB::raw('balance+' . $profit)
             ]);
+            ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->update($data);
             $contest_user = ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->first();
             broadcast(new ChangeContestBalance($contest_user->balance, $contest_user, $open->contest_id));
-          } else {
-            ContestUser::where('user_id', $open->user_id)->where('contest_id', $open->contest_id)->update([
-              'turnover' => DB::raw('turnover+' . $open->amount),
-              'order_count' => DB::raw('order_count+1')
-            ]);
           }
         }
 

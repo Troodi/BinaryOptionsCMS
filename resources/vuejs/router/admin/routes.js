@@ -56,8 +56,8 @@ export const routes = [
             { path: '/admin/user/history/:id', name: i18n.t('admin_menu_trading_history'), component: TradeHistory, meta: { isAdmin: true }},
             { path: '/admin/user/partner/:id', name: i18n.t('admin_menu_referrals'), component: Partner, meta: { isAdmin: true }},
             { path: '/admin/user/promocode/:id', name: i18n.t('admin_menu_promocodes'), component: Promocode, meta: { isAdmin: true }},
-            { path: '/admin/user/tournaments/:id', name: i18n.t('Турниры пользователя'), component: Tournament, meta: { isAdmin: true }},
-            { path: '/admin/user/tournament/:tournament_id/user_id/:id', name: i18n.t('Информация о турнире'), component: TournamentInfo, meta: { isAdmin: true }},
+            { path: '/admin/user/tournaments/:id', name: i18n.t('tournament_user'), component: Tournament, meta: { isAdmin: true }},
+            { path: '/admin/user/tournament/:tournament_id/user_id/:id', name: i18n.t('tournament_info'), component: TournamentInfo, meta: { isAdmin: true }},
         ]
     },
     { path: '/admin/demo', name: i18n.t('admin_menu_promocodes'), component: Promocode },

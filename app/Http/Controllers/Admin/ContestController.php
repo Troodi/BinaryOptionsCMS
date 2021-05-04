@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\Admin\TradeHistoryController;
 use App\Models\Contest;
 use App\Models\ContestUser;
 use App\Models\SymbolContestStatistic;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +17,9 @@ class ContestController extends Controller
      * Create or update contest
      */
     public function createContest(Request $request){
+        if(config('custom.demo')){
+          return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+        }
         $request->validate([
             'id' => 'numeric|nullable',
             'title' => 'array',
@@ -43,7 +44,7 @@ class ContestController extends Controller
             }
         }
         if(!$isset_title){
-            return response()->json(['success' => false, 'message' => 'Необходимо заполнить заголовок конкурса!']);
+            return response()->json(['success' => false, 'message' => __('locale.admin_tournament_name')]);
         }
         $isset_description = false;
         foreach($request->description as $description){
@@ -53,7 +54,7 @@ class ContestController extends Controller
             }
         }
         if(!$isset_description){
-            return response()->json(['success' => false, 'message' => 'Необходимо заполнить описание конкурса!']);
+            return response()->json(['success' => false, 'message' => __('locale.admin_tournament_desc')]);
         }
         if($request->new == 1) {
           $model = new Contest();
@@ -70,7 +71,7 @@ class ContestController extends Controller
           $model->started_at = Carbon::parse($request->started_at);
           $model->ended_at = Carbon::parse($request->ended_at);
           $model->save();
-          return response()->json(['success' => true, 'message' => 'Конкурс успешно создан!', 'data' => $model]);
+          return response()->json(['success' => true, 'message' => __('locale.admin_tournament_created'), 'data' => $model]);
         } else {
           Contest::where('id', $request->id)->update([
             'title' => serialize($request->title),
@@ -86,7 +87,7 @@ class ContestController extends Controller
             'started_at' => Carbon::parse($request->started_at),
             'ended_at' => Carbon::parse($request->ended_at),
           ]);
-          return response()->json(['success' => true, 'message' => 'Конкурс успешно обновлен!']);
+          return response()->json(['success' => true, 'message' => __('locale.admin_tournament_updated')]);
         }
     }
 
@@ -168,5 +169,42 @@ class ContestController extends Controller
         ->orderBy('created_at', 'desc')
         ->get();
       return Datatables::of($daily)->make();
+    }
+
+    /*
+     * Update tournament user balance
+     */
+    public function updateBalance(Request $request, $contest_id, $user_id){
+      if(config('custom.demo')){
+        return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+      }
+      $request->validate([
+        'balance' => 'numeric|required',
+        'action' => 'numeric|required|min:0|max:2'
+      ]);
+      $user = ContestUser::where('user_id', $user_id)->where('contest_id', $contest_id);
+      if($request->action == 0){
+        $user->update(['balance' => DB::raw("balance+$request->balance")]);
+      } elseif($request->action == 1) {
+        $user->update(['balance' => DB::raw("balance-$request->balance")]);
+      } else {
+        $user->update(['balance' => $request->balance]);
+      }
+      return response()->json(['success' => true, 'message' =>  __('locale.admin_control_balance')]);
+    }
+
+    /*
+     * Update tournament user ban
+     */
+    public function updateBan(Request $request, $contest_id, $user_id){
+      if(config('custom.demo')){
+        return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
+      }
+      $request->validate([
+        'action' => 'numeric|required|min:0|max:1'
+      ]);
+      $action = $request->action ? $request->action : 0;
+      ContestUser::where('user_id', $user_id)->where('contest_id', $contest_id)->update(['banned' => $action]);
+      return response()->json(['success' => true, 'message' => __('locale.admin_control_ban')]);
     }
 }

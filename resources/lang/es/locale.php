@@ -280,5 +280,29 @@
     'admin_promocodes_deleted' => '¡Código promocional eliminado correctamente!',
     'admin_promocodes_updated' => '¡El código promocional se ha actualizado correctamente!',
     'admin_promocodes_created' => 'El código promocional se ha creado correctamente',
+
+
+    //Torneos en admin
+    'admin_tournament_name' => '¡El título del concurso debe ser rellenado!',
+    'admin_tournament_desc' => '¡La descripción del concurso debe ser rellenada!',
+    'admin_tournament_created' => '¡El concurso ha sido creado con éxito!',
+    'admin_tournament_updated' => '¡El concurso ha sido actualizado con éxito!',
+
+    //Torneos
+    'tournament_inactive' => '¡Este concurso no está activo!',
+    'tournament_not_enough_money' => '¡No hay suficiente saldo para inscribirse en el concurso!',
+    'tournament_already_registered' => '¡Ya estás inscrito en el concurso!',
+    'tournament_successfully_registered' => '¡Te has inscrito correctamente en la competición!',
+    'tournament_not_registered' => '¡No estás registrado en este concurso!',
+    'tournament_blocked' => '¡Estás bloqueado en este concurso!',
+    'tournament_min_amount' => '¡El importe mínimo de compra es de 100 dólares de concurso!',
+    'tournament_not_enough_balance' => '¡No hay suficiente saldo para recargar la cuenta del concurso!',
+    'tournament_max_amount' => '¡Has superado la cantidad máxima de compra de fondos de competición!',
+    'tournament_success_bought_balance' => '¡Has recargado con éxito tu saldo del torneo!',
+
+    //Comercio del torneo
+    'tournament_trading_not_exist' => '¡No existe tal torneo!',
+    'tournament_trading_already_registered' => '¡No estás registrado en el concurso!',
+    'tournament_trading_blocked' => '¡Estás bloqueado en este concurso!',
   ];
 ?>

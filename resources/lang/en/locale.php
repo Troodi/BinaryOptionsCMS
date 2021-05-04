@@ -280,5 +280,29 @@
     'admin_promocodes_deleted' => 'Promo code successfully deleted!',
     'admin_promocodes_updated' => 'Promo code has been successfully updated!',
     'admin_promocodes_created' => 'Promo code has been successfully created',
+
+    //Tournaments in admin
+    'admin_tournament_name' => 'You must fill out the contest title!',
+    'admin_tournament_desc' => 'The contest description must be filled in!',
+    'admin_tournament_created' => 'The contest was successfully created!',
+    'admin_tournament_updated' => 'The contest was successfully updated!',
+
+    //Tournaments
+    'tournament_inactive' => 'This contest is inactive!',
+    'tournament_not_enough_money' => 'Not enough balance to register for the contest!',
+    'tournament_already_registered' => 'You are already registered in the contest!',
+    'tournament_successfully_registered' => 'You have successfully registered in the contest!',
+    'tournament_not_registered' => 'You are not registered in this contest!',
+    'tournament_blocked' => 'You are blocked in this contest!',
+    'tournament_min_amount' => 'The minimum purchase amount is 100 contest dollars!',
+    'tournament_not_enough_balance' => 'Not enough balance to top up the contest account!',
+    'tournament_max_amount' => 'You have exceeded the maximum amount of contest funds purchase!',
+    'tournament_success_bought_balance' => 'You have successfully topped up your contest balance!',
+
+    //Tournament trading
+    'tournament_trading_not_exist' => 'No such contest exists!',
+    'tournament_trading_already_registered' => 'You are not registered in the contest!',
+    'tournament_trading_blocked' => 'You are blocked in this contest!',
+
   ];
 ?>
