@@ -116,14 +116,14 @@ class TradingController extends Controller
       } elseif($request->type == 'tournament') {
         $contest = Contest::where('id', $request->id)->first();
         if(!$contest){
-          return response()->json(['message' => __('Такого конкурса не существует!')], 422);
+          return response()->json(['message' => __('locale.tournament_trading_not_exist')], 422);
         }
         $contest_user = ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->first();
         if(!$contest_user){
-          return response()->json(['message' => __('Вы не зарегистрированы в конкурсе!')], 422);
+          return response()->json(['message' => __('locale.tournament_trading_already_registered')], 422);
         }
         if($contest_user->banned){
-          return response()->json(['success' => false, 'message' => 'Вы заблокированы в данном конкурсе!']);
+          return response()->json(['message' => __('locale.tournament_trading_blocked')], 422);
         }
         if ($contest_user->balance - $request->amount < 0) {
           return response()->json(['message' => __('locale.trading_not_enough_money')], 422);

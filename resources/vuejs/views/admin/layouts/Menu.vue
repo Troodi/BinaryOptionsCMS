@@ -54,19 +54,19 @@
         <li class="nav-item has-sub" :class="{'sidebar-group-active open' : this.$route.path === '/admin/contests' || this.$route.path === '/admin/contest/create'}">
           <a href="#" onclick="return false;">
             <i class="menu-livicon" :data-icon="'user'"></i>
-            <span class="menu-title">Список конкурсов</span>
+            <span class="menu-title">{{ $i18n.t('tournament_list_of_tournaments') }}</span>
           </a>
           <ul class="menu-content">
             <li :class="{'active' : this.$route.path === '/admin/contests' }">
               <router-link :to="'/admin/contests'">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Все конкурсы</span>
+                <span class="menu-title">{{ $i18n.t('tournament_all') }}</span>
               </router-link>
             </li>
             <li :class="{'active' : this.$route.path === '/admin/contest/create' }">
               <router-link :to="'/admin/contest/create'">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Создание нового</span>
+                <span class="menu-title">{{ $i18n.t('tournament_new_creation') }}</span>
               </router-link>
             </li>
           </ul>
@@ -75,25 +75,25 @@
         <li id="contestTabs" v-show="this.$route.path.includes('admin/contest') && this.$route.path !== '/admin/contest/create'  && this.$route.path !== '/admin/contests'" class="nav-item open-collapsible" :class="{'has-sub sidebar-group-active open' : this.$route.path.includes('admin/contest') && this.$route.path !== '/admin/contest/create'}">
           <a href="#" onclick="return false;">
             <i class="menu-livicon" :data-icon="'user'"></i>
-            <span class="menu-title">Конкурс</span>
+            <span class="menu-title">{{ $i18n.t('tournament_only') }}</span>
           </a>
           <ul class="menu-content">
             <li :class="{'active' : this.$route.path === '/admin/contest/edit/'+this.$route.params.contest_id }">
               <router-link :to="'/admin/contest/edit/'+this.$route.params.contest_id">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Редактирование</span>
+                <span class="menu-title">{{ $i18n.t('tournament_editing') }}</span>
               </router-link>
             </li>
             <li :class="{'active' : this.$route.path === '/admin/contest/statistics/'+ this.$route.params.contest_id }">
               <router-link :to="'/admin/contest/statistics/' + this.$route.params.contest_id ">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Статистика</span>
+                <span class="menu-title">{{ $i18n.t('tournament_stat') }}</span>
               </router-link>
             </li>
             <li v-if="this.$route.path === '/admin/contest/' + this.$route.params.contest_id + '/user/' + this.$route.params.user_id" :class="{'active' : this.$route.path === '/admin/contest/' + this.$route.params.contest_id + '/user/' + this.$route.params.user_id}">
               <router-link :to="'/admin/contest/' + this.$route.params.contest_id + '/user/' + this.$route.params.user_id">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Участник конкурса</span>
+                <span class="menu-title">{{ $i18n.t('tournament_user_info') }}</span>
               </router-link>
             </li>
           </ul>
@@ -151,13 +151,13 @@
             <li :class="{'active' : this.$route.path === '/admin/user/tournaments/'+this.$route.params.id}">
               <router-link :to="'/admin/user/tournaments/'+this.$route.params.id" :class="{'active' : this.$route.path === '/admin/user/tournaments/'+this.$route.params.id}">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Все турниры</span>
+                <span class="menu-title">{{ $i18n.t('tournament_all') }}</span>
               </router-link>
             </li>
             <li v-show="this.$route.path === '/admin/user/tournament/' + this.$route.params.tournament_id + '/user_id/'+this.$route.params.id" :class="{'active' : this.$route.path === '/admin/user/tournament/' + this.$route.params.tournament_id + '/user_id/'+this.$route.params.id}">
               <router-link :to="'/admin/user/tournament/' +this.$route.params.tournament_id + '/user_id/'+this.$route.params.id">
                 <i class="bx bx-right-arrow-alt"></i>
-                <span class="menu-title">Описание турнира</span>
+                <span class="menu-title">{{ $i18n.t('tournament_desc_tournament') }}</span>
               </router-link>
             </li>
           </ul>

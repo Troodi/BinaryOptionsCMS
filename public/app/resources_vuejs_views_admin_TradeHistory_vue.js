@@ -106,11 +106,11 @@ __webpack_require__(/*! ../../js/core/libraries/bootstrap.min.js */ "./resources
           data: 'amount',
           name: 'amount',
           render: function render(data, type, row) {
-            var path = 'выше';
+            var path = self.$i18n.t('trade_up');
             var classname = 'success';
 
             if (row.type === 0) {
-              path = 'ниже';
+              path = self.$i18n.t('trade_down');
               classname = 'danger';
             }
 

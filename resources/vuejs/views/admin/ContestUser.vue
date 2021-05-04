@@ -8,85 +8,85 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Информация об участнике конкурса</h4>
+                <h4 class="card-title">{{ $i18n.t('admin_tournament_info_about_user') }}</h4>
               </div>
               <div class="card-content">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Начальный баланс пользователя</label>
+                        <label>{{ $i18n.t('admin_tournament_info_initial_balance') }}</label>
                         <input v-model="info.balance + ' $'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Пользователь купил конкурсных средств</label>
+                        <label>{{ $i18n.t('admin_tournament_info_user_bought') }}</label>
                         <input v-model="info.paid + ' $'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Пользователь потратил реальных</label>
+                        <label>{{ $i18n.t('admin_tournament_info_spent_real') }}</label>
                         <input v-model="info.paid_real + ' $'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Сколько раз оплачивал (докупал баланс)</label>
+                        <label>{{ $i18n.t('admin_tournament_info_paid_times') }}</label>
                         <input v-model="info.paid_times" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Процент доходности</label>
+                        <label>{{ $i18n.t('admin_tournament_info_profit_percent') }}</label>
                         <input v-model="info.profit_percent + ' %'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Оборот торговли</label>
+                        <label>{{ $i18n.t('admin_tournament_info_turnover') }}</label>
                         <input v-model="info.turnover + ' $'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Количество сделок</label>
+                        <label>{{ $i18n.t('admin_tournament_info_count_deals') }}</label>
                         <input v-model="info.order_count" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Текущее место</label>
+                        <label>{{ $i18n.t('admin_tournament_info_current_place') }}</label>
                         <input v-model="info.winner_place" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Выигрыш в случае победы</label>
+                        <label>{{ $i18n.t('admin_tournament_info_reward_for_winner') }}</label>
                         <input v-model="info.winner_reward + ' $'" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
 
                     <div class="col-md-4">
                       <fieldset class="form-group">
-                        <label>Дата вступления</label>
+                        <label>{{ $i18n.t('admin_tournament_info_date_of_entry') }}</label>
                         <input v-model="info.created_at" disabled="disabled" type="text" class="form-control">
                       </fieldset>
                     </div>
                   </div>
                   <div class="row">
                     <div class="col-md-12">
-                      <button @click="goUserProfile" type="button" class="btn btn-outline-primary float-right">Перейти к профилю пользователя</button>
-                      <button @click="goBack" type="button" class="btn btn-outline-danger float-right mr-1">Назад</button>
+                      <button @click="goUserProfile" type="button" class="btn btn-outline-primary float-right">{{ $i18n.t('admin_tournament_info_go_to_profile') }}</button>
+                      <button @click="goBack" type="button" class="btn btn-outline-danger float-right mr-1">{{ $i18n.t('admin_tournament_info_back') }}</button>
                     </div>
                   </div>
                 </div>
@@ -126,7 +126,7 @@ export default {
     return {
       banActions: [
         { id: "0", text: this.$i18n.t('admin_control_unblocked') },
-        { id: "1", text: 'Заблокирован' },
+        { id: "1", text: this.$i18n.t('admin_control_blocked') },
       ],
       info: [],
     }

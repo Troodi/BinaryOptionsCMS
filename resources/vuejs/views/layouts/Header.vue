@@ -31,7 +31,7 @@
                               <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">{{ $i18n.t('header_deposit') }}</span>
                           </button>
                           <button @click="$router.push('/tournament/' + contestId)" type="button" class="btn btn-outline-primary glow w-100" v-show="isContest" v-bind:style="{ color: contestButtonColor }" @mouseover="contestButtonColor='#FFF !important'" @mouseleave="contestButtonColor='#5a8dee !important'">
-                            <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">Докупить конкурсный баланс</span>
+                            <i class="bx bx-trending-up"></i> <span class="align-middle ml-25">{{ $i18n.t('tournament_buy') }}</span>
                           </button>
                           <button @click="$router.push('/trading')" v-show="isDemo" type="button" class="btn btn-outline-warning w-100" v-bind:style="{ color: realButtonColor }" @mouseover="realButtonColor='#FFF !important'" @mouseleave="realButtonColor='#FDAC41 !important'">
                             <i class="bx bxs-briefcase-alt"></i>

@@ -5,7 +5,7 @@
         <div class="col-md-12">
           <section class="card">
             <div class="card-header">
-              <h4 class="card-title">Список всех конкурсов</h4>
+              <h4 class="card-title">{{ $i18n.t('admin_tournament_list') }}</h4>
             </div>
             <div class="card-content">
               <div class="card-body">
@@ -15,12 +15,12 @@
                       <thead>
                       <tr>
                         <th>ID</th>
-                        <th>Название</th>
-                        <th>Участников</th>
-                        <th>Взнос</th>
-                        <th>Прибыль</th>
-                        <th>Тип</th>
-                        <th>Действие</th>
+                        <th>{{ $i18n.t('admin_tournament_name') }}</th>
+                        <th>{{ $i18n.t('admin_tournament_users') }}</th>
+                        <th>{{ $i18n.t('admin_tournament_cost') }}</th>
+                        <th>{{ $i18n.t('admin_tournament_profit') }}</th>
+                        <th>{{ $i18n.t('admin_tournament_type') }}</th>
+                        <th>{{ $i18n.t('admin_tournament_action') }}</th>
                       </tr>
                       </thead>
                     </table>
@@ -94,7 +94,7 @@ export default {
             render: function(data, type, row) {
               let text ='';
               if (type === 'display') {
-                  text = getCookie('currentLanguage') in data ? data[getCookie('currentLanguage')] : 'Нет названия';
+                  text = getCookie('currentLanguage') in data ? data[getCookie('currentLanguage')] : self.$i18n.t('admin_tournament_no_name');
               }
               return '<a class="router-push" data-url="/admin/contest/edit/' + row.id + '" href="/admin/contest/edit/' + row.id + '">' + text + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
             }
@@ -133,13 +133,13 @@ export default {
               if (type === 'display') {
                 switch (data) {
                   case 1:
-                    text = 'Максимальный баланс';
+                    text = self.$i18n.t('tournament_max_balance');
                     break;
                   case 2:
-                    text = 'Максимальный прирост';
+                    text = self.$i18n.t('tournament_max_percent');
                     break;
                   case 3:
-                    text = 'Максимальный оборот';
+                    text = self.$i18n.t('tournament_max_turnover');
                     break;
                 }
               }
@@ -152,8 +152,8 @@ export default {
             render: function(data, type, row) {
               let text ='';
               if (type === 'display') {
-                text = '<div class="router-push badge badge-info mr-1 cursor-pointer" data-url="/admin/contest/statistics/' + row.id + '">Статистика</div>' +
-                       '<div class="router-push badge badge-success mr-1 cursor-pointer" data-url="/admin/contest/edit/' + row.id + '">Редактировать</div>';
+                text = '<div class="router-push badge badge-info mr-1 cursor-pointer" data-url="/admin/contest/statistics/' + row.id + '">' + self.$i18n.t('admin_tournament_stat') + '</div>' +
+                       '<div class="router-push badge badge-success mr-1 cursor-pointer" data-url="/admin/contest/edit/' + row.id + '">' + self.$i18n.t('admin_tournament_edit') + '</div>';
               }
               return text;
             }

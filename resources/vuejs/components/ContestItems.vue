@@ -6,7 +6,7 @@
           <img class="card-img img-fluid" src="https://i.pinimg.com/736x/4a/16/43/4a16434691d860a0ef932fbfb9e5586e.jpg" style="max-height: 200px;object-fit: cover;">
           <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column" style="background: rgba(0, 19, 41, 0.7) !important;">
             <div class="overlay-content text-center">
-              <h1 class="card-title mt-3 pt-2" style="font-size: 30px;color: #bdd1f8;">К сожалению турниров не найдено</h1>
+              <h1 class="card-title mt-3 pt-2" style="font-size: 30px;color: #bdd1f8;">{{ $i18n.t('tournament_not_found') }}</h1>
             </div>
           </div>
         </div>
@@ -23,7 +23,7 @@
               <div class="heading-elements" style="cursor: default;">
                 <ul class="list-inline mb-0">
                   <li>
-                    <span class="badge badge-primary badge-round text-white">Призовой фонд: {{ contest.bank }}$</span>
+                    <span class="badge badge-primary badge-round text-white">{{ $i18n.t('tournament_bank') }}: {{ contest.bank }}$</span>
                   </li>
                 </ul>
               </div>
@@ -32,9 +32,9 @@
               </p>
             </div>
             <div class="overlay-status">
-              <p class="mb-25"><small>Тип - "{{ contestTypeText(contest.type) }}"</small></p>
-              <button class="btn btn-outline-info" @click="goToInfo(contest.id)">Подробнее о турнире</button>
-              <button v-bind:disabled="contest.user == null || isNotActive" class="btn btn-success float-right" @click="goToTrading(contest.id)">Перейти к торговле</button>
+              <p class="mb-25"><small>{{ $i18n.t('tournament_type_item') }} - "{{ contestTypeText(contest.type) }}"</small></p>
+              <button class="btn btn-outline-info" @click="goToInfo(contest.id)">{{ $i18n.t('tournament_more') }}</button>
+              <button v-bind:disabled="contest.user == null || isNotActive" class="btn btn-success float-right" @click="goToTrading(contest.id)">{{ $i18n.t('tournament_go_to_trade') }}</button>
             </div>
           </div>
         </div>
@@ -74,11 +74,11 @@ export default {
     contestTypeText(type){
       switch(type){
         case 1:
-          return 'Максимальный баланс';
+          return this.$i18n.t('tournament_max_balance');
         case 2:
-          return 'Максимальный прирост';
+          return this.$i18n.t('tournament_max_percent');
         case 3:
-          return 'Максимальный оборот';
+          return this.$i18n.t('tournament_max_turnover');
       }
     },
     getImageByIndex(index){
