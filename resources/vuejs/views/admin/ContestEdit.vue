@@ -309,7 +309,10 @@ name: "ContestEdit",
               }
             }
           } else {
-            self.errors.push(response.data.message);
+            toastr.error(response.data.message, self.$i18n.t('profile_error'), {
+              positionClass: 'toast-bottom-left',
+              containerId: 'toast-bottom-left'
+            });
           }
         })
         .catch(function (error) {
