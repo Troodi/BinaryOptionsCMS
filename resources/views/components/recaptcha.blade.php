@@ -17,7 +17,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary">Подтвердить</button>
+                <button type="button" class="btn btn-primary" onclick="$('#checkCaptcha').submit();">Подтвердить</button>
             </div>
         </div>
     </div>

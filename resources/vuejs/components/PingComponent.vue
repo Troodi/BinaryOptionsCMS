@@ -21,7 +21,7 @@ export default {
       let img = new Image();
       img.onload = this.pingOnLoad;
       img.onerror = this.pingOnError;
-      img.src = window.location.protocol + '//' + window.location.hostname + '/' + this.favicon + "?" + (+new Date());
+      img.src = window.location.origin + '/' + this.favicon + "?" + (+new Date());
     },
     pingOnLoad(e){
       this.ping = new Date()-this.start;

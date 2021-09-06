@@ -59,11 +59,14 @@ class RegisterController extends Controller
       if(config('custom.demo')){
         throw ValidationException::withMessages(['demo_mode' => __('locale.demo_error')]);
       }
-      return Validator::make($data, [
-          'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-          'password' => ['required', 'string', 'min:8', 'confirmed'],
-          'custom-g-recaptcha-response' => 'recaptcha',
-      ]);
+      $array = [
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+      ];
+      if(!config('app.debug')){
+        $array = array_merge($array, ['custom-g-recaptcha-response' => 'recaptcha']);
+      }
+      return Validator::make($data, $array);
     }
 
     /**

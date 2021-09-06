@@ -41,11 +41,14 @@ class LoginController extends Controller
 
     protected function validateLogin(Request $request)
     {
-      $request->validate([
+      $array = [
         $this->username() => 'required|string',
         'password' => 'required|string',
-        'custom-g-recaptcha-response' => 'recaptcha',
-      ]);
+      ];
+      if(!config('app.debug')){
+        $array = array_merge($array, ['custom-g-recaptcha-response' => 'recaptcha']);
+      }
+      $request->validate($array);
     }
 
     /**

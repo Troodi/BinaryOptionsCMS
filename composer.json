@@ -12,11 +12,11 @@
     }],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-openssl": "*",
-        "biscolab/laravel-recaptcha": "^4.4",
+        "biscolab/laravel-recaptcha": "^5.0",
         "cryptonator/merchant-php-sdk": "^1.0",
         "dirape/token": "^2.3",
         "doctrine/dbal": "^2.10",
