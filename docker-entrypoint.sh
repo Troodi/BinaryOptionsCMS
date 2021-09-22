@@ -11,5 +11,4 @@ if [ ! -d /var/www/node_modules ]; then
   php /var/www/artisan migrate
   php /var/www/artisan install
 fi
-chown -R www:www /var/www
 /bin/bash
