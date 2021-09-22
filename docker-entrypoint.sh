@@ -11,4 +11,5 @@ if [ ! -d /var/www/node_modules ]; then
   php /var/www/artisan migrate
   php /var/www/artisan install
 fi
+find /var/www -type d -exec chmod 0775 '{}' \;
 /bin/bash
