@@ -1,6 +1,7 @@
 #!/bin/bash
+apt-get update
+apt-get install cron -y
 echo "Entry point started!"
-service supervisor start
 php-fpm &
 echo "PHP-FPM started!"
 if [ ! -d /var/www/node_modules ]; then
@@ -11,5 +12,9 @@ if [ ! -d /var/www/node_modules ]; then
   php /var/www/artisan migrate
   php /var/www/artisan install
 fi
-find /var/www -type d -exec chmod 0775 '{}' \;
+echo "SUPERVISOR started!"
+service supervisor start
+echo "CRON started!"
+crontab /etc/cron.d/cjob
+service cron start
 /bin/bash
