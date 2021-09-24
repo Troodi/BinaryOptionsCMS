@@ -9,7 +9,8 @@ if [ ! -d /var/www/node_modules ]; then
   composer install
   npm install
   npm run production
-  php /var/www/artisan migrate
+  php /var/www/artisan key:generate
+  php /var/www/artisan migrate --force
   php /var/www/artisan install
 fi
 echo "SUPERVISOR started!"
