@@ -2,12 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Helper;
 use App\MarketStatus;
 use App\Models\Symbols\Options\Ticks;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use App\Models\Symbols\Options\Symbol;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use WebSocket\Client;
 
 class TradingViewWebsocket extends Command
@@ -92,6 +94,7 @@ class TradingViewWebsocket extends Command
   }
 
   private function resetWebSocket(){
+    Helper::checkMysqlConnection();
     $this->startTime = microtime(true);
     $this->tickerData = [];
     $this->subscriptions = [];
@@ -127,6 +130,7 @@ class TradingViewWebsocket extends Command
             $this->sendRawMessage("~h~".$packet["~protocol~keepalive~"]);
           } elseif(isset($packet->session_id)) {
             if($this->login and $this->password) {
+              $auth_token = "";
               if(file_exists(__DIR__ . '/cookie.txt')){
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/quote_token/");
@@ -139,7 +143,8 @@ class TradingViewWebsocket extends Command
                 $auth_token = curl_exec($ch);
                 $auth_token = ltrim($auth_token, '"');
                 $auth_token = rtrim($auth_token, '"');
-              } else {
+              }
+              if(strlen($auth_token) < 150) {
                 $request_headers = [
                   "accept: */*",
                   "accept-encoding: gzip, deflate, br",
