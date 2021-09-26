@@ -33,6 +33,7 @@ class TradingController extends Controller
     {
       $login = env('TRADINGVIEW_LOGIN');
       $password = env('TRADINGVIEW_PASSWORD');
+      $auth_token = "";
       if (file_exists(__DIR__ . '/cookie.txt')) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/quote_token/");
@@ -45,8 +46,8 @@ class TradingController extends Controller
         $auth_token = curl_exec($ch);
         $auth_token = ltrim($auth_token, '"');
         $auth_token = rtrim($auth_token, '"');
-        return $auth_token;
-      } else {
+      }
+      if(strlen($auth_token) < 150){
         $request_headers = [
           "accept: */*",
           "accept-encoding: gzip, deflate, br",
@@ -78,8 +79,8 @@ class TradingController extends Controller
         curl_close($ch);
         $json = json_decode($curl_exec);
         $auth_token = $json->user->auth_token;
-        return $auth_token;
       }
+      return $auth_token;
     }
 
     public function buySymbol(Request $request){
