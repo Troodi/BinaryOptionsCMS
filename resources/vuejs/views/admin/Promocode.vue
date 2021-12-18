@@ -11,7 +11,7 @@
               <div class="card-body">
                 <div class="card-text">
                   <div class="table-responsive">
-                    <table class="table" id="promocode">
+                    <table class="table" id="promocode" style="width:100%">
                       <thead>
                       <tr>
                         <th>ID</th>

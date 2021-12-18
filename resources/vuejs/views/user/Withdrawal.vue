@@ -160,7 +160,7 @@
                             <div class="card-body">
                                 <div class="card-text">
                                   <div class="table-responsive">
-                                      <table class="table" id="withdrawalHistory">
+                                      <table class="table" id="withdrawalHistory" style="width:100%">
                                           <thead>
                                           <tr>
                                               <th>{{ $i18n.t('payout_amount_simple') }}</th>

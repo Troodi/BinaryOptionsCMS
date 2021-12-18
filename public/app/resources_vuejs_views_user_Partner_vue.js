@@ -1076,60 +1076,68 @@ var render = function() {
               _c("div", { staticClass: "card-body" }, [
                 _c("div", { staticClass: "card-text" }, [
                   _c("div", { staticClass: "table-responsive" }, [
-                    _c("table", { staticClass: "table" }, [
-                      _c("thead", [
-                        _c("tr", [
-                          _c("th", [
-                            _vm._v(_vm._s(_vm.$i18n.t("partner_all_referrals")))
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _vm._v(_vm._s(_vm.$i18n.t("partner_reward")))
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _vm._v(_vm._s(_vm.$i18n.t("partner_active")))
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _vm._v(_vm._s(_vm.$i18n.t("partner_deposited")))
-                          ]),
-                          _vm._v(" "),
-                          _c("th", [
-                            _vm._v(_vm._s(_vm.$i18n.t("partner_clicks")))
+                    _c(
+                      "table",
+                      { staticClass: "table", staticStyle: { width: "100%" } },
+                      [
+                        _c("thead", [
+                          _c("tr", [
+                            _c("th", [
+                              _vm._v(
+                                _vm._s(_vm.$i18n.t("partner_all_referrals"))
+                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("partner_reward")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("partner_active")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("partner_deposited")))
+                            ]),
+                            _vm._v(" "),
+                            _c("th", [
+                              _vm._v(_vm._s(_vm.$i18n.t("partner_clicks")))
+                            ])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("tbody", [
+                          _c("tr", [
+                            _c("td", {
+                              domProps: { textContent: _vm._s(_vm.count) }
+                            }),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c("span", {
+                                staticClass: "badge badge-primary text-white",
+                                domProps: {
+                                  textContent: _vm._s(_vm.reward + " $")
+                                }
+                              })
+                            ]),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: { textContent: _vm._s(_vm.active) }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: {
+                                textContent: _vm._s(_vm.deposit_count)
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c("td", {
+                              domProps: { textContent: _vm._s(_vm.tracked) }
+                            })
                           ])
                         ])
-                      ]),
-                      _vm._v(" "),
-                      _c("tbody", [
-                        _c("tr", [
-                          _c("td", {
-                            domProps: { textContent: _vm._s(_vm.count) }
-                          }),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c("span", {
-                              staticClass: "badge badge-primary text-white",
-                              domProps: {
-                                textContent: _vm._s(_vm.reward + " $")
-                              }
-                            })
-                          ]),
-                          _vm._v(" "),
-                          _c("td", {
-                            domProps: { textContent: _vm._s(_vm.active) }
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            domProps: { textContent: _vm._s(_vm.deposit_count) }
-                          }),
-                          _vm._v(" "),
-                          _c("td", {
-                            domProps: { textContent: _vm._s(_vm.tracked) }
-                          })
-                        ])
-                      ])
-                    ])
+                      ]
+                    )
                   ])
                 ])
               ])
@@ -1151,7 +1159,11 @@ var render = function() {
                   _c("div", { staticClass: "table-responsive" }, [
                     _c(
                       "table",
-                      { staticClass: "table", attrs: { id: "referrals" } },
+                      {
+                        staticClass: "table",
+                        staticStyle: { width: "100%" },
+                        attrs: { id: "referrals" }
+                      },
                       [
                         _c("thead", [
                           _c("tr", [

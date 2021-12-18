@@ -2417,6 +2417,7 @@ var render = function() {
                       "table",
                       {
                         staticClass: "table",
+                        staticStyle: { width: "100%" },
                         attrs: { id: "withdrawalHistory" }
                       },
                       [

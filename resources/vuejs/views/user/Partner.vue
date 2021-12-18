@@ -155,7 +155,7 @@
                             <div class="card-body">
                                 <div class="card-text">
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table" style="width:100%">
                                             <thead>
                                             <tr>
                                                 <th>{{ $i18n.t('partner_all_referrals') }}</th>
@@ -191,7 +191,7 @@
                             <div class="card-body">
                                 <div class="card-text">
                                     <div class="table-responsive">
-                                        <table class="table" id="referrals">
+                                        <table class="table" id="referrals" style="width:100%">
                                             <thead>
                                             <tr>
                                                 <th>{{ $i18n.t('partner_token') }}</th>
