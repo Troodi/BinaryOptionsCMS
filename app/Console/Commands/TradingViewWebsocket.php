@@ -191,10 +191,7 @@ class TradingViewWebsocket extends Command
               $this->map[$name] = $symbol->id;
               $this->registerTicker($name);
               $this->symbols_all[] = $name;
-              $model = new MarketStatus;
-              $model->symbol_id = $symbol->id;
-              $model->market_status = 0;
-              $model->save();
+              MarketStatus::create(['symbol_id' => $symbol->id, 'market_status' => 0]);
             }
             $this->sendMessage("quote_create_session", [$this->sessionStatus]); // Дополнительная сессия для статуса маркета
             $this->setMainFields($this->sessionStatus);

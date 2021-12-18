@@ -74,9 +74,9 @@
                                 <a class="dropdown-item" href="/lang/en" data-language="en">
                                     <i class="flag-icon flag-icon-us mr-50"></i> English
                                 </a>
-                                <a class="dropdown-item" href="/lang/ru" data-language="ru">
-                                    <i class="flag-icon flag-icon-ru mr-50"></i> Русский
-                                </a>
+<!--                                <a class="dropdown-item" href="/lang/ru" data-language="ru">-->
+<!--                                    <i class="flag-icon flag-icon-ru mr-50"></i> Русский-->
+<!--                                </a>-->
                                 <a class="dropdown-item" href="/lang/es" data-language="es">
                                   <i class="flag-icon flag-icon-es mr-50"></i> Español
                                 </a>

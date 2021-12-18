@@ -113,9 +113,9 @@ class DepositController extends Controller
       if($request->system_id == 3) { // Cryptonator
         $cryptonator = new MerchantAPI(env('CRYPTONATOR_ID'), env('CRYPTONATOR_SECRET'));
         $url = $cryptonator->startPayment(array(
-          'item_name'               => 'Deposit on getoption.pro',
+          'item_name'               => 'Deposit on '.config('custom.domain'),
           'order_id'              => $model->id,
-          'item_description'      => 'Deposit on getoption.pro for user: '.Auth::user()->email,
+          'item_description'      => 'Deposit on '.config('custom.domain').' for user: '.Auth::user()->email,
           'invoice_amount'          => $amount,
           'invoice_currency'        => 'usd',
           'language'              => 'en',
@@ -124,8 +124,8 @@ class DepositController extends Controller
       } elseif($request->system_id == 2) { // YooMoney
         $orderId = $model->id;
         $amount = $rub;
-        $message = urlencode('Deposit on getoption.pro for user: '.Auth::user()->email);
-        $success_url = urlencode('https://getoption.pro/trading');
+        $message = urlencode('Deposit on '.config('custom.domain').' for user: '.Auth::user()->email);
+        $success_url = urlencode('https://'.config('custom.domain').'/trading');
         $yoo = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=".env('YOOMONEY_WALLET')."&quickpay-form=shop&targets=$message&sum=$amount&label=$orderId&successURL=$success_url&paymentType=AC")
           ->get();
         $link = str_replace('Found. Redirecting to ', '', $yoo);
@@ -142,7 +142,7 @@ class DepositController extends Controller
           'email' => Auth::user()->email,
           'account' => Auth::user()->id,
           'expirationDateTime' => $lifetime,
-          'successUrl' => 'https://getoption.pro/trading',
+          'successUrl' => 'https://'.config('custom.domain').'/trading',
           'customFields' => ['orderId' => $model->id],
         ];
         $response = $billPayments->createBill($billId, $fields);

@@ -57,7 +57,7 @@
                     <div class="card-body">
                       <div class="card-text">
                         <p>
-                          <strong>{{ $i18n.t('support_email') }}</strong>: <a href="mailto:info@getoption.pro">info@getoption.pro</a>
+                          <strong>{{ $i18n.t('support_email') }}</strong>: <a href="mailto:info@">info@</a>
                         </p>
                         <p>
                           <strong>{{ $i18n.t('support_working_time') }}</strong>: 09:00 - 23:00
