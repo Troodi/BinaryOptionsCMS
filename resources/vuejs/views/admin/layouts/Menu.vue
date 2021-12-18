@@ -5,7 +5,7 @@
         <li class="nav-item mr-auto">
           <a class="navbar-brand" href="/trading" style="margin-top: 0px;margin-left: 0px;">
             <div class="brand-logo">
-              <img :src="logo_url" class="logo" alt="" style="height: auto;left:0px;margin-top: 4px;">
+              <img :src="logo_url" class="logo" alt="" style="height: 41px;width: 171px;left:0px;margin-top: 4px;">
             </div>
           </a>
         </li>

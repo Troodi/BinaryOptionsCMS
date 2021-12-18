@@ -25,7 +25,7 @@
     <i class="bx bx-up-arrow-alt"></i>
   </button>
   <!-- BEGIN: Footer-->
-  <footer-component v-bind:title="'{{ config('custom.title') }}'" v-bind:domain="'{{ config('custom.domain') }}'" v-bind:support_mail="'{{ config('custom.support_mail') }}'"></footer-component>
+  <footer-component v-bind:title="'{{ config('custom.title') }}'" v-bind:domain="''" v-bind:support_mail="'{{ config('custom.support_mail') }}'"></footer-component>
   <!-- END: Footer-->
 </div>
   @include('panels.scripts')
