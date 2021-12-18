@@ -340,84 +340,216 @@ var render = function() {
                 _c("div", { staticClass: "card-body" }, [
                   _c("div", { staticClass: "row" }, [
                     _c("div", { staticClass: "table-responsive" }, [
-                      _c("table", { staticClass: "table" }, [
-                        _c("thead", [
-                          _c("tr", [
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(_vm.$i18n.t("admin_deposit_settings_id"))
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.$i18n.t("admin_deposit_settings_system")
+                      _c(
+                        "table",
+                        {
+                          staticClass: "table",
+                          staticStyle: { width: "100%" }
+                        },
+                        [
+                          _c("thead", [
+                            _c("tr", [
+                              _c("th", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$i18n.t("admin_deposit_settings_id")
+                                  )
                                 )
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.$i18n.t("admin_deposit_settings_order")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$i18n.t("admin_deposit_settings_system")
+                                  )
                                 )
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.$i18n.t("admin_deposit_settings_active")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$i18n.t("admin_deposit_settings_order")
+                                  )
                                 )
-                              )
-                            ]),
-                            _vm._v(" "),
-                            _c("th", [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.$i18n.t("admin_deposit_settings_action")
+                              ]),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$i18n.t("admin_deposit_settings_active")
+                                  )
                                 )
-                              )
+                              ]),
+                              _vm._v(" "),
+                              _c("th", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.$i18n.t("admin_deposit_settings_action")
+                                  )
+                                )
+                              ])
                             ])
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "tbody",
-                          [
-                            _vm._l(_vm.systems, function(system) {
-                              return _c("tr", [
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            [
+                              _vm._l(_vm.systems, function(system) {
+                                return _c("tr", [
+                                  _c("td", [
+                                    _c("input", {
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        id: "id" + system.id
+                                      },
+                                      domProps: { value: system.id }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("input", {
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        id: "system" + system.id
+                                      },
+                                      domProps: { value: system.text }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c("input", {
+                                      staticClass: "form-control",
+                                      attrs: {
+                                        type: "text",
+                                        id: "order" + system.id
+                                      },
+                                      domProps: { value: system.order }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "td",
+                                    [
+                                      _c("select2", {
+                                        attrs: {
+                                          id: "active" + system.id,
+                                          options: _vm.hiddens,
+                                          settings: {
+                                            settingOption: "value",
+                                            settingOption: "value",
+                                            minimumResultsForSearch: Infinity
+                                          }
+                                        },
+                                        model: {
+                                          value: system.hidden,
+                                          callback: function($$v) {
+                                            _vm.$set(system, "hidden", $$v)
+                                          },
+                                          expression: "system.hidden"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-outline-primary",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.save(system.id)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$i18n.t(
+                                              "admin_deposit_settings_save"
+                                            )
+                                          )
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-outline-danger",
+                                        attrs: { type: "button" },
+                                        on: {
+                                          click: function($event) {
+                                            return _vm.remove(system.id)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.$i18n.t(
+                                              "admin_deposit_settings_delete"
+                                            )
+                                          )
+                                        )
+                                      ]
+                                    )
+                                  ])
+                                ])
+                              }),
+                              _vm._v(" "),
+                              _c("tr", [
+                                _vm._m(2),
+                                _vm._v(" "),
                                 _c("td", [
                                   _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.system_text,
+                                        expression: "system_text"
+                                      }
+                                    ],
                                     staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      id: "id" + system.id
-                                    },
-                                    domProps: { value: system.id }
+                                    attrs: { type: "text" },
+                                    domProps: { value: _vm.system_text },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.system_text = $event.target.value
+                                      }
+                                    }
                                   })
                                 ]),
                                 _vm._v(" "),
                                 _c("td", [
                                   _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.system_order,
+                                        expression: "system_order"
+                                      }
+                                    ],
                                     staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      id: "system" + system.id
-                                    },
-                                    domProps: { value: system.text }
-                                  })
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _c("input", {
-                                    staticClass: "form-control",
-                                    attrs: {
-                                      type: "text",
-                                      id: "order" + system.id
-                                    },
-                                    domProps: { value: system.order }
+                                    attrs: { type: "text" },
+                                    domProps: { value: _vm.system_order },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.system_order = $event.target.value
+                                      }
+                                    }
                                   })
                                 ]),
                                 _vm._v(" "),
@@ -426,7 +558,6 @@ var render = function() {
                                   [
                                     _c("select2", {
                                       attrs: {
-                                        id: "active" + system.id,
                                         options: _vm.hiddens,
                                         settings: {
                                           settingOption: "value",
@@ -435,11 +566,11 @@ var render = function() {
                                         }
                                       },
                                       model: {
-                                        value: system.hidden,
+                                        value: _vm.defaultHidden,
                                         callback: function($$v) {
-                                          _vm.$set(system, "hidden", $$v)
+                                          _vm.defaultHidden = $$v
                                         },
-                                        expression: "system.hidden"
+                                        expression: "defaultHidden"
                                       }
                                     })
                                   ],
@@ -450,41 +581,15 @@ var render = function() {
                                   _c(
                                     "button",
                                     {
-                                      staticClass: "btn btn-outline-primary",
+                                      staticClass: "btn btn-outline-success",
                                       attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.save(system.id)
-                                        }
-                                      }
+                                      on: { click: _vm.create }
                                     },
                                     [
                                       _vm._v(
                                         _vm._s(
                                           _vm.$i18n.t(
-                                            "admin_deposit_settings_save"
-                                          )
-                                        )
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass: "btn btn-outline-danger",
-                                      attrs: { type: "button" },
-                                      on: {
-                                        click: function($event) {
-                                          return _vm.remove(system.id)
-                                        }
-                                      }
-                                    },
-                                    [
-                                      _vm._v(
-                                        _vm._s(
-                                          _vm.$i18n.t(
-                                            "admin_deposit_settings_delete"
+                                            "admin_deposit_settings_create"
                                           )
                                         )
                                       )
@@ -492,107 +597,11 @@ var render = function() {
                                   )
                                 ])
                               ])
-                            }),
-                            _vm._v(" "),
-                            _c("tr", [
-                              _vm._m(2),
-                              _vm._v(" "),
-                              _c("td", [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.system_text,
-                                      expression: "system_text"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "text" },
-                                  domProps: { value: _vm.system_text },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.system_text = $event.target.value
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.system_order,
-                                      expression: "system_order"
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "text" },
-                                  domProps: { value: _vm.system_order },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.system_order = $event.target.value
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c(
-                                "td",
-                                [
-                                  _c("select2", {
-                                    attrs: {
-                                      options: _vm.hiddens,
-                                      settings: {
-                                        settingOption: "value",
-                                        settingOption: "value",
-                                        minimumResultsForSearch: Infinity
-                                      }
-                                    },
-                                    model: {
-                                      value: _vm.defaultHidden,
-                                      callback: function($$v) {
-                                        _vm.defaultHidden = $$v
-                                      },
-                                      expression: "defaultHidden"
-                                    }
-                                  })
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c("td", [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-outline-success",
-                                    attrs: { type: "button" },
-                                    on: { click: _vm.create }
-                                  },
-                                  [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm.$i18n.t(
-                                          "admin_deposit_settings_create"
-                                        )
-                                      )
-                                    )
-                                  ]
-                                )
-                              ])
-                            ])
-                          ],
-                          2
-                        )
-                      ])
+                            ],
+                            2
+                          )
+                        ]
+                      )
                     ])
                   ])
                 ])

@@ -603,25 +603,33 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "table-responsive" }, [
-    _c("table", { staticClass: "table", attrs: { id: _vm.tableId } }, [
-      _c("thead", [
-        _c("tr", [
-          _c("th", [_vm._v("ID")]),
-          _vm._v(" "),
-          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_email")))]),
-          _vm._v(" "),
-          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_geo")))]),
-          _vm._v(" "),
-          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_status")))]),
-          _vm._v(" "),
-          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_balance_usd")))]),
-          _vm._v(" "),
-          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_latest_active")))]),
-          _vm._v(" "),
-          _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_registered")))])
+    _c(
+      "table",
+      {
+        staticClass: "table",
+        staticStyle: { width: "100%" },
+        attrs: { id: _vm.tableId }
+      },
+      [
+        _c("thead", [
+          _c("tr", [
+            _c("th", [_vm._v("ID")]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_email")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_geo")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_status")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_balance_usd")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_latest_active")))]),
+            _vm._v(" "),
+            _c("th", [_vm._v(_vm._s(_vm.$i18n.t("admin_stat_registered")))])
+          ])
         ])
-      ])
-    ])
+      ]
+    )
   ])
 }
 var staticRenderFns = []

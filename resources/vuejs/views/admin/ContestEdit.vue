@@ -127,7 +127,7 @@
                   <div class="row mt-3 mb-3">
                     <div class="col-md-12">
                       <div class="table-responsive table-bordered">
-                        <table class="table">
+                        <table class="table" style="width:100%">
                           <thead>
                           <tr>
                             <th>{{ $i18n.t('admin_tournament_place') }}</th>

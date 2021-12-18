@@ -35,7 +35,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" style="width:100%">
                       <thead>
                       <tr>
                         <th>{{ $i18n.t('admin_deposit_settings_id') }}</th>

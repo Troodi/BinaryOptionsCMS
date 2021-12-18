@@ -10,7 +10,7 @@
                         <div class="card-body">
                             <div class="card-text">
                                 <div class="table-responsive">
-                                    <table class="table" id="historyDeposit">
+                                    <table class="table" id="historyDeposit" style="width:100%">
                                         <thead>
                                         <tr>
                                             <th>{{ $i18n.t('deposit_history_amount') }}</th>

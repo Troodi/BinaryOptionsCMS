@@ -237,7 +237,11 @@ var render = function() {
                   _c("div", { staticClass: "table-responsive" }, [
                     _c(
                       "table",
-                      { staticClass: "table", attrs: { id: "verify" } },
+                      {
+                        staticClass: "table",
+                        staticStyle: { width: "100%" },
+                        attrs: { id: "verify" }
+                      },
                       [
                         _c("thead", [
                           _c("tr", [
