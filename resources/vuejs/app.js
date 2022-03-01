@@ -65,7 +65,7 @@ Vue.prototype.$datafeed = Datafeed;
 
 Vue.use(VueEcho, {
     broadcaster: 'socket.io',
-    host: window.location.hostname + ':6001',
+    host: window.location.hostname,
 });
 
 const app = new Vue({
