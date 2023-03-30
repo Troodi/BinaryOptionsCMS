@@ -1,5 +1,5 @@
 {
-	"authHost": "https://woodcute.ru",
+	"authHost": "https://binaries.site",
 	"authEndpoint": "/broadcasting/auth",
 	"clients": [
 		{
@@ -15,13 +15,13 @@
 		}
 	},
 	"devMode": true,
-	"host": "woodcute.ru",
+	"host": "binaries.site",
 	"port": "6001",
 	"protocol": "https",
 	"socketio": {},
 	"secureOptions": 67108864,
-	"sslCertPath": "/var/www/httpd-cert/www-root/woodcute.ru_le1.crt",
-	"sslKeyPath": "/var/www/httpd-cert/www-root/woodcute.ru_le1.key",
+	"sslCertPath": "/var/certs/domain.crt",
+	"sslKeyPath": "/var/certs/domain.key",
 	"sslCertChainPath": "/var/www/httpd-cert/www-root/woodcute.ru_le1.crtca",
 	"sslPassphrase": "/var/www/httpd-cert/www-root/woodcute.ru_le1.ca",
 	"subscribers": {
@@ -30,7 +30,7 @@
 	},
 	"apiOriginAllow": {
 		"allowCors": true,
-		"allowOrigin": "https://woodcute.ru:443",
+		"allowOrigin": "https://binaries.site:443",
 		"allowMethods": "GET, POST",
 		"allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
 	}
