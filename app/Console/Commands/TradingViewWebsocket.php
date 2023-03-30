@@ -103,9 +103,9 @@ class TradingViewWebsocket extends Command
     $this->chartSession = $this->generateChartSession();
     $this->sessionRegistered = false;
     if($this->login and $this->password){
-      $wss = "ws://prodata.tradingview.com/socket.io/websocket";
+      $wss = "wss://data.tradingview.com/socket.io/websocket";
     } else {
-      $wss = "ws://prodata.tradingview.com/socket.io/websocket";
+      $wss = "wss://data.tradingview.com/socket.io/websocket";
     }
     $this->websocket = new Client($wss, [
       'timeout' => 60, // 1 minute time out
