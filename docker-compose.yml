@@ -1,19 +1,56 @@
 version: '3.1'
 services:
   php:
-    build:
-      context: .
-      dockerfile: ./docker/php/Dockerfile
-    image: php:8.1-fpm
+    build: docker/php
     container_name: binaries-php
     restart: always
     tty: true
     environment:
       SERVICE_NAME: php
       SERVICE_TAGS: dev
+    working_dir: /var/www
     volumes:
       - .:/var/www
       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+
+  quotes-parser:
+    build: docker/quotes-parser
+    container_name: quotes-parser
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: quotes-parser
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/quotes-parser/php.ini:/usr/local/etc/php/conf.d/php.ini
+
+  order-checks:
+    build: docker/order-checks
+    container_name: order-checks
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: order-checks
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/order-checks/php.ini:/usr/local/etc/php/conf.d/php.ini
+
+  scheduler:
+    build: docker/scheduler
+    container_name: scheduler
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: cron
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/scheduler/php.ini:/usr/local/etc/php/conf.d/php.ini
 
   nginx:
     image: nginx:alpine3.17
