@@ -74,6 +74,18 @@ services:
     environment:
       - PMA_ARBITRARY=1
 
+  pgadmin:
+    image: dpage/pgadmin4:5.6
+    restart: always
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: info@binaries.site
+      PGADMIN_DEFAULT_PASSWORD: 
+    ports:
+      - 5050:80
+    volumes:
+      - ./docker/pgadmin:/var/lib/pgadmin
+
   redis:
     image: redis:alpine3.14
     container_name: binaries-redis
@@ -124,3 +136,16 @@ services:
       - 6001:6001
     volumes:
       - ./docker/nginx/certs:/var/certs
+
+  roundcube:
+    image: roundcube/roundcubemail
+    container_name: roundcube
+    restart: always
+    ports:
+      - 8855:80
+    environment:
+      ROUNDCUBEMAIL_DB_TYPE: sqlite
+      ROUNDCUBEMAIL_DEFAULT_HOST: ${MAIL_HOST}
+      ROUNDCUBEMAIL_SMTP_SERVER: ${MAIL_HOST}
+    volumes:
+      - ./roundcube:/var/roundcube/config
