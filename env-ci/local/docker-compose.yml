@@ -1,0 +1,151 @@
+version: '3.1'
+services:
+  php:
+    build: docker/php
+    container_name: binaries-php
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: php
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+
+  quotes-parser:
+    build: docker/quotes-parser
+    container_name: quotes-parser
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: quotes-parser
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/quotes-parser/php.ini:/usr/local/etc/php/conf.d/php.ini
+
+  order-checks:
+    build: docker/order-checks
+    container_name: order-checks
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: order-checks
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/order-checks/php.ini:/usr/local/etc/php/conf.d/php.ini
+
+  scheduler:
+    build: docker/scheduler
+    container_name: scheduler
+    restart: always
+    tty: true
+    environment:
+      SERVICE_NAME: cron
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/scheduler/php.ini:/usr/local/etc/php/conf.d/php.ini
+
+  nginx:
+    image: nginx:alpine3.17
+    container_name: binaries-nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 443:443
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/certs:/var/certs
+      - ./docker/nginx/nginx.conf/:/etc/nginx/conf.d/default.conf
+      - ./docker/nginx/logs:/var/log/nginx
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: binaries-phpmyadmin
+    restart: always
+    ports:
+      - 9090:80
+    environment:
+      - PMA_ARBITRARY=1
+
+  pgadmin:
+    image: dpage/pgadmin4:5.6
+    restart: always
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: info@binaries.site
+      PGADMIN_DEFAULT_PASSWORD: 
+    ports:
+      - 5050:80
+    volumes:
+      - ./docker/pgadmin:/var/lib/pgadmin
+
+  redis:
+    image: redis:alpine3.14
+    container_name: binaries-redis
+    restart: always
+
+  postgres:
+    image: postgres:alpine3.17
+    container_name: binaries-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: binaries
+      POSTGRES_PASSWORD: 
+      POSTGRES_DB: binaries
+    volumes:
+      - ./docker/postgresql/data:/var/lib/postgresql/data
+
+  mysql:
+    image: mysql:8.0.26
+    container_name: binaries-mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 
+      MYSQL_USER: binaries
+      MYSQL_DATABASE: binaries
+      MYSQL_PASSWORD: 
+    volumes:
+      - ./docker/mysql/config:/etc/mysql/conf.d/
+      - ./docker/mysql/data:/var/lib/mysql
+
+  echoserver:
+    image: mintopia/laravel-echo-server
+    container_name: laravel-echo-server
+    restart: always
+    environment:
+      LARAVEL_ECHO_SERVER_AUTH_HOST: "https://nginx"
+      LARAVEL_ECHO_SERVER_HOST: "0.0.0.0"
+      LARAVEL_ECHO_SERVER_PORT: "6001"
+      ECHO_PROTOCOL: "https"
+      LARAVEL_ECHO_SERVER_REDIS_HOST: redis
+      ECHO_SSL_CERT_PATH: /var/certs/domain.crt
+      ECHO_SSL_KEY_PATH: /var/certs/domain.key
+      ECHO_ALLOW_CORS: "true"
+      ECHO_ALLOW_ORIGIN: https://binaries.site
+      ECHO_ALLOW_METHODS: "GET, POST"
+      ECHO_ALLOW_HEADERS: "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
+    ports:
+      - 6001:6001
+    volumes:
+      - ./docker/nginx/certs:/var/certs
+
+  roundcube:
+    image: roundcube/roundcubemail
+    container_name: roundcube
+    restart: always
+    ports:
+      - 8855:80
+    environment:
+      ROUNDCUBEMAIL_DB_TYPE: sqlite
+      ROUNDCUBEMAIL_DEFAULT_HOST: ${MAIL_HOST}
+      ROUNDCUBEMAIL_SMTP_SERVER: ${MAIL_HOST}
+    volumes:
+      - ./roundcube:/var/roundcube/config
