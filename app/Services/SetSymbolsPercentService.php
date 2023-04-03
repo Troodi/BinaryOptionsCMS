@@ -40,6 +40,7 @@ class SetSymbolsPercentService {
             }
         }
         broadcast(new ChangeSymbol(Symbol::all()));
+        dump("Percents has been calculated");
         return 0;
     }
 }

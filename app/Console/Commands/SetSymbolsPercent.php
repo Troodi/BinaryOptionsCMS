@@ -20,7 +20,7 @@ class SetSymbolsPercent extends Command
 
     /**
      * The console command description.
-     *
+     *:00ds
      * @var string
      */
     protected $description = 'Command description';

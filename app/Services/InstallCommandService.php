@@ -177,5 +177,6 @@ class InstallCommandService {
         $this->migrationsSeedersStarterSymbols();
         $this->migrationsSeedersStarterPromo();
         $this->migrationsSeedersStarterDeposit();
+        dump("Install command worked successfully");
     }
 }

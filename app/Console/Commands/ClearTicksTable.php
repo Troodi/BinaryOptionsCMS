@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Symbols\Options\Symbol;
 use App\Models\Symbols\Options\Ticks;
+use App\Services\ClearTicksTableService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -38,22 +39,8 @@ class ClearTicksTable extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(ClearTicksTableService $clearTicksTableService)
     {
-      foreach(Symbol::all() as $symbol){
-        $count = Ticks::where('symbol_id', $symbol->id)->get();
-        if($count){
-          $first = Ticks::where('symbol_id', $symbol->id)->latest()->first();
-          if(!$first){
-            continue;
-          }
-          $id = $first->id;
-          Ticks::where('symbol_id', $symbol->id)
-            ->where('created_at', '<', Carbon::now()->subMinutes(2))
-            ->where('id', '<', $id)
-            ->delete();
-        }
-      }
-      return 0;
+        $clearTicksTableService->clear();
     }
 }
