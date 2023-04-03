@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Symbols\Options\Symbol;
 use App\Models\Symbols\Options\Ticks;
 use App\Models\SymbolShortStatistic;
+use App\Services\ClearLatestStatService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -39,13 +40,8 @@ class ClearLatestStat extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(ClearLatestStatService $clearLatestStatService)
     {
-        foreach(Symbol::all() as $symbol){
-          SymbolShortStatistic::where('symbol_id', $symbol->id)
-            ->where('created_at', '<', Carbon::now()->subMinutes(30))
-            ->delete();
-        }
-        return 0;
+        $clearLatestStatService->clear();
     }
 }
