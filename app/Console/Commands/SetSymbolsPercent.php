@@ -2,12 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Events\ChangeSymbol;
-use App\Models\Symbols\Options\Symbol;
-use App\Models\SymbolShortStatistic;
-use Carbon\Carbon;
+use App\Services\Console\SetSymbolsPercentService;
 use Illuminate\Console\Command;
-use App\Services\SetSymbolsPercentService;
 
 class SetSymbolsPercent extends Command
 {

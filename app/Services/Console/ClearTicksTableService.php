@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Console;
 
 
 use App\Models\Symbols\Options\Symbol;
 use App\Models\Symbols\Options\Ticks;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 class ClearTicksTableService {
 

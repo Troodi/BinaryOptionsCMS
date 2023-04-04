@@ -2,14 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Events\ChangeBalance;
-use App\Models\Contest;
-use App\Models\ContestUser;
-use App\Services\UpdateTournamentInfoService;
-use App\User;
-use Carbon\Carbon;
+use App\Services\Console\UpdateTournamentInfoService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class UpdateTournamentInfo extends Command
 {

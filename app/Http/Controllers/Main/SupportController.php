@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SupportRequest;
-use App\Services\SupportService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\MainHttp\SupportRequest;
+use App\Services\MainHttp\SupportService;
 
 class SupportController extends Controller
 {

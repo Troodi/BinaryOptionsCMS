@@ -2,11 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Services\CreateTodayHistoryTableService;
-use Carbon\Carbon;
+use App\Services\Console\CreateTodayHistoryTableService;
 use Illuminate\Console\Command;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 
 class CreateTodayHistoryTable extends Command
 {

@@ -2,14 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Helpers\Helper;
-use App\Models\DepositSystem;
-use App\Models\Promocode;
-use App\Models\Symbols\Options\Symbol;
-use App\Services\InstallCommandService;
-use Carbon\Carbon;
+use App\Services\Console\InstallCommandService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 
 class InstallCommand extends Command
 {
