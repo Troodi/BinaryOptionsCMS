@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\MainHttp;
 
-use App\Http\Requests\SupportRequest;
+use App\Http\Requests\MainHttp\SupportRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 

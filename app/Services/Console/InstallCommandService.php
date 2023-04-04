@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Console;
 
 
 use App\Helpers\Helper;
@@ -9,8 +9,6 @@ use App\Models\Promocode;
 use App\Models\Symbols\Options\Symbol;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 
 class InstallCommandService {

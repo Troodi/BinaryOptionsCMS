@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Console;
 
 
 use Carbon\Carbon;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 
 class CreateTodayHistoryTableService {

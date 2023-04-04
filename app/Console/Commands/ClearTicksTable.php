@@ -2,10 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Symbols\Options\Symbol;
-use App\Models\Symbols\Options\Ticks;
-use App\Services\ClearTicksTableService;
-use Carbon\Carbon;
+use App\Services\Console\ClearTicksTableService;
 use Illuminate\Console\Command;
 
 class ClearTicksTable extends Command

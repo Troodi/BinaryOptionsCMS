@@ -2,10 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\ExchangeRates;
-use App\Services\ExchangeRateService;
+use App\Services\Console\ExchangeRateService;
 use Illuminate\Console\Command;
-use Ixudra\Curl\Facades\Curl;
 
 class ExchangeRate extends Command
 {

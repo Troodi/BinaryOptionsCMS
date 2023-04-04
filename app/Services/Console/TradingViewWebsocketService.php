@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Console;
 
 use App\Helpers\Helper;
 use App\MarketStatus;
+use App\Models\Symbols\Options\Symbol;
 use App\Models\Symbols\Options\Ticks;
 use Carbon\Carbon;
-use Illuminate\Console\Command;
-use App\Models\Symbols\Options\Symbol;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use WebSocket\Client;
 
 class TradingViewWebsocketService

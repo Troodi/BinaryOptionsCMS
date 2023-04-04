@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Console;
 
 
 use App\Events\ChangeBalance;
@@ -8,9 +8,7 @@ use App\Models\Contest;
 use App\Models\ContestUser;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class UpdateTournamentInfoService{
 

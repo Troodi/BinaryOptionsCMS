@@ -2,16 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Helpers\Helper;
-use App\MarketStatus;
-use App\Models\Symbols\Options\Ticks;
-use App\Services\TradingViewWebsocketService;
-use Carbon\Carbon;
+use App\Services\Console\TradingViewWebsocketService;
 use Illuminate\Console\Command;
-use App\Models\Symbols\Options\Symbol;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use WebSocket\Client;
 
 class TradingViewWebsocket extends Command
 {

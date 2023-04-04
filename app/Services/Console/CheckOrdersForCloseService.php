@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Console;
 
 use App\Events\ChangeBalance;
 use App\Events\ChangeContestBalance;
@@ -25,10 +25,8 @@ use App\Models\SymbolStatistic;
 use App\Models\UserTodayStatistic;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class CheckOrdersForCloseService {
 

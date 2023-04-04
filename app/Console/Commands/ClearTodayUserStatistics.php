@@ -2,9 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\UserTodayStatistic;
-use App\Services\ClearTodayUserStatisticsService;
-use Carbon\Carbon;
+use App\Services\Console\ClearTodayUserStatisticsService;
 use Illuminate\Console\Command;
 
 class ClearTodayUserStatistics extends Command

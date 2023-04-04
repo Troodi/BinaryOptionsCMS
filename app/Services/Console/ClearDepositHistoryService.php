@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Console;
 
 use App\Models\Deposit;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 
 class ClearDepositHistoryService {
 

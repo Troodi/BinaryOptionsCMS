@@ -1,12 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Console;
 
 
 use App\Models\ExchangeRates;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Ixudra\Curl\Facades\Curl;
 
 class ExchangeRateService{

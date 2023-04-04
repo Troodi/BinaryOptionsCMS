@@ -2,11 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Symbols\Options\Symbol;
-use App\Models\Symbols\Options\Ticks;
-use App\Models\SymbolShortStatistic;
-use App\Services\ClearLatestStatService;
-use Carbon\Carbon;
+use App\Services\Console\ClearLatestStatService;
 use Illuminate\Console\Command;
 
 class ClearLatestStat extends Command
