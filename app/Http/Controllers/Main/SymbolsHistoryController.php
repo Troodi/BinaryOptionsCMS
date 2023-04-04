@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class SymbolsHistoryController extends Controller
 {
-    public function getExchanges(SymbolsHistoryService $symbolsHistoryService, Request $request)
+    public function getExchanges(Request $request, SymbolsHistoryService $symbolsHistoryService)
     {
      return response()->json($symbolsHistoryService->getExch($request));
     }

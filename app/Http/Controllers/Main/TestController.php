@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
 {
-  public function test(TestService $testService, Request $request)
+  public function test(Request $request, TestService $testService)
   {
     return response()->json($testService->testServ($request));
   }

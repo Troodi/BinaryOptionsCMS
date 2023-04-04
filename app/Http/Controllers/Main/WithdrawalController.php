@@ -20,22 +20,22 @@ use Yajra\DataTables\DataTables;
 
 class WithdrawalController extends Controller
 {
-    public function getAllWithdrawSystems(WithdrawalService $withdrawalService, Request $request)
+    public function getAllWithdrawSystems(Request $request, WithdrawalService $withdrawalService)
     {
       return response()->json($withdrawalService->getAllWithdrawSysts($request));
     }
 
-    public function getAccountData(WithdrawalService $withdrawalService, GetAccountDataRequest $request)
+    public function getAccountData(GetAccountDataRequest $request, WithdrawalService $withdrawalService)
     {
         return response()->json($withdrawalService->getAccData($request));
     }
 
-    public function processPayout(WithdrawalService $withdrawalService, ProcessPayoutRequest $request)
+    public function processPayout(ProcessPayoutRequest $request, WithdrawalService $withdrawalService)
     {
         return response()->json($withdrawalService->processOfPayout($request));
     }
 
-  public function withdrawalHistory(WithdrawalService $withdrawalService, WithdrawalHistoryRequest $request)
+  public function withdrawalHistory(WithdrawalHistoryRequest $request, WithdrawalService $withdrawalService)
   {
       return response()->json($withdrawalService->withdrawalHist($request));
   }

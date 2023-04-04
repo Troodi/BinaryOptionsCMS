@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PartnerController extends Controller
 {
-    public function sendPartnerRequest(PartnerService $partnerService, SendPartnerRequest $request)
+    public function sendPartnerRequest(SendPartnerRequest $request, PartnerService $partnerService)
     {
         return response()->json($partnerService->sendPartnerReq($request));
     }
 
-    public function requestAgain(PartnerService $partnerRequest, RequestAgain $request)
+    public function requestAgain(RequestAgain $request, PartnerService $partnerRequest)
     {
      return response()->json($partnerRequest->reqAgain($request));
     }

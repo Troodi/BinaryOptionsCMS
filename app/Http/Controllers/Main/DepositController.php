@@ -28,47 +28,47 @@ use Yajra\DataTables\DataTables;
 
 class DepositController extends Controller
 {
-    public function getAllDepositSystems(DepositService $depositService, Request $request)
+    public function getAllDepositSystems(Request $request, DepositService $depositService)
     {
       return response()->json($depositService->getAllDepositSystems($request));
     }
 
-    public function qiwiProcess(DepositService $depositService, Request $request)
+    public function qiwiProcess(Request $request, DepositService $depositService)
     {
         return response()->json($depositService->qiwiProcess($request));
     }
 
-    public function yooMoneyProcess(DepositService $depositService, Request $request)
+    public function yooMoneyProcess(Request $request, DepositService $depositService)
     {
         return response()->json($depositService->yooMoneyProcess($request));
     }
 
-    public function cryptonatorProcess(DepositService $depositService, Request $request)
+    public function cryptonatorProcess(Request $request, DepositService $depositService)
     {
         return response()->json($depositService->cryptonatorProcess($request));
     }
 
-    public function startDeposit(DepositService $depositService, StartDepositRequest $request)
+    public function startDeposit(StartDepositRequest $request, DepositService $depositService)
     {
         return response()->json($depositService->startDeposit($request));
     }
 
-    public function processPayeer(DepositService $depositService, Request $request)
+    public function processPayeer(Request $request, DepositService $depositService)
     {
         return response()->json($depositService->processPayeer($request));
     }
 
-    public function processFreeKassa(DepositService $depositService, Request $request)
+    public function processFreeKassa(Request $request, DepositService $depositService)
     {
         return response()->json($depositService->processFreeKassa($request));
     }
 
-    public function depositHistory(DepositService $depositService, DepositHistoryRequest $request)
+    public function depositHistory(DepositHistoryRequest $request, DepositService $depositService)
     {
         return response()->json($depositService->depositHistory($request));
     }
 
-    private function processDeposit(DepositService $depositService, $orderId)
+    private function processDeposit($orderId, DepositService $depositService)
     {
         return response()->json($depositService->processDepositServ($orderId));
     }

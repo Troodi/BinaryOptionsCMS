@@ -29,52 +29,52 @@ use Yajra\DataTables\DataTables;
 
 class ContestController extends Controller
 {
-    public function registerOnContest(ContestService $contestService, RegisterOnContestRequest $request)
+    public function registerOnContest(RegisterOnContestRequest $request, ContestService $contestService)
     {
         return response()->json($contestService->registerOnContestServ($request));
     }
 
-    public function buyBalanceOnContest(ContestService $contestService, BuyBalanceOnContestRequest $request)
+    public function buyBalanceOnContest(BuyBalanceOnContestRequest $request, ContestService $contestService)
     {
         return response()->json($contestService->buyBalanceOnContestServ($request));
     }
 
-    public function getUserPlace(ContestService $contestService, GetUserPlaceRequest $request)
+    public function getUserPlace(GetUserPlaceRequest $request, ContestService $contestService)
     {
         return response()->json($contestService->getUserPlaceServ($request));
     }
 
-    public function getWinnersForContest(ContestService $contestService, GetWinnersForContestRequest $request)
+    public function getWinnersForContest(GetWinnersForContestRequest $request, ContestService $contestService)
     {
         return response()->json($contestService->getWinnersForContestServ($request));
     }
 
-    public function getAllContests(ContestService $contestService, GetAllContestsRequest $request)
+    public function getAllContests(GetAllContestsRequest $request, ContestService $contestService)
     {
         return response()->json($contestService->getAllContestsServ($request));
     }
 
-    public function getContestUser(ContestService $contestService, GetContestUserRequest $request)
+    public function getContestUser(GetContestUserRequest $request, ContestService $contestService)
     {
         return response()->json($contestService->getContestUserServ($request));
     }
 
-    public function getContestInfo(ContestService $contestService, GetContestInfoRequest $request)
+    public function getContestInfo(GetContestInfoRequest $request, ContestService $contestService)
     {
         return response()->json($contestService->getContestInfoServ($request));
     }
 
-    public function getOpenOrders(ContestService $contestService, GetOpenOrdersRequest $request)
+    public function getOpenOrders(GetOpenOrdersRequest $request, ContestService $contestService)
     {
         return response()->json($contestService->getOpenOrdersServ($request));
     }
 
-    public function getLatestOrders(ContestService $contestService, GetLatestOrdersRequest $request)
+    public function getLatestOrders(GetLatestOrdersRequest $request, ContestService $contestService)
     {
         return response()->json($contestService->getLatestOrdersServ($request));
     }
 
-    public function getHistory(ContestService $contestService, Request $request)
+    public function getHistory(Request $request, ContestService $contestService)
     {
         return response()->json($contestService->getHistoryServ($request));
     }

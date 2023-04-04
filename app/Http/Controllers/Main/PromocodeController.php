@@ -23,27 +23,27 @@ use Yajra\DataTables\DataTables;
 
 class PromocodeController extends Controller
 {
-  public function getAvailablePromocodes(PromocodeService $promocodeService, Request $request)
+  public function getAvailablePromocodes(Request $request, PromocodeService $promocodeService)
   {
       return response()->json($promocodeService->getAvailablePromocodesServ($request));
   }
 
-  public function checkPromocode(PromocodeService $promocodeService, CheckPromocodeRequest $request)
+  public function checkPromocode(CheckPromocodeRequest $request, PromocodeService $promocodeService)
   {
       return response()->json($promocodeService->checkPromocodeServ($request));
   }
 
-  public function getDepositPromocodes(PromocodeService $promocodeService, Request $request)
+  public function getDepositPromocodes(Request $request, PromocodeService $promocodeService)
   {
       return response()->json($promocodeService->getDepositPromocodesServ($request));
   }
 
-  public function promocodeHistory(PromocodeService $promocodeService, PromocodeHistoryRequest $request)
+  public function promocodeHistory(PromocodeHistoryRequest $request, PromocodeService $promocodeService)
   {
       return response()->json($promocodeService->promocodeHistoryServ($request));
   }
 
-  public function discardBonus(PromocodeService $promocodeService, DiscardBonusRequest $request)
+  public function discardBonus(DiscardBonusRequest $request, PromocodeService $promocodeService)
   {
       return response()->json($promocodeService->discardBonusServ($request));
   }

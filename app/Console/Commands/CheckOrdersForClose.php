@@ -36,8 +36,7 @@ class CheckOrdersForClose extends Command
      *
      * @return int
      */
-    // Пытался переделать, но не понял, как правильно изменить CheckOrdersForCloseService. Возможно сделал, но не понял, потому что не было реакции
-    // Если сделал правильно, заменить код на $checkOrdersForCloseService->allChecks(); и желательно добавить dump
+
     public function handle(CheckOrdersForCloseService $checkOrdersForCloseService)
     {
        $checkOrdersForCloseService->allChecks();

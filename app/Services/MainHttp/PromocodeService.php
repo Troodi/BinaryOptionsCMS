@@ -39,7 +39,7 @@ class PromocodeService
                 return (['success' => false, 'message' => __('locale.demo_error')]);
             }
             $admin = true;
-//            $request->validate(['id' => 'numeric|min:1']);
+            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $promocode = Promocode::where('code', $request->code)->first();
@@ -89,7 +89,7 @@ class PromocodeService
         $admin = false;
         if($request->id && Helper::isAdmin()){
             $admin = true;
-//            $request->validate(['id' => 'numeric|min:1']);
+            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $history = PromocodeHistory::where('user_id', $id)->with('promocode')->get();
@@ -103,7 +103,7 @@ class PromocodeService
                 return (['success' => false, 'message' => __('locale.demo_error')]);
             }
             $admin = true;
-//            $request->validate(['id' => 'numeric|min:1']);
+            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $user = $admin ? User::where('id', $id)->first() : Auth::user();
