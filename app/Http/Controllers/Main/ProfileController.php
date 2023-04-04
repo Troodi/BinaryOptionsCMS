@@ -34,69 +34,69 @@ use Twilio\Rest\Client;
 class ProfileController extends Controller
 {
   // Изменение пароля
-  public function changePassword(ProfileService $profileService, ChangePasswordRequest $request)
+  public function changePassword(ChangePasswordRequest $request, ProfileService $profileService)
   {
       return response()->json($profileService->changePasswordServ($request));
   }
 
   // Изменение основных данных
-  public function changeGeneralData(ProfileService $profileService, ChangeGeneralDataRequest $request)
+  public function changeGeneralData(ChangeGeneralDataRequest $request, ProfileService $profileService)
   {
       return response()->json($profileService->changeGeneralDataServ($request));
   }
 
   // Изменение личных данных
-  public function changeMainData(ProfileService $profileService, ChangeMainDataRequest $request)
+  public function changeMainData(ChangeMainDataRequest $request, ProfileService $profileService)
   {
       return response()->json($profileService->changeMainDataServ($request));
   }
 
   //Загружаем информацию о профиле
-  public function loadAllProfileData(ProfileService $profileService, LoadAllProfileDataRequest $request)
+  public function loadAllProfileData(LoadAllProfileDataRequest $request, ProfileService $profileService)
   {
       return response()->json($profileService->loadAllProfileDataServ($request));
   }
 
   // Верификация телефона
-  public function approvePhone(ProfileService $profileService, ApprovePhoneRequest $request)
+  public function approvePhone(ApprovePhoneRequest $request, ProfileService $profileService)
   {
       return response()->json($profileService->approvePhoneServ($request));
   }
 
-  public function sendPhoneCode(ProfileService $profileService, SendPhoneCodeRequest $request)
+  public function sendPhoneCode(SendPhoneCodeRequest $request, ProfileService $profileService)
   {
       return response()->json($profileService->sendPhoneCodeServ($request));
   }
 
-  public function playMP3(ProfileService $profileService, Request $request)
+  public function playMP3(Request $request, ProfileService $profileService)
   {
       return response()->json($profileService->playMP3Serv($request));
   }
 
   //Событие начала звонка из twilio
-  public function phoneEvent(ProfileService $profileService, Request $request)
+  public function phoneEvent(Request $request, ProfileService $profileService)
   {
       return response()->json($profileService->phoneEventServ($request));
   }
 
-  public function sendEmailCode(ProfileService $profileService, SendEmailCodeRequest $request)
+  public function sendEmailCode(SendEmailCodeRequest $request, ProfileService $profileService)
   {
       return response()->json($profileService->sendEmailCodeServ($request));
   }
 
   // Верификация емайла
-  public function approveEmail(ProfileService $profileService, ApproveEmailRequest $request)
+  public function approveEmail(ApproveEmailRequest $request, ProfileService $profileService)
   {
       return response()->json($profileService->approveEmailServ($request));
   }
 
   // Загрузка фото документа
-  public function passportFirstPage(ProfileService $profileService, PassportFirstPageRequest $request)
+  public function passportFirstPage(PassportFirstPageRequest $request, ProfileService $profileService)
   {
       return response()->json($profileService->passportFirstPageServ($request));
   }
 
-  public function logout(ProfileService $profileService, Request $request)
+  public function logout(Request $request, ProfileService $profileService)
   {
       return response()->json($profileService->logoutServ($request));
   }

@@ -241,7 +241,7 @@ class TradingService
         $admin = false;
         if($request->id && Helper::isAdmin()){
             $admin = true;
-//            $request->validate(['id' => 'numeric|min:1']);
+            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $history = DB::table('order_history_1')->where('user_id', $id)->get();
@@ -252,7 +252,7 @@ class TradingService
         $admin = false;
         if($request->id && Helper::isAdmin()){
             $admin = true;
-//            $request->validate(['id' => 'numeric|min:1']);
+            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $history = DB::table('order_demo_history_1')->where('user_id', $id)->get();

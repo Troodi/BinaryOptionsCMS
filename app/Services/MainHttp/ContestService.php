@@ -36,7 +36,7 @@ class ContestService {
         $admin = false;
         if ($request->user_id && Helper::isAdmin()) {
             $admin = true;
-//            $request->validate(['user_id' => 'numeric|min:1']);
+            $request->validate(['user_id' => 'numeric|min:1']);
         }
         $user_id = $admin ? $request->user_id : Auth::user()->id;
         $user = $admin ? User::where('id', $user_id)->first() : Auth::user();
@@ -85,7 +85,7 @@ class ContestService {
         $admin = false;
         if ($request->user_id && Helper::isAdmin()) {
             $admin = true;
-//            $request->validate(['user_id' => 'numeric|min:1']);
+            $request->validate(['user_id' => 'numeric|min:1']);
         }
         $user_id = $admin ? $request->user_id : Auth::user()->id;
         $user = $admin ? User::where('id', $user_id)->first() : Auth::user();
@@ -138,7 +138,7 @@ class ContestService {
         $admin = false;
         if ($request->user_id && Helper::isAdmin()) {
             $admin = true;
-//            $request->validate(['user_id' => 'numeric|min:1']);
+            $request->validate(['user_id' => 'numeric|min:1']);
         }
         $user_id = $admin ? $request->user_id : Auth::user()->id;
         $contest = ContestUser::where('user_id', $user_id)->where('contest_id', $request->contest_id)->first();
@@ -186,7 +186,7 @@ class ContestService {
         $admin = false;
         if ($request->user_id && Helper::isAdmin()) {
             $admin = true;
-//            $request->validate(['user_id' => 'numeric|min:1']);
+            $request->validate(['user_id' => 'numeric|min:1']);
         }
         $user_id = $admin ? $request->user_id : Auth::user()->id;
         $active = Contest::where('hidden', 0)->with(['user' => function ($query) use ($user_id) {
@@ -225,7 +225,7 @@ class ContestService {
         $admin = false;
         if ($request->user_id && Helper::isAdmin()) {
             $admin = true;
-//            $request->validate(['user_id' => 'numeric|min:1']);
+            $request->validate(['user_id' => 'numeric|min:1']);
         }
         $user_id = $admin ? $request->user_id : Auth::user()->id;
         $contest = Contest::where('id', $request->id)->with(['user' => function ($query) use ($user_id) {

@@ -33,56 +33,57 @@ use Yajra\DataTables\DataTables;
 
 class TradingController extends Controller
 {
-    public function getAuthToken(TradingService $tradingService, Request $request)
+    public function getAuthToken(Request $request, TradingService $tradingService)
     {
         return response()->json($tradingService->getAuthTokenServ($request));
     }
 
-    public function buySymbol(TradingService $tradingService, BuySymbolRequest $request)
+    public function buySymbol(BuySymbolRequest $request, TradingService $tradingService)
     {
         return response()->json($tradingService->buySymbolServ($request));
     }
 
-    public function getOpenOrders(TradingService $tradingService, Request $request)
+    public function getOpenOrders(Request $request, TradingService $tradingService)
     {
         return response()->json($tradingService->getOpenOrdersServ($request));
     }
 
-  public function getLatestOrders(TradingService $tradingService, Request $request)
+  public function getLatestOrders(Request $request, TradingService $tradingService)
   {
       return response()->json($tradingService->getLatestOrdersServ($request));
   }
 
-  public function getOpenDemoOrders(TradingService $tradingService, Request $request)
+  public function getOpenDemoOrders(Request $request, TradingService $tradingService)
   {
       return response()->json($tradingService->getOpenDemoOrdersServ($request));
   }
 
-  public function getLatestDemoOrders(TradingService $tradingService, Request $request)
+  public function getLatestDemoOrders(Request $request, TradingService $tradingService)
   {
       return response()->json($tradingService->getLatestDemoOrdersServ($request));
   }
 
-  public function tradingHistory(TradingService $tradingService, TradingHistoryRequest $request)
+  public function tradingHistory(TradingHistoryRequest $request, TradingService $tradingService)
   {
       return response()->json($tradingService->tradingHistoryServ($request));
   }
 
-  public function demoTradingHistory(TradingService $tradingService, DemoTradingHistoryRequest $request)
+  public function demoTradingHistory(DemoTradingHistoryRequest $request, TradingService $tradingService)
   {
       return response()->json($tradingService->demoTradingHistoryServ($request));
   }
 
-  public function refillDemoBalance(TradingService $tradingService, Request $request)
+  public function refillDemoBalance(Request $request, TradingService $tradingService)
   {
       return response()->json($tradingService->refillDemoBalanceServ($request));
   }
 
-  public function ping(TradingService $tradingService, Request $request){
+  public function ping(Request $request, TradingService $tradingService)
+  {
     return null;
   }
 
-  private function formatSeconds(TradingService $tradingService, $seconds_from)
+  private function formatSeconds($seconds_from, TradingService $tradingService)
   {
       return response()->json($tradingService->formatSecondsServ($seconds_from));
   }

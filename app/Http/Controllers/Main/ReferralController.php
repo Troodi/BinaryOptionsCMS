@@ -18,17 +18,17 @@ use Yajra\DataTables\DataTables;
 
 class ReferralController extends Controller
 {
-    public function getUserReferralInfo(ReferralService $referralService, GetUserRefInfoRequest $request)
+    public function getUserReferralInfo(GetUserRefInfoRequest $request, ReferralService $referralService)
     {
         return response()->json($referralService->getUserRefInfo($request));
     }
 
-    public function getUserReferrals(ReferralService $referralService, GetUserRefsRequest $request)
+    public function getUserReferrals(GetUserRefsRequest $request, ReferralService $referralService)
     {
         return response()->json($referralService->getUserRefs($request));
     }
 
-    public function setReferralCookie(ReferralService $referralService, Request $request)
+    public function setReferralCookie(Request $request, ReferralService $referralService)
     {
         return response()->json($referralService->setRefCookie($request));
     }
