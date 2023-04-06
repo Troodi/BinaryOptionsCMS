@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\MainHttp\Withdrawal;
 
+use App\Rules\IdIfAdminRule;
+use App\Rules\UserIfAdminIdRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProcessPayoutRequest extends FormRequest
@@ -13,7 +15,7 @@ class ProcessPayoutRequest extends FormRequest
             'amount' => 'required|numeric|min:10|max:100000',
             'system_id' => 'required|numeric|min:1|max:8',
             'address' => 'required|string|min:5|max:155',
-            'id' => 'numeric|min:1'
+            'id' => [new IdIfAdminRule]
         ];
     }
 }

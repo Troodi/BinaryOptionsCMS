@@ -1,0 +1,240 @@
+Index: app/Services/MainHttp/ContestService.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Services/MainHttp/ContestService.php b/app/Services/MainHttp/ContestService.php
+--- a/app/Services/MainHttp/ContestService.php	
++++ b/app/Services/MainHttp/ContestService.php	(date 1680734588168)
+@@ -19,7 +19,6 @@
+ use App\Models\ContestLatestOrder;
+ use App\Models\ContestOpenOrder;
+ use App\Models\ContestUser;
+-use App\Rules\UserIfAdminIdRule;
+ use App\User;
+ use Carbon\Carbon;
+ use Illuminate\Http\Request;
+@@ -35,9 +34,10 @@
+ //            'contest_id' => 'required|numeric|min:1'
+ //        ]);
+         $admin = false;
+-
+-
+-
++        if ($request->user_id && Helper::isAdmin()) {
++            $admin = true;
++            $request->user_id;
++        }
+         $user_id = $admin ? $request->user_id : Auth::user()->id;
+         $user = $admin ? User::where('id', $user_id)->first() : Auth::user();
+         $contest = Contest::where('id', $request->contest_id)
+@@ -83,7 +83,10 @@
+ //            'contest_id' => 'required|numeric|min:1'
+ //        ]);
+         $admin = false;
+-
++        if ($request->user_id && Helper::isAdmin()) {
++            $admin = true;
++            $request->validate(['user_id' => 'numeric|min:1']);
++        }
+         $user_id = $admin ? $request->user_id : Auth::user()->id;
+         $user = $admin ? User::where('id', $user_id)->first() : Auth::user();
+         $contest = Contest::where('id', $request->contest_id)
+@@ -133,7 +136,10 @@
+ //            'contest_id' => 'required|numeric|min:1'
+ //        ]);
+         $admin = false;
+-
++        if ($request->user_id && Helper::isAdmin()) {
++            $admin = true;
++            $request->validate(['user_id' => 'numeric|min:1']);
++        }
+         $user_id = $admin ? $request->user_id : Auth::user()->id;
+         $contest = ContestUser::where('user_id', $user_id)->where('contest_id', $request->contest_id)->first();
+         if (!$contest) {
+@@ -178,7 +184,10 @@
+     public function getAllContestsServ(GetAllContestsRequest $request)
+     {
+         $admin = false;
+-
++        if ($request->user_id && Helper::isAdmin()) {
++            $admin = true;
++            $request->validate(['user_id' => 'numeric|min:1']);
++        }
+         $user_id = $admin ? $request->user_id : Auth::user()->id;
+         $active = Contest::where('hidden', 0)->with(['user' => function ($query) use ($user_id) {
+             $query->where('contest_users.user_id', '=', $user_id);
+@@ -214,7 +223,10 @@
+ //            'id' => 'required|numeric|min:1'
+ //        ]);
+         $admin = false;
+-
++        if ($request->user_id && Helper::isAdmin()) {
++            $admin = true;
++            $request->validate(['user_id' => 'numeric|min:1']);
++        }
+         $user_id = $admin ? $request->user_id : Auth::user()->id;
+         $contest = Contest::where('id', $request->id)->with(['user' => function ($query) use ($user_id) {
+             $query->where('contest_users.user_id', '=', $user_id);
+Index: app/Services/MainHttp/DepositService.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Services/MainHttp/DepositService.php b/app/Services/MainHttp/DepositService.php
+--- a/app/Services/MainHttp/DepositService.php	
++++ b/app/Services/MainHttp/DepositService.php	(date 1680734588164)
+@@ -242,7 +242,10 @@
+ 
+     public function depositHistory(DepositHistoryRequest $request){
+         $admin = false;
+-
++        if($request->id && Helper::isAdmin()){
++            $admin = true;
++            $request->validate(['id' => 'numeric|min:1']);
++        }
+         $id = $admin ? $request->id : Auth::user()->id;
+         $history = Deposit::where('user_id', $id)->with(['depositSystem'])->get();
+         return Datatables::of($history)->make();
+Index: app/Services/MainHttp/PartnerService.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Services/MainHttp/PartnerService.php b/app/Services/MainHttp/PartnerService.php
+--- a/app/Services/MainHttp/PartnerService.php	
++++ b/app/Services/MainHttp/PartnerService.php	(date 1680734588160)
+@@ -26,7 +26,7 @@
+                 return (['success' => false, 'message' => __('locale.demo_error')]);
+             }
+             $admin = true;
+-
++            $request->validate(['id' => 'numeric|min:1']);
+         }
+         $id = $admin ? $request->id : Auth::user()->id;
+         if(PartnerRequest::where('user_id', $id)->count()){
+@@ -52,7 +52,7 @@
+                 return (['success' => false, 'message' => __('locale.demo_error')]);
+             }
+             $admin = true;
+-
++            $request->validate(['id' => 'numeric|min:1']);
+         }
+         $id = $admin ? $request->id : Auth::user()->id;
+         if(User::where('id', $id)->first()->partner_status != null){
+Index: app/Services/MainHttp/ProfileService.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Services/MainHttp/ProfileService.php b/app/Services/MainHttp/ProfileService.php
+--- a/app/Services/MainHttp/ProfileService.php	
++++ b/app/Services/MainHttp/ProfileService.php	(date 1680734588156)
+@@ -59,7 +59,7 @@
+             if(config('custom.demo')){
+                 return (['success' => false, 'message' => __('locale.demo_error')]);
+             }
+-
++            $request->validate(['id' => 'numeric']);
+             $id = $request->id;
+         }
+ //        $request->validate([
+@@ -85,7 +85,7 @@
+                 return (['success' => false, 'message' => __('locale.demo_error')]);
+             }
+             $admin = true;
+-
++            $request->validate(['id' => 'numeric|min:1']);
+         }
+ //        $request->validate([
+ //            'name' => 'string|min:3|max:50'.$admin ? '|nullable' : '',
+@@ -114,7 +114,7 @@
+     //Загружаем информацию о профиле
+     public function loadAllProfileDataServ(LoadAllProfileDataRequest $request){
+         if(isset($request->id) && Helper::isAdmin()){
+-
++            $request->validate(['id' => 'numeric|min:1']);
+             return User::where('id', $request->id)->with('profile', 'provider')->first();
+         } else {
+             return User::where('id', Auth::user()->id)->with('profile', 'provider')->first();
+@@ -291,7 +291,7 @@
+                 return (['success' => false, 'message' => __('locale.demo_error')]);
+             }
+             $admin = true;
+-
++            $request->validate(['id' => 'numeric|min:1']);
+         }
+         $id = $admin ? $request->id : Auth::user()->id;
+         $pages = ['1' => 'document_first_page', '2' => 'document_second_page', '3' => 'document_additional'];
+Index: app/Services/MainHttp/ReferralService.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Services/MainHttp/ReferralService.php b/app/Services/MainHttp/ReferralService.php
+--- a/app/Services/MainHttp/ReferralService.php	
++++ b/app/Services/MainHttp/ReferralService.php	(date 1680734588152)
+@@ -19,14 +19,20 @@
+ {
+     public function getUserRefInfo(GetUserRefInfoRequest $request){
+         $admin = false;
+-
++        if($request->id && Helper::isAdmin()){
++            $admin = true;
++            $request->validate(['id' => 'numeric|min:1']);
++        }
+         $id = $admin ? $request->id : Auth::user()->id;
+         return Referral::where('user_id', $id)->with(['user', 'request'])->first();
+     }
+ 
+     public function getUserRefs(GetUserRefsRequest $request){
+         $admin = false;
+-
++        if($request->id && Helper::isAdmin()){
++            $admin = true;
++            $request->validate(['id' => 'numeric|min:1']);
++        }
+         $id = $admin ? $request->id : Auth::user()->id;
+         $referrals = User::select('token', 'created_at')->where('referer_id', $id)->get();
+         return Datatables::of($referrals)->make();
+Index: app/Services/MainHttp/WithdrawalService.php
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/Services/MainHttp/WithdrawalService.php b/app/Services/MainHttp/WithdrawalService.php
+--- a/app/Services/MainHttp/WithdrawalService.php	
++++ b/app/Services/MainHttp/WithdrawalService.php	(date 1680734588144)
+@@ -26,7 +26,10 @@
+ 
+     public function getAccData(GetAccountDataRequest $request){
+         $admin = false;
+-
++        if($request->id && Helper::isAdmin()){
++            $admin = true;
++            $request->validate(['id' => 'numeric|min:1']);
++        }
+ 
+         $id = $admin ? $request->id : Auth::user()->id;
+         User::where('id', $id)->where('left_turnover', '<', 0)->update(['left_turnover' => 0]);
+@@ -45,7 +48,7 @@
+                 return (['success' => false, 'message' => __('locale.demo_error')]);
+             }
+             $admin = true;
+-
++            $request->validate(['id' => 'numeric|min:1']);
+         }
+         $id = $admin ? $request->id : Auth::user()->id;
+         $user = $admin ? User::where('id', $id)->first() : Auth::user();
+@@ -73,7 +76,10 @@
+     public function withdrawalHist(WithdrawalHistoryRequest $request)
+     {
+         $admin = false;
+-
++        if($request->id && Helper::isAdmin()){
++            $admin = true;
++            $request->validate(['id' => 'numeric|min:1']);
++        }
+         $id = $admin ? $request->id : Auth::user()->id;
+         $history = Withdrawal::where('user_id', $id)->with(['withdrawSystem'])->get();
+         return Datatables::of($history)->make();

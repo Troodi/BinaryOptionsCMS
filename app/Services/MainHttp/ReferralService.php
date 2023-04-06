@@ -21,7 +21,6 @@ class ReferralService
         $admin = false;
         if($request->id && Helper::isAdmin()){
             $admin = true;
-            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         return Referral::where('user_id', $id)->with(['user', 'request'])->first();
@@ -31,7 +30,6 @@ class ReferralService
         $admin = false;
         if($request->id && Helper::isAdmin()){
             $admin = true;
-            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $referrals = User::select('token', 'created_at')->where('referer_id', $id)->get();

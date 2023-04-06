@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\MainHttp\Trading;
 
+use App\Rules\IdIfAdminRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TradingHistoryRequest extends FormRequest
@@ -10,7 +11,7 @@ class TradingHistoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|min:1'
+            'id' => [new IdIfAdminRule]
         ];
     }
 }

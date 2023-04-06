@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\MainHttp\Profile;
 
+use App\Rules\IdIfAdminRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ChangeMainDataRequest extends FormRequest
@@ -12,7 +13,7 @@ class ChangeMainDataRequest extends FormRequest
     public function rules($admin)
     {
         return [
-            'id' => 'numeric|min:1',
+            'id' => [new IdIfAdminRule],
             'name' => 'string|min:3|max:50'.$admin ? '|nullable' : '',
             'last_name' => 'string|min:3|max:50'.$admin ? '|nullable' : '',
             'patronymic' => 'string|min:3|max:50'.$admin ? '|nullable' : '',

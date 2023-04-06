@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\MainHttp\Contest;
 
+use App\Rules\UserIfAdminIdRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BuyBalanceOnContestRequest extends FormRequest
@@ -12,7 +13,7 @@ class BuyBalanceOnContestRequest extends FormRequest
         return [
             'amount' => 'required|numeric',
             'contest_id' => 'required|numeric|min:1',
-            'user_id' => 'numeric|min:1',
+            'user_id' => [new UserIfAdminIdRule]
 
         ];
     }

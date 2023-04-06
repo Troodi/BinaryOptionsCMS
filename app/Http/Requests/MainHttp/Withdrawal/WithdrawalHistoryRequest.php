@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests\MainHttp\Withdrawal;
 
+use App\Rules\IdIfAdminRule;
+use App\Rules\UserIfAdminIdRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class WithdrawalHistoryRequest extends FormRequest
@@ -10,7 +12,7 @@ class WithdrawalHistoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|min:1'
+            'id' => [new IdIfAdminRule]
         ];
     }
 }

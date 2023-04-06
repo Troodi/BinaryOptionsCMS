@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\MainHttp\Partner;
 
+use App\Rules\IdIfAdminRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SendPartnerRequest extends FormRequest
@@ -13,7 +14,7 @@ class SendPartnerRequest extends FormRequest
             'telegram' => 'string|min:3|max:255',
             'comment' => 'string|min:20|max:500',
             'traffic' => 'required|numeric|min:0|max:4',
-            'id' => 'numeric|min:1'
+            'id' => [new IdIfAdminRule]
         ];
     }
 }

@@ -59,7 +59,6 @@ class ProfileService
             if(config('custom.demo')){
                 return (['success' => false, 'message' => __('locale.demo_error')]);
             }
-            $request->validate(['id' => 'numeric']);
             $id = $request->id;
         }
 //        $request->validate([
@@ -85,7 +84,6 @@ class ProfileService
                 return (['success' => false, 'message' => __('locale.demo_error')]);
             }
             $admin = true;
-            $request->validate(['id' => 'numeric|min:1']);
         }
 //        $request->validate([
 //            'name' => 'string|min:3|max:50'.$admin ? '|nullable' : '',
@@ -114,7 +112,6 @@ class ProfileService
     //Загружаем информацию о профиле
     public function loadAllProfileDataServ(LoadAllProfileDataRequest $request){
         if(isset($request->id) && Helper::isAdmin()){
-            $request->validate(['id' => 'numeric|min:1']);
             return User::where('id', $request->id)->with('profile', 'provider')->first();
         } else {
             return User::where('id', Auth::user()->id)->with('profile', 'provider')->first();
@@ -291,7 +288,6 @@ class ProfileService
                 return (['success' => false, 'message' => __('locale.demo_error')]);
             }
             $admin = true;
-            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $pages = ['1' => 'document_first_page', '2' => 'document_second_page', '3' => 'document_additional'];

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\MainHttp\Promocode;
 
+use App\Rules\IdIfAdminRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CheckPromocodeRequest extends FormRequest
@@ -11,7 +12,7 @@ class CheckPromocodeRequest extends FormRequest
     {
         return [
             'code' => 'string|min:1|max:255',
-            'id' => 'numeric|min:1'
+            'id' => [new IdIfAdminRule]
         ];
     }
 }
