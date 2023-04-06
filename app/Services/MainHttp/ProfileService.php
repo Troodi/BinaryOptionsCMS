@@ -37,11 +37,7 @@ class ProfileService
         if(config('custom.demo')){
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
-//        $request->validate([
-//            'old_password' =>  'string|min:6|max:255',
-//            'new_password' =>  'string|min:8|max:255',
-//            'repeat_password' =>  'string|min:8|max:255',
-//        ]);
+
         if(!Hash::check($request->old_password, Auth::user()->password)){
             return (['success' => false, 'message' => __('locale.profile_current_password_wrong')]);
         }
@@ -61,12 +57,7 @@ class ProfileService
             }
             $id = $request->id;
         }
-//        $request->validate([
-//            'nickname' => 'string|min:3|max:50|nullable',
-//            'telegram' => 'string|min:3|max:50|nullable',
-//            'gender' => 'numeric|min:0|max:1',
-//            'language' => 'string|min:2|max:50',
-//        ]);
+
         User::where('id', $id)->update(['name' => $request->nickname]);
         ProFile::where('user_id', $id)->update([
             'telegram' => $request->telegram,
@@ -85,14 +76,7 @@ class ProfileService
             }
             $admin = true;
         }
-//        $request->validate([
-//            'name' => 'string|min:3|max:50'.$admin ? '|nullable' : '',
-//            'last_name' => 'string|min:3|max:50'.$admin ? '|nullable' : '',
-//            'patronymic' => 'string|min:3|max:50'.$admin ? '|nullable' : '',
-//            'birth' => 'regex:/\d{2}\-\d{2}\-\d{4}/'.$admin ? '|nullable' : '',
-//            'address' => 'string|min:10|max:250'.$admin ? '|nullable' : '',
-//            'document_number' => 'string|min:3|max:250'.$admin ? '|nullable' : '',
-//        ]);
+
         $id = $admin ? $request->id : Auth::user()->id;
         $profile = Profile::where('user_id', $id)->first();
         if(($profile->document_first_page or $profile->document_first_page_verify_at or $profile->document_second_page or $profile->document_second_page_verify_at or $profile->document_additional or $profile->document_document_additional_verify_at) and $admin){
@@ -120,9 +104,7 @@ class ProfileService
 
     // Верификация телефона
     public function approvePhoneServ(ApprovePhoneRequest $request){
-//        $request->validate([
-//            'code' => 'numeric|min:1000|max:9999'
-//        ]);
+
         $profile = Profile::where('user_id', Auth::user()->id)->first();
         if($profile->phone_verify_at){
             return (['success' => false, 'message' => __('locale.profile_phone_already_confirmed')]);
@@ -137,9 +119,7 @@ class ProfileService
     }
 
     public function sendPhoneCodeServ(SendPhoneCodeRequest $request){
-//        $request->validate([
-//            'phone' => 'regex:/\+\d{6,20}/'
-//        ]);
+
         if(cache()->has('phoneSent'.Auth::user()->id)){
             return (['success' => false, 'message' => __('locale.profile_once_a_minute_call')]);
         }
@@ -207,9 +187,7 @@ class ProfileService
     }
 
     public function sendEmailCodeServ(SendEmailCodeRequest $request){
-//        $request->validate([
-//            'email' => 'email'
-//        ]);
+
         if(cache()->has('emailSent'.Auth::user()->id)){
             return (['success' => false, 'message' => __('locale.profile_email_once_a_minute')]);
         }
@@ -250,9 +228,7 @@ class ProfileService
 
     // Верификация емайла
     public function approveEmailServ(ApproveEmailRequest $request){
-//        $request->validate([
-//            'code' => 'numeric|min:1000|max:9999'
-//        ]);
+
         if(Auth::user()->email_verified_at){
             return (['success' => false, 'message' => __('locale.profile_email_already_confirmed')]);
         }
@@ -278,10 +254,7 @@ class ProfileService
 
     // Загрузка фото документа
     public function passportFirstPageServ(PassportFirstPageRequest $request){
-//        $request->validate([
-//            'page' => 'required|min:1|max:3',
-//            'file' => 'required|image|max:4096'
-//        ]);
+
         $admin = false;
         if($request->id && Helper::isAdmin()){
             if(config('custom.demo')){

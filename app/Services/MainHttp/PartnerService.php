@@ -15,11 +15,7 @@ use Illuminate\Support\Facades\Mail;
 class PartnerService {
 
     public function sendPartnerReq(SendPartnerRequest $request){
-//        $request->validate([
-//            'telegram' => 'string|min:3|max:255',
-//            'comment' => 'string|min:20|max:500',
-//            'traffic' => 'required|numeric|min:0|max:4'
-//        ]);
+
         $admin = false;
         if($request->id && Helper::isAdmin()){
             if(config('custom.demo')){

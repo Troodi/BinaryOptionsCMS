@@ -69,10 +69,7 @@ class DepositService
     }
 
     public function startDeposit(StartDepositRequest $request){
-//        $request->validate([
-//            'amount' => 'required|numeric|min:5|max:10000',
-//            'system_id' => 'required|numeric|min:0'
-//        ]);
+
         $promocode_request = intval($request->promocode);
         $amount = number_format($request->amount, 2, '.', '');
         $max = DepositSystem::where('id', $request->system_id)->first()->max;

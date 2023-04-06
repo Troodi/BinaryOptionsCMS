@@ -30,9 +30,7 @@ class ContestService {
 
     public function registerOnContestServ(RegisterOnContestRequest $request)
     {
-//        $request->validate([
-//            'contest_id' => 'required|numeric|min:1'
-//        ]);
+
         $admin = false;
         if ($request->user_id && Helper::isAdmin()) {
             $admin = true;
@@ -78,10 +76,7 @@ class ContestService {
 
     public function buyBalanceOnContestServ(BuyBalanceOnContestRequest $request)
     {
-//        $request->validate([
-//            'amount' => 'required|numeric',
-//            'contest_id' => 'required|numeric|min:1'
-//        ]);
+
         $admin = false;
         if ($request->user_id && Helper::isAdmin()) {
             $admin = true;
@@ -131,9 +126,7 @@ class ContestService {
 
     public function getUserPlaceServ(GetUserPlaceRequest $request)
     {
-//        $request->validate([
-//            'contest_id' => 'required|numeric|min:1'
-//        ]);
+
         $admin = false;
         if ($request->user_id && Helper::isAdmin()) {
             $admin = true;
@@ -149,9 +142,7 @@ class ContestService {
 
     public function getWinnersForContestServ(GetWinnersForContestRequest $request)
     {
-//        $request->validate([
-//            'contest_id' => 'required|numeric|min:1'
-//        ]);
+
         $contest = Contest::where('id', $request->contest_id)->where('hidden', 0)->first();
         $count = count($contest->places);
         $type = '';
@@ -208,17 +199,13 @@ class ContestService {
 
     public function getContestUserServ(GetContestUserRequest $request)
     {
-//        $request->validate([
-//            'contest_id' => 'required|numeric|min:1',
-//        ]);
+
         return ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->contest_id)->first();
     }
 
     public function getContestInfoServ(GetContestInfoRequest $request)
     {
-//        $request->validate([
-//            'id' => 'required|numeric|min:1'
-//        ]);
+
         $admin = false;
         if ($request->user_id && Helper::isAdmin()) {
             $admin = true;
@@ -233,9 +220,7 @@ class ContestService {
 
     public function getOpenOrdersServ(GetOpenOrdersRequest $request)
     {
-//        $request->validate([
-//            'id' => 'required|numeric|min:1'
-//        ]);
+
         return ContestOpenOrder::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->orderBy('id', 'desc')->get()->filter(function ($item) {
             $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->created_at));
             $item['expiration'] = $diff->s + $diff->i * 60 + $diff->h * 60 * 60;
@@ -249,9 +234,7 @@ class ContestService {
 
     public function getLatestOrdersServ(GetLatestOrdersRequest $request)
     {
-//        $request->validate([
-//            'id' => 'required|numeric|min:1'
-//        ]);
+
         return ContestLatestOrder::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->orderBy('id', 'desc')->get()->filter(function ($item) {
             $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->open_at));
             $item['expiration'] = sprintf("%'.02d", $diff->h) . ':' . sprintf("%'.02d", $diff->i) . ':' . sprintf("%'.02d", $diff->s);
