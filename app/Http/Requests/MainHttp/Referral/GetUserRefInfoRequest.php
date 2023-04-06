@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\MainHttp\Referral;
 
+use App\Rules\IdIfAdminRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GetUserRefInfoRequest extends FormRequest
@@ -10,7 +11,7 @@ class GetUserRefInfoRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|min:1'
+            'id' => [new IdIfAdminRule]
         ];
     }
 }

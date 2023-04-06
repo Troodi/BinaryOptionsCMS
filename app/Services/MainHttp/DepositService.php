@@ -244,7 +244,6 @@ class DepositService
         $admin = false;
         if($request->id && Helper::isAdmin()){
             $admin = true;
-            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $history = Deposit::where('user_id', $id)->with(['depositSystem'])->get();

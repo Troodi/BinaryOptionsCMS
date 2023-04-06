@@ -7,6 +7,9 @@ use App\Events\ChangeContestBalance;
 use App\Events\ChangeDemoBalance;
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MainHttp\Trading\BuySymbolRequest;
+use App\Http\Requests\MainHttp\Trading\DemoTradingHistoryRequest;
+use App\Http\Requests\MainHttp\Trading\TradingHistoryRequest;
 use App\MarketStatus;
 use App\Models\Contest;
 use App\Models\ContestOpenOrder;
@@ -83,7 +86,7 @@ class TradingService
         return $auth_token;
     }
 
-    public function buySymbolServ(Request $request){
+    public function buySymbolServ(BuySymbolRequest $request){
 //        $request->validate([
 //            'hours' => 'numeric|min:0|max:12',
 //            'minutes' => 'numeric|min:0|max:59',
@@ -237,22 +240,20 @@ class TradingService
         });
     }
 
-    public function tradingHistoryServ(Request $request){
+    public function tradingHistoryServ(TradingHistoryRequest $request){
         $admin = false;
         if($request->id && Helper::isAdmin()){
             $admin = true;
-            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $history = DB::table('order_history_1')->where('user_id', $id)->get();
         return Datatables::of($history)->make();
     }
 
-    public function demoTradingHistoryServ(Request $request){
+    public function demoTradingHistoryServ(DemoTradingHistoryRequest $request){
         $admin = false;
         if($request->id && Helper::isAdmin()){
             $admin = true;
-            $request->validate(['id' => 'numeric|min:1']);
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $history = DB::table('order_demo_history_1')->where('user_id', $id)->get();
