@@ -3,67 +3,39 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Deposit\CreateDepositSystemRequest;
+use App\Http\Requests\Admin\Deposit\EditDepositSystemRequest;
+use App\Http\Requests\Admin\Deposit\RemoveDepositSystemRequest;
 use App\Models\Deposit;
 use App\Models\DepositSystem;
+use App\Services\Admin\DepositService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 class DepositController extends Controller
 {
-  public function allDeposits(Request $request){
-    $requests = Deposit::with(['user'])->get();
-    return Datatables::of($requests)->make();
+  public function allDeposits(Request $request, DepositService $depositService)
+  {
+      return response()->json($depositService->allDepositsServ($request));
   }
 
-  public function allDepositSystems(Request $request){
-    return DepositSystem::orderBy('id', 'asc')->get();
+  public function allDepositSystems(Request $request, DepositService $depositService)
+  {
+      return response()->json($depositService->allDepositSystemsServ($request));
   }
 
-  public function editDepositSystem(Request $request){
-    if(config('custom.demo')){
-      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
-    }
-    $request->validate([
-      'id' => 'required|numeric|min:1',
-      'newId' => 'required|numeric|min:1',
-      'system' => 'required|string|min:1',
-      'order' => 'numeric|min:0|nullable',
-      'active' => 'required|numeric|min:0|max:1',
-    ]);
-    DepositSystem::where('id', $request->id)->update([
-      'id' => $request->newId,
-      'text' => $request->system,
-      'order' => $request->order,
-      'hidden' => $request->active,
-    ]);
-    return response()->json(['success' => true, 'message' => __('locale.admin_deposit_updated')]);
+  public function editDepositSystem(EditDepositSystemRequest $request, DepositService $depositService)
+  {
+      return response()->json($depositService->editDepositSystemServ($request));
   }
 
-  public function removeDepositSystem(Request $request){
-    if(config('custom.demo')){
-      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
-    }
-    $request->validate([
-      'id' => 'required|numeric|min:1',
-    ]);
-    DepositSystem::where('id', $request->id)->delete();
-    return response()->json(['success' => true, 'message' => __('locale.admin_deposit_deleted')]);
+  public function removeDepositSystem(RemoveDepositSystemRequest $request, DepositService $depositService)
+  {
+      return response()->json($depositService->removeDepositSystemServ($request));
   }
 
-  public function createDepositSystem(Request $request){
-    if(config('custom.demo')){
-      return response()->json(['success' => false, 'message' => __('locale.demo_error')]);
-    }
-    $request->validate([
-      'system' => 'required|string|min:1',
-      'order' => 'numeric|min:0|nullable',
-      'active' => 'required|numeric|min:0|max:1',
-    ]);
-    $model = new DepositSystem();
-    $model->text = $request->system;
-    $model->order = $request->order;
-    $model->hidden = $request->active;
-    $model->save();
-    return response()->json(['success' => true, 'message' => __('locale.admin_deposit_created')]);
+  public function createDepositSystem(CreateDepositSystemRequest $request, DepositService $depositService)
+  {
+      return response()->json($depositService->createDepositSystemServ($request));
   }
 }

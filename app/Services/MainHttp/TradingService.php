@@ -87,16 +87,7 @@ class TradingService
     }
 
     public function buySymbolServ(BuySymbolRequest $request){
-//        $request->validate([
-//            'hours' => 'numeric|min:0|max:12',
-//            'minutes' => 'numeric|min:0|max:59',
-//            'seconds' => 'numeric|min:0|max:59',
-//            'symbol' => 'numeric|min:0',
-//            'amount' => 'numeric|min:1',
-//            'direction' => 'numeric|min:0|max:1',
-//            'type' => 'required',
-//            'id' => 'required|numeric|min:0'
-//        ]);
+
         $symbol = Symbol::where('id', $request->symbol)->firstOrFail();
         if((Carbon::now()->hour >= $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
             return (['message' => __('locale.trading_non_work_time')]);

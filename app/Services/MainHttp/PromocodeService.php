@@ -30,9 +30,7 @@ class PromocodeService
     }
 
     public function checkPromocodeServ(CheckPromocodeRequest $request){
-//        $request->validate([
-//            'code' => 'string|min:1|max:255'
-//        ]);
+
         $admin = false;
         if($request->id && Helper::isAdmin()){
             if(config('custom.demo')){

@@ -36,11 +36,7 @@ class WithdrawalService
     }
 
     public function processOfPayout(ProcessPayoutRequest $request){
-//        $request->validate([
-//            'amount' => 'required|numeric|min:10|max:100000',
-//            'system_id' => 'required|numeric|min:1|max:8',
-//            'address' => 'required|string|min:5|max:155',
-//        ]);
+
         $admin = false;
         if($request->id && Helper::isAdmin()){
             if(config('custom.demo')){
