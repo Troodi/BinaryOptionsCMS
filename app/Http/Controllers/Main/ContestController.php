@@ -74,8 +74,8 @@ class ContestController extends Controller
         return response()->json($contestService->getLatestOrdersServ($request));
     }
 
-    public function getHistory(Request $request, ContestService $contestService)
+    public function getHistory(Request $request, $id, ContestService $contestService)
     {
-        return response()->json($contestService->getHistoryServ($request));
+        return response()->json($contestService->getHistoryServ($request, $id));
     }
 }
