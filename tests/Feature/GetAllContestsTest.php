@@ -18,6 +18,10 @@ class GetAllContestsTest extends TestCase
     {
         $response = $this->actingAs(User::first())->post('/data/getAllContests');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure([
+            'active',
+            'ended',
+            'planned'
+        ]);
     }
 }

@@ -18,6 +18,16 @@ class AdminHistoryDemoTest extends TestCase
     {
         $response = $this->actingAs(User::first())->post('/admin/data/history/demo/0');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure([
+            'headers',
+            'original' => [
+                'draw',
+                'recordsTotal',
+                'recordsFiltered',
+                'data',
+                'input'
+            ],
+            'exception'
+        ]);
     }
 }

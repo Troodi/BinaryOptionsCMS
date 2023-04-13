@@ -18,6 +18,25 @@ class SymbolsTest extends TestCase
     {
         $response = $this->actingAs(User::first())->get('/data/symbols');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure([
+            '*' => [
+            'id',
+            'symbol',
+            'type',
+            'broker',
+            'percent',
+            'min_percent',
+            'fixed_percent',
+            'max_percent',
+            'work_from',
+            'work_to',
+            'min_expiration_time',
+            'min_percent_tech',
+            'min_percent_news',
+            'min_percent_user',
+            'status',
+            'deleted_at'
+            ]
+        ]);
     }
 }

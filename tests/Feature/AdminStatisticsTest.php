@@ -18,6 +18,19 @@ class AdminStatisticsTest extends TestCase
     {
         $response = $this->actingAs(User::first())->post('/admin/data/statistics');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure([
+                'user_count',
+                'banned_users',
+                'deposit_count',
+                'withdrawal_count',
+                'referral_count',
+                'profit',
+                'deals',
+                'turnover',
+                'bonus',
+                'clear_balance',
+                'total_profit_count',
+                'total_loss_count'
+        ]);
     }
 }

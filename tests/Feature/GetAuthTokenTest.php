@@ -19,5 +19,6 @@ class GetAuthTokenTest extends TestCase
         $response = $this->actingAs(User::first())->get('/data/GetAuthToken');
 
         $response->assertStatus(200);
+        $this->assertNotEmpty($response->getContent());
     }
 }

@@ -18,6 +18,16 @@ class DepositHistoryTest extends TestCase
     {
         $response = $this->actingAs(User::first())->post('/data/depositHistory');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure([
+            'headers',
+            'original' => [
+                'draw',
+                'recordsTotal',
+                'recordsFiltered',
+                'data',
+                'input'
+            ],
+            'exception'
+        ]);
     }
 }
