@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class GetAllDepositSystemsTest extends TestCase
+class ReferralsTest extends TestCase
 {
     /**
      * A basic feature test example.
@@ -16,18 +16,18 @@ class GetAllDepositSystemsTest extends TestCase
      */
     public function test_example()
     {
-        $response = $this->actingAs(User::first())->post('/data/getAllDepositSystems');
+        $response = $this->actingAs(User::first())->post('/data/referrals');
 
         $response->assertStatus(200)->assertJsonStructure([
-            '*' => [
-                'id',
-                'text',
-                'hidden',
-                'max',
-                'order',
-                'created_at',
-                'updated_at',
-            ]
+            'headers',
+            'original' => [
+                'draw',
+                'recordsTotal',
+                'recordsFiltered',
+                'data',
+                'input'
+            ],
+            'exception'
         ]);
     }
 }

@@ -16,6 +16,26 @@ class PromocodeTest extends TestCase
         $response = $this->actingAs(User::first())->post('/promocodes');
 
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure([
+            '*' => [
+                'id',
+                'description',
+                'bonus_size',
+                'code',
+                'image',
+                'public_code',
+                'used',
+                'for_new',
+                'attempts',
+                'type',
+                'turnover',
+                'min_amount',
+                'active_from',
+                'active_to',
+                'deleted_at',
+                'created_at',
+                'updated_at'
+            ]
+        ]);
     }
 }

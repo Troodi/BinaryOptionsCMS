@@ -18,6 +18,16 @@ class AdminDailyTest extends TestCase
     {
         $response = $this->actingAs(User::first())->post('/admin/data/daily');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure([
+            'headers',
+            'original' => [
+                'draw',
+                'recordsTotal',
+                'recordsFiltered',
+                'data',
+                'input'
+            ],
+            'exception'
+        ]);
     }
 }

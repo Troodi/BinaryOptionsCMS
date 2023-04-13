@@ -18,6 +18,17 @@ class AdminWithdrawSystemsTest extends TestCase
     {
         $response = $this->actingAs(User::first())->post('/admin/data/withdraw/systems');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure([
+            '*' => [
+                'id',
+                'text',
+                'q_id',
+                'y_id',
+                'placeholder',
+                'image',
+                'order',
+                'hidden',
+            ]
+        ]);
     }
 }

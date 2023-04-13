@@ -18,6 +18,14 @@ class AdminDepositSystemsTest extends TestCase
     {
         $response = $this->actingAs(User::first())->post('/admin/data/deposit/systems');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure([
+            '*' => [
+                'id',
+                'text',
+                'hidden',
+                'max',
+                'order'
+            ]
+        ]);
     }
 }

@@ -18,6 +18,23 @@ class GetAccountDataTest extends TestCase
     {
         $response = $this->actingAs(User::first())->post('/data/getAccountData');
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertJsonStructure([
+                'id',
+                'name',
+                'email',
+                'token',
+                'banned',
+                'partner_status',
+                'balance',
+                'demo_balance',
+                'email_verified_at',
+                'banned_at',
+                'bonus',
+                'all_turnover',
+                'left_turnover',
+                'deleted_at',
+                'created_at',
+                'updated_at'
+        ]);
     }
 }
