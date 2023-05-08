@@ -372,7 +372,7 @@ class TradingViewWebsocketService
 //    }
     public function firstLoadHistoryData($resolutionLocal)
     {
-        $this->sendMessage(
+        $this->symbolNumber = 1;
             $this->createMessage("create_series", [
                 $this->chartSession,
                 "s1",
@@ -380,12 +380,14 @@ class TradingViewWebsocketService
                 "symbol_" . ($this->symbolNumber++),
                 $resolutionLocal, // $this->>resolutionLocal
                 5000
-            ]));
+            ]);
         var_dump('mamaaaaaa');
     }
 
     public function getMoreData()
     {
+        $this->symbolResolved = false;
+//        $this->seriesCompleted = true;
 //        $handler = function () {
         if ($this->symbolResolved && $this->seriesCompleted) {
             $this->seriesCompleted = false;
