@@ -13,7 +13,7 @@ class CreateTicksTable extends Migration
      */
     public function up()
     {
-        Schema::connection('mysql')->create('ticks', function (Blueprint $table) {
+        Schema::connection('bavix::clickhouse')->create('ticks', function (Blueprint $table) {
             $table->engine = 'MEMORY';
             $table->id();
             $table->integer('symbol_id')->nullable();
