@@ -21,7 +21,7 @@ class SymbolsHistoryService
                     $symbol->percent = 0;
                 } elseif(!isset($market) or !$market->count() or $market->first()->market_status != 'market'){ // Если нет статуса
                     $symbol->percent = 0;
-                } elseif (!Ticks::where('symbol_id', $symbol->id)->orderBy('id', 'desc')->first()){
+                } elseif (!Ticks::where('symbol_id', $symbol->id)->orderBy('created_at')->first()){
                     $symbol->percent = 0;
                 } elseif($symbol->status == 0){
                     $symbol->percent = 0;
