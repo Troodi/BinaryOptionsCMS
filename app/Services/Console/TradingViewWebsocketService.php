@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\MarketStatus;
 use App\Models\Symbols\Options\Symbol;
 use App\Models\Symbols\Options\Ticks;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use WebSocket\Client;
@@ -27,6 +28,10 @@ class TradingViewWebsocketService
     private $symbols_all = [];
     private $cacheLP = [];
     public $tickerDataUptime;
+//    private $symbolNumber;
+//    private $symbolResolved;
+//    private $seriesCompleted;
+//    private $symbol;
 
     private function generateSession()
     {
@@ -356,6 +361,78 @@ class TradingViewWebsocketService
         return number_format((float)$seconds, 2, '.', '');
     }
 
+//    function setInterval($f, $milliseconds)   // Кастомная функция, лучше так не делать
+//    {
+//        $seconds=(int)$milliseconds/1000;
+//        while(true)
+//        {
+//            $f();
+//            sleep($seconds);
+//        }
+//    }
+    public function firstLoadHistoryData($resolutionLocal)
+    {
+        $this->sendMessage(
+            $this->createMessage("create_series", [
+                $this->chartSession,
+                "s1",
+                "s1",
+                "symbol_" . ($this->symbolNumber++),
+                $resolutionLocal, // $this->>resolutionLocal
+                5000
+            ]));
+        var_dump('mamaaaaaa');
+    }
+
+    public function getMoreData()
+    {
+//        $handler = function () {
+        if ($this->symbolResolved && $this->seriesCompleted) {
+            $this->seriesCompleted = false;
+//                $this->websocket->send(
+            $this->createMessage("request_more_data", [
+                $this->chartSession,
+                "s1",
+                2000
+            ]);
+            //^ );
+            var_dump("There good");
+        } else {
+            var_dump("There not good");
+        }
+
+//    };
+//        $interval = sleep(200, $handler);
+    }
+
+    public function getHistoryTicker($tickerName)
+    {
+
+        $this->symbolResolved = false;
+
+        $this->session = $this->generateSession();
+        $this->sessionStatus = $this->session;
+        $this->chartSession = $this->generateChartSession();
+        $this->sessionRegistered = false;
+            $this->createMessage("chart_create_session", [$this->chartSession, ""])
+        ;
+
+            $this->createMessage("resolve_symbol", [
+                $this->chartSession,
+                "symbol_" . ($this->symbolNumber),
+                '={"symbol":"' . $tickerName . '","adjustment":"splits"}'
+            ]);
+        var_dump("chart_create_session", [$this->chartSession, ""]);
+        var_dump("resolve_symbol", [
+            $this->chartSession,
+            "symbol_" . ($this->symbolNumber),
+            '={"symbol":"' . $tickerName . '","adjustment":"splits"}'
+        ]);
+
+        var_dump("getHistoryTicker worked correctly");
+
+    }
+
     private function runParsing()
     {
         echo Carbon::now()->format('Y-m-d H:i:s') . ': Restart parsing!' . PHP_EOL;
@@ -378,6 +455,7 @@ class TradingViewWebsocketService
         $this->password = env('TRADINGVIEW_PASSWORD');
         $this->resetWebSocket();
     }
+
     public function run()
     {
         $this->runParsing();
