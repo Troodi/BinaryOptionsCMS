@@ -50,7 +50,8 @@ class DepositController extends Controller
 
     public function startDeposit(StartDepositRequest $request, DepositService $depositService)
     {
-        return response()->json($depositService->startDeposit($request));
+        $service  = $depositService->startDeposit($request);
+        return response()->json($service['data'], $service['status']);
     }
 
     public function processPayeer(Request $request, DepositService $depositService)
@@ -65,7 +66,7 @@ class DepositController extends Controller
 
     public function depositHistory(DepositHistoryRequest $request, DepositService $depositService)
     {
-        return response()->json($depositService->depositHistory($request));
+        return $depositService->depositHistory($request);
     }
 
     private function processDeposit($orderId, DepositService $depositService)

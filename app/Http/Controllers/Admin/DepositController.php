@@ -16,7 +16,7 @@ class DepositController extends Controller
 {
   public function allDeposits(Request $request, DepositService $depositService)
   {
-      return response()->json($depositService->allDepositsServ($request));
+      return $depositService->allDepositsServ($request);
   }
 
   public function allDepositSystems(Request $request, DepositService $depositService)

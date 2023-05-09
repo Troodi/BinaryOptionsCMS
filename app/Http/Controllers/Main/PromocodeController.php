@@ -30,8 +30,8 @@ class PromocodeController extends Controller
 
   public function checkPromocode(CheckPromocodeRequest $request, PromocodeService $promocodeService)
   {
-      return response()->json($promocodeService->checkPromocodeServ($request));
-  }
+      $service  = $promocodeService->checkPromocodeServ($request);
+      return response()->json($service['data'], $service['status']);  }
 
   public function getDepositPromocodes(Request $request, PromocodeService $promocodeService)
   {
@@ -40,11 +40,11 @@ class PromocodeController extends Controller
 
   public function promocodeHistory(PromocodeHistoryRequest $request, PromocodeService $promocodeService)
   {
-      return response()->json($promocodeService->promocodeHistoryServ($request));
+      return $promocodeService->promocodeHistoryServ($request);
   }
 
   public function discardBonus(DiscardBonusRequest $request, PromocodeService $promocodeService)
   {
-      return response()->json($promocodeService->discardBonusServ($request));
-  }
+      $service  = $promocodeService->discardBonusServ($request);
+      return response()->json($service['data'], $service['status']);  }
 }

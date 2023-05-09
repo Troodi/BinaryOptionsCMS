@@ -37,6 +37,6 @@ class WithdrawalController extends Controller
 
   public function withdrawalHistory(WithdrawalHistoryRequest $request, WithdrawalService $withdrawalService)
   {
-      return response()->json($withdrawalService->withdrawalHist($request));
+      return $withdrawalService->withdrawalHist($request);
   }
 }

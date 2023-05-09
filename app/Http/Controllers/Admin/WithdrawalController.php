@@ -27,7 +27,7 @@ class WithdrawalController extends Controller
 
     public function allWithdrawals(Request $request, WithdrawalService $withdrawalService)
     {
-        return response()->json($withdrawalService->allWithdrawalsServ($request));
+        return $withdrawalService->allWithdrawalsServ($request);
     }
 
     public function allWithdrawalSystems(Request $request, WithdrawalService $withdrawalService)
