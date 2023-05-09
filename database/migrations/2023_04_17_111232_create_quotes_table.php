@@ -15,21 +15,19 @@ class CreateQuotesTable extends Migration
     public function up()
     {
         DB::connection('bavix::clickhouse')->statement('CREATE TABLE quotes (
-        id UInt64,
-        symbol_id Nullable(UInt64),
-        high Decimal(10,5),
-        min Decimal(10,5),
-        open Decimal(10,5),
-        close Decimal(10,5),
-        timeframe Decimal(10,5),
-        created_at DateTime64(6),
-        updated_at DateTime64(6)
-    )
-    ENGINE = MergeTree()
-    ORDER BY created_at
-     ');
-//        DB::connection('clickhouse')
-//            ->statement('ALTER TABLE quotes ADD INDEX symbol_id TYPE minmax SAMPLE BY 8192');
+            symbol_id UInt64,
+            high Decimal(10,5),
+            min Decimal(10,5),
+            open Decimal(10,5),
+            close Decimal(10,5),
+            created_at DateTime64(6)
+        )
+        ENGINE = ReplacingMergeTree()
+        ORDER BY (symbol_id, created_at)');
+//        DB::connection('bavix::clickhouse')
+//            ->statement('ALTER TABLE quotes ADD INDEX col_index(symbol_id) TYPE minmax GRANULARITY 3');
+//        DB::connection('bavix::clickhouse')
+//            ->statement('ALTER TABLE quotes ADD INDEX col_index(created_at) TYPE minmax GRANULARITY 3');
     }
 
     /**

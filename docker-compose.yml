@@ -11,6 +11,7 @@ services:
       - CLICKHOUSE_ADMIN_USER=admin
       - CLICKHOUSE_ADMIN_PASSWORD=example
       - CLICKHOUSE_DB_DATABASE=clickhouse
+      - ALLOW_NULLABLE_KEY=1
   php:
     build: docker/php
     container_name: binaries-php
