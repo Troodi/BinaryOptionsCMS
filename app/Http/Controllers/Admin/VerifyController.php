@@ -20,7 +20,7 @@ class VerifyController extends Controller
 {
     public function listRequestVerify(Request $request, VerifyService $verifyService)
     {
-        return response()->json($verifyService->listRequestVerifyServ($request));
+        return $verifyService->listRequestVerifyServ($request);
     }
 
   public function checkDocument(CheckDocumentRequest $request, VerifyService $verifyService)

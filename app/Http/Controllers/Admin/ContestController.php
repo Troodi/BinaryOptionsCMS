@@ -40,7 +40,7 @@ class ContestController extends Controller
      */
     public function allContests(Request $request, ContestService $contestService)
     {
-        return response()->json($contestService->allContestsServ($request));
+        return $contestService->allContestsServ($request);
     }
 
     /*
@@ -48,7 +48,7 @@ class ContestController extends Controller
      */
     public function contestUsers(Request $request, $id, ContestService $contestService)
     {
-        return response()->json($contestService->contestUsersServ($request, $id));
+        return $contestService->contestUsersServ($request, $id);
     }
 
     /*
@@ -64,7 +64,7 @@ class ContestController extends Controller
      */
     public function getContestTradingData(GetContestTradingDataRequest $request, ContestService $contestService)
     {
-        return response()->json($contestService->getContestTradingDataServ($request));
+        return $contestService->getContestTradingDataServ($request);
     }
 
     /*
@@ -72,7 +72,7 @@ class ContestController extends Controller
      */
     public function getContestDailyStat(Request $request, $id, ContestService $contestService)
     {
-        return response()->json($contestService->getContestDailyStatServ($request, $id));
+        return $contestService->getContestDailyStatServ($request, $id);
     }
 
     /*

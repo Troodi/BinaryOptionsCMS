@@ -33,15 +33,11 @@ class MainTest extends TestCase
         $response = $this->actingAs(User::first())->post('/data/depositHistory');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -209,15 +205,11 @@ class MainTest extends TestCase
         $response = $this->actingAs(User::first())->post('/promocode/history');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -277,15 +269,11 @@ class MainTest extends TestCase
         $response = $this->actingAs(User::first())->post('/data/referrals');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -323,15 +311,11 @@ class MainTest extends TestCase
 
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -341,15 +325,11 @@ class MainTest extends TestCase
 
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
 
@@ -362,15 +342,11 @@ class MainTest extends TestCase
 
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
 

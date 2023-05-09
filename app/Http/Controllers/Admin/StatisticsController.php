@@ -22,11 +22,11 @@ class StatisticsController extends Controller
 
     public function getAllUsers(Request $request, StatisticsService $statisticsService)
     {
-        return response()->json($statisticsService->getAllUsersServ($request));
+        return $statisticsService->getAllUsersServ($request);
     }
 
     public function getDailyStat(Request $request, StatisticsService $statisticsService)
     {
-        return response()->json($statisticsService->getDailyStatServ($request));
+        return $statisticsService->getDailyStatServ($request);
     }
 }

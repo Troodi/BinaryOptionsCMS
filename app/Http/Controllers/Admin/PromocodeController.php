@@ -17,7 +17,7 @@ class PromocodeController extends Controller
 {
     public function getAllPromocode(Request $request, PromocodeService $promocodeService)
     {
-        return response()->json($promocodeService->getAllPromocodeServ($request));
+        return $promocodeService->getAllPromocodeServ($request);
     }
 
     public function loadPromocode(LoadPromocodeRequest $request, PromocodeService $promocodeService)

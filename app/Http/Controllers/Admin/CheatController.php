@@ -15,6 +15,6 @@ class CheatController extends Controller
 {
   public function getAllCheaters(Request $request, CheatService $cheatService)
   {
-    return response()->json($cheatService->getAllCheatersServ($request));
+    return $cheatService->getAllCheatersServ($request);
   }
 }
