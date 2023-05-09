@@ -74,29 +74,29 @@ class DepositService
         $amount = number_format($request->amount, 2, '.', '');
         $max = DepositSystem::where('id', $request->system_id)->first()->max;
         if($amount > $max){
-            return (['success' => false, 'message' => __('locale.deposit_max_amount').' '.$max.'$']);
+            return (['data' => ['success' => false, 'message' => __('locale.deposit_max_amount').' '.$max.'$'], 'status' => 200]);
         }
         $promocode_id = null;
         if($promocode_request) {
             $promocode = Promocode::where('id', $promocode_request)->first();
             if (!$promocode) {
-                return (['success' => false, 'message' => __('locale.deposit_promo_code')]);
+                return (['data' => ['success' => false, 'message' => __('locale.deposit_promo_code')], 'status' => 200]);
             }
             $active_from = Carbon::parse($promocode->active_from);
             $active_to = Carbon::parse($promocode->active_to);
             if(Carbon::now() < $active_from or Carbon::now() > $active_to){
-                return (['success' => false, 'message' => __('locale.deposit_time_left')]);
+                return (['data' => ['success' => false, 'message' => __('locale.deposit_time_left')], 'status' => 200]);
             }
             $deposits = Deposit::where('user_id', Auth::user()->id)->where('status', 1)->count() + LatestOrder::where('user_id', Auth::user()->id)->count() + PromocodeHistory::where('user_id', Auth::user()->id)->whereHas('promocode', function($query){ $query->where('for_new', 1); })->count();
             if($promocode->for_new and $deposits){
-                return (['success' => false, 'message' => __('locale.deposit_only_for_new')]);
+                return (['data' => ['success' => false, 'message' => __('locale.deposit_only_for_new')], 'status' => 200]);
             }
             $promocode_history = PromocodeHistory::where('user_id', Auth::user()->id)->where('promocode_id', $promocode->id)->count();
             if($promocode->attempts && $promocode_history >= $promocode->attempts){
-                return (['success' => false, 'message' => __('locale.deposit_already_used')]);
+                return (['data' => ['success' => false, 'message' => __('locale.deposit_already_used')], 'status' => 200]);
             }
             if($amount < $promocode->min_amount){
-                return (['success' => false, 'message' => __('locale.deposit_from_amount').' '.$promocode->min_amount.'$!']);
+                return (['data' => ['success' => false, 'message' => __('locale.deposit_from_amount').' '.$promocode->min_amount.'$!'], 'status' => 200]);
             }
             $promocode_id = $promocode->id;
         }
@@ -119,7 +119,7 @@ class DepositService
                 'invoice_currency'        => 'usd',
                 'language'              => 'en',
             ));
-            return (['success' => true, 'message' => __('locale.deposit_link'), 'link' => $url, 'timeout' => 3000]);
+            return (['data' => ['success' => true, 'message' => __('locale.deposit_link'), 'link' => $url, 'timeout' => 3000], 'status' => 200]);
         } elseif($request->system_id == 2) { // YooMoney
             $orderId = $model->id;
             $amount = $rub;
@@ -128,7 +128,7 @@ class DepositService
             $yoo = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=".env('YOOMONEY_WALLET')."&quickpay-form=shop&targets=$message&sum=$amount&label=$orderId&successURL=$success_url&paymentType=AC")
                 ->get();
             $link = str_replace('Found. Redirecting to ', '', $yoo);
-            return (['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link, 'timeout' => 3000]);
+            return (['data' => ['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link, 'timeout' => 3000], 'status' => 200]);
         } elseif($request->system_id == 1) { // Qiwi
             $billPayments = new BillPayments(env('QIWI_SECRET'));
             $billId = $billPayments->generateId();
@@ -145,7 +145,7 @@ class DepositService
                 'customFields' => ['orderId' => $model->id],
             ];
             $response = $billPayments->createBill($billId, $fields);
-            return (['success' => true, 'message' => __('locale.deposit_link'), 'link' => $response['payUrl'], 'timeout' => 3000]);
+            return (['data' => ['success' => true, 'message' => __('locale.deposit_link'), 'link' => $response['payUrl'], 'timeout' => 3000], 'status' => 200]);
         } elseif($request->system_id == 7) { //Free-Kassa
             $m_shop = env('FREE_KASSA_ID');
             $m_orderid = $model->id;
@@ -163,7 +163,7 @@ class DepositService
             $arHash[] = $m_key;
             $m_sign = md5(env('FREE_KASSA_ID') . ':' . $amount . ':' . env('FREE_KASSA_SECRET') . ':' . $m_orderid);
             $link_for_pay = "https://www.free-kassa.ru/merchant/cash.php?oa=$amount&o=$m_orderid&us_desc=$m_desc&s=$m_sign&m=$m_shop&lang=$lang";
-            return (['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000]);
+            return (['data' => ['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000], 'status' => 200]);
         }
         elseif($request->system_id == 6) { //Payeer
             $m_shop = env('PAYEER_ID');
@@ -182,7 +182,7 @@ class DepositService
             $arHash[] = $m_key;
             $m_sign = strtoupper(hash('sha256', implode(':', $arHash)));
             $link_for_pay = "https://payeer.com/merchant/?m_shop=$m_shop&m_orderid=$m_orderid&m_amount=$amount&m_curr=$m_curr&m_desc=$m_desc&m_sign=$m_sign&lang=$lang";
-            return (['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000]);
+            return (['data' => ['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000], 'status' => 200]);
         }
         elseif($request->system_id == 1){ // Qiwi
 

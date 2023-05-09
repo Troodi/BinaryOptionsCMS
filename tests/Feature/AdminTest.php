@@ -17,15 +17,11 @@ class AdminTest extends TestCase
 
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -35,15 +31,11 @@ class AdminTest extends TestCase
         $response = $this->actingAs(User::first())->post('/admin/data/daily');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -53,15 +45,11 @@ class AdminTest extends TestCase
         $response = $this->actingAs(User::first())->post('/admin/data/deposits');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -87,15 +75,11 @@ class AdminTest extends TestCase
         $response = $this->actingAs(User::first())->post('/admin/data/getAllPromocode');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -105,15 +89,11 @@ class AdminTest extends TestCase
         $response = $this->actingAs(User::first())->post('/admin/data/history/demo/0');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -123,15 +103,11 @@ class AdminTest extends TestCase
         $response = $this->actingAs(User::first())->post('/admin/data/history/0');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -141,15 +117,11 @@ class AdminTest extends TestCase
         $response = $this->actingAs(User::first())->post('/admin/data/partner');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -222,15 +194,11 @@ class AdminTest extends TestCase
         $response = $this->actingAs(User::first())->post('/admin/data/users');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -240,15 +208,11 @@ class AdminTest extends TestCase
         $response = $this->actingAs(User::first())->post('/admin/data/verify');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */
@@ -258,15 +222,11 @@ class AdminTest extends TestCase
         $response = $this->actingAs(User::first())->post('/admin/data/withdrawal');
 
         $response->assertStatus(200)->assertJsonStructure([
-            'headers',
-            'original' => [
                 'draw',
                 'recordsTotal',
                 'recordsFiltered',
                 'data',
                 'input'
-            ],
-            'exception'
         ]);
     }
     /** @test */

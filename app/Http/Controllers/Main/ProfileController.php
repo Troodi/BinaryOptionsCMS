@@ -36,20 +36,22 @@ class ProfileController extends Controller
   // Изменение пароля
   public function changePassword(ChangePasswordRequest $request, ProfileService $profileService)
   {
-      return response()->json($profileService->changePasswordServ($request));
+      $service  = $profileService->changePasswordServ($request);
+      return response()->json($service['data'], $service['status']);
   }
 
   // Изменение основных данных
   public function changeGeneralData(ChangeGeneralDataRequest $request, ProfileService $profileService)
   {
-      return response()->json($profileService->changeGeneralDataServ($request));
+      $service  = $profileService->changeGeneralDataServ($request);
+      return response()->json($service['data'], $service['status']);
   }
 
   // Изменение личных данных
   public function changeMainData(ChangeMainDataRequest $request, ProfileService $profileService)
   {
-      return response()->json($profileService->changeMainDataServ($request));
-  }
+      $service  = $profileService->changeMainDataServ($request);
+      return response()->json($service['data'], $service['status']);  }
 
   //Загружаем информацию о профиле
   public function loadAllProfileData(LoadAllProfileDataRequest $request, ProfileService $profileService)
