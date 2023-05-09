@@ -28,10 +28,13 @@ class TradingViewWebsocketService
     private $symbols_all = [];
     private $cacheLP = [];
     public $tickerDataUptime;
-//    private $symbolNumber;
-//    private $symbolResolved;
-//    private $seriesCompleted;
-//    private $symbol;
+    private $symbolNumber = 1;
+    private $symbolResolved = false;
+    private $seriesCompleted = false;
+
+    private $historyCount = 0;
+
+    private $symbolForLoadHistory = 'FX:EURUSD';
 
     private function generateSession()
     {
@@ -117,54 +120,7 @@ class TradingViewWebsocketService
                         $this->sendRawMessage("~h~" . $packet["~protocol~keepalive~"]);
                     } elseif (isset($packet->session_id)) {
                         if ($this->login and $this->password) {
-                            $auth_token = "";
-                            if (file_exists(__DIR__ . '/cookie.txt')) {
-                                $ch = curl_init();
-                                curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/quote_token/");
-                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-                                curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
-                                curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
-                                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                                curl_setopt($ch, CURLOPT_ENCODING, "gzip");
-                                $auth_token = curl_exec($ch);
-                                $auth_token = ltrim($auth_token, '"');
-                                $auth_token = rtrim($auth_token, '"');
-                            }
-                            if (strlen($auth_token) < 150) {
-                                $request_headers = [
-                                    "accept: */*",
-                                    "accept-encoding: gzip, deflate, br",
-                                    "accept-language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,lt;q=0.6",
-                                    "cache-control: no-cache",
-                                    "content-type: application/x-www-form-urlencoded",
-                                    "origin: https://www.tradingview.com",
-                                    "pragma: no-cache",
-                                    "referer: no-cache",
-                                    "sec-fetch-dest: empty",
-                                    "sec-fetch-mode: cors",
-                                    "sec-fetch-site: same-origin",
-                                    "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36",
-                                    "x-language: en",
-                                    "x-requested-with: XMLHttpRequest"
-                                ];
-                                $ch = curl_init();
-                                curl_setopt($ch, CURLOPT_POST, true);
-                                curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/accounts/signin/");
-                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-                                curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
-                                curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
-                                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                                curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
-                                curl_setopt($ch, CURLOPT_ENCODING, "gzip");
-                                curl_setopt($ch, CURLOPT_POSTFIELDS, "feature_source=Header&username=$this->login&password=$this->password&remember=on");
-                                $curl_exec = curl_exec($ch);
-                                curl_close($ch);
-                                $json = json_decode($curl_exec);
-                                $auth_token = $json->user->auth_token;
-                            }
-                            $auth_token = 'unauthorized_user_token';
+                            $auth_token = $this->getAuthToken();
                             $this->sendMessage("set_auth_token", [$auth_token]);
                         } else {
                             $this->sendMessage("set_auth_token", ["unauthorized_user_token"]);
@@ -240,12 +196,83 @@ class TradingViewWebsocketService
         }
     }
 
+    private function resetHistoryWebSocket()
+    {
+        Helper::checkMysqlConnection();
+        $this->startTime = microtime(true);
+        $this->tickerData = [];
+        $this->subscriptions = [];
+        $this->session = $this->generateSession();
+        $this->sessionStatus = $this->generateSession();
+        $this->chartSession = $this->generateChartSession();
+        $this->sessionRegistered = false;
+        if ($this->login and $this->password) {
+            $wss = "wss://data.tradingview.com/socket.io/websocket";
+        } else {
+            $wss = "wss://data.tradingview.com/socket.io/websocket";
+        }
+        $this->websocket = new Client($wss, [
+            'timeout' => 60, // 1 minute time out
+            'headers' => [
+                'Origin' => 'https://data.tradingview.com',
+            ],
+        ]);
+        Cache::put('latest_websocket_update', true, 30);
+        while (true) {
+            try {
+                if (!Cache::has('latest_websocket_update')) {
+                    $this->runHistoryParsing($this->symbolForLoadHistory);
+                }
+                if (Cache::has('market_update')) {
+                    Cache::forget('market_update');
+                    $this->runHistoryParsing($this->symbolForLoadHistory);
+                }
+                $string = $this->websocket->receive();
+                $packets = $this->parseMessages($string);
+                foreach ($packets as $packet) {
+                    if (is_array($packet) and $packet["~protocol~keepalive~"]) {
+                        $this->sendRawMessage("~h~" . $packet["~protocol~keepalive~"]);
+                    } elseif (isset($packet->session_id)) {
+                        if ($this->login and $this->password) {
+                            $auth_token = $this->getAuthToken();
+                            $this->sendMessage("set_auth_token", [$auth_token]);
+                        } else {
+                            $this->sendMessage("set_auth_token", ["unauthorized_user_token"]);
+                        }
+                        $this->sendMessage("chart_create_session", [$this->chartSession]);
+                        $this->resolveSymbol($this->symbolForLoadHistory);
+                        $this->firstLoadHistoryData();
+                        $this->sessionRegistered = true;
+                    } elseif (isset($packet->m) && $packet->m === "series_loading" && isset($packet->p)) {
+                        dump('Loading');
+                    } elseif (isset($packet->m) && $packet->m === "series_completed" && isset($packet->p)) {
+                        dump($this->historyCount);
+                        if($this->historyCount >= 2000) {
+                            $this->getMoreData();
+                        } else {
+                            exit(0);
+                        }
+                        dump('Completed');
+                    } elseif (isset($packet->m) && $packet->m === "timescale_update" && isset($packet->p)) {
+                        $this->historyCount = count($packet->p[1]->sds_1->s);
+                    }
+                }
+            } catch (\Exception $e) {
+                var_dump($e->getMessage());
+                $this->runHistoryParsing($this->symbolForLoadHistory);
+            }
+        }
+    }
+
+    private function getAuthToken(){
+        return 'unauthorized_user_token';
+    }
+
     private function sendRawMessage($message)
     {
         $this->websocket->send($this->prependHeader($message));
     }
 
-// IO methods
     private function parseMessages($str)
     {
         $packets = [];
@@ -361,78 +388,39 @@ class TradingViewWebsocketService
         return number_format((float)$seconds, 2, '.', '');
     }
 
-//    function setInterval($f, $milliseconds)   // Кастомная функция, лучше так не делать
-//    {
-//        $seconds=(int)$milliseconds/1000;
-//        while(true)
-//        {
-//            $f();
-//            sleep($seconds);
-//        }
-//    }
-    public function firstLoadHistoryData($resolutionLocal)
+    public function resolveSymbol($tickerName)
     {
-        $this->symbolNumber = 1;
-            $this->createMessage("create_series", [
-                $this->chartSession,
-                "s1",
-                "s1",
-                "symbol_" . ($this->symbolNumber++),
-                $resolutionLocal, // $this->>resolutionLocal
-                5000
-            ]);
-        var_dump('mamaaaaaa');
+        $this->symbolResolved = false;
+        $this->sessionRegistered = false;
+
+        $this->sendMessage("resolve_symbol", [
+            $this->chartSession,
+            "sds_sym_" . ($this->symbolNumber),
+            '={"symbol":"' . $tickerName . '","adjustment":"splits"}'
+        ]);
+    }
+
+    public function firstLoadHistoryData()
+    {
+
+        $this->sendMessage("create_series", [
+            $this->chartSession,
+            "sds_1",
+            "s1",
+            "sds_sym_" . ($this->symbolNumber),
+            '1',
+            5000,
+            ""
+        ]);
     }
 
     public function getMoreData()
     {
-        $this->symbolResolved = false;
-//        $this->seriesCompleted = true;
-//        $handler = function () {
-        if ($this->symbolResolved && $this->seriesCompleted) {
-            $this->seriesCompleted = false;
-//                $this->websocket->send(
-            $this->createMessage("request_more_data", [
-                $this->chartSession,
-                "s1",
-                2000
-            ]);
-            //^ );
-            var_dump("There good");
-        } else {
-            var_dump("There not good");
-        }
-
-//    };
-//        $interval = sleep(200, $handler);
-    }
-
-    public function getHistoryTicker($tickerName)
-    {
-
-        $this->symbolResolved = false;
-
-        $this->session = $this->generateSession();
-        $this->sessionStatus = $this->session;
-        $this->chartSession = $this->generateChartSession();
-        $this->sessionRegistered = false;
-            $this->createMessage("chart_create_session", [$this->chartSession, ""])
-        ;
-
-            $this->createMessage("resolve_symbol", [
-                $this->chartSession,
-                "symbol_" . ($this->symbolNumber),
-                '={"symbol":"' . $tickerName . '","adjustment":"splits"}'
-            ]);
-        var_dump("chart_create_session", [$this->chartSession, ""]);
-        var_dump("resolve_symbol", [
+        $this->sendMessage("request_more_data", [
             $this->chartSession,
-            "symbol_" . ($this->symbolNumber),
-            '={"symbol":"' . $tickerName . '","adjustment":"splits"}'
+            "sds_" . ($this->symbolNumber),
+            2000
         ]);
-
-        var_dump("getHistoryTicker worked correctly");
-
     }
 
     private function runParsing()
@@ -456,6 +444,30 @@ class TradingViewWebsocketService
         $this->login = env('TRADINGVIEW_LOGIN');
         $this->password = env('TRADINGVIEW_PASSWORD');
         $this->resetWebSocket();
+    }
+
+    public function runHistoryParsing($symbolForLoad)
+    {
+        $this->symbolForLoadHistory = $symbolForLoad;
+        echo Carbon::now()->format('Y-m-d H:i:s') . ': Restart parsing!' . PHP_EOL;
+        $this->subscriptions = [];
+        $this->session = null;
+        $this->sessionStatus = null;
+        $this->chartSession = null;
+        $this->subscriptions = null;
+        $this->websocket = null;
+        $this->tickerData = null;
+        $this->sessionRegistered = null;
+        $this->map = null;
+        $this->login = null;
+        $this->password = null;
+        $this->startTime = null;
+        $this->symbols_all = [];
+        $this->cacheLP = [];
+        $this->tickerDataUptime = null;
+        $this->login = env('TRADINGVIEW_LOGIN');
+        $this->password = env('TRADINGVIEW_PASSWORD');
+        $this->resetHistoryWebSocket();
     }
 
     public function run()
