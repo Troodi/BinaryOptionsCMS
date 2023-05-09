@@ -39,6 +39,6 @@ class GetMoreDataCommand extends Command
      */
     public function handle(TradingViewWebsocketService $tradingViewWebsocketService)
     {
-        $tradingViewWebsocketService->getMoreData();
+        $tradingViewWebsocketService->runHistoryParsing();
     }
 }

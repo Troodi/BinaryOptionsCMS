@@ -38,7 +38,7 @@
         "torann/geoip": "^3.0",
         "troodi/laravel-auto-deploy": "^2.0.3",
         "twilio/sdk": "^6.10",
-        "yajra/laravel-datatables-oracle": "^9.15.2"
+        "yajra/laravel-datatables-oracle": "^9.21.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

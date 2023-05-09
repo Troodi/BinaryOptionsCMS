@@ -146,7 +146,7 @@ class TradingService
         $symbols_all = Cache::remember('symbols_all', 60, function () {
             return Symbol::orderBy('percent', 'desc')->get();
         });
-        $fisrt = Ticks::where('symbol_id', $request->symbol)->orderBy('id', 'desc')->first();
+        $fisrt = Ticks::where('symbol_id', $request->symbol)->orderBy('created_at', 'desc')->first();
         if($fisrt){
             $price = $fisrt->price;
         } else {
