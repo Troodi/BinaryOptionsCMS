@@ -25,6 +25,6 @@ class PartnerController extends Controller
 
   public function listRequestPartner(Request $request, PartnerService $partnerService)
   {
-      return response()->json($partnerService->listRequestPartnerServ($request));
+      return $partnerService->listRequestPartnerServ($request);
   }
 }

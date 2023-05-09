@@ -90,46 +90,48 @@ class TradingService
 
         $symbol = Symbol::where('id', $request->symbol)->firstOrFail();
         if((Carbon::now()->hour >= $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
-            return (['message' => __('locale.trading_non_work_time')]);
+            return (['data' => ['message' => __('locale.trading_non_work_time')], 'status' => 422]);
         }
         $seconds = $request->hours * 60 * 60 + $request->minutes * 60 + $request->seconds;
         if((Carbon::now()->addSeconds($seconds)->hour > $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
-            return (['message' => __('locale.trading_expiration_more')]);
+            return (['data' => ['message' => __('locale.trading_expiration_more')], 'status' => 422]);
         }
 
         if($seconds < $symbol->min_expiration_time){
-            return (['message' => __('locale.trading_min_30_seconds', ['min_expiration' => self::formatSecondsServ($symbol->min_expiration_time)])]);
+            return ( // Зачем лишние скобки круглые?
+                ['data' => ['message' => __('locale.trading_min_30_seconds', ['min_expiration' => self::formatSecondsServ($symbol->min_expiration_time)])], 'status' => 422]
+            );
         }
         if($request->type == 'real') {
             if (Auth::user()->balance - $request->amount < 0) {
-                return (['message' => __('locale.trading_not_enough_money')]);
+                return (['data' => ['message' => __('locale.trading_not_enough_money')], 'status' => 422]);
             }
         } elseif($request->type == 'demo') {
             if (Auth::user()->demo_balance - $request->amount < 0) {
-                return (['message' => __('locale.trading_not_enough_money')]);
+                return (['data' => ['message' => __('locale.trading_not_enough_money')], 'status' => 422]);
             }
         } elseif($request->type == 'tournament') {
             $contest = Contest::where('id', $request->id)->first();
             if(!$contest){
-                return (['message' => __('locale.tournament_trading_not_exist')]);
+                return (['data' => ['message' => __('locale.tournament_trading_not_exist')], 'status' => 422]);
             }
             $contest_user = ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->first();
             if(!$contest_user){
-                return (['message' => __('locale.tournament_trading_already_registered')]);
+                return (['data' => ['message' => __('locale.tournament_trading_already_registered')], 'status' => 422]);
             }
             if($contest_user->banned){
-                return (['message' => __('locale.tournament_trading_blocked')]);
+                return (['data' => ['message' => __('locale.tournament_trading_blocked')], 'status' => 422]);
             }
             if ($contest_user->balance - $request->amount < 0) {
-                return (['message' => __('locale.trading_not_enough_money')]);
+                return (['data' => ['message' => __('locale.trading_not_enough_money')], 'status' => 422]);
             }
         }
         $market = MarketStatus::where('symbol_id', $request->symbol);
         if(!isset($market) || !$market->count()){
-            return (['message' => __('locale.trading_place_error')]);
+            return (['data' => ['message' => __('locale.trading_place_error')], 'status' => 422]);
         }
         if($market->first()->market_status != 'market'){
-            return (['message' => __('locale.trading_current_symbol_closed')]);
+            return (['data' => ['message' => __('locale.trading_current_symbol_closed')], 'status' => 422]);
         }
         if($request->type == 'real') { // Если у человека высокая прибыль немного замедляем выставление сделки
             $todayStat = UserTodayStatistic::where('user_id', Auth::user()->id)->first();
@@ -150,7 +152,7 @@ class TradingService
         if($fisrt){
             $price = $fisrt->price;
         } else {
-            return (['message' => __('locale.trading_place_error_2')]);
+            return (['data' => ['message' => __('locale.trading_place_error_2')], 'status' => 422]);
         }
         $hedge = 0;
         if(OpenOrders::where('user_id', Auth::user()->id)->where('symbol_id', $request->symbol)->where('type', '<>', $request->direction)->count()){
@@ -188,7 +190,7 @@ class TradingService
         $model->save();
         $model->expiration = $seconds - 1;
         $model->timestamp = Carbon::parse($model->close_at)->timestamp;
-        return $model;
+        return ['data' => $model, 'status' => 200]; // А тут статус вернуть, тут все успешно и должно быть 200
     }
 
     public function getOpenOrdersServ(Request $request){
@@ -238,7 +240,7 @@ class TradingService
         }
         $id = $admin ? $request->id : Auth::user()->id;
         $history = DB::table('order_history_1')->where('user_id', $id)->get();
-        return Datatables::of($history)->make();
+        return Datatables::of($history)->make(); // Вот тут
     }
 
     public function demoTradingHistoryServ(DemoTradingHistoryRequest $request){

@@ -12,16 +12,16 @@ class TradeHistoryController extends Controller
 {
     public function getHistory(Request $request, $id, TradeHistoryService $tradeHistoryService)
     {
-        return response()->json($tradeHistoryService->getHistoryServ($request, $id));
+        return $tradeHistoryService->getHistoryServ($request, $id);
     }
 
     public function getHistoryDemo(Request $request, $id, TradeHistoryService $tradeHistoryService)
     {
-        return response()->json($tradeHistoryService->getHistoryDemoServ($request, $id));
+        return $tradeHistoryService->getHistoryDemoServ($request, $id);
     }
 
     public static function getHistoryDatatable($table, $id, TradeHistoryService $tradeHistoryService)
     {
-        return response()->json($tradeHistoryService->getHistoryDatatableServ($table, $id));
+        return $tradeHistoryService->getHistoryDatatableServ($table, $id);
     }
 }

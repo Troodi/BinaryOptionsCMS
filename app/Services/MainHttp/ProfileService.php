@@ -39,13 +39,13 @@ class ProfileService
         }
 
         if(!Hash::check($request->old_password, Auth::user()->password)){
-            return (['success' => false, 'message' => __('locale.profile_current_password_wrong')]);
+            return (['data' => ['success' => false, 'message' => __('locale.profile_current_password_wrong')], 'status' => 200]);
         }
         if($request->new_password != $request->repeat_password){
-            return (['success' => false, 'message' => __('locale.profile_repeat_password_wrong')]);
+            return (['data' => ['success' => false, 'message' => __('locale.profile_repeat_password_wrong')], 'status' => 200]);
         }
         User::where('id', Auth::user()->id)->update(['password' => Hash::make($request->new_password)]);
-        return (['success' => true, 'message' => __('locale.profile_password_updated')]);
+        return (['data' => ['success' => true, 'message' => __('locale.profile_password_updated')], 'status' => 200]);
     }
 
     // Изменение основных данных
@@ -64,7 +64,7 @@ class ProfileService
             'gender' => $request->gender,
             'language' => $request->language
         ]);
-        return (['success' => true, 'message' => __('locale.profile_data_updated')]);
+        return (['data' => ['success' => true, 'message' => __('locale.profile_data_updated')], 'status' => 200]);
     }
 
     // Изменение личных данных
@@ -80,7 +80,7 @@ class ProfileService
         $id = $admin ? $request->id : Auth::user()->id;
         $profile = Profile::where('user_id', $id)->first();
         if(($profile->document_first_page or $profile->document_first_page_verify_at or $profile->document_second_page or $profile->document_second_page_verify_at or $profile->document_additional or $profile->document_document_additional_verify_at) and $admin){
-            return (['success' => false, 'message' => __('locale.profile_cant_update_because_already')]);
+            return (['data' => ['success' => false, 'message' => __('locale.profile_cant_update_because_already')], 'status' => 200]);
         }
         Profile::where('user_id', $id)->update([
             'name' => $request->name,
@@ -90,7 +90,7 @@ class ProfileService
             'address' => $request->address,
             'document_number' => $request->document_number,
         ]);
-        return (['success' => true, 'message' => __('locale.profile_main_data_updated')]);
+        return (['data' => ['success' => true, 'message' => __('locale.profile_main_data_updated')], 'status' => 200]);
     }
 
     //Загружаем информацию о профиле

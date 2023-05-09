@@ -40,7 +40,8 @@ class TradingController extends Controller
 
     public function buySymbol(BuySymbolRequest $request, TradingService $tradingService)
     {
-        return response()->json($tradingService->buySymbolServ($request));
+        $service  = $tradingService->buySymbolServ($request);
+        return response()->json($service['data'], $service['status']);
     }
 
     public function getOpenOrders(Request $request, TradingService $tradingService)
@@ -65,12 +66,12 @@ class TradingController extends Controller
 
   public function tradingHistory(TradingHistoryRequest $request, TradingService $tradingService)
   {
-      return response()->json($tradingService->tradingHistoryServ($request));
+      return $tradingService->tradingHistoryServ($request); // Здесь просто без json т.к. внутри возвращается объект Datatables
   }
 
   public function demoTradingHistory(DemoTradingHistoryRequest $request, TradingService $tradingService)
   {
-      return response()->json($tradingService->demoTradingHistoryServ($request));
+      return $tradingService->demoTradingHistoryServ($request);
   }
 
   public function refillDemoBalance(Request $request, TradingService $tradingService)

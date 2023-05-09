@@ -25,7 +25,7 @@ class ReferralController extends Controller
 
     public function getUserReferrals(GetUserRefsRequest $request, ReferralService $referralService)
     {
-        return response()->json($referralService->getUserRefs($request));
+        return $referralService->getUserRefs($request);
     }
 
     public function setReferralCookie(Request $request, ReferralService $referralService)
