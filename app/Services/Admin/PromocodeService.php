@@ -32,7 +32,6 @@ class PromocodeService
 
     public function savePromocodeServ(SavePromocodeRequest $request)
     {
-
         Promocode::where('id', $request->id)->update([
             'description' => $request->desc,
             'bonus_size' => $request->bonus_size,
@@ -52,21 +51,30 @@ class PromocodeService
 
     public function createPromocodeServ(CreatePromocodeRequest $request)
     {
-
-        $model = new Promocode;
-        $model->description = $request->desc;
-        $model->bonus_size = $request->bonus_size;
-        $model->code = $request->code;
-        $model->image = $request->image;
-        $model->public_code = $request->value_public_options;
-        $model->for_new = $request->value_new_options;
-        $model->attempts = $request->times;
-        $model->type = $request->value_type_options;
-        $model->turnover = $request->turnover;
-        $model->min_amount = $request->min_deposit;
-        $model->active_from = Carbon::parse($request->from_date);
-        $model->active_to = Carbon::parse($request->to_date);
-        $model->save();
-        return (['success' => true, 'message' => __('locale.admin_promocodes_created'), 'data' => $model]);
-    }
+        $isset_description = false;
+        foreach ($request->description as $description) {
+            if (strlen($description) > 0) {
+                $isset_description = true;
+                break;
+            }
+        }
+        if (!$isset_description) {
+            return (['success' => false, 'message' => __('locale.admin_tournament_desc')]);
+        }
+            $model = new Promocode;
+            $model->description = serialize($request->desc);
+            $model->bonus_size = $request->bonus_size;
+            $model->code = $request->code;
+            $model->image = $request->image;
+            $model->public_code = $request->value_public_options;
+            $model->for_new = $request->value_new_options;
+            $model->attempts = $request->times;
+            $model->type = $request->value_type_options;
+            $model->turnover = $request->turnover;
+            $model->min_amount = $request->min_deposit;
+            $model->active_from = Carbon::parse($request->from_date);
+            $model->active_to = Carbon::parse($request->to_date);
+            $model->save();
+            return (['success' => true, 'message' => __('locale.admin_promocodes_created'), 'data' => $model]);
+        }
 }
