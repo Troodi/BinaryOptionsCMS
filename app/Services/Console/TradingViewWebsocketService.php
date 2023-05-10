@@ -4,6 +4,7 @@ namespace App\Services\Console;
 
 use App\Helpers\Helper;
 use App\MarketStatus;
+use App\Models\Quote;
 use App\Models\Symbols\Options\Symbol;
 use App\Models\Symbols\Options\Ticks;
 use App\User;
@@ -14,6 +15,7 @@ use WebSocket\Client;
 class TradingViewWebsocketService
 {
 
+    private const MAX_QUOTES_HISTORY = 1000;
     private $session;
     private $sessionStatus;
     private $chartSession;
@@ -221,11 +223,11 @@ class TradingViewWebsocketService
         while (true) {
             try {
                 if (!Cache::has('latest_websocket_update')) {
-                    $this->runHistoryParsing($this->symbolForLoadHistory);
+                    $this->runHistoryParsing($this->symbolForLoadHistory, $this->symbolId);
                 }
                 if (Cache::has('market_update')) {
                     Cache::forget('market_update');
-                    $this->runHistoryParsing($this->symbolForLoadHistory);
+                    $this->runHistoryParsing($this->symbolForLoadHistory, $this->symbolId);
                 }
                 $string = $this->websocket->receive();
                 $packets = $this->parseMessages($string);
@@ -247,19 +249,32 @@ class TradingViewWebsocketService
                         dump('Loading');
                     } elseif (isset($packet->m) && $packet->m === "series_completed" && isset($packet->p)) {
                         dump($this->historyCount);
-                        if($this->historyCount >= 2000) {
+                        if($this->historyCount >= self::MAX_QUOTES_HISTORY) {
                             $this->getMoreData();
                         } else {
-                            exit(0);
+                            return;
                         }
                         dump('Completed');
                     } elseif (isset($packet->m) && $packet->m === "timescale_update" && isset($packet->p)) {
                         $this->historyCount = count($packet->p[1]->sds_1->s);
+                        $insert = [];
+                        foreach($packet->p[1]->sds_1->s as $candleData)
+                        {
+                            $candle = $candleData->v;
+                            $insert[] = [
+                                'created_at' => Carbon::createFromTimestamp((int) $candle[0])->format('Y-m-d H:i:s.u'),
+                                'open' => $candle[1],
+                                'high' => $candle[2],
+                                'min' => $candle[3],
+                                'close' => $candle[4],
+                                'symbol_id' => $this->symbolId
+                            ];
+                        }
+                        Quote::query()->insert($insert);
                     }
                 }
             } catch (\Exception $e) {
                 var_dump($e->getMessage());
-                $this->runHistoryParsing($this->symbolForLoadHistory);
             }
         }
     }
@@ -409,7 +424,7 @@ class TradingViewWebsocketService
             "s1",
             "sds_sym_" . ($this->symbolNumber),
             '1',
-            5000,
+            self::MAX_QUOTES_HISTORY,
             ""
         ]);
     }
@@ -419,7 +434,7 @@ class TradingViewWebsocketService
         $this->sendMessage("request_more_data", [
             $this->chartSession,
             "sds_" . ($this->symbolNumber),
-            2000
+            self::MAX_QUOTES_HISTORY
         ]);
     }
 
@@ -446,9 +461,10 @@ class TradingViewWebsocketService
         $this->resetWebSocket();
     }
 
-    public function runHistoryParsing($symbolForLoad)
+    public function runHistoryParsing($symbolForLoad, $id = 0)
     {
         $this->symbolForLoadHistory = $symbolForLoad;
+        $this->symbolId = $id;
         echo Carbon::now()->format('Y-m-d H:i:s') . ': Restart parsing!' . PHP_EOL;
         $this->subscriptions = [];
         $this->session = null;

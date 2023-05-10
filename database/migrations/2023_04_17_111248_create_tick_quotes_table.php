@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
 class CreateTickQuotesTable extends Migration
@@ -15,16 +13,16 @@ class CreateTickQuotesTable extends Migration
     public function up()
     {
         DB::connection('bavix::clickhouse')->statement('CREATE TABLE tick_quotes (
-    symbol_id Nullable(UInt64),
-    price Decimal(20,5),
-    created_at DateTime64(6),
-) 
-    ENGINE = MergeTree()
-    ORDER BY created_at
-    ');
-//        DB::connection('clickhouse')
-//            ->statement('ALTER TABLE tick_quotes ADD INDEX symbol_id TYPE minmax SAMPLE BY 8192');
+            symbol_id Nullable(UInt64),
+            price Decimal(20,5),
+            created_at DateTime64(6)
+        ) 
+        ENGINE = MergeTree() ORDER BY created_at');
 
+//        DB::connection('bavix::clickhouse')
+//            ->statement('ALTER TABLE tick_quotes ADD INDEX col_index(symbol_id) TYPE minmax GRANULARITY 3');
+//        DB::connection('bavix::clickhouse')
+//            ->statement('ALTER TABLE quotes ADD INDEX col_index(created_at) TYPE minmax GRANULARITY 3');
     }
 
     /**
