@@ -52,7 +52,7 @@ class PromocodeService
     public function createPromocodeServ(CreatePromocodeRequest $request)
     {
         $isset_description = false;
-        foreach ($request->description as $description) {
+        foreach ($request->desc as $description) {
             if (strlen($description) > 0) {
                 $isset_description = true;
                 break;
