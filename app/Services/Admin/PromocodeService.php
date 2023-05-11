@@ -21,7 +21,8 @@ class PromocodeService
 
     public function loadPromocodeServ(LoadPromocodeRequest $request)
     {
-        return Promocode::where('id', $request->id)->first();
+        $data = Promocode::where('id', $request->id)->first();
+        return $data;
     }
 
     public function removePromocodeServ(RemovePromocodeRequest $request)
@@ -33,7 +34,7 @@ class PromocodeService
     public function savePromocodeServ(SavePromocodeRequest $request)
     {
         Promocode::where('id', $request->id)->update([
-            'description' => $request->desc,
+            'description' => serialize($request->desc),
             'bonus_size' => $request->bonus_size,
             'code' => $request->code,
             'image' => $request->image,
