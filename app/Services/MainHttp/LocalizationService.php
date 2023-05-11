@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 class LocalizationService
 {
-    private $lang = ['en', 'ru', 'es'];
+    private $lang = ['en', 'es'];
 
     public function setLanguage(Request $request, $language){
         if(in_array($language, $this->lang)) {
