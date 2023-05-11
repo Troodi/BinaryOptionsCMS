@@ -38,14 +38,14 @@
                     </section>
                 </div>
 
-                <div class="col-md-3" v-for="promocode in promocodes">
+                <div class="col-md-3">
                     <div class="card">
-                        <div class="card-content">
+                        <div class="card-content" v-for="promocode in promocodes">
                             <img class="card-img img-fluid" :src="promocode.image">
                             <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column">
-                                <div class="overlay-content">
-                                    <p class="card-text">
-                                        {{ promocode.description }}
+                                <div class="overlay-content" v-for="locale in locales">
+                                    <p class="card-text" type="text" v-model="promocode.description[locale]">
+                                        {{ $i18n.t(promocode.description[locale]) }}
                                     </p>
                                 </div>
                                 <div class="overlay-status">
@@ -110,7 +110,8 @@
                 promocodes: [],
                 success: false,
                 message: '',
-                show: false
+                show: false,
+                locales: window.locales,
             }
         },
         computed: {
