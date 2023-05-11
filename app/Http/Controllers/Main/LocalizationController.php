@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\App;
 
 class LocalizationController extends Controller
 {
-    public function setLang(Request $request, LocalizationService $localizationService)
+    public function setLang(Request $request, LocalizationService $localizationService, $language)
     {
-        return response()->json($localizationService->setLanguage($request));
+        return response()->json($localizationService->setLanguage($request, $language));
     }
 }
