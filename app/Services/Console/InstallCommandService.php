@@ -106,7 +106,7 @@ class InstallCommandService {
     public function migrationsSeedersStarterPromo()
     {
         $model = new Promocode;
-        $model->description = 'Бездепозитный бонус 10$ для новых клиентов. Для того чтобы вывести бонус его необходимо отработать, для этого необходимо сделать торговый оборот, то есть общую сумму сделок 500$ (например 500 сделок по 1 доллару).';
+        $model->description = 'a:3:{s:2:"en";s:3:"123";s:2:"es";s:3:"333";s:2:"ru";s:3:"222";}';
         $model->code = 'GIVEME10DOLLARS';
         $model->image = '/images/promocode_first.jpg';
         $model->public_code = 1;
@@ -121,7 +121,7 @@ class InstallCommandService {
         $model->save();
 
         $model = new Promocode;
-        $model->description = 'Бездепозитный бонус 5$ для новых клиентов. Для того чтобы вывести бонус его необходимо отработать, для этого необходимо сделать торговый оборот, то есть общую сумму сделок 250$ (например 250 сделок по 1 доллару).';
+        $model->description = 'a:3:{s:2:"en";s:3:"123";s:2:"es";s:3:"333";s:2:"ru";s:3:"222";}';
         $model->code = 'GIVEME5DOLLARS';
         $model->image = '/images/promocode_second.jpg';
         $model->public_code = 1;
@@ -138,7 +138,7 @@ class InstallCommandService {
         $standard_promocodes = [[50, 25], [100, 55], [250, 60], [500, 65], [1000, 70], [3000, 80], [5000, 90], [10000, 100]];
         foreach ($standard_promocodes as $promocode) {
             $model = new Promocode;
-            $model->description = 'Стандартный бонус';
+            $model->description = 'a:3:{s:2:"en";s:3:"123";s:2:"es";s:3:"333";s:2:"ru";s:3:"222";}';
             $model->code = 'DEPOSIT' . $promocode[0] . 'BONUS';
             $model->public_code = 2;
             $model->used = 0;

@@ -502,6 +502,7 @@
   "promo_code_without_deposit": "No deposit bonus",
   "promo_code_percent": "Percentage of replenishment",
   "promo_code_active": "Activated",
+  "promo_code_placeholder": "Enter promo code to verify it",
 
   "trade_ history": "",
   "trade_history_title": "Trade history",

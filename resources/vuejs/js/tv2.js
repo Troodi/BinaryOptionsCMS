@@ -166,12 +166,6 @@ export class TradingViewFastWebsocket {
                 {flags: ["force_permission"]}
             ])
         );
-        // this.socketTV.send(
-        //     this.createMessage("quote_fast_symbols", [
-        //         this.session,
-        //         ticker
-        //     ])
-        // );
     }
 
     _getTicker(tickerName) {
@@ -331,6 +325,4 @@ export class TradingViewFastWebsocket {
             p: paramList
         });
     }
-
-// End IO functions
 }
