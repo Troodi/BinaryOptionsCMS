@@ -14,7 +14,6 @@ class LocalizationService
         if(in_array($language, $this->lang)) {
             setcookie("currentLanguage", $language, time() + 86400 * 365, '/');
         }
-        return redirect()->back()->withCookie(cookie()->forever('locale', $language));
     }
 
 }

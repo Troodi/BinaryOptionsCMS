@@ -11,6 +11,8 @@ class LocalizationController extends Controller
 {
     public function setLang(Request $request, LocalizationService $localizationService, $language)
     {
-        return response()->json($localizationService->setLanguage($request, $language));
+        $localizationService->setLanguage($request, $language);
+
+        return redirect()->back()->withCookie(cookie()->forever('locale', $language));
     }
 }
