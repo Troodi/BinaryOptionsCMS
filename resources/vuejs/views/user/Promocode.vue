@@ -28,7 +28,7 @@
                                       {{ $i18n.t('promo_code_use_desc') }}
                                     </p>
                                     <fieldset class="form-group">
-                                        <input type="text" class="form-control" placeholder="Введите промокод для его проверки" v-model="promocode">
+                                        <input type="text" class="form-control" :placeholder="$i18n.t('promo_code_placeholder')" v-model="promocode">
                                     </fieldset>
                                     <button @click="clearPromocode" class="btn btn-primary">{{ $i18n.t('promo_code_clear') }}</button>
                                     <button @click="checkPromocode" class="btn btn-success float-right" :class="{'disabled' : promocode.length < 3}">{{ $i18n.t('promo_code_apply') }}</button>
@@ -43,11 +43,9 @@
                         <div class="card-content" v-for="promocode in promocodes">
                             <img class="card-img img-fluid" :src="promocode.image">
                             <div class="card-img-overlay overlay-dark d-flex justify-content-between flex-column">
-                                <div class="overlay-content" v-for="locale in locales">
-                                    <p class="card-text" type="text" v-model="promocode.description[locale]">
-                                        {{ $i18n.t(promocode.description[locale]) }}
-                                    </p>
-                                </div>
+                                <p class="card-text" type="text">
+                                    {{ getLocaleText(promocode.description) }}
+                                </p>
                                 <div class="overlay-status">
                                     <p class="mb-25"><small>{{ $i18n.t('promo_code_have_time') }}</small></p>
                                     <button @click="setCode(promocode.code)" class="btn btn-outline-info">{{ $i18n.t('promo_code_activate') }}</button>
@@ -89,7 +87,7 @@
 
 <script>
     import dateformat from "dateformat";
-    import {getCookie} from "../../js/functions";
+    import {findLocalizedText, getCookie} from "../../js/functions";
 
     require('../../../vendors/js/tables/datatable/datatables.min.js');
     require('../../../vendors/js/tables/datatable/dataTables.bootstrap4.min.js');
@@ -120,6 +118,9 @@
           },
         },
         methods: {
+            getLocaleText(text){
+                return findLocalizedText(text);
+            },
             updateDatatable: function(){
                 let self = this;
                 let url = '/promocode/history';
