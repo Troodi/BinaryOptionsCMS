@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Promocode extends Model
 {
     use SoftDeletes;
+
+    public function getDescriptionAttribute($value)
+    {
+        return unserialize($value);
+    }
 }
