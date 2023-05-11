@@ -16,7 +16,8 @@ class PromocodeService
 {
     public function getAllPromocodeServ(Request $request)
     {
-        return Datatables::of(Promocode::all())->make();
+        $promocodes = Promocode::all();
+        return Datatables::of($promocodes)->make();
     }
 
     public function loadPromocodeServ(LoadPromocodeRequest $request)
