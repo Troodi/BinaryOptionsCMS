@@ -88,7 +88,9 @@ class TradingService
 
     public function buySymbolServ(BuySymbolRequest $request){
 
-        $symbol = Symbol::where('id', $request->symbol)->firstOrFail();
+        $stringExplode = explode(":", $request->symbol);
+
+        $symbol = Symbol::where('symbol', $stringExplode[1])->where('broker', $stringExplode[0])->firstOrFail();
         if((Carbon::now()->hour >= $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
             return (['data' => ['message' => __('locale.trading_non_work_time')], 'status' => 422]);
         }
