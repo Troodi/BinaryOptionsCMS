@@ -10,7 +10,6 @@
     </li>
     <li class="nav-item dropdown"> <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">@lang('locale.landing_language')</a>
       <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="/lang/ru">Русский</a></li>
         <li><a class="dropdown-item" href="/lang/en">English</a></li>
         <li><a class="dropdown-item" href="/lang/es">Español</a></li>
       </ul>

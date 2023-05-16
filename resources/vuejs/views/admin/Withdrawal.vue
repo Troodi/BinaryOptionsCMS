@@ -11,7 +11,7 @@
               <div class="card-body">
                 <div class="card-text">
                   <div class="table-responsive">
-                    <table class="table" id="verify">
+                    <table class="table" id="verify" style="width:100%">
                       <thead>
                       <tr>
                         <th>{{ $i18n.t('admin_withdrawals_user') }}</th>

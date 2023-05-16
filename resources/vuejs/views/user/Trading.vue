@@ -675,7 +675,7 @@
                 percent: '',
                 symbol: null,
                 number_percent: null,
-                amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1,00',
+                amount: localStorage.getItem('amount') ? localStorage.getItem('amount') : '1.00',
                 min: 1,
                 lines: [],
                 hours: localStorage.getItem('hours') ? localStorage.getItem('hours') : '00',

@@ -27,10 +27,13 @@ class ForgotPasswordController extends Controller
       if(config('custom.demo')){
         throw ValidationException::withMessages(['demo_mode' => __('locale.demo_error')]);
       }
-      $request->validate([
+      $array = [
         'email' => 'required|email',
-        'custom-g-recaptcha-response' => 'recaptcha',
-      ]);
+      ];
+      if(!config('app.debug')){
+        $array = array_merge($array, ['custom-g-recaptcha-response' => 'recaptcha']);
+      }
+      $request->validate($array);
     }
 
     public function showLinkRequestForm(){

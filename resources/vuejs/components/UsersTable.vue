@@ -1,6 +1,6 @@
 <template>
   <div class="table-responsive">
-    <table class="table" :id="tableId">
+    <table class="table" :id="tableId" style="width:100%">
       <thead>
       <tr>
         <th>ID</th>

@@ -11,7 +11,7 @@
               <div class="card-body">
                 <div class="card-text">
                   <div class="table-responsive">
-                    <table class="table" id="contestGlobalStatistics">
+                    <table class="table" id="contestGlobalStatistics" style="width:100%">
                       <thead>
                       <tr>
                         <th>ID</th>

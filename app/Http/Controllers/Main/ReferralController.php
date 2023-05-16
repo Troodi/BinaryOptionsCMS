@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Main;
 
 use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MainHttp\Referral\GetUserRefInfoRequest;
+use App\Http\Requests\MainHttp\Referral\GetUserRefsRequest;
 use App\Models\Referral;
+use App\Services\MainHttp\ReferralService;
 use App\User;
 use Dirape\Token\Token;
 use Illuminate\Support\Facades\Cookie;
@@ -15,32 +18,18 @@ use Yajra\DataTables\DataTables;
 
 class ReferralController extends Controller
 {
-    public function getUserReferralInfo(Request $request){
-      $admin = false;
-      if($request->id && Helper::isAdmin()){
-        $admin = true;
-        $request->validate(['id' => 'numeric|min:1']);
-      }
-      $id = $admin ? $request->id : Auth::user()->id;
-      return Referral::where('user_id', $id)->with(['user', 'request'])->first();
+    public function getUserReferralInfo(GetUserRefInfoRequest $request, ReferralService $referralService)
+    {
+        return response()->json($referralService->getUserRefInfo($request));
     }
 
-    public function getUserReferrals(Request $request){
-      $admin = false;
-      if($request->id && Helper::isAdmin()){
-        $admin = true;
-        $request->validate(['id' => 'numeric|min:1']);
-      }
-      $id = $admin ? $request->id : Auth::user()->id;
-      $referrals = User::select('token', 'created_at')->where('referer_id', $id)->get();
-      return Datatables::of($referrals)->make();
+    public function getUserReferrals(GetUserRefsRequest $request, ReferralService $referralService)
+    {
+        return $referralService->getUserRefs($request);
     }
 
-    public function setReferralCookie(Request $request){
-      $user = User::where('token', $request->code)->first();
-      if($user and !Cookie::has('offer')){
-        Referral::where('user_id', $user->id)->increment('tracked');
-      }
-      return redirect('/')->withCookie(cookie()->forever('offer', $request->code));
+    public function setReferralCookie(Request $request, ReferralService $referralService)
+    {
+        return response()->json($referralService->setRefCookie($request));
     }
 }

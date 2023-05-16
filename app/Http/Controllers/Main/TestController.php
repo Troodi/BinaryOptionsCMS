@@ -3,17 +3,15 @@
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
-use App\Models\Symbols\Options\Ticks;
-use Carbon\Carbon;
+use App\Events\ChangeDemoBalance;
+use App\Services\MainHttp\TestService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
-use Ixudra\Curl\Facades\Curl;
-use Jackiedo\DotenvEditor\Facades\DotenvEditor;
-use Qiwi\Api\BillPayments;
+use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
 {
-  public function test(Request $request){
-
+  public function test(Request $request, TestService $testService)
+  {
+    return response()->json($testService->testServ($request));
   }
 }
