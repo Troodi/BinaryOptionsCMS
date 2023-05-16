@@ -26,6 +26,7 @@ class TickQuotesSymbolIdString extends Migration
      */
     public function down()
     {
-        //
+        DB::connection('clickhouse')->statement('ALTER TABLE tick_quotes
+        MODIFY COLUMN symbol_id Nullable(UInt64)');
     }
 }

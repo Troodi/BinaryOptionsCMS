@@ -388,7 +388,7 @@
                     this.min_expiration = Infinity;
                 }
                 if(typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== this.symbol && window.dataLoaded && this.symbol !== window.symbolInfo.id) {
-                    this.symbol = window.symbolInfo.id;
+                    this.symbol = window.symbolInfo.id; // Вот тут задается ШВ символа
                     this.min_expiration = window.symbolInfo.expiration;
                     if(this.symbolsPercents[this.symbol] == null){
                       this.percent = '+ ' + window.symbolInfo.description;
@@ -522,7 +522,7 @@
               toastr.warning(null, this.$i18n.t('trade_order_processing'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
               let self = this;
               axios.post('/binary/buy', {
-                symbol: this.symbol,
+                symbol: this.symbol, // Здесь сейчас ID
                 hours: this.hours,
                 minutes: this.minutes,
                 seconds: this.seconds,
