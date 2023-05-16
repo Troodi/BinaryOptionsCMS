@@ -136,7 +136,7 @@ class TradingViewWebsocketService
                             $this->map[$name] = $symbol->id;
                             $this->registerTicker($name);
                             $this->symbols_all[] = $name;
-                            MarketStatus::create(['symbol_id' => $symbol->id, 'market_status' => 0]);
+                            MarketStatus::create(['symbol_id' => $name, 'market_status' => 0]); // Тут поменять на строку, уже в переменной $name вроде верное
                         }
                         $this->sendMessage("quote_create_session", [$this->sessionStatus]); // Дополнительная сессия для статуса маркета
                         $this->setMainFields($this->sessionStatus);
