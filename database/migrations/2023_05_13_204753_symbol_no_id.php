@@ -25,6 +25,8 @@ class SymbolNoId extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('symbols');
+        Schema::table('symbols', function (Blueprint $table) {
+            $table->id();
+        });
     }
 }

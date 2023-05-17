@@ -165,10 +165,11 @@ class TradingViewWebsocketService
                                 $this->tickerData[$tickerName]['id'] = $this->map[$tickerName];
                             }
                         }
+                        var_dump($this->tickerData[$tickerName]);
                         if (isset($this->tickerData[$tickerName]['current_session']) && isset($this->tickerData[$tickerName]['id'])) {
                             $status = $this->tickerData[$tickerName]['current_session'];
                             $updated = Carbon::now()->format('Y-m-d H:i:s.u');
-                            $symbol_id = $this->tickerData[$tickerName]['id'];
+                            $symbol_id = $this->tickerData['broker'].":".$this->tickerData[$tickerName];
                             MarketStatus::where('symbol_id', $symbol_id)->update(['market_status' => $status, 'updated_at' => $updated]);
                         }
                         foreach ($this->tickerData as $key => $value) {
