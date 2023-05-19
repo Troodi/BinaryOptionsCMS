@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Symbol extends Model
 {
     use SoftDeletes;
+
+    protected $primary_key = null;
+    public $incrementing = false;
 }

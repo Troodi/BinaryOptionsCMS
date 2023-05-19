@@ -132,7 +132,7 @@ class TradingViewWebsocketService
                         $this->symbols_all = [];
                         MarketStatus::truncate();
                         foreach (Symbol::all() as $symbol) {
-                            $name = $symbol->broker . ':' . str_replace('/', '', $symbol->symbol);
+                            $name = $symbol->broker . ':' . $symbol->symbol;
                             $this->map[$name] = $symbol->id;
                             $this->registerTicker($name);
                             $this->symbols_all[] = $name;
@@ -165,21 +165,21 @@ class TradingViewWebsocketService
                                 $this->tickerData[$tickerName]['id'] = $this->map[$tickerName];
                             }
                         }
-                        var_dump($this->tickerData[$tickerName]);
-                        if (isset($this->tickerData[$tickerName]['current_session']) && isset($this->tickerData[$tickerName]['id'])) {
+
+                        if (isset($this->tickerData[$tickerName]['current_session']) && isset($this->tickerData[$tickerName]['original_name'])) {
                             $status = $this->tickerData[$tickerName]['current_session'];
                             $updated = Carbon::now()->format('Y-m-d H:i:s.u');
-                            $symbol_id = $this->tickerData['broker'].":".$this->tickerData[$tickerName];
+                            $symbol_id = $this->tickerData[$tickerName]['original_name'];
                             MarketStatus::where('symbol_id', $symbol_id)->update(['market_status' => $status, 'updated_at' => $updated]);
                         }
                         foreach ($this->tickerData as $key => $value) {
                             if (isset($value['lp'])) {
-                                if (!isset($this->cacheLP['symbol' . $value['id']])) {
-                                    $this->cacheLP['symbol' . $value['id']] = 0;
+                                if (!isset($this->cacheLP['symbol' . $value['original_name']])) {
+                                    $this->cacheLP['symbol' . $value['original_name']] = 0;
                                 }
-                                if ($this->cacheLP['symbol' . $value['id']] != $value['lp']) {
-                                    $this->cacheLP['symbol' . $value['id']] = $value['lp'];
-                                    $value_id = $value['id'];
+                                if ($this->cacheLP['symbol' . $value['original_name']] != $value['lp']) {
+                                    $this->cacheLP['symbol' . $value['original_name']] = $value['lp'];
+                                    $value_id = $value['original_name'];
                                     $value_lp = $value['lp'];
                                     $value_created_at = Carbon::now()->format('Y-m-d H:i:s.u');
                                     $model = new Ticks;
