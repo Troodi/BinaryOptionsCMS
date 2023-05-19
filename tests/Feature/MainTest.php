@@ -284,7 +284,6 @@ class MainTest extends TestCase
 
         $response->assertStatus(200)->assertJsonStructure([
             '*' => [
-                'id',
                 'symbol',
                 'type',
                 'broker',

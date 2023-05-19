@@ -15,7 +15,7 @@ class SymbolService
 {
     public function allSymbolsServ(Request $request)
     {
-        return Symbol::orderBy('id', 'asc')->get();
+        return Symbol::orderBy('symbol', 'asc')->get();
     }
 
     public function saveSymbolServ(SaveSymbolRequest $request)
@@ -23,10 +23,10 @@ class SymbolService
         if(config('custom.demo')){
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
-        if(Symbol::where('symbol', $request->pair)->where('broker', $request->broker)->where('id', '<>', $request->id)->withTrashed()->count()){
+        if(Symbol::where('symbol', $request->pair)->where('broker', $request->broker)->withTrashed()->count()){
             return (['success' => false, 'message' => 'Такая торговая пара уже есть в системе!']);
         }
-        Symbol::where('id', $request->id)->update([
+        Symbol::where('symbol', $request->pair)->where('broker', $request->broker)->update([
             'symbol' => $request->pair,
             'broker' => $request->broker,
             'fixed_percent' => $request->fix,
@@ -45,7 +45,7 @@ class SymbolService
 
     public function getSymbolServ(GetSymbolRequest $request)
     {
-        return Symbol::where('id', $request->id)->first();
+        return Symbol::where('symbol', $request->pair)->where('broker', $request->broker)->first();
     }
 
     public function removeSymbolServ(RemoveSymbolRequest $request)
@@ -53,7 +53,7 @@ class SymbolService
         if(config('custom.demo')){
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
-        Symbol::where('id', $request->id)->delete();
+        Symbol::where('symbol', $request->pair)->where('broker', $request->broker)->delete();
         Cache::forever('market_update', true);
         return (['success' => true, 'message' => __('locale.admin_symbols_deleted')]);
     }
