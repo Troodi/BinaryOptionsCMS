@@ -14,6 +14,8 @@ class Deposit extends Model
   }
   public function depositSystem()
   {
-    return $this->hasOne('App\Models\DepositSystem', 'id', 'system_id');
+    return $this->hasOne('App\Models\DepositSystem', 'text', 'system_id');
   }
+    protected $primary_key = null;
+    public $incrementing = false;
 }

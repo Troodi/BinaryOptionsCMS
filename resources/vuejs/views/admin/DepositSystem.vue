@@ -38,7 +38,6 @@
                     <table class="table" style="width:100%">
                       <thead>
                       <tr>
-                        <th>{{ $i18n.t('admin_deposit_settings_id') }}</th>
                         <th>{{ $i18n.t('admin_deposit_settings_system') }}</th>
                         <th>{{ $i18n.t('admin_deposit_settings_order') }}</th>
                         <th>{{ $i18n.t('admin_deposit_settings_active') }}</th>
@@ -47,17 +46,15 @@
                       </thead>
                       <tbody>
                       <tr v-for="system in systems">
-                          <td><input type="text" class="form-control" :id="'id'+system.id" :value="system.id"></td>
-                          <td><input type="text" class="form-control" :id="'system'+system.id" :value="system.text"></td>
-                          <td><input type="text" class="form-control" :id="'order'+system.id" :value="system.order"></td>
-                          <td><select2 v-model="system.hidden" :id="'active'+system.id" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/></td>
+                          <td><input type="text" class="form-control" :id="system.text" :value="system.text"></td>
+                          <td><input type="text" class="form-control" :id="system.order" :value="system.order"></td>
+                          <td><select2 v-model="system.hidden" :id="system.active" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/></td>
                           <td>
-                            <button type="button" @click="save(system.id)" class="btn btn-outline-primary">{{ $i18n.t('admin_deposit_settings_save') }}</button>
-                            <button type="button" @click="remove(system.id)" class="btn btn-outline-danger">{{ $i18n.t('admin_deposit_settings_delete') }}</button>
+                            <button type="button" @click="save(system.text)" class="btn btn-outline-primary">{{ $i18n.t('admin_deposit_settings_save') }}</button>
+                            <button type="button" @click="remove(system.text)" class="btn btn-outline-danger">{{ $i18n.t('admin_deposit_settings_delete') }}</button>
                           </td>
                       </tr>
                       <tr>
-                        <td><input disabled type="text" class="form-control"></td>
                         <td><input type="text" v-model="system_text" class="form-control"></td>
                         <td><input type="text" v-model="system_order" class="form-control"></td>
                         <td><select2 v-model="defaultHidden" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/></td>
@@ -83,15 +80,14 @@ export default {
     this.getSystems();
   },
   methods: {
-    save: function(id){
+    save: function(systems){
       this.errors = [];
       this.success = [];
-      let newId = $('#id'+id).val();
-      let system = $('#system'+id).val();
-      let order = $('#order'+id).val();
-      let active = $('#active'+id).val();
+      let system = $(systems.text).val();
+      let order = $(systems.order).val();
+      let active = $(systems.active).val();
       let self = this;
-      axios.post('/admin/data/deposit/systems/save', { id: id, newId: newId, system: system, order: order, active: active}).then((response) => {
+      axios.post('/admin/data/deposit/systems/save', { system: system, order: order, active: active}).then((response) => {
         if(response.data.success === false) {
           self.errors = [];
           self.errors.push(response.data.message);
@@ -103,11 +99,12 @@ export default {
         self.getSystems();
       });
     },
-    remove: function (id){
+    remove: function (systems){
       this.errors = [];
       this.success = [];
+      let system = $(systems.text).val();
       let self = this;
-      axios.post('/admin/data/deposit/systems/remove', { id: id }).then((response) => {
+      axios.post('/admin/data/deposit/systems/remove', { system: system}).then((response) => {
         if(response.data.success === false) {
           self.errors = [];
           self.errors.push(response.data.message);
