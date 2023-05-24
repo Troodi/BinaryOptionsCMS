@@ -28,7 +28,10 @@ use Yajra\DataTables\DataTables;
 class DepositService
 {
     public function getAllDepositSystems(Request $request){
-        return DepositSystem::where('hidden', 0)->orderBy('order', 'asc')->get();
+        return DepositSystem::where('hidden', 0)->orderBy('order', 'asc')->get()->map(function($item){
+            $item->id = $item->text;
+            return $item;
+        });
     }
 
     public function qiwiProcess(Request $request){
