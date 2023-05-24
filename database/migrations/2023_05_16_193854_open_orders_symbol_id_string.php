@@ -14,7 +14,6 @@ class OpenOrdersSymbolIdString extends Migration
     public function up()
     {
         Schema::table('open_orders', function (Blueprint $table) {
-            $table->dropColumn('id');
             $table->string('symbol_id')->nullable()->change();
         });
     }
@@ -26,10 +25,8 @@ class OpenOrdersSymbolIdString extends Migration
      */
     public function down()
     {
-        //Schema::dropIfExists('open_orders'); // Здесь не надо удалять таблицу, здесь надо вернуть таблицы к тому что бчло до чиггации
         Schema::table('open_orders', function (Blueprint $table) {
             $table->integer('symbol_id')->nullable()->change();
-            $table->id();
         });
     }
 }

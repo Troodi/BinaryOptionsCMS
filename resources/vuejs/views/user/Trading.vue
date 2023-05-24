@@ -204,7 +204,7 @@
                                               <div v-b-toggle="'opened-orders' + index" data-toggle="collapse" class="card-header p-1">
                                                 <span class="collapse-title">
                                                   <span class="align-middle" :class="'text-' + open.textColor">
-                                                      {{ symbols.find(item => item.id === open.symbol_id).symbol }}
+                                                      {{ symbols.find(item => (item.broker + ':' + item.symbol.replace('/', '')) === open.symbol_id).symbol }}
                                                   </span>
 
                                                   <small :class="'text-' + open.textColor" style="float: right;padding-right: 20px;padding-top: 5px;">
@@ -267,7 +267,7 @@
                                               <div v-b-toggle="'latest-orders' + index" data-toggle="collapse" class="card-header p-1">
                                                     <span class="collapse-title">
                                                         <span class="align-middle" :class="'text-' + open.textColor">
-                                                            {{ symbols.find(item => item.id === open.symbol_id).symbol }}
+                                                          {{ symbols.find(item => (item.broker + ':' + item.symbol.replace('/', '')) === open.symbol_id).symbol }}
                                                         </span>
 
                                                         <small :class="'text-' + open.textColor" style="float: right;padding-right: 20px;padding-top: 5px;">
@@ -344,7 +344,7 @@
                 this.opened.forEach((open) => {
                     if(this.symbols.length > 0) {
                         try {
-                            let symbol = this.symbols.find(item => item.id === open.symbol_id);
+                            let symbol = this.symbols.find(item => (item.broker + ':' + item.symbol.replace('/', '')) === open.symbol_id);
                             let lp = this.fastData[symbol.broker + ':' + symbol.symbol.replace('/', '')].lp;
                             let color = 'warning';
                             let profitStatus = 2;

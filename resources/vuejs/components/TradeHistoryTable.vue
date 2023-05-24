@@ -126,7 +126,7 @@ export default {
               render: function(data, type) {
                 let symbol = '';
                 if (type === 'display') {
-                  symbol = self.symbols.find(x => x.id === data).symbol;
+                  symbol = self.symbols.find(x => (x.broker + ':' + x.symbol.replace('/', '')) === data).symbol;
                 }
                 return '<div class="badge badge-primary">' + symbol + '</div>';
               }
