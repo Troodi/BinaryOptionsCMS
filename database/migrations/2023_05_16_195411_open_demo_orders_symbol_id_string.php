@@ -14,7 +14,6 @@ class OpenDemoOrdersSymbolIdString extends Migration
     public function up()
     {
         Schema::table('open_demo_orders', function (Blueprint $table) {
-            $table->dropColumn('id');
             $table->string('symbol_id')->nullable()->change();
         });
     }
@@ -28,7 +27,6 @@ class OpenDemoOrdersSymbolIdString extends Migration
     {
         Schema::table('open_demo_orders', function (Blueprint $table) {
             $table->integer('symbol_id')->nullable()->change();
-            $table->id();
         });
     }
 }

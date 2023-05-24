@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class LatestDemoOrdersSymbolIdString extends Migration
+class ChangeSymbolDemoStatistics extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class LatestDemoOrdersSymbolIdString extends Migration
      */
     public function up()
     {
-        Schema::table('latest_demo_orders', function (Blueprint $table) {
+        Schema::table('symbol_demo_statistics', function (Blueprint $table) {
             $table->string('symbol_id')->nullable()->change();
         });
     }
@@ -25,7 +25,7 @@ class LatestDemoOrdersSymbolIdString extends Migration
      */
     public function down()
     {
-        Schema::table('latest_demo_orders', function (Blueprint $table) {
+        Schema::table('symbol_demo_statistics', function (Blueprint $table) {
             $table->integer('symbol_id')->nullable()->change();
         });
     }
