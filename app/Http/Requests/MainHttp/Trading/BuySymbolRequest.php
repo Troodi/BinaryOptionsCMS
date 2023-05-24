@@ -18,6 +18,7 @@ class BuySymbolRequest extends FormRequest
             'amount' => 'numeric|min:1',
             'direction' => 'numeric|min:0|max:1',
             'type' => 'required',
+            'id' => 'numeric|min:0',
         ];
     }
 }

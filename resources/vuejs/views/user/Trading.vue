@@ -521,8 +521,9 @@
             placeOrder: function(direction, color, text){
               toastr.warning(null, this.$i18n.t('trade_order_processing'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
               let self = this;
+              let symbol = this.symbols.find(item => item.id === open.symbol_id);
               axios.post('/binary/buy', {
-                symbol: this.symbol, // Здесь сейчас ID
+                symbol: symbol.broker+':'+symbol.symbol.replace('/', ''),
                 hours: this.hours,
                 minutes: this.minutes,
                 seconds: this.seconds,
