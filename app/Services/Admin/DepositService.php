@@ -27,8 +27,8 @@ class DepositService
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
 
-        DepositSystem::where('id', $request->id)->update([
-            'text' => $request->system,
+        DepositSystem::where('text', $request->prevText)->update([
+            'text' => $request->text,
             'order' => $request->order,
             'hidden' => $request->active,
         ]);
@@ -40,7 +40,7 @@ class DepositService
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
 
-        DepositSystem::where('text', $request->system)->delete();
+        DepositSystem::where('text', $request->text)->delete();
         return (['success' => true, 'message' => __('locale.admin_deposit_deleted')]);
     }
 
