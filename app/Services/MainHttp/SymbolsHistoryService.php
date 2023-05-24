@@ -26,6 +26,7 @@ class SymbolsHistoryService
                 } elseif($symbol->status == 0){
                     $symbol->percent = 0;
                 }
+                $symbol->symbol = $symbol->first_symbol . '/' . $symbol->second_symbol;
                 return $symbol;
             });
             return $symbols;

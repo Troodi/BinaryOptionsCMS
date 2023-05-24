@@ -87,112 +87,111 @@ class TradingService
     }
 
     public function buySymbolServ(BuySymbolRequest $request){
+        try {
+            $stringExplode = explode(":", $request->symbol);
 
-        $stringExplode = explode(":", $request->symbol);
+            $symbol = Symbol::where('symbol', $stringExplode[1])->where('broker', $stringExplode[0])->firstOrFail();
+            if ((Carbon::now()->hour >= $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)) {
+                return (['data' => ['message' => __('locale.trading_non_work_time')], 'status' => 422]);
+            }
+            $seconds = $request->hours * 60 * 60 + $request->minutes * 60 + $request->seconds;
+            if ((Carbon::now()->addSeconds($seconds)->hour > $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)) {
+                return (['data' => ['message' => __('locale.trading_expiration_more')], 'status' => 422]);
+            }
 
-        $symbol = Symbol::where('symbol', $stringExplode[1])->where('broker', $stringExplode[0])->firstOrFail();
-        if((Carbon::now()->hour >= $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
-            return (['data' => ['message' => __('locale.trading_non_work_time')], 'status' => 422]);
-        }
-        $seconds = $request->hours * 60 * 60 + $request->minutes * 60 + $request->seconds;
-        if((Carbon::now()->addSeconds($seconds)->hour > $symbol->work_to or Carbon::now()->hour < $symbol->work_from) and ($symbol->work_from != $symbol->work_to)){
-            return (['data' => ['message' => __('locale.trading_expiration_more')], 'status' => 422]);
-        }
-
-        if($seconds < $symbol->min_expiration_time){
-            return ( // Зачем лишние скобки круглые?
-                ['data' => ['message' => __('locale.trading_min_30_seconds', ['min_expiration' => self::formatSecondsServ($symbol->min_expiration_time)])], 'status' => 422]
-            );
-        }
-        if($request->type == 'real') {
-            if (Auth::user()->balance - $request->amount < 0) {
-                return (['data' => ['message' => __('locale.trading_not_enough_money')], 'status' => 422]);
+            if ($seconds < $symbol->min_expiration_time) {
+                return ['data' => ['message' => __('locale.trading_min_30_seconds', ['min_expiration' => self::formatSecondsServ($symbol->min_expiration_time)])], 'status' => 422];
             }
-        } elseif($request->type == 'demo') {
-            if (Auth::user()->demo_balance - $request->amount < 0) {
-                return (['data' => ['message' => __('locale.trading_not_enough_money')], 'status' => 422]);
-            }
-        } elseif($request->type == 'tournament') {
-            $contest = Contest::where('id', $request->id)->first();
-            if(!$contest){
-                return (['data' => ['message' => __('locale.tournament_trading_not_exist')], 'status' => 422]);
-            }
-            $contest_user = ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->first();
-            if(!$contest_user){
-                return (['data' => ['message' => __('locale.tournament_trading_already_registered')], 'status' => 422]);
-            }
-            if($contest_user->banned){
-                return (['data' => ['message' => __('locale.tournament_trading_blocked')], 'status' => 422]);
-            }
-            if ($contest_user->balance - $request->amount < 0) {
-                return (['data' => ['message' => __('locale.trading_not_enough_money')], 'status' => 422]);
-            }
-        }
-        $market = MarketStatus::where('symbol_id', $request->symbol);
-        if(!isset($market) || !$market->count()){
-            return (['data' => ['message' => __('locale.trading_place_error')], 'status' => 422]);
-        }
-        if($market->first()->market_status != 'market'){
-            return (['data' => ['message' => __('locale.trading_current_symbol_closed')], 'status' => 422]);
-        }
-        if($request->type == 'real') { // Если у человека высокая прибыль немного замедляем выставление сделки
-            $todayStat = UserTodayStatistic::where('user_id', Auth::user()->id)->first();
-            if ($todayStat !== null) {
-                $profit = $todayStat->profit;
-                $loss = $todayStat->loss;
-                $total = $profit + $loss;
-                $percent = ($profit / $total) * 100;
-                if ($total > 10 and $percent >= 65) {
-                    usleep(mt_rand(500000, 3000000));
+            if ($request->type == 'real') {
+                if (Auth::user()->balance - $request->amount < 0) {
+                    return (['data' => ['message' => __('locale.trading_not_enough_money')], 'status' => 422]);
+                }
+            } elseif ($request->type == 'demo') {
+                if (Auth::user()->demo_balance - $request->amount < 0) {
+                    return (['data' => ['message' => __('locale.trading_not_enough_money')], 'status' => 422]);
+                }
+            } elseif ($request->type == 'tournament') {
+                $contest = Contest::where('id', $request->id)->first();
+                if (!$contest) {
+                    return (['data' => ['message' => __('locale.tournament_trading_not_exist')], 'status' => 422]);
+                }
+                $contest_user = ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->first();
+                if (!$contest_user) {
+                    return (['data' => ['message' => __('locale.tournament_trading_already_registered')], 'status' => 422]);
+                }
+                if ($contest_user->banned) {
+                    return (['data' => ['message' => __('locale.tournament_trading_blocked')], 'status' => 422]);
+                }
+                if ($contest_user->balance - $request->amount < 0) {
+                    return (['data' => ['message' => __('locale.trading_not_enough_money')], 'status' => 422]);
                 }
             }
-        }
-        $symbols_all = Cache::remember('symbols_all', 60, function () {
-            return Symbol::orderBy('percent', 'desc')->get();
-        });
-        $fisrt = Ticks::where('symbol_id', $request->symbol)->orderBy('created_at', 'desc')->first();
-        if($fisrt){
-            $price = $fisrt->price;
-        } else {
-            return (['data' => ['message' => __('locale.trading_place_error_2')], 'status' => 422]);
-        }
-        $hedge = 0;
-        if(OpenOrders::where('user_id', Auth::user()->id)->where('symbol_id', $request->symbol)->where('type', '<>', $request->direction)->count()){
-            $hedge = 1;
-        }
-        if($request->type == 'real') { // Если реальный счет
-            $model = new OpenOrders();
-            User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-' . $request->amount)]);
-            broadcast(new ChangeBalance(Auth::user()->balance - $request->amount, Auth::user()));
-        }
-        elseif($request->type == 'demo'){
-            $model = new OpenDemoOrders();
-            User::where('id', Auth::user()->id)->update(['demo_balance' => DB::raw('demo_balance-' . $request->amount)]);
-            broadcast(new ChangeDemoBalance(Auth::user()->demo_balance - $request->amount, Auth::user()));
-        }
-        elseif($request->type == 'tournament'){
-            $model = new ContestOpenOrder();
-            $model->contest_id = $request->id;
-            ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->update([
-                'balance' => DB::raw('balance-' . $request->amount)
-            ]);
-            $user_contest = ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->first();
-            broadcast(new ChangeContestBalance($user_contest->balance, $user_contest, $request->id));
-        }
+            $market = MarketStatus::where('symbol_id', $request->symbol);
+            if (!isset($market) || !$market->count()) {
+                return (['data' => ['message' => __('locale.trading_place_error')], 'status' => 422]);
+            }
+            if ($market->first()->market_status != 'market') {
+                return (['data' => ['message' => __('locale.trading_current_symbol_closed')], 'status' => 422]);
+            }
+            if ($request->type == 'real') { // Если у человека высокая прибыль немного замедляем выставление сделки
+                $todayStat = UserTodayStatistic::where('user_id', Auth::user()->id)->first();
+                if ($todayStat !== null) {
+                    $profit = $todayStat->profit;
+                    $loss = $todayStat->loss;
+                    $total = $profit + $loss;
+                    $percent = ($profit / $total) * 100;
+                    if ($total > 10 and $percent >= 65) {
+                        usleep(mt_rand(500000, 3000000));
+                    }
+                }
+            }
+            $symbols_all = Cache::remember('symbols_all', 60, function () {
+                return Symbol::orderBy('percent', 'desc')->get();
+            });
+            $fisrt = Ticks::where('symbol_id', $request->symbol)->orderBy('created_at', 'desc')->first();
+            if ($fisrt) {
+                $price = $fisrt->price;
+            } else {
+                return (['data' => ['message' => __('locale.trading_place_error_2')], 'status' => 422]);
+            }
+            $hedge = 0;
+            if (OpenOrders::where('user_id', Auth::user()->id)->where('symbol_id', $request->symbol)->where('type', '<>', $request->direction)->count()) {
+                $hedge = 1;
+            }
+            if ($request->type == 'real') { // Если реальный счет
+                $model = new OpenOrders();
+                User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-'.$request->amount)]);
+                broadcast(new ChangeBalance(Auth::user()->balance - $request->amount, Auth::user()));
+            } elseif ($request->type == 'demo') {
+                $model = new OpenDemoOrders();
+                User::where('id', Auth::user()->id)->update(['demo_balance' => DB::raw('demo_balance-'.$request->amount)]);
+                broadcast(new ChangeDemoBalance(Auth::user()->demo_balance - $request->amount, Auth::user()));
+            } elseif ($request->type == 'tournament') {
+                $model = new ContestOpenOrder();
+                $model->contest_id = $request->id;
+                ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->update([
+                    'balance' => DB::raw('balance-'.$request->amount)
+                ]);
+                $user_contest = ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->first();
+                broadcast(new ChangeContestBalance($user_contest->balance, $user_contest, $request->id));
+            }
 
-        $model->symbol_id = $request->symbol;
-        $model->user_id = Auth::user()->id;
-        $model->type = $request->direction;
-        $model->open_price = $price;
-        $model->hedging = $hedge;
-        $model->percent = $symbols_all->where('id', $request->symbol)->first()->percent;
-        $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
-        $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
-        $model->amount = $request->amount;
-        $model->save();
-        $model->expiration = $seconds - 1;
-        $model->timestamp = Carbon::parse($model->close_at)->timestamp;
-        return ['data' => $model, 'status' => 200]; // А тут статус вернуть, тут все успешно и должно быть 200
+            $model->symbol_id = $request->symbol;
+            $model->user_id = Auth::user()->id;
+            $model->type = $request->direction;
+            $model->open_price = $price;
+            $model->hedging = $hedge;
+            $model->percent = $symbol->percent;
+            $model->close_at = Carbon::now()->addSeconds($seconds)->format('Y-m-d H:i:s.u');
+            $model->created_at = Carbon::now()->format('Y-m-d H:i:s.u');
+            $model->amount = $request->amount;
+            $model->save();
+            $model->expiration = $seconds - 1;
+            $model->timestamp = Carbon::parse($model->close_at)->timestamp;
+            return ['data' => $model, 'status' => 200];
+        } catch (\Throwable $exception){
+            dd($exception->getMessage());
+        }
     }
 
     public function getOpenOrdersServ(Request $request){

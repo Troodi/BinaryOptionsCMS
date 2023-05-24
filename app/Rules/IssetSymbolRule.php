@@ -7,6 +7,8 @@ use App\Models\Symbols\Options\Symbol;
 
 class IssetSymbolRule implements Rule
 {
+
+    private $message = '';
     /**
      * Create a new rule instance.
      *
@@ -26,11 +28,12 @@ class IssetSymbolRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        $pattern = '/^\w+:\w+\/\w+$/';
+        $pattern = '/^\w+:\w+$/';
         if (!preg_match($pattern, $value) or
             strlen($value) == 0 or
             !is_string($value))
         {
+            $this->message = 'Incorrect symbol format';
             return false;
         }
 
@@ -39,6 +42,7 @@ class IssetSymbolRule implements Rule
             ->where('broker', $stringExplode[0])->exists();
 
         if (!$symbolExists) {
+            $this->message = 'Symbol not exists';
             return false;
         }
         return true;
@@ -51,6 +55,6 @@ class IssetSymbolRule implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return $this->message;
     }
 }
