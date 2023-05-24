@@ -46,11 +46,11 @@
                       </thead>
                       <tbody>
                       <tr v-for="system in systems">
-                          <td><input type="text" class="form-control" :id="system.text" :value="system.text"></td>
-                          <td><input type="text" class="form-control" :id="system.order" :value="system.order"></td>
-                          <td><select2 v-model="system.hidden" :id="system.active" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/></td>
+                          <td><input type="text" class="form-control" :id="'text'+system.text.replace(/[^a-zA-Z0-9]/g, '')" :value="system.text"></td>
+                          <td><input type="text" class="form-control" :id="'order'+system.text.replace(/[^a-zA-Z0-9]/g, '')" :value="system.order"></td>
+                          <td><select2 v-model="system.hidden" :id="'hidden'+system.text.replace(/[^a-zA-Z0-9]/g, '')" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/></td>
                           <td>
-                            <button type="button" @click="save(system.text)" class="btn btn-outline-primary">{{ $i18n.t('admin_deposit_settings_save') }}</button>
+                            <button type="button" @click="save(system)" class="btn btn-outline-primary">{{ $i18n.t('admin_deposit_settings_save') }}</button>
                             <button type="button" @click="remove(system.text)" class="btn btn-outline-danger">{{ $i18n.t('admin_deposit_settings_delete') }}</button>
                           </td>
                       </tr>
@@ -80,14 +80,14 @@ export default {
     this.getSystems();
   },
   methods: {
-    save: function(systems){
+    save: function(systemObject){
+      let system = $('#text'+systemObject.text.replace(/[^a-zA-Z0-9]/g, '')).val();
+      let order = $('#order'+systemObject.text.replace(/[^a-zA-Z0-9]/g, '')).val();
+      let active = $('#hidden'+systemObject.text.replace(/[^a-zA-Z0-9]/g, '')).val();
       this.errors = [];
       this.success = [];
-      let system = $(systems.text).val();
-      let order = $(systems.order).val();
-      let active = $(systems.active).val();
       let self = this;
-      axios.post('/admin/data/deposit/systems/save', { system: system, order: order, active: active}).then((response) => {
+      axios.post('/admin/data/deposit/systems/save', { prevText: systemObject.text, text: system, order: order, active: active}).then((response) => {
         if(response.data.success === false) {
           self.errors = [];
           self.errors.push(response.data.message);
@@ -97,14 +97,21 @@ export default {
         }
         $('html, body').animate({scrollTop : 0}, 1000);
         self.getSystems();
-      });
+      }).catch(function(error){
+        error.response.data.errors.text.forEach(function callback(currentValue, index, array) {
+          toastr.error(currentValue, self.$i18n.t('profile_error'), {
+            positionClass: 'toast-bottom-left',
+            containerId: 'toast-bottom-left'
+          });
+        });
+      })
     },
-    remove: function (systems){
+    remove: function (system){
       this.errors = [];
       this.success = [];
-      let system = $(systems.text).val();
+      console.log(system);
       let self = this;
-      axios.post('/admin/data/deposit/systems/remove', { system: system}).then((response) => {
+      axios.post('/admin/data/deposit/systems/remove', { text: system}).then((response) => {
         if(response.data.success === false) {
           self.errors = [];
           self.errors.push(response.data.message);
