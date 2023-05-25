@@ -38,6 +38,7 @@
                     <table class="table" style="width:100%">
                       <thead>
                       <tr>
+                        <th>{{ $i18n.t('admin_deposit_settings_description') }}</th>
                         <th>{{ $i18n.t('admin_deposit_settings_system') }}</th>
                         <th>{{ $i18n.t('admin_deposit_settings_order') }}</th>
                         <th>{{ $i18n.t('admin_deposit_settings_active') }}</th>
@@ -46,6 +47,7 @@
                       </thead>
                       <tbody>
                       <tr v-for="system in systems">
+                          <td><input type="text" class="form-control" :id="'description'+system.text.replace(/[^a-zA-Z0-9]/g, '')" :value="system.description"></td>
                           <td><input type="text" class="form-control" :id="'text'+system.text.replace(/[^a-zA-Z0-9]/g, '')" :value="system.text"></td>
                           <td><input type="text" class="form-control" :id="'order'+system.text.replace(/[^a-zA-Z0-9]/g, '')" :value="system.order"></td>
                           <td><select2 v-model="system.hidden" :id="'hidden'+system.text.replace(/[^a-zA-Z0-9]/g, '')" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/></td>
@@ -55,6 +57,7 @@
                           </td>
                       </tr>
                       <tr>
+                        <td><input type="text" v-model="system_description" class="form-control"></td>
                         <td><input type="text" v-model="system_text" class="form-control"></td>
                         <td><input type="text" v-model="system_order" class="form-control"></td>
                         <td><select2 v-model="defaultHidden" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/></td>
@@ -84,10 +87,11 @@ export default {
       let system = $('#text'+systemObject.text.replace(/[^a-zA-Z0-9]/g, '')).val();
       let order = $('#order'+systemObject.text.replace(/[^a-zA-Z0-9]/g, '')).val();
       let active = $('#hidden'+systemObject.text.replace(/[^a-zA-Z0-9]/g, '')).val();
+      let description = $('#description'+systemObject.text.replace(/[^a-zA-Z0-9]/g, '')).val();
       this.errors = [];
       this.success = [];
       let self = this;
-      axios.post('/admin/data/deposit/systems/save', { prevText: systemObject.text, text: system, order: order, active: active}).then((response) => {
+      axios.post('/admin/data/deposit/systems/save', { prevText: systemObject.text, text: system, order: order, active: active, description: description}).then((response) => {
         if(response.data.success === false) {
           self.errors = [];
           self.errors.push(response.data.message);
@@ -98,13 +102,16 @@ export default {
         $('html, body').animate({scrollTop : 0}, 1000);
         self.getSystems();
       }).catch(function(error){
-        error.response.data.errors.text.forEach(function callback(currentValue, index, array) {
-          toastr.error(currentValue, self.$i18n.t('profile_error'), {
-            positionClass: 'toast-bottom-left',
-            containerId: 'toast-bottom-left'
+        console.log(error.response.data.errors);
+        Object.values(error.response.data.errors).forEach(function callback(currentValue, index, array) {
+          currentValue.forEach(function callback(currentValueText, indexText, arrayText) {
+            toastr.error(currentValueText, self.$i18n.t('profile_error'), {
+              positionClass: 'toast-bottom-left',
+              containerId: 'toast-bottom-left'
+            });
           });
         });
-      })
+      });
     },
     remove: function (system){
       this.errors = [];
@@ -121,13 +128,28 @@ export default {
         }
         $('html, body').animate({scrollTop : 0}, 1000);
         self.getSystems();
+      }).catch(function(error){
+        console.log(error.response.data.errors);
+        Object.values(error.response.data.errors).forEach(function callback(currentValue, index, array) {
+          currentValue.forEach(function callback(currentValueText, indexText, arrayText) {
+            toastr.error(currentValueText, self.$i18n.t('profile_error'), {
+              positionClass: 'toast-bottom-left',
+              containerId: 'toast-bottom-left'
+            });
+          });
+        });
       });
     },
     create: function (){
       this.errors = [];
       this.success = [];
       let self = this;
-      axios.post('/admin/data/deposit/systems/create', { system: self.system_text, order: self.system_order, active: self.defaultHidden }).then((response) => {
+      axios.post('/admin/data/deposit/systems/create', {
+        system: self.system_text,
+        order: self.system_order,
+        active: self.defaultHidden,
+        description: self.system_description
+      }).then((response) => {
         if(response.data.success === false) {
           self.errors = [];
           self.errors.push(response.data.message);
@@ -137,6 +159,16 @@ export default {
         }
         $('html, body').animate({scrollTop : 0}, 1000);
         self.getSystems();
+      }).catch(function(error){
+        console.log(error.response.data.errors);
+        Object.values(error.response.data.errors).forEach(function callback(currentValue, index, array) {
+          currentValue.forEach(function callback(currentValueText, indexText, arrayText) {
+            toastr.error(currentValueText, self.$i18n.t('profile_error'), {
+              positionClass: 'toast-bottom-left',
+              containerId: 'toast-bottom-left'
+            });
+          });
+        });
       });
     },
     getSystems: function (){
@@ -154,6 +186,7 @@ export default {
       success: [],
       system_text: this.$i18n.t('admin_deposit_settings_new_system'),
       system_order: 1,
+      system_description: this.$i18n.t('admin_deposit_settings_description'),
       hiddens: [
         { id: "0", text: this.$i18n.t('admin_deposit_settings_active_status') },
         { id: "1", text: this.$i18n.t('admin_deposit_settings_hidden') },

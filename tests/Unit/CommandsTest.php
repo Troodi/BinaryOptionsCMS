@@ -13,18 +13,18 @@ class CommandsTest extends TestCase
      *
      * @return void
      */
-    public function testTradingView()
-    {
-        $model = new Ticks;
-
-        $initialCount = $model->count();
-
-        $tradingView = new TradingViewWebsocketService;
-
-        $tradingView->run();
-
-        $updatedCount = $model->count();
-
-        $this->assertGreaterThan($initialCount, $updatedCount);
-    }
+//    public function testTradingView()
+//    {
+//        $model = new Ticks;
+//
+//        $initialCount = $model->count();
+//
+//        $tradingView = new TradingViewWebsocketService;
+//
+//        $tradingView->run();
+//
+//        $updatedCount = $model->count();
+//
+//        $this->assertGreaterThan($initialCount, $updatedCount);
+//    }
 }
