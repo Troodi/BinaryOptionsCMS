@@ -10,6 +10,7 @@ class CreateDepositSystemRequest extends FormRequest
     public function rules()
     {
         return [
+            'description' => 'string|min:1',
             'system' => 'unique:deposit_systems,text|required|string|min:1',
             'order' => 'numeric|min:0|nullable',
             'active' => 'required|numeric|min:0|max:1',

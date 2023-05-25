@@ -266,6 +266,7 @@
   "settings for replenishment systems in the admin panel": "",
   "admin_deposit_settings_title": "Manage payment systems for replenishment (delete, change id, add - may break replenishment)",
   "admin_deposit_settings_id": "ID (not worth changing)",
+  "admin_deposit_settings_description": "Description",
   "admin_deposit_settings_system": "System",
   "admin_deposit_settings_order": "Order",
   "admin_deposit_settings_active": "Activity",

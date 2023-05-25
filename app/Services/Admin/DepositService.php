@@ -19,7 +19,7 @@ class DepositService
     }
 
     public function allDepositSystemsServ(Request $request){
-        return DepositSystem::orderBy('created_at', 'asc')->get();
+        return DepositSystem::orderBy('order', 'asc')->get();
     }
 
     public function editDepositSystemServ(EditDepositSystemRequest $request){
@@ -28,6 +28,7 @@ class DepositService
         }
 
         DepositSystem::where('text', $request->prevText)->update([
+            'description' => $request->description,
             'text' => $request->text,
             'order' => $request->order,
             'hidden' => $request->active,
@@ -50,6 +51,7 @@ class DepositService
         }
 
         $model = new DepositSystem();
+        $model->description = $request->description;
         $model->text = $request->system;
         $model->order = $request->order;
         $model->hidden = $request->active;
