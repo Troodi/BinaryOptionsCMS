@@ -15,4 +15,7 @@ class Withdrawal extends Model
   {
     return $this->hasOne('App\Models\WithdrawSystem', 'id', 'system_id');
   }
+
+    protected $primary_key = null;
+    public $incrementing = false;
 }

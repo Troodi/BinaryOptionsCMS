@@ -10,7 +10,7 @@ class RemoveWithdrawSystemRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|numeric|min:1',
+            'text' => 'required|string|min:1',
         ];
     }
 }

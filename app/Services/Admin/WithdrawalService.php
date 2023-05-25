@@ -24,13 +24,13 @@ class WithdrawalService
         if(config('custom.demo')){
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
-        $withdrawal = Withdrawal::where('id', $request->id)->firstOrFail();
+        $withdrawal = Withdrawal::where('text', $request->text)->firstOrFail();
         if($withdrawal->status != 0){
             return (['success' => false, 'message' => __('locale.admin_withdraw_already_processed')]);
         }
         if($request->status == 2){
             User::where('id', $withdrawal->user_id)->update(['balance' => DB::raw("balance+$withdrawal->amount")]);
-            Withdrawal::where('id', $request->id)->update(['status' => $request->status, 'message' => $request->comment]);
+            Withdrawal::where('text', $request->text)->update(['status' => $request->status, 'message' => $request->comment]);
             $message = $request->comment ? __('locale.admin_withdraw_cause').': '.$request->comment : __('locale.admin_withdraw_cause_decline');
             $mail_data = [
                 'headline' => __('locale.admin_withdraw_declined'),
@@ -97,7 +97,7 @@ class WithdrawalService
 //          return response()->json(['success' => false, 'message' => 'Не удалось отправить средства!']);
 //        }
             //
-            Withdrawal::where('id', $request->id)->update(['status' => $request->status, 'message' => $request->comment]);
+            Withdrawal::where('text', $request->text)->update(['status' => $request->status, 'message' => $request->comment]);
             $mail_data = [
                 'headline' => __('locale.admin_withdraw_success'),
                 'subtitle' => __('locale.admin_withdraw_payment_made'),
@@ -122,7 +122,7 @@ class WithdrawalService
     }
 
     public function allWithdrawalSystemsServ(Request $request){
-        return WithdrawSystem::orderBy('id', 'asc')->get();
+        return WithdrawSystem::orderBy('order', 'asc')->get();
     }
 
     public function editWithdrawSystemServ(EditWithdrawSystemRequest $request){
@@ -130,9 +130,9 @@ class WithdrawalService
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
 
-        WithdrawSystem::where('id', $request->id)->update([
-            'id' => $request->newId,
-            'text' => $request->system,
+        WithdrawSystem::where('text', $request->prevText)->update([
+            'description' => $request->description,
+            'text' => $request->text,
             'order' => $request->order,
             'hidden' => $request->active,
         ]);
@@ -143,7 +143,7 @@ class WithdrawalService
         if(config('custom.demo')){
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
-        WithdrawSystem::where('id', $request->id)->delete();
+        WithdrawSystem::where('text', $request->text)->delete();
         return (['success' => true, 'message' => __('locale.admin_withdraw_deleted')]);
     }
 
@@ -151,7 +151,9 @@ class WithdrawalService
         if(config('custom.demo')){
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
+
         $model = new WithdrawSystem();
+        $model->description = $request->description;
         $model->text = $request->system;
         $model->order = $request->order;
         $model->hidden = $request->active;
