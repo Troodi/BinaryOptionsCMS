@@ -91,7 +91,7 @@ export default {
       this.errors = [];
       this.success = [];
       let self = this;
-      axios.post('/admin/data/deposit/systems/save', { prevText: systemObject.text, text: system, order: order, active: active, description: description}).then((response) => {
+      axios.post('/admin/data/deposit/systems/save', { prevText: systemObject.text, text: system, order: order, active: active, description: description }).then((response) => {
         if(response.data.success === false) {
           self.errors = [];
           self.errors.push(response.data.message);
