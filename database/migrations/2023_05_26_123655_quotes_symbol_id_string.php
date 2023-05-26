@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
 
-class TickQuotesSymbolIdString extends Migration
+class QuotesSymbolIdString extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,8 @@ class TickQuotesSymbolIdString extends Migration
      */
     public function up()
     {
-        DB::connection('bavix::clickhouse')->statement('ALTER TABLE tick_quotes 
-        MODIFY COLUMN symbol_id Nullable(String)
-');
+        DB::connection('bavix::clickhouse')->statement('ALTER TABLE quotes 
+        MODIFY COLUMN symbol_id String');
     }
 
     /**
@@ -26,7 +25,7 @@ class TickQuotesSymbolIdString extends Migration
      */
     public function down()
     {
-        DB::connection('bavix::clickhouse')->statement('ALTER TABLE tick_quotes
-        MODIFY COLUMN symbol_id Nullable(UInt64)');
+        DB::connection('bavix::clickhouse')->statement('ALTER TABLE quotes
+        MODIFY COLUMN symbol_id UInt64');
     }
 }
