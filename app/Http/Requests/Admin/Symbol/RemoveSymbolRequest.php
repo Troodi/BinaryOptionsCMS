@@ -10,7 +10,7 @@ class RemoveSymbolRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|integer|min:1'
+            'id' => 'required|string|min:1'
         ];
     }
 }

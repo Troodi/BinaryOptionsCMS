@@ -12,7 +12,7 @@ class EditWithdrawSystemRequest extends FormRequest
     {
         return [
             'description' => 'required|string|min:1|max:255',
-            'prevText' => 'required|string|min:1|max:255|exists:deposit_systems,text',
+            'prevText' => 'required|string|min:1|max:255|exists:withdraw_systems,text',
             'text' => ['required', 'min:1', 'max:255', new WithdrawTextRule],
             'order' => 'numeric|min:0|nullable',
             'active' => 'required|numeric|min:0|max:1',
