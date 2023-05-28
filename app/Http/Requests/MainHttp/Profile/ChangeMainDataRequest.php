@@ -2,16 +2,20 @@
 
 namespace App\Http\Requests\MainHttp\Profile;
 
+use App\Helpers\Helper;
 use App\Rules\IdIfAdminRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ChangeMainDataRequest extends FormRequest
 {
 
-   public $admin = true;
-
-    public function rules($admin)
+    public function rules()
     {
+        $admin = false;
+        if($this->id && Helper::isAdmin()){
+            $admin = true;
+        }
+
         return [
             'id' => [new IdIfAdminRule],
             'name' => 'string|min:3|max:50'.$admin ? '|nullable' : '',

@@ -65,7 +65,7 @@ export default {
             if (type === 'display') {
               email = data;
             }
-            return '<a class="router-push" data-url="/admin/contest/' + self.contestId + '/user/' + row.id + '" href="/admin/contest/' + self.contestId + '/user/' + row.id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
+            return '<a class="router-push" data-url="/admin/contest/' + self.contestId + '/user/' + row.user_id + '" href="/admin/contest/' + self.contestId + '/user/' + row.user_id + '">' + email + ' <i class="bx bx-link-external" style="font-size: 12px;"></i></a>';
           }
         },
         {
