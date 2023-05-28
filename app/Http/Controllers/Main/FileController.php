@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
-    public function showImage(Request $request, FileService $fileService)
+    public function showImage(Request $request, FileService $fileService, $file)
     {
-        return response()->json($fileService->showImg($request));
+        return response()->file($fileService->showImg($request, $file));
     }
 }

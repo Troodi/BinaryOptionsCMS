@@ -102,7 +102,6 @@ export default {
         $('html, body').animate({scrollTop : 0}, 1000);
         self.getSystems();
       }).catch(function(error){
-        console.log(error.response.data.errors);
         Object.values(error.response.data.errors).forEach(function callback(currentValue, index, array) {
           currentValue.forEach(function callback(currentValueText, indexText, arrayText) {
             toastr.error(currentValueText, self.$i18n.t('profile_error'), {

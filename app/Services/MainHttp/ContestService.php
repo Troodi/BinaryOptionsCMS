@@ -34,7 +34,6 @@ class ContestService {
         $admin = false;
         if ($request->user_id && Helper::isAdmin()) {
             $admin = true;
-            $request->user_id;
         }
         $user_id = $admin ? $request->user_id : Auth::user()->id;
         $user = $admin ? User::where('id', $user_id)->first() : Auth::user();

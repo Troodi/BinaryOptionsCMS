@@ -250,8 +250,10 @@ export default {
       });
     },
     remove: function (symbolObject){
+      this.$set(this.ajax, symbolObject.symbol, true);
+      let obj = this.symbols.find(x => x.symbol === symbolObject.symbol);
       let self = this;
-      axios.post('/admin/data/symbol/remove', { id: symbolObject.symbol }).then((response) => {
+      axios.post('/admin/data/symbol/remove', { id: symbolObject.symbol, broker: obj.broker }).then((response) => {
         if(response.data.success === false) {
           toastr.error(response.data.message, self.$i18n.t('profile_error'), {
             positionClass: 'toast-bottom-left',

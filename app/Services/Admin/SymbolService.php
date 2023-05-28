@@ -58,7 +58,7 @@ class SymbolService
         if(config('custom.demo')){
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
-        $exploded = explode('/', $request->id);
+
         Symbol::where('symbol', $request->id)->where('broker', $request->broker)->delete();
         Cache::forever('market_update', true);
         return (['success' => true, 'message' => __('locale.admin_symbols_deleted')]);

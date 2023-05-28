@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Mail;
 
 class FileService {
 
-    public function showImg(Request $request, $file){
+    public function showImg(Request $request, $file)
+    {
         $file = File::where('id', $file)->firstOrFail()->path;
-        return file(base_path($file), ['Content-Type' => 'image/jpeg']);
+        return base_path($file);
     }
 }
