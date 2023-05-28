@@ -30,6 +30,7 @@ class ReferralController extends Controller
 
     public function setReferralCookie(Request $request, ReferralService $referralService)
     {
-        return response()->json($referralService->setRefCookie($request));
+        $referralService->setRefCookie($request);
+        return redirect('/')->withCookie(cookie()->forever('offer', $request->code));
     }
 }
