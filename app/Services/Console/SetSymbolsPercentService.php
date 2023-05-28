@@ -12,13 +12,12 @@ class SetSymbolsPercentService {
     public function calculatePercent(){
 
         foreach(Symbol::all() as $symbol){
-            $stat = SymbolShortStatistic::where('symbol_id', $symbol->id)->get();
+            $stat = SymbolShortStatistic::where('symbol_id', $symbol->broker.":".$symbol->symbol)->get();
             $count = $stat->count();
             if($count){
-                $id = SymbolShortStatistic::where('symbol_id', $symbol->id)->latest()->first()->id;
-                SymbolShortStatistic::where('symbol_id', $symbol->id)
+//                $id = SymbolShortStatistic::where('symbol_id', $symbol->broker.":".$symbol->symbol)->latest()->first()->id;
+                SymbolShortStatistic::where('symbol_id', $symbol->broker.":".$symbol->symbol)
                     ->where('created_at', '<', Carbon::now()->subMinutes(30))
-                    ->where('id', '<', $id)
                     ->delete();
             }
             if($count >= 10){
@@ -32,9 +31,9 @@ class SetSymbolsPercentService {
                 elseif($percent > $symbol->max_percent){
                     $percent = $symbol->max_percent;
                 }
-                Symbol::where('id', $symbol->id)->update(['percent' => $percent]);
+                Symbol::where("symbol", $symbol->symbol)->update(['percent' => $percent]);
             } else {
-                Symbol::where('id', $symbol->id)->update(['percent' => $symbol->fixed_percent]);
+                Symbol::where("symbol", $symbol->symbol)->update(['percent' => $symbol->fixed_percent]);
             }
         }
         broadcast(new ChangeSymbol(Symbol::all()));

@@ -21,7 +21,10 @@ class WithdrawalService
 {
 
     public function getAllWithdrawSysts(Request $request){
-        return WithdrawSystem::where('hidden', 0)->get();
+        return WithdrawSystem::where('hidden', 0)->orderBy('order', 'asc')->get()->map(function($item){
+            $item->id = $item->text;
+            return $item;
+        });
     }
 
     public function getAccData(GetAccountDataRequest $request){

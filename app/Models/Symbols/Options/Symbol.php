@@ -9,6 +9,6 @@ class Symbol extends Model
 {
     use SoftDeletes;
 
-    protected $primary_key = null;
+    protected $primaryKey = 'symbol';
     public $incrementing = false;
 }
