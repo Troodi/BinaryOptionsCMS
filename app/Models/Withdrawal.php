@@ -13,9 +13,6 @@ class Withdrawal extends Model
 
   public function withdrawSystem()
   {
-    return $this->hasOne('App\Models\WithdrawSystem', 'id', 'system_id');
+    return $this->hasOne('App\Models\WithdrawSystem', 'text', 'system_id');
   }
-
-    protected $primary_key = null;
-    public $incrementing = false;
 }

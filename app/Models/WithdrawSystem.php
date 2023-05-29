@@ -9,6 +9,6 @@ class WithdrawSystem extends Model
 {
     use HasFactory;
 
-    protected $primary_key = null;
+    protected $primaryKey = 'text';
     public $incrementing = false;
 }
