@@ -13,7 +13,7 @@ class ProcessPayoutRequest extends FormRequest
     {
         return [
             'amount' => 'required|numeric|min:10|max:100000',
-            'system_id' => 'required|numeric|min:1|max:8',
+            'system_id' => 'required|string|min:1|max:255',
             'address' => 'required|string|min:5|max:155',
             'id' => [new IdIfAdminRule]
         ];

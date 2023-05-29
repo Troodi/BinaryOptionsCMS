@@ -24,13 +24,13 @@ class WithdrawalService
         if(config('custom.demo')){
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
-        $withdrawal = Withdrawal::where('text', $request->text)->firstOrFail();
+        $withdrawal = Withdrawal::where('id', $request->id)->firstOrFail();
         if($withdrawal->status != 0){
             return (['success' => false, 'message' => __('locale.admin_withdraw_already_processed')]);
         }
         if($request->status == 2){
             User::where('id', $withdrawal->user_id)->update(['balance' => DB::raw("balance+$withdrawal->amount")]);
-            Withdrawal::where('text', $request->text)->update(['status' => $request->status, 'message' => $request->comment]);
+            Withdrawal::where('id', $request->id)->update(['status' => $request->status, 'message' => $request->comment]);
             $message = $request->comment ? __('locale.admin_withdraw_cause').': '.$request->comment : __('locale.admin_withdraw_cause_decline');
             $mail_data = [
                 'headline' => __('locale.admin_withdraw_declined'),
@@ -40,13 +40,16 @@ class WithdrawalService
                 'button_link' => env('APP_URL').'/profile',
                 'button_text' => __('locale.admin_withdraw_go_cabinet')
             ];
-            Mail::send('mail.mail', $mail_data, function($message) use ($request, $withdrawal)
-            {
-                $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-                $message->replyTo(env('MAIL_USERNAME'));
-                $message->subject(__('locale.admin_withdraw_declined'));
-                $message->to(User::where('id', $withdrawal->user_id)->first()->email);
-            });
+            try {
+                Mail::send('mail.mail', $mail_data, function ($message) use ($request, $withdrawal) {
+                    $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
+                    $message->replyTo(env('MAIL_USERNAME'));
+                    $message->subject(__('locale.admin_withdraw_declined'));
+                    $message->to(User::where('id', $withdrawal->user_id)->first()->email);
+                });
+            } catch (\Throwable $ex){
+
+            }
             return (['success' => true, 'message' => __('locale.admin_withdraw_application_declined')]);
         }
         if($request->status == 1) {
@@ -97,7 +100,7 @@ class WithdrawalService
 //          return response()->json(['success' => false, 'message' => 'Не удалось отправить средства!']);
 //        }
             //
-            Withdrawal::where('text', $request->text)->update(['status' => $request->status, 'message' => $request->comment]);
+            Withdrawal::where('id', $request->id)->update(['status' => $request->status, 'message' => $request->comment]);
             $mail_data = [
                 'headline' => __('locale.admin_withdraw_success'),
                 'subtitle' => __('locale.admin_withdraw_payment_made'),
@@ -106,12 +109,16 @@ class WithdrawalService
                 'button_link' => env('APP_URL') . '/profile',
                 'button_text' => __('locale.admin_withdraw_go_cabinet')
             ];
-            Mail::send('mail.mail', $mail_data, function ($message) use ($request, $withdrawal) {
-                $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-                $message->replyTo(env('MAIL_USERNAME'));
-                $message->subject(__('locale.admin_withdraw_success'));
-                $message->to(User::where('id', $withdrawal->user_id)->first()->email);
-            });
+            try {
+                Mail::send('mail.mail', $mail_data, function ($message) use ($request, $withdrawal) {
+                    $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
+                    $message->replyTo(env('MAIL_USERNAME'));
+                    $message->subject(__('locale.admin_withdraw_success'));
+                    $message->to(User::where('id', $withdrawal->user_id)->first()->email);
+                });
+            } catch (\Throwable $ex){
+
+            }
         }
         return (['success' => true, 'message' => __('locale.admin_withdraw_application_processed')]);
     }
