@@ -7,4 +7,4 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 COPY --chown=www-data:www-data . /var/www
 WORKDIR /var/www
 
-CMD ["php", "artisan", "tradingview:start"]
+CMD ["php", "artisan", "check:orders"]
