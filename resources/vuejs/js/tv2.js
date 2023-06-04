@@ -30,7 +30,7 @@ export class TradingViewFastWebsocket {
     }
 
     onopen() {
-        console.log("Соединение установлено.");
+        console.log("Connected to quotes socket.");
     }
 
     onclose(event) {
@@ -188,7 +188,6 @@ export class TradingViewFastWebsocket {
                 clearInterval(interval);
             } else if (!runs) {
                 this._deleteTicker(tickerName);
-                console.log("Timed out.");
                 clearInterval(interval);
             }
         }, each);

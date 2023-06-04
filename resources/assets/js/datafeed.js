@@ -17,13 +17,13 @@ let latestSymbol = '';
 
 export function setLastBarsCache(symbolInfo, bars){
 	window.dataLoaded = true;
-	lastBarsCache.set(symbolInfo.full_name, {
+	lastBarsCache.set(symbolInfo, {
 		...bars[bars.length - 1],
 	});
 }
 
 const configurationData = {
-	supported_resolutions: ['1s', '5s', '15s', '30s', '1', '3', '5', '10', '15', '30', '1H', '4H'],
+	supported_resolutions: ['1', '3', '5', '10', '15', '30', '1H', '4H'],
 	exchanges: [{
 		value: 'Binary',
 		name: 'Options',
@@ -175,7 +175,7 @@ export default {
 			onRealtimeCallback,
 			subscribeUID,
 			onResetCacheNeededCallback,
-			lastBarsCache.get(symbolInfo.full_name),
+			lastBarsCache.get(symbolInfo.broker + ':' + symbolInfo.ticker.replace('/', '')),
 		);
 		//console.log(lastBarsCache);
 	},

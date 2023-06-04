@@ -387,8 +387,8 @@
                     this.number_percent = null;
                     this.min_expiration = Infinity;
                 }
-                if(typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== this.symbol && window.dataLoaded && this.symbol !== window.symbolInfo.id) {
-                    this.symbol = window.symbolInfo.id; // Вот тут задается ШВ символа
+                if(typeof window.symbolInfo !== 'undefined' && window.symbolInfo.broker + ':' + window.symbolInfo.ticker.replace('/', '') !== this.symbol && window.dataLoaded && this.symbol !== window.symbolInfo.id) {
+                  this.symbol = window.symbolInfo.broker + ':' + window.symbolInfo.ticker.replace('/', ''); // Вот тут задается ШВ символа
                     this.min_expiration = window.symbolInfo.expiration;
                     if(this.symbolsPercents[this.symbol] == null){
                       this.percent = '+ ' + window.symbolInfo.description;
@@ -434,7 +434,7 @@
                     // remove all lines from chart
                     self.clearLines();
                     // draw all lines for open positions
-                    let filtered = self.opened.filter(item => item.symbol_id === window.symbolInfo.id);
+                    let filtered = self.opened.filter(item => item.symbol_id === window.symbolInfo.broker + ':' + window.symbolInfo.ticker.replace('/', ''));
                     filtered.forEach(element => {
                       let color = element.type === 1 ? '#23bd70' : '#FF5B5C';
                       let order = window.tvWidget.chart().createOrderLine()
@@ -521,9 +521,8 @@
             placeOrder: function(direction, color, text){
               toastr.warning(null, this.$i18n.t('trade_order_processing'), { positionClass: 'toast-bottom-left', containerId: 'toast-bottom-left' })
               let self = this;
-              let symbol = this.symbols.find(item => item.id === open.symbol_id);
               axios.post('/binary/buy', {
-                symbol: symbol.broker+':'+symbol.symbol.replace('/', ''),
+                symbol: this.symbol,
                 hours: this.hours,
                 minutes: this.minutes,
                 seconds: this.seconds,
