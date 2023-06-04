@@ -13,11 +13,11 @@ class CreateTickQuotesTable extends Migration
     public function up()
     {
         DB::connection('bavix::clickhouse')->statement('CREATE TABLE tick_quotes (
-            symbol_id Nullable(UInt64),
+            symbol_id String(255),
             price Decimal(20,5),
             created_at DateTime64(6)
         ) 
-        ENGINE = MergeTree() ORDER BY created_at');
+        ENGINE = MergeTree() ORDER BY (created_at, symbol_id)');
 
 //        DB::connection('bavix::clickhouse')
 //            ->statement('ALTER TABLE tick_quotes ADD INDEX col_index(symbol_id) TYPE minmax GRANULARITY 3');
