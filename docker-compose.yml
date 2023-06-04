@@ -142,6 +142,7 @@ services:
       ECHO_SSL_CERT_PATH: /var/certs/domain.crt
       ECHO_SSL_KEY_PATH: /var/certs/domain.key
       ECHO_ALLOW_CORS: "true"
+      ECHO_DEVMODE: "true"
       ECHO_ALLOW_ORIGIN: https://binaries.site
       ECHO_ALLOW_METHODS: "GET, POST"
       ECHO_ALLOW_HEADERS: "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
