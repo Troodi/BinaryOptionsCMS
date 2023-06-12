@@ -279,7 +279,6 @@
                                 if(!response.data.success){
                                   throw new Error(response.data.message)
                                 }
-                                console.log(this.systems)
                                 return response;
                               }).catch((error) => {
                                 Swal.showValidationMessage(error.message)
@@ -300,8 +299,7 @@
                       $('.accept-withdrawal').on('click', function (){
                         let id = $(this).attr('data-id');
                         let text = $(this).attr('data-text');
-                        let self = this;  
-                        console.log(self.system)
+                        let self = this;
                         axios.post('/admin/data/processWithdrawal', { id: id, text: text, comment: '', status: 1 }).then((response) => {
 
                           if(response.data.success === true) {

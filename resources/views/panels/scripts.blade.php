@@ -2,9 +2,9 @@
     <script>
       var assetBaseUrl = "{{ asset('') }}";
       if(window.location.protocol === 'https:'){
-          window.websocketAddress = 'wss://{{ env('WEBSOCKET_HOST') }}';
+          window.websocketAddress = 'wss://{{ config('custom.websocket_host') }}';
       } else {
-          window.websocketAddress = 'ws://{{ env('WEBSOCKET_HOST') }}';
+          window.websocketAddress = 'ws://{{ config('custom.websocket_host') }}';
       }
     </script>
     @yield('above-vendor-scripts')
