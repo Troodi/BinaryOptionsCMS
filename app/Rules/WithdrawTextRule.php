@@ -43,6 +43,6 @@ class WithdrawTextRule implements Rule
      */
     public function message()
     {
-        return 'Text cannot be changed, because already exists with same name.';
+        return __('locale.admin_withdraw_cannot_change_text');
     }
 }

@@ -115,7 +115,6 @@ export default {
     remove: function (system){
       this.errors = [];
       this.success = [];
-      console.log(system);
       let self = this;
       axios.post('/admin/data/deposit/systems/remove', { text: system}).then((response) => {
         if(response.data.success === false) {

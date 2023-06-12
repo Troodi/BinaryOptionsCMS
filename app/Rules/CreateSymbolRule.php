@@ -41,6 +41,6 @@ class CreateSymbolRule implements Rule
      */
     public function message()
     {
-        return 'Symbol cannot be created, because already exists with same combination';
+        return __('locale.admin_symbol_cannot_create');
     }
 }
