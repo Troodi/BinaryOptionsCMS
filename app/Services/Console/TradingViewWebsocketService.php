@@ -154,7 +154,9 @@ class TradingViewWebsocketService
                                     continue;
                                 } elseif ($key == 'pro_name') {
                                     $this->sendMessage("quote_remove_symbols", [$this->sessionStatus, $value]);
-                                    $this->sendMessage("quote_add_symbols", [$this->sessionStatus, $value, ['flags' => ["force_permission"]]]);
+                                    foreach (Symbol::all() as $symbol) {
+                                        $this->registerTicker($this->sessionStatus, $symbol->name); //todo если не будет работать, то вероятно из-за этой строки
+                                    }
                                     continue;
                                 } elseif ($key == 'current_session') {
                                     $this->tickerData[$tickerName][$key] = $value;

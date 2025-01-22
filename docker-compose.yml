@@ -143,8 +143,8 @@ services:
       LARAVEL_ECHO_SERVER_PORT: "6001"
       ECHO_PROTOCOL: "https"
       LARAVEL_ECHO_SERVER_REDIS_HOST: redis
-      ECHO_SSL_CERT_PATH: /var/certs/domain.crt
-      ECHO_SSL_KEY_PATH: /var/certs/domain.key
+      ECHO_SSL_CERT_PATH: /var/certs/localhost-cert.pem
+      ECHO_SSL_KEY_PATH: /var/certs/localhost-key.pem
       ECHO_ALLOW_CORS: "true"
       ECHO_DEVMODE: "true"
       ECHO_ALLOW_ORIGIN: https://binaries.site

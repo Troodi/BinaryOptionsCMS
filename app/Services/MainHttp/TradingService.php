@@ -34,59 +34,65 @@ class TradingService
 {
     public function getAuthTokenServ(Request $request)
     {
-        $login = env('TRADINGVIEW_LOGIN');
-        $password = env('TRADINGVIEW_PASSWORD');
-        $auth_token = "";
-        if (file_exists(__DIR__ . '/cookie.txt')) {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/quote_token/");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
-            curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_ENCODING, "gzip");
-            $auth_token = curl_exec($ch);
-            $auth_token = ltrim($auth_token, '"');
-            $auth_token = rtrim($auth_token, '"');
-        }
-        if(strlen($auth_token) < 150){
-            $request_headers = [
-                "accept: */*",
-                "accept-encoding: gzip, deflate, br",
-                "accept-language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,lt;q=0.6",
-                "cache-control: no-cache",
-                "content-type: application/x-www-form-urlencoded",
-                "origin: https://www.tradingview.com",
-                "pragma: no-cache",
-                "referer: no-cache",
-                "sec-fetch-dest: empty",
-                "sec-fetch-mode: cors",
-                "sec-fetch-site: same-origin",
-                "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36",
-                "x-language: en",
-                "x-requested-with: XMLHttpRequest"
-            ];
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/accounts/signin/");
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-            curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
-            curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
-            curl_setopt($ch, CURLOPT_ENCODING, "gzip");
-            curl_setopt($ch, CURLOPT_POSTFIELDS, "feature_source=Header&username=$login&password=$password&remember=on");
-            $curl_exec = curl_exec($ch);
-            curl_close($ch);
-            $json = json_decode($curl_exec);
-            $auth_token = $json->user->auth_token;
-        }
-        return $auth_token;
+        return Cache::remember('authTokenServ', 3600 * 24, function () {
+            $login = 'chamois4369@topvu.net';
+            env('TRADINGVIEW_LOGIN');
+            $password = 'd123Qwe123!!dq@';
+            env('TRADINGVIEW_PASSWORD'); // TODO config
+            $auth_token = "";
+            if (file_exists(__DIR__ . '/cookie.txt')) {
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/quote_token/");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
+                curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_ENCODING, "gzip");
+                $auth_token = curl_exec($ch);
+                $auth_token = ltrim($auth_token, '"');
+                $auth_token = rtrim($auth_token, '"');
+            }
+            if (strlen($auth_token) < 150) {
+                $request_headers = [
+                    "accept: */*",
+                    "accept-encoding: gzip, deflate, br",
+                    "accept-language: ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7,lt;q=0.6",
+                    "cache-control: no-cache",
+                    "content-type: application/x-www-form-urlencoded",
+                    "origin: https://www.tradingview.com",
+                    "pragma: no-cache",
+                    "referer: no-cache",
+                    "sec-fetch-dest: empty",
+                    "sec-fetch-mode: cors",
+                    "sec-fetch-site: same-origin",
+                    "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36",
+                    "x-language: en",
+                    "x-requested-with: XMLHttpRequest"
+                ];
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_URL, "https://www.tradingview.com/accounts/signin/");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+                curl_setopt($ch, CURLOPT_COOKIEFILE, __DIR__ . '/cookie.txt');
+                curl_setopt($ch, CURLOPT_COOKIEJAR, __DIR__ . '/cookie.txt');
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $request_headers);
+                curl_setopt($ch, CURLOPT_ENCODING, "gzip");
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "feature_source=Header&username=$login&password=$password&remember=on");
+                $curl_exec = curl_exec($ch);
+                curl_close($ch);
+                $json = json_decode($curl_exec);
+                $auth_token = $json->user->auth_token;
+            }
+
+            return $auth_token;
+        });
     }
 
-    public function buySymbolServ(BuySymbolRequest $request){
+    public function buySymbolServ(BuySymbolRequest $request)
+    {
         try {
             $stringExplode = explode(":", $request->symbol);
 
@@ -160,17 +166,17 @@ class TradingService
             }
             if ($request->type == 'real') { // Если реальный счет
                 $model = new OpenOrders();
-                User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-'.$request->amount)]);
+                User::where('id', Auth::user()->id)->update(['balance' => DB::raw('balance-' . $request->amount)]);
                 broadcast(new ChangeBalance(Auth::user()->balance - $request->amount, Auth::user()));
             } elseif ($request->type == 'demo') {
                 $model = new OpenDemoOrders();
-                User::where('id', Auth::user()->id)->update(['demo_balance' => DB::raw('demo_balance-'.$request->amount)]);
+                User::where('id', Auth::user()->id)->update(['demo_balance' => DB::raw('demo_balance-' . $request->amount)]);
                 broadcast(new ChangeDemoBalance(Auth::user()->demo_balance - $request->amount, Auth::user()));
             } elseif ($request->type == 'tournament') {
                 $model = new ContestOpenOrder();
                 $model->contest_id = $request->id;
                 ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->update([
-                    'balance' => DB::raw('balance-'.$request->amount)
+                    'balance' => DB::raw('balance-' . $request->amount)
                 ]);
                 $user_contest = ContestUser::where('user_id', Auth::user()->id)->where('contest_id', $request->id)->first();
                 broadcast(new ChangeContestBalance($user_contest->balance, $user_contest, $request->id));
@@ -189,12 +195,13 @@ class TradingService
             $model->expiration = $seconds - 1;
             $model->timestamp = Carbon::parse($model->close_at)->timestamp;
             return ['data' => $model, 'status' => 200];
-        } catch (\Throwable $exception){
+        } catch (\Throwable $exception) {
             dd($exception->getMessage());
         }
     }
 
-    public function getOpenOrdersServ(Request $request){
+    public function getOpenOrdersServ(Request $request)
+    {
         return OpenOrders::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get()->filter(function ($item) {
             $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->created_at));
             $item['expiration'] = $diff->s + $diff->i * 60 + $diff->h * 60 * 60;
@@ -206,15 +213,17 @@ class TradingService
         });
     }
 
-    public function getLatestOrdersServ(Request $request){
+    public function getLatestOrdersServ(Request $request)
+    {
         return LatestOrder::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get()->filter(function ($item) {
             $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->open_at));
-            $item['expiration'] = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
+            $item['expiration'] = sprintf("%'.02d", $diff->h) . ':' . sprintf("%'.02d", $diff->i) . ':' . sprintf("%'.02d", $diff->s);
             return $item;
         });
     }
 
-    public function getOpenDemoOrdersServ(Request $request){
+    public function getOpenDemoOrdersServ(Request $request)
+    {
         return OpenDemoOrders::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get()->filter(function ($item) {
             $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->created_at));
             $item['expiration'] = $diff->s + $diff->i * 60 + $diff->h * 60 * 60;
@@ -226,17 +235,19 @@ class TradingService
         });
     }
 
-    public function getLatestDemoOrdersServ(Request $request){
+    public function getLatestDemoOrdersServ(Request $request)
+    {
         return LatestDemoOrder::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get()->filter(function ($item) {
             $diff = date_diff(new \DateTime($item->close_at), new \DateTime($item->open_at));
-            $item['expiration'] = sprintf("%'.02d", $diff->h).':'.sprintf("%'.02d", $diff->i).':'.sprintf("%'.02d", $diff->s);
+            $item['expiration'] = sprintf("%'.02d", $diff->h) . ':' . sprintf("%'.02d", $diff->i) . ':' . sprintf("%'.02d", $diff->s);
             return $item;
         });
     }
 
-    public function tradingHistoryServ(TradingHistoryRequest $request){
+    public function tradingHistoryServ(TradingHistoryRequest $request)
+    {
         $admin = false;
-        if($request->id && Helper::isAdmin()){
+        if ($request->id && Helper::isAdmin()) {
             $admin = true;
         }
         $id = $admin ? $request->id : Auth::user()->id;
@@ -244,9 +255,10 @@ class TradingService
         return Datatables::of($history)->make(); // Вот тут
     }
 
-    public function demoTradingHistoryServ(DemoTradingHistoryRequest $request){
+    public function demoTradingHistoryServ(DemoTradingHistoryRequest $request)
+    {
         $admin = false;
-        if($request->id && Helper::isAdmin()){
+        if ($request->id && Helper::isAdmin()) {
             $admin = true;
         }
         $id = $admin ? $request->id : Auth::user()->id;
@@ -254,17 +266,20 @@ class TradingService
         return Datatables::of($history)->make();
     }
 
-    public function refillDemoBalanceServ(Request $request){
+    public function refillDemoBalanceServ(Request $request)
+    {
         User::where('id', Auth::user()->id)->update(['demo_balance' => 1000]);
         broadcast(new ChangeDemoBalance(1000, Auth::user()));
         return (['success' => true, 'message' => __('locale.trading_demo_balance_refresh')]);
     }
 
-    public function ping(Request $request){
+    public function ping(Request $request)
+    {
         return null;
     }
 
-    public function formatSecondsServ($seconds_from){
+    public function formatSecondsServ($seconds_from)
+    {
         $hours = floor($seconds_from / 3600);
         $mins = floor($seconds_from / 60 % 60);
         $secs = floor($seconds_from % 60);
