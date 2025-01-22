@@ -65,13 +65,13 @@ class TradingViewWebsocketService
         $this->websocket->send($message);
     }
 
-    public function registerTicker($ticker)
+    public function registerTicker($session, $ticker)
     {
         if (in_array($ticker, $this->subscriptions)) {
             return;
         }
         $this->subscriptions[] = $ticker;
-        $this->websocket->send($this->createMessage("quote_add_symbols", [$this->session, $ticker, ['flags' => ["force_permission"]]]));
+        $this->websocket->send($this->createMessage("quote_add_symbols", [$session, "={\"adjustment\":\"splits\",\"symbol\":\"$ticker\"}"]));
     }
 
     public function unregisterTicker($ticker)
@@ -131,21 +131,21 @@ class TradingViewWebsocketService
                         $this->setMainFields($this->session);
                         $this->symbols_all = [];
                         MarketStatus::truncate();
+                        $this->sendMessage("quote_create_session", [$this->sessionStatus]); // Дополнительная сессия для статуса маркета
+                        $this->setMainFields($this->sessionStatus);
                         foreach (Symbol::all() as $symbol) {
                             $name = $symbol->broker . ':' . $symbol->symbol;
                             $this->map[$name] = $symbol->id;
-                            $this->registerTicker($name);
+                            $this->registerTicker($this->session, $name);
+                            $this->registerTicker($this->sessionStatus, $name);
                             $this->symbols_all[] = $name;
                             MarketStatus::create(['symbol_id' => $name, 'market_status' => 0]); // Тут поменять на строку, уже в переменной $name вроде верное
                         }
-                        $this->sendMessage("quote_create_session", [$this->sessionStatus]); // Дополнительная сессия для статуса маркета
-                        $this->setMainFields($this->sessionStatus);
-                        $this->customMessageAllSymbols($this->sessionStatus, $this->symbols_all);
                         $this->sessionRegistered = true;
-                    } elseif (isset($packet->m) && $packet->m === "qsd" && isset($packet->p)) {// && $packet->p[0] === $this->session
+                    } elseif (isset($packet->m) && $packet->m === "qsd" && isset($packet->p) && isset($packet->p[1]->v)) {// && $packet->p[0] === $this->session
                         Cache::put('latest_websocket_update', true, 30);
                         $tticker = $packet->p[1];
-                        $tickerName = $tticker->n;
+                        $tickerName = json_decode(str_replace('=', '', $tticker->n), true)['symbol'] ?? $tticker->n;
                         $tickerStatus = $tticker->s;
                         $tickerUpdate = $tticker->v;
                         foreach ($tickerUpdate as $key => $value) {
@@ -316,28 +316,6 @@ class TradingViewWebsocketService
     private function createMessage($func, $paramList)
     {
         return $this->prependHeader($this->constructMessage($func, $paramList));
-    }
-
-    private function customMessageAllSymbols($session, $symbols)
-    {
-        $all = '';
-        foreach ($symbols as $value) {
-            $all .= '"' . $value . '",';
-        }
-        $all = rtrim($all, ',');
-        $message = '{"m":"quote_add_symbols","p":["' . $session . '",' . $all . ',{"flags":["force_permission"]}]}';
-        $this->websocket->send($this->prependHeader($message));
-    }
-
-    private function customMessageDeleteAllSymbols($session, $symbols)
-    {
-        $all = '';
-        foreach ($symbols as $value) {
-            $all .= '"' . $value . '",';
-        }
-        $all = rtrim($all, ',');
-        $message = '{"m":"quote_remove_symbols","p":["' . $session . '",' . $all . ',{"flags":["force_permission"]}]}';
-        $this->websocket->send($this->prependHeader($message));
     }
 
     private function setMainFields($session)

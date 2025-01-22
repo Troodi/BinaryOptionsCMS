@@ -21,6 +21,7 @@ services:
     volumes:
       - .:/var/www
       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    user: 1000:1000
 
   quotes-parser:
     build: docker/quotes-parser
@@ -34,6 +35,7 @@ services:
     volumes:
       - .:/var/www
       - ./docker/quotes-parser/php.ini:/usr/local/etc/php/conf.d/php.ini
+    user: 1000:1000
 
   order-checks:
     build: docker/order-checks
@@ -47,6 +49,7 @@ services:
     volumes:
       - .:/var/www
       - ./docker/order-checks/php.ini:/usr/local/etc/php/conf.d/php.ini
+    user: 1000:1000
 
   scheduler:
     build: docker/scheduler
@@ -60,6 +63,7 @@ services:
     volumes:
       - .:/var/www
       - ./docker/scheduler/php.ini:/usr/local/etc/php/conf.d/php.ini
+    user: 1000:1000
 
   nginx:
     image: nginx:alpine3.17
