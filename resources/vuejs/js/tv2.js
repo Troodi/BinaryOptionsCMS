@@ -162,8 +162,7 @@ export class TradingViewFastWebsocket {
         this.socketTV.send(
             this.createMessage("quote_add_symbols", [
                 this.session,
-                ticker,
-                {flags: ["force_permission"]}
+                "={\"adjustment\":\"splits\",\"symbol\":\"" + ticker + "\"}"
             ])
         );
     }

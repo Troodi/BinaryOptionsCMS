@@ -242,8 +242,7 @@ export class TradingViewWebsocket {
         this.socketTV.send(
             this.createMessage("quote_add_symbols", [
                 this.session,
-                ticker,
-                {flags: ["force_permission"]}
+                "={\"adjustment\":\"splits\",\"symbol\":\"" + ticker + "\"}"
             ])
         );
         // this.socketTV.send(
