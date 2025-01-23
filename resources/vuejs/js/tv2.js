@@ -30,7 +30,7 @@ export class TradingViewFastWebsocket {
     }
 
     onopen() {
-        console.log("Соединение установлено.");
+        console.log("Connected to quotes socket.");
     }
 
     onclose(event) {
@@ -162,16 +162,9 @@ export class TradingViewFastWebsocket {
         this.socketTV.send(
             this.createMessage("quote_add_symbols", [
                 this.session,
-                ticker,
-                {flags: ["force_permission"]}
+                "={\"adjustment\":\"splits\",\"symbol\":\"" + ticker + "\"}"
             ])
         );
-        // this.socketTV.send(
-        //     this.createMessage("quote_fast_symbols", [
-        //         this.session,
-        //         ticker
-        //     ])
-        // );
     }
 
     _getTicker(tickerName) {
@@ -194,7 +187,6 @@ export class TradingViewFastWebsocket {
                 clearInterval(interval);
             } else if (!runs) {
                 this._deleteTicker(tickerName);
-                console.log("Timed out.");
                 clearInterval(interval);
             }
         }, each);
@@ -331,6 +323,4 @@ export class TradingViewFastWebsocket {
             p: paramList
         });
     }
-
-// End IO functions
 }

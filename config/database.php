@@ -35,6 +35,19 @@ return [
 
     'connections' => [
 
+        'bavix::clickhouse' => [
+            'driver' => 'bavix::clickhouse',
+            'host' => env('CLICKHOUSE_DB_HOST'),
+            'port' => env('CLICKHOUSE_DB_PORT'),
+            'database' => env('CLICKHOUSE_DB_DATABASE'),
+            'username' => env('CLICKHOUSE_DB_USERNAME'),
+            'password' => env('CLICKHOUSE_ADMIN_PASSWORD'),
+            'options' => [
+                'timeout' => 10,
+                'protocol' => 'http'
+            ]
+        ],
+
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DATABASE_URL'),

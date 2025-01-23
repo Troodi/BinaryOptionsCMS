@@ -248,6 +248,7 @@
     'admin_withdraw_updated' => 'Data updated successfully!',
     'admin_withdraw_deleted' => 'The system has been successfully removed!',
     'admin_withdraw_created' => 'The system was successfully created!',
+    'admin_withdraw_cannot_change_text' => 'Text cannot be changed, because already exists with same name',
 
     // User management
     'admin_control_balance' => 'User balance updated successfully!',
@@ -257,6 +258,7 @@
     'admin_deposit_updated' => 'Data updated successfully!',
     'admin_deposit_deleted' => 'The system has been successfully deleted!',
     'admin_deposit_created' => 'The system was created successfully!',
+    'admin_deposit_cannot_change_text' => 'Text cannot be changed, because already exists with same name',
 
     // Partner management
     'admin_partner_accepted' => 'User\'s participation in the affiliate program has been successfully confirmed!',
@@ -270,6 +272,7 @@
     'admin_symbols_updated' => 'Data updated successfully!',
     'admin_symbols_deleted' => 'Symbol deleted successfully!',
     'admin_symbols_created' => 'Symbol created successfully!',
+    'admin_symbol_cannot_create' => 'Symbol cannot be created, because already exists with same combination',
 
     // User management
     'admin_user_number_updated' => 'Phone number updated successfully!',

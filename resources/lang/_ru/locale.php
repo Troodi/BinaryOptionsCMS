@@ -248,6 +248,7 @@ return [
   'admin_withdraw_updated' => 'Данные успешно обновлены!',
   'admin_withdraw_deleted' => 'Система успешно удалена!',
   'admin_withdraw_created' => 'Система успешно создана!',
+  'admin_withdraw_cannot_change_text' => 'Текст не может быть изменен, так как уже существует с таким же именем',
 
   //Управление пользователем
   'admin_control_balance' => 'Баланс пользователя успешно обновлен!',
@@ -257,6 +258,7 @@ return [
   'admin_deposit_updated' => 'Данные успешно обновлены!',
   'admin_deposit_deleted' => 'Система успешно удалена!',
   'admin_deposit_created' => 'Система успешно создана!',
+  'admin_deposit_cannot_change_text' => 'Текст не может быть изменен, так как уже существует с таким же именем',
 
   //Управление партнером
   'admin_partner_accepted' => 'Участие пользователя в партнерской программе успешно подтверждено!',
@@ -270,6 +272,7 @@ return [
   'admin_symbols_updated' => 'Данные успешно обновлены!',
   'admin_symbols_deleted' => 'Символ успешно удален!',
   'admin_symbols_created' => 'Символ успешно создан!',
+  'admin_symbol_cannot_create' => 'Символ не может быть создан, так как уже существует с той же комбинацией',
 
   //Управление пользователем
   'admin_user_number_updated' => 'Номер телефона успешно обновлен!',

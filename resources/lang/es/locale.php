@@ -248,6 +248,7 @@
    'admin_withdraw_updated' => '¡Datos actualizados con éxito!',
    'admin_withdraw_deleted' => '¡Sistema eliminado con éxito!',
    'admin_withdraw_created' => '¡Sistema creado con éxito!',
+   'admin_withdraw_cannot_change_text' => 'El texto no se puede modificar, porque ya existe con el mismo nombre',
 
      //Gestión de usuarios
    'admin_control_balance' => '¡El balance del usuario ha sido actualizado con éxito!',
@@ -257,6 +258,7 @@
    'admin_deposit_updated' => '¡Datos actualizados con éxito!',
    'admin_deposit_deleted' => '¡Sistema eliminado con éxito!',
    'admin_deposit_created' => '¡Sistema creado con éxito!',
+   'admin_deposit_cannot_change_text' => 'El texto no se puede modificar, porque ya existe con el mismo nombre',
 
    //Gestión de socios
    'admin_partner_accepted' => '¡La participación del usuario en el programa de afiliados ha sido confirmada con éxito!',
@@ -270,6 +272,7 @@
    'admin_symbols_updated' => '¡Datos actualizados con éxito!',
    'admin_symbols_deleted' => '¡Símbolo eliminado con éxito!',
    'admin_symbols_created' => '¡Símbolo creado con éxito!',
+   'admin_symbol_cannot_create' => 'No se puede crear el símbolo, porque ya existe con la misma combinación',
 
      //Gestión de usuarios
    'admin_user_number_updated' => '¡Número de teléfono actualizado con éxito!',

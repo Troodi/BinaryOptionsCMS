@@ -212,7 +212,7 @@
                 let self = this;
                 this.errors = [];
                 this.success = [];
-                axios.post('/promocode', { code: this.promocode })
+                axios.post('/promocode', { code: this.promocode, id: this.$route.params.id })
                     .then(function (response) {
                         if(response.data.success === false) {
                             self.errors.push(response.data.message);

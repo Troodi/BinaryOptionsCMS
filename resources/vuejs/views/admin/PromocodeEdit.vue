@@ -108,10 +108,10 @@
                         <b-form-datepicker v-model="to_date" id="example-datepicker2" class="mb-2"></b-form-datepicker>
                       </fieldset>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-12" v-for="locale in locales">
                       <fieldset class="form-group">
-                        <label>{{ $i18n.t('admin_promocode_edit_desc') }}</label>
-                        <textarea v-model="desc" type="text" class="form-control" style="width: 100%; height: 150px;"></textarea>
+                        <label>{{ $i18n.t('admin_promocode_edit_desc') }} ({{ $i18n.t('admin_tournament_language_description') }}: {{ locale }})</label>
+                        <textarea v-model="desc[locale]" type="text" class="form-control" style="width: 100%; height: 150px;"></textarea>
                       </fieldset>
                     </div>
                     <div class="col-md-12">
@@ -142,7 +142,7 @@ name: "PromocodeEdit",
       turnover: 30,
       times: 1,
       min_deposit: 10,
-      desc: this.$i18n.t('admin_promocode_edit_desc'),
+      desc: [],
       from_date: new Date(),
       to_date: new Date(),
       bonus_size: 10,
@@ -163,6 +163,7 @@ name: "PromocodeEdit",
         { id: 1, text: this.$i18n.t('admin_promocode_edit_without_deposit') },
         { id: 2, text: this.$i18n.t('admin_promocode_edit_deposit') },
       ],
+        locales: window.locales,
     }
   },
   computed: {
@@ -213,7 +214,7 @@ name: "PromocodeEdit",
         turnover: self.turnover,
         times: self.times,
         min_deposit: self.min_deposit,
-        desc: self.desc,
+          desc: { ...self.desc }, //desc: self.desc,
         from_date: self.from_date,
         to_date: self.to_date,
         value_public_options: self.value_public_options,

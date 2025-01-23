@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Bavix\LaravelClickHouse\ClickHouseServiceProvider::class,
         /*
          * Package Service Providers...
          */

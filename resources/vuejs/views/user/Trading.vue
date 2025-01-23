@@ -204,7 +204,7 @@
                                               <div v-b-toggle="'opened-orders' + index" data-toggle="collapse" class="card-header p-1">
                                                 <span class="collapse-title">
                                                   <span class="align-middle" :class="'text-' + open.textColor">
-                                                      {{ symbols.find(item => item.id === open.symbol_id).symbol }}
+                                                      {{ symbols.find(item => (item.broker + ':' + item.symbol.replace('/', '')) === open.symbol_id).symbol }}
                                                   </span>
 
                                                   <small :class="'text-' + open.textColor" style="float: right;padding-right: 20px;padding-top: 5px;">
@@ -267,7 +267,7 @@
                                               <div v-b-toggle="'latest-orders' + index" data-toggle="collapse" class="card-header p-1">
                                                     <span class="collapse-title">
                                                         <span class="align-middle" :class="'text-' + open.textColor">
-                                                            {{ symbols.find(item => item.id === open.symbol_id).symbol }}
+                                                          {{ symbols.find(item => (item.broker + ':' + item.symbol.replace('/', '')) === open.symbol_id).symbol }}
                                                         </span>
 
                                                         <small :class="'text-' + open.textColor" style="float: right;padding-right: 20px;padding-top: 5px;">
@@ -344,7 +344,7 @@
                 this.opened.forEach((open) => {
                     if(this.symbols.length > 0) {
                         try {
-                            let symbol = this.symbols.find(item => item.id === open.symbol_id);
+                            let symbol = this.symbols.find(item => (item.broker + ':' + item.symbol.replace('/', '')) === open.symbol_id);
                             let lp = this.fastData[symbol.broker + ':' + symbol.symbol.replace('/', '')].lp;
                             let color = 'warning';
                             let profitStatus = 2;
@@ -387,8 +387,8 @@
                     this.number_percent = null;
                     this.min_expiration = Infinity;
                 }
-                if(typeof window.symbolInfo !== 'undefined' && window.symbolInfo.full_name !== this.symbol && window.dataLoaded && this.symbol !== window.symbolInfo.id) {
-                    this.symbol = window.symbolInfo.id;
+                if(typeof window.symbolInfo !== 'undefined' && window.symbolInfo.broker + ':' + window.symbolInfo.ticker.replace('/', '') !== this.symbol && window.dataLoaded && this.symbol !== window.symbolInfo.id) {
+                  this.symbol = window.symbolInfo.broker + ':' + window.symbolInfo.ticker.replace('/', ''); // Вот тут задается ШВ символа
                     this.min_expiration = window.symbolInfo.expiration;
                     if(this.symbolsPercents[this.symbol] == null){
                       this.percent = '+ ' + window.symbolInfo.description;
@@ -434,7 +434,7 @@
                     // remove all lines from chart
                     self.clearLines();
                     // draw all lines for open positions
-                    let filtered = self.opened.filter(item => item.symbol_id === window.symbolInfo.id);
+                    let filtered = self.opened.filter(item => item.symbol_id === window.symbolInfo.broker + ':' + window.symbolInfo.ticker.replace('/', ''));
                     filtered.forEach(element => {
                       let color = element.type === 1 ? '#23bd70' : '#FF5B5C';
                       let order = window.tvWidget.chart().createOrderLine()

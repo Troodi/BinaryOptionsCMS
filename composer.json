@@ -16,6 +16,7 @@
         "ext-curl": "*",
         "ext-json": "*",
         "ext-openssl": "*",
+        "bavix/laravel-clickhouse": "^2.3",
         "biscolab/laravel-recaptcha": "^5.0",
         "cryptonator/merchant-php-sdk": "^1.0",
         "dirape/token": "^2.3",
@@ -31,13 +32,13 @@
         "laravel/tinker": "^2.0",
         "predis/predis": "^1.1",
         "qiwi/bill-payments-php-sdk": "^0.1.2",
-        "troodi/laravel-auto-deploy": "^2.0.3",
         "react/event-loop": "1.1.1",
         "spatie/async": "^1.4",
         "textalk/websocket": "^1.4",
         "torann/geoip": "^3.0",
+        "troodi/laravel-auto-deploy": "^2.0.3",
         "twilio/sdk": "^6.10",
-        "yajra/laravel-datatables-oracle": "^9.15.2"
+        "yajra/laravel-datatables-oracle": "^9.21.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",
@@ -46,7 +47,7 @@
         "laravel/ui": "^3.0",
         "mockery/mockery": "^1.3.1",
         "nunomaduro/collision": "^5.0",
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^10.0"
     },
     "config": {
         "optimize-autoloader": true,

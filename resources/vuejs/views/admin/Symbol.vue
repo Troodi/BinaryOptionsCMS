@@ -94,73 +94,73 @@
                   <div class="row">
                     <div class="col-md-2">
                       <label><small><i>{{ $i18n.t('admin_symbol_settings_symbol') }}</i></small></label>
-                      <input v-bind:disabled="ajax[symbol.id]" type="text" class="form-control w-100" :id="'pair'+symbol.id" v-model="symbol.symbol">
+                      <input v-bind:disabled="true" type="text" class="form-control w-100" :id="'pair'+symbol.symbol" v-model="symbol.first_symbol + '/' + symbol.second_symbol">
                     </div>
                     <div class="col-md-2">
                       <label><small><i>{{ $i18n.t('admin_symbol_settings_broker') }}</i></small></label>
-                      <input v-bind:disabled="ajax[symbol.id]" type="text" class="form-control w-100" :id="'broker'+symbol.id" v-model="symbol.broker">
+                      <input v-bind:disabled="true" type="text" class="form-control w-100" :id="'broker'+symbol.symbol" v-model="symbol.broker">
                     </div>
                     <div class="col-md-2">
                       <label><small><i>{{ $i18n.t('admin_symbol_settings_fix') }} %</i></small></label>
-                      <input v-show="ajax[symbol.id]" disabled="disabled" type="text" class="form-control">
-                      <select2 v-show="!ajax[symbol.id]" style="width: 100%" :id="'fix'+symbol.id" v-model="symbol.fixed_percent" :options="percents_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
+                      <input v-show="ajax[symbol.symbol]" disabled="disabled" type="text" class="form-control">
+                      <select2 v-show="!ajax[symbol.symbol]" style="width: 100%" :id="'fix'+symbol.symbol" v-model="symbol.fixed_percent" :options="percents_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
                     </div>
                     <div class="col-md-2">
                       <label><small><i>{{ $i18n.t('admin_symbol_settings_min') }} %</i></small></label>
-                      <input v-show="ajax[symbol.id]" disabled="disabled" type="text" class="form-control">
-                      <select2 v-show="!ajax[symbol.id]" style="width: 100%" :id="'min'+symbol.id" v-model="symbol.min_percent" :options="percents_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
+                      <input v-show="ajax[symbol.symbol]" disabled="disabled" type="text" class="form-control">
+                      <select2 v-show="!ajax[symbol.symbol]" style="width: 100%" :id="'min'+symbol.symbol" v-model="symbol.min_percent" :options="percents_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
                     </div>
                     <div class="col-md-2">
                       <label><small><i>{{ $i18n.t('admin_symbol_settings_max') }} %</i></small></label>
-                      <input v-show="ajax[symbol.id]" disabled="disabled" type="text" class="form-control">
-                      <select2 v-show="!ajax[symbol.id]" style="width: 100%" :id="'max'+symbol.id" v-model="symbol.max_percent" :options="percents_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
+                      <input v-show="ajax[symbol.symbol]" disabled="disabled" type="text" class="form-control">
+                      <select2 v-show="!ajax[symbol.symbol]" style="width: 100%" :id="'max'+symbol.symbol" v-model="symbol.max_percent" :options="percents_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
                     </div>
                     <div class="col-md-2">
                       <label><small><i>{{ $i18n.t('admin_symbol_settings_work_from') }}</i></small></label>
-                      <input v-show="ajax[symbol.id]" disabled="disabled" type="text" class="form-control">
-                      <select2 v-show="!ajax[symbol.id]" style="width: 100%" :id="'from'+symbol.id" v-model="symbol.work_from" :options="time_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
+                      <input v-show="ajax[symbol.symbol]" disabled="disabled" type="text" class="form-control">
+                      <select2 v-show="!ajax[symbol.symbol]" style="width: 100%" :id="'from'+symbol.symbol" v-model="symbol.work_from" :options="time_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
                     </div>
                   </div>
                   <div class="row" style="margin-top: 5px;">
                     <div class="col-md-2">
                       <label><small><i>{{ $i18n.t('admin_symbol_settings_work_to') }}</i></small></label>
-                      <input v-show="ajax[symbol.id]" disabled="disabled" type="text" class="form-control">
-                      <select2 v-show="!ajax[symbol.id]" style="width: 100%" :id="'to'+symbol.id" v-model="symbol.work_to" :options="time_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
+                      <input v-show="ajax[symbol.symbol]" disabled="disabled" type="text" class="form-control">
+                      <select2 v-show="!ajax[symbol.symbol]" style="width: 100%" :id="'to'+symbol.symbol" v-model="symbol.work_to" :options="time_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
                     </div>
 
                     <div class="col-md-2">
                       <label><small><i>Минимальная экспирация в сек</i></small></label>
-                      <b-form-input v-bind:disabled="ajax[symbol.id]" :id="'min_exp'+symbol.id" :type="'number'" min=5 v-model="symbol.min_expiration_time"></b-form-input>
+                      <b-form-input v-bind:disabled="ajax[symbol.symbol]" :id="'min_exp'+symbol.symbol" :type="'number'" min=5 v-model="symbol.min_expiration_time"></b-form-input>
                     </div>
 
                     <div class="col-md-2">
                       <label><small><i>Мин % для тех анализа</i></small></label>
-                      <input v-show="ajax[symbol.id]" disabled="disabled" type="text" class="form-control">
-                      <select2 v-show="!ajax[symbol.id]" style="width: 100%" :id="'tech'+symbol.id" v-model="symbol.min_percent_tech" :options="resistance_options" :settings="{ settingOption: 'value', settingOption: 'value'}"/>
+                      <input v-show="ajax[symbol.symbol]" disabled="disabled" type="text" class="form-control">
+                      <select2 v-show="!ajax[symbol.symbol]" style="width: 100%" :id="'tech'+symbol.symbol" v-model="symbol.min_percent_tech" :options="resistance_options" :settings="{ settingOption: 'value', settingOption: 'value'}"/>
                     </div>
 
                     <div class="col-md-2">
                       <label><small><i>Мин % для новостей</i></small></label>
-                      <input v-show="ajax[symbol.id]" disabled="disabled" type="text" class="form-control">
-                      <select2 v-show="!ajax[symbol.id]" style="width: 100%" :id="'news'+symbol.id" v-model="symbol.min_percent_news" :options="resistance_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
+                      <input v-show="ajax[symbol.symbol]" disabled="disabled" type="text" class="form-control">
+                      <select2 v-show="!ajax[symbol.symbol]" style="width: 100%" :id="'news'+symbol.symbol" v-model="symbol.min_percent_news" :options="resistance_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
                     </div>
 
                     <div class="col-md-2">
                       <label><small><i>Мин % для юзера</i></small></label>
-                      <input v-show="ajax[symbol.id]" disabled="disabled" type="text" class="form-control">
-                      <select2 v-show="!ajax[symbol.id]" style="width: 100%" :id="'user'+symbol.id" v-model="symbol.min_percent_user" :options="resistance_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
+                      <input v-show="ajax[symbol.symbol]" disabled="disabled" type="text" class="form-control">
+                      <select2 v-show="!ajax[symbol.symbol]" style="width: 100%" :id="'user'+symbol.symbol" v-model="symbol.min_percent_user" :options="resistance_options" :settings="{ settingOption: 'value', settingOption: 'value' }"/>
                     </div>
 
                     <div class="col-md-2">
                       <label><small><i>{{ $i18n.t('admin_symbol_settings_active') }}</i></small></label>
-                      <input v-show="ajax[symbol.id]" disabled="disabled" type="text" class="form-control">
-                      <select2 v-show="!ajax[symbol.id]" style="width: 100%" :id="'active'+symbol.id" v-model="symbol.status" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
+                      <input v-show="ajax[symbol.symbol]" disabled="disabled" type="text" class="form-control">
+                      <select2 v-show="!ajax[symbol.symbol]" style="width: 100%" :id="'active'+symbol.symbol" v-model="symbol.status" :options="hiddens" :settings="{ settingOption: 'value', settingOption: 'value', minimumResultsForSearch: Infinity }"/>
                     </div>
                     <div class="col-md-6">
-                      <button type="button" @click="save(symbol.id)" class="btn btn-outline-primary w-100 mt-1" style="margin-right: 3px;width: 132px;" v-bind:disabled="ajax[symbol.id]" v-html="ajax[symbol.id] ? loading : $i18n.t('admin_symbol_settings_save')"></button>
+                      <button type="button" @click="save(symbol)" class="btn btn-outline-primary w-100 mt-1" style="margin-right: 3px;width: 132px;" v-bind:disabled="ajax[symbol.symbol]" v-html="ajax[symbol.symbol] ? loading : $i18n.t('admin_symbol_settings_save')"></button>
                     </div>
                     <div class="col-md-6">
-                      <button type="button" @click="remove(symbol.id)" class="btn btn-outline-danger w-100 mt-1" style="margin-left: 3px;width: 112px;" v-bind:disabled="ajax[symbol.id]" v-html="ajax[symbol.id] ? loading : $i18n.t('admin_symbol_settings_delete')"></button>
+                      <button type="button" @click="remove(symbol)" class="btn btn-outline-danger w-100 mt-1" style="margin-left: 3px;width: 112px;" v-bind:disabled="ajax[symbol.symbol]" v-html="ajax[symbol.symbol] ? loading : $i18n.t('admin_symbol_settings_delete')"></button>
                     </div>
                   </div>
                   <hr v-show="index % (itemsPerPage-1) !== 0 || index === 0">
@@ -215,12 +215,11 @@ export default {
     setPage: function(pageNumber) {
       this.currentPage = pageNumber
     },
-    save: function(id){
-      this.$set(this.ajax, id, true);
-      let obj = this.symbols.find(x => x.id === id);
+    save: function(symbolObject){
+      this.$set(this.ajax, symbolObject.symbol, true);
+      let obj = this.symbols.find(x => x.symbol === symbolObject.symbol);
       let self = this;
       axios.post('/admin/data/symbol/save', {
-        id: id,
         pair: obj.symbol,
         broker: obj.broker,
         fix: obj.fixed_percent,
@@ -247,12 +246,14 @@ export default {
         }
         self.getSymbol(id);
       }).finally(() => {
-        self.$set(self.ajax, id, false);
+        self.$set(self.ajax, symbolObject.symbol, false);
       });
     },
-    remove: function (id){
+    remove: function (symbolObject){
+      this.$set(this.ajax, symbolObject.symbol, true);
+      let obj = this.symbols.find(x => x.symbol === symbolObject.symbol);
       let self = this;
-      axios.post('/admin/data/symbol/remove', { id: id }).then((response) => {
+      axios.post('/admin/data/symbol/remove', { id: symbolObject.symbol, broker: obj.broker }).then((response) => {
         if(response.data.success === false) {
           toastr.error(response.data.message, self.$i18n.t('profile_error'), {
             positionClass: 'toast-bottom-left',
@@ -263,7 +264,7 @@ export default {
             positionClass: 'toast-bottom-left',
             containerId: 'toast-bottom-left'
           });
-          self.symbols.splice(self.symbols.findIndex(x => x.id === id), 1);
+          self.symbols.splice(self.symbols.findIndex(x => x.symbol === symbolObject.symbol), 1);
           self.symbols.__ob__.dep.notify();
         }
       });
@@ -323,11 +324,11 @@ export default {
             self.symbols = response.data;
           });
     },
-    getSymbol: function (id){
+    getSymbol: function (symbolObject){
       let self = this;
-      axios.post('/admin/data/symbol', { id: id })
+      axios.post('/admin/data/symbol', { id: symbolObject.symbol })
           .then(function (response) {
-            let obj = self.symbols.find(x => x.id === id);
+            let obj = self.symbols.find(x => x.symbol === symbolObject.symbol);
             obj.symbol = response.data.symbol;
             obj.broker = response.data.broker;
             obj.fixed_percent = response.data.fixed_percent;

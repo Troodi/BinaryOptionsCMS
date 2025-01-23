@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\UserTodayStatistic;
-use Carbon\Carbon;
+use App\Services\Console\ClearTodayUserStatisticsService;
 use Illuminate\Console\Command;
 
 class ClearTodayUserStatistics extends Command
@@ -37,9 +36,8 @@ class ClearTodayUserStatistics extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(ClearTodayUserStatisticsService $clearTodayUserStatisticsService)
     {
-        UserTodayStatistic::where('created_at', '<', Carbon::today())->delete();
-        return 0;
+        $clearTodayUserStatisticsService->clear();
     }
 }
