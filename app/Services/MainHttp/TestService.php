@@ -21,8 +21,8 @@ class TestService
 
         Mail::send('mail.mail', $mail_data, function($message) use ($request)
         {
-            $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-            $message->replyTo(env('MAIL_USERNAME'));
+            $message->from(config('mail.username'), config('app.name'));
+            $message->replyTo(config('mail.username'));
             $message->subject(__('locale.profile_confirm_email'));
             $message->to('troodi@bk.ru');
         });

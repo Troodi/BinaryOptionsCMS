@@ -54,8 +54,8 @@ class VerifyService
         ];
         try {
             Mail::send('mail.mail', $mail_data, function ($message) use ($request, $success) {
-                $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-                $message->replyTo(env('MAIL_USERNAME'));
+                $message->from(config('mail.username'), config('app.name'));
+                $message->replyTo(config('mail.username'));
                 $message->subject($success ? __('locale.admin_verify_approved', ['page' => $request->page]) : __('locale.admin_verify_decline', ['page' => $request->page]));
                 $message->to(User::where('id', $request->id)->first()->email);
             });
@@ -83,8 +83,8 @@ class VerifyService
         ];
         try {
             Mail::send('mail.mail', $mail_data, function ($message) use ($request) {
-                $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-                $message->replyTo(env('MAIL_USERNAME'));
+                $message->from(config('mail.username'), config('app.name'));
+                $message->replyTo(config('mail.username'));
                 $message->subject(__('locale.admin_verify_verified'));
                 $message->to(User::where('id', $request->id)->first()->email);
             });
@@ -112,8 +112,8 @@ class VerifyService
         ];
         try {
             Mail::send('mail.mail', $mail_data, function ($message) use ($request) {
-                $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-                $message->replyTo(env('MAIL_USERNAME'));
+                $message->from(config('mail.username'), config('app.name'));
+                $message->replyTo(config('mail.username'));
                 $message->subject(__('locale.admin_verify_not_verified'));
                 $message->to(User::where('id', $request->id)->first()->email);
             });

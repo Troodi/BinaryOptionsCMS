@@ -7,8 +7,8 @@
 					<table width="100%" cellspacing="0" cellpadding="0" border="0">
 						<tbody><tr>
 							<td style="padding-top: 40px; padding-bottom: 40px;" class="emailLogo" valign="middle" align="center">
-								<a href="{{ env('APP_URL') }}" target="_blank" style="text-decoration:none;">
-									<img src="{{ env('APP_URL') }}/images/logo/email_logo.png" alt="" style="width:100%; max-width:150px;height:auto; display:block;" width="150" border="0">
+								<a href="{{ config('app.url') }}" target="_blank" style="text-decoration:none;">
+									<img src="{{ config('app.url') }}/images/logo/email_logo.png" alt="" style="width:100%; max-width:150px;height:auto; display:block;" width="150" border="0">
 								</a>
 							</td>
 						</tr>
@@ -27,8 +27,8 @@
 
 						<tr>
 							<td style="padding-bottom: 20px;" class="imgHero" valign="top" align="center">
-								<a href="{{ env('APP_URL') }}" target="_blank" style="text-decoration:none;" class="">
-									<img src="{{ env('APP_URL') }}/images/mail/{{ $image }}" alt="" style="width:100%; max-width:600px; height:auto; display:block;" class="" width="600" border="0">
+								<a href="{{ config('app.url') }}" target="_blank" style="text-decoration:none;" class="">
+									<img src="{{ config('app.url') }}/images/mail/{{ $image }}" alt="" style="width:100%; max-width:600px; height:auto; display:block;" class="" width="600" border="0">
 								</a>
 							</td>
 						</tr>
@@ -87,8 +87,8 @@
 						</tr>
 
 						<tr><td style="padding-bottom: 40px;" class="emailRegards" valign="middle" align="center">
-                        <a href="{{ env('APP_URL') }}" target="_blank" style="text-decoration:none;">
-                            <img src="{{ env('APP_URL') }}/images/logo/bottom_text_mail.png" alt="" style="width:100%;max-width:150px; height:auto; display:block;" width="150" border="0">
+                        <a href="{{ config('app.url') }}" target="_blank" style="text-decoration:none;">
+                            <img src="{{ config('app.url') }}/images/logo/bottom_text_mail.png" alt="" style="width:100%;max-width:150px; height:auto; display:block;" width="150" border="0">
                         </a>
                     </td>
 </tr>
@@ -109,7 +109,7 @@
 
 						<tr>
 							<td style="padding: 10px 10px 5px;" class="brandInfo" valign="top" align="center">
-								<p class="text" style="color:#777777; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:12px; font-weight:400; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; padding:0; margin:0;">{{ env('APP_NAME') }} {{ date('Y') }}
+								<p class="text" style="color:#777777; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:12px; font-weight:400; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; padding:0; margin:0;">{{ config('app.name') }} {{ date('Y') }}
 								</p>
 							</td>
 						</tr>
@@ -117,7 +117,7 @@
 						<tr>
 							<td style="padding: 0px 10px 20px;" class="footerLinks" valign="top" align="center">
 								<p class="text" style="color:#777777; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:12px; font-weight:400; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; padding:0; margin:0;">
-									<a href="{{ env('APP_URL') }}" style="color:#777777;text-decoration:underline;" target="_blank">@lang('locale.mail_go_site') </a>&nbsp;|&nbsp;<a href="{{ env('APP_URL') }}" style="color:#777777;text-decoration:underline;" target="_blank">@lang('locale.mail_go_cabinet') </a>
+									<a href="{{ config('app.url') }}" style="color:#777777;text-decoration:underline;" target="_blank">@lang('locale.mail_go_site') </a>&nbsp;|&nbsp;<a href="{{ config('app.url') }}" style="color:#777777;text-decoration:underline;" target="_blank">@lang('locale.mail_go_cabinet') </a>
 								</p>
 							</td>
 						</tr>
@@ -125,7 +125,7 @@
 						<tr>
 							<td style="padding: 0px 10px 10px;" class="footerEmailInfo" valign="top" align="center">
 								<p class="text" style="color:#777777; font-family:'Open Sans', Helvetica, Arial, sans-serif; font-size:12px; font-weight:400; font-style:normal; letter-spacing:normal; line-height:20px; text-transform:none; text-align:center; padding:0; margin:0;">
-									@lang('locale.mail_if_question') <a href="mailto:{{ env('MAIL_USERNAME') }}" style="color:#777777;text-decoration:underline;" target="_blank">{{ env('MAIL_USERNAME') }}.</a>
+									@lang('locale.mail_if_question') <a href="mailto:{{ config('mail.username') }}" style="color:#777777;text-decoration:underline;" target="_blank">{{ config('mail.username') }}.</a>
 								</p>
 							</td>
 						</tr>

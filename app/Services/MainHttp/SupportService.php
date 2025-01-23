@@ -23,10 +23,10 @@ class SupportService {
             'button_text' => __('locale.support_go_to_cabinet')
         ];
         Mail::send('mail.mail', $mail_data, function ($message) use ($supportRequest) {
-            $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
+            $message->from(config('mail.username'), config('app.name'));
             $message->replyTo(Auth::user()->email);
             $message->subject(__('locale.support_write_to_support'));
-            $message->to(env('MAIL_USERNAME'));
+            $message->to(config('mail.username'));
         });
 
         cache()->put('supportEmailSent' . Auth::user()->id, true, 600);
