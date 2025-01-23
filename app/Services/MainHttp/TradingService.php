@@ -35,10 +35,9 @@ class TradingService
     public function getAuthTokenServ(Request $request)
     {
         return Cache::remember('authTokenServ', 3600 * 24, function () {
-            $login = 'chamois4369@topvu.net';
-            env('TRADINGVIEW_LOGIN');
-            $password = 'd123Qwe123!!dq@';
-            env('TRADINGVIEW_PASSWORD'); // TODO config
+            $login = config('tradingview.login');
+            $password = config('tradingview.password');
+
             $auth_token = "";
             if (file_exists(__DIR__ . '/cookie.txt')) {
                 $ch = curl_init();

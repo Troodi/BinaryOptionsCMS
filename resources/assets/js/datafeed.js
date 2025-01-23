@@ -101,11 +101,11 @@ export default {
 		onSymbolResolvedCallback,
 		onResolveErrorCallback,
 	) => {
-		//console.log('[resolveSymbol]: Method call', symbolName);
 		const symbols = await getAllSymbols();
 		const symbolItem = symbols.find(({
 			full_name,
-		}) => full_name === symbolName);
+		}) => full_name.replace('/', '').toUpperCase() === symbolName.toUpperCase());
+
 		if (!symbolItem) {
 			//console.log('[resolveSymbol]: Cannot resolve symbol', symbolName);
 			onResolveErrorCallback('cannot resolve symbol');

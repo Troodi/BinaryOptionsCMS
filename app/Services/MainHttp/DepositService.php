@@ -35,9 +35,9 @@ class DepositService
     }
 
     public function qiwiProcess(Request $request){
-        $billPayments = new BillPayments(env('QIWI_SECRET'));
+        $billPayments = new BillPayments(config('deposit.qiwi_secret'));
         $check = $billPayments->checkNotificationSignature(
-            $request->header('X-Api-Signature-SHA256'), json_decode($request->getContent(), true), env('QIWI_SECRET')
+            $request->header('X-Api-Signature-SHA256'), json_decode($request->getContent(), true), config('deposit.qiwi_secret')
         );
         if($check){
             $orderId = $request['bill']['customFields']['orderId'];
@@ -51,7 +51,7 @@ class DepositService
     public function yooMoneyProcess(Request $request){
         $arr = null;
         parse_str($request->getContent(), $arr);
-        $sha1 = sha1($arr['notification_type'].'&'.$arr['operation_id'].'&'.$arr['amount'].'&'.$arr['currency'].'&'.$arr['datetime'].'&'.$arr['sender'].'&'.$arr['codepro'].'&'.env('YOOMONEY_SECRET').'&'.$arr['label']);
+        $sha1 = sha1($arr['notification_type'].'&'.$arr['operation_id'].'&'.$arr['amount'].'&'.$arr['currency'].'&'.$arr['datetime'].'&'.$arr['sender'].'&'.$arr['codepro'].'&'.config('deposit.yoomoney_secret').'&'.$arr['label']);
         if($sha1 == $arr['sha1_hash'] and $arr['codepro'] == 'false' and $arr['unaccepted'] == 'false'){
             $this->processDepositServ($arr['label']);
             return true;
@@ -61,7 +61,7 @@ class DepositService
     }
 
     public function cryptonatorProcess(Request $request){
-        $cryptonator = new MerchantAPI(env('CRYPTONATOR_ID'), env('CRYPTONATOR_SECRET'));
+        $cryptonator = new MerchantAPI(config('deposit.cryptonator_id'), config('deposit.cryptonator_secret'));
         $array = null;
         parse_str($request->getContent(), $array);
         if($cryptonator->checkAnswer($array)){
@@ -113,7 +113,7 @@ class DepositService
         $model->promocode_id = $promocode_id;
         $model->save();
         if($request->system_id == 3) { // Cryptonator
-            $cryptonator = new MerchantAPI(env('CRYPTONATOR_ID'), env('CRYPTONATOR_SECRET'));
+            $cryptonator = new MerchantAPI(config('deposit.cryptonator_id'), config('deposit.cryptonator_secret'));
             $url = $cryptonator->startPayment(array(
                 'item_name'               => 'Deposit on '.config('custom.domain'),
                 'order_id'              => $model->id,
@@ -128,12 +128,12 @@ class DepositService
             $amount = $rub;
             $message = urlencode('Deposit on '.config('custom.domain').' for user: '.Auth::user()->email);
             $success_url = urlencode('https://'.config('custom.domain').'/trading');
-            $yoo = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=".env('YOOMONEY_WALLET')."&quickpay-form=shop&targets=$message&sum=$amount&label=$orderId&successURL=$success_url&paymentType=AC")
+            $yoo = Curl::to("https://yoomoney.ru/quickpay/confirm.xml?receiver=".config('deposit.yoomoney_wallet')."&quickpay-form=shop&targets=$message&sum=$amount&label=$orderId&successURL=$success_url&paymentType=AC")
                 ->get();
             $link = str_replace('Found. Redirecting to ', '', $yoo);
             return (['data' => ['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link, 'timeout' => 3000], 'status' => 200]);
         } elseif($request->system_id == 1) { // Qiwi
-            $billPayments = new BillPayments(env('QIWI_SECRET'));
+            $billPayments = new BillPayments(config('deposit.qiwi_secret'));
             $billId = $billPayments->generateId();
             Deposit::where('id', $model->id)->update(['billId' => $billId]);
             $lifetime = Carbon::now()->addMinutes(60)->format('Y-m-d\TH:m:s+03:00');
@@ -150,12 +150,12 @@ class DepositService
             $response = $billPayments->createBill($billId, $fields);
             return (['data' => ['success' => true, 'message' => __('locale.deposit_link'), 'link' => $response['payUrl'], 'timeout' => 3000], 'status' => 200]);
         } elseif($request->system_id == 7) { //Free-Kassa
-            $m_shop = env('FREE_KASSA_ID');
+            $m_shop = config('deposit.free_kassa_id');
             $m_orderid = $model->id;
             $m_curr = 'USD';
             $m_desc = base64_encode(__('locale.deposit_deposit_on_site') . ': ' . config('app.url'));
             $lang = 'ru';
-            $m_key = env('FREE_KASSA_SECRET');
+            $m_key = config('deposit.free_kassa_secret');
             $arHash = array(
                 $m_shop,
                 $m_orderid,
@@ -164,17 +164,17 @@ class DepositService
                 $m_desc
             );
             $arHash[] = $m_key;
-            $m_sign = md5(env('FREE_KASSA_ID') . ':' . $amount . ':' . env('FREE_KASSA_SECRET') . ':' . $m_orderid);
+            $m_sign = md5(config('deposit.free_kassa_id') . ':' . $amount . ':' . config('deposit.free_kassa_secret') . ':' . $m_orderid);
             $link_for_pay = "https://www.free-kassa.ru/merchant/cash.php?oa=$amount&o=$m_orderid&us_desc=$m_desc&s=$m_sign&m=$m_shop&lang=$lang";
             return (['data' => ['success' => true, 'message' => __('locale.deposit_link'), 'link' => $link_for_pay, 'timeout' => 3000], 'status' => 200]);
         }
         elseif($request->system_id == 6) { //Payeer
-            $m_shop = env('PAYEER_ID');
+            $m_shop = config('deposit.payeer_id');
             $m_orderid = $model->id;
             $m_curr = 'USD';
             $m_desc = base64_encode(__('locale.deposit_deposit_on_site') . ': ' . config('app.url'));
             $lang = 'ru';
-            $m_key = env('PAYEER_SECRET');
+            $m_key = config('deposit.payeer_secret');
             $arHash = array(
                 $m_shop,
                 $m_orderid,
@@ -198,7 +198,7 @@ class DepositService
     public function processPayeer(Request $request){
         if (!in_array($request->ip(), array('185.71.65.92', '185.71.65.189', '149.202.17.210'))) return;
         if (isset($request->m_operation_id) && isset($request->m_sign)) {
-            $m_key = env('PAYEER_SECRET');
+            $m_key = config('deposit.payeer_secret');
             $arHash = array(
                 $request->m_operation_id,
                 $request->m_operation_ps,
@@ -231,7 +231,7 @@ class DepositService
 
     public function processFreeKassa(Request $request){
         if (!in_array($request->ip(), array('136.243.38.147', '136.243.38.149', '136.243.38.150', '136.243.38.151', '136.243.38.189', '136.243.38.108'))) return;
-        $sign = md5(env('FREE_KASSA_ID').':'.$request->AMOUNT.':'.env('FREE_KASSA_SECRET_2').':'.$request->MERCHANT_ORDER_ID);
+        $sign = md5(config('deposit.free_kassa_id').':'.$request->AMOUNT.':'.config('deposit.free_kassa_secret_2').':'.$request->MERCHANT_ORDER_ID);
         if($sign == $request->SIGN){
             $this->processDepositServ($request->MERCHANT_ORDER_ID);
             return 'YES';

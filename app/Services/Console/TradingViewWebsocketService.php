@@ -155,7 +155,7 @@ class TradingViewWebsocketService
                                 } elseif ($key == 'pro_name') {
                                     $this->sendMessage("quote_remove_symbols", [$this->sessionStatus, $value]);
                                     foreach (Symbol::all() as $symbol) {
-                                        $this->registerTicker($this->sessionStatus, $symbol->name); //todo если не будет работать, то вероятно из-за этой строки
+                                        $this->registerTicker($this->sessionStatus, $symbol->name);
                                     }
                                     continue;
                                 } elseif ($key == 'current_session') {
@@ -437,8 +437,8 @@ class TradingViewWebsocketService
         $this->symbols_all = [];
         $this->cacheLP = [];
         $this->tickerDataUptime = null;
-        $this->login = env('TRADINGVIEW_LOGIN');
-        $this->password = env('TRADINGVIEW_PASSWORD');
+        $this->login = config('tradingview.login');
+        $this->password = config('tradingview.password');
         $this->resetWebSocket();
     }
 
@@ -462,8 +462,8 @@ class TradingViewWebsocketService
         $this->symbols_all = [];
         $this->cacheLP = [];
         $this->tickerDataUptime = null;
-        $this->login = env('TRADINGVIEW_LOGIN');
-        $this->password = env('TRADINGVIEW_PASSWORD');
+        $this->login = config('tradingview.login');
+        $this->password = config('tradingview.password');
         $this->resetHistoryWebSocket();
     }
 

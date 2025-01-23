@@ -41,9 +41,10 @@
                     symbol = localStorage.getItem('symbol_full');
                     tabSymbol = localStorage.getItem('symbol_short');
                 } else {
-                    symbol = 'Binary:EUR/USD';
-                    tabSymbol = 'EUR/USD';
+                    symbol = 'Binary:BTCUSDT';
+                    tabSymbol = 'BTC/USDT';
                 }
+                console.log(symbol, tabSymbol);
                 if(localStorage.getItem('resolution')){
                     resolution = localStorage.getItem('resolution');
                 } else {

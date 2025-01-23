@@ -27,8 +27,8 @@ class User extends Authenticatable
       ];
       Mail::send('mail.mail', $mail_data, function($message)
       {
-        $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-        $message->replyTo(env('MAIL_USERNAME'));
+        $message->from(config('mail.username'), config('app.name'));
+        $message->replyTo(config('mail.username'));
         $message->subject('Восстановление пароля');
         $message->to($this->email);
       });

@@ -65,6 +65,26 @@ export class TradingViewWebsocket {
         console.log("Ошибка " + error.message);
     }
 
+    extractSymbol(tticker) {
+        if (!tticker || !tticker.n) return null; // Проверяем наличие свойства n
+
+        let value = tticker.n;
+
+        try {
+            // Если значение можно распарсить как JSON, извлекаем symbol
+            let parsed = value.replace('=', '')
+            parsed = JSON.parse(parsed);
+            if (parsed && parsed.symbol) {
+                return parsed.symbol;
+            }
+        } catch (e) {
+            console.log(e)
+            // Если ошибка, значит это не JSON, возвращаем как есть
+        }
+        // Если это не JSON, предполагаем, что строка уже содержит символ
+        return value;
+    }
+
    onmessage(data) {
         const packets = this.parseMessages(data.data);
         packets.forEach((packet) => {
@@ -131,7 +151,7 @@ export class TradingViewWebsocket {
                 }, 200);
             } else if (packet.m && packet.m === "qsd" && typeof packet.p === "object" && packet.p.length > 1 && packet.p[0] === this.session) {
                 const tticker = packet.p[1];
-                const tickerName = tticker.n;
+                const tickerName = this.extractSymbol(tticker);
                 const tickerStatus = tticker.s;
                 const tickerUpdate = tticker.v;
                 // set ticker data, adding all object parameters together
@@ -317,7 +337,7 @@ export class TradingViewWebsocket {
         }
 
         const interval = setInterval(() => {
-            if (this.socketTV.readyState === 1 &&  this.sessionRegistered) { // OPEN
+            if (this.socketTV.readyState === 1 && this.sessionRegistered) { // OPEN
                 this._getTicker(tickerName);
                 clearInterval(interval);
             } else if (!runs) {

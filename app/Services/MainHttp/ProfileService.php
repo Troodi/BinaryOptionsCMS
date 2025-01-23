@@ -133,8 +133,8 @@ class ProfileService
         if(Profile::where('phone', $request->phone)->whereNotNull('phone_verify_at')->count()){
             return (['success' => false, 'message' => __('locale.profile_this_phone_cant_confirm')]);
         }
-        $sid = env('TWILLIO_SID');
-        $token = env('TWILLIO_KEY');
+        $sid = config('twillio.sid');
+        $token = config('twillio.key');
         try {
             $client = new Client($sid, $token);
         } catch (ConfigurationException $e) {
@@ -174,8 +174,8 @@ class ProfileService
 
     //Событие начала звонка из twilio
     public function phoneEventServ(Request $request){
-        $sid = env('TWILLIO_SID');
-        $token = env('TWILLIO_KEY');
+        $sid = config('twillio.sid');
+        $token = config('twillio.key');
         try {
             $client = new Client($sid, $token);
         } catch (ConfigurationException $e) {
@@ -217,8 +217,8 @@ class ProfileService
         ];
         Mail::send('mail.mail', $mail_data, function($message) use ($request)
         {
-            $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-            $message->replyTo(env('MAIL_USERNAME'));
+            $message->from(config('mail.username'), config('app.name'));
+            $message->replyTo(config('mail.username'));
             $message->subject(__('locale.profile_confirm_email'));
             $message->to($request->email);
         });

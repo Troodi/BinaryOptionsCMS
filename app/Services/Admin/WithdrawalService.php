@@ -42,8 +42,8 @@ class WithdrawalService
             ];
             try {
                 Mail::send('mail.mail', $mail_data, function ($message) use ($request, $withdrawal) {
-                    $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-                    $message->replyTo(env('MAIL_USERNAME'));
+                    $message->from(config('mail.username'), config('app.name'));
+                    $message->replyTo(config('mail.username'));
                     $message->subject(__('locale.admin_withdraw_declined'));
                     $message->to(User::where('id', $withdrawal->user_id)->first()->email);
                 });
@@ -111,8 +111,8 @@ class WithdrawalService
             ];
             try {
                 Mail::send('mail.mail', $mail_data, function ($message) use ($request, $withdrawal) {
-                    $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-                    $message->replyTo(env('MAIL_USERNAME'));
+                    $message->from(config('mail.username'), config('app.name'));
+                    $message->replyTo(config('mail.username'));
                     $message->subject(__('locale.admin_withdraw_success'));
                     $message->to(User::where('id', $withdrawal->user_id)->first()->email);
                 });
