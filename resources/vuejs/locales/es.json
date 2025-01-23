@@ -265,6 +265,7 @@
   "configuración del sistema de reabastecimiento en el panel de administración": "",
   "admin_deposit_settings_title": "Administrar los sistemas de pago para el reabastecimiento (eliminar, cambiar ID, agregar - puede interrumpir el reabastecimiento)",
   "admin_deposit_settings_id": "ID (no vale la pena cambiarlo)",
+  "admin_deposit_settings_description": "Descripción",
   "admin_deposit_settings_system": "Sistema",
   "admin_deposit_settings_order": "Pedido",
   "admin_deposit_settings_active": "Actividad",
@@ -501,6 +502,7 @@
   "promo_code_without_deposit": "Bono sin depósito",
   "promo_code_percent": "Porcentaje de reposición",
   "promo_code_active": "Activado",
+  "promo_code_placeholder": "Ingrese el código de promoción para verificarlo",
 
   "trade_ history": "",
   "trade_history_title": "Historial comercial",

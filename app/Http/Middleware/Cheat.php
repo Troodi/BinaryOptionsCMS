@@ -33,7 +33,7 @@ class Cheat
       } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
       } else {
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = $_SERVER['REMOTE_ADDR'] ?? null;
       }
       $agent = $request->header('user-agent');
       if(Cache::remember('user_agent_'.Auth::user()->id, 3600, function () use ($agent) { return $agent; }) != $agent or !Cache::has('user_agent_updated_'.Auth::user()->id)) {

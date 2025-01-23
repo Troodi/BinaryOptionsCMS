@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Deposit;
-use Carbon\Carbon;
+use App\Services\Console\ClearDepositHistoryService;
 use Illuminate\Console\Command;
 
 class ClearDepositHistory extends Command
@@ -37,9 +36,8 @@ class ClearDepositHistory extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(ClearDepositHistoryService $clearDepositHistoryService)
     {
-      Deposit::where('status', 0)->where('created_at', '<', Carbon::now()->subHours(1))->delete();
-      return 0;
+        $clearDepositHistoryService->clear();
     }
 }

@@ -266,6 +266,7 @@
   "настройки систем пополнения в админке": "",
   "admin_deposit_settings_title": "Управление платежными системами для пополнения (удаление, изменение id, добавление - может сломать пополнения)",
   "admin_deposit_settings_id": "ID (не стоит менять)",
+  "admin_deposit_settings_description": "Описание",
   "admin_deposit_settings_system": "Система",
   "admin_deposit_settings_order": "Порядок",
   "admin_deposit_settings_active": "Активность",

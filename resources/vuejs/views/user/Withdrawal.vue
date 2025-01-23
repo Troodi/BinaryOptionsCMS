@@ -263,6 +263,7 @@
                         $('[data-toggle="tooltip"]').popover({ html : true });
                         $('.decline-withdrawal').on('click', function (){
                           let id = $(this).attr('data-id');
+                          let text = $(this).attr('data-text');
                           Swal.fire({
                             title: self.$i18n.t('payout_comment'),
                             input: 'text',
@@ -274,7 +275,7 @@
                             cancelButtonText: self.$i18n.t('payout_close'),
                             showLoaderOnConfirm: true,
                             preConfirm: (comment) => {
-                              return axios.post('/admin/data/processWithdrawal', { id: id, comment: comment, status: 2 }).then((response) => {
+                              return axios.post('/admin/data/processWithdrawal', { id: id, text: text, comment: comment, status: 2  }).then((response) => {
                                 if(!response.data.success){
                                   throw new Error(response.data.message)
                                 }
@@ -297,7 +298,10 @@
 
                       $('.accept-withdrawal').on('click', function (){
                         let id = $(this).attr('data-id');
-                        axios.post('/admin/data/processWithdrawal', { id: id, comment: '', status: 1 }).then((response) => {
+                        let text = $(this).attr('data-text');
+                        let self = this;
+                        axios.post('/admin/data/processWithdrawal', { id: id, text: text, comment: '', status: 1 }).then((response) => {
+
                           if(response.data.success === true) {
                             toastr.success(response.data.message, self.$i18n.t('payout_success'), {
                               positionClass: 'toast-bottom-left',
@@ -382,8 +386,8 @@
                             if (type === 'display') {
 
                             }
-                            return '<button type="button" class="btn btn-sm btn-outline-danger mr-1 decline-withdrawal" data-id="'+row.id+'">'+self.$i18n.t('payout_cancel')+'</button>' +
-                                   '<button type="button" class="btn btn-sm btn-outline-success accept-withdrawal" data-id="'+row.id+'">'+self.$i18n.t('payout_payout')+'</button>';
+                            return '<button type="button" class="btn btn-sm btn-outline-danger mr-1 decline-withdrawal" data-text="'+row.system_id+'" data-id="'+row.id+'">'+self.$i18n.t('payout_cancel')+'</button>' +
+                                   '<button type="button" class="btn btn-sm btn-outline-success accept-withdrawal" data-text="'+row.system_id+'" data-id="'+row.id+'">'+self.$i18n.t('payout_payout')+'</button>';
                           }
                         },
                         {
