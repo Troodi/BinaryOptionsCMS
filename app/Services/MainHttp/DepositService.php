@@ -153,7 +153,7 @@ class DepositService
             $m_shop = env('FREE_KASSA_ID');
             $m_orderid = $model->id;
             $m_curr = 'USD';
-            $m_desc = base64_encode(__('locale.deposit_deposit_on_site') . ': ' . env('APP_URL'));
+            $m_desc = base64_encode(__('locale.deposit_deposit_on_site') . ': ' . config('app.url'));
             $lang = 'ru';
             $m_key = env('FREE_KASSA_SECRET');
             $arHash = array(
@@ -172,7 +172,7 @@ class DepositService
             $m_shop = env('PAYEER_ID');
             $m_orderid = $model->id;
             $m_curr = 'USD';
-            $m_desc = base64_encode(__('locale.deposit_deposit_on_site') . ': ' . env('APP_URL'));
+            $m_desc = base64_encode(__('locale.deposit_deposit_on_site') . ': ' . config('app.url'));
             $lang = 'ru';
             $m_key = env('PAYEER_SECRET');
             $arHash = array(
