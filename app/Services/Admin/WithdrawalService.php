@@ -37,7 +37,7 @@ class WithdrawalService
                 'subtitle' =>  __('locale.admin_withdraw_not_implemented'),
                 'text' => "<p>".__('locale.admin_withdraw_not_implemented_mail')." $message</p>",
                 'image' => 'order-cancel.png',
-                'button_link' => env('APP_URL').'/profile',
+                'button_link' => config('app.url').'/profile',
                 'button_text' => __('locale.admin_withdraw_go_cabinet')
             ];
             try {
@@ -106,7 +106,7 @@ class WithdrawalService
                 'subtitle' => __('locale.admin_withdraw_payment_made'),
                 'text' => '<p>'.__('locale.admin_withdraw_congratulations').'</p>',
                 'image' => 'order-refund.png',
-                'button_link' => env('APP_URL') . '/profile',
+                'button_link' => config('app.url') . '/profile',
                 'button_text' => __('locale.admin_withdraw_go_cabinet')
             ];
             try {

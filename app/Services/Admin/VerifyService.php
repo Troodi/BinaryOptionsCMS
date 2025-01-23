@@ -49,7 +49,7 @@ class VerifyService
             'subtitle' => __('locale.admin_verify_document_status'),
             'text' => $success ? '<p>' . __('locale.admin_verify_approved') . '</p>' : '<p>' . __('locale.admin_verify_decline') . '</p>',
             'image' => $success ? 'membership.png' : 'membership-ended.png',
-            'button_link' => env('APP_URL') . '/profile',
+            'button_link' => config('app.url') . '/profile',
             'button_text' => __('locale.admin_verify_go_cabinet')
         ];
         try {
@@ -78,7 +78,7 @@ class VerifyService
             'subtitle' => __('locale.admin_verify_now_verified'),
             'text' => '<p>' . __('locale.admin_verify_successful_verified') . '</p>',
             'image' => 'subscription-completed.png',
-            'button_link' => env('APP_URL') . '/profile',
+            'button_link' => config('app.url') . '/profile',
             'button_text' => __('locale.admin_verify_go_cabinet')
         ];
         try {
@@ -107,7 +107,7 @@ class VerifyService
             'subtitle' => __('locale.admin_verify_now_not_verified'),
             'text' => '<p>' . __('locale.admin_verify_take_off_verify') . '</p>',
             'image' => 'subscription-completed.png',
-            'button_link' => env('APP_URL') . '/profile',
+            'button_link' => config('app.url') . '/profile',
             'button_text' => __('locale.admin_verify_go_cabinet')
         ];
         try {
