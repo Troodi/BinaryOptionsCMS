@@ -35,7 +35,6 @@ The system was designed around several high-value product requirements:
 
 ## Screenshots
 
-
 ### Trading And Admin Views
 
 <p>
