@@ -390,7 +390,6 @@ env-ci/
   local, prod             Docker Compose environments and service Dockerfiles
 ```
 
-
 ## Notes
 
 This codebase is an older production-style Laravel application. Some implementation details reflect historical constraints and product iteration speed. The architecture is best evaluated by its end-to-end product scope: realtime trading, settlement, payments, tournaments, administration, KYC, anti-fraud controls and operational workers integrated into one platform.
