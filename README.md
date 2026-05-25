@@ -1,134 +1,416 @@
-## Настройка nginx
-Создаем поддомен chart.getoption.pro и прописываем в конфиге nginx
-```nginx
-location / {
-  proxy_ssl_server_name on;
-  proxy_pass https://prodata.tradingview.com/socket.io/websocket;#prodata
-  proxy_http_version 1.1;
-  proxy_set_header Origin https://www.tradingview.com;
-  proxy_set_header Host prodata.tradingview.com;
-  proxy_set_header Upgrade "websocket";
-  proxy_set_header Connection "Upgrade";
-  proxy_set_header User-Agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36";
-  proxy_set_header Pragma "no-cache";
-  proxy_buffering off;
-}
+# BinaryOptionsCMS
+
+Full-stack realtime trading platform for binary options, built as a Laravel and Vue application with dedicated workers for market data ingestion, order settlement, realtime notifications, payments, tournaments, KYC and administrative operations.
+
+This repository represents a complete product architecture rather than a simple trading UI. It combines a user-facing trading terminal, an operational admin panel, background settlement services, payment-provider callbacks, dynamic payout management, private websocket events and risk-control workflows.
+
+## Executive Summary
+
+BinaryOptionsCMS is a monolith-first financial platform with separated runtime responsibilities. The Laravel application owns the domain model and HTTP/API surface, while long-running workers handle realtime quote ingestion, option settlement and scheduled maintenance. Vue powers the trading and admin interfaces, TradingView Charting Library provides the market terminal experience, and Laravel Echo Server delivers account and order updates in realtime.
+
+The system was designed around several high-value product requirements:
+
+- accept binary option trades only when symbol, market, expiration and account rules pass;
+- ingest live quote data from TradingView through persistent websocket sessions;
+- settle expired options against timestamped tick data outside the HTTP request lifecycle;
+- keep balances, open positions and close results synchronized without polling;
+- support real, demo and tournament trading modes;
+- process deposits through multiple payment providers;
+- enforce verification, turnover and anti-fraud constraints before withdrawals;
+- give administrators operational controls over symbols, users, balances, payouts, KYC, tournaments and payment systems.
+
+## Product Surface
+
+| Area | Capabilities |
+| --- | --- |
+| Trading terminal | Real/demo/tournament trading, TradingView chart, expiration controls, dynamic payouts, open and latest orders |
+| Market data | TradingView websocket ingestion, tick storage, market status tracking, historical bar loading |
+| Settlement engine | Expiration scan, close-price lookup, win/loss/refund calculation, history records, balance updates |
+| Realtime updates | Private balance channels, close-order channels, symbol payout broadcasts |
+| Finance | Deposits, withdrawals, payment callbacks, exchange-rate conversion, bonus turnover |
+| Growth | Promocodes, referral tracking, partner requests and reward accounting |
+| Tournaments | Registration, isolated contest balance, tournament orders, ranking, rewards |
+| Admin panel | User control, symbol configuration, KYC, deposits, payouts, settings, statistics |
+| Security controls | Auth, admin middleware, CSRF, private channel authorization, IP/user-agent tracking, ban states |
+
+## Screenshots
+
+Screenshots are stored in `docs/screenshots`. The `docs/` directory is intentionally ignored by Git because it is used as a private documentation and O-1 evidence package. The links below render in local Markdown viewers when the screenshot folder exists.
+
+### Trading And Admin Views
+
+<p>
+  <img src="docs/screenshots/Pasted%20image.png" alt="Trading terminal with chart and order panel" width="49%">
+  <img src="docs/screenshots/image_2026-05-18_23-44-18.png" alt="Admin symbol management interface" width="49%">
+</p>
+
+<p>
+  <img src="docs/screenshots/image_2026-05-18_23-44-18%20(2).png" alt="Administrative dashboard view" width="49%">
+  <img src="docs/screenshots/image_2026-05-18_23-44-19%20(2).png" alt="Tournament management view" width="49%">
+</p>
+
+### Supporting Product Screens
+
+<p>
+  <img src="docs/screenshots/Pasted%20image%20(2).png" alt="Product screen capture" width="49%">
+  <img src="docs/screenshots/Pasted%20image%20(4).png" alt="Product screen capture" width="49%">
+</p>
+
+<p>
+  <img src="docs/screenshots/ChatGPT%20Image%20May%2020%2C%202026%2C%2010_57_52%20AM.png" alt="Architecture visual asset" width="49%">
+  <img src="docs/screenshots/ChatGPT%20Image%20May%2020%2C%202026%2C%2011_32_26%20AM.png" alt="Architecture visual asset" width="49%">
+</p>
+
+## High-Level Architecture
+
+```mermaid
+flowchart LR
+    Trader["Trader Browser / Vue SPA"] --> Nginx["Nginx HTTPS"]
+    Admin["Admin Browser / Admin SPA"] --> Nginx
+
+    Nginx --> PHP["Laravel PHP-FPM"]
+
+    PHP --> MySQL["MySQL"]
+    PHP --> Redis["Redis"]
+    PHP --> Payments["Payment Providers"]
+    PHP --> OAuth["Google / Facebook OAuth"]
+    PHP --> Twilio["Twilio"]
+
+    Parser["quotes-parser worker"] --> TradingView["TradingView WebSocket"]
+    Parser --> MySQL
+    Parser --> Redis
+
+    Checker["order-checks worker"] --> MySQL
+    Checker --> Redis
+
+    Scheduler["scheduler worker"] --> MySQL
+    Scheduler --> Redis
+
+    Redis --> Echo["Laravel Echo Server"]
+    Echo --> Trader
+    Echo --> Admin
 ```
 
-## Основные команды для запуска
-1. `php artisan tradingview:start` - запускает парсинг котировок
-2. `php artisan check:orders` - запускает проверку на закрытие ордеров
-3. `php artisan schedule:run` - запускает выполнение задач по крону (прописать в крон)
-4. `laravel-echo-server start` - запускает вебсокет
-5. `npm run watch` - компиллирует все ресурсы
+## Runtime Decomposition
 
-## Необходимые зависимости
-1. nodejs, npm
-2. laravel-echo-server
-3. nginx
+The platform keeps the codebase cohesive but separates runtime responsibilities into dedicated long-running processes.
 
-## Настройки payeer
-1. URL успешной оплаты: `/payeer/success`
-2. URL неуспешной оплаты: `/payeer/fail`
-3. URL обработчика: `/payeer/status`
+```mermaid
+flowchart TB
+    subgraph Web["HTTP Runtime"]
+        Routes["Routes and middleware"]
+        Controllers["Thin controllers"]
+        Services["Domain services"]
+        Models["Eloquent models"]
+    end
 
-##Настройки киви
-1. Переходим на `https://p2p.qiwi.com/`
-2. После авторизации на `https://qiwi.com/p2p-admin/transfers/api`
-3. Нажимаем внизу "Создать пару ключей и настроить"
-4. Заполняем в .env `QIWI_KEY` и `QIWI_SECRET`
-5. Устанавливаем серверные уведомления на `/qiwi/process`
+    subgraph Workers["Long-Running Workers"]
+        Quotes["tradingview:start"]
+        Orders["check:orders"]
+        Cron["schedule:work"]
+    end
 
-##Настройка supervisor
-Путь: `/etc/supervisor/conf.d/tradingview.conf` - парсинг котировок
-```shell
-[program:tradingview]
-process_name=%(program_name)s_%(process_num)02d
-command=php /var/www/www-root/data/www/getoption.pro/artisan tradingview:start
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-user=www-root
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/logs/tradingview.log
-startsecs = 0
-stopwaitsecs=0
+    subgraph Realtime["Realtime Layer"]
+        Events["Broadcast events"]
+        Redis["Redis"]
+        Echo["Laravel Echo Server"]
+    end
+
+    subgraph Storage["Storage"]
+        DB["MySQL"]
+        Cache["Redis cache"]
+    end
+
+    Routes --> Controllers
+    Controllers --> Services
+    Services --> Models
+    Models --> DB
+
+    Quotes --> DB
+    Orders --> DB
+    Cron --> DB
+
+    Services --> Events
+    Orders --> Events
+    Events --> Redis
+    Redis --> Echo
+    Echo --> UI["Vue clients"]
 ```
 
-Путь: `/etc/supervisor/conf.d/orders.conf` - проверка закрытия сделок
-```shell
-[program:orders]
-process_name=%(program_name)s_%(process_num)02d
-command=php /var/www/www-root/data/www/getoption.pro/artisan check:orders
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-user=www-root
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/logs/orders.log
-startsecs = 0
-stopwaitsecs=0
+## Trade Lifecycle
+
+```mermaid
+sequenceDiagram
+    participant UI as Vue Trading UI
+    participant API as TradingController
+    participant Service as TradingService
+    participant DB as MySQL
+    participant Worker as Settlement Worker
+    participant Echo as Echo Server
+
+    UI->>API: POST /binary/buy
+    API->>Service: buySymbolServ()
+    Service->>DB: Validate symbol, market, tick and balance
+    Service->>DB: Debit balance
+    Service->>DB: Insert open order
+    Service->>Echo: Broadcast balance update
+    Service-->>UI: Return open order
+
+    Worker->>DB: Select expired open orders
+    Worker->>DB: Find tick before expiration
+    Worker->>Worker: Calculate win, loss or refund
+    Worker->>DB: Insert history and latest order
+    Worker->>DB: Update balance and statistics
+    Worker->>Echo: Broadcast close event
+    Echo-->>UI: Update orders and balance
 ```
 
-Путь: `/etc/supervisor/conf.d/websocket.conf` - вебсокет для оповещений
-```shell
-[program:websocket]
-process_name=%(program_name)s_%(process_num)02d
-command=laravel-echo-server start --dir=/var/www/www-root/data/www/getoption.pro --force
-autostart=true
-autorestart=true
-stopasgroup=true
-killasgroup=true
-user=www-root
-numprocs=1
-redirect_stderr=true
-stdout_logfile=/home/logs/websocket.log
-startsecs = 0
-stopwaitsecs=0
+## Order Settlement Engine
+
+```mermaid
+flowchart TD
+    Start["Expired open order"] --> Tick["Find last tick before close_at"]
+    Tick --> TickFound{"Tick found?"}
+    TickFound -->|No| Refund["Refund stake"]
+    TickFound -->|Yes| Market["Check market status and quote heartbeat"]
+    Market --> MarketOk{"Market data valid?"}
+    MarketOk -->|No| Refund
+    MarketOk -->|Yes| Direction{"Order direction"}
+
+    Direction -->|Up| UpCheck{"close_price > open_price?"}
+    Direction -->|Down| DownCheck{"close_price < open_price?"}
+
+    UpCheck -->|Yes| Win["Profit = amount + payout"]
+    UpCheck -->|No| Loss["Profit = 0"]
+    DownCheck -->|Yes| Win
+    DownCheck -->|No| Loss
+
+    Refund --> Persist["Persist history"]
+    Win --> Persist
+    Loss --> Persist
+    Persist --> Balance["Update balance"]
+    Balance --> Stats["Update statistics"]
+    Stats --> Event["Broadcast settlement event"]
 ```
 
-Создать путь для логов: `mkdir /home/logs`
+## Trading Modes
 
-##Настройка google
-1. https://console.developers.google.com/apis/credentials
-2. Идентификаторы клиентов OAuth 2.0
-3. Создать учетные данные (сверху)
-4. OAuth
-5. Разрешенные URI перенаправления: `сам домен с https` и `/login/google/callback`
+```mermaid
+flowchart LR
+    Request["Trade Request"] --> Mode{"Mode"}
 
-##Настройка facebook
-1. https://developers.facebook.com/apps
-2. Создать приложение
-3. Создание кросс-сервисных функций
-4. Вход через Facebook
-5. Настройки
-5. Действительные URI перенаправления для OAuth: `сам домен с https` и `/login/facebook/callback`
+    Mode --> Real["Real"]
+    Mode --> Demo["Demo"]
+    Mode --> Contest["Tournament"]
 
-##Настройка afterlogic
-Файл: `/modules/Licensing/Module.php`
-```php
-public function GetLicenseInfo($Module = 'System')
-{
-    $mResult = false;
-    $aInfo = $this->GetPartKeyInfo($Module);
-    if (isset($aInfo[2])){
-        $mResult = array(
-        'Count' => (int) $aInfo[0],
-        'DateTime' => time() + 86400 * 365,
-        'Type' => 0,
-        'ExpiresIn' => 2000
-        );
-    }
-    return $mResult;
-}
+    Real --> RealBalance["users.balance"]
+    Real --> RealOpen["open_orders"]
+    Real --> RealHistory["order_history_1"]
+
+    Demo --> DemoBalance["users.demo_balance"]
+    Demo --> DemoOpen["open_demo_orders"]
+    Demo --> DemoHistory["order_demo_history_1"]
+
+    Contest --> ContestBalance["contest_users.balance"]
+    Contest --> ContestOpen["contest_open_orders"]
+    Contest --> ContestHistory["contest_histories"]
 ```
 
-##Настройка twilio
-Необходимо включить интерналионализацию: https://www.twilio.com/console/voice/calls/geo-permissions/low-risk
+## Market Data Pipeline
 
-##Реклама проекта
-1. UTM метка для источника: `?utm_adv={source}`
+```mermaid
+flowchart LR
+    Command["php artisan tradingview:start"] --> Parser["TradingViewWebsocketService"]
+    Parser --> Socket["TradingView WebSocket"]
+    Socket --> Sessions["Quote and status sessions"]
+    Sessions --> Symbols["Symbols from database"]
+    Symbols --> Subscribe["Subscribe to instruments"]
+    Subscribe --> Packets["qsd packets"]
+    Packets --> Ticks["ticks table"]
+    Packets --> Status["market_statuses table"]
+    Status --> TradingAPI["Trade validation"]
+    Ticks --> Settlement["Settlement worker"]
+```
+
+## Realtime Event Model
+
+```mermaid
+flowchart TD
+    Events["Laravel Broadcast Events"] --> Balance["ChangeBalance"]
+    Events --> DemoBalance["ChangeDemoBalance"]
+    Events --> ContestBalance["ChangeContestBalance"]
+    Events --> CloseReal["CloseOptionEvent"]
+    Events --> CloseDemo["CloseDemoOptionEvent"]
+    Events --> CloseContest["CloseContestOptionEvent"]
+    Events --> Symbols["ChangeSymbol"]
+
+    Balance --> Ch1["private balance.{id}"]
+    DemoBalance --> Ch2["private demo_balance.{id}"]
+    ContestBalance --> Ch3["private contest_balance.{id}.{contest_id}"]
+    CloseReal --> Ch4["private closed.{id}"]
+    CloseDemo --> Ch5["private closed_demo.{id}"]
+    CloseContest --> Ch6["private closed_contest.{id}.{contest_id}"]
+    Symbols --> Ch7["public symbols"]
+```
+
+## Payment Flow
+
+```mermaid
+flowchart TD
+    UI["Deposit UI"] --> Start["Start deposit"]
+    Start --> Deposit["Create pending deposit"]
+    Deposit --> Provider{"Provider"}
+
+    Provider --> Qiwi["QIWI"]
+    Provider --> YooMoney["YooMoney"]
+    Provider --> Cryptonator["Cryptonator"]
+    Provider --> Payeer["Payeer"]
+    Provider --> FreeKassa["FreeKassa"]
+
+    Qiwi --> Callback["Provider callback"]
+    YooMoney --> Callback
+    Cryptonator --> Callback
+    Payeer --> Callback
+    FreeKassa --> Callback
+
+    Callback --> Verify["Signature and allowlist verification"]
+    Verify --> Valid{"Valid?"}
+    Valid -->|No| Reject["Reject"]
+    Valid -->|Yes| Settle["processDepositServ"]
+    Settle --> Credit["Credit balance"]
+    Credit --> Bonus["Apply bonus and turnover"]
+    Bonus --> Referral["Apply referral reward"]
+    Referral --> Event["Broadcast balance"]
+```
+
+## Tournament Lifecycle
+
+```mermaid
+flowchart TD
+    Admin["Admin creates tournament"] --> Planned["Planned"]
+    Planned --> Active{"started_at < now < ended_at"}
+    Active -->|No| Waiting["Waiting or ended"]
+    Active -->|Yes| Register["User registers"]
+    Register --> EntryFee["Debit real balance"]
+    EntryFee --> ContestUser["Create contest_users balance"]
+    ContestUser --> Trading["Tournament trading"]
+    Trading --> Orders["contest_open_orders"]
+    Orders --> Settlement["Shared settlement worker"]
+    Settlement --> Ranking["contest:check ranking"]
+    Ranking --> Rewards{"ended_at passed?"}
+    Rewards -->|No| Leaderboard["Update leaderboard"]
+    Rewards -->|Yes| Credit["Credit winner rewards"]
+```
+
+## Core Backend Modules
+
+| Module | Responsibility |
+| --- | --- |
+| `app/Services/MainHttp/TradingService.php` | Trade placement, open/latest orders, history, demo balance |
+| `app/Services/Console/TradingViewWebsocketService.php` | TradingView quote ingestion and market status updates |
+| `app/Services/Console/CheckOrdersForCloseService.php` | Expired order settlement and statistics updates |
+| `app/Services/Console/SetSymbolsPercentService.php` | Dynamic payout recalculation |
+| `app/Services/MainHttp/DepositService.php` | Deposit creation, provider callbacks, bonuses, referral credit |
+| `app/Services/MainHttp/WithdrawalService.php` | Withdrawal requests, balance and KYC checks |
+| `app/Services/MainHttp/ContestService.php` | Tournament registration, balances, rankings and histories |
+| `app/Services/Admin/*` | Operational administration, KYC, users, symbols, payments, settings |
+
+## Technology Stack
+
+| Layer | Technologies |
+| --- | --- |
+| Backend | PHP 8, Laravel 8, Eloquent, Laravel Passport |
+| Frontend | Vue 2, Vue Router, Bootstrap Vue, Axios, i18n |
+| Charts | TradingView Charting Library, custom JavaScript datafeed |
+| Realtime | Laravel Broadcasting, Redis, Laravel Echo Server, Socket.IO |
+| Storage | MySQL, Redis, PostgreSQL config, ClickHouse config |
+| Workers | Laravel Artisan commands, scheduler, Docker services |
+| Payments | QIWI, YooMoney, Cryptonator, Payeer, FreeKassa |
+| Integrations | Google OAuth, Facebook OAuth, Twilio, GeoIP, CBR rates |
+| Build | Laravel Mix, Webpack, npm |
+| Infrastructure | Docker Compose, Nginx, PHP-FPM |
+
+## Operational Processes
+
+| Command | Role |
+| --- | --- |
+| `php artisan tradingview:start` | Starts persistent quote parsing from TradingView |
+| `php artisan check:orders` | Starts settlement loop for expired orders |
+| `php artisan schedule:work` | Runs scheduled maintenance tasks |
+| `php artisan clear:ticks` | Removes old tick data |
+| `php artisan set:percent` | Recalculates symbol payout percentages |
+| `php artisan exchange:rate` | Updates exchange rates |
+| `php artisan contest:check` | Updates tournament ranking and rewards |
+| `laravel-echo-server start` | Starts realtime event gateway |
+
+## Why This Project Is O-1 Relevant
+
+The project demonstrates engineering work across several complex areas that are usually separated across multiple teams:
+
+- realtime financial UI with charting and websocket-driven updates;
+- market data ingestion through a non-trivial websocket protocol;
+- deterministic order settlement based on tick timestamps;
+- financial account state transitions for real, demo and contest balances;
+- payment callback verification across multiple providers;
+- bonus and turnover accounting;
+- private realtime event authorization;
+- operational administration for users, symbols, KYC, payouts and contests;
+- background workers and scheduler-driven maintenance;
+- Dockerized deployment with separate runtime roles.
+
+Strong article framing:
+
+> I designed and implemented a realtime trading platform architecture that separated user-facing HTTP flows from market data ingestion and order-settlement workers. The platform accepted trades only after validating market state, symbol configuration, account balance and expiration rules, then settled expired options against timestamped tick data and synchronized balances through private realtime channels.
+
+## Repository Structure
+
+```text
+app/
+  Console/Commands        Artisan entrypoints for workers and scheduler tasks
+  Events                  Broadcast events for balances, symbols and order closes
+  Http/Controllers        Main, Admin, Auth and SPA controllers
+  Http/Middleware         Auth, admin, locale and anti-fraud middleware
+  Http/Requests           FormRequest validation classes
+  Models                  Eloquent domain models
+  Services                MainHttp, Admin and Console service layers
+
+resources/
+  vuejs                   User and admin Vue applications
+  assets/js               TradingView datafeed and streaming integration
+  views                   Blade layouts and panels
+
+routes/
+  web.php                 Main application, SPA, payment callback and admin routes
+  api.php                 Passport API auth routes
+  channels.php            Broadcast channel authorization
+
+database/
+  migrations              Domain schema evolution
+
+env-ci/
+  local, prod             Docker Compose environments and service Dockerfiles
+```
+
+## Private Documentation Package
+
+The `docs/` directory is ignored by Git and can be used for private O-1 materials:
+
+- architecture writeups;
+- article drafts;
+- screenshots;
+- exported diagrams;
+- evidence packages;
+- translated summaries.
+
+Current local documentation files:
+
+- `docs/architecture-o1.md`
+- `docs/technical-diagrams-o1.md`
+- `docs/screenshots/*`
+
+Because `docs/` is ignored, these files remain local unless they are manually copied into a separate portfolio package or uploaded somewhere public.
+
+## Notes
+
+This codebase is an older production-style Laravel application. Some implementation details reflect historical constraints and product iteration speed. The architecture is best evaluated by its end-to-end product scope: realtime trading, settlement, payments, tournaments, administration, KYC, anti-fraud controls and operational workers integrated into one platform.
+

@@ -30,3 +30,6 @@ public/app/admin.js
 public/mix-manifest.json
 package-lock.json
 /docker/*
+
+# Local O-1 documentation package and screenshots.
+/docs/
