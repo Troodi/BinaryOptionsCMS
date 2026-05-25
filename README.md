@@ -342,7 +342,7 @@ flowchart TD
 | `php artisan contest:check` | Updates tournament ranking and rewards |
 | `laravel-echo-server start` | Starts realtime event gateway |
 
-## Why This Project Is technical Relevant
+## Engineering Significance
 
 The project demonstrates engineering work across several complex areas that are usually separated across multiple teams:
 
@@ -357,7 +357,7 @@ The project demonstrates engineering work across several complex areas that are 
 - background workers and scheduler-driven maintenance;
 - Dockerized deployment with separate runtime roles.
 
-Strong article framing:
+Strong technical framing:
 
 > I designed and implemented a realtime trading platform architecture that separated user-facing HTTP flows from market data ingestion and order-settlement workers. The platform accepted trades only after validating market state, symbol configuration, account balance and expiration rules, then settled expired options against timestamped tick data and synchronized balances through private realtime channels.
 
@@ -394,4 +394,3 @@ env-ci/
 ## Notes
 
 This codebase is an older production-style Laravel application. Some implementation details reflect historical constraints and product iteration speed. The architecture is best evaluated by its end-to-end product scope: realtime trading, settlement, payments, tournaments, administration, KYC, anti-fraud controls and operational workers integrated into one platform.
-

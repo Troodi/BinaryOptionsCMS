@@ -30,5 +30,8 @@ public/app/admin.js
 public/mix-manifest.json
 package-lock.json
 /docker/*
+/env-ci/**/nginx/certs/*
+/env-ci/**/nginx/logs/*
 
+# Local documentation drafts and screenshots.
 /docs/

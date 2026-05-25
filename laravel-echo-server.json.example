@@ -22,8 +22,8 @@
 	"secureOptions": 67108864,
 	"sslCertPath": "/var/certs/domain.crt",
 	"sslKeyPath": "/var/certs/domain.key",
-	"sslCertChainPath": "/var/www/httpd-cert/www-root/example.com_le1.crtca",
-	"sslPassphrase": "/var/www/httpd-cert/www-root/example.com_le1.ca",
+	"sslCertChainPath": "/var/certs/domain.chain.crt",
+	"sslPassphrase": "",
 	"subscribers": {
 		"http": true,
 		"redis": true

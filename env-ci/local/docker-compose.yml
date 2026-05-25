@@ -80,7 +80,7 @@ services:
     container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: info@binaries.site
-      PGADMIN_DEFAULT_PASSWORD: 
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:?Set PGADMIN_DEFAULT_PASSWORD}
     ports:
       - 5050:80
     volumes:
@@ -97,7 +97,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: binaries
-      POSTGRES_PASSWORD: 
+      POSTGRES_PASSWORD: ${PG_DB_PASSWORD:?Set PG_DB_PASSWORD}
       POSTGRES_DB: binaries
     volumes:
       - ./docker/postgresql/data:/var/lib/postgresql/data
@@ -108,10 +108,10 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD}
       MYSQL_USER: binaries
       MYSQL_DATABASE: binaries
-      MYSQL_PASSWORD: 
+      MYSQL_PASSWORD: ${MYSQL_DB_PASSWORD:?Set MYSQL_DB_PASSWORD}
     volumes:
       - ./docker/mysql/config:/etc/mysql/conf.d/
       - ./docker/mysql/data:/var/lib/mysql
