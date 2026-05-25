@@ -30,3 +30,5 @@ public/app/admin.js
 public/mix-manifest.json
 package-lock.json
 /docker/*
+
+/docs/
