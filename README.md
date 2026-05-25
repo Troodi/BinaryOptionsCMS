@@ -35,8 +35,6 @@ The system was designed around several high-value product requirements:
 
 ## Screenshots
 
-Screenshots are stored in `docs/screenshots`. The `docs/` directory is intentionally ignored by Git because it is used as a private documentation and O-1 evidence package. The links below render in local Markdown viewers when the screenshot folder exists.
-
 ### Trading And Admin Views
 
 <p>
