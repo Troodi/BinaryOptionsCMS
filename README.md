@@ -40,25 +40,26 @@ Screenshots are stored in `docs/screenshots`. The `docs/` directory is intention
 ### Trading And Admin Views
 
 <p>
-  <img src="docs/screenshots/Pasted%20image.png" alt="Trading terminal with chart and order panel" width="49%">
-  <img src="docs/screenshots/image_2026-05-18_23-44-18.png" alt="Admin symbol management interface" width="49%">
+  <img width="1744" height="902" alt="Pasted image (2)" src="https://github.com/user-attachments/assets/8b9705e4-4ee6-44f9-9bce-42fe558e121d" />
+  <img width="1751" height="898" alt="ChatGPT Image May 20, 2026, 11_38_47 AM" src="https://github.com/user-attachments/assets/4c48d2bc-2c94-417f-9192-6d117705dab9" />
 </p>
 
 <p>
-  <img src="docs/screenshots/image_2026-05-18_23-44-18%20(2).png" alt="Administrative dashboard view" width="49%">
-  <img src="docs/screenshots/image_2026-05-18_23-44-19%20(2).png" alt="Tournament management view" width="49%">
+  <img width="1920" height="950" alt="image_2026-05-18_23-44-19 (2)" src="https://github.com/user-attachments/assets/90c222f5-663c-4d88-b6a3-225147deb3e2" />
+<img width="1918" height="951" alt="image_2026-05-18_23-44-19 (3)" src="https://github.com/user-attachments/assets/92e60f8f-5900-4faa-84c6-a91cb05e1b4c" />
 </p>
 
 ### Supporting Product Screens
 
 <p>
-  <img src="docs/screenshots/Pasted%20image%20(2).png" alt="Product screen capture" width="49%">
-  <img src="docs/screenshots/Pasted%20image%20(4).png" alt="Product screen capture" width="49%">
+  <img width="1974" height="797" alt="ChatGPT Image May 20, 2026, 10_57_52 AM" src="https://github.com/user-attachments/assets/ec3eb773-ca29-4a8d-a11a-c566814955ec" />
+  <img width="1900" height="937" alt="image_2026-05-18_23-44-18" src="https://github.com/user-attachments/assets/46e25b44-374e-41ea-9c8f-909a97d2adc4" />
+
 </p>
 
 <p>
-  <img src="docs/screenshots/ChatGPT%20Image%20May%2020%2C%202026%2C%2010_57_52%20AM.png" alt="Architecture visual asset" width="49%">
-  <img src="docs/screenshots/ChatGPT%20Image%20May%2020%2C%202026%2C%2011_32_26%20AM.png" alt="Architecture visual asset" width="49%">
+  <img width="1903" height="943" alt="image_2026-05-18_23-44-19 (4)" src="https://github.com/user-attachments/assets/5b326f65-b2a8-4e5e-8baf-29e9b291d2f2" />
+  <img width="3838" height="1747" alt="Pasted image" src="https://github.com/user-attachments/assets/1c3e6ec0-0fdb-4f5f-9f09-3571df547914" />
 </p>
 
 ## High-Level Architecture
