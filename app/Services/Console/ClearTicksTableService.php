@@ -12,16 +12,16 @@ class ClearTicksTableService {
     public function clear()
     {
         foreach(Symbol::all() as $symbol){
-            $count = Ticks::where('symbol_id', $symbol->id)->get();
+            $count = Ticks::where('symbol_id', $symbol->broker.":".$symbol->symbol)->get();
             if($count){
-                $first = Ticks::where('symbol_id', $symbol->id)->latest()->first();
+                $first = Ticks::where('symbol_id', $symbol->broker.":".$symbol->symbol)->orderByDesc('created_at')->first();
                 if(!$first){
                     continue;
                 }
-                $id = $first->id;
-                Ticks::where('symbol_id', $symbol->id)
+//                $id = $first->id;
+                Ticks::where('symbol_id', $symbol->broker.":".$symbol->symbol)
                     ->where('created_at', '<', Carbon::now()->subMinutes(2))
-                    ->where('id', '<', $id)
+//                    ->where('id', '<', $id)
                     ->delete();
             }
         }

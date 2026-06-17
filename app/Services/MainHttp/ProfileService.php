@@ -156,10 +156,10 @@ class ProfileService
             $request->phone,
             $number, [
                 "method" => "POST",
-                "statusCallback" => env('APP_URL')."/event-twilio",
+                "statusCallback" => config('app.url')."/event-twilio",
                 "statusCallbackEvent" => ["ringing","answered"],
                 "statusCallbackMethod" => "POST",
-                'url' => env('APP_URL').'/mp3'
+                'url' => config('app.url').'/mp3'
             ]
         );
         Profile::where('user_id', Auth::user()->id)->update(['phone' => $request->phone]);
@@ -168,7 +168,7 @@ class ProfileService
     }
 
     public function playMP3Serv(Request $request){
-        $str = '<Response><Play>'.env('APP_URL').'/data/silence.mp3</Play><Redirect/></Response>';
+        $str = '<Response><Play>'.config('app.url').'/data/silence.mp3</Play><Redirect/></Response>';
         return (['Content-Type' => 'application/xml']);
     }
 
@@ -212,7 +212,7 @@ class ProfileService
             'subtitle' =>  __('locale.profile_code_for_confirm'),
             'text' => '<p>'.__('locale.profile_for_activation').'</p><p><h1 style="text-align: center;"><strong>'.$token.'</strong></h1></p><p>'.__('locale.profile_code_valid_15_minutes').'</p>',
             'image' => 'user-reset-password.png',
-            'button_link' => env('APP_URL').'/profile',
+            'button_link' => config('app.url').'/profile',
             'button_text' => __('locale.profile_go_to_cabinet')
         ];
         Mail::send('mail.mail', $mail_data, function($message) use ($request)

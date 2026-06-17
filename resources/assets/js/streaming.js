@@ -5,17 +5,18 @@ window.io = require('socket.io-client');
 const channelToSubscription = new Map();
 
 let latestBar = {};
-let date = new Date();
-const exchange = 'Binary';
 let latestchannelString = '';
 
 export function barsFromWebSocket(data){
+	if(!window.symbolInfo){
+		return;
+	}
 	latestBar = data;
 	let key = Object.keys(data)[0];
 	let shortName = data[key].short_name;
 	const tradePrice = data[key].lp;
 	let tradeTime = Date.parse(data[key].last_update);
-	const channelString = `0~${exchange}~${shortName}`;
+	const channelString = `0~${window.symbolInfo.broker}~${window.symbolInfo.ticker.replace('/', '')}`;
 	latestchannelString = channelString;
 	const subscriptionItem = channelToSubscription.get(channelString);
 	if (subscriptionItem === undefined) {
@@ -107,8 +108,7 @@ export function subscribeOnStream(
 	lastDailyBar,
 ) {
 	window.symbolInfo = symbolInfo;
-	const parsedSymbol = parseFullSymbol(symbolInfo.full_name);
-	const channelString = `0~${parsedSymbol.exchange}~${parsedSymbol.fromSymbol}${parsedSymbol.toSymbol}`;
+	const channelString = `0~${symbolInfo.broker}~${symbolInfo.ticker.replace('/', '')}`;
 	const handler = {
 		id: subscribeUID,
 		callback: onRealtimeCallback,
@@ -136,8 +136,7 @@ export function unsubscribeFromStream(subscriberUID, tvObj) {
 	window.dataLoaded = false;
 	for (const channelString of channelToSubscription.keys()) {
 		const subscriptionItem = channelToSubscription.get(channelString);
-		let parsedSymbol = parseFullSymbol(subscriptionItem.info.full_name);
-		tvObj._deleteTicker(subscriptionItem.info.broker+':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol)
+		tvObj._deleteTicker(subscriptionItem.info.broker+':' + subscriptionItem.info.ticker.replace('/', ''))
 		//tvObj.removeSymbols(subscriptionItem.info.broker+':' + parsedSymbol.fromSymbol + parsedSymbol.toSymbol);
 		const handlerIndex = subscriptionItem.handlers
 			.findIndex(handler => handler.id === subscriberUID);

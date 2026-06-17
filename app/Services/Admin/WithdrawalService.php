@@ -37,16 +37,19 @@ class WithdrawalService
                 'subtitle' =>  __('locale.admin_withdraw_not_implemented'),
                 'text' => "<p>".__('locale.admin_withdraw_not_implemented_mail')." $message</p>",
                 'image' => 'order-cancel.png',
-                'button_link' => env('APP_URL').'/profile',
+                'button_link' => config('app.url').'/profile',
                 'button_text' => __('locale.admin_withdraw_go_cabinet')
             ];
-            Mail::send('mail.mail', $mail_data, function($message) use ($request, $withdrawal)
-            {
-                $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-                $message->replyTo(env('MAIL_USERNAME'));
-                $message->subject(__('locale.admin_withdraw_declined'));
-                $message->to(User::where('id', $withdrawal->user_id)->first()->email);
-            });
+            try {
+                Mail::send('mail.mail', $mail_data, function ($message) use ($request, $withdrawal) {
+                    $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
+                    $message->replyTo(env('MAIL_USERNAME'));
+                    $message->subject(__('locale.admin_withdraw_declined'));
+                    $message->to(User::where('id', $withdrawal->user_id)->first()->email);
+                });
+            } catch (\Throwable $ex){
+
+            }
             return (['success' => true, 'message' => __('locale.admin_withdraw_application_declined')]);
         }
         if($request->status == 1) {
@@ -103,15 +106,19 @@ class WithdrawalService
                 'subtitle' => __('locale.admin_withdraw_payment_made'),
                 'text' => '<p>'.__('locale.admin_withdraw_congratulations').'</p>',
                 'image' => 'order-refund.png',
-                'button_link' => env('APP_URL') . '/profile',
+                'button_link' => config('app.url') . '/profile',
                 'button_text' => __('locale.admin_withdraw_go_cabinet')
             ];
-            Mail::send('mail.mail', $mail_data, function ($message) use ($request, $withdrawal) {
-                $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
-                $message->replyTo(env('MAIL_USERNAME'));
-                $message->subject(__('locale.admin_withdraw_success'));
-                $message->to(User::where('id', $withdrawal->user_id)->first()->email);
-            });
+            try {
+                Mail::send('mail.mail', $mail_data, function ($message) use ($request, $withdrawal) {
+                    $message->from(env('MAIL_USERNAME'), env('APP_NAME'));
+                    $message->replyTo(env('MAIL_USERNAME'));
+                    $message->subject(__('locale.admin_withdraw_success'));
+                    $message->to(User::where('id', $withdrawal->user_id)->first()->email);
+                });
+            } catch (\Throwable $ex){
+
+            }
         }
         return (['success' => true, 'message' => __('locale.admin_withdraw_application_processed')]);
     }
@@ -122,7 +129,7 @@ class WithdrawalService
     }
 
     public function allWithdrawalSystemsServ(Request $request){
-        return WithdrawSystem::orderBy('id', 'asc')->get();
+        return WithdrawSystem::orderBy('order', 'asc')->get();
     }
 
     public function editWithdrawSystemServ(EditWithdrawSystemRequest $request){
@@ -130,9 +137,9 @@ class WithdrawalService
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
 
-        WithdrawSystem::where('id', $request->id)->update([
-            'id' => $request->newId,
-            'text' => $request->system,
+        WithdrawSystem::where('text', $request->prevText)->update([
+            'description' => $request->description,
+            'text' => $request->text,
             'order' => $request->order,
             'hidden' => $request->active,
         ]);
@@ -143,7 +150,7 @@ class WithdrawalService
         if(config('custom.demo')){
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
-        WithdrawSystem::where('id', $request->id)->delete();
+        WithdrawSystem::where('text', $request->text)->delete();
         return (['success' => true, 'message' => __('locale.admin_withdraw_deleted')]);
     }
 
@@ -151,7 +158,9 @@ class WithdrawalService
         if(config('custom.demo')){
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
+
         $model = new WithdrawSystem();
+        $model->description = $request->description;
         $model->text = $request->system;
         $model->order = $request->order;
         $model->hidden = $request->active;

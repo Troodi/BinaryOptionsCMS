@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Admin\Symbol;
 
+use App\Rules\CreateSymbolRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateSymbolRequest extends FormRequest
@@ -10,7 +11,7 @@ class CreateSymbolRequest extends FormRequest
     public function rules()
     {
         return [
-            'pair' => 'required|string|min:1',
+            'pair' => ['required', 'string', 'min:1', new CreateSymbolRule],
             'broker' => 'required|string|min:1',
             'fix' => 'required|numeric|min:1|max:100',
             'min' => 'required|numeric|min:1|max:100',

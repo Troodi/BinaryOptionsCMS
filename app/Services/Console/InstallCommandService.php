@@ -88,9 +88,14 @@ class InstallCommandService {
         ];
 
         foreach ($symbols as $symbol) {
+
             $exploded = explode(':', $symbol[0]);
+            list($broker, $pair) = explode(':', $symbol[0]);
+            list($firstPair, $secondPair) = explode('/', $pair);
             $model = new Symbol();
-            $model->symbol = $exploded[1];
+            $model->symbol = $firstPair.$secondPair;
+            $model->first_symbol = $firstPair;
+            $model->second_symbol = $secondPair;
             $model->type = 1;
             $model->broker = $exploded[0];
             $model->min_percent = 65;
@@ -164,10 +169,10 @@ class InstallCommandService {
             $model->hidden = $hidden;
             $model->save();
         }
-        DepositSystem::where('id', 1)->update(['order' => 1, 'max' => 8000]); // Qiwi
-        DepositSystem::where('id', 2)->update(['order' => 2, 'max' => 200]); // Yoo
-        DepositSystem::where('id', 3)->update(['order' => 3, 'max' => 100000]); // Crypto
-        DepositSystem::where('id', 4)->update(['order' => 4, 'max' => 600]); // WebMoney
+        DepositSystem::where('text', 'Cards & Qiwi (max. 8 000$)')->update(['order' => 1, 'max' => 8000]); // Qiwi
+        DepositSystem::where('text', 'Cards & YooMoney (max. 200$)')->update(['order' => 2, 'max' => 200]); // Yoo
+        DepositSystem::where('text', 'Cryptocurrencies (Bitcoin, Ethereum, Litecoin)(max. 100 000$)')->update(['order' => 3, 'max' => 100000]); // Crypto
+        DepositSystem::where('text', 'Webmoney')->update(['order' => 4, 'max' => 600]); // WebMoney
         return 0;
     }
     public function migrationsSeedersStarterAll ()

@@ -19,7 +19,7 @@ class DepositService
     }
 
     public function allDepositSystemsServ(Request $request){
-        return DepositSystem::orderBy('id', 'asc')->get();
+        return DepositSystem::orderBy('order', 'asc')->get();
     }
 
     public function editDepositSystemServ(EditDepositSystemRequest $request){
@@ -27,9 +27,9 @@ class DepositService
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
 
-        DepositSystem::where('id', $request->id)->update([
-            'id' => $request->newId,
-            'text' => $request->system,
+        DepositSystem::where('text', $request->prevText)->update([
+            'description' => $request->description,
+            'text' => $request->text,
             'order' => $request->order,
             'hidden' => $request->active,
         ]);
@@ -41,7 +41,7 @@ class DepositService
             return (['success' => false, 'message' => __('locale.demo_error')]);
         }
 
-        DepositSystem::where('id', $request->id)->delete();
+        DepositSystem::where('text', $request->text)->delete();
         return (['success' => true, 'message' => __('locale.admin_deposit_deleted')]);
     }
 
@@ -51,6 +51,7 @@ class DepositService
         }
 
         $model = new DepositSystem();
+        $model->description = $request->description;
         $model->text = $request->system;
         $model->order = $request->order;
         $model->hidden = $request->active;

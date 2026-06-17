@@ -19,7 +19,7 @@ class SupportService {
             'subtitle' => __('locale.support_save_info'),
             'text' => '<strong>' . __('locale.support_user_email') . ' </strong>' . Auth::user()->email . '<br><strong>' . __('locale.support_question') . ' </strong>' . $supportRequest->question,
             'image' => 'user-subscribe.png',
-            'button_link' => env('APP_URL'),
+            'button_link' => config('app.url'),
             'button_text' => __('locale.support_go_to_cabinet')
         ];
         Mail::send('mail.mail', $mail_data, function ($message) use ($supportRequest) {

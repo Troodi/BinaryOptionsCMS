@@ -154,6 +154,7 @@ class CheckOrdersForCloseService {
             elseif($type == 'tournament'){
                 broadcast(new CloseContestOptionEvent($model, $open->id, $success, $open->user_id, $open->contest_id));
             }
+            echo "Closed $type with id $open->id with status $success for user $open->user_id".PHP_EOL;
             if(!$open->hedging and $type == 'real'){ // Если не хеджирование и не демо счет
                 User::where('id', $open->user_id)->where('left_turnover', '>', 0)->update(['left_turnover' => DB::raw("left_turnover-$open->amount")]);
             }
@@ -272,8 +273,7 @@ class CheckOrdersForCloseService {
     }
     public function allChecks()
     {
-    $this->preOrder();
-    $this->processOrders();
-    dump("All Checks ");
-}
+        echo 'Started orders checker!'.PHP_EOL;
+        $this->preOrder();
+    }
 }

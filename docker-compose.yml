@@ -1,17 +1,14 @@
 version: '3.1'
 services:
   clickhouse:
-    image: bitnami/clickhouse:latest
+    image: yandex/clickhouse-server
     restart: always
     tty: true
     ports:
       - 8123:8123
-    environment:
-      - ALLOW_EMPTY_PASSWORD=no
-      - CLICKHOUSE_ADMIN_USER=admin
-      - CLICKHOUSE_ADMIN_PASSWORD=example
-      - CLICKHOUSE_DB_DATABASE=clickhouse
-      - ALLOW_NULLABLE_KEY=1
+    volumes:
+      - ./docker/clickhouse/config.xml:/etc/clickhouse-server/config.xml
+      - ./docker/clickhouse/users.xml:/etc/clickhouse-server/users.xml
   php:
     build: docker/php
     container_name: binaries-php
@@ -24,6 +21,7 @@ services:
     volumes:
       - .:/var/www
       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+    user: 1000:1000
 
   quotes-parser:
     build: docker/quotes-parser
@@ -37,6 +35,7 @@ services:
     volumes:
       - .:/var/www
       - ./docker/quotes-parser/php.ini:/usr/local/etc/php/conf.d/php.ini
+    user: 1000:1000
 
   order-checks:
     build: docker/order-checks
@@ -50,6 +49,7 @@ services:
     volumes:
       - .:/var/www
       - ./docker/order-checks/php.ini:/usr/local/etc/php/conf.d/php.ini
+    user: 1000:1000
 
   scheduler:
     build: docker/scheduler
@@ -63,6 +63,7 @@ services:
     volumes:
       - .:/var/www
       - ./docker/scheduler/php.ini:/usr/local/etc/php/conf.d/php.ini
+    user: 1000:1000
 
   nginx:
     image: nginx:alpine3.17
@@ -142,9 +143,10 @@ services:
       LARAVEL_ECHO_SERVER_PORT: "6001"
       ECHO_PROTOCOL: "https"
       LARAVEL_ECHO_SERVER_REDIS_HOST: redis
-      ECHO_SSL_CERT_PATH: /var/certs/domain.crt
-      ECHO_SSL_KEY_PATH: /var/certs/domain.key
+      ECHO_SSL_CERT_PATH: /var/certs/localhost-cert.pem
+      ECHO_SSL_KEY_PATH: /var/certs/localhost-key.pem
       ECHO_ALLOW_CORS: "true"
+      ECHO_DEVMODE: "true"
       ECHO_ALLOW_ORIGIN: https://binaries.site
       ECHO_ALLOW_METHODS: "GET, POST"
       ECHO_ALLOW_HEADERS: "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"

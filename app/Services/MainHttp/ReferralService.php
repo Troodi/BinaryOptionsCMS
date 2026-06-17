@@ -41,6 +41,6 @@ class ReferralService
         if($user and !Cookie::has('offer')){
             Referral::where('user_id', $user->id)->increment('tracked');
         }
-        return redirect('/')->withCookie(cookie()->forever('offer', $request->code));
+
     }
 }

@@ -60,7 +60,7 @@ class AdminTest extends TestCase
 
         $response->assertStatus(200)->assertJsonStructure([
             '*' => [
-                'id',
+                'description',
                 'text',
                 'hidden',
                 'max',
@@ -168,7 +168,6 @@ class AdminTest extends TestCase
 
         $response->assertStatus(200)->assertJsonStructure([
             '*' => [
-                'id',
                 'symbol',
                 'type',
                 'broker',
@@ -237,7 +236,7 @@ class AdminTest extends TestCase
 
         $response->assertStatus(200)->assertJsonStructure([
             '*' => [
-                'id',
+                'description',
                 'text',
                 'q_id',
                 'y_id',

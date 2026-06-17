@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class WithdrawSystem extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'text';
+    public $incrementing = false;
 }

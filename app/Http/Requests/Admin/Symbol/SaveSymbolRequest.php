@@ -10,7 +10,6 @@ class SaveSymbolRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|numeric|min:1',
             'pair' => 'required|string|min:1',
             'broker' => 'required|string|min:1',
             'fix' => 'required|numeric|min:1|max:100',

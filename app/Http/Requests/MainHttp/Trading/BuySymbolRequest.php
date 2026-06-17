@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\MainHttp\Trading;
 
+use App\Rules\IssetSymbolRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BuySymbolRequest extends FormRequest
@@ -13,11 +14,11 @@ class BuySymbolRequest extends FormRequest
             'hours' => 'numeric|min:0|max:12',
             'minutes' => 'numeric|min:0|max:59',
             'seconds' => 'numeric|min:0|max:59',
-            'symbol' => 'numeric|min:0',
+            'symbol' => [new IssetSymbolRule],
             'amount' => 'numeric|min:1',
             'direction' => 'numeric|min:0|max:1',
             'type' => 'required',
-            'id' => 'required|numeric|min:0'
+            'id' => 'numeric|min:0',
         ];
     }
 }
